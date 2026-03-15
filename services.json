@@ -1,5 +1,5 @@
 {
-  "domain": "toolverse.io",
+  "domain": "toolrip.com",
   "totalServices": 100,
   "buildOrder": ["json-formatter", "mortgage-calculator", "bmi-calculator"],
   "categories": {

@@ -1,5 +1,5 @@
 /* ============================================
-   Toolverse — Shared Utilities
+   Toolrip — Shared Utilities
    All 100 tools include this via <script src="/shared/common.js">
    Vanilla JS, no modules, no dependencies.
    ============================================ */

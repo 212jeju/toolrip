@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://toolverse.io/sitemap.xml
+Sitemap: https://toolrip.com/sitemap.xml

@@ -1,17 +1,17 @@
-# Toolverse — 글로벌 유틸리티 플랫폼
+# Toolrip — 글로벌 유틸리티 플랫폼
 
 ## 프로젝트 개요
 - 100개 단일 파일 HTML 유틸리티 도구를 서브도메인으로 배포
 - 수익 모델: Google AdSense 디스플레이 광고
 - 타깃: 글로벌 영어권 자연 검색(SEO) 트래픽
-- 도메인: toolverse.io (서브도메인: json.toolverse.io, bmi.toolverse.io 등)
+- 도메인: toolrip.com (서브도메인: json.toolrip.com, bmi.toolrip.com 등)
 
 ## Tech Stack
 - 아키텍처: 단일 파일 HTML (각 도구 = 1개 HTML 파일)
 - 스타일: shared/style.css (다크모드 테마, 카테고리별 accent color)
 - 스크립트: shared/common.js (공용 기능: 클립보드, 광고, 분석)
 - 호스팅: Cloudflare Pages (정적 사이트, 무료)
-- DNS: Cloudflare DNS (와일드카드 *.toolverse.io)
+- DNS: Cloudflare DNS (와일드카드 *.toolrip.com)
 - CI/CD: GitHub Actions → Cloudflare Pages 자동 배포
 - 분석: Cloudflare Web Analytics + GA4
 - 광고: Google AdSense
@@ -86,7 +86,7 @@ TEAM/
 
 ## Naming Conventions
 - 도구 파일: kebab-case (json-formatter.html)
-- 서브도메인: 도구명 약어 (json.toolverse.io)
+- 서브도메인: 도구명 약어 (json.toolrip.com)
 - CSS 클래스: shared/style.css에 정의된 것 사용
 - JS 함수: camelCase
 
