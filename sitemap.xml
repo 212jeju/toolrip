@@ -8,82 +8,82 @@
   <url><loc>https://toolrip.com/contact</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
 
   <!-- Developer Tools -->
-  <url><loc>https://json.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://base64.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://url-encode.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://regex.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://jwt.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://html-entity.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://css-minify.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://js-minify.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://sql.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://markdown.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://yaml.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://xml.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://cron.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://uuid.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://lorem.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://toolrip.com/json</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://toolrip.com/base64</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://toolrip.com/url-encode</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://toolrip.com/regex</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://toolrip.com/jwt</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://toolrip.com/html-entity</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://toolrip.com/css-minify</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://toolrip.com/js-minify</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://toolrip.com/sql</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://toolrip.com/markdown</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://toolrip.com/yaml</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://toolrip.com/xml</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://toolrip.com/cron</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://toolrip.com/uuid</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://toolrip.com/lorem</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
   <!-- Text Tools -->
-  <url><loc>https://word-count.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://case.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://diff.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://slug.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://dedupe.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://binary.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://reverse.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://fancy.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://toolrip.com/word-count</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://toolrip.com/case</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://toolrip.com/diff</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://toolrip.com/slug</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://toolrip.com/dedupe</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://toolrip.com/binary</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://toolrip.com/reverse</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://toolrip.com/fancy</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
 
   <!-- Conversion Tools -->
-  <url><loc>https://hex-rgb.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://timestamp.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://temperature.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://length.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://weight.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://csv-json.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://roman.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://toolrip.com/hex-rgb</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://toolrip.com/timestamp</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://toolrip.com/temperature</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://toolrip.com/length</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://toolrip.com/weight</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://toolrip.com/csv-json</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://toolrip.com/roman</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
   <!-- Finance Tools -->
-  <url><loc>https://mortgage.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://compound-interest.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://emi.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://tip.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://salary.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://percentage.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://sales-tax.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://currency.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://toolrip.com/mortgage</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://toolrip.com/compound-interest</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://toolrip.com/emi</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://toolrip.com/tip</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://toolrip.com/salary</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://toolrip.com/percentage</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://toolrip.com/sales-tax</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://toolrip.com/currency</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
 
   <!-- Health Tools -->
-  <url><loc>https://bmi.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://calorie.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://body-fat.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://bmr.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://due-date.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://sleep.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://toolrip.com/bmi</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://toolrip.com/calorie</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://toolrip.com/body-fat</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://toolrip.com/bmr</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://toolrip.com/due-date</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://toolrip.com/sleep</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
   <!-- Math Tools -->
-  <url><loc>https://fraction.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://percent.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://statistics.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://area-volume.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://toolrip.com/fraction</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://toolrip.com/percent</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://toolrip.com/statistics</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://toolrip.com/area-volume</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
 
   <!-- DateTime Tools -->
-  <url><loc>https://date-diff.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://age.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://timezone.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://timer.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://toolrip.com/date-diff</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://toolrip.com/age</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://toolrip.com/timezone</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://toolrip.com/timer</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
 
   <!-- Security Tools -->
-  <url><loc>https://md5.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://sha256.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://password.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://qr.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://toolrip.com/md5</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://toolrip.com/sha256</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://toolrip.com/password</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://toolrip.com/qr</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
 
   <!-- Design Tools -->
-  <url><loc>https://color-palette.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://gradient.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://toolrip.com/color-palette</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://toolrip.com/gradient</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
   <!-- SEO Tools -->
-  <url><loc>https://meta-tag.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://og-preview.toolrip.com/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://toolrip.com/meta-tag</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://toolrip.com/og-preview</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>

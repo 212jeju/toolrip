@@ -1,12 +1,13 @@
 /* ============================================
    Toolrip — Cloudflare Pages Worker
-   Handles subdomain routing:
-     json.toolrip.com → /sites/json-formatter.html
-     toolrip.com       → /index.html
-     toolrip.com/about → /legal/about.html
+   Path-based routing:
+     toolrip.com/json     → /sites/json-formatter.html
+     toolrip.com/bmi      → /sites/bmi-calculator.html
+     toolrip.com/about    → /legal/about.html
+     toolrip.com/          → /index.html
    ============================================ */
 
-const SUBDOMAIN_MAP = {
+const TOOL_MAP = {
   'json': 'json-formatter',
   'base64': 'base64-encoder',
   'url-encode': 'url-encoder',
@@ -114,49 +115,17 @@ const LEGAL_PATHS = ['about', 'privacy', 'terms', 'contact'];
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-    const hostname = url.hostname;
-
-    // Extract subdomain
-    // Handles: json.toolrip.com, json.toolrip.pages.dev
-    const parts = hostname.split('.');
-    let subdomain = null;
-
-    if (hostname.endsWith('.toolrip.com') && parts.length === 3) {
-      subdomain = parts[0];
-    } else if (hostname.endsWith('.toolrip.pages.dev') && parts.length > 3) {
-      subdomain = parts[0];
-    }
-
-    // Subdomain routing → tool page
-    if (subdomain && subdomain !== 'www') {
-      const slug = SUBDOMAIN_MAP[subdomain];
-      if (slug) {
-        const assetUrl = new URL(`/sites/${slug}.html`, url.origin);
-        const response = await env.ASSETS.fetch(new Request(assetUrl, request));
-        if (response.ok) {
-          return new Response(response.body, {
-            status: 200,
-            headers: {
-              ...Object.fromEntries(response.headers),
-              'Content-Type': 'text/html;charset=UTF-8',
-              'Cache-Control': 'public, max-age=3600, s-maxage=86400'
-            }
-          });
-        }
-      }
-      // Unknown subdomain → 404
-      const notFoundUrl = new URL('/404.html', url.origin);
-      const notFoundResp = await env.ASSETS.fetch(new Request(notFoundUrl, request));
-      return new Response(notFoundResp.body, { status: 404, headers: { 'Content-Type': 'text/html;charset=UTF-8' } });
-    }
-
-    // Root domain path routing
     const path = url.pathname.replace(/^\/+|\/+$/g, '').toLowerCase();
+
+    // Root → index.html
+    if (!path) {
+      return env.ASSETS.fetch(request);
+    }
 
     // Legal pages: /about, /privacy, /terms, /contact
     if (LEGAL_PATHS.includes(path)) {
-      const legalUrl = new URL(`/legal/${path}.html`, url.origin);
-      const response = await env.ASSETS.fetch(new Request(legalUrl, request));
+      const assetUrl = new URL(`/legal/${path}.html`, url.origin);
+      const response = await env.ASSETS.fetch(new Request(assetUrl, request));
       if (response.ok) {
         return new Response(response.body, {
           status: 200,
@@ -169,7 +138,36 @@ export default {
       }
     }
 
-    // Default: pass through to static assets (index.html, shared/*, etc.)
-    return env.ASSETS.fetch(request);
+    // Tool pages: /json, /bmi, /mortgage, etc.
+    const slug = TOOL_MAP[path];
+    if (slug) {
+      const assetUrl = new URL(`/sites/${slug}.html`, url.origin);
+      const response = await env.ASSETS.fetch(new Request(assetUrl, request));
+      if (response.ok) {
+        return new Response(response.body, {
+          status: 200,
+          headers: {
+            ...Object.fromEntries(response.headers),
+            'Content-Type': 'text/html;charset=UTF-8',
+            'Cache-Control': 'public, max-age=3600, s-maxage=86400'
+          }
+        });
+      }
+    }
+
+    // Static assets (shared/*, sites/*, etc.) → pass through
+    const response = await env.ASSETS.fetch(request);
+
+    // Custom 404 for unknown paths
+    if (response.status === 404) {
+      const notFoundUrl = new URL('/404.html', url.origin);
+      const notFoundResp = await env.ASSETS.fetch(new Request(notFoundUrl, request));
+      return new Response(notFoundResp.body, {
+        status: 404,
+        headers: { 'Content-Type': 'text/html;charset=UTF-8' }
+      });
+    }
+
+    return response;
   }
 };
