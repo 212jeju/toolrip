@@ -1,0 +1,133 @@
+/* ============================================
+   Toolverse — Shared Dark Theme for Utility Tools
+   ============================================ */
+
+/* --- 1. Reset + Variables --- */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0f1117;--bg-surface:#181a24;--bg-elevated:#1e2130;
+  --text:#e4e4e7;--text-muted:#9ca3af;--border:#2a2d3a;
+  --accent:#3b82f6;
+  --finance:#10b981;--health:#f59e0b;--developer:#3b82f6;
+  --text-cat:#8b5cf6;--conversion:#06b6d4;--math:#ec4899;
+  --datetime:#f97316;--security:#ef4444;--design:#a855f7;--seo:#14b8a6;
+  --font:system-ui,-apple-system,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif;
+  --radius:8px;--radius-sm:4px;--radius-lg:12px;
+  --sp-1:0.25rem;--sp-2:0.5rem;--sp-3:1rem;--sp-4:1.5rem;--sp-5:2rem;--sp-6:3rem;
+}
+html{font-family:var(--font);line-height:1.6;color:var(--text);background:var(--bg);
+  -webkit-font-smoothing:antialiased;text-size-adjust:100%}
+body{min-height:100vh}
+img,svg{display:block;max-width:100%}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* --- 2. Layout --- */
+.page{display:flex;flex-direction:column;min-height:100vh}
+.header{background:var(--bg-surface);border-bottom:1px solid var(--border);padding:var(--sp-3) var(--sp-4);
+  display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3)}
+.header .logo{font-size:1.25rem;font-weight:700;color:var(--text);white-space:nowrap}
+.header nav{display:flex;gap:var(--sp-3);font-size:.875rem}
+.header nav a{color:var(--text-muted)}
+.header nav a:hover{color:var(--text)}
+.main{flex:1;width:100%;max-width:900px;margin:0 auto;padding:var(--sp-4)}
+.sidebar{display:none}
+.footer{background:var(--bg-surface);border-top:1px solid var(--border);padding:var(--sp-4);
+  text-align:center;font-size:.8rem;color:var(--text-muted)}
+.footer a{color:var(--text-muted);margin:0 var(--sp-2)}
+.footer a:hover{color:var(--text)}
+
+/* --- 3. Tool UI Components --- */
+.tool-card{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:var(--sp-5);margin-bottom:var(--sp-4)}
+.input-group{display:flex;flex-direction:column;gap:var(--sp-1);margin-bottom:var(--sp-3)}
+.input-group label{font-size:.875rem;font-weight:500;color:var(--text-muted)}
+.input-field,.textarea-field,.select-field{width:100%;padding:var(--sp-2) var(--sp-3);background:var(--bg);
+  border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font:inherit;font-size:.9375rem;
+  transition:border-color .15s}
+.input-field:focus,.textarea-field:focus,.select-field:focus{outline:none;border-color:var(--accent);
+  box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent)}
+.textarea-field{resize:vertical;min-height:100px}
+.select-field{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%239ca3af'%3E%3Cpath d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right .75rem center;padding-right:2.25rem}
+.btn-primary,.btn-secondary{display:inline-flex;align-items:center;justify-content:center;gap:var(--sp-2);
+  padding:var(--sp-2) var(--sp-4);border-radius:var(--radius);font:inherit;font-size:.9375rem;
+  font-weight:600;cursor:pointer;transition:opacity .15s,background .15s;border:none}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{opacity:.88}
+.btn-secondary{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.btn-secondary:hover{background:color-mix(in srgb,var(--accent) 10%,transparent)}
+.output-area{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+  padding:var(--sp-3);min-height:60px;white-space:pre-wrap;word-break:break-word;font-size:.9375rem;position:relative}
+.copy-btn{position:absolute;top:var(--sp-2);right:var(--sp-2);padding:var(--sp-1) var(--sp-2);
+  background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-sm);
+  color:var(--text-muted);font-size:.75rem;cursor:pointer}
+.copy-btn:hover{color:var(--text);border-color:var(--accent)}
+.tab-group{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:var(--sp-3)}
+.tab{padding:var(--sp-2) var(--sp-3);font-size:.875rem;color:var(--text-muted);cursor:pointer;
+  border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;font:inherit}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.toggle{position:relative;width:44px;height:24px;display:inline-block}
+.toggle input{opacity:0;width:0;height:0}
+.toggle span{position:absolute;inset:0;background:var(--border);border-radius:24px;cursor:pointer;transition:background .2s}
+.toggle span::before{content:"";position:absolute;left:3px;top:3px;width:18px;height:18px;
+  background:#fff;border-radius:50%;transition:transform .2s}
+.toggle input:checked+span{background:var(--accent)}
+.toggle input:checked+span::before{transform:translateX(20px)}
+
+/* --- 4. Ad Slots --- */
+.ad-slot{display:flex;align-items:center;justify-content:center;background:var(--bg-surface);
+  border:1px dashed var(--border);border-radius:var(--radius);color:var(--text-muted);
+  font-size:.75rem;overflow:hidden;margin:var(--sp-3) auto}
+.ad-top{width:100%;max-width:728px;min-height:90px}
+.ad-sidebar{width:300px;min-height:250px}
+.ad-bottom{width:336px;min-height:280px;margin:var(--sp-4) auto}
+.ad-in-content{width:100%;min-height:100px;margin:var(--sp-4) 0}
+
+/* --- 5. SEO & Content --- */
+.breadcrumb{font-size:.8rem;color:var(--text-muted);margin-bottom:var(--sp-3);display:flex;flex-wrap:wrap;gap:var(--sp-1)}
+.breadcrumb a{color:var(--text-muted)}
+.breadcrumb span{opacity:.5}
+.faq-section{margin-top:var(--sp-5)}
+.faq-section h2{font-size:1.25rem;margin-bottom:var(--sp-3)}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-item summary{padding:var(--sp-3) 0;cursor:pointer;font-weight:500;list-style:none;display:flex;
+  justify-content:space-between;align-items:center}
+.faq-item summary::after{content:"+";font-size:1.2rem;color:var(--text-muted);transition:transform .2s}
+.faq-item[open] summary::after{content:"\2212"}
+.faq-item p{padding:0 0 var(--sp-3);color:var(--text-muted);font-size:.9375rem;line-height:1.7}
+.feature-cards{display:grid;grid-template-columns:1fr;gap:var(--sp-3);margin:var(--sp-4) 0}
+.feature-card{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-4)}
+.feature-card h3{font-size:1rem;margin-bottom:var(--sp-2)}
+.feature-card p{font-size:.875rem;color:var(--text-muted)}
+.related-tools{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--sp-2);margin:var(--sp-4) 0}
+.related-tools a{display:block;padding:var(--sp-2) var(--sp-3);background:var(--bg-surface);
+  border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.875rem;color:var(--text);transition:border-color .15s}
+.related-tools a:hover{border-color:var(--accent);text-decoration:none}
+
+/* --- 6. Responsive --- */
+@media(min-width:640px){
+  .feature-cards{grid-template-columns:repeat(2,1fr)}
+  .related-tools{grid-template-columns:repeat(3,1fr)}
+}
+@media(min-width:1024px){
+  .page{display:grid;grid-template-columns:1fr 300px;grid-template-rows:auto 1fr auto;
+    grid-template-areas:"hd hd""mn sb""ft ft"}
+  .header{grid-area:hd}
+  .main{grid-area:mn;max-width:none}
+  .sidebar{display:block;grid-area:sb;padding:var(--sp-4)}
+  .footer{grid-area:ft}
+  .feature-cards{grid-template-columns:repeat(3,1fr)}
+  .related-tools{grid-template-columns:repeat(4,1fr)}
+}
+
+/* --- 7. Utility Classes --- */
+.text-center{text-align:center}
+.text-muted{color:var(--text-muted)}
+.mt-1{margin-top:var(--sp-2)}.mt-2{margin-top:var(--sp-3)}.mt-3{margin-top:var(--sp-4)}.mt-4{margin-top:var(--sp-5)}
+.mb-1{margin-bottom:var(--sp-2)}.mb-2{margin-bottom:var(--sp-3)}.mb-3{margin-bottom:var(--sp-4)}.mb-4{margin-bottom:var(--sp-5)}
+.hidden{display:none!important}
+.flex{display:flex}.gap-1{gap:var(--sp-2)}.gap-2{gap:var(--sp-3)}.gap-3{gap:var(--sp-4)}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--sp-3)}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-3)}
+@media(max-width:639px){.grid-2,.grid-3{grid-template-columns:1fr}}

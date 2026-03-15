@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Toolverse — Free Online Tools for Everyone</title>
+  <meta name="description" content="Toolverse offers 100+ free online utility tools across 10 categories. No signup, no data collection — every tool runs instantly in your browser.">
+  <link rel="canonical" href="https://toolverse.io/legal/about.html">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="About Toolverse — Free Online Tools for Everyone">
+  <meta property="og:description" content="Toolverse offers 100+ free online utility tools across 10 categories. No signup, no data collection — every tool runs instantly in your browser.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolverse.io/legal/about.html">
+  <meta property="og:site_name" content="Toolverse">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="About Toolverse — Free Online Tools for Everyone">
+  <meta name="twitter:description" content="Toolverse offers 100+ free online utility tools across 10 categories. No signup, no data collection — every tool runs instantly in your browser.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    .hero {
+      text-align: center;
+      padding: var(--sp-6) var(--sp-3);
+      margin-bottom: var(--sp-5);
+    }
+    .hero h1 {
+      font-size: 2.25rem;
+      line-height: 1.2;
+      margin-bottom: var(--sp-3);
+    }
+    .hero .tagline {
+      font-size: 1.125rem;
+      color: var(--text-muted);
+      max-width: 640px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+    .section {
+      margin-bottom: var(--sp-6);
+    }
+    .section h2 {
+      font-size: 1.5rem;
+      margin-bottom: var(--sp-3);
+    }
+    .section p, .section li {
+      color: var(--text-muted);
+      font-size: .9375rem;
+      line-height: 1.8;
+    }
+    .category-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--sp-3);
+      margin: var(--sp-4) 0;
+    }
+    .category-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-4);
+      border-left: 3px solid var(--accent);
+    }
+    .category-card h3 {
+      font-size: 1rem;
+      margin-bottom: var(--sp-1);
+    }
+    .category-card p {
+      font-size: .8125rem;
+      color: var(--text-muted);
+    }
+    .category-card.cat-developer { border-left-color: var(--developer); }
+    .category-card.cat-finance { border-left-color: var(--finance); }
+    .category-card.cat-health { border-left-color: var(--health); }
+    .category-card.cat-text { border-left-color: var(--text-cat); }
+    .category-card.cat-conversion { border-left-color: var(--conversion); }
+    .category-card.cat-math { border-left-color: var(--math); }
+    .category-card.cat-datetime { border-left-color: var(--datetime); }
+    .category-card.cat-security { border-left-color: var(--security); }
+    .category-card.cat-design { border-left-color: var(--design); }
+    .category-card.cat-seo { border-left-color: var(--seo); }
+    .values-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--sp-3);
+      margin: var(--sp-4) 0;
+    }
+    .value-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-5);
+      text-align: center;
+    }
+    .value-icon {
+      font-size: 2rem;
+      margin-bottom: var(--sp-2);
+      display: block;
+    }
+    .value-card h3 {
+      font-size: 1rem;
+      margin-bottom: var(--sp-2);
+    }
+    .value-card p {
+      font-size: .875rem;
+      color: var(--text-muted);
+    }
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--sp-3);
+      margin: var(--sp-5) 0;
+      text-align: center;
+    }
+    .stat-item {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-4);
+    }
+    .stat-number {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+    .stat-label {
+      font-size: .8125rem;
+      color: var(--text-muted);
+      margin-top: var(--sp-1);
+      display: block;
+    }
+    .how-it-works {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-5);
+    }
+    .how-it-works ol {
+      padding-left: 1.25rem;
+      color: var(--text-muted);
+      line-height: 2;
+    }
+    .cta-section {
+      text-align: center;
+      padding: var(--sp-5);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+    }
+    .cta-section h2 {
+      margin-bottom: var(--sp-2);
+    }
+    .cta-section p {
+      color: var(--text-muted);
+      margin-bottom: var(--sp-3);
+      font-size: .9375rem;
+    }
+    @media (min-width: 640px) {
+      .category-grid { grid-template-columns: repeat(2, 1fr); }
+      .values-grid { grid-template-columns: repeat(2, 1fr); }
+      .stats-bar { grid-template-columns: repeat(4, 1fr); }
+    }
+    @media (min-width: 1024px) {
+      .category-grid { grid-template-columns: repeat(2, 1fr); }
+      .values-grid { grid-template-columns: repeat(4, 1fr); }
+      .hero h1 { font-size: 2.75rem; }
+    }
+  </style>
+
+  <!-- Schema.org Organization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Toolverse",
+    "url": "https://toolverse.io",
+    "description": "Toolverse offers 100+ free online utility tools across 10 categories. No signup, no data collection — every tool runs instantly in your browser.",
+    "sameAs": []
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolverse.io" class="logo">Toolverse</a>
+      <nav>
+        <a href="https://toolverse.io">Home</a>
+        <a href="https://toolverse.io/legal/about.html">About</a>
+        <a href="https://toolverse.io/legal/contact.html">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolverse.io">Home</a>
+        <span>/</span>
+        <span>About</span>
+      </nav>
+
+      <!-- Hero Section -->
+      <section class="hero">
+        <h1>About Toolverse</h1>
+        <p class="tagline">
+          We believe everyday utility tools should be free, fast, and private.
+          Toolverse brings together 100+ online tools that work instantly in your browser
+          — no signups, no downloads, no data collection.
+        </p>
+      </section>
+
+      <!-- Our Mission -->
+      <section class="section">
+        <h2>Our Mission</h2>
+        <p>
+          Toolverse was built with a single purpose: to provide high-quality, free online tools
+          that anyone can use without barriers. Whether you are a developer debugging JSON at 2 AM,
+          a student converting units for homework, or a small business owner calculating loan payments,
+          Toolverse has you covered.
+        </p>
+        <p class="mt-2">
+          We are committed to keeping every tool completely free with no premium tiers, no paywalls,
+          and no hidden fees. Your privacy matters to us — all tools process data entirely within your browser.
+          Nothing is sent to a server, nothing is stored, and nothing is tracked.
+        </p>
+      </section>
+
+      <!-- Stats Bar -->
+      <section class="section">
+        <div class="stats-bar">
+          <div class="stat-item">
+            <span class="stat-number">100+</span>
+            <span class="stat-label">Free Tools</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">10</span>
+            <span class="stat-label">Categories</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">0</span>
+            <span class="stat-label">Signups Required</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">100%</span>
+            <span class="stat-label">Free Forever</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- What We Offer -->
+      <section class="section">
+        <h2>What We Offer</h2>
+        <p>
+          Our growing library spans 10 categories, covering the tools professionals and everyday
+          users reach for most. Each tool is purpose-built to do one thing well.
+        </p>
+        <div class="category-grid">
+          <div class="category-card cat-developer">
+            <h3>Developer Tools</h3>
+            <p>JSON Formatter, Regex Tester, Base64 Encoder, URL Encoder, Hash Generator, and more.</p>
+          </div>
+          <div class="category-card cat-finance">
+            <h3>Finance Calculators</h3>
+            <p>Mortgage Calculator, Compound Interest, Loan Amortization, Tip Calculator, and more.</p>
+          </div>
+          <div class="category-card cat-health">
+            <h3>Health &amp; Fitness</h3>
+            <p>BMI Calculator, Calorie Counter, Body Fat Estimator, Macro Calculator, and more.</p>
+          </div>
+          <div class="category-card cat-text">
+            <h3>Text &amp; String Tools</h3>
+            <p>Word Counter, Case Converter, Lorem Ipsum Generator, Text Diff Checker, and more.</p>
+          </div>
+          <div class="category-card cat-conversion">
+            <h3>Conversion Tools</h3>
+            <p>Unit Converter, Temperature Converter, Currency Converter, Number Base Converter, and more.</p>
+          </div>
+          <div class="category-card cat-math">
+            <h3>Math &amp; Science</h3>
+            <p>Percentage Calculator, Scientific Notation, GCD/LCM Finder, Probability Calculator, and more.</p>
+          </div>
+          <div class="category-card cat-datetime">
+            <h3>Date &amp; Time</h3>
+            <p>Age Calculator, Timezone Converter, Unix Timestamp, Date Difference Calculator, and more.</p>
+          </div>
+          <div class="category-card cat-security">
+            <h3>Security Tools</h3>
+            <p>Password Generator, Hash Checker, JWT Decoder, SSL Certificate Checker, and more.</p>
+          </div>
+          <div class="category-card cat-design">
+            <h3>Design Tools</h3>
+            <p>Color Picker, Gradient Generator, Box Shadow Creator, Font Pair Previewer, and more.</p>
+          </div>
+          <div class="category-card cat-seo">
+            <h3>SEO Tools</h3>
+            <p>Meta Tag Generator, Open Graph Preview, Sitemap Generator, Robots.txt Tester, and more.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Our Values -->
+      <section class="section">
+        <h2>Our Values</h2>
+        <div class="values-grid">
+          <div class="value-card">
+            <span class="value-icon" aria-hidden="true">&#128274;</span>
+            <h3>Privacy First</h3>
+            <p>Every tool runs entirely client-side. Your data never leaves your browser — we cannot see it, store it, or share it.</p>
+          </div>
+          <div class="value-card">
+            <span class="value-icon" aria-hidden="true">&#9889;</span>
+            <h3>Fast &amp; Lightweight</h3>
+            <p>No bloated frameworks or unnecessary dependencies. Our tools load instantly and perform calculations in milliseconds.</p>
+          </div>
+          <div class="value-card">
+            <span class="value-icon" aria-hidden="true">&#127873;</span>
+            <h3>Free Forever</h3>
+            <p>No premium tiers, no paywalls, no trial periods. Every tool on Toolverse is completely free to use, now and always.</p>
+          </div>
+          <div class="value-card">
+            <span class="value-icon" aria-hidden="true">&#128275;</span>
+            <h3>No Signup Required</h3>
+            <p>Start using any tool immediately. We do not require accounts, email addresses, or any personal information.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How It Works -->
+      <section class="section">
+        <h2>How It Works</h2>
+        <div class="how-it-works">
+          <p>
+            Toolverse tools are built with modern web standards — vanilla JavaScript, HTML5, and CSS3.
+            When you use a tool, all computation happens right inside your browser using client-side
+            processing. No data is transmitted to any external server.
+          </p>
+          <p class="mt-2">
+            This architecture means our tools work offline after the initial page load, deliver
+            near-instant results regardless of your internet speed, and keep your information
+            completely private. Whether you are formatting sensitive JSON, generating a secure
+            password, or calculating personal health metrics, your data stays on your device.
+          </p>
+          <ol class="mt-2">
+            <li>Visit any tool page on Toolverse.</li>
+            <li>Enter your data or adjust the settings — everything stays in your browser.</li>
+            <li>Get instant results. Copy, download, or use them however you need.</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- Contact CTA -->
+      <section class="section">
+        <div class="cta-section">
+          <h2>Get in Touch</h2>
+          <p>
+            Have a question, suggestion, or want to request a new tool?
+            We would love to hear from you.
+          </p>
+          <a href="https://toolverse.io/legal/contact.html" class="btn-primary">Contact Us</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolverse.io">Home</a>
+        <a href="https://toolverse.io/legal/about.html">About</a>
+        <a href="https://toolverse.io/legal/privacy.html">Privacy Policy</a>
+        <a href="https://toolverse.io/legal/terms.html">Terms of Service</a>
+        <a href="https://toolverse.io/legal/contact.html">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolverse. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <script src="/shared/common.js"></script>
+</body>
+</html>

@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Word Counter Online — Free Character & Text Analyzer | Toolverse</title>
+  <meta name="description" content="Count words, characters, sentences, and paragraphs instantly with our free online word counter. Get reading time estimates, keyword density analysis, and detailed text statistics — no signup required.">
+  <link rel="canonical" href="https://words.toolverse.io/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Word Counter Online — Free Character & Text Analyzer | Toolverse">
+  <meta property="og:description" content="Count words, characters, sentences, and paragraphs instantly with our free online word counter. Get reading time estimates, keyword density analysis, and detailed text statistics.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://words.toolverse.io/">
+  <meta property="og:site_name" content="Toolverse">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Word Counter Online — Free Character & Text Analyzer | Toolverse">
+  <meta name="twitter:description" content="Count words, characters, sentences, and paragraphs instantly with our free online word counter. Get reading time estimates, keyword density analysis, and detailed text statistics.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--text-cat)}</style>
+
+  <style>
+    /* Stats Grid */
+    .stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--sp-2);margin-bottom:var(--sp-4)}
+    .stat-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+      padding:var(--sp-3);text-align:center;transition:border-color .15s}
+    .stat-card:hover{border-color:var(--accent)}
+    .stat-number{font-size:1.75rem;font-weight:700;color:var(--accent);line-height:1.2}
+    .stat-label{font-size:.75rem;color:var(--text-muted);margin-top:var(--sp-1);text-transform:uppercase;letter-spacing:.03em}
+
+    /* Time estimates row */
+    .time-row{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--sp-2);margin-bottom:var(--sp-4)}
+    .time-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+      padding:var(--sp-3);display:flex;align-items:center;gap:var(--sp-3)}
+    .time-icon{font-size:1.5rem;flex-shrink:0;width:40px;height:40px;display:flex;align-items:center;justify-content:center;
+      background:color-mix(in srgb,var(--accent) 12%,transparent);border-radius:var(--radius-sm);color:var(--accent)}
+    .time-value{font-size:1.125rem;font-weight:600;color:var(--text)}
+    .time-label{font-size:.75rem;color:var(--text-muted)}
+
+    /* Analysis section */
+    .analysis-grid{display:grid;grid-template-columns:1fr;gap:var(--sp-3);margin-bottom:var(--sp-4)}
+    .analysis-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-4)}
+    .analysis-card h3{font-size:.9375rem;margin-bottom:var(--sp-3);color:var(--text)}
+
+    /* Keywords table */
+    .keywords-table{width:100%;border-collapse:collapse;font-size:.875rem}
+    .keywords-table th{text-align:left;padding:var(--sp-2) var(--sp-2);border-bottom:1px solid var(--border);
+      color:var(--text-muted);font-weight:500;font-size:.75rem;text-transform:uppercase;letter-spacing:.03em}
+    .keywords-table td{padding:var(--sp-2);border-bottom:1px solid var(--border);color:var(--text)}
+    .keywords-table tr:last-child td{border-bottom:none}
+    .keywords-table .kw-rank{color:var(--text-muted);width:2rem}
+    .keywords-table .kw-bar{width:40%}
+    .kw-bar-fill{height:6px;background:var(--accent);border-radius:3px;transition:width .3s}
+
+    /* Density bar */
+    .density-bar{height:8px;background:var(--bg-surface);border-radius:4px;overflow:hidden;margin-top:var(--sp-2)}
+    .density-bar-fill{height:100%;background:var(--accent);border-radius:4px;transition:width .3s}
+    .density-stats{display:flex;justify-content:space-between;margin-top:var(--sp-2);font-size:.8125rem;color:var(--text-muted)}
+
+    /* Textarea auto-resize */
+    #input{min-height:180px;transition:height .1s}
+
+    /* Action buttons */
+    .action-bar{display:flex;gap:var(--sp-2);flex-wrap:wrap;margin-top:var(--sp-3)}
+
+    /* Empty state */
+    .empty-state{text-align:center;padding:var(--sp-5);color:var(--text-muted);font-size:.875rem}
+
+    /* Responsive stats grid */
+    @media(min-width:640px){
+      .stats-grid{grid-template-columns:repeat(3,1fr)}
+      .analysis-grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(min-width:1024px){
+      .stats-grid{grid-template-columns:repeat(6,1fr)}
+    }
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Word Counter Online",
+    "url": "https://words.toolverse.io/",
+    "description": "Count words, characters, sentences, and paragraphs instantly with our free online word counter. Get reading time estimates, keyword density analysis, and detailed text statistics.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolverse.io" class="logo">Toolverse</a>
+      <nav>
+        <a href="https://toolverse.io">Home</a>
+        <a href="https://toolverse.io/about">About</a>
+        <a href="https://toolverse.io/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="top">Ad</div>
+
+    <!-- Breadcrumb -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolverse.io">Home</a>
+        <span>/</span>
+        <a href="https://toolverse.io/#text">Text Tools</a>
+        <span>/</span>
+        <span>Word Counter</span>
+      </nav>
+
+      <h1>Word Counter & Text Analyzer</h1>
+      <p class="text-muted mt-1 mb-3">Count words, characters, sentences, and paragraphs in real time. Analyze reading time, keyword density, and more.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+
+        <!-- Stats Dashboard -->
+        <div class="stats-grid" id="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number" id="stat-words">0</div>
+            <div class="stat-label">Words</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="stat-chars">0</div>
+            <div class="stat-label">Characters</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="stat-chars-no-space">0</div>
+            <div class="stat-label">No Spaces</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="stat-sentences">0</div>
+            <div class="stat-label">Sentences</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="stat-paragraphs">0</div>
+            <div class="stat-label">Paragraphs</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="stat-pages">0</div>
+            <div class="stat-label">Pages</div>
+          </div>
+        </div>
+
+        <!-- Time Estimates -->
+        <div class="time-row">
+          <div class="time-card">
+            <div class="time-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            </div>
+            <div>
+              <div class="time-value" id="reading-time">0 min</div>
+              <div class="time-label">Reading Time (200 WPM)</div>
+            </div>
+          </div>
+          <div class="time-card">
+            <div class="time-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            </div>
+            <div>
+              <div class="time-value" id="speaking-time">0 min</div>
+              <div class="time-label">Speaking Time (130 WPM)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Text Input -->
+        <div class="input-group">
+          <label for="input">Paste or type your text below</label>
+          <textarea id="input" class="textarea-field" placeholder="Start typing or paste your text here to see real-time word count, character count, reading time, and keyword analysis..." rows="10"></textarea>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-bar">
+          <button class="btn-primary" id="copy-stats-btn" onclick="copyStats()">Copy Stats</button>
+          <button class="btn-secondary" onclick="clearAll()">Clear</button>
+        </div>
+
+        <!-- Analysis Section -->
+        <div class="analysis-grid mt-3" id="analysis-section">
+          <!-- Top Keywords -->
+          <div class="analysis-card">
+            <h3>Top Keywords</h3>
+            <div id="keywords-container">
+              <p class="empty-state">Type or paste text to see keyword analysis</p>
+            </div>
+          </div>
+
+          <!-- Text Density & Details -->
+          <div class="analysis-card">
+            <h3>Text Analysis</h3>
+            <div id="density-container">
+              <p class="empty-state">Type or paste text to see text analysis</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(2,1fr)">
+          <div class="feature-card">
+            <h3>Real-Time Counting</h3>
+            <p>Get instant word, character, sentence, and paragraph counts as you type. No need to press any button — results update automatically with every keystroke, giving you a seamless writing experience.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Reading Time Estimate</h3>
+            <p>Know exactly how long it takes to read your content aloud or silently. Our tool calculates reading time based on the standard 200 words per minute and speaking time at 130 words per minute.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Keyword Density Analysis</h3>
+            <p>Discover which words appear most frequently in your text with our top-10 keyword frequency table. Common stop words are filtered out so you can focus on the meaningful terms that define your content.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Multi-Language Support</h3>
+            <p>Works with text in any language including English, Spanish, French, German, Chinese, Japanese, Korean, and more. The character and word counting algorithms handle Unicode and multibyte characters correctly.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use Word Counter</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Enter your text</strong> — Type directly into the text area or paste content from any source such as a document, email, or website. The tool accepts any amount of text.</li>
+          <li><strong>View real-time statistics</strong> — Watch the stats dashboard update instantly as you type. You will see word count, character count, sentence count, paragraph count, estimated reading and speaking times, and page count.</li>
+          <li><strong>Analyze and export</strong> — Review the keyword frequency table and text density analysis below the input area. Click "Copy Stats" to copy all statistics to your clipboard for easy sharing or record keeping.</li>
+        </ol>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>How does the word counter work?</summary>
+          <p>Our word counter analyzes your text in real time as you type or paste content into the input area. It uses pattern matching to identify individual words, sentences, and paragraphs. Words are counted by splitting the text on whitespace boundaries, while sentences are detected by looking for terminal punctuation marks such as periods, exclamation points, and question marks. The entire process runs locally in your browser, meaning your text is never sent to any server and remains completely private.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What counts as a word?</summary>
+          <p>A word is defined as any sequence of characters separated by whitespace (spaces, tabs, or line breaks). This means hyphenated phrases like "well-known" count as a single word, while contractions like "don't" also count as one word. Numbers and alphanumeric combinations (such as "HTML5") are each counted as a single word. This approach aligns with the counting method used by most popular word processors including Microsoft Word and Google Docs, so you can expect consistent results across platforms.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How is reading time calculated?</summary>
+          <p>Reading time is calculated based on an average adult reading speed of 200 words per minute, which is a widely accepted benchmark in the publishing and content marketing industries. Speaking time uses a slightly slower rate of 130 words per minute, which accounts for natural pauses and emphasis during speech. For short texts, the time is displayed in seconds, while longer texts show the duration in minutes and seconds. These estimates can vary depending on the complexity of the content, the reader's familiarity with the subject matter, and whether the text contains technical vocabulary.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does it work with non-English text?</summary>
+          <p>Yes, our word counter supports text in virtually any language. For languages that use spaces between words, such as English, Spanish, French, German, Portuguese, and most European languages, the counting is fully accurate. For East Asian languages like Chinese, Japanese, and Korean — where spaces are not always used between words — the tool counts character clusters separated by whitespace or punctuation. Character counting is accurate for all languages and scripts, including those that use multibyte Unicode characters such as Arabic, Hindi, Thai, and emoji.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What are stop words?</summary>
+          <p>Stop words are common words that carry little meaningful content on their own and are therefore excluded from keyword frequency analysis. Examples include articles (a, an, the), prepositions (in, on, at, to, for), conjunctions (and, but, or), and pronouns (I, you, he, she, it, they). Our tool filters out approximately 150 of the most common English stop words so that the keyword frequency table highlights the substantive terms in your writing. This gives you a clearer picture of your content's main topics and helps you identify overused words that could be replaced with synonyms for better variety.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can I count characters without spaces?</summary>
+          <p>Absolutely. The stats dashboard displays both "Characters" (the total number of characters including spaces) and "No Spaces" (characters excluding all whitespace). The character-without-spaces count is particularly useful when you need to meet requirements for platforms like Twitter, SMS messages, or meta descriptions that have strict character limits. Many academic citation styles and database fields also specify character limits that exclude spaces, making this metric valuable for researchers and data professionals alike.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://case.toolverse.io">Case Converter</a>
+          <a href="https://textdiff.toolverse.io">Text Diff</a>
+          <a href="https://lines.toolverse.io">Line Counter</a>
+          <a href="https://slug.toolverse.io">Slug Generator</a>
+          <a href="https://dedup.toolverse.io">Duplicate Remover</a>
+          <a href="https://randstr.toolverse.io">Random String</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolverse.io">Home</a>
+        <a href="https://toolverse.io/about">About</a>
+        <a href="https://toolverse.io/privacy">Privacy Policy</a>
+        <a href="https://toolverse.io/terms">Terms of Service</a>
+        <a href="https://toolverse.io/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolverse. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* --- Stop Words --- */
+      var STOP_WORDS = new Set([
+        'a','about','above','after','again','against','all','am','an','and','any','are','aren\'t','as','at',
+        'be','because','been','before','being','below','between','both','but','by',
+        'can','can\'t','cannot','could','couldn\'t',
+        'd','did','didn\'t','do','does','doesn\'t','doing','don\'t','down','during',
+        'each','even','every',
+        'few','for','from','further',
+        'get','got',
+        'had','hadn\'t','has','hasn\'t','have','haven\'t','having','he','he\'d','he\'ll','he\'s','her','here',
+        'here\'s','hers','herself','him','himself','his','how','how\'s',
+        'i','i\'d','i\'ll','i\'m','i\'ve','if','in','into','is','isn\'t','it','it\'s','its','itself',
+        'just',
+        'let','let\'s','like',
+        'me','more','most','much','mustn\'t','my','myself',
+        'no','nor','not','now',
+        'of','off','on','once','one','only','or','other','ought','our','ours','ourselves','out','over','own',
+        'really',
+        'said','same','say','she','she\'d','she\'ll','she\'s','should','shouldn\'t','so','some','such',
+        'take','than','that','that\'s','the','their','theirs','them','themselves','then','there','there\'s',
+        'these','they','they\'d','they\'ll','they\'re','they\'ve','this','those','through','to','too',
+        'under','until','up','upon','us','use','used',
+        'very',
+        'was','wasn\'t','we','we\'d','we\'ll','we\'re','we\'ve','were','weren\'t','what','what\'s','when',
+        'when\'s','where','where\'s','which','while','who','who\'s','whom','why','why\'s','will','with',
+        'won\'t','would','wouldn\'t',
+        'you','you\'d','you\'ll','you\'re','you\'ve','your','yours','yourself','yourselves',
+        'also','already','always','another','around','back','been','being','best','better','big','come',
+        'doing','done','else','end','even','every','everything','find','first','get','give','go','going',
+        'good','got','great','has','her','here','high','him','how','its','keep','know','last','long',
+        'look','made','make','many','may','might','much','must','need','new','next','no','nothing',
+        'now','off','often','old','over','own','part','put','right','see','set','shall','since',
+        'small','still','such','sure','take','tell','than','thing','think','time','turn','two',
+        'want','way','well','went','what','where','will','work','world','year'
+      ]);
+
+      /* --- DOM References --- */
+      var input = document.getElementById('input');
+      var statWords = document.getElementById('stat-words');
+      var statChars = document.getElementById('stat-chars');
+      var statCharsNoSpace = document.getElementById('stat-chars-no-space');
+      var statSentences = document.getElementById('stat-sentences');
+      var statParagraphs = document.getElementById('stat-paragraphs');
+      var statPages = document.getElementById('stat-pages');
+      var readingTime = document.getElementById('reading-time');
+      var speakingTime = document.getElementById('speaking-time');
+      var keywordsContainer = document.getElementById('keywords-container');
+      var densityContainer = document.getElementById('density-container');
+
+      /* --- Utility: Format Time --- */
+      function formatTime(minutes) {
+        if (minutes < 1) {
+          var secs = Math.round(minutes * 60);
+          return secs + ' sec';
+        }
+        var m = Math.floor(minutes);
+        var s = Math.round((minutes - m) * 60);
+        if (s === 60) { m++; s = 0; }
+        if (s === 0) return m + ' min';
+        return m + ' min ' + s + ' sec';
+      }
+
+      /* --- Core: Analyze Text --- */
+      function analyzeText(text) {
+        var trimmed = text.trim();
+
+        // Words
+        var words = trimmed === '' ? [] : trimmed.split(/\s+/);
+        var wordCount = words.length;
+
+        // Characters
+        var charCount = text.length;
+        var charNoSpace = text.replace(/\s/g, '').length;
+
+        // Sentences
+        var sentenceCount = 0;
+        if (trimmed.length > 0) {
+          var sentences = trimmed.match(/[^.!?]*[.!?]+/g);
+          sentenceCount = sentences ? sentences.length : (wordCount > 0 ? 1 : 0);
+        }
+
+        // Paragraphs
+        var paragraphCount = 0;
+        if (trimmed.length > 0) {
+          var paras = trimmed.split(/\n\s*\n/);
+          paragraphCount = paras.filter(function (p) { return p.trim().length > 0; }).length;
+          if (paragraphCount === 0 && trimmed.length > 0) paragraphCount = 1;
+        }
+
+        // Pages (250 words per page)
+        var pageCount = wordCount / 250;
+
+        // Reading time (200 WPM)
+        var readMins = wordCount / 200;
+
+        // Speaking time (130 WPM)
+        var speakMins = wordCount / 130;
+
+        // Keyword frequency (top 10, excluding stop words)
+        var freq = {};
+        words.forEach(function (w) {
+          var clean = w.toLowerCase().replace(/[^a-z0-9\u00C0-\u024F'-]/g, '');
+          if (clean.length < 2) return;
+          if (STOP_WORDS.has(clean)) return;
+          freq[clean] = (freq[clean] || 0) + 1;
+        });
+
+        var topKeywords = Object.keys(freq)
+          .map(function (k) { return { word: k, count: freq[k] }; })
+          .sort(function (a, b) { return b.count - a.count; })
+          .slice(0, 10);
+
+        // Unique words
+        var uniqueWords = new Set(words.map(function (w) {
+          return w.toLowerCase().replace(/[^a-z0-9\u00C0-\u024F'-]/g, '');
+        }).filter(function (w) { return w.length > 0; }));
+
+        var uniqueRatio = wordCount > 0 ? (uniqueWords.size / wordCount) : 0;
+
+        // Average word length
+        var totalLen = words.reduce(function (sum, w) {
+          return sum + w.replace(/[^a-z0-9\u00C0-\u024F'-]/gi, '').length;
+        }, 0);
+        var avgWordLen = wordCount > 0 ? totalLen / wordCount : 0;
+
+        // Longest word
+        var longestWord = '';
+        words.forEach(function (w) {
+          var clean = w.replace(/[^a-z0-9\u00C0-\u024F'-]/gi, '');
+          if (clean.length > longestWord.length) longestWord = clean;
+        });
+
+        return {
+          wordCount: wordCount,
+          charCount: charCount,
+          charNoSpace: charNoSpace,
+          sentenceCount: sentenceCount,
+          paragraphCount: paragraphCount,
+          pageCount: pageCount,
+          readMins: readMins,
+          speakMins: speakMins,
+          topKeywords: topKeywords,
+          uniqueCount: uniqueWords.size,
+          uniqueRatio: uniqueRatio,
+          avgWordLen: avgWordLen,
+          longestWord: longestWord
+        };
+      }
+
+      /* --- Render: Update UI --- */
+      function updateUI() {
+        var text = input.value;
+        var result = analyzeText(text);
+
+        // Stats cards
+        statWords.textContent = formatNumber(result.wordCount, 0);
+        statChars.textContent = formatNumber(result.charCount, 0);
+        statCharsNoSpace.textContent = formatNumber(result.charNoSpace, 0);
+        statSentences.textContent = formatNumber(result.sentenceCount, 0);
+        statParagraphs.textContent = formatNumber(result.paragraphCount, 0);
+        statPages.textContent = result.pageCount < 0.1 && result.wordCount > 0
+          ? '< 0.1'
+          : formatNumber(result.pageCount, 1);
+
+        // Time estimates
+        readingTime.textContent = formatTime(result.readMins);
+        speakingTime.textContent = formatTime(result.speakMins);
+
+        // Keywords table
+        if (result.topKeywords.length === 0) {
+          keywordsContainer.innerHTML = '<p class="empty-state">Type or paste text to see keyword analysis</p>';
+        } else {
+          var maxCount = result.topKeywords[0].count;
+          var html = '<table class="keywords-table"><thead><tr><th>#</th><th>Word</th><th>Count</th><th class="kw-bar">Frequency</th></tr></thead><tbody>';
+          result.topKeywords.forEach(function (kw, i) {
+            var pct = (kw.count / maxCount) * 100;
+            html += '<tr>'
+              + '<td class="kw-rank">' + (i + 1) + '</td>'
+              + '<td>' + escapeHtml(kw.word) + '</td>'
+              + '<td>' + kw.count + '</td>'
+              + '<td class="kw-bar"><div class="kw-bar-fill" style="width:' + pct + '%"></div></td>'
+              + '</tr>';
+          });
+          html += '</tbody></table>';
+          keywordsContainer.innerHTML = html;
+        }
+
+        // Text density analysis
+        if (result.wordCount === 0) {
+          densityContainer.innerHTML = '<p class="empty-state">Type or paste text to see text analysis</p>';
+        } else {
+          var densityPct = Math.round(result.uniqueRatio * 100);
+          var densityHtml = '';
+
+          // Unique word ratio
+          densityHtml += '<div style="margin-bottom:var(--sp-4)">'
+            + '<div style="display:flex;justify-content:space-between;font-size:.875rem">'
+            + '<span>Vocabulary Density</span><span style="color:var(--accent);font-weight:600">' + densityPct + '%</span></div>'
+            + '<div class="density-bar"><div class="density-bar-fill" style="width:' + densityPct + '%"></div></div>'
+            + '<div class="density-stats"><span>' + formatNumber(result.uniqueCount, 0) + ' unique words</span>'
+            + '<span>' + formatNumber(result.wordCount, 0) + ' total words</span></div></div>';
+
+          // Average word length
+          densityHtml += '<div style="display:flex;justify-content:space-between;align-items:center;padding:var(--sp-2) 0;border-bottom:1px solid var(--border)">'
+            + '<span style="font-size:.875rem;color:var(--text-muted)">Average Word Length</span>'
+            + '<span style="font-size:1.125rem;font-weight:600;color:var(--accent)">' + result.avgWordLen.toFixed(1) + ' chars</span></div>';
+
+          // Longest word
+          densityHtml += '<div style="display:flex;justify-content:space-between;align-items:center;padding:var(--sp-2) 0">'
+            + '<span style="font-size:.875rem;color:var(--text-muted)">Longest Word</span>'
+            + '<span style="font-size:.9375rem;font-weight:600;color:var(--accent);word-break:break-all">' + escapeHtml(result.longestWord) + '</span></div>';
+
+          densityContainer.innerHTML = densityHtml;
+        }
+
+        // Auto-resize textarea
+        input.style.height = 'auto';
+        input.style.height = Math.max(180, input.scrollHeight) + 'px';
+
+        // Store last result for copy
+        window._lastResult = result;
+      }
+
+      /* --- Escape HTML --- */
+      function escapeHtml(str) {
+        var div = document.createElement('div');
+        div.appendChild(document.createTextNode(str));
+        return div.innerHTML;
+      }
+
+      /* --- Copy Stats --- */
+      window.copyStats = function () {
+        var r = window._lastResult;
+        if (!r) {
+          showToast('No text to analyze yet.', 'error');
+          return;
+        }
+        var lines = [
+          'Word Counter Stats',
+          '==================',
+          'Words: ' + formatNumber(r.wordCount, 0),
+          'Characters (with spaces): ' + formatNumber(r.charCount, 0),
+          'Characters (without spaces): ' + formatNumber(r.charNoSpace, 0),
+          'Sentences: ' + formatNumber(r.sentenceCount, 0),
+          'Paragraphs: ' + formatNumber(r.paragraphCount, 0),
+          'Pages: ' + formatNumber(r.pageCount, 1),
+          'Reading Time: ' + formatTime(r.readMins),
+          'Speaking Time: ' + formatTime(r.speakMins),
+          'Unique Words: ' + formatNumber(r.uniqueCount, 0),
+          'Vocabulary Density: ' + Math.round(r.uniqueRatio * 100) + '%',
+          'Average Word Length: ' + r.avgWordLen.toFixed(1) + ' chars',
+          'Longest Word: ' + r.longestWord
+        ];
+
+        if (r.topKeywords.length > 0) {
+          lines.push('', 'Top Keywords:');
+          r.topKeywords.forEach(function (kw, i) {
+            lines.push('  ' + (i + 1) + '. ' + kw.word + ' (' + kw.count + ')');
+          });
+        }
+
+        copyToClipboard(lines.join('\n'), document.getElementById('copy-stats-btn'));
+        showToast('Stats copied to clipboard!', 'success');
+      };
+
+      /* --- Clear All --- */
+      window.clearAll = function () {
+        input.value = '';
+        input.style.height = '180px';
+        updateUI();
+        input.focus();
+        showToast('Text cleared.', 'info');
+      };
+
+      /* --- Event Listeners --- */
+      var debounceTimer;
+      input.addEventListener('input', function () {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(updateUI, 50);
+      });
+
+      // Initialize
+      updateUI();
+    })();
+  </script>
+</body>
+</html>

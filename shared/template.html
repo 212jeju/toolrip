@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{TOOL_NAME}} Online — Free, Fast, No Signup | Toolverse</title>
+  <meta name="description" content="{{META_DESCRIPTION}}">
+  <link rel="canonical" href="https://{{SUBDOMAIN}}.toolverse.io/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="{{TOOL_NAME}} — Toolverse">
+  <meta property="og:description" content="{{META_DESCRIPTION}}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://{{SUBDOMAIN}}.toolverse.io/">
+  <meta property="og:site_name" content="Toolverse">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="{{TOOL_NAME}} — Toolverse">
+  <meta name="twitter:description" content="{{META_DESCRIPTION}}">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--{{CATEGORY}})}</style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "{{TOOL_NAME}}",
+    "url": "https://{{SUBDOMAIN}}.toolverse.io/",
+    "description": "{{META_DESCRIPTION}}",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolverse.io" class="logo">Toolverse</a>
+      <nav>
+        <a href="https://toolverse.io">Home</a>
+        <a href="https://toolverse.io/about">About</a>
+        <a href="https://toolverse.io/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="{{AD_SLOT_TOP}}">Ad</div>
+
+    <!-- Breadcrumb -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolverse.io">Home</a>
+        <span>/</span>
+        <a href="https://toolverse.io/#{{CATEGORY}}">{{CATEGORY_LABEL}}</a>
+        <span>/</span>
+        <span>{{TOOL_NAME}}</span>
+      </nav>
+
+      <h1>{{TOOL_NAME}}</h1>
+      <p class="text-muted mt-1 mb-3">{{SHORT_DESCRIPTION}}</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <!-- Replace this section with actual tool UI -->
+        <div class="input-group">
+          <label for="input">Input</label>
+          <textarea id="input" class="textarea-field" placeholder="Paste your content here..." rows="8"></textarea>
+        </div>
+        <div class="flex gap-2 mt-2 mb-3">
+          <button class="btn-primary" onclick="processTool()">Process</button>
+          <button class="btn-secondary" onclick="clearAll()">Clear</button>
+        </div>
+        <div class="input-group">
+          <label>Output</label>
+          <div class="output-area" id="output">
+            <button class="copy-btn" onclick="copyToClipboard(document.getElementById('output').textContent, this)">Copy</button>
+          </div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="{{AD_SLOT_CONTENT}}">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Feature 1 Title</h3>
+            <p>Feature 1 description explaining the benefit to the user.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Feature 2 Title</h3>
+            <p>Feature 2 description explaining the benefit to the user.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Feature 3 Title</h3>
+            <p>Feature 3 description explaining the benefit to the user.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use {{TOOL_NAME}}</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li>Step 1 description</li>
+          <li>Step 2 description</li>
+          <li>Step 3 description</li>
+        </ol>
+      </section>
+
+      <!-- FAQ Section (500+ words for AdSense) -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>Question 1?</summary>
+          <p>Answer 1 with detailed explanation.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Question 2?</summary>
+          <p>Answer 2 with detailed explanation.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Question 3?</summary>
+          <p>Answer 3 with detailed explanation.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Question 4?</summary>
+          <p>Answer 4 with detailed explanation.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Question 5?</summary>
+          <p>Answer 5 with detailed explanation.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://tool1.toolverse.io">Related Tool 1</a>
+          <a href="https://tool2.toolverse.io">Related Tool 2</a>
+          <a href="https://tool3.toolverse.io">Related Tool 3</a>
+          <a href="https://tool4.toolverse.io">Related Tool 4</a>
+          <a href="https://tool5.toolverse.io">Related Tool 5</a>
+          <a href="https://tool6.toolverse.io">Related Tool 6</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="{{AD_SLOT_SIDEBAR}}">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="{{AD_SLOT_BOTTOM}}">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolverse.io">Home</a>
+        <a href="https://toolverse.io/about">About</a>
+        <a href="https://toolverse.io/privacy">Privacy Policy</a>
+        <a href="https://toolverse.io/terms">Terms of Service</a>
+        <a href="https://toolverse.io/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolverse. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config (set before loading common.js) -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+    function processTool() {
+      // Replace with actual tool logic
+    }
+    function clearAll() {
+      document.getElementById('input').value = '';
+      document.getElementById('output').textContent = '';
+    }
+  </script>
+</body>
+</html>

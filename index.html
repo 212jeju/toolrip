@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toolverse — 100+ Free Online Tools for Developers, Finance, Health & More</title>
+  <meta name="description" content="Free online utility tools: JSON formatter, mortgage calculator, BMI calculator, text converters, and 100+ more. Fast, no signup, works on any device.">
+  <link rel="canonical" href="https://toolverse.io/">
+
+  <meta property="og:title" content="Toolverse — 100+ Free Online Tools">
+  <meta property="og:description" content="Free online utility tools: calculators, converters, formatters, and more. Fast, no signup required.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolverse.io/">
+  <meta property="og:site_name" content="Toolverse">
+  <meta name="twitter:card" content="summary">
+
+  <link rel="stylesheet" href="/shared/style.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Toolverse",
+    "url": "https://toolverse.io/",
+    "description": "100+ free online utility tools for developers, finance, health, and more.",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://toolverse.io/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <style>
+    .hero { text-align: center; padding: var(--sp-6) var(--sp-4); }
+    .hero h1 { font-size: 2.25rem; font-weight: 800; margin-bottom: var(--sp-2); }
+    .hero p { color: var(--text-muted); font-size: 1.125rem; max-width: 600px; margin: 0 auto var(--sp-4); }
+    .search-box { max-width: 500px; margin: 0 auto; position: relative; }
+    .search-box input { width: 100%; padding: var(--sp-3) var(--sp-4); padding-left: 3rem;
+      background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+      color: var(--text); font-size: 1rem; }
+    .search-box input:focus { outline: none; border-color: var(--accent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent); }
+    .search-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+      color: var(--text-muted); pointer-events: none; }
+
+    .category-section { margin-top: var(--sp-5); }
+    .category-header { display: flex; align-items: center; gap: var(--sp-2); margin-bottom: var(--sp-3); }
+    .category-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+    .category-header h2 { font-size: 1.25rem; }
+    .category-count { color: var(--text-muted); font-size: 0.875rem; }
+
+    .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--sp-3); }
+    .tool-link { display: block; padding: var(--sp-3) var(--sp-4); background: var(--bg-surface);
+      border: 1px solid var(--border); border-radius: var(--radius); text-decoration: none;
+      transition: border-color 0.15s, transform 0.15s; }
+    .tool-link:hover { border-color: var(--accent); transform: translateY(-2px); text-decoration: none; }
+    .tool-link h3 { font-size: 0.9375rem; color: var(--text); margin-bottom: 4px; }
+    .tool-link p { font-size: 0.8125rem; color: var(--text-muted); margin: 0; }
+    .tool-link .keyword { font-size: 0.75rem; color: var(--accent); margin-top: 6px; display: inline-block; }
+
+    .stats { display: flex; justify-content: center; gap: var(--sp-5); margin: var(--sp-4) 0; flex-wrap: wrap; }
+    .stat { text-align: center; }
+    .stat-number { font-size: 2rem; font-weight: 800; color: var(--accent); }
+    .stat-label { font-size: 0.8125rem; color: var(--text-muted); }
+
+    .hidden-tool { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="page" style="display:flex;flex-direction:column;min-height:100vh">
+
+    <header class="header">
+      <a href="/" class="logo">Toolverse</a>
+      <nav>
+        <a href="/legal/about.html">About</a>
+        <a href="/legal/contact.html">Contact</a>
+      </nav>
+    </header>
+
+    <main style="flex:1;max-width:1100px;margin:0 auto;padding:0 var(--sp-4);width:100%">
+
+      <div class="hero">
+        <h1>100+ Free Online Tools</h1>
+        <p>Calculators, converters, formatters, and more. No signup, works instantly in your browser.</p>
+        <div class="search-box">
+          <span class="search-icon">&#x1F50D;</span>
+          <input type="text" id="search" placeholder="Search tools... (e.g. JSON, BMI, mortgage)" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><div class="stat-number">100+</div><div class="stat-label">Free Tools</div></div>
+        <div class="stat"><div class="stat-number">10</div><div class="stat-label">Categories</div></div>
+        <div class="stat"><div class="stat-number">0</div><div class="stat-label">Signups Required</div></div>
+      </div>
+
+      <div class="ad-slot ad-top" data-ad-slot="">Ad</div>
+
+      <div id="catalog"></div>
+
+    </main>
+
+    <footer class="footer">
+      <p>
+        <a href="/">Home</a>
+        <a href="/legal/about.html">About</a>
+        <a href="/legal/privacy.html">Privacy Policy</a>
+        <a href="/legal/terms.html">Terms of Service</a>
+        <a href="/legal/contact.html">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolverse. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <script>
+    var CATEGORIES = {
+      developer: { label: 'Developer Tools', color: '#3b82f6' },
+      text: { label: 'Text & String Tools', color: '#8b5cf6' },
+      conversion: { label: 'Conversion Tools', color: '#06b6d4' },
+      finance: { label: 'Finance Calculators', color: '#10b981' },
+      health: { label: 'Health & Fitness', color: '#f59e0b' },
+      math: { label: 'Math & Science', color: '#ec4899' },
+      datetime: { label: 'Date & Time', color: '#f97316' },
+      security: { label: 'Security & Encryption', color: '#ef4444' },
+      design: { label: 'Design Tools', color: '#a855f7' },
+      seo: { label: 'SEO & Web Tools', color: '#14b8a6' }
+    };
+
+    fetch('/services.json').then(function(r){ return r.json(); }).then(function(data) {
+      var catalog = document.getElementById('catalog');
+      var grouped = {};
+
+      data.services.forEach(function(s) {
+        if (!grouped[s.category]) grouped[s.category] = [];
+        grouped[s.category].push(s);
+      });
+
+      var order = ['finance','health','developer','conversion','security','math','datetime','text','design','seo'];
+
+      order.forEach(function(cat) {
+        var tools = grouped[cat];
+        if (!tools) return;
+        var info = CATEGORIES[cat];
+
+        var section = document.createElement('section');
+        section.className = 'category-section';
+        section.id = cat;
+        section.innerHTML =
+          '<div class="category-header">' +
+            '<span class="category-dot" style="background:' + info.color + '"></span>' +
+            '<h2>' + info.label + '</h2>' +
+            '<span class="category-count">(' + tools.length + ' tools)</span>' +
+          '</div>' +
+          '<div class="tools-grid">' +
+            tools.map(function(t) {
+              return '<a href="https://' + t.slug + '.toolverse.io" class="tool-link" data-name="' +
+                t.name.toLowerCase() + '" data-keyword="' + t.keyword.toLowerCase() + '">' +
+                '<h3>' + t.name + '</h3>' +
+                '<span class="keyword">' + t.keyword + '</span>' +
+              '</a>';
+            }).join('') +
+          '</div>';
+
+        catalog.appendChild(section);
+      });
+
+      /* Search */
+      document.getElementById('search').addEventListener('input', function(e) {
+        var q = e.target.value.toLowerCase().trim();
+        document.querySelectorAll('.tool-link').forEach(function(el) {
+          var match = !q || el.dataset.name.indexOf(q) !== -1 || el.dataset.keyword.indexOf(q) !== -1;
+          el.classList.toggle('hidden-tool', !match);
+        });
+        document.querySelectorAll('.category-section').forEach(function(sec) {
+          var visible = sec.querySelectorAll('.tool-link:not(.hidden-tool)').length;
+          sec.style.display = visible ? '' : 'none';
+        });
+      });
+    });
+  </script>
+</body>
+</html>

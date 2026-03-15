@@ -1,0 +1,6 @@
+---
+to: apps/<%= name %>/wrangler.toml
+---
+name = "<%= name %>"
+compatibility_date = "2026-03-15"
+pages_build_output_dir = "out"

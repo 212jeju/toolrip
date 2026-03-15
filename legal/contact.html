@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us — Toolverse</title>
+  <meta name="description" content="Get in touch with the Toolverse team. Report bugs, suggest new tools, or send us feedback. We typically respond within 24-48 hours.">
+  <link rel="canonical" href="https://toolverse.io/legal/contact.html">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Contact Us — Toolverse">
+  <meta property="og:description" content="Get in touch with the Toolverse team. Report bugs, suggest new tools, or send us feedback.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolverse.io/legal/contact.html">
+  <meta property="og:site_name" content="Toolverse">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Contact Us — Toolverse">
+  <meta name="twitter:description" content="Get in touch with the Toolverse team. Report bugs, suggest new tools, or send us feedback.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    .contact-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-5);
+      margin-bottom: var(--sp-4);
+    }
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-3);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-3);
+    }
+    @media (max-width: 639px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-1);
+    }
+    .form-group label {
+      font-size: .875rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+    .form-note {
+      font-size: .8rem;
+      color: var(--text-muted);
+      margin-top: var(--sp-2);
+    }
+    .email-block {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-3) var(--sp-4);
+      margin: var(--sp-3) 0;
+    }
+    .email-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    .email-block a {
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+    .response-time {
+      color: var(--text-muted);
+      font-size: .875rem;
+      margin-top: var(--sp-1);
+    }
+    .thank-you-msg {
+      display: none;
+      background: color-mix(in srgb, var(--accent) 12%, transparent);
+      border: 1px solid var(--accent);
+      border-radius: var(--radius);
+      padding: var(--sp-4);
+      text-align: center;
+    }
+    .thank-you-msg h3 {
+      color: var(--accent);
+      margin-bottom: var(--sp-2);
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolverse.io" class="logo">Toolverse</a>
+      <nav>
+        <a href="https://toolverse.io">Home</a>
+        <a href="https://toolverse.io/about">About</a>
+        <a href="https://toolverse.io/legal/contact.html">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolverse.io">Home</a>
+        <span>/</span>
+        <span>Contact</span>
+      </nav>
+
+      <h1>Contact Us</h1>
+      <p class="text-muted mt-1 mb-3">We love hearing from our users. Whether you have feedback, found a bug, or want to suggest a new tool, we are here to help. Fill out the form below or reach out to us directly via email. Your input helps us improve Toolverse and build tools that truly make a difference.</p>
+
+      <!-- Contact Form -->
+      <div class="contact-card" id="contact-form-card">
+        <h2 style="font-size:1.15rem;margin-bottom:var(--sp-3)">Send Us a Message</h2>
+        <form class="contact-form" id="contactForm" onsubmit="handleSubmit(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Name <span style="color:var(--accent)">*</span></label>
+              <input type="text" id="name" name="name" class="input-field" placeholder="Your full name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email <span style="color:var(--accent)">*</span></label>
+              <input type="email" id="email" name="email" class="input-field" placeholder="you@example.com" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="subject">Subject <span style="color:var(--accent)">*</span></label>
+            <select id="subject" name="subject" class="select-field" required>
+              <option value="" disabled selected>Select a topic</option>
+              <option value="General Inquiry">General Inquiry</option>
+              <option value="Bug Report">Bug Report</option>
+              <option value="Feature Request">Feature Request</option>
+              <option value="Business Inquiry">Business Inquiry</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Message <span style="color:var(--accent)">*</span></label>
+            <textarea id="message" name="message" class="textarea-field" placeholder="Tell us what's on your mind..." rows="6" required></textarea>
+          </div>
+          <div>
+            <button type="submit" class="btn-primary">Send Message</button>
+          </div>
+          <p class="form-note">By submitting this form, your default email client will open with the message pre-filled. You can also copy the details and email us directly.</p>
+        </form>
+      </div>
+
+      <!-- Thank You Message -->
+      <div class="thank-you-msg" id="thankYouMsg">
+        <h3>Thank You!</h3>
+        <p>Your email client should have opened with the message. If it didn't, please send your message directly to <a href="mailto:contact@toolverse.io">contact@toolverse.io</a>.</p>
+        <button class="btn-secondary mt-2" onclick="resetForm()">Send Another Message</button>
+      </div>
+
+      <!-- Direct Email -->
+      <div class="contact-card">
+        <h2 style="font-size:1.15rem;margin-bottom:var(--sp-2)">Reach Us Directly</h2>
+        <div class="email-block">
+          <span class="email-icon" aria-hidden="true">&#9993;</span>
+          <div>
+            <a href="mailto:contact@toolverse.io">contact@toolverse.io</a>
+            <p class="response-time">We typically respond within 24&ndash;48 hours on business days.</p>
+          </div>
+        </div>
+        <p style="color:var(--text-muted);font-size:.9rem;margin-top:var(--sp-2)">For urgent matters or business partnerships, please include "Urgent" or "Business" in your subject line so we can prioritize your message.</p>
+      </div>
+
+      <!-- FAQ Before Contacting -->
+      <section class="faq-section">
+        <h2>Before You Contact Us</h2>
+        <p class="text-muted mb-3">Check if your question is answered below. This helps us respond faster to unique inquiries.</p>
+
+        <details class="faq-item">
+          <summary>Is Toolverse free to use?</summary>
+          <p>Yes, all tools on Toolverse are completely free to use. There are no hidden fees, no premium tiers, and no sign-up required. Our platform is supported by advertising, which allows us to keep every tool accessible to everyone at no cost. We believe that essential online utilities should be available to all users regardless of their budget.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Do you store my data?</summary>
+          <p>No. Privacy is a core principle at Toolverse. All data processing happens directly in your browser using client-side JavaScript. We do not upload, store, or transmit your input data to any server. Once you close the browser tab, your data is gone. We do not use cookies for tracking, and we do not collect any personally identifiable information through our tools.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Can I suggest a new tool?</summary>
+          <p>Absolutely! We are always looking for ideas to expand our collection of free utilities. If there is a tool you wish existed or one you use frequently that could be improved, please let us know through the contact form above. Select "Feature Request" as the subject and describe the tool you have in mind. We review every suggestion and prioritize based on community demand.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>I found a bug. How do I report it?</summary>
+          <p>We appreciate you taking the time to report issues. Please use the contact form above and select "Bug Report" as the subject. Include the following details to help us fix it quickly: the name of the tool, a description of what went wrong, the steps to reproduce the issue, and your browser name and version (for example, Chrome 120, Firefox 121, or Safari 17). Screenshots are also helpful if you can attach them via email.</p>
+        </details>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolverse.io">Home</a>
+        <a href="https://toolverse.io/about">About</a>
+        <a href="https://toolverse.io/legal/privacy.html">Privacy Policy</a>
+        <a href="https://toolverse.io/legal/terms.html">Terms of Service</a>
+        <a href="https://toolverse.io/legal/contact.html">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolverse. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <script src="/shared/common.js"></script>
+  <script>
+    function handleSubmit(e) {
+      e.preventDefault();
+      var name = document.getElementById('name').value.trim();
+      var email = document.getElementById('email').value.trim();
+      var subject = document.getElementById('subject').value;
+      var message = document.getElementById('message').value.trim();
+
+      var body = 'Name: ' + name + '\n' +
+                 'Email: ' + email + '\n\n' +
+                 message;
+
+      var mailtoLink = 'mailto:contact@toolverse.io' +
+        '?subject=' + encodeURIComponent(subject) +
+        '&body=' + encodeURIComponent(body);
+
+      window.location.href = mailtoLink;
+
+      document.getElementById('contact-form-card').style.display = 'none';
+      document.getElementById('thankYouMsg').style.display = 'block';
+    }
+
+    function resetForm() {
+      document.getElementById('contactForm').reset();
+      document.getElementById('contact-form-card').style.display = 'block';
+      document.getElementById('thankYouMsg').style.display = 'none';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON Formatter &amp; Validator Online — Free, Fast, No Signup | Toolverse</title>
+  <meta name="description" content="Format, validate, and minify JSON online for free. Instant syntax highlighting, tree view, error detection with line numbers. No signup required — 100% client-side.">
+  <link rel="canonical" href="https://json.toolverse.io/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="JSON Formatter &amp; Validator — Toolverse">
+  <meta property="og:description" content="Format, validate, and minify JSON online for free. Instant syntax highlighting, tree view, error detection with line numbers. No signup required — 100% client-side.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://json.toolverse.io/">
+  <meta property="og:site_name" content="Toolverse">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="JSON Formatter &amp; Validator — Toolverse">
+  <meta name="twitter:description" content="Format, validate, and minify JSON online for free. Instant syntax highlighting, tree view, error detection with line numbers. No signup required — 100% client-side.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root{--accent:var(--developer)}
+
+    /* Tool-specific styles */
+    .tool-grid{display:grid;grid-template-columns:1fr;gap:var(--sp-3)}
+    @media(min-width:768px){.tool-grid{grid-template-columns:1fr 1fr}}
+
+    .toolbar{display:flex;flex-wrap:wrap;gap:var(--sp-2);align-items:center;margin-bottom:var(--sp-3)}
+    .toolbar-right{margin-left:auto;display:flex;gap:var(--sp-2);align-items:center}
+    @media(max-width:639px){.toolbar-right{margin-left:0;width:100%}}
+
+    .indent-select{padding:var(--sp-1) var(--sp-2);background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius-sm);color:var(--text);font-size:.8125rem;cursor:pointer}
+
+    .json-input{width:100%;min-height:320px;resize:vertical;background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);color:var(--text);font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.875rem;padding:var(--sp-3);line-height:1.6;tab-size:2}
+    .json-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent)}
+
+    .output-panel{position:relative;width:100%;min-height:320px;background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);padding:var(--sp-3);overflow:auto;font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.875rem;line-height:1.6;white-space:pre-wrap;word-break:break-word}
+
+    /* Syntax highlighting */
+    .json-key{color:#93c5fd}
+    .json-string{color:#86efac}
+    .json-number{color:#fbbf24}
+    .json-boolean{color:#f472b6}
+    .json-null{color:#a78bfa}
+    .json-bracket{color:#9ca3af}
+    .json-comma{color:#6b7280}
+
+    /* Error display */
+    .error-bar{background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);border-radius:var(--radius-sm);
+      padding:var(--sp-2) var(--sp-3);color:#fca5a5;font-size:.8125rem;margin-bottom:var(--sp-2);display:none;
+      font-family:'Consolas','Monaco','Courier New',monospace;line-height:1.5}
+    .error-bar.visible{display:block}
+
+    .success-bar{background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);border-radius:var(--radius-sm);
+      padding:var(--sp-2) var(--sp-3);color:#6ee7b7;font-size:.8125rem;margin-bottom:var(--sp-2);display:none}
+    .success-bar.visible{display:block}
+
+    /* Tree view */
+    .tree-view{font-family:'Consolas','Monaco','Courier New',monospace;font-size:.8125rem}
+    .tree-item{padding:2px 0}
+    .tree-key{color:#93c5fd}
+    .tree-string{color:#86efac}
+    .tree-number{color:#fbbf24}
+    .tree-boolean{color:#f472b6}
+    .tree-null{color:#a78bfa}
+    .tree-toggle{cursor:pointer;user-select:none;display:inline-block;width:1em;text-align:center;color:var(--text-muted)}
+    .tree-toggle:hover{color:var(--text)}
+    .tree-children{padding-left:1.25rem}
+    .tree-children.collapsed{display:none}
+    .tree-bracket{color:var(--text-muted);font-size:.75rem;margin-left:4px}
+    .tree-type{font-size:.6875rem;color:var(--text-muted);opacity:.6;margin-left:6px}
+
+    /* Drop zone */
+    .drop-zone{border:2px dashed var(--border);border-radius:var(--radius);padding:var(--sp-4);
+      text-align:center;color:var(--text-muted);font-size:.8125rem;cursor:pointer;transition:border-color .2s,background .2s;
+      margin-bottom:var(--sp-2)}
+    .drop-zone:hover,.drop-zone.dragover{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 5%,transparent)}
+    .drop-zone input[type="file"]{display:none}
+
+    /* Btn-small */
+    .btn-sm{padding:var(--sp-1) var(--sp-2);font-size:.8125rem;border-radius:var(--radius-sm)}
+
+    /* Line numbers on input */
+    .input-wrapper{position:relative}
+    .placeholder-msg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+      color:var(--text-muted);opacity:.4;pointer-events:none;text-align:center;font-size:.875rem}
+    .placeholder-msg.hidden{display:none}
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "JSON Formatter & Validator",
+    "url": "https://json.toolverse.io/",
+    "description": "Format, validate, and minify JSON online for free. Instant syntax highlighting, tree view, error detection with line numbers. No signup required — 100% client-side.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolverse.io" class="logo">Toolverse</a>
+      <nav>
+        <a href="https://toolverse.io">Home</a>
+        <a href="https://toolverse.io/about">About</a>
+        <a href="https://toolverse.io/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolverse.io">Home</a>
+        <span>/</span>
+        <a href="https://toolverse.io/#developer">Developer Tools</a>
+        <span>/</span>
+        <span>JSON Formatter &amp; Validator</span>
+      </nav>
+
+      <h1>JSON Formatter &amp; Validator Online</h1>
+      <p class="text-muted mt-1 mb-3">Paste or upload your JSON to instantly format, validate, minify, or explore it as a collapsible tree. Completely free and runs entirely in your browser.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <!-- Tabs -->
+        <div class="tab-group">
+          <button class="tab active" data-tab="panel-format">Format</button>
+          <button class="tab" data-tab="panel-minify">Minify</button>
+          <button class="tab" data-tab="panel-tree">Tree View</button>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+          <button class="btn-primary btn-sm" onclick="handleFormat()">Format</button>
+          <button class="btn-secondary btn-sm" onclick="handleMinify()">Minify</button>
+          <button class="btn-secondary btn-sm" onclick="handleValidate()">Validate</button>
+          <button class="btn-secondary btn-sm" onclick="handleCopy()">Copy</button>
+          <button class="btn-secondary btn-sm" onclick="handleClear()">Clear</button>
+          <button class="btn-secondary btn-sm" onclick="loadSample()">Sample</button>
+          <div class="toolbar-right">
+            <label for="indent-select" style="font-size:.8125rem;color:var(--text-muted)">Indent:</label>
+            <select id="indent-select" class="indent-select" onchange="handleFormat()">
+              <option value="2" selected>2 spaces</option>
+              <option value="4">4 spaces</option>
+              <option value="8">8 spaces</option>
+              <option value="tab">Tab</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Error / Success bars -->
+        <div class="error-bar" id="error-bar"></div>
+        <div class="success-bar" id="success-bar"></div>
+
+        <!-- File upload drop zone -->
+        <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
+          <input type="file" id="file-input" accept=".json,.txt">
+          Drag &amp; drop a JSON file here, or click to upload
+        </div>
+
+        <!-- Two-column layout -->
+        <div class="tool-grid">
+          <!-- Input -->
+          <div class="input-wrapper">
+            <textarea id="json-input" class="json-input" placeholder="Paste your JSON here..." spellcheck="false"></textarea>
+          </div>
+
+          <!-- Output panels -->
+          <div>
+            <div id="panel-format" class="tab-panel">
+              <div class="output-panel" id="format-output">
+                <button class="copy-btn" onclick="copyToClipboard(getFormattedText(), this)">Copy</button>
+                <span class="text-muted" style="font-size:.8125rem">Formatted output will appear here...</span>
+              </div>
+            </div>
+            <div id="panel-minify" class="tab-panel hidden">
+              <div class="output-panel" id="minify-output">
+                <button class="copy-btn" onclick="copyToClipboard(getMinifiedText(), this)">Copy</button>
+                <span class="text-muted" style="font-size:.8125rem">Minified output will appear here...</span>
+              </div>
+            </div>
+            <div id="panel-tree" class="tab-panel hidden">
+              <div class="output-panel" id="tree-output" style="font-size:.8125rem">
+                <span class="text-muted" style="font-size:.8125rem">Tree view will appear here...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(2,1fr)">
+          <div class="feature-card">
+            <h3>Instant Formatting</h3>
+            <p>Transform messy, unreadable JSON into a clean, well-indented structure in one click. Choose your preferred indentation level from 2 spaces, 4 spaces, 8 spaces, or tabs. The formatted output features color-coded syntax highlighting so that keys, strings, numbers, and booleans are all easy to distinguish at a glance. Whether you are debugging an API response or preparing configuration files, instant formatting saves you valuable development time.</p>
+          </div>
+          <div class="feature-card">
+            <h3>JSON Validation</h3>
+            <p>Catch syntax errors before they become runtime failures. Our validator parses your JSON in real time and reports the exact line number and character position where something went wrong, along with a plain-language description of the problem. Missing commas, unquoted keys, trailing commas, and mismatched brackets are all detected immediately. You get confidence that your JSON is spec-compliant before you paste it into your codebase or send it to a server.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Minification</h3>
+            <p>Reduce payload size by stripping all unnecessary whitespace from your JSON data. Minified JSON transfers faster over the network, takes up less storage, and is the standard format for API responses in production environments. One click converts a formatted, human-readable document into a single compact line. This is ideal for embedding JSON in URLs, configuration strings, or anywhere space is at a premium.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Interactive Tree View</h3>
+            <p>Navigate complex JSON structures using a collapsible, hierarchical tree visualization. Each node displays its key name, value type, and content. Objects and arrays can be expanded or collapsed so you can focus on exactly the data you need without scrolling through thousands of lines. This makes it straightforward to explore deeply nested API responses, large configuration objects, or any JSON document where understanding the overall structure matters as much as the individual values.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the JSON Formatter</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Paste or upload your JSON.</strong> Type directly into the input area, paste from your clipboard, or drag and drop a <code>.json</code> file onto the upload zone. You can also click the <em>Sample</em> button to load example data and explore the tool immediately.</li>
+          <li><strong>Choose an action.</strong> Click <em>Format</em> to pretty-print with syntax highlighting, <em>Minify</em> to compress into a single line, or <em>Validate</em> to check for errors. Use the indent selector to switch between 2-space, 4-space, 8-space, or tab indentation.</li>
+          <li><strong>Review the output.</strong> Formatted and minified results appear on the right panel (or below on mobile). Switch to the <em>Tree View</em> tab to interactively explore nested objects and arrays with expand and collapse controls.</li>
+          <li><strong>Copy or continue editing.</strong> Click the <em>Copy</em> button to send the result to your clipboard instantly. If you spot an issue, fix it in the input area and re-format — the tool responds in real time with no page reload required.</li>
+        </ol>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is JSON?</summary>
+          <p>JSON stands for JavaScript Object Notation. It is a lightweight, text-based data interchange format that is easy for humans to read and write, and easy for machines to parse and generate. JSON is built on two universal data structures: a collection of key-value pairs (commonly called an object) and an ordered list of values (an array). Although it originates from JavaScript, JSON is language-independent and is supported by virtually every modern programming language. It has become the standard format for APIs, configuration files, and data storage across web and mobile applications.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do I format JSON?</summary>
+          <p>Paste your raw or minified JSON into the input area on this page and click the Format button. The tool will parse your data and display it with proper indentation and syntax highlighting in the output panel. You can adjust the indentation level using the dropdown selector in the toolbar. If you have a JSON file on your computer, you can also drag and drop it onto the upload zone or click the zone to open a file picker. Formatting does not alter your data in any way — it only adds whitespace to improve readability.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What causes JSON syntax errors?</summary>
+          <p>The most common causes of JSON syntax errors include missing or extra commas between values, unquoted or single-quoted keys (JSON requires double quotes), trailing commas after the last item in an object or array, unescaped special characters inside strings, and mismatched brackets or braces. Our validator pinpoints the exact position of the first error it finds so you can locate and fix the problem quickly. After correcting one error, run the validator again because fixing one issue may reveal additional problems further in the document.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is my data safe when using this tool?</summary>
+          <p>Yes, your data never leaves your browser. All formatting, validation, and minification are performed entirely on the client side using JavaScript that runs locally in your web browser. Nothing is sent to any server, stored in any database, or logged anywhere. This means you can safely paste sensitive configuration files, API keys (though we recommend rotating them as good practice), and private data without worrying about third-party access. You can verify this by using the tool with your network tab open — no requests are made when you format or validate.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between format and minify?</summary>
+          <p>Formatting adds indentation, line breaks, and spacing to make JSON human-readable. Minification does the opposite — it removes all unnecessary whitespace to produce the most compact representation possible. Both operations preserve the actual data; only the whitespace changes. Use formatting when you need to read, debug, or edit JSON by hand. Use minification when you need to reduce file size for network transfer, embed JSON in a URL parameter, or store it in a space-constrained environment. You can switch freely between the two using this tool.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can I validate nested JSON?</summary>
+          <p>Absolutely. The validator checks the entire document regardless of depth. It will detect syntax errors at any nesting level, whether they occur in a top-level key or buried deep inside a nested array of objects. The tree view is particularly useful for inspecting nested structures because you can collapse sections you are not interested in and expand only the branches you want to examine. There is no practical limit on nesting depth — the tool handles complex, real-world JSON produced by APIs and databases without any issues.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://xml-formatter.toolverse.io">XML Formatter</a>
+          <a href="https://yaml-to-json.toolverse.io">YAML to JSON</a>
+          <a href="https://base64.toolverse.io">Base64 Encoder</a>
+          <a href="https://csv-to-json.toolverse.io">CSV to JSON</a>
+          <a href="https://sql-formatter.toolverse.io">SQL Formatter</a>
+          <a href="https://jwt-decoder.toolverse.io">JWT Decoder</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolverse.io">Home</a>
+        <a href="https://toolverse.io/about">About</a>
+        <a href="https://toolverse.io/privacy">Privacy Policy</a>
+        <a href="https://toolverse.io/terms">Terms of Service</a>
+        <a href="https://toolverse.io/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolverse. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+    /* ========== State ========== */
+    var lastParsed = null;
+    var lastFormatted = '';
+    var lastMinified = '';
+
+    /* ========== Indent Helper ========== */
+    function getIndent() {
+      var val = document.getElementById('indent-select').value;
+      if (val === 'tab') return '\t';
+      return Number(val);
+    }
+
+    /* ========== Core Parse ========== */
+    function parseInput() {
+      var raw = document.getElementById('json-input').value.trim();
+      var errBar = document.getElementById('error-bar');
+      var sucBar = document.getElementById('success-bar');
+      errBar.classList.remove('visible');
+      sucBar.classList.remove('visible');
+
+      if (!raw) {
+        lastParsed = null;
+        lastFormatted = '';
+        lastMinified = '';
+        return null;
+      }
+
+      try {
+        var parsed = JSON.parse(raw);
+        lastParsed = parsed;
+        return parsed;
+      } catch (e) {
+        lastParsed = null;
+        lastFormatted = '';
+        lastMinified = '';
+
+        var msg = e.message || 'Invalid JSON';
+        // Try to extract position info
+        var posMatch = msg.match(/position\s+(\d+)/i);
+        if (posMatch) {
+          var pos = parseInt(posMatch[1], 10);
+          var lines = raw.substring(0, pos).split('\n');
+          var lineNum = lines.length;
+          var colNum = lines[lines.length - 1].length + 1;
+          errBar.textContent = 'Error at line ' + lineNum + ', column ' + colNum + ': ' + msg;
+        } else {
+          errBar.textContent = 'Error: ' + msg;
+        }
+        errBar.classList.add('visible');
+        return null;
+      }
+    }
+
+    /* ========== Syntax Highlighting ========== */
+    function highlightJSON(json, indent) {
+      var raw;
+      if (typeof indent === 'string' && indent === '\t') {
+        raw = JSON.stringify(json, null, '\t');
+      } else {
+        raw = JSON.stringify(json, null, indent);
+      }
+
+      // Escape HTML entities first
+      var html = raw
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+
+      // Highlight tokens
+      html = html.replace(
+        /("(?:\\.|[^"\\])*")\s*:/g,
+        '<span class="json-key">$1</span>:'
+      );
+      html = html.replace(
+        /:\s*("(?:\\.|[^"\\])*")/g,
+        function(match, str) {
+          return ': <span class="json-string">' + str + '</span>';
+        }
+      );
+      // Strings not preceded by colon (in arrays)
+      html = html.replace(
+        /(?<=[\[,\n]\s*)("(?:\\.|[^"\\])*")(?=\s*[,\]\n])/g,
+        '<span class="json-string">$1</span>'
+      );
+      html = html.replace(
+        /\b(-?\d+\.?\d*(?:[eE][+-]?\d+)?)\b(?=[,\s\]\}])/g,
+        '<span class="json-number">$1</span>'
+      );
+      html = html.replace(
+        /\b(true|false)\b/g,
+        '<span class="json-boolean">$1</span>'
+      );
+      html = html.replace(
+        /\b(null)\b/g,
+        '<span class="json-null">$1</span>'
+      );
+
+      return html;
+    }
+
+    /* ========== Format ========== */
+    function handleFormat() {
+      var parsed = parseInput();
+      if (parsed === null && !document.getElementById('json-input').value.trim()) {
+        resetOutputs();
+        return;
+      }
+      if (parsed === null) return;
+
+      var indent = getIndent();
+      var sucBar = document.getElementById('success-bar');
+      sucBar.textContent = 'Valid JSON — formatted successfully';
+      sucBar.classList.add('visible');
+
+      lastFormatted = JSON.stringify(parsed, null, indent);
+      lastMinified = JSON.stringify(parsed);
+
+      // Show format tab
+      activateTab('panel-format');
+      document.getElementById('format-output').innerHTML =
+        '<button class="copy-btn" onclick="copyToClipboard(getFormattedText(), this)">Copy</button>' +
+        highlightJSON(parsed, indent);
+    }
+
+    /* ========== Minify ========== */
+    function handleMinify() {
+      var parsed = parseInput();
+      if (parsed === null && !document.getElementById('json-input').value.trim()) {
+        resetOutputs();
+        return;
+      }
+      if (parsed === null) return;
+
+      var sucBar = document.getElementById('success-bar');
+      sucBar.textContent = 'Valid JSON — minified successfully';
+      sucBar.classList.add('visible');
+
+      lastMinified = JSON.stringify(parsed);
+      lastFormatted = JSON.stringify(parsed, null, getIndent());
+
+      activateTab('panel-minify');
+      var escaped = lastMinified
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+      document.getElementById('minify-output').innerHTML =
+        '<button class="copy-btn" onclick="copyToClipboard(getMinifiedText(), this)">Copy</button>' +
+        escaped;
+    }
+
+    /* ========== Validate ========== */
+    function handleValidate() {
+      var raw = document.getElementById('json-input').value.trim();
+      var errBar = document.getElementById('error-bar');
+      var sucBar = document.getElementById('success-bar');
+      errBar.classList.remove('visible');
+      sucBar.classList.remove('visible');
+
+      if (!raw) {
+        errBar.textContent = 'Please enter some JSON to validate.';
+        errBar.classList.add('visible');
+        return;
+      }
+
+      var parsed = parseInput();
+      if (parsed !== null) {
+        var type = Array.isArray(parsed) ? 'array' : typeof parsed;
+        var count = Array.isArray(parsed)
+          ? parsed.length + ' items'
+          : (typeof parsed === 'object' && parsed !== null)
+            ? Object.keys(parsed).length + ' keys'
+            : '';
+        sucBar.textContent = 'Valid JSON (' + type + (count ? ', ' + count : '') + ')';
+        sucBar.classList.add('visible');
+        showToast('JSON is valid!', 'success');
+      }
+    }
+
+    /* ========== Tree View ========== */
+    function buildTree(data, key, isLast) {
+      var wrapper = document.createElement('div');
+      wrapper.className = 'tree-item';
+
+      if (data !== null && typeof data === 'object') {
+        var isArr = Array.isArray(data);
+        var entries = isArr ? data : Object.keys(data);
+        var count = isArr ? data.length : entries.length;
+        var openBracket = isArr ? '[' : '{';
+        var closeBracket = isArr ? ']' : '}';
+
+        var header = document.createElement('div');
+        var toggle = document.createElement('span');
+        toggle.className = 'tree-toggle';
+        toggle.textContent = '\u25BC';
+        header.appendChild(toggle);
+
+        if (key !== undefined && key !== null) {
+          var keySpan = document.createElement('span');
+          keySpan.className = 'tree-key';
+          keySpan.textContent = '"' + key + '"';
+          header.appendChild(keySpan);
+          header.appendChild(document.createTextNode(': '));
+        }
+
+        var bracketSpan = document.createElement('span');
+        bracketSpan.className = 'tree-bracket';
+        bracketSpan.textContent = openBracket + ' ' + count + (count === 1 ? ' item' : ' items') + ' ' + closeBracket;
+        header.appendChild(bracketSpan);
+
+        wrapper.appendChild(header);
+
+        var childContainer = document.createElement('div');
+        childContainer.className = 'tree-children';
+
+        if (isArr) {
+          for (var i = 0; i < data.length; i++) {
+            childContainer.appendChild(buildTree(data[i], i, i === data.length - 1));
+          }
+        } else {
+          for (var j = 0; j < entries.length; j++) {
+            childContainer.appendChild(buildTree(data[entries[j]], entries[j], j === entries.length - 1));
+          }
+        }
+
+        wrapper.appendChild(childContainer);
+
+        toggle.addEventListener('click', function() {
+          var isCollapsed = childContainer.classList.toggle('collapsed');
+          toggle.textContent = isCollapsed ? '\u25B6' : '\u25BC';
+          bracketSpan.textContent = isCollapsed
+            ? openBracket + ' ... ' + count + (count === 1 ? ' item' : ' items') + ' ' + closeBracket
+            : openBracket + ' ' + count + (count === 1 ? ' item' : ' items') + ' ' + closeBracket;
+        });
+
+      } else {
+        // Leaf node
+        if (key !== undefined && key !== null) {
+          var leafKey = document.createElement('span');
+          leafKey.className = 'tree-key';
+          leafKey.textContent = typeof key === 'number' ? key : '"' + key + '"';
+          wrapper.appendChild(leafKey);
+          wrapper.appendChild(document.createTextNode(': '));
+        }
+
+        var valSpan = document.createElement('span');
+        if (typeof data === 'string') {
+          valSpan.className = 'tree-string';
+          valSpan.textContent = '"' + data + '"';
+        } else if (typeof data === 'number') {
+          valSpan.className = 'tree-number';
+          valSpan.textContent = data;
+        } else if (typeof data === 'boolean') {
+          valSpan.className = 'tree-boolean';
+          valSpan.textContent = data;
+        } else {
+          valSpan.className = 'tree-null';
+          valSpan.textContent = 'null';
+        }
+        wrapper.appendChild(valSpan);
+      }
+
+      return wrapper;
+    }
+
+    function showTreeView() {
+      var parsed = parseInput();
+      if (parsed === null && !document.getElementById('json-input').value.trim()) {
+        document.getElementById('tree-output').innerHTML = '<span class="text-muted" style="font-size:.8125rem">Tree view will appear here...</span>';
+        return;
+      }
+      if (parsed === null) return;
+
+      var sucBar = document.getElementById('success-bar');
+      sucBar.textContent = 'Valid JSON — tree view generated';
+      sucBar.classList.add('visible');
+
+      var container = document.getElementById('tree-output');
+      container.innerHTML = '';
+      container.appendChild(buildTree(parsed, null, true));
+    }
+
+    /* ========== Copy ========== */
+    function handleCopy() {
+      // Determine which panel is active
+      var formatPanel = document.getElementById('panel-format');
+      var minifyPanel = document.getElementById('panel-minify');
+      var treePanel = document.getElementById('panel-tree');
+
+      var text = '';
+      if (!minifyPanel.classList.contains('hidden')) {
+        text = getMinifiedText();
+      } else if (!treePanel.classList.contains('hidden')) {
+        text = document.getElementById('json-input').value.trim();
+      } else {
+        text = getFormattedText();
+      }
+
+      if (!text) {
+        showToast('Nothing to copy', 'error');
+        return;
+      }
+      copyToClipboard(text);
+      showToast('Copied to clipboard!', 'success');
+    }
+
+    function getFormattedText() {
+      if (lastFormatted) return lastFormatted;
+      var parsed = parseInput();
+      if (parsed === null) return '';
+      return JSON.stringify(parsed, null, getIndent());
+    }
+
+    function getMinifiedText() {
+      if (lastMinified) return lastMinified;
+      var parsed = parseInput();
+      if (parsed === null) return '';
+      return JSON.stringify(parsed);
+    }
+
+    /* ========== Clear ========== */
+    function handleClear() {
+      document.getElementById('json-input').value = '';
+      document.getElementById('error-bar').classList.remove('visible');
+      document.getElementById('success-bar').classList.remove('visible');
+      lastParsed = null;
+      lastFormatted = '';
+      lastMinified = '';
+      resetOutputs();
+      showToast('Cleared', 'info');
+    }
+
+    function resetOutputs() {
+      document.getElementById('format-output').innerHTML =
+        '<button class="copy-btn" onclick="copyToClipboard(getFormattedText(), this)">Copy</button>' +
+        '<span class="text-muted" style="font-size:.8125rem">Formatted output will appear here...</span>';
+      document.getElementById('minify-output').innerHTML =
+        '<button class="copy-btn" onclick="copyToClipboard(getMinifiedText(), this)">Copy</button>' +
+        '<span class="text-muted" style="font-size:.8125rem">Minified output will appear here...</span>';
+      document.getElementById('tree-output').innerHTML =
+        '<span class="text-muted" style="font-size:.8125rem">Tree view will appear here...</span>';
+    }
+
+    /* ========== Sample Data ========== */
+    function loadSample() {
+      var sample = {
+        "name": "Toolverse",
+        "version": "2.0.0",
+        "description": "A collection of free online utility tools",
+        "features": ["JSON Formatter", "Base64 Encoder", "CSV to JSON", "SQL Formatter"],
+        "config": {
+          "theme": "dark",
+          "language": "en",
+          "analytics": true,
+          "maxFileSize": 5242880
+        },
+        "endpoints": [
+          {
+            "path": "/api/format",
+            "method": "POST",
+            "rateLimit": 100,
+            "auth": false
+          },
+          {
+            "path": "/api/validate",
+            "method": "POST",
+            "rateLimit": 200,
+            "auth": false
+          }
+        ],
+        "metadata": {
+          "created": "2026-01-15T08:30:00Z",
+          "updated": "2026-03-10T14:22:00Z",
+          "author": {
+            "name": "Toolverse Team",
+            "email": "hello@toolverse.io",
+            "website": "https://toolverse.io"
+          },
+          "license": "MIT",
+          "tags": ["developer", "utility", "free", "online"]
+        },
+        "stats": {
+          "totalUsers": 125000,
+          "dailyRequests": 45000,
+          "uptime": 99.97,
+          "satisfactionRating": null
+        }
+      };
+      document.getElementById('json-input').value = JSON.stringify(sample, null, 2);
+      handleFormat();
+      showToast('Sample JSON loaded', 'info');
+    }
+
+    /* ========== Tab Helper ========== */
+    function activateTab(panelId) {
+      var tabs = document.querySelectorAll('.tab-group .tab');
+      tabs.forEach(function(t) {
+        t.classList.toggle('active', t.dataset.tab === panelId);
+      });
+      document.querySelectorAll('.tab-panel').forEach(function(p) {
+        p.classList.toggle('hidden', p.id !== panelId);
+      });
+    }
+
+    // Override tab clicks to trigger re-render
+    document.addEventListener('DOMContentLoaded', function() {
+      var tabs = document.querySelectorAll('.tab-group .tab');
+      tabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          var target = tab.dataset.tab;
+          if (target === 'panel-tree' && document.getElementById('json-input').value.trim()) {
+            showTreeView();
+          } else if (target === 'panel-format' && document.getElementById('json-input').value.trim()) {
+            handleFormat();
+          } else if (target === 'panel-minify' && document.getElementById('json-input').value.trim()) {
+            handleMinify();
+          }
+        });
+      });
+    });
+
+    /* ========== File Upload ========== */
+    (function() {
+      var dropZone = document.getElementById('drop-zone');
+      var fileInput = document.getElementById('file-input');
+
+      dropZone.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        dropZone.classList.add('dragover');
+      });
+
+      dropZone.addEventListener('dragleave', function() {
+        dropZone.classList.remove('dragover');
+      });
+
+      dropZone.addEventListener('drop', function(e) {
+        e.preventDefault();
+        dropZone.classList.remove('dragover');
+        var files = e.dataTransfer.files;
+        if (files.length > 0) {
+          readFile(files[0]);
+        }
+      });
+
+      fileInput.addEventListener('change', function() {
+        if (fileInput.files.length > 0) {
+          readFile(fileInput.files[0]);
+          fileInput.value = '';
+        }
+      });
+
+      function readFile(file) {
+        if (file.size > 10 * 1024 * 1024) {
+          showToast('File too large (max 10 MB)', 'error');
+          return;
+        }
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('json-input').value = e.target.result;
+          handleFormat();
+          showToast('File loaded: ' + file.name, 'success');
+        };
+        reader.onerror = function() {
+          showToast('Failed to read file', 'error');
+        };
+        reader.readAsText(file);
+      }
+    })();
+
+    /* ========== Keyboard shortcut ========== */
+    document.getElementById('json-input').addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        handleFormat();
+      }
+    });
+  </script>
+</body>
+</html>

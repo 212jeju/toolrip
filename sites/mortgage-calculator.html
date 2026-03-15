@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mortgage Calculator Online — Free Monthly Payment Estimator | Toolverse</title>
+  <meta name="description" content="Calculate your monthly mortgage payment, view amortization schedule, estimate PMI, property tax, and insurance. Free online mortgage calculator with detailed payment breakdown.">
+  <link rel="canonical" href="https://mortgage.toolverse.io/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Mortgage Calculator — Toolverse">
+  <meta property="og:description" content="Calculate your monthly mortgage payment, view amortization schedule, estimate PMI, property tax, and insurance. Free online mortgage calculator with detailed payment breakdown.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mortgage.toolverse.io/">
+  <meta property="og:site_name" content="Toolverse">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Mortgage Calculator — Toolverse">
+  <meta name="twitter:description" content="Calculate your monthly mortgage payment, view amortization schedule, estimate PMI, property tax, and insurance. Free online mortgage calculator with detailed payment breakdown.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--finance)}</style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Mortgage Calculator",
+    "url": "https://mortgage.toolverse.io/",
+    "description": "Calculate your monthly mortgage payment, view amortization schedule, estimate PMI, property tax, and insurance. Free online mortgage calculator with detailed payment breakdown.",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <style>
+    /* Tool-specific styles */
+    .mortgage-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--sp-4);
+    }
+    @media (min-width: 640px) {
+      .mortgage-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .input-row {
+      display: flex;
+      gap: var(--sp-2);
+      align-items: flex-end;
+    }
+    .input-row .input-group {
+      flex: 1;
+      margin-bottom: 0;
+    }
+    .input-row .input-group.narrow {
+      flex: 0 0 100px;
+    }
+    .result-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-4);
+      text-align: center;
+    }
+    .result-card.primary {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 5%, var(--bg));
+    }
+    .result-label {
+      font-size: .8rem;
+      color: var(--text-muted);
+      margin-bottom: var(--sp-1);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .result-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .result-value.large {
+      font-size: 2.25rem;
+      color: var(--accent);
+    }
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--sp-3);
+      margin-top: var(--sp-4);
+    }
+    @media (max-width: 639px) {
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Payment breakdown list */
+    .breakdown-list {
+      list-style: none;
+      padding: 0;
+      margin: var(--sp-3) 0 0;
+    }
+    .breakdown-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--sp-2) 0;
+      border-bottom: 1px solid var(--border);
+      font-size: .9375rem;
+    }
+    .breakdown-list li:last-child {
+      border-bottom: none;
+    }
+    .breakdown-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: var(--sp-2);
+      vertical-align: middle;
+    }
+    .breakdown-label {
+      color: var(--text-muted);
+    }
+    .breakdown-value {
+      font-weight: 600;
+    }
+
+    /* Chart area */
+    .chart-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--sp-4);
+      flex-wrap: wrap;
+      margin-top: var(--sp-3);
+    }
+    .pie-chart-wrapper {
+      position: relative;
+      width: 200px;
+      height: 200px;
+    }
+    .pie-chart-wrapper svg {
+      width: 200px;
+      height: 200px;
+      transform: rotate(-90deg);
+    }
+    .pie-center-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+    .pie-center-label .amount {
+      font-size: 1.1rem;
+      font-weight: 700;
+      display: block;
+    }
+    .pie-center-label .label {
+      font-size: .7rem;
+      color: var(--text-muted);
+    }
+
+    /* Amortization table */
+    .amort-table-wrap {
+      overflow-x: auto;
+      margin-top: var(--sp-3);
+    }
+    .amort-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .8125rem;
+    }
+    .amort-table th {
+      text-align: left;
+      padding: var(--sp-2) var(--sp-2);
+      border-bottom: 2px solid var(--border);
+      font-size: .75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .03em;
+      white-space: nowrap;
+    }
+    .amort-table td {
+      padding: var(--sp-2) var(--sp-2);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .amort-table tr:hover td {
+      background: var(--bg-elevated);
+    }
+
+    /* Summary cards */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-3);
+      margin-top: var(--sp-3);
+    }
+    @media (max-width: 639px) {
+      .summary-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Error styling */
+    .input-field.error {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
+    }
+    .error-msg {
+      color: #ef4444;
+      font-size: .75rem;
+      margin-top: 2px;
+      display: none;
+    }
+    .error-msg.visible {
+      display: block;
+    }
+
+    /* Show-all button */
+    .show-all-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-1);
+      margin-top: var(--sp-3);
+      padding: var(--sp-2) var(--sp-3);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--accent);
+      font: inherit;
+      font-size: .875rem;
+      cursor: pointer;
+      transition: border-color .15s;
+    }
+    .show-all-btn:hover {
+      border-color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolverse.io" class="logo">Toolverse</a>
+      <nav>
+        <a href="https://toolverse.io">Home</a>
+        <a href="https://toolverse.io/about">About</a>
+        <a href="https://toolverse.io/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="top">Ad</div>
+
+    <!-- Breadcrumb -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolverse.io">Home</a>
+        <span>/</span>
+        <a href="https://toolverse.io/#finance">Finance</a>
+        <span>/</span>
+        <span>Mortgage Calculator</span>
+      </nav>
+
+      <h1>Mortgage Calculator</h1>
+      <p class="text-muted mt-1 mb-3">Estimate your monthly mortgage payment with a full breakdown of principal, interest, taxes, insurance, and PMI.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <div class="mortgage-grid">
+
+          <!-- Left: Inputs -->
+          <div>
+            <div class="input-group">
+              <label for="homePrice">Home Price ($)</label>
+              <input type="text" id="homePrice" class="input-field" placeholder="350,000" inputmode="decimal">
+              <span class="error-msg" id="homePriceErr">Enter a valid home price greater than 0.</span>
+            </div>
+
+            <div class="input-row">
+              <div class="input-group">
+                <label for="downPayment">Down Payment ($)</label>
+                <input type="text" id="downPayment" class="input-field" placeholder="70,000" inputmode="decimal">
+                <span class="error-msg" id="downPaymentErr">Down payment cannot exceed home price.</span>
+              </div>
+              <div class="input-group narrow">
+                <label for="downPaymentPct">%</label>
+                <input type="text" id="downPaymentPct" class="input-field" placeholder="20" inputmode="decimal">
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label for="loanTerm">Loan Term</label>
+              <select id="loanTerm" class="select-field">
+                <option value="30">30 Years</option>
+                <option value="20">20 Years</option>
+                <option value="15">15 Years</option>
+              </select>
+            </div>
+
+            <div class="input-group">
+              <label for="interestRate">Interest Rate (%)</label>
+              <input type="text" id="interestRate" class="input-field" placeholder="6.5" inputmode="decimal">
+              <span class="error-msg" id="interestRateErr">Enter a valid interest rate (0.01 - 30).</span>
+            </div>
+
+            <div class="input-group">
+              <label for="propertyTax">Annual Property Tax ($)</label>
+              <input type="text" id="propertyTax" class="input-field" placeholder="4,200" inputmode="decimal">
+            </div>
+
+            <div class="input-group">
+              <label for="homeInsurance">Annual Home Insurance ($)</label>
+              <input type="text" id="homeInsurance" class="input-field" placeholder="1,200" inputmode="decimal">
+            </div>
+
+            <div class="flex gap-2 mt-2">
+              <button class="btn-primary" onclick="calculate()">Calculate</button>
+              <button class="btn-secondary" onclick="resetAll()">Reset</button>
+            </div>
+          </div>
+
+          <!-- Right: Results Summary -->
+          <div>
+            <div class="result-card primary">
+              <div class="result-label">Total Monthly Payment</div>
+              <div class="result-value large" id="totalMonthly">$0.00</div>
+            </div>
+
+            <ul class="breakdown-list" id="breakdownList">
+              <li>
+                <span><span class="breakdown-dot" style="background:#3b82f6"></span><span class="breakdown-label">Principal &amp; Interest</span></span>
+                <span class="breakdown-value" id="piAmount">$0.00</span>
+              </li>
+              <li>
+                <span><span class="breakdown-dot" style="background:#f59e0b"></span><span class="breakdown-label">Property Tax</span></span>
+                <span class="breakdown-value" id="taxAmount">$0.00</span>
+              </li>
+              <li>
+                <span><span class="breakdown-dot" style="background:#8b5cf6"></span><span class="breakdown-label">Home Insurance</span></span>
+                <span class="breakdown-value" id="insAmount">$0.00</span>
+              </li>
+              <li id="pmiRow" style="display:none">
+                <span><span class="breakdown-dot" style="background:#ef4444"></span><span class="breakdown-label">PMI</span></span>
+                <span class="breakdown-value" id="pmiAmount">$0.00</span>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Chart & Summary -->
+      <div class="tool-card" id="chartCard" style="display:none">
+        <h2 style="font-size:1.125rem;margin-bottom:var(--sp-2)">Payment Breakdown</h2>
+        <div class="chart-container">
+          <div class="pie-chart-wrapper">
+            <svg viewBox="0 0 200 200" id="pieChart">
+              <circle cx="100" cy="100" r="80" fill="none" stroke="var(--border)" stroke-width="40"/>
+            </svg>
+            <div class="pie-center-label">
+              <span class="amount" id="pieCenter">$0</span>
+              <span class="label">/ month</span>
+            </div>
+          </div>
+          <div>
+            <ul class="breakdown-list" id="chartLegend" style="min-width:180px"></ul>
+          </div>
+        </div>
+
+        <div class="summary-grid">
+          <div class="result-card">
+            <div class="result-label">Total Interest Paid</div>
+            <div class="result-value" id="totalInterest">$0.00</div>
+          </div>
+          <div class="result-card">
+            <div class="result-label">Total Amount Paid</div>
+            <div class="result-value" id="totalPaid">$0.00</div>
+          </div>
+          <div class="result-card">
+            <div class="result-label">Loan-to-Value (LTV)</div>
+            <div class="result-value" id="ltvRatio">0%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Amortization Schedule -->
+      <div class="tool-card" id="amortCard" style="display:none">
+        <h2 style="font-size:1.125rem;margin-bottom:var(--sp-2)">Amortization Schedule</h2>
+        <div class="amort-table-wrap">
+          <table class="amort-table">
+            <thead>
+              <tr>
+                <th>Month</th>
+                <th>Payment</th>
+                <th>Principal</th>
+                <th>Interest</th>
+                <th>Balance</th>
+              </tr>
+            </thead>
+            <tbody id="amortBody"></tbody>
+          </table>
+        </div>
+        <button class="show-all-btn" id="showAllBtn" onclick="toggleAmort()">Show All Months</button>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="in-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Monthly Payment Breakdown</h3>
+            <p>See exactly where your money goes each month. Our calculator splits your payment into principal, interest, property tax, home insurance, and PMI so you can understand every dollar of your monthly obligation.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Amortization Schedule</h3>
+            <p>View a month-by-month amortization table showing how your balance decreases over time. Track how much of each payment goes toward principal versus interest throughout the life of your loan.</p>
+          </div>
+          <div class="feature-card">
+            <h3>PMI Calculator</h3>
+            <p>Private Mortgage Insurance is automatically estimated when your down payment is less than 20%. See how PMI affects your monthly payment and plan when you can request its removal from your loan.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Visual Payment Charts</h3>
+            <p>Interactive pie chart visualization makes it easy to understand the proportion of each cost component in your monthly mortgage payment. Quickly compare principal, interest, taxes, and insurance at a glance.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Mortgage Calculator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li>Enter the home purchase price and your planned down payment amount or percentage. The calculator automatically syncs the dollar amount and percentage fields.</li>
+          <li>Select your loan term (15, 20, or 30 years) and enter the annual interest rate offered by your lender. Check current rates from your bank or mortgage broker for the most accurate estimate.</li>
+          <li>Optionally add your estimated annual property tax and home insurance costs. These vary by location and property value, so check with your local tax assessor and insurance provider.</li>
+          <li>Review your results instantly. Examine the monthly payment breakdown, pie chart visualization, total cost summary, and full amortization schedule to make informed decisions about your home purchase.</li>
+        </ol>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>How is the monthly mortgage payment calculated?</summary>
+          <p>The monthly principal and interest payment is calculated using the standard amortization formula: M = P[r(1+r)^n] / [(1+r)^n - 1], where P is the loan principal (home price minus down payment), r is the monthly interest rate (annual rate divided by 12), and n is the total number of monthly payments (loan term in years multiplied by 12). This formula ensures each payment covers both interest on the outstanding balance and a portion of the principal, resulting in the loan being fully paid off by the end of the term. Property tax, home insurance, and PMI are added on top of this base amount to give you the total monthly payment. The calculator performs this computation in real time whenever you change any input value.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is PMI and when is it required?</summary>
+          <p>Private Mortgage Insurance (PMI) is an additional insurance policy that protects the lender in case you default on your mortgage. It is typically required when your down payment is less than 20% of the home purchase price, meaning your loan-to-value ratio exceeds 80%. PMI usually costs between 0.5% and 1% of the entire loan amount per year, and this calculator estimates it at 0.7% annually. Once your loan balance drops below 80% of the original home value, you can request that PMI be removed. Some lenders automatically cancel PMI once the balance reaches 78%. Making a larger down payment upfront can help you avoid PMI entirely, which saves hundreds of dollars per month on more expensive properties.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How does the interest rate affect total cost?</summary>
+          <p>The interest rate has a significant impact on both your monthly payment and the total amount paid over the life of the loan. Even a small change of 0.5% can mean tens of thousands of dollars in additional interest over a 30-year mortgage. For example, on a $300,000 loan, the difference between 6% and 6.5% interest is about $100 per month and roughly $36,000 in total interest over 30 years. Lower interest rates mean more of each payment goes toward the principal balance, helping you build equity faster. Shopping around for the best rate and considering buying points to lower your rate can provide substantial long-term savings on your mortgage.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between a 15-year and 30-year mortgage?</summary>
+          <p>A 15-year mortgage has higher monthly payments but a lower total cost because you pay off the loan in half the time and typically receive a lower interest rate. A 30-year mortgage offers lower monthly payments, making it more affordable month-to-month, but costs significantly more in total interest over the full term. For instance, a $280,000 loan at 6.5% would cost about $2,528 per month over 15 years versus $1,770 per month over 30 years. However, the 30-year option would result in paying approximately $357,000 in total interest compared to about $175,000 for the 15-year term. The 20-year option provides a middle ground between the two. Choose based on your monthly budget, financial goals, and how long you plan to stay in the home.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Should I make a larger down payment?</summary>
+          <p>A larger down payment offers several financial advantages. Putting down at least 20% eliminates the need for Private Mortgage Insurance, which can save you hundreds of dollars per month. A larger down payment also means borrowing less, resulting in lower monthly payments and less total interest paid over the life of the loan. It gives you more equity in your home from day one, providing a financial cushion if property values decline. However, depleting your savings entirely for a large down payment is not advisable. You should maintain an emergency fund covering three to six months of expenses. Use this calculator to compare different down payment scenarios and find the balance that works best for your financial situation.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How accurate is this mortgage calculator?</summary>
+          <p>This calculator provides a reliable estimate of your monthly mortgage payment based on standard amortization formulas used throughout the lending industry. The principal and interest calculation is precise for fixed-rate mortgages. However, your actual payment may differ slightly due to factors such as exact property tax assessments, specific insurance quotes, lender-specific PMI rates, HOA fees, and other closing costs not included here. Interest rates vary by lender and depend on your credit score, loan type, and market conditions. For the most accurate figures, request a Loan Estimate from your mortgage lender, which will include all fees and costs specific to your situation. Use this tool for preliminary planning and comparison shopping between different loan scenarios.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://compound-interest.toolverse.io">Compound Interest Calculator</a>
+          <a href="https://loan-emi.toolverse.io">Loan EMI Calculator</a>
+          <a href="https://roi-calculator.toolverse.io">ROI Calculator</a>
+          <a href="https://salary-calculator.toolverse.io">Salary Calculator</a>
+          <a href="https://debt-payoff.toolverse.io">Debt Payoff Calculator</a>
+          <a href="https://apr-calculator.toolverse.io">APR Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolverse.io">Home</a>
+        <a href="https://toolverse.io/about">About</a>
+        <a href="https://toolverse.io/privacy">Privacy Policy</a>
+        <a href="https://toolverse.io/terms">Terms of Service</a>
+        <a href="https://toolverse.io/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolverse. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Mortgage Calculator JS -->
+  <script>
+    (function() {
+      'use strict';
+
+      /* --- DOM References --- */
+      var els = {
+        homePrice:      document.getElementById('homePrice'),
+        downPayment:    document.getElementById('downPayment'),
+        downPaymentPct: document.getElementById('downPaymentPct'),
+        loanTerm:       document.getElementById('loanTerm'),
+        interestRate:   document.getElementById('interestRate'),
+        propertyTax:    document.getElementById('propertyTax'),
+        homeInsurance:  document.getElementById('homeInsurance'),
+        totalMonthly:   document.getElementById('totalMonthly'),
+        piAmount:       document.getElementById('piAmount'),
+        taxAmount:      document.getElementById('taxAmount'),
+        insAmount:      document.getElementById('insAmount'),
+        pmiRow:         document.getElementById('pmiRow'),
+        pmiAmount:      document.getElementById('pmiAmount'),
+        chartCard:      document.getElementById('chartCard'),
+        pieChart:       document.getElementById('pieChart'),
+        pieCenter:      document.getElementById('pieCenter'),
+        chartLegend:    document.getElementById('chartLegend'),
+        totalInterest:  document.getElementById('totalInterest'),
+        totalPaid:      document.getElementById('totalPaid'),
+        ltvRatio:       document.getElementById('ltvRatio'),
+        amortCard:      document.getElementById('amortCard'),
+        amortBody:      document.getElementById('amortBody'),
+        showAllBtn:     document.getElementById('showAllBtn'),
+        homePriceErr:   document.getElementById('homePriceErr'),
+        downPaymentErr: document.getElementById('downPaymentErr'),
+        interestRateErr:document.getElementById('interestRateErr')
+      };
+
+      var amortData = [];
+      var showAll = false;
+
+      /* --- Parsing Helpers --- */
+      function parseNum(str) {
+        if (!str) return 0;
+        return parseFloat(str.replace(/[^0-9.\-]/g, '')) || 0;
+      }
+
+      function fmtInput(el) {
+        var val = parseNum(el.value);
+        if (val > 0) {
+          el.value = formatNumber(val, 0);
+        }
+      }
+
+      /* --- Validation --- */
+      function showError(inputEl, errEl, show) {
+        if (show) {
+          inputEl.classList.add('error');
+          errEl.classList.add('visible');
+        } else {
+          inputEl.classList.remove('error');
+          errEl.classList.remove('visible');
+        }
+      }
+
+      function validate() {
+        var valid = true;
+        var hp = parseNum(els.homePrice.value);
+        var dp = parseNum(els.downPayment.value);
+        var rate = parseNum(els.interestRate.value);
+
+        if (hp <= 0) {
+          showError(els.homePrice, els.homePriceErr, true);
+          valid = false;
+        } else {
+          showError(els.homePrice, els.homePriceErr, false);
+        }
+
+        if (dp > hp || dp < 0) {
+          showError(els.downPayment, els.downPaymentErr, true);
+          valid = false;
+        } else {
+          showError(els.downPayment, els.downPaymentErr, false);
+        }
+
+        if (rate <= 0 || rate > 30) {
+          showError(els.interestRate, els.interestRateErr, true);
+          valid = false;
+        } else {
+          showError(els.interestRate, els.interestRateErr, false);
+        }
+
+        return valid;
+      }
+
+      /* --- Down Payment Sync --- */
+      var dpSyncing = false;
+
+      function syncDPFromDollar() {
+        if (dpSyncing) return;
+        dpSyncing = true;
+        var hp = parseNum(els.homePrice.value);
+        var dp = parseNum(els.downPayment.value);
+        if (hp > 0) {
+          els.downPaymentPct.value = ((dp / hp) * 100).toFixed(1);
+        }
+        dpSyncing = false;
+      }
+
+      function syncDPFromPercent() {
+        if (dpSyncing) return;
+        dpSyncing = true;
+        var hp = parseNum(els.homePrice.value);
+        var pct = parseNum(els.downPaymentPct.value);
+        if (hp > 0) {
+          var dpVal = Math.round(hp * pct / 100);
+          els.downPayment.value = formatNumber(dpVal, 0);
+        }
+        dpSyncing = false;
+      }
+
+      /* --- Core Calculation --- */
+      function calculate() {
+        if (!validate()) return;
+
+        var hp = parseNum(els.homePrice.value);
+        var dp = parseNum(els.downPayment.value);
+        var years = parseInt(els.loanTerm.value, 10);
+        var annualRate = parseNum(els.interestRate.value);
+        var annualTax = parseNum(els.propertyTax.value);
+        var annualIns = parseNum(els.homeInsurance.value);
+
+        var principal = hp - dp;
+        if (principal <= 0) {
+          showToast('Down payment must be less than home price.', 'error');
+          return;
+        }
+
+        var monthlyRate = annualRate / 100 / 12;
+        var n = years * 12;
+
+        // Monthly P&I
+        var pi;
+        if (monthlyRate === 0) {
+          pi = principal / n;
+        } else {
+          var factor = Math.pow(1 + monthlyRate, n);
+          pi = principal * (monthlyRate * factor) / (factor - 1);
+        }
+
+        var monthlyTax = annualTax / 12;
+        var monthlyIns = annualIns / 12;
+
+        // PMI: if down payment < 20%, estimate at 0.7% of loan / year
+        var dpPct = (dp / hp) * 100;
+        var monthlyPMI = 0;
+        if (dpPct < 20) {
+          monthlyPMI = (principal * 0.007) / 12;
+        }
+
+        var total = pi + monthlyTax + monthlyIns + monthlyPMI;
+
+        // Update display
+        els.totalMonthly.textContent = formatCurrency(total);
+        els.piAmount.textContent = formatCurrency(pi);
+        els.taxAmount.textContent = formatCurrency(monthlyTax);
+        els.insAmount.textContent = formatCurrency(monthlyIns);
+
+        if (monthlyPMI > 0) {
+          els.pmiRow.style.display = '';
+          els.pmiAmount.textContent = formatCurrency(monthlyPMI);
+        } else {
+          els.pmiRow.style.display = 'none';
+        }
+
+        // Total cost summary
+        var totalInterest = (pi * n) - principal;
+        var totalPaid = pi * n + (monthlyTax + monthlyIns + monthlyPMI) * n;
+        var ltv = (principal / hp) * 100;
+
+        els.totalInterest.textContent = formatCurrency(totalInterest);
+        els.totalPaid.textContent = formatCurrency(totalPaid);
+        els.ltvRatio.textContent = ltv.toFixed(1) + '%';
+
+        // Build pie chart
+        buildPieChart(pi, monthlyTax, monthlyIns, monthlyPMI, total);
+
+        // Build amortization
+        buildAmortization(principal, monthlyRate, pi, n);
+
+        els.chartCard.style.display = '';
+        els.amortCard.style.display = '';
+      }
+
+      /* --- Pie Chart (SVG donut) --- */
+      function buildPieChart(pi, tax, ins, pmi, total) {
+        var slices = [
+          { label: 'Principal & Interest', value: pi,  color: '#3b82f6' },
+          { label: 'Property Tax',         value: tax, color: '#f59e0b' },
+          { label: 'Home Insurance',       value: ins, color: '#8b5cf6' }
+        ];
+        if (pmi > 0) {
+          slices.push({ label: 'PMI', value: pmi, color: '#ef4444' });
+        }
+
+        var svg = els.pieChart;
+        svg.innerHTML = '';
+
+        var cx = 100, cy = 100, r = 80;
+        var circumference = 2 * Math.PI * r;
+        var offset = 0;
+
+        slices.forEach(function(slice) {
+          if (slice.value <= 0) return;
+          var pct = slice.value / total;
+          var dashLen = pct * circumference;
+          var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          circle.setAttribute('cx', cx);
+          circle.setAttribute('cy', cy);
+          circle.setAttribute('r', r);
+          circle.setAttribute('fill', 'none');
+          circle.setAttribute('stroke', slice.color);
+          circle.setAttribute('stroke-width', '40');
+          circle.setAttribute('stroke-dasharray', dashLen + ' ' + (circumference - dashLen));
+          circle.setAttribute('stroke-dashoffset', -offset);
+          svg.appendChild(circle);
+          offset += dashLen;
+        });
+
+        els.pieCenter.textContent = formatCurrency(total);
+
+        // Legend
+        var legend = '';
+        slices.forEach(function(s) {
+          if (s.value <= 0) return;
+          var pct = ((s.value / total) * 100).toFixed(1);
+          legend += '<li><span><span class="breakdown-dot" style="background:' + s.color + '"></span>'
+            + '<span class="breakdown-label">' + s.label + '</span></span>'
+            + '<span class="breakdown-value">' + pct + '%</span></li>';
+        });
+        els.chartLegend.innerHTML = legend;
+      }
+
+      /* --- Amortization Schedule --- */
+      function buildAmortization(principal, monthlyRate, monthlyPI, n) {
+        amortData = [];
+        var balance = principal;
+
+        for (var i = 1; i <= n; i++) {
+          var interestPart = balance * monthlyRate;
+          var principalPart = monthlyPI - interestPart;
+          balance -= principalPart;
+          if (balance < 0) balance = 0;
+
+          amortData.push({
+            month: i,
+            payment: monthlyPI,
+            principal: principalPart,
+            interest: interestPart,
+            balance: balance
+          });
+        }
+
+        showAll = false;
+        els.showAllBtn.textContent = 'Show All ' + n + ' Months';
+        els.showAllBtn.style.display = '';
+        renderAmort();
+      }
+
+      function renderAmort() {
+        var rows = showAll ? amortData : amortData.slice(0, 12);
+        var html = '';
+        rows.forEach(function(row) {
+          html += '<tr>'
+            + '<td>' + row.month + '</td>'
+            + '<td>' + formatCurrency(row.payment) + '</td>'
+            + '<td>' + formatCurrency(row.principal) + '</td>'
+            + '<td>' + formatCurrency(row.interest) + '</td>'
+            + '<td>' + formatCurrency(row.balance) + '</td>'
+            + '</tr>';
+        });
+        els.amortBody.innerHTML = html;
+
+        if (showAll || amortData.length <= 12) {
+          els.showAllBtn.style.display = 'none';
+        }
+      }
+
+      window.toggleAmort = function() {
+        showAll = true;
+        renderAmort();
+      };
+
+      /* --- Reset --- */
+      window.resetAll = function() {
+        els.homePrice.value = '';
+        els.downPayment.value = '';
+        els.downPaymentPct.value = '';
+        els.interestRate.value = '';
+        els.propertyTax.value = '';
+        els.homeInsurance.value = '';
+        els.loanTerm.value = '30';
+        els.totalMonthly.textContent = '$0.00';
+        els.piAmount.textContent = '$0.00';
+        els.taxAmount.textContent = '$0.00';
+        els.insAmount.textContent = '$0.00';
+        els.pmiAmount.textContent = '$0.00';
+        els.pmiRow.style.display = 'none';
+        els.chartCard.style.display = 'none';
+        els.amortCard.style.display = 'none';
+        els.totalInterest.textContent = '$0.00';
+        els.totalPaid.textContent = '$0.00';
+        els.ltvRatio.textContent = '0%';
+        amortData = [];
+        showAll = false;
+
+        // Clear errors
+        showError(els.homePrice, els.homePriceErr, false);
+        showError(els.downPayment, els.downPaymentErr, false);
+        showError(els.interestRate, els.interestRateErr, false);
+
+        showToast('All fields reset.', 'info');
+      };
+
+      // Make calculate globally accessible
+      window.calculate = calculate;
+
+      /* --- Real-time Listeners --- */
+      var debounceTimer;
+      function onInput() {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(function() {
+          var hp = parseNum(els.homePrice.value);
+          var rate = parseNum(els.interestRate.value);
+          if (hp > 0 && rate > 0) {
+            calculate();
+          }
+        }, 400);
+      }
+
+      // Number formatting on blur
+      [els.homePrice, els.downPayment, els.propertyTax, els.homeInsurance].forEach(function(el) {
+        el.addEventListener('blur', function() { fmtInput(el); });
+      });
+
+      // Down payment sync
+      els.downPayment.addEventListener('input', function() {
+        syncDPFromDollar();
+        onInput();
+      });
+      els.downPaymentPct.addEventListener('input', function() {
+        syncDPFromPercent();
+        onInput();
+      });
+
+      // Sync from dollar on homePrice changes (recalculate pct)
+      els.homePrice.addEventListener('input', function() {
+        syncDPFromDollar();
+        onInput();
+      });
+
+      // Other inputs
+      els.interestRate.addEventListener('input', onInput);
+      els.propertyTax.addEventListener('input', onInput);
+      els.homeInsurance.addEventListener('input', onInput);
+      els.loanTerm.addEventListener('change', onInput);
+
+      /* --- Default values for demo --- */
+      els.homePrice.value = '350,000';
+      els.downPayment.value = '70,000';
+      els.downPaymentPct.value = '20.0';
+      els.interestRate.value = '6.5';
+      els.propertyTax.value = '4,200';
+      els.homeInsurance.value = '1,200';
+
+      // Run initial calculation
+      calculate();
+
+    })();
+  </script>
+</body>
+</html>
