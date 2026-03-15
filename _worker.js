@@ -122,10 +122,24 @@ export default {
       return env.ASSETS.fetch(request);
     }
 
+    // Helper: fetch asset, follow Cloudflare's .html-stripping redirects
+    async function fetchAsset(assetPath) {
+      const assetUrl = new URL(assetPath, url.origin);
+      let response = await env.ASSETS.fetch(new Request(assetUrl, request));
+      // Cloudflare Pages strips .html and returns 308 — follow it
+      if (response.status === 308 || response.status === 301 || response.status === 302) {
+        const location = response.headers.get('Location');
+        if (location) {
+          const redirectUrl = new URL(location, url.origin);
+          response = await env.ASSETS.fetch(new Request(redirectUrl, request));
+        }
+      }
+      return response;
+    }
+
     // Legal pages: /about, /privacy, /terms, /contact
     if (LEGAL_PATHS.includes(path)) {
-      const assetUrl = new URL(`/legal/${path}.html`, url.origin);
-      const response = await env.ASSETS.fetch(new Request(assetUrl, request));
+      const response = await fetchAsset(`/legal/${path}.html`);
       if (response.ok) {
         return new Response(response.body, {
           status: 200,
@@ -141,8 +155,7 @@ export default {
     // Tool pages: /json, /bmi, /mortgage, etc.
     const slug = TOOL_MAP[path];
     if (slug) {
-      const assetUrl = new URL(`/sites/${slug}.html`, url.origin);
-      const response = await env.ASSETS.fetch(new Request(assetUrl, request));
+      const response = await fetchAsset(`/sites/${slug}.html`);
       if (response.ok) {
         return new Response(response.body, {
           status: 200,
@@ -160,8 +173,7 @@ export default {
 
     // Custom 404 for unknown paths
     if (response.status === 404) {
-      const notFoundUrl = new URL('/404.html', url.origin);
-      const notFoundResp = await env.ASSETS.fetch(new Request(notFoundUrl, request));
+      const notFoundResp = await fetchAsset('/404.html');
       return new Response(notFoundResp.body, {
         status: 404,
         headers: { 'Content-Type': 'text/html;charset=UTF-8' }
