@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Length Converter — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Convert lengths and distances between metric, imperial, and scientific units instantly. Supports kilometers, miles, meters, feet, inches, light years, and more. Free online tool — no signup required.">
+  <link rel="canonical" href="https://length.toolrip.com/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Length Converter — Free, Fast, No Signup | Toolrip">
+  <meta property="og:description" content="Convert lengths and distances between metric, imperial, and scientific units instantly. Supports kilometers, miles, meters, feet, inches, light years, and more. Free online tool — no signup required.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://length.toolrip.com/">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Length Converter — Free, Fast, No Signup | Toolrip">
+  <meta name="twitter:description" content="Convert lengths and distances between metric, imperial, and scientific units instantly. Supports kilometers, miles, meters, feet, inches, light years, and more. Free online tool — no signup required.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--conversion)}</style>
+
+  <style>
+    /* Converter layout */
+    .converter-row{display:flex;gap:var(--sp-3);align-items:flex-end;flex-wrap:wrap}
+    .converter-row .input-group{flex:1;min-width:140px}
+    .swap-btn{width:44px;height:44px;border-radius:50%;background:var(--bg);border:1px solid var(--border);
+      color:var(--accent);font-size:1.25rem;cursor:pointer;transition:background .15s,transform .3s;
+      display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-bottom:var(--sp-3)}
+    .swap-btn:hover{background:color-mix(in srgb,var(--accent) 12%,transparent);transform:rotate(180deg)}
+
+    /* Results display */
+    .result-chain{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+      padding:var(--sp-4);margin-top:var(--sp-3);font-size:1.125rem;font-weight:600;
+      color:var(--text);text-align:center;line-height:1.8;position:relative;word-break:break-word}
+    .result-chain .copy-btn{position:absolute;top:var(--sp-2);right:var(--sp-2)}
+    .result-chain .empty-state{color:var(--text-muted);font-weight:400;font-size:.9375rem}
+
+    /* Formula display */
+    .formula-box{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+      padding:var(--sp-3);margin-top:var(--sp-3);font-family:'Fira Code','Consolas',monospace;
+      font-size:.875rem;color:var(--text-muted);line-height:1.8}
+    .formula-box strong{color:var(--text);font-weight:600}
+
+    /* All conversions table */
+    .all-conv-table{width:100%;border-collapse:collapse;font-size:.875rem;margin-top:var(--sp-3)}
+    .all-conv-table th,.all-conv-table td{padding:var(--sp-2) var(--sp-3);text-align:left;border-bottom:1px solid var(--border)}
+    .all-conv-table th{color:var(--text-muted);font-weight:600;font-size:.8125rem;text-transform:uppercase;letter-spacing:.03em;
+      background:var(--bg);position:sticky;top:0}
+    .all-conv-table td{color:var(--text)}
+    .all-conv-table tr:hover td{background:color-mix(in srgb,var(--accent) 5%,transparent)}
+    .all-conv-table .unit-symbol{color:var(--text-muted);font-size:.8125rem}
+    .all-conv-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius);max-height:420px;overflow-y:auto}
+
+    /* Reference table */
+    .ref-table{width:100%;border-collapse:collapse;font-size:.875rem;margin-top:var(--sp-3)}
+    .ref-table th,.ref-table td{padding:var(--sp-2) var(--sp-3);text-align:left;border-bottom:1px solid var(--border)}
+    .ref-table th{color:var(--text-muted);font-weight:600;font-size:.8125rem;text-transform:uppercase;letter-spacing:.03em;
+      background:var(--bg);position:sticky;top:0}
+    .ref-table td{color:var(--text)}
+    .ref-table tr:hover td{background:color-mix(in srgb,var(--accent) 5%,transparent)}
+    .ref-table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius)}
+
+    /* Quick conversion cards */
+    .quick-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-3);margin:var(--sp-3) 0}
+    .quick-card{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius);
+      padding:var(--sp-3);cursor:pointer;transition:border-color .15s,background .15s;text-align:center}
+    .quick-card:hover{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 5%,transparent)}
+    .quick-card .qc-label{font-size:.8125rem;color:var(--text-muted);margin-bottom:var(--sp-1)}
+    .quick-card .qc-value{font-size:1rem;font-weight:600;color:var(--text)}
+
+    /* Optgroup styling */
+    .select-field optgroup{color:var(--text-muted);font-weight:600;font-size:.8125rem}
+    .select-field option{color:var(--text);font-weight:400;font-size:.9375rem}
+
+    /* Action buttons row */
+    .action-bar{display:flex;gap:var(--sp-2);flex-wrap:wrap;margin-top:var(--sp-3)}
+
+    @media(max-width:639px){
+      .converter-row{flex-direction:column;align-items:stretch}
+      .swap-btn{align-self:center;margin-bottom:0}
+      .quick-cards{grid-template-columns:1fr}
+    }
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Length Converter",
+    "url": "https://length.toolrip.com/",
+    "description": "Convert lengths and distances between metric, imperial, and scientific units instantly. Supports kilometers, miles, meters, feet, inches, light years, and more.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Conversion Tools", "item": "https://toolrip.com/#conversion" },
+      { "@type": "ListItem", "position": 3, "name": "Length/Distance Converter", "item": "https://length.toolrip.com/" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How many centimeters are in one inch?",
+        "acceptedAnswer": { "@type": "Answer", "text": "One inch is exactly 2.54 centimeters. This conversion factor was internationally agreed upon in 1959 and is used as the standard definition of the inch in terms of metric units." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between a mile and a kilometer?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A mile equals 1.609344 kilometers. The mile is used in the United States, the United Kingdom (for road distances), and a few other countries, while the kilometer is the standard unit of distance in the metric system used by most of the world." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I convert feet to meters?",
+        "acceptedAnswer": { "@type": "Answer", "text": "To convert feet to meters, multiply the number of feet by 0.3048. For example, 10 feet equals 10 × 0.3048 = 3.048 meters. One foot is defined as exactly 0.3048 meters." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a nautical mile and how does it differ from a regular mile?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A nautical mile equals 1,852 meters (approximately 1.15078 statute miles). It is based on the circumference of the Earth and represents one minute of arc of latitude. It is used in maritime and air navigation because it conveniently relates to the coordinate system of latitude and longitude." }
+      },
+      {
+        "@type": "Question",
+        "name": "Why do the United States and United Kingdom use different measurement systems?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The UK has largely adopted the metric system for most purposes but still uses miles for road signs and distances. The US retained the imperial system for everyday use while using metric in science. Historical inertia and the cost of conversion are the primary reasons both countries have not fully switched to metric." }
+      },
+      {
+        "@type": "Question",
+        "name": "How far is a light year in kilometers?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A light year is approximately 9.461 trillion kilometers (9,460,730,472,580.8 km). It is the distance light travels in one Julian year (365.25 days) in a vacuum, traveling at 299,792,458 meters per second." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is an astronomical unit (AU)?",
+        "acceptedAnswer": { "@type": "Answer", "text": "An astronomical unit (AU) is defined as exactly 149,597,870,700 meters, approximately the average distance from the Earth to the Sun. It is primarily used in astronomy to express distances within the solar system." }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" id="ad-top" data-ad-slot="top">Ad</div>
+
+    <main class="main">
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#conversion">Conversion Tools</a>
+        <span>/</span>
+        <span>Length/Distance Converter</span>
+      </nav>
+
+      <h1>Length/Distance Converter</h1>
+      <p class="text-muted mt-1 mb-3">Convert between metric, imperial, and scientific length units instantly. See all results at once with formulas, reference tables, and quick conversion cards.</p>
+
+      <!-- ===== TOOL UI ===== -->
+      <div class="tool-card">
+        <div class="converter-row">
+          <div class="input-group">
+            <label for="length-value">Value</label>
+            <input type="number" id="length-value" class="input-field" placeholder="Enter value..." step="any" autocomplete="off">
+          </div>
+          <div class="input-group">
+            <label for="from-unit">From</label>
+            <select id="from-unit" class="select-field">
+              <optgroup label="Metric">
+                <option value="km">Kilometer (km)</option>
+                <option value="m" selected>Meter (m)</option>
+                <option value="cm">Centimeter (cm)</option>
+                <option value="mm">Millimeter (mm)</option>
+                <option value="um">Micrometer (&mu;m)</option>
+                <option value="nm">Nanometer (nm)</option>
+              </optgroup>
+              <optgroup label="Imperial">
+                <option value="mi">Mile</option>
+                <option value="yd">Yard</option>
+                <option value="ft">Foot</option>
+                <option value="in">Inch</option>
+              </optgroup>
+              <optgroup label="Other">
+                <option value="nmi">Nautical Mile</option>
+                <option value="ly">Light Year</option>
+                <option value="au">Astronomical Unit</option>
+              </optgroup>
+            </select>
+          </div>
+          <button class="swap-btn" id="swap-btn" title="Swap units" aria-label="Swap from and to units">&#8596;</button>
+          <div class="input-group">
+            <label for="to-unit">To</label>
+            <select id="to-unit" class="select-field">
+              <optgroup label="Metric">
+                <option value="km">Kilometer (km)</option>
+                <option value="m">Meter (m)</option>
+                <option value="cm">Centimeter (cm)</option>
+                <option value="mm">Millimeter (mm)</option>
+                <option value="um">Micrometer (&mu;m)</option>
+                <option value="nm">Nanometer (nm)</option>
+              </optgroup>
+              <optgroup label="Imperial">
+                <option value="mi">Mile</option>
+                <option value="yd">Yard</option>
+                <option value="ft" selected>Foot</option>
+                <option value="in">Inch</option>
+              </optgroup>
+              <optgroup label="Other">
+                <option value="nmi">Nautical Mile</option>
+                <option value="ly">Light Year</option>
+                <option value="au">Astronomical Unit</option>
+              </optgroup>
+            </select>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn-primary" id="convert-btn">Convert</button>
+          <button class="btn-secondary" id="all-btn">Convert to All</button>
+          <button class="btn-secondary" id="clear-btn">Clear</button>
+        </div>
+
+        <!-- Primary result -->
+        <div class="result-chain" id="result-chain">
+          <button class="copy-btn" id="copy-result-btn" style="display:none">Copy</button>
+          <span class="empty-state">Enter a length value above to see the conversion</span>
+        </div>
+
+        <!-- Formula used -->
+        <div class="formula-box" id="formula-box" style="display:none">
+          <strong>Formula:</strong><br>
+          <span id="formula-text"></span>
+        </div>
+
+        <!-- All conversions table -->
+        <div id="all-conv-section" style="display:none;margin-top:var(--sp-3)">
+          <h3 style="font-size:1rem;margin-bottom:var(--sp-2)">All Conversions</h3>
+          <div class="all-conv-wrap">
+            <table class="all-conv-table">
+              <thead>
+                <tr><th>Unit</th><th>Value</th></tr>
+              </thead>
+              <tbody id="all-conv-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Conversion Cards -->
+      <div class="tool-card">
+        <h2 style="font-size:1.1rem;margin-bottom:var(--sp-2)">Quick Conversions</h2>
+        <p class="text-muted" style="font-size:.875rem;margin-bottom:var(--sp-2)">Click a card to load the conversion instantly.</p>
+        <div class="quick-cards" id="quick-cards">
+          <div class="quick-card" data-from="cm" data-to="in" data-val="1">
+            <div class="qc-label">cm &harr; inches</div>
+            <div class="qc-value">1 cm = 0.3937 in</div>
+          </div>
+          <div class="quick-card" data-from="ft" data-to="m" data-val="1">
+            <div class="qc-label">feet &harr; meters</div>
+            <div class="qc-value">1 ft = 0.3048 m</div>
+          </div>
+          <div class="quick-card" data-from="mi" data-to="km" data-val="1">
+            <div class="qc-label">miles &harr; km</div>
+            <div class="qc-value">1 mi = 1.60934 km</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Common Length Reference Table -->
+      <div class="tool-card">
+        <h2 style="font-size:1.1rem;margin-bottom:var(--sp-2)">Common Conversions Reference Table</h2>
+        <div class="ref-table-wrap">
+          <table class="ref-table">
+            <thead>
+              <tr>
+                <th>From</th>
+                <th>To</th>
+                <th>Factor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1 Kilometer</td><td>Meters</td><td>1,000</td></tr>
+              <tr><td>1 Meter</td><td>Centimeters</td><td>100</td></tr>
+              <tr><td>1 Centimeter</td><td>Millimeters</td><td>10</td></tr>
+              <tr><td>1 Inch</td><td>Centimeters</td><td>2.54</td></tr>
+              <tr><td>1 Foot</td><td>Meters</td><td>0.3048</td></tr>
+              <tr><td>1 Yard</td><td>Meters</td><td>0.9144</td></tr>
+              <tr><td>1 Mile</td><td>Kilometers</td><td>1.609344</td></tr>
+              <tr><td>1 Nautical Mile</td><td>Meters</td><td>1,852</td></tr>
+              <tr><td>1 Light Year</td><td>Meters</td><td>9.460730472581 &times; 10<sup>15</sup></td></tr>
+              <tr><td>1 Astronomical Unit</td><td>Meters</td><td>1.495978707 &times; 10<sup>11</sup></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" id="ad-in-content" data-ad-slot="in-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>13 Units Supported</h3>
+            <p>Convert between metric (km, m, cm, mm, &mu;m, nm), imperial (mile, yard, foot, inch), and scientific units (nautical mile, light year, astronomical unit) all in one place.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Real-Time Results</h3>
+            <p>Conversions update instantly as you type. No need to click a button or wait for page reloads. See the formula used for every conversion.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Convert to All at Once</h3>
+            <p>View your value converted to every supported unit simultaneously in a single table. Perfect for engineers, students, and scientists who need multiple unit comparisons.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Length Converter</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li>Enter the numeric value you want to convert in the input field.</li>
+          <li>Select the source unit from the "From" dropdown (organized by Metric, Imperial, and Other).</li>
+          <li>Select the target unit from the "To" dropdown.</li>
+          <li>The result appears instantly as you type. Use the swap button (&harr;) to reverse the direction.</li>
+          <li>Click "Convert to All" to see your value in every supported unit at once.</li>
+          <li>Click "Copy" to copy the result to your clipboard for easy pasting.</li>
+        </ol>
+      </section>
+
+      <!-- SEO Content Section -->
+      <section class="mt-4">
+        <h2>Understanding Length and Distance Measurement</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          Length is one of the most fundamental physical quantities, essential to science, engineering, construction, navigation, and daily life. Humans have been measuring distance since ancient civilizations, evolving from body-based units like the cubit and the pace to the highly precise, internationally standardized systems we use today. Understanding how different length units relate to each other is critical for anyone working across national boundaries, scientific disciplines, or historical records.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          The <strong style="color:var(--text)">metric system</strong>, formally known as the International System of Units (SI), was first adopted in France in 1799 following the French Revolution. The meter was originally defined as one ten-millionth of the distance from the equator to the North Pole along a meridian passing through Paris. Today, the meter is defined with absolute precision as the distance light travels in a vacuum in exactly 1/299,792,458 of a second. This makes it one of the most precisely defined units in all of science. From the meter, all other metric length units derive through powers of ten: a kilometer is 1,000 meters, a centimeter is one hundredth of a meter, a millimeter is one thousandth, a micrometer is one millionth, and a nanometer is one billionth of a meter. This decimal structure is what makes the metric system so intuitive and widely adopted, now used by virtually every country in the world for scientific and most practical purposes.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          The <strong style="color:var(--text)">imperial system</strong> traces its roots to medieval England. Units like the inch, foot, yard, and mile evolved from practical, human-scale references. The inch was historically defined as the width of a man's thumb, the foot as the length of a human foot, and the yard as the distance from the tip of the nose to the end of the outstretched arm. The mile derives from the Roman "mille passus," meaning one thousand paces (each pace being two steps). In 1959, an international agreement defined the inch as exactly 25.4 millimeters, firmly linking the imperial and metric systems. This means that one foot equals exactly 0.3048 meters, one yard equals exactly 0.9144 meters, and one mile equals exactly 1.609344 kilometers. Despite the global dominance of the metric system, the United States continues to use imperial units for most everyday purposes, while the United Kingdom maintains a hybrid approach, using miles for road distances but metric units in most other contexts.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          Beyond everyday measurement, specialized units serve particular domains. The <strong style="color:var(--text)">nautical mile</strong>, equal to exactly 1,852 meters, is used in maritime and aviation navigation because it corresponds to one minute of arc of latitude on the Earth's surface. This makes it exceptionally useful for chart-based navigation with latitude and longitude coordinates. The <strong style="color:var(--text)">light year</strong>, approximately 9.461 trillion kilometers, measures vast astronomical distances and represents the distance that light travels in one Julian year. The <strong style="color:var(--text)">astronomical unit (AU)</strong>, defined as exactly 149,597,870,700 meters, approximates the mean distance from the Earth to the Sun and provides a convenient scale for expressing distances within our solar system.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8">
+          Whether you are a student working on physics homework, an engineer designing structures to international specifications, a traveler converting road signs between countries, or an astronomer calculating interstellar distances, having a reliable and accurate length converter is indispensable. This tool handles all thirteen of the most commonly needed length units with scientific precision, converting between them instantly and showing you the exact mathematical formula used for each conversion.
+        </p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>How many centimeters are in one inch?</summary>
+          <p>One inch is exactly 2.54 centimeters. This conversion factor was established by international agreement in 1959 and is the definitive standard used worldwide. To convert inches to centimeters, multiply by 2.54. To convert centimeters to inches, divide by 2.54 (or multiply by approximately 0.3937). For example, 10 inches equals 25.4 cm, and 50 cm equals approximately 19.685 inches.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between a mile and a kilometer?</summary>
+          <p>A mile is an imperial unit equal to exactly 1.609344 kilometers. Conversely, one kilometer equals approximately 0.621371 miles. The mile originated from the Roman mille passus (1,000 paces) and was later standardized in England. The kilometer, part of the metric system, is defined as exactly 1,000 meters. Most countries use kilometers for road distances and geographic measurements, while the United States and the United Kingdom (for roads) still use miles.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do I convert feet to meters?</summary>
+          <p>To convert feet to meters, multiply the number of feet by 0.3048. This is an exact conversion factor, not an approximation. For example, 6 feet equals 6 x 0.3048 = 1.8288 meters. To go the other direction, divide meters by 0.3048, or multiply by approximately 3.28084. This conversion is commonly needed in construction, real estate, athletics, and aviation where different countries use different systems.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is a nautical mile and how does it differ from a regular mile?</summary>
+          <p>A nautical mile equals exactly 1,852 meters, which is approximately 1.15078 statute (regular) miles or 6,076.12 feet. Unlike the statute mile, which is based on historical land measurement, the nautical mile is derived from the geometry of the Earth: it corresponds to one minute of arc of latitude. This geographic relationship makes nautical miles extremely useful in maritime and air navigation, where positions are expressed in latitude and longitude. Speed measured in nautical miles per hour is called a knot.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Why do the United States and United Kingdom use different measurement systems?</summary>
+          <p>The United Kingdom has officially adopted the metric system for most purposes since 1965, but road signs still display miles and older generations remain familiar with imperial units like feet and inches for height and stones for weight. The United States adopted customary units inherited from the British imperial system before metrication became widespread globally. While U.S. science and military use metric, everyday American life still revolves around miles, feet, inches, and pounds. The cost and cultural inertia of transitioning an entire infrastructure make full adoption of metric a gradual process in both countries.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How far is a light year in kilometers?</summary>
+          <p>A light year is approximately 9,460,730,472,580.8 kilometers, or about 9.461 trillion kilometers. It represents the distance that light travels in one Julian year (365.25 days) at the speed of 299,792,458 meters per second. Light years are used to express distances between stars and galaxies. For example, the nearest star system to our Sun, Alpha Centauri, is about 4.37 light years away, which translates to roughly 41.3 trillion kilometers.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is an astronomical unit (AU)?</summary>
+          <p>An astronomical unit (AU) is defined as exactly 149,597,870,700 meters (approximately 149.6 million kilometers or 92.96 million miles). It represents roughly the average distance from the Earth to the Sun and provides a convenient scale for expressing distances within the solar system. For instance, Mars is about 1.52 AU from the Sun, Jupiter about 5.2 AU, and Neptune about 30.07 AU. The AU was formally defined by the International Astronomical Union in 2012.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://weight.toolrip.com">Weight Converter</a>
+          <a href="https://temperature.toolrip.com">Temperature Converter</a>
+          <a href="https://speed.toolrip.com">Speed Converter</a>
+          <a href="https://area-volume.toolrip.com">Area &amp; Volume Converter</a>
+          <a href="https://data-storage.toolrip.com">Data Storage Converter</a>
+          <a href="https://angle.toolrip.com">Angle Converter</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" id="ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" id="ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+  (function() {
+    'use strict';
+
+    /* ===================================================================
+       UNIT DEFINITIONS — all factors convert TO METERS (base unit)
+       Scientific precision: exact values where defined by standard,
+       best known values for astronomical units.
+       =================================================================== */
+    var UNITS = [
+      { key: 'km',  name: 'Kilometer',          symbol: 'km',  group: 'Metric',   toMeters: 1000 },
+      { key: 'm',   name: 'Meter',              symbol: 'm',   group: 'Metric',   toMeters: 1 },
+      { key: 'cm',  name: 'Centimeter',          symbol: 'cm',  group: 'Metric',   toMeters: 0.01 },
+      { key: 'mm',  name: 'Millimeter',          symbol: 'mm',  group: 'Metric',   toMeters: 0.001 },
+      { key: 'um',  name: 'Micrometer',          symbol: '\u03BCm', group: 'Metric', toMeters: 1e-6 },
+      { key: 'nm',  name: 'Nanometer',           symbol: 'nm',  group: 'Metric',   toMeters: 1e-9 },
+      { key: 'mi',  name: 'Mile',                symbol: 'mi',  group: 'Imperial', toMeters: 1609.344 },
+      { key: 'yd',  name: 'Yard',                symbol: 'yd',  group: 'Imperial', toMeters: 0.9144 },
+      { key: 'ft',  name: 'Foot',                symbol: 'ft',  group: 'Imperial', toMeters: 0.3048 },
+      { key: 'in',  name: 'Inch',                symbol: 'in',  group: 'Imperial', toMeters: 0.0254 },
+      { key: 'nmi', name: 'Nautical Mile',       symbol: 'nmi', group: 'Other',    toMeters: 1852 },
+      { key: 'ly',  name: 'Light Year',          symbol: 'ly',  group: 'Other',    toMeters: 9460730472580800 },
+      { key: 'au',  name: 'Astronomical Unit',   symbol: 'AU',  group: 'Other',    toMeters: 149597870700 }
+    ];
+
+    var unitMap = {};
+    UNITS.forEach(function(u) { unitMap[u.key] = u; });
+
+    /* --- DOM references --- */
+    var valueInput   = document.getElementById('length-value');
+    var fromSelect   = document.getElementById('from-unit');
+    var toSelect     = document.getElementById('to-unit');
+    var swapBtn      = document.getElementById('swap-btn');
+    var convertBtn   = document.getElementById('convert-btn');
+    var allBtn       = document.getElementById('all-btn');
+    var clearBtn     = document.getElementById('clear-btn');
+    var resultChain  = document.getElementById('result-chain');
+    var formulaBox   = document.getElementById('formula-box');
+    var formulaText  = document.getElementById('formula-text');
+    var allConvSection = document.getElementById('all-conv-section');
+    var allConvBody  = document.getElementById('all-conv-body');
+
+    /* --- Conversion core --- */
+    function convert(value, fromKey, toKey) {
+      var from = unitMap[fromKey];
+      var to   = unitMap[toKey];
+      if (!from || !to) return NaN;
+      return value * (from.toMeters / to.toMeters);
+    }
+
+    /* --- Format result with appropriate precision --- */
+    function formatResult(val) {
+      if (!isFinite(val) || isNaN(val)) return '\u2014';
+      var abs = Math.abs(val);
+      if (abs === 0) return '0';
+      /* Very large or very small: use scientific notation */
+      if (abs >= 1e12 || (abs > 0 && abs < 1e-6)) {
+        return val.toExponential(6);
+      }
+      /* Up to 10 significant digits, strip trailing zeros */
+      var digits = Math.max(0, Math.min(10, 10 - Math.floor(Math.log10(abs)) - 1));
+      return parseFloat(val.toFixed(digits)).toString();
+    }
+
+    /* --- Build formula text --- */
+    function buildFormula(fromKey, toKey) {
+      var from = unitMap[fromKey];
+      var to   = unitMap[toKey];
+      if (!from || !to) return '';
+      var factor = from.toMeters / to.toMeters;
+      var factorStr = formatResult(factor);
+      return from.name + ' (' + from.symbol + ') \u00d7 ' + factorStr + ' = ' + to.name + ' (' + to.symbol + ')';
+    }
+
+    /* --- Primary conversion --- */
+    function doConvert() {
+      var raw = valueInput.value.trim();
+      if (raw === '') {
+        resultChain.innerHTML = '<button class="copy-btn" id="copy-result-btn" style="display:none">Copy</button><span class="empty-state">Enter a length value above to see the conversion</span>';
+        formulaBox.style.display = 'none';
+        allConvSection.style.display = 'none';
+        return;
+      }
+
+      var value = parseFloat(raw);
+      if (isNaN(value)) {
+        resultChain.innerHTML = '<button class="copy-btn" id="copy-result-btn" style="display:none">Copy</button><span class="empty-state" style="color:#ef4444">Please enter a valid number</span>';
+        formulaBox.style.display = 'none';
+        return;
+      }
+
+      var fromKey = fromSelect.value;
+      var toKey   = toSelect.value;
+      var result  = convert(value, fromKey, toKey);
+      var from    = unitMap[fromKey];
+      var to      = unitMap[toKey];
+
+      var text = formatResult(value) + ' ' + from.symbol + ' = ' + formatResult(result) + ' ' + to.symbol;
+      resultChain.innerHTML = '<button class="copy-btn" id="copy-result-btn">Copy</button>' + text;
+
+      document.getElementById('copy-result-btn').addEventListener('click', function() {
+        copyToClipboard(text, this);
+      });
+
+      /* Show formula */
+      formulaText.innerHTML = buildFormula(fromKey, toKey);
+      formulaBox.style.display = '';
+    }
+
+    /* --- Convert to All --- */
+    function doConvertAll() {
+      var raw = valueInput.value.trim();
+      if (raw === '') {
+        showToast('Please enter a value first', 'error');
+        return;
+      }
+      var value = parseFloat(raw);
+      if (isNaN(value)) {
+        showToast('Please enter a valid number', 'error');
+        return;
+      }
+
+      var fromKey = fromSelect.value;
+      var rows = '';
+      UNITS.forEach(function(u) {
+        var result = convert(value, fromKey, u.key);
+        var highlight = u.key === fromKey ? ' style="background:color-mix(in srgb,var(--accent) 8%,transparent)"' : '';
+        rows += '<tr' + highlight + '><td>' + u.name + ' <span class="unit-symbol">(' + u.symbol + ')</span></td><td>' + formatResult(result) + '</td></tr>';
+      });
+      allConvBody.innerHTML = rows;
+      allConvSection.style.display = '';
+      allConvSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    /* --- Swap units --- */
+    swapBtn.addEventListener('click', function() {
+      var tmp = fromSelect.value;
+      fromSelect.value = toSelect.value;
+      toSelect.value = tmp;
+      doConvert();
+    });
+
+    /* --- Button handlers --- */
+    convertBtn.addEventListener('click', doConvert);
+    allBtn.addEventListener('click', function() {
+      doConvert();
+      doConvertAll();
+    });
+
+    clearBtn.addEventListener('click', function() {
+      valueInput.value = '';
+      fromSelect.value = 'm';
+      toSelect.value = 'ft';
+      resultChain.innerHTML = '<button class="copy-btn" id="copy-result-btn" style="display:none">Copy</button><span class="empty-state">Enter a length value above to see the conversion</span>';
+      formulaBox.style.display = 'none';
+      allConvSection.style.display = 'none';
+      valueInput.focus();
+    });
+
+    /* --- Real-time conversion as user types --- */
+    valueInput.addEventListener('input', doConvert);
+    fromSelect.addEventListener('change', function() {
+      doConvert();
+      if (allConvSection.style.display !== 'none') doConvertAll();
+    });
+    toSelect.addEventListener('change', doConvert);
+
+    /* --- Keyboard: Enter to convert --- */
+    valueInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        doConvert();
+      }
+    });
+
+    /* --- Quick Conversion Cards --- */
+    document.getElementById('quick-cards').addEventListener('click', function(e) {
+      var card = e.target.closest('.quick-card');
+      if (!card) return;
+      var fromKey = card.dataset.from;
+      var toKey   = card.dataset.to;
+      var val     = card.dataset.val;
+      valueInput.value = val;
+      fromSelect.value = fromKey;
+      toSelect.value   = toKey;
+      doConvert();
+      valueInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+
+  })();
+  </script>
+</body>
+</html>

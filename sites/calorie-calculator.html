@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calorie Calculator (TDEE) — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Calculate your Total Daily Energy Expenditure (TDEE) and BMR with our free calorie calculator. Get personalized calorie targets for weight loss, maintenance, and muscle gain with macronutrient breakdowns.">
+  <meta name="keywords" content="calorie calculator, TDEE calculator, BMR calculator, daily calorie needs, weight loss calories, macro calculator, Mifflin-St Jeor">
+  <link rel="canonical" href="https://calorie.toolrip.com/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Calorie Calculator (TDEE) — Free, Fast, No Signup | Toolrip">
+  <meta property="og:description" content="Calculate your Total Daily Energy Expenditure (TDEE) and BMR instantly. Get goal-based calorie targets and macronutrient breakdowns for free.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://calorie.toolrip.com/">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Calorie Calculator (TDEE) — Free, Fast, No Signup | Toolrip">
+  <meta name="twitter:description" content="Calculate your Total Daily Energy Expenditure (TDEE) and BMR instantly. Get goal-based calorie targets and macronutrient breakdowns for free.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root { --accent: var(--health); }
+
+    /* Gender Toggle */
+    .gender-toggle {
+      display: flex;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .gender-toggle button {
+      flex: 1;
+      padding: var(--sp-2) var(--sp-3);
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font: inherit;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .gender-toggle button.active {
+      background: var(--accent);
+      color: #fff;
+    }
+    .gender-toggle button:hover:not(.active) {
+      background: var(--bg-elevated);
+      color: var(--text);
+    }
+
+    /* Unit Toggle */
+    .unit-toggle-group {
+      display: flex;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .unit-toggle-group button {
+      flex: 1;
+      padding: var(--sp-2) var(--sp-3);
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font: inherit;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .unit-toggle-group button.active {
+      background: var(--accent);
+      color: #fff;
+    }
+    .unit-toggle-group button:hover:not(.active) {
+      background: var(--bg-elevated);
+      color: var(--text);
+    }
+
+    /* Input Row */
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-3);
+    }
+    @media (max-width: 639px) {
+      .input-row { grid-template-columns: 1fr; }
+    }
+
+    /* Imperial height sub-fields */
+    .height-imperial {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-2);
+    }
+
+    /* Activity level select */
+    .activity-select {
+      width: 100%;
+    }
+
+    /* Result Panel */
+    .result-panel {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-5);
+      margin-top: var(--sp-4);
+    }
+    .result-panel.hidden { display: none; }
+
+    .result-header {
+      text-align: center;
+      margin-bottom: var(--sp-4);
+    }
+    .result-header .tdee-value {
+      font-size: 3.5rem;
+      font-weight: 800;
+      line-height: 1.1;
+      color: var(--accent);
+    }
+    .result-header .tdee-label {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-top: var(--sp-1);
+    }
+    .result-header .bmr-line {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-top: var(--sp-2);
+    }
+    .result-header .bmr-line strong {
+      color: var(--text);
+    }
+
+    /* Calorie Goals Table */
+    .goals-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: var(--sp-3) 0;
+      font-size: 0.9rem;
+    }
+    .goals-table th,
+    .goals-table td {
+      padding: var(--sp-2) var(--sp-3);
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .goals-table th {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .goals-table tr:last-child td { border-bottom: none; }
+    .goals-table .highlight-row td {
+      background: var(--bg-elevated);
+      font-weight: 600;
+    }
+    .goals-table .goal-name { white-space: nowrap; }
+    .goals-table .cal-value {
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Macro badges */
+    .macro-badges {
+      display: flex;
+      gap: var(--sp-1);
+      flex-wrap: wrap;
+    }
+    .macro-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .macro-p { background: rgba(59,130,246,0.15); color: #60a5fa; }
+    .macro-c { background: rgba(34,197,94,0.15); color: #4ade80; }
+    .macro-f { background: rgba(251,146,60,0.15); color: #fb923c; }
+
+    /* Calorie Bar Chart */
+    .calorie-chart {
+      margin-top: var(--sp-4);
+    }
+    .calorie-chart h4 {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: var(--sp-3);
+    }
+    .chart-bar-row {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+      margin-bottom: var(--sp-2);
+    }
+    .chart-bar-label {
+      width: 110px;
+      flex-shrink: 0;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-align: right;
+    }
+    .chart-bar-track {
+      flex: 1;
+      height: 24px;
+      background: var(--bg-surface);
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+    }
+    .chart-bar-fill {
+      height: 100%;
+      border-radius: 12px;
+      transition: width 0.5s ease;
+      min-width: 2px;
+    }
+    .chart-bar-val {
+      width: 60px;
+      flex-shrink: 0;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+    .bar-loss { background: #ef4444; }
+    .bar-mild-loss { background: #f59e0b; }
+    .bar-maintain { background: #22c55e; }
+    .bar-mild-gain { background: #3b82f6; }
+    .bar-gain { background: #8b5cf6; }
+
+    /* Macro Donut placeholder */
+    .macro-summary {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: var(--sp-3);
+      margin-top: var(--sp-4);
+    }
+    .macro-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-3);
+      text-align: center;
+    }
+    .macro-card .macro-icon {
+      font-size: 1.5rem;
+      margin-bottom: var(--sp-1);
+    }
+    .macro-card h5 {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: var(--sp-1);
+    }
+    .macro-card .macro-grams {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .macro-card .macro-pct {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Disclaimer */
+    .disclaimer {
+      margin-top: var(--sp-4);
+      padding: var(--sp-3);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 639px) {
+      .macro-summary { grid-template-columns: 1fr; }
+      .chart-bar-label { width: 80px; font-size: 0.7rem; }
+      .chart-bar-val { width: 50px; font-size: 0.75rem; }
+      .goals-table { font-size: 0.8rem; }
+      .macro-badges { gap: 2px; }
+      .macro-badge { font-size: 0.65rem; padding: 1px 5px; }
+    }
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Calorie Calculator (TDEE)",
+    "url": "https://calorie.toolrip.com/",
+    "description": "Calculate your Total Daily Energy Expenditure (TDEE) and Basal Metabolic Rate (BMR) with our free calorie calculator. Get personalized calorie targets for weight loss, maintenance, and muscle gain with macronutrient breakdowns.",
+    "applicationCategory": "HealthApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- FAQ Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the difference between BMR and TDEE?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "BMR (Basal Metabolic Rate) is the number of calories your body burns at complete rest just to maintain basic life-sustaining functions like breathing, circulation, and cell production. TDEE (Total Daily Energy Expenditure) is your BMR multiplied by an activity factor that accounts for all physical activity throughout the day, giving you the total calories you actually burn in a 24-hour period."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the Mifflin-St Jeor equation?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Mifflin-St Jeor equation is a formula developed in 1990 that is widely considered the most accurate method for estimating BMR. For men: BMR = 10 × weight(kg) + 6.25 × height(cm) - 5 × age + 5. For women: BMR = 10 × weight(kg) + 6.25 × height(cm) - 5 × age - 161."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How many calories should I eat to lose weight?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To lose weight safely, most health professionals recommend a caloric deficit of 500 calories per day below your TDEE, which results in approximately one pound of weight loss per week. A milder deficit of 250 calories produces slower but more sustainable results, while extreme deficits of 1000 calories should only be undertaken with medical supervision."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How accurate is a TDEE calculator?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "TDEE calculators provide a scientifically-based estimate that is accurate within approximately 10% for most people. Individual variations in metabolism, genetics, body composition, and daily activity levels mean the calculated value should be treated as a starting point. Track your weight and adjust your calorie intake over 2-4 weeks for more precise results."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What activity level should I choose?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Choose Sedentary if you have a desk job and do little to no exercise. Lightly Active fits if you exercise 1-3 days per week. Moderately Active is for those exercising 3-5 days per week. Very Active covers intense exercise 6-7 days per week. Extra Active is reserved for athletes training twice daily or those with extremely physical jobs."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="calorie-top">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#health">Health Tools</a>
+        <span>/</span>
+        <span>Calorie Calculator (TDEE)</span>
+      </nav>
+
+      <h1>Calorie Calculator (TDEE)</h1>
+      <p class="text-muted mt-1 mb-3">Calculate your Total Daily Energy Expenditure and Basal Metabolic Rate. Get personalized calorie goals for weight loss, maintenance, or muscle gain with detailed macronutrient breakdowns. Free, instant, and private.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+
+        <!-- Gender Toggle -->
+        <div class="input-group">
+          <label>Gender</label>
+          <div class="gender-toggle">
+            <button id="btn-male" class="active" onclick="setGender('male')">Male</button>
+            <button id="btn-female" onclick="setGender('female')">Female</button>
+          </div>
+        </div>
+
+        <!-- Age -->
+        <div class="input-group">
+          <label for="age">Age</label>
+          <input type="number" id="age" class="input-field" placeholder="25" min="15" max="120" step="1">
+        </div>
+
+        <!-- Height -->
+        <div class="input-group">
+          <label>Height</label>
+          <div class="unit-toggle-group" style="margin-bottom:var(--sp-2)">
+            <button id="btn-height-cm" class="active" onclick="setHeightUnit('cm')">cm</button>
+            <button id="btn-height-ftin" onclick="setHeightUnit('ftin')">ft / in</button>
+          </div>
+          <div id="height-cm-group">
+            <input type="number" id="height-cm" class="input-field" placeholder="175" min="50" max="300" step="0.1">
+          </div>
+          <div id="height-ftin-group" class="hidden">
+            <div class="height-imperial">
+              <input type="number" id="height-ft" class="input-field" placeholder="5 ft" min="1" max="9" step="1">
+              <input type="number" id="height-in" class="input-field" placeholder="9 in" min="0" max="11" step="0.1">
+            </div>
+          </div>
+        </div>
+
+        <!-- Weight -->
+        <div class="input-group">
+          <label id="weight-label">Weight</label>
+          <div class="unit-toggle-group" style="margin-bottom:var(--sp-2)">
+            <button id="btn-weight-kg" class="active" onclick="setWeightUnit('kg')">kg</button>
+            <button id="btn-weight-lbs" onclick="setWeightUnit('lbs')">lbs</button>
+          </div>
+          <input type="number" id="weight" class="input-field" placeholder="70" min="1" max="700" step="0.1">
+        </div>
+
+        <!-- Activity Level -->
+        <div class="input-group">
+          <label for="activity">Activity Level</label>
+          <select id="activity" class="select-field activity-select">
+            <option value="1.2">Sedentary (little or no exercise)</option>
+            <option value="1.375">Lightly Active (1-3 days/week)</option>
+            <option value="1.55" selected>Moderately Active (3-5 days/week)</option>
+            <option value="1.725">Very Active (6-7 days/week)</option>
+            <option value="1.9">Extra Active (athlete-level training)</option>
+          </select>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex gap-2 mt-2">
+          <button class="btn-primary" onclick="calculateTDEE()">Calculate</button>
+          <button class="btn-secondary" onclick="resetForm()">Reset</button>
+        </div>
+
+        <!-- Result Panel -->
+        <div class="result-panel hidden" id="result-panel">
+
+          <!-- TDEE / BMR Header -->
+          <div class="result-header">
+            <div class="tdee-value" id="tdee-value">--</div>
+            <div class="tdee-label">calories / day (TDEE)</div>
+            <div class="bmr-line">Your BMR: <strong id="bmr-value">--</strong> calories / day</div>
+          </div>
+
+          <!-- Goal-based Calories Table -->
+          <h3 style="font-size:1rem;margin-bottom:var(--sp-2)">Daily Calorie Goals</h3>
+          <div style="overflow-x:auto">
+            <table class="goals-table" id="goals-table">
+              <thead>
+                <tr>
+                  <th>Goal</th>
+                  <th>Calories/Day</th>
+                  <th>Macros (P / C / F)</th>
+                </tr>
+              </thead>
+              <tbody id="goals-body">
+                <!-- populated by JS -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Visual Bar Chart -->
+          <div class="calorie-chart" id="calorie-chart">
+            <h4>Calorie Comparison</h4>
+            <div id="chart-bars">
+              <!-- populated by JS -->
+            </div>
+          </div>
+
+          <!-- Macro Breakdown for Maintenance -->
+          <div class="macro-summary" id="macro-summary">
+            <div class="macro-card">
+              <div class="macro-icon">P</div>
+              <h5>Protein (30%)</h5>
+              <div class="macro-grams" id="macro-protein-g">--</div>
+              <div class="macro-pct" id="macro-protein-cal">-- cal</div>
+            </div>
+            <div class="macro-card">
+              <div class="macro-icon">C</div>
+              <h5>Carbs (40%)</h5>
+              <div class="macro-grams" id="macro-carbs-g">--</div>
+              <div class="macro-pct" id="macro-carbs-cal">-- cal</div>
+            </div>
+            <div class="macro-card">
+              <div class="macro-icon">F</div>
+              <h5>Fat (30%)</h5>
+              <div class="macro-grams" id="macro-fat-g">--</div>
+              <div class="macro-pct" id="macro-fat-cal">-- cal</div>
+            </div>
+          </div>
+
+          <!-- Disclaimer -->
+          <div class="disclaimer">
+            <strong>Disclaimer:</strong> This calculator provides estimates based on the Mifflin-St Jeor equation and is intended for informational purposes only. Results are not medical advice. Individual calorie needs vary based on metabolism, body composition, health conditions, and other factors. Consult a healthcare professional or registered dietitian before making significant changes to your diet or exercise routine.
+          </div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="calorie-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Scientific Accuracy</h3>
+            <p>Powered by the Mifflin-St Jeor equation, which research has shown to be the most reliable method for estimating Basal Metabolic Rate across diverse populations. Five activity multipliers fine-tune your TDEE to match your real lifestyle, giving you a solid starting point for any nutrition plan.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Complete Privacy</h3>
+            <p>Every calculation runs entirely in your browser. Your personal data, including age, weight, height, and gender, is never sent to any server, stored in any database, or shared with third parties. Close the tab and your information is gone forever.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Comprehensive Results</h3>
+            <p>Go beyond a single calorie number. Get your BMR, TDEE, and six goal-specific calorie targets ranging from extreme weight loss to steady muscle gain. Each goal includes a full macronutrient breakdown showing exact grams of protein, carbohydrates, and fat so you can plan your meals with confidence.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use This Calorie Calculator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Select your gender</strong> — The Mifflin-St Jeor equation uses different constants for males and females because body composition and metabolic rates differ between sexes. Choose the option that best represents your physiology.</li>
+          <li><strong>Enter your age, height, and weight</strong> — Provide your current age in years, height in centimeters or feet and inches, and weight in kilograms or pounds. You can toggle between metric and imperial units at any time using the unit buttons.</li>
+          <li><strong>Choose your activity level</strong> — Be honest about your typical weekly activity. Overestimating activity is the most common mistake people make when using a TDEE calculator. If in doubt, choose one level lower than you think.</li>
+          <li><strong>Click "Calculate" and review results</strong> — Your BMR, TDEE, and goal-based calorie targets will appear instantly along with a visual comparison chart and macronutrient breakdown for each goal. Use the maintenance calories as your baseline and adjust based on your fitness objective.</li>
+        </ol>
+      </section>
+
+      <!-- Understanding TDEE -->
+      <section class="mt-4">
+        <h2>Understanding TDEE and Your Calorie Needs</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">Total Daily Energy Expenditure, commonly known as TDEE, represents the total number of calories your body burns in a single day. It encompasses every form of energy expenditure, from the calories required to keep your heart beating and lungs breathing to the energy you spend walking, exercising, and even digesting food. Understanding your TDEE is the foundation of any successful nutrition strategy, whether your goal is losing body fat, building lean muscle, or simply maintaining your current weight and overall health.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">Your TDEE is built on top of your Basal Metabolic Rate (BMR), which is the minimum number of calories your body needs to perform essential physiological functions while at complete rest. BMR typically accounts for 60 to 75 percent of your total daily calorie burn. On top of BMR, your body expends energy through the thermic effect of food (approximately 10 percent of calories consumed), non-exercise activity thermogenesis (NEAT) such as fidgeting, standing, and walking around your home or office, and deliberate exercise. By multiplying your BMR by an activity factor, we arrive at an estimate of your TDEE that accounts for all of these components combined.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">This calculator uses the Mifflin-St Jeor equation, published in 1990, which has been validated in numerous clinical studies and is recommended by the Academy of Nutrition and Dietetics as the most accurate predictive equation for estimating BMR in healthy individuals. Unlike older formulas such as Harris-Benedict (1919), which tend to overestimate calorie needs, the Mifflin-St Jeor equation was developed using modern calorimetry data and has been shown to predict resting metabolic rate within 10 percent for the majority of adults. The equation factors in your weight, height, age, and sex to produce a personalized estimate that serves as the starting point for all further calculations.</p>
+        <p style="color:var(--text-muted);line-height:1.8">Once you know your TDEE, managing your weight becomes a matter of energy balance. Eating fewer calories than your TDEE creates a caloric deficit that forces your body to draw on stored energy reserves, leading to weight loss over time. Conversely, eating more than your TDEE provides a caloric surplus that supports muscle growth when paired with resistance training. A moderate deficit of 500 calories per day typically produces about one pound of weight loss per week, which is widely regarded as a safe and sustainable rate. For muscle gain, a surplus of 250 to 500 calories is generally sufficient to support hypertrophy without excessive fat accumulation.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+
+        <details class="faq-item">
+          <summary>What is the difference between BMR and TDEE?</summary>
+          <p>Basal Metabolic Rate (BMR) is the number of calories your body needs to sustain basic life functions while at complete rest. This includes processes such as breathing, blood circulation, cell production, nutrient processing, and maintaining body temperature. BMR represents the minimum energy requirement for survival if you were to stay in bed all day without any physical movement. Total Daily Energy Expenditure (TDEE), on the other hand, takes your BMR and multiplies it by an activity factor to account for all the additional calories burned through daily activities, exercise, and the thermic effect of digesting food. In practical terms, TDEE is the number you should use when planning your daily calorie intake because it reflects your actual energy needs throughout a normal day, not just the baseline resting metabolism. For most people, TDEE is anywhere from 20 to 90 percent higher than their BMR depending on how physically active they are throughout the week.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What is the Mifflin-St Jeor equation and why do you use it?</summary>
+          <p>The Mifflin-St Jeor equation is a mathematical formula published in 1990 by Dr. Mark Mifflin and Dr. Sachiko St Jeor for estimating Basal Metabolic Rate. The formula for men is BMR = (10 times weight in kilograms) + (6.25 times height in centimeters) minus (5 times age in years) + 5, and for women the same calculation minus 161 instead of plus 5. We use this equation because it has been extensively validated in clinical research and is recommended by the American Dietetic Association as the most accurate predictive equation for estimating resting metabolic rate in healthy non-obese and obese adults. Compared to the older Harris-Benedict equation from 1919, which was based on data from a less diverse population and tends to overestimate calorie needs by 5 to 15 percent, the Mifflin-St Jeor equation provides more accurate results for modern populations with varying body compositions and lifestyles.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>How many calories should I eat to lose weight?</summary>
+          <p>To lose weight, you need to create a caloric deficit by consuming fewer calories than your TDEE. A deficit of 500 calories per day below your TDEE is the most commonly recommended target, as it typically results in approximately one pound (0.45 kilograms) of weight loss per week. This rate is considered safe and sustainable by most health organizations. For those who prefer a gentler approach, a mild deficit of 250 calories produces slower but often more adherent results, reducing the feelings of hunger and fatigue that can accompany larger deficits. Extreme deficits of 1000 calories per day can lead to faster initial weight loss but carry higher risks of muscle loss, nutritional deficiencies, metabolic slowdown, and are generally difficult to maintain long-term. Regardless of the deficit size you choose, it is important to consume adequate protein (at least 0.7 to 1 gram per pound of body weight) to preserve lean muscle mass during the weight loss process.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>How accurate is a TDEE calculator?</summary>
+          <p>TDEE calculators provide a scientifically-grounded estimate that serves as an excellent starting point for nutrition planning. Research shows the Mifflin-St Jeor equation predicts resting metabolic rate within 10 percent accuracy for approximately 80 percent of the general population. However, individual metabolic rates can vary significantly due to factors such as genetics, body composition (specifically the ratio of muscle to fat), hormonal status, sleep quality, stress levels, ambient temperature, and even gut microbiome composition. The activity multiplier introduces additional variability because self-reported activity levels are inherently subjective. For these reasons, the calculated TDEE should be treated as a starting estimate rather than an absolute number. The most effective approach is to use your calculated TDEE for two to four weeks while tracking your weight changes, then adjust your intake up or down by 100 to 200 calories based on real-world results until you find the intake that matches your goals.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What activity level should I choose?</summary>
+          <p>Selecting the correct activity level is crucial for an accurate TDEE estimate. Sedentary (multiplier of 1.2) applies to people with desk jobs who perform little to no intentional exercise and primarily commute by car. Lightly Active (1.375) describes someone who performs light exercise such as walking or yoga one to three days per week in addition to normal daily activities. Moderately Active (1.55) fits individuals who engage in moderate exercise like jogging, cycling, or swimming three to five days per week. Very Active (1.725) is appropriate for people who participate in hard exercise or sports six to seven days per week and may also have somewhat physical jobs. Extra Active (1.9) is reserved for professional athletes, military personnel in training, or individuals who perform very hard exercise twice per day. A common mistake is overestimating activity level; if you are unsure, it is better to select one level below your initial estimate and adjust upward based on real-world weight trends over time.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What are macronutrients and why do they matter?</summary>
+          <p>Macronutrients are the three main categories of nutrients that provide calories and energy to your body: protein, carbohydrates, and fat. Protein (4 calories per gram) is essential for building and repairing muscle tissue, supporting immune function, and producing enzymes and hormones. Carbohydrates (4 calories per gram) are the body's preferred energy source for high-intensity physical activity and brain function. Fat (9 calories per gram) supports hormone production, nutrient absorption, cell membrane integrity, and provides a concentrated source of energy. The macronutrient split used in this calculator is 30 percent protein, 40 percent carbohydrates, and 30 percent fat, which represents a balanced distribution suitable for most general fitness and health goals. However, optimal macro ratios can vary based on individual factors such as training intensity, body composition goals, metabolic conditions, and personal dietary preferences, so you may wish to adjust these ratios in consultation with a nutrition professional.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://bmi.toolrip.com">BMI Calculator</a>
+          <a href="https://body-fat.toolrip.com">Body Fat Calculator</a>
+          <a href="https://bmr.toolrip.com">BMR Calculator</a>
+          <a href="https://macro.toolrip.com">Macro Calculator</a>
+          <a href="https://ideal-weight.toolrip.com">Ideal Weight Calculator</a>
+          <a href="https://water-intake.toolrip.com">Water Intake Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="calorie-sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="calorie-bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Calorie Calculator JS -->
+  <script>
+    var currentGender = 'male';
+    var currentHeightUnit = 'cm';
+    var currentWeightUnit = 'kg';
+
+    /* --- Gender Switching --- */
+    function setGender(gender) {
+      currentGender = gender;
+      document.getElementById('btn-male').classList.toggle('active', gender === 'male');
+      document.getElementById('btn-female').classList.toggle('active', gender === 'female');
+    }
+
+    /* --- Height Unit Switching --- */
+    function setHeightUnit(unit) {
+      currentHeightUnit = unit;
+      document.getElementById('btn-height-cm').classList.toggle('active', unit === 'cm');
+      document.getElementById('btn-height-ftin').classList.toggle('active', unit === 'ftin');
+      document.getElementById('height-cm-group').classList.toggle('hidden', unit !== 'cm');
+      document.getElementById('height-ftin-group').classList.toggle('hidden', unit !== 'ftin');
+    }
+
+    /* --- Weight Unit Switching --- */
+    function setWeightUnit(unit) {
+      currentWeightUnit = unit;
+      document.getElementById('btn-weight-kg').classList.toggle('active', unit === 'kg');
+      document.getElementById('btn-weight-lbs').classList.toggle('active', unit === 'lbs');
+      var input = document.getElementById('weight');
+      if (unit === 'kg') {
+        input.placeholder = '70';
+      } else {
+        input.placeholder = '154';
+      }
+    }
+
+    /* --- Get weight in kg --- */
+    function getWeightKg() {
+      var w = parseFloat(document.getElementById('weight').value);
+      if (isNaN(w) || w <= 0) return NaN;
+      return currentWeightUnit === 'lbs' ? w * 0.453592 : w;
+    }
+
+    /* --- Get height in cm --- */
+    function getHeightCm() {
+      if (currentHeightUnit === 'cm') {
+        var cm = parseFloat(document.getElementById('height-cm').value);
+        if (isNaN(cm) || cm <= 0) return NaN;
+        return cm;
+      } else {
+        var ft = parseFloat(document.getElementById('height-ft').value) || 0;
+        var inches = parseFloat(document.getElementById('height-in').value) || 0;
+        var totalInches = ft * 12 + inches;
+        if (totalInches <= 0) return NaN;
+        return totalInches * 2.54;
+      }
+    }
+
+    /* --- Calculate Macros for a given calorie target --- */
+    function calcMacros(calories) {
+      var proteinCal = calories * 0.30;
+      var carbsCal = calories * 0.40;
+      var fatCal = calories * 0.30;
+      return {
+        protein: Math.round(proteinCal / 4),
+        carbs: Math.round(carbsCal / 4),
+        fat: Math.round(fatCal / 9)
+      };
+    }
+
+    /* --- Build macro badge HTML --- */
+    function macroBadges(macros) {
+      return '<span class="macro-badge macro-p">P ' + macros.protein + 'g</span>' +
+             '<span class="macro-badge macro-c">C ' + macros.carbs + 'g</span>' +
+             '<span class="macro-badge macro-f">F ' + macros.fat + 'g</span>';
+    }
+
+    /* --- Main Calculation --- */
+    function calculateTDEE() {
+      var age = parseInt(document.getElementById('age').value, 10);
+      var weightKg = getWeightKg();
+      var heightCm = getHeightCm();
+      var activityMultiplier = parseFloat(document.getElementById('activity').value);
+
+      // Validation
+      if (isNaN(age) || age < 15 || age > 120) {
+        showToast('Please enter a valid age between 15 and 120.', 'error');
+        return;
+      }
+      if (isNaN(weightKg) || weightKg < 20 || weightKg > 400) {
+        showToast('Please enter a valid weight.', 'error');
+        return;
+      }
+      if (isNaN(heightCm) || heightCm < 50 || heightCm > 300) {
+        showToast('Please enter a valid height.', 'error');
+        return;
+      }
+
+      // Mifflin-St Jeor Equation
+      // Male:   BMR = 10 * weight(kg) + 6.25 * height(cm) - 5 * age - 161 + 166
+      //       = 10 * weight(kg) + 6.25 * height(cm) - 5 * age + 5
+      // Female: BMR = 10 * weight(kg) + 6.25 * height(cm) - 5 * age - 161
+      var bmr;
+      if (currentGender === 'male') {
+        bmr = 10 * weightKg + 6.25 * heightCm - 5 * age - 161 + 166;
+      } else {
+        bmr = 10 * weightKg + 6.25 * heightCm - 5 * age - 161;
+      }
+
+      var tdee = bmr * activityMultiplier;
+
+      // Round values
+      bmr = Math.round(bmr);
+      tdee = Math.round(tdee);
+
+      // Show result panel
+      var panel = document.getElementById('result-panel');
+      panel.classList.remove('hidden');
+
+      // Update header
+      document.getElementById('tdee-value').textContent = tdee.toLocaleString();
+      document.getElementById('bmr-value').textContent = bmr.toLocaleString();
+
+      // Goal definitions
+      var goals = [
+        { name: 'Extreme Loss',  offset: -1000, barClass: 'bar-loss' },
+        { name: 'Weight Loss',   offset: -500,  barClass: 'bar-loss' },
+        { name: 'Mild Loss',     offset: -250,  barClass: 'bar-mild-loss' },
+        { name: 'Maintain',      offset: 0,     barClass: 'bar-maintain' },
+        { name: 'Mild Gain',     offset: 250,   barClass: 'bar-mild-gain' },
+        { name: 'Weight Gain',   offset: 500,   barClass: 'bar-gain' }
+      ];
+
+      // Build table
+      var tbody = document.getElementById('goals-body');
+      tbody.innerHTML = '';
+      var maxCal = tdee + 500; // for bar chart scaling
+
+      goals.forEach(function(goal) {
+        var cal = Math.max(1200, tdee + goal.offset); // floor at 1200
+        var macros = calcMacros(cal);
+        var tr = document.createElement('tr');
+        if (goal.offset === 0) tr.className = 'highlight-row';
+
+        var offsetLabel = '';
+        if (goal.offset > 0) offsetLabel = ' (+' + goal.offset + ')';
+        else if (goal.offset < 0) offsetLabel = ' (' + goal.offset + ')';
+
+        tr.innerHTML = '<td class="goal-name">' + goal.name + offsetLabel + '</td>' +
+                       '<td class="cal-value">' + cal.toLocaleString() + '</td>' +
+                       '<td><div class="macro-badges">' + macroBadges(macros) + '</div></td>';
+        tbody.appendChild(tr);
+      });
+
+      // Build bar chart
+      var chartBars = document.getElementById('chart-bars');
+      chartBars.innerHTML = '';
+
+      goals.forEach(function(goal) {
+        var cal = Math.max(1200, tdee + goal.offset);
+        var pct = Math.round((cal / maxCal) * 100);
+
+        var row = document.createElement('div');
+        row.className = 'chart-bar-row';
+        row.innerHTML = '<div class="chart-bar-label">' + goal.name + '</div>' +
+                        '<div class="chart-bar-track"><div class="chart-bar-fill ' + goal.barClass + '" style="width:' + pct + '%"></div></div>' +
+                        '<div class="chart-bar-val">' + cal.toLocaleString() + '</div>';
+        chartBars.appendChild(row);
+      });
+
+      // Update macro summary cards (maintenance)
+      var mainMacros = calcMacros(tdee);
+      document.getElementById('macro-protein-g').textContent = mainMacros.protein + 'g';
+      document.getElementById('macro-protein-cal').textContent = (mainMacros.protein * 4).toLocaleString() + ' cal';
+      document.getElementById('macro-carbs-g').textContent = mainMacros.carbs + 'g';
+      document.getElementById('macro-carbs-cal').textContent = (mainMacros.carbs * 4).toLocaleString() + ' cal';
+      document.getElementById('macro-fat-g').textContent = mainMacros.fat + 'g';
+      document.getElementById('macro-fat-cal').textContent = (mainMacros.fat * 9).toLocaleString() + ' cal';
+
+      // Scroll to results
+      panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    /* --- Reset Form --- */
+    function resetForm() {
+      document.getElementById('age').value = '';
+      document.getElementById('weight').value = '';
+      document.getElementById('height-cm').value = '';
+      document.getElementById('height-ft').value = '';
+      document.getElementById('height-in').value = '';
+      document.getElementById('activity').selectedIndex = 2;
+      document.getElementById('result-panel').classList.add('hidden');
+      setGender('male');
+      setHeightUnit('cm');
+      setWeightUnit('kg');
+    }
+
+    /* --- showToast fallback if common.js not loaded --- */
+    if (typeof showToast === 'undefined') {
+      function showToast(msg, type) {
+        alert(msg);
+      }
+    }
+  </script>
+</body>
+</html>

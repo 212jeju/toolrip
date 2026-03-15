@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fraction Calculator — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Add, subtract, multiply, and divide fractions online. Simplify fractions, convert between fractions, decimals, and mixed numbers. Free fraction calculator with step-by-step solutions, GCD, and LCD.">
+  <link rel="canonical" href="https://fraction.toolrip.com/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Fraction Calculator — Toolrip">
+  <meta property="og:description" content="Add, subtract, multiply, and divide fractions online. Simplify fractions, convert between fractions, decimals, and mixed numbers. Free fraction calculator with step-by-step solutions.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://fraction.toolrip.com/">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Fraction Calculator — Toolrip">
+  <meta name="twitter:description" content="Add, subtract, multiply, and divide fractions online. Simplify fractions, convert between fractions, decimals, and mixed numbers. Free fraction calculator with step-by-step solutions.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--math)}</style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Fraction Calculator",
+    "url": "https://fraction.toolrip.com/",
+    "description": "Add, subtract, multiply, and divide fractions online. Simplify fractions, convert between fractions, decimals, and mixed numbers. Free fraction calculator with step-by-step solutions, GCD, and LCD.",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Math Tools", "item": "https://toolrip.com/#math" },
+      { "@type": "ListItem", "position": 3, "name": "Fraction Calculator", "item": "https://fraction.toolrip.com/" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do you add fractions with different denominators?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To add fractions with different denominators, first find the Least Common Denominator (LCD) of both fractions. Then convert each fraction so they share the LCD as their denominator. Finally, add the numerators while keeping the common denominator, and simplify the result if possible."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the Greatest Common Divisor (GCD) and how does it simplify fractions?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Greatest Common Divisor (GCD) is the largest number that divides evenly into both the numerator and the denominator. To simplify a fraction, divide both the top and bottom by their GCD. For example, for 12/18, the GCD is 6, so the simplified form is 2/3."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you convert a fraction to a decimal?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To convert a fraction to a decimal, divide the numerator by the denominator. For example, 3/4 becomes 3 divided by 4, which equals 0.75. Some fractions produce repeating decimals, such as 1/3, which equals 0.3333 repeating."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you convert a decimal to a fraction?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To convert a decimal to a fraction, write the decimal as a fraction over a power of 10 based on the number of decimal places. For example, 0.75 becomes 75/100, then simplify by dividing both by 25 to get 3/4. For repeating decimals, algebraic methods are used."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you convert a mixed number to an improper fraction?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To convert a mixed number to an improper fraction, multiply the whole number by the denominator and add the numerator. Place that result over the original denominator. For example, 2 3/4 becomes (2 times 4 plus 3) over 4, which is 11/4."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you multiply and divide fractions?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To multiply fractions, multiply the numerators together and the denominators together, then simplify. To divide fractions, flip the second fraction (take its reciprocal) and multiply. For example, 2/3 divided by 4/5 becomes 2/3 times 5/4, which equals 10/12 or 5/6 simplified."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is this fraction calculator free to use?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, this fraction calculator is completely free with no signup or account required. All calculations run entirely in your browser, so your data stays private. There are no usage limits, and the tool works on any device with a web browser."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    /* Fraction display styling */
+    .fraction-input-group {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+      flex-wrap: wrap;
+    }
+    .fraction-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+    .fraction-box input {
+      width: 80px;
+      text-align: center;
+      padding: var(--sp-2);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font: inherit;
+      font-size: 1.1rem;
+      transition: border-color .15s;
+    }
+    .fraction-box input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 25%, transparent);
+    }
+    .fraction-bar {
+      width: 80px;
+      height: 2px;
+      background: var(--accent);
+      margin: 2px 0;
+      border-radius: 1px;
+    }
+    .fraction-label {
+      font-size: .7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .op-selector {
+      display: flex;
+      gap: 4px;
+    }
+    .op-btn {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text-muted);
+      font-size: 1.25rem;
+      cursor: pointer;
+      transition: all .15s;
+      font-family: inherit;
+    }
+    .op-btn:hover {
+      border-color: var(--accent);
+      color: var(--text);
+    }
+    .op-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .equals-sign {
+      font-size: 1.5rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      padding: 0 var(--sp-2);
+    }
+
+    /* Result area */
+    .result-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-4);
+      margin-top: var(--sp-3);
+    }
+    .result-card.has-value {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 4%, var(--bg));
+    }
+    .result-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--sp-3);
+    }
+    .result-header h3 {
+      font-size: .9rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .result-formats {
+      display: flex;
+      gap: var(--sp-3);
+      flex-wrap: wrap;
+    }
+    .result-format-item {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-2) var(--sp-3);
+      text-align: center;
+      min-width: 120px;
+      flex: 1;
+    }
+    .result-format-item .label {
+      font-size: .7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-bottom: 4px;
+    }
+    .result-format-item .value {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--accent);
+      word-break: break-word;
+    }
+    .result-format-item .value.empty {
+      color: var(--text-muted);
+    }
+
+    /* Steps area */
+    .steps-area {
+      margin-top: var(--sp-3);
+      padding: var(--sp-3);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .steps-area h4 {
+      font-size: .85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-bottom: var(--sp-2);
+    }
+    .step-line {
+      padding: var(--sp-1) 0;
+      font-size: .9rem;
+      color: var(--text);
+      line-height: 1.6;
+      border-bottom: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+    }
+    .step-line:last-child {
+      border-bottom: none;
+    }
+    .step-num {
+      display: inline-block;
+      width: 22px;
+      height: 22px;
+      line-height: 22px;
+      text-align: center;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-size: .7rem;
+      font-weight: 700;
+      margin-right: var(--sp-2);
+      flex-shrink: 0;
+    }
+    .step-highlight {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* Tab tool cards */
+    .tool-section {
+      margin-top: var(--sp-3);
+    }
+    .tool-section .tool-card {
+      margin-bottom: 0;
+    }
+    .mini-fraction-row {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+      flex-wrap: wrap;
+      margin-bottom: var(--sp-3);
+    }
+    .mini-fraction-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .mini-fraction-box input {
+      width: 70px;
+      text-align: center;
+      padding: var(--sp-1) var(--sp-2);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font: inherit;
+      font-size: 1rem;
+      transition: border-color .15s;
+    }
+    .mini-fraction-box input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 25%, transparent);
+    }
+    .mini-fraction-bar {
+      width: 70px;
+      height: 2px;
+      background: var(--accent);
+      margin: 2px 0;
+    }
+    .mini-result {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+      padding: var(--sp-2) var(--sp-3);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      min-height: 44px;
+    }
+    .mini-result.has-value {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 4%, var(--bg));
+    }
+    .mini-result .value {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .mini-result .value.empty {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+    .mini-label {
+      font-size: .85rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    /* Mixed number input */
+    .mixed-input-row {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+      flex-wrap: wrap;
+      margin-bottom: var(--sp-3);
+    }
+    .mixed-input-row input.whole-input {
+      width: 60px;
+      text-align: center;
+      padding: var(--sp-2);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font: inherit;
+      font-size: 1.1rem;
+    }
+    .mixed-input-row input.whole-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 25%, transparent);
+    }
+
+    @media (max-width: 480px) {
+      .fraction-box input { width: 64px; }
+      .fraction-bar { width: 64px; }
+      .fraction-input-group { gap: var(--sp-2); }
+      .op-btn { width: 38px; height: 38px; font-size: 1.1rem; }
+      .result-format-item { min-width: 100px; }
+      .mini-fraction-box input { width: 56px; }
+      .mini-fraction-bar { width: 56px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="top">Ad</div>
+
+    <!-- Breadcrumb -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#math">Math Tools</a>
+        <span>/</span>
+        <span>Fraction Calculator</span>
+      </nav>
+
+      <h1>Fraction Calculator</h1>
+      <p class="text-muted mt-1 mb-3">Add, subtract, multiply, and divide fractions with step-by-step solutions. Convert between fractions, decimals, and mixed numbers. All calculations happen instantly in your browser.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+
+      <!-- Main Fraction Calculator -->
+      <div class="tool-card">
+        <div class="fraction-input-group">
+          <!-- Fraction A -->
+          <div class="fraction-box">
+            <div class="fraction-label">Numerator</div>
+            <input type="text" id="numA" inputmode="numeric" placeholder="1" autocomplete="off" aria-label="First numerator">
+            <div class="fraction-bar"></div>
+            <input type="text" id="denA" inputmode="numeric" placeholder="2" autocomplete="off" aria-label="First denominator">
+            <div class="fraction-label">Denominator</div>
+          </div>
+
+          <!-- Operation -->
+          <div class="op-selector" role="radiogroup" aria-label="Operation">
+            <button type="button" class="op-btn active" data-op="+" aria-label="Add" title="Add">+</button>
+            <button type="button" class="op-btn" data-op="-" aria-label="Subtract" title="Subtract">&minus;</button>
+            <button type="button" class="op-btn" data-op="*" aria-label="Multiply" title="Multiply">&times;</button>
+            <button type="button" class="op-btn" data-op="/" aria-label="Divide" title="Divide">&divide;</button>
+          </div>
+
+          <!-- Fraction B -->
+          <div class="fraction-box">
+            <div class="fraction-label">Numerator</div>
+            <input type="text" id="numB" inputmode="numeric" placeholder="3" autocomplete="off" aria-label="Second numerator">
+            <div class="fraction-bar"></div>
+            <input type="text" id="denB" inputmode="numeric" placeholder="4" autocomplete="off" aria-label="Second denominator">
+            <div class="fraction-label">Denominator</div>
+          </div>
+
+          <span class="equals-sign">=</span>
+        </div>
+
+        <!-- Calculate -->
+        <div class="flex gap-2 mt-2 mb-2" style="flex-wrap:wrap">
+          <button class="btn-primary" id="calcBtn" type="button">Calculate</button>
+          <button class="btn-secondary" id="clearBtn" type="button">Clear</button>
+        </div>
+
+        <!-- Result -->
+        <div class="result-card" id="mainResultCard">
+          <div class="result-header">
+            <h3>Result</h3>
+            <button type="button" class="copy-btn" id="mainCopyBtn" onclick="copyMainResult(this)">Copy</button>
+          </div>
+          <div class="result-formats">
+            <div class="result-format-item">
+              <div class="label">Fraction</div>
+              <div class="value empty" id="resFraction">&mdash;</div>
+            </div>
+            <div class="result-format-item">
+              <div class="label">Mixed Number</div>
+              <div class="value empty" id="resMixed">&mdash;</div>
+            </div>
+            <div class="result-format-item">
+              <div class="label">Decimal</div>
+              <div class="value empty" id="resDecimal">&mdash;</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Steps -->
+        <div class="steps-area hidden" id="stepsArea">
+          <h4>Step-by-Step Solution</h4>
+          <div id="stepsContent"></div>
+        </div>
+      </div>
+
+      <!-- Additional Tools Tabs -->
+      <div class="tool-section">
+        <div class="tool-card">
+          <div class="tab-group">
+            <button class="tab active" data-tab="tab-simplify">Simplify</button>
+            <button class="tab" data-tab="tab-frac2dec">Fraction &rarr; Decimal</button>
+            <button class="tab" data-tab="tab-dec2frac">Decimal &rarr; Fraction</button>
+            <button class="tab" data-tab="tab-mixed">Mixed &harr; Fraction</button>
+          </div>
+
+          <!-- Simplify Fraction -->
+          <div class="tab-panel" id="tab-simplify">
+            <p class="text-muted mb-2" style="font-size:.85rem">Enter a fraction to reduce it to its simplest form.</p>
+            <div class="mini-fraction-row">
+              <div class="mini-fraction-box">
+                <input type="text" id="simpNum" inputmode="numeric" placeholder="12" autocomplete="off" aria-label="Numerator to simplify">
+                <div class="mini-fraction-bar"></div>
+                <input type="text" id="simpDen" inputmode="numeric" placeholder="18" autocomplete="off" aria-label="Denominator to simplify">
+              </div>
+              <button type="button" class="btn-primary" id="simpBtn">Simplify</button>
+              <span class="mini-label">=</span>
+              <div class="mini-result" id="simpResultWrap">
+                <span class="value empty" id="simpResult">&mdash;</span>
+              </div>
+            </div>
+            <div class="text-muted" style="font-size:.8rem" id="simpGcd"></div>
+          </div>
+
+          <!-- Fraction to Decimal -->
+          <div class="tab-panel hidden" id="tab-frac2dec">
+            <p class="text-muted mb-2" style="font-size:.85rem">Enter a fraction to convert it to a decimal value.</p>
+            <div class="mini-fraction-row">
+              <div class="mini-fraction-box">
+                <input type="text" id="f2dNum" inputmode="numeric" placeholder="3" autocomplete="off" aria-label="Numerator">
+                <div class="mini-fraction-bar"></div>
+                <input type="text" id="f2dDen" inputmode="numeric" placeholder="8" autocomplete="off" aria-label="Denominator">
+              </div>
+              <button type="button" class="btn-primary" id="f2dBtn">Convert</button>
+              <span class="mini-label">=</span>
+              <div class="mini-result" id="f2dResultWrap">
+                <span class="value empty" id="f2dResult">&mdash;</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Decimal to Fraction -->
+          <div class="tab-panel hidden" id="tab-dec2frac">
+            <p class="text-muted mb-2" style="font-size:.85rem">Enter a decimal number to convert it to a fraction.</p>
+            <div class="mini-fraction-row">
+              <input type="text" id="d2fInput" class="input-field" style="width:140px;text-align:center" inputmode="decimal" placeholder="0.625" autocomplete="off" aria-label="Decimal to convert">
+              <button type="button" class="btn-primary" id="d2fBtn">Convert</button>
+              <span class="mini-label">=</span>
+              <div class="mini-result" id="d2fResultWrap">
+                <span class="value empty" id="d2fResult">&mdash;</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mixed Number <-> Fraction -->
+          <div class="tab-panel hidden" id="tab-mixed">
+            <p class="text-muted mb-2" style="font-size:.85rem">Convert between mixed numbers and improper fractions.</p>
+
+            <div style="margin-bottom:var(--sp-4)">
+              <div class="mini-label mb-1" style="font-weight:600;color:var(--text)">Mixed Number &rarr; Improper Fraction</div>
+              <div class="mixed-input-row">
+                <input type="text" id="mixedWhole" class="whole-input" inputmode="numeric" placeholder="2" autocomplete="off" aria-label="Whole number">
+                <div class="mini-fraction-box">
+                  <input type="text" id="mixedNum" inputmode="numeric" placeholder="3" autocomplete="off" aria-label="Numerator of mixed number">
+                  <div class="mini-fraction-bar"></div>
+                  <input type="text" id="mixedDen" inputmode="numeric" placeholder="4" autocomplete="off" aria-label="Denominator of mixed number">
+                </div>
+                <button type="button" class="btn-primary" id="mixedToFracBtn">Convert</button>
+                <span class="mini-label">=</span>
+                <div class="mini-result" id="m2fResultWrap">
+                  <span class="value empty" id="m2fResult">&mdash;</span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="mini-label mb-1" style="font-weight:600;color:var(--text)">Improper Fraction &rarr; Mixed Number</div>
+              <div class="mini-fraction-row">
+                <div class="mini-fraction-box">
+                  <input type="text" id="impNum" inputmode="numeric" placeholder="11" autocomplete="off" aria-label="Improper numerator">
+                  <div class="mini-fraction-bar"></div>
+                  <input type="text" id="impDen" inputmode="numeric" placeholder="4" autocomplete="off" aria-label="Improper denominator">
+                </div>
+                <button type="button" class="btn-primary" id="fracToMixedBtn">Convert</button>
+                <span class="mini-label">=</span>
+                <div class="mini-result" id="f2mResultWrap">
+                  <span class="value empty" id="f2mResult">&mdash;</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="in-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Four Arithmetic Operations</h3>
+            <p>Add, subtract, multiply, and divide any two fractions with a single click. The calculator automatically finds the Least Common Denominator for addition and subtraction, cross-multiplies where needed, and simplifies the final result. Whether you are working with proper fractions, improper fractions, or negative values, the tool handles every combination correctly and shows the answer as a simplified fraction, a mixed number, and a decimal so you can use whichever format your assignment or project requires.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Step-by-Step Solutions</h3>
+            <p>Every calculation includes a detailed breakdown showing exactly how the answer was reached. The step-by-step panel walks you through finding the LCD, rewriting each fraction with the common denominator, performing the operation on the numerators, computing the GCD, and simplifying. This makes the calculator a powerful learning tool for students who want to understand fraction arithmetic rather than just get an answer, and it provides a quick reference for teachers building lesson plans or parents helping with homework.</p>
+          </div>
+          <div class="feature-card">
+            <h3>All-In-One Conversion Suite</h3>
+            <p>Beyond basic arithmetic, the tabbed tools let you simplify any fraction, convert a fraction to its decimal equivalent, turn a decimal into a simplified fraction, and switch between mixed numbers and improper fractions. Each conversion runs instantly and displays the GCD used for simplification so you can verify the math. The conversion suite covers every common fraction task in a single page without requiring you to visit multiple websites or use a separate app.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Fraction Calculator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li>Enter the numerator and denominator for the first fraction in the left column. Negative numbers are supported by typing a minus sign before the number.</li>
+          <li>Choose an operation by clicking the plus, minus, multiplication, or division button between the two fractions.</li>
+          <li>Enter the numerator and denominator for the second fraction in the right column.</li>
+          <li>Click the Calculate button to see the result displayed as a simplified fraction, mixed number, and decimal, along with a full step-by-step solution below.</li>
+          <li>Use the tabbed tools below the main calculator to simplify fractions, convert between fractions and decimals, or switch between mixed numbers and improper fractions.</li>
+        </ol>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>How do you add fractions with different denominators?</summary>
+          <p>Adding fractions with different denominators requires finding a common denominator first. The most efficient approach is to compute the Least Common Denominator (LCD), which is the smallest number that both denominators divide into evenly. To find the LCD, you can compute the Least Common Multiple (LCM) of the two denominators. Once you have the LCD, multiply each fraction's numerator and denominator by the factor needed to reach the LCD. With matching denominators, add the numerators together and keep the denominator. Finally, simplify the resulting fraction by dividing both the numerator and denominator by their Greatest Common Divisor (GCD). For example, to add 1/4 and 2/3, the LCD is 12. Rewrite as 3/12 and 8/12, then add to get 11/12. This calculator automates every step and shows the full working so you can follow along and learn the process.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the Greatest Common Divisor (GCD) and how does it simplify fractions?</summary>
+          <p>The Greatest Common Divisor, also known as the Greatest Common Factor (GCF) or Highest Common Factor (HCF), is the largest positive integer that divides both numbers without leaving a remainder. When simplifying a fraction, you divide the numerator and the denominator by their GCD to reduce the fraction to its lowest terms. For example, the fraction 24/36 has a GCD of 12, so dividing both parts by 12 gives 2/3. The Euclidean algorithm is the most efficient way to compute the GCD: repeatedly replace the larger number with the remainder of dividing the larger by the smaller until the remainder is zero. This calculator uses the Euclidean algorithm internally and displays the GCD in the step-by-step solution so you can verify the simplification. Understanding GCD is fundamental to fraction work because it ensures your answers are always in their simplest, most readable form.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do you convert a fraction to a decimal?</summary>
+          <p>Converting a fraction to a decimal is straightforward: divide the numerator by the denominator. If the division terminates, you get an exact decimal (for instance, 3/8 = 0.375). If the division does not terminate, you get a repeating decimal (for instance, 1/3 = 0.333... with the 3 repeating infinitely). This calculator shows the decimal result rounded to a reasonable number of significant digits. Knowing how to convert fractions to decimals is essential for comparing values, performing calculations on a standard calculator, interpreting data in spreadsheets, and working with measurements in science and engineering contexts where decimal notation is the standard. The Fraction to Decimal tab in the conversion suite lets you perform this conversion independently from the main arithmetic calculator.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do you convert a decimal to a fraction?</summary>
+          <p>To convert a terminating decimal to a fraction, count the number of digits after the decimal point, then write the digits over a power of ten with that many zeros. For example, 0.625 has three decimal places, so it becomes 625/1000. Then simplify by dividing both the numerator and denominator by their GCD (125 in this case) to arrive at 5/8. For repeating decimals, algebraic techniques are used: if x = 0.666..., then 10x = 6.666..., and subtracting gives 9x = 6, so x = 6/9 = 2/3. This calculator handles terminating decimals accurately by using the power-of-ten method with automatic simplification. The Decimal to Fraction tab provides a dedicated interface for this conversion, making it easy to turn measurement readings, statistical results, or financial figures back into exact fractional form.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do you convert a mixed number to an improper fraction and back?</summary>
+          <p>A mixed number consists of a whole number and a proper fraction, such as 3 2/5. To convert it to an improper fraction, multiply the whole number by the denominator and add the numerator, then place the result over the original denominator. For 3 2/5: (3 times 5) + 2 = 17, so the improper fraction is 17/5. To go the other direction, divide the numerator by the denominator. The quotient becomes the whole number, and the remainder becomes the new numerator over the same denominator. For 17/5: 17 divided by 5 is 3 remainder 2, giving 3 2/5. The Mixed Number tab in this calculator handles both conversions instantly. Improper fractions are useful for arithmetic operations because they are easier to multiply and divide, while mixed numbers are more intuitive for everyday measurements like cooking or construction.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do you multiply and divide fractions?</summary>
+          <p>Multiplying fractions is simpler than adding or subtracting because you do not need a common denominator. Simply multiply the numerators together to get the new numerator, multiply the denominators together to get the new denominator, and then simplify the result. For example, 2/3 times 4/5 equals 8/15. Division requires one extra step: flip the second fraction (take its reciprocal) and then multiply. So 2/3 divided by 4/5 becomes 2/3 times 5/4, which equals 10/12, and simplifies to 5/6. An important edge case to watch for is division by zero. If the second fraction's numerator is zero, the reciprocal would have zero in the denominator, which is undefined. This calculator checks for that condition and displays a clear error message rather than returning an incorrect result.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is this fraction calculator free to use?</summary>
+          <p>Yes, this fraction calculator is completely free, requires no account or signup, and has no usage limits. All calculations run entirely in your browser using JavaScript, which means nothing is uploaded to a server and your data remains completely private on your device. The tool works on desktops, laptops, tablets, and smartphones. You can bookmark this page for instant access whenever you need to solve fraction problems for school, tutoring, engineering, cooking conversions, or any other purpose. After the initial page load, the calculator even works offline since all the math happens locally without requiring an internet connection for subsequent calculations.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://percent.toolrip.com">Percent Calculator</a>
+          <a href="https://gcf-lcm.toolrip.com">GCF &amp; LCM Calculator</a>
+          <a href="https://percentage.toolrip.com">Percentage Calculator</a>
+          <a href="https://statistics.toolrip.com">Statistics Calculator</a>
+          <a href="https://area-volume.toolrip.com">Area &amp; Volume Calculator</a>
+          <a href="https://quadratic.toolrip.com">Quadratic Equation Solver</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Fraction Calculator JS -->
+  <script>
+  (function() {
+    'use strict';
+
+    /* ========== Math Utilities ========== */
+
+    function gcd(a, b) {
+      a = Math.abs(a);
+      b = Math.abs(b);
+      if (a === 0) return b;
+      if (b === 0) return a;
+      while (b) {
+        var t = b;
+        b = a % b;
+        a = t;
+      }
+      return a;
+    }
+
+    function lcm(a, b) {
+      if (a === 0 || b === 0) return 0;
+      return Math.abs(a * b) / gcd(a, b);
+    }
+
+    // Normalize: ensure denominator is positive, handle sign
+    function normalize(num, den) {
+      if (den === 0) return null;
+      if (den < 0) { num = -num; den = -den; }
+      var g = gcd(Math.abs(num), den);
+      return { num: num / g, den: den / g };
+    }
+
+    function fractionToMixed(num, den) {
+      if (den === 0) return null;
+      var neg = false;
+      if ((num < 0) !== (den < 0)) neg = true;
+      var absNum = Math.abs(num);
+      var absDen = Math.abs(den);
+      var whole = Math.floor(absNum / absDen);
+      var remainder = absNum % absDen;
+      if (remainder === 0) {
+        return { whole: neg ? -whole : whole, num: 0, den: absDen };
+      }
+      return { whole: neg ? -whole : whole, num: remainder, den: absDen, neg: neg && whole === 0 };
+    }
+
+    function fractionToDecimal(num, den) {
+      if (den === 0) return NaN;
+      return num / den;
+    }
+
+    function formatFraction(num, den) {
+      if (den === 1) return String(num);
+      return num + '/' + den;
+    }
+
+    function formatMixed(m) {
+      if (m.num === 0) return String(m.whole);
+      if (m.whole === 0) {
+        var prefix = m.neg ? '-' : '';
+        return prefix + m.num + '/' + m.den;
+      }
+      return m.whole + ' ' + m.num + '/' + m.den;
+    }
+
+    function formatDecimal(val) {
+      if (isNaN(val) || !isFinite(val)) return '\u2014';
+      // Show up to 10 decimal places, trim trailing zeros
+      var s = val.toFixed(10).replace(/\.?0+$/, '');
+      var parts = s.split('.');
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return parts.join('.');
+    }
+
+    function parseIntStrict(str) {
+      if (!str || str.trim() === '') return NaN;
+      var cleaned = str.trim().replace(/,/g, '');
+      if (!/^-?\d+$/.test(cleaned)) return NaN;
+      var n = parseInt(cleaned, 10);
+      // Guard against very large numbers
+      if (Math.abs(n) > 1e15) return NaN;
+      return n;
+    }
+
+    /* ========== Main Calculator ========== */
+
+    var numA = document.getElementById('numA');
+    var denA = document.getElementById('denA');
+    var numB = document.getElementById('numB');
+    var denB = document.getElementById('denB');
+    var calcBtn = document.getElementById('calcBtn');
+    var clearBtn = document.getElementById('clearBtn');
+    var resFraction = document.getElementById('resFraction');
+    var resMixed = document.getElementById('resMixed');
+    var resDecimal = document.getElementById('resDecimal');
+    var mainResultCard = document.getElementById('mainResultCard');
+    var stepsArea = document.getElementById('stepsArea');
+    var stepsContent = document.getElementById('stepsContent');
+
+    var currentOp = '+';
+
+    // Op buttons
+    document.querySelectorAll('.op-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.op-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        currentOp = btn.dataset.op;
+      });
+    });
+
+    function showError(msg) {
+      resFraction.textContent = msg;
+      resFraction.classList.add('empty');
+      resMixed.textContent = '\u2014';
+      resMixed.classList.add('empty');
+      resDecimal.textContent = '\u2014';
+      resDecimal.classList.add('empty');
+      mainResultCard.classList.remove('has-value');
+      stepsArea.classList.add('hidden');
+      showToast(msg, 'error');
+    }
+
+    function clearMain() {
+      numA.value = ''; denA.value = '';
+      numB.value = ''; denB.value = '';
+      resFraction.textContent = '\u2014';
+      resFraction.classList.add('empty');
+      resMixed.textContent = '\u2014';
+      resMixed.classList.add('empty');
+      resDecimal.textContent = '\u2014';
+      resDecimal.classList.add('empty');
+      mainResultCard.classList.remove('has-value');
+      stepsArea.classList.add('hidden');
+      stepsContent.innerHTML = '';
+      numA.focus();
+    }
+
+    clearBtn.addEventListener('click', clearMain);
+
+    function step(num, text) {
+      return '<div class="step-line"><span class="step-num">' + num + '</span>' + text + '</div>';
+    }
+
+    function calculate() {
+      var a = parseIntStrict(numA.value);
+      var da = parseIntStrict(denA.value);
+      var b = parseIntStrict(numB.value);
+      var db = parseIntStrict(denB.value);
+
+      if (isNaN(a) || isNaN(da) || isNaN(b) || isNaN(db)) {
+        showError('Please enter valid integers');
+        return;
+      }
+      if (da === 0 || db === 0) {
+        showError('Denominator cannot be zero');
+        return;
+      }
+      if (currentOp === '/' && b === 0) {
+        showError('Cannot divide by zero');
+        return;
+      }
+
+      var steps = [];
+      var rn, rd;
+      var opSymbol = currentOp === '+' ? '+' : currentOp === '-' ? '\u2212' : currentOp === '*' ? '\u00d7' : '\u00f7';
+
+      steps.push(step(1, 'Starting with: <span class="step-highlight">' + formatFraction(a, da) + ' ' + opSymbol + ' ' + formatFraction(b, db) + '</span>'));
+
+      if (currentOp === '*') {
+        // Multiply: (a/da) * (b/db) = (a*b)/(da*db)
+        rn = a * b;
+        rd = da * db;
+        steps.push(step(2, 'Multiply numerators: ' + a + ' \u00d7 ' + b + ' = <span class="step-highlight">' + rn + '</span>'));
+        steps.push(step(3, 'Multiply denominators: ' + da + ' \u00d7 ' + db + ' = <span class="step-highlight">' + rd + '</span>'));
+        steps.push(step(4, 'Result before simplification: <span class="step-highlight">' + formatFraction(rn, rd) + '</span>'));
+      } else if (currentOp === '/') {
+        // Divide: (a/da) / (b/db) = (a/da) * (db/b) = (a*db)/(da*b)
+        steps.push(step(2, 'Flip the second fraction (reciprocal): ' + formatFraction(b, db) + ' \u2192 <span class="step-highlight">' + formatFraction(db, b) + '</span>'));
+        rn = a * db;
+        rd = da * b;
+        steps.push(step(3, 'Multiply numerators: ' + a + ' \u00d7 ' + db + ' = <span class="step-highlight">' + rn + '</span>'));
+        steps.push(step(4, 'Multiply denominators: ' + da + ' \u00d7 ' + b + ' = <span class="step-highlight">' + rd + '</span>'));
+        steps.push(step(5, 'Result before simplification: <span class="step-highlight">' + formatFraction(rn, rd) + '</span>'));
+      } else {
+        // Add or subtract: find LCD
+        var commonDen = lcm(Math.abs(da), Math.abs(db));
+        var factorA = commonDen / da;
+        var factorB = commonDen / db;
+        var newA = a * factorA;
+        var newB = b * factorB;
+
+        steps.push(step(2, 'Find the LCD of ' + da + ' and ' + db + ': LCD = <span class="step-highlight">' + commonDen + '</span>'));
+        steps.push(step(3, 'Rewrite first fraction: ' + formatFraction(a, da) + ' = ' + a + ' \u00d7 ' + factorA + ' / ' + da + ' \u00d7 ' + factorA + ' = <span class="step-highlight">' + formatFraction(newA, commonDen) + '</span>'));
+        steps.push(step(4, 'Rewrite second fraction: ' + formatFraction(b, db) + ' = ' + b + ' \u00d7 ' + factorB + ' / ' + db + ' \u00d7 ' + factorB + ' = <span class="step-highlight">' + formatFraction(newB, commonDen) + '</span>'));
+
+        if (currentOp === '+') {
+          rn = newA + newB;
+          steps.push(step(5, 'Add numerators: ' + newA + ' + ' + newB + ' = <span class="step-highlight">' + rn + '</span>'));
+        } else {
+          rn = newA - newB;
+          steps.push(step(5, 'Subtract numerators: ' + newA + ' \u2212 ' + newB + ' = <span class="step-highlight">' + rn + '</span>'));
+        }
+        rd = commonDen;
+        steps.push(step(6, 'Result before simplification: <span class="step-highlight">' + formatFraction(rn, rd) + '</span>'));
+      }
+
+      // Simplify
+      var simplified = normalize(rn, rd);
+      if (!simplified) {
+        showError('Calculation error');
+        return;
+      }
+
+      var g = gcd(Math.abs(rn), Math.abs(rd));
+      var stepIdx = steps.length + 1;
+      if (g > 1) {
+        steps.push(step(stepIdx, 'GCD of ' + Math.abs(rn) + ' and ' + Math.abs(rd) + ' is <span class="step-highlight">' + g + '</span>'));
+        stepIdx++;
+        steps.push(step(stepIdx, 'Simplify: ' + formatFraction(rn, rd) + ' \u00f7 ' + g + '/' + g + ' = <span class="step-highlight">' + formatFraction(simplified.num, simplified.den) + '</span>'));
+      } else {
+        steps.push(step(stepIdx, 'GCD is 1 — fraction is already in simplest form: <span class="step-highlight">' + formatFraction(simplified.num, simplified.den) + '</span>'));
+      }
+
+      // Display results
+      resFraction.textContent = formatFraction(simplified.num, simplified.den);
+      resFraction.classList.remove('empty');
+
+      var mixed = fractionToMixed(simplified.num, simplified.den);
+      resMixed.textContent = formatMixed(mixed);
+      resMixed.classList.remove('empty');
+
+      var dec = fractionToDecimal(simplified.num, simplified.den);
+      resDecimal.textContent = formatDecimal(dec);
+      resDecimal.classList.remove('empty');
+
+      mainResultCard.classList.add('has-value');
+      stepsContent.innerHTML = steps.join('');
+      stepsArea.classList.remove('hidden');
+    }
+
+    calcBtn.addEventListener('click', calculate);
+
+    // Allow Enter key to trigger calculate
+    [numA, denA, numB, denB].forEach(function(el) {
+      el.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          calculate();
+        }
+      });
+    });
+
+    // Copy main result
+    window.copyMainResult = function(btn) {
+      var text = resFraction.textContent;
+      if (text === '\u2014' || text === '') return;
+      var full = 'Fraction: ' + resFraction.textContent + ' | Mixed: ' + resMixed.textContent + ' | Decimal: ' + resDecimal.textContent;
+      copyToClipboard(full, btn);
+    };
+
+    /* ========== Simplify Tab ========== */
+
+    var simpBtn = document.getElementById('simpBtn');
+    var simpNum = document.getElementById('simpNum');
+    var simpDen = document.getElementById('simpDen');
+    var simpResult = document.getElementById('simpResult');
+    var simpResultWrap = document.getElementById('simpResultWrap');
+    var simpGcd = document.getElementById('simpGcd');
+
+    simpBtn.addEventListener('click', function() {
+      var n = parseIntStrict(simpNum.value);
+      var d = parseIntStrict(simpDen.value);
+      if (isNaN(n) || isNaN(d)) {
+        simpResult.textContent = '\u2014';
+        simpResult.className = 'value empty';
+        simpResultWrap.classList.remove('has-value');
+        simpGcd.textContent = '';
+        showToast('Enter valid integers', 'error');
+        return;
+      }
+      if (d === 0) {
+        simpResult.textContent = '\u2014';
+        simpResult.className = 'value empty';
+        simpResultWrap.classList.remove('has-value');
+        simpGcd.textContent = '';
+        showToast('Denominator cannot be zero', 'error');
+        return;
+      }
+      var s = normalize(n, d);
+      var g = gcd(Math.abs(n), Math.abs(d));
+      simpResult.textContent = formatFraction(s.num, s.den);
+      simpResult.className = 'value';
+      simpResultWrap.classList.add('has-value');
+      simpGcd.textContent = 'GCD(' + Math.abs(n) + ', ' + Math.abs(d) + ') = ' + g;
+    });
+
+    [simpNum, simpDen].forEach(function(el) {
+      el.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') { e.preventDefault(); simpBtn.click(); }
+      });
+    });
+
+    /* ========== Fraction to Decimal Tab ========== */
+
+    var f2dBtn = document.getElementById('f2dBtn');
+    var f2dNum = document.getElementById('f2dNum');
+    var f2dDen = document.getElementById('f2dDen');
+    var f2dResult = document.getElementById('f2dResult');
+    var f2dResultWrap = document.getElementById('f2dResultWrap');
+
+    f2dBtn.addEventListener('click', function() {
+      var n = parseIntStrict(f2dNum.value);
+      var d = parseIntStrict(f2dDen.value);
+      if (isNaN(n) || isNaN(d)) {
+        f2dResult.textContent = '\u2014';
+        f2dResult.className = 'value empty';
+        f2dResultWrap.classList.remove('has-value');
+        showToast('Enter valid integers', 'error');
+        return;
+      }
+      if (d === 0) {
+        f2dResult.textContent = '\u2014';
+        f2dResult.className = 'value empty';
+        f2dResultWrap.classList.remove('has-value');
+        showToast('Denominator cannot be zero', 'error');
+        return;
+      }
+      var dec = n / d;
+      f2dResult.textContent = formatDecimal(dec);
+      f2dResult.className = 'value';
+      f2dResultWrap.classList.add('has-value');
+    });
+
+    [f2dNum, f2dDen].forEach(function(el) {
+      el.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') { e.preventDefault(); f2dBtn.click(); }
+      });
+    });
+
+    /* ========== Decimal to Fraction Tab ========== */
+
+    var d2fBtn = document.getElementById('d2fBtn');
+    var d2fInput = document.getElementById('d2fInput');
+    var d2fResult = document.getElementById('d2fResult');
+    var d2fResultWrap = document.getElementById('d2fResultWrap');
+
+    function decimalToFraction(dec) {
+      if (isNaN(dec) || !isFinite(dec)) return null;
+      var neg = dec < 0;
+      dec = Math.abs(dec);
+
+      var str = String(dec);
+      var decPlaces = 0;
+      var dotIdx = str.indexOf('.');
+      if (dotIdx !== -1) {
+        decPlaces = str.length - dotIdx - 1;
+      }
+      // Guard against excessive precision
+      if (decPlaces > 15) decPlaces = 15;
+
+      var multiplier = Math.pow(10, decPlaces);
+      var numerator = Math.round(dec * multiplier);
+      var denominator = multiplier;
+      var g = gcd(numerator, denominator);
+      numerator = numerator / g;
+      denominator = denominator / g;
+
+      if (neg) numerator = -numerator;
+      return { num: numerator, den: denominator };
+    }
+
+    d2fBtn.addEventListener('click', function() {
+      var raw = d2fInput.value.trim().replace(/,/g, '');
+      if (raw === '' || isNaN(Number(raw))) {
+        d2fResult.textContent = '\u2014';
+        d2fResult.className = 'value empty';
+        d2fResultWrap.classList.remove('has-value');
+        showToast('Enter a valid decimal number', 'error');
+        return;
+      }
+      var dec = Number(raw);
+      if (Math.abs(dec) > 1e15) {
+        showToast('Number too large', 'error');
+        return;
+      }
+      var frac = decimalToFraction(dec);
+      if (!frac) {
+        showToast('Conversion error', 'error');
+        return;
+      }
+      d2fResult.textContent = formatFraction(frac.num, frac.den);
+      d2fResult.className = 'value';
+      d2fResultWrap.classList.add('has-value');
+    });
+
+    d2fInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') { e.preventDefault(); d2fBtn.click(); }
+    });
+
+    /* ========== Mixed Number <-> Fraction Tab ========== */
+
+    // Mixed -> Improper
+    var mixedToFracBtn = document.getElementById('mixedToFracBtn');
+    var mixedWhole = document.getElementById('mixedWhole');
+    var mixedNum = document.getElementById('mixedNum');
+    var mixedDen = document.getElementById('mixedDen');
+    var m2fResult = document.getElementById('m2fResult');
+    var m2fResultWrap = document.getElementById('m2fResultWrap');
+
+    mixedToFracBtn.addEventListener('click', function() {
+      var w = parseIntStrict(mixedWhole.value);
+      var n = parseIntStrict(mixedNum.value);
+      var d = parseIntStrict(mixedDen.value);
+      if (isNaN(w) || isNaN(n) || isNaN(d)) {
+        m2fResult.textContent = '\u2014';
+        m2fResult.className = 'value empty';
+        m2fResultWrap.classList.remove('has-value');
+        showToast('Enter valid integers', 'error');
+        return;
+      }
+      if (d === 0) {
+        m2fResult.textContent = '\u2014';
+        m2fResult.className = 'value empty';
+        m2fResultWrap.classList.remove('has-value');
+        showToast('Denominator cannot be zero', 'error');
+        return;
+      }
+      // Handle negative whole numbers
+      var neg = w < 0;
+      var numerator = Math.abs(w) * Math.abs(d) + Math.abs(n);
+      if (neg) numerator = -numerator;
+      // Keep sign of denominator positive
+      var den = Math.abs(d);
+      var s = normalize(numerator, den);
+      m2fResult.textContent = formatFraction(s.num, s.den);
+      m2fResult.className = 'value';
+      m2fResultWrap.classList.add('has-value');
+    });
+
+    [mixedWhole, mixedNum, mixedDen].forEach(function(el) {
+      el.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') { e.preventDefault(); mixedToFracBtn.click(); }
+      });
+    });
+
+    // Improper -> Mixed
+    var fracToMixedBtn = document.getElementById('fracToMixedBtn');
+    var impNum = document.getElementById('impNum');
+    var impDen = document.getElementById('impDen');
+    var f2mResult = document.getElementById('f2mResult');
+    var f2mResultWrap = document.getElementById('f2mResultWrap');
+
+    fracToMixedBtn.addEventListener('click', function() {
+      var n = parseIntStrict(impNum.value);
+      var d = parseIntStrict(impDen.value);
+      if (isNaN(n) || isNaN(d)) {
+        f2mResult.textContent = '\u2014';
+        f2mResult.className = 'value empty';
+        f2mResultWrap.classList.remove('has-value');
+        showToast('Enter valid integers', 'error');
+        return;
+      }
+      if (d === 0) {
+        f2mResult.textContent = '\u2014';
+        f2mResult.className = 'value empty';
+        f2mResultWrap.classList.remove('has-value');
+        showToast('Denominator cannot be zero', 'error');
+        return;
+      }
+      // Simplify first
+      var s = normalize(n, d);
+      var mixed = fractionToMixed(s.num, s.den);
+      f2mResult.textContent = formatMixed(mixed);
+      f2mResult.className = 'value';
+      f2mResultWrap.classList.add('has-value');
+    });
+
+    [impNum, impDen].forEach(function(el) {
+      el.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') { e.preventDefault(); fracToMixedBtn.click(); }
+      });
+    });
+
+    /* ========== Focus first input ========== */
+    numA.focus();
+
+  })();
+  </script>
+</body>
+</html>

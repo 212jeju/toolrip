@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Date Difference Calculator — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Calculate the exact difference between two dates in years, months, days, weeks, hours, minutes, and seconds. Find business days, weekday breakdowns, and add or subtract days from any date. Free, instant, no signup.">
+  <meta name="keywords" content="date difference calculator, days between dates, date duration, business days calculator, weekday counter, add days to date, subtract days from date, date calculator">
+  <link rel="canonical" href="https://date-diff.toolrip.com/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Date Difference Calculator — Free, Fast, No Signup | Toolrip">
+  <meta property="og:description" content="Calculate the exact difference between two dates in years, months, days, weeks, hours, minutes, and seconds. Find business days, weekday breakdowns, and more.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://date-diff.toolrip.com/">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Date Difference Calculator — Free, Fast, No Signup | Toolrip">
+  <meta name="twitter:description" content="Calculate the exact difference between two dates in years, months, days, weeks, hours, minutes, and seconds. Find business days, weekday breakdowns, and more.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root { --accent: var(--datetime); }
+
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: var(--sp-3);
+      align-items: end;
+    }
+    @media (max-width: 639px) {
+      .input-row { grid-template-columns: 1fr; }
+    }
+
+    .swap-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: border-color 0.15s, color 0.15s;
+      flex-shrink: 0;
+    }
+    .swap-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .include-toggle {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-top: var(--sp-2);
+    }
+
+    /* Results */
+    .results-area { display: none; margin-top: var(--sp-4); }
+    .results-area.visible { display: block; }
+
+    .result-headline {
+      text-align: center;
+      padding: var(--sp-5);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--sp-4);
+    }
+    .result-headline .rh-big {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1.3;
+    }
+    @media (min-width: 640px) {
+      .result-headline .rh-big { font-size: 2.5rem; }
+    }
+    .result-headline .rh-sub {
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      margin-top: var(--sp-1);
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--sp-3);
+    }
+    @media (min-width: 640px) {
+      .result-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .result-item {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-3);
+      text-align: center;
+    }
+    .result-item .ri-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+      word-break: break-word;
+    }
+    .result-item .ri-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: var(--sp-1);
+    }
+
+    /* Weekday breakdown */
+    .weekday-section {
+      margin-top: var(--sp-4);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-4);
+    }
+    .weekday-section h3 {
+      font-size: 1rem;
+      margin-bottom: var(--sp-3);
+    }
+    .weekday-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--sp-2);
+    }
+    @media (min-width: 640px) {
+      .weekday-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    .weekday-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--sp-2) var(--sp-3);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+    }
+    .weekday-item .wd-name { color: var(--text-muted); }
+    .weekday-item .wd-count { font-weight: 600; color: var(--text); }
+
+    /* Add/Subtract section */
+    .addsub-section {
+      margin-top: var(--sp-4);
+      padding-top: var(--sp-4);
+      border-top: 1px solid var(--border);
+    }
+    .addsub-section h3 {
+      font-size: 1rem;
+      margin-bottom: var(--sp-3);
+    }
+    .addsub-row {
+      display: grid;
+      grid-template-columns: 1fr 100px auto auto;
+      gap: var(--sp-2);
+      align-items: end;
+    }
+    @media (max-width: 639px) {
+      .addsub-row {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .addsub-result {
+      margin-top: var(--sp-3);
+      padding: var(--sp-3);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      text-align: center;
+      display: none;
+    }
+    .addsub-result.visible { display: block; }
+    .addsub-result .asr-value {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .addsub-result .asr-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: var(--sp-1);
+    }
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Date Difference Calculator",
+    "url": "https://date-diff.toolrip.com/",
+    "description": "Calculate the exact difference between two dates in years, months, days, weeks, hours, minutes, and seconds. Find business days, weekday breakdowns, and add or subtract days from any date.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How does the Date Difference Calculator work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Date Difference Calculator computes the exact span between two dates you provide. It first calculates the difference in full years, then full months within the remaining period, and finally the leftover days. It also converts the total duration into days, weeks, hours, minutes, and seconds. All calculations use the Gregorian calendar, handle varying month lengths, and run entirely in your browser — no data leaves your device."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does the calculator handle leap years correctly?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The calculator follows standard Gregorian leap year rules: a year is a leap year if it is divisible by 4, except for century years that are not divisible by 400. This means 2000 and 2024 are leap years, while 1900 and 2100 are not. February 29 is counted when it falls within the date range, ensuring the total day count and all derived values remain accurate."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are business days and how are they calculated?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Business days are weekdays — Monday through Friday — excluding Saturday and Sunday. The calculator counts every weekday that falls within your date range. Note that public holidays are not excluded because they vary by country and region. If you need to account for holidays, subtract them manually from the business days total."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I include the end date in the calculation?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. By default the calculator counts the days between the start and end dates, not including the end date itself. If you toggle the 'Include end date' switch, one extra day is added to the total. This is useful when both the start and end dates should count as full days, such as when calculating the length of an event that spans from the first day to the last day inclusive."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I add or subtract days from a date?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Use the Add/Subtract Days section below the main calculator. Enter a starting date, type the number of days, and choose whether to add or subtract. The tool instantly computes the resulting date and shows the day of the week it falls on. This feature is helpful for finding deadlines, due dates, or past dates a certain number of days away from a known reference point."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What does the weekday breakdown show?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The weekday breakdown counts how many times each day of the week — Monday through Sunday — appears within your selected date range. This is useful for scheduling, payroll calculations, or simply understanding the distribution of weekdays and weekends in any given time span. The counts always add up to the total number of days in the range."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is my data private when using this tool?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Absolutely. The Date Difference Calculator runs entirely in your web browser using client-side JavaScript. No dates or personal information are transmitted to our servers or any third party. There are no accounts, no cookies storing personal data, and no server-side processing. Your data stays on your device at all times."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Date & Time Tools", "item": "https://toolrip.com/#datetime" },
+      { "@type": "ListItem", "position": 3, "name": "Date Difference Calculator", "item": "https://date-diff.toolrip.com/" }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="date-diff-top">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#datetime">Date &amp; Time Tools</a>
+        <span>/</span>
+        <span>Date Difference Calculator</span>
+      </nav>
+
+      <h1>Date Difference Calculator</h1>
+      <p class="text-muted mt-1 mb-3">Calculate the exact duration between any two dates in years, months, days, weeks, hours, minutes, and seconds. Find business days, weekday breakdowns, and add or subtract days from a date. Free, instant, and private.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+
+        <!-- Date Inputs -->
+        <div class="input-row">
+          <div class="input-group">
+            <label for="start-date">Start Date</label>
+            <input type="date" id="start-date" class="input-field" aria-label="Start date">
+          </div>
+          <button class="swap-btn" onclick="swapDates()" title="Swap dates" aria-label="Swap start and end dates">&#8646;</button>
+          <div class="input-group">
+            <label for="end-date">End Date</label>
+            <input type="date" id="end-date" class="input-field" aria-label="End date">
+          </div>
+        </div>
+
+        <div class="include-toggle">
+          <label class="toggle">
+            <input type="checkbox" id="include-end">
+            <span></span>
+          </label>
+          <label for="include-end">Include end date (add 1 day)</label>
+        </div>
+
+        <div class="flex gap-2 mt-2">
+          <button class="btn-primary" onclick="calculate()">Calculate</button>
+          <button class="btn-secondary" onclick="resetForm()">Reset</button>
+        </div>
+
+        <!-- Results -->
+        <div class="results-area" id="results-area">
+
+          <!-- Headline -->
+          <div class="result-headline">
+            <div class="rh-big" id="rh-big"></div>
+            <div class="rh-sub" id="rh-sub"></div>
+          </div>
+
+          <!-- Result Grid -->
+          <div class="result-grid" id="result-grid"></div>
+
+          <!-- Weekday Breakdown -->
+          <div class="weekday-section" id="weekday-section">
+            <h3>Weekday Breakdown</h3>
+            <div class="weekday-grid" id="weekday-grid"></div>
+          </div>
+        </div>
+
+        <!-- Add / Subtract Days -->
+        <div class="addsub-section">
+          <h3>Add or Subtract Days from a Date</h3>
+          <div class="addsub-row">
+            <div class="input-group">
+              <label for="as-date">Date</label>
+              <input type="date" id="as-date" class="input-field" aria-label="Base date for add/subtract">
+            </div>
+            <div class="input-group">
+              <label for="as-days">Days</label>
+              <input type="number" id="as-days" class="input-field" min="0" value="30" aria-label="Number of days to add or subtract">
+            </div>
+            <button class="btn-primary" onclick="addSubDays('add')" style="white-space:nowrap">+ Add</button>
+            <button class="btn-secondary" onclick="addSubDays('sub')" style="white-space:nowrap">&minus; Subtract</button>
+          </div>
+          <div class="addsub-result" id="as-result">
+            <div class="asr-value" id="asr-value"></div>
+            <div class="asr-label" id="asr-label"></div>
+          </div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="date-diff-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Comprehensive Date Breakdown</h3>
+            <p>Get the precise difference between any two dates expressed in years, months, and days. The calculator also provides totals in days, weeks, hours, minutes, and seconds, giving you every metric you might need for planning, project management, or personal milestones.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Business Days &amp; Weekday Count</h3>
+            <p>Instantly see how many business days (weekdays only) fall within your date range, plus a full weekday breakdown showing the count for each day of the week from Monday through Sunday. Perfect for payroll, scheduling, and deadline calculations.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Add or Subtract Days</h3>
+            <p>Need to find a date a specific number of days in the future or past? Enter any starting date and a day count, then add or subtract to get your result instantly. Ideal for computing due dates, delivery windows, contract expirations, and countdown targets.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Date Difference Calculator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Enter the start date</strong> — Use the date picker to select the earlier date. You can choose any date from the calendar, whether in the past or the future.</li>
+          <li><strong>Enter the end date</strong> — By default, today's date is selected. Change it to any date you need. If you want the end date itself included in the count, toggle the "Include end date" switch.</li>
+          <li><strong>View your results</strong> — The exact difference in years, months, and days appears instantly, along with total days, weeks, hours, minutes, seconds, business days, and a full weekday breakdown. Results update in real time whenever you change either date.</li>
+          <li><strong>Add or subtract days</strong> — Scroll to the Add or Subtract section, enter a base date and number of days, then click the + Add or - Subtract button to find the resulting date.</li>
+        </ol>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>How does the Date Difference Calculator work?</summary>
+          <p>The Date Difference Calculator computes the exact span between two dates you provide. It first calculates the difference in full calendar years, then full months within the remaining period, and finally the leftover days. This approach respects the varying lengths of calendar months, so a span from January 31 to February 28 is treated as exactly one month. The total day count is derived from the absolute number of days between the two dates, and all other totals — weeks, hours, minutes, and seconds — are computed from that number. Every calculation is performed in your browser using JavaScript and the Gregorian calendar. No data is sent to any server, ensuring your information stays completely private. You can use the calculator with any pair of dates, past or future, and results update in real time as you modify inputs.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does the calculator handle leap years correctly?</summary>
+          <p>Yes. The calculator fully respects Gregorian leap year rules: a year is a leap year if it is divisible by 4, except for century years that are not divisible by 400. Under these rules, 2000 and 2024 are leap years (February has 29 days), while 1900 and 2100 are not (February has 28 days). When your date range spans a February 29, that day is correctly included in the total day count and in all derived metrics such as weeks, hours, and business days. The weekday breakdown will also reflect February 29 as whichever day of the week it falls on. Whether you are calculating a span of a few days or several centuries, the leap year logic ensures your results are always accurate to the day.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What are business days and how are they calculated?</summary>
+          <p>Business days, also known as working days, refer to the weekdays from Monday through Friday. The calculator iterates through every day in the selected range and counts only those that fall on a weekday, excluding Saturdays and Sundays. It is important to note that public holidays are not excluded because they vary by country, region, and even employer. If your use case requires subtracting public holidays, simply subtract the number of holiday days that fall on weekdays from the business days total. This approach gives you a reliable baseline figure that is useful for project timelines, legal deadlines, shipping estimates, payroll periods, and any scenario where weekend days do not count toward a duration.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can I include the end date in the calculation?</summary>
+          <p>Yes. By default, the calculator counts the days between the start and end dates without including the end date itself — this is the standard mathematical convention where the span from January 1 to January 2 equals one day. If you want both the start and end dates to count as full days, toggle the "Include end date" switch. This adds one day to the total and is useful in scenarios like event planning, rental periods, or insurance coverage calculations where the last day should be counted as part of the duration. The include toggle affects all metrics: total days, weeks, hours, minutes, seconds, business days, and the weekday breakdown will all reflect the additional day.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do I add or subtract days from a date?</summary>
+          <p>Use the Add or Subtract Days section located below the main results area. Enter a starting date using the date picker, type the number of days in the input field, and then click either the "+ Add" button to move forward in time or the "- Subtract" button to move backward. The result is displayed immediately, showing the full date and the day of the week it falls on. This feature is helpful for calculating contract expiration dates, determining delivery arrival windows, finding out what date falls a certain number of days before or after an event, or simply counting forward from today to a future milestone. The calculation correctly accounts for varying month lengths and leap years, so adding 365 days from March 1, 2024 gives you March 1, 2025 — not February 28.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What does the weekday breakdown show?</summary>
+          <p>The weekday breakdown section lists each day of the week from Monday through Sunday and shows exactly how many times that day appears within the selected date range. For example, if your range covers exactly four weeks, each day will appear four times. The breakdown is computed by iterating through every date in the range and tallying each day of the week. This information is useful for work scheduling, understanding how many weekend days fall in a period, calculating shift rotations, or estimating how many specific weekdays are available for recurring meetings. The individual counts always add up to the total number of days in the range, providing a quick sanity check on your calculation.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is my data private when using this tool?</summary>
+          <p>Absolutely. The Date Difference Calculator runs entirely in your web browser using client-side JavaScript. No dates, inputs, or results are transmitted to our servers or any third-party service. There are no accounts to create, no cookies storing personal data, and no analytics capturing the dates you enter. You can verify this by using your browser's developer tools to inspect network requests while using the tool. This privacy-first approach applies to all Toolrip utilities — your data stays on your device at all times, and you can use the tool offline once the page has loaded.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://age.toolrip.com">Age Calculator</a>
+          <a href="https://timer.toolrip.com">Online Timer</a>
+          <a href="https://timezone.toolrip.com">Time Zone Converter</a>
+          <a href="https://week-number.toolrip.com">Week Number Calculator</a>
+          <a href="https://business-days.toolrip.com">Business Days Calculator</a>
+          <a href="https://due-date.toolrip.com">Due Date Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="date-diff-sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="date-diff-bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Date Difference Calculator JS -->
+  <script>
+    /* --- Helpers --- */
+    function toISO(d) {
+      var y = d.getFullYear();
+      var m = String(d.getMonth() + 1).padStart(2, '0');
+      var day = String(d.getDate()).padStart(2, '0');
+      return y + '-' + m + '-' + day;
+    }
+
+    function parseDate(id) {
+      var val = document.getElementById(id).value;
+      if (!val) return null;
+      var parts = val.split('-');
+      return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+    }
+
+    function daysInMonth(year, month) {
+      return new Date(year, month + 1, 0).getDate();
+    }
+
+    function isLeapYear(year) {
+      return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+    }
+
+    function fmtNum(n) {
+      return Math.floor(n).toLocaleString('en-US');
+    }
+
+    function formatDateLong(d) {
+      return d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    var DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+    /* --- Exact difference in years, months, days --- */
+    function calcExactDiff(start, end) {
+      var years = end.getFullYear() - start.getFullYear();
+      var months = end.getMonth() - start.getMonth();
+      var days = end.getDate() - start.getDate();
+
+      if (days < 0) {
+        months--;
+        var prevMonth = end.getMonth() - 1;
+        var prevYear = end.getFullYear();
+        if (prevMonth < 0) { prevMonth = 11; prevYear--; }
+        days += daysInMonth(prevYear, prevMonth);
+      }
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+
+      return { years: years, months: months, days: days };
+    }
+
+    /* --- Total days between two dates --- */
+    function totalDaysBetween(a, b) {
+      var msPerDay = 86400000;
+      var utcA = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+      var utcB = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+      return Math.floor((utcB - utcA) / msPerDay);
+    }
+
+    /* --- Business days (Mon-Fri) --- */
+    function countBusinessDays(start, end) {
+      var count = 0;
+      var cur = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+      var endTime = end.getTime();
+      while (cur.getTime() < endTime) {
+        var dow = cur.getDay();
+        if (dow !== 0 && dow !== 6) count++;
+        cur.setDate(cur.getDate() + 1);
+      }
+      return count;
+    }
+
+    /* --- Weekday breakdown --- */
+    function countWeekdays(start, totalDays) {
+      var counts = [0, 0, 0, 0, 0, 0, 0]; // Sun=0 .. Sat=6
+      if (totalDays <= 0) return counts;
+
+      var startDay = start.getDay();
+      var fullWeeks = Math.floor(totalDays / 7);
+      var remainder = totalDays % 7;
+
+      for (var i = 0; i < 7; i++) counts[i] = fullWeeks;
+      for (var j = 0; j < remainder; j++) {
+        counts[(startDay + j) % 7]++;
+      }
+      return counts;
+    }
+
+    /* --- Swap dates --- */
+    function swapDates() {
+      var s = document.getElementById('start-date');
+      var e = document.getElementById('end-date');
+      var tmp = s.value;
+      s.value = e.value;
+      e.value = tmp;
+      calculate();
+    }
+
+    /* --- Main calculation --- */
+    function calculate() {
+      var start = parseDate('start-date');
+      var end = parseDate('end-date');
+
+      if (!start || !end) return;
+
+      // Ensure start <= end
+      if (start > end) {
+        var tmp = start;
+        start = end;
+        end = tmp;
+        document.getElementById('start-date').value = toISO(start);
+        document.getElementById('end-date').value = toISO(end);
+      }
+
+      var includeEnd = document.getElementById('include-end').checked;
+
+      // If including end date, create an adjusted end for totals
+      var adjustedEnd = end;
+      if (includeEnd) {
+        adjustedEnd = new Date(end.getFullYear(), end.getMonth(), end.getDate() + 1);
+      }
+
+      var exact = calcExactDiff(start, adjustedEnd);
+      var tDays = totalDaysBetween(start, adjustedEnd);
+      var tWeeks = Math.floor(tDays / 7);
+      var remainDays = tDays % 7;
+      var tHours = tDays * 24;
+      var tMinutes = tHours * 60;
+      var tSeconds = tMinutes * 60;
+
+      // Business days
+      var bizDays = countBusinessDays(start, adjustedEnd);
+
+      // Weekday breakdown
+      var wdCounts = countWeekdays(start, tDays);
+
+      // --- Render ---
+      var area = document.getElementById('results-area');
+      area.classList.add('visible');
+
+      // Headline
+      var parts = [];
+      if (exact.years > 0) parts.push(exact.years + ' year' + (exact.years !== 1 ? 's' : ''));
+      if (exact.months > 0) parts.push(exact.months + ' month' + (exact.months !== 1 ? 's' : ''));
+      if (exact.days > 0 || parts.length === 0) parts.push(exact.days + ' day' + (exact.days !== 1 ? 's' : ''));
+
+      document.getElementById('rh-big').textContent = parts.join(', ');
+      document.getElementById('rh-sub').textContent =
+        formatDateLong(start) + '  \u2192  ' + formatDateLong(end) +
+        (includeEnd ? ' (end date included)' : '');
+
+      // Result grid
+      var gridItems = [
+        { value: fmtNum(tDays), label: 'Total Days' },
+        { value: tWeeks + (remainDays > 0 ? ' weeks, ' + remainDays + ' days' : ' weeks'), label: 'Weeks & Days' },
+        { value: fmtNum(tHours), label: 'Total Hours' },
+        { value: fmtNum(tMinutes), label: 'Total Minutes' },
+        { value: fmtNum(tSeconds), label: 'Total Seconds' },
+        { value: fmtNum(bizDays), label: 'Business Days' }
+      ];
+
+      var gridHTML = '';
+      for (var i = 0; i < gridItems.length; i++) {
+        gridHTML += '<div class="result-item"><div class="ri-value">' +
+          gridItems[i].value + '</div><div class="ri-label">' +
+          gridItems[i].label + '</div></div>';
+      }
+      document.getElementById('result-grid').innerHTML = gridHTML;
+
+      // Weekday breakdown (display Mon-Sun order)
+      var dayOrder = [1, 2, 3, 4, 5, 6, 0]; // Mon, Tue, Wed, Thu, Fri, Sat, Sun
+      var wdHTML = '';
+      for (var j = 0; j < dayOrder.length; j++) {
+        var idx = dayOrder[j];
+        wdHTML += '<div class="weekday-item"><span class="wd-name">' +
+          DAY_NAMES[idx] + '</span><span class="wd-count">' +
+          fmtNum(wdCounts[idx]) + '</span></div>';
+      }
+      document.getElementById('weekday-grid').innerHTML = wdHTML;
+
+      // Scroll to results
+      area.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    /* --- Add / Subtract days --- */
+    function addSubDays(mode) {
+      var base = parseDate('as-date');
+      var daysVal = parseInt(document.getElementById('as-days').value);
+
+      if (!base || isNaN(daysVal) || daysVal < 0) {
+        showToast('Please enter a valid date and a non-negative number of days.', 'error');
+        return;
+      }
+
+      var offset = mode === 'add' ? daysVal : -daysVal;
+      var result = new Date(base.getFullYear(), base.getMonth(), base.getDate() + offset);
+
+      var resEl = document.getElementById('as-result');
+      resEl.classList.add('visible');
+
+      document.getElementById('asr-value').textContent = formatDateLong(result);
+
+      var verb = mode === 'add' ? 'after' : 'before';
+      document.getElementById('asr-label').textContent =
+        daysVal + ' day' + (daysVal !== 1 ? 's' : '') + ' ' + verb + ' ' +
+        base.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    /* --- Reset --- */
+    function resetForm() {
+      document.getElementById('start-date').value = '';
+      document.getElementById('end-date').value = toISO(new Date());
+      document.getElementById('include-end').checked = false;
+      document.getElementById('results-area').classList.remove('visible');
+    }
+
+    /* --- Init --- */
+    document.addEventListener('DOMContentLoaded', function () {
+      var today = new Date();
+      document.getElementById('end-date').value = toISO(today);
+      document.getElementById('as-date').value = toISO(today);
+
+      // Real-time calculation
+      document.getElementById('start-date').addEventListener('change', calculate);
+      document.getElementById('end-date').addEventListener('change', calculate);
+      document.getElementById('include-end').addEventListener('change', calculate);
+
+      // Real-time add/subtract
+      document.getElementById('as-date').addEventListener('change', function () {
+        var res = document.getElementById('as-result');
+        if (res.classList.contains('visible')) {
+          // Re-calculate with last mode
+          var lastMode = document.getElementById('asr-label').textContent.indexOf('after') > -1 ? 'add' : 'sub';
+          addSubDays(lastMode);
+        }
+      });
+      document.getElementById('as-days').addEventListener('input', function () {
+        var res = document.getElementById('as-result');
+        if (res.classList.contains('visible')) {
+          var lastMode = document.getElementById('asr-label').textContent.indexOf('after') > -1 ? 'add' : 'sub';
+          addSubDays(lastMode);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

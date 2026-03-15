@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Temperature Converter — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Convert temperatures between Celsius, Fahrenheit, Kelvin, and Rankine instantly. View all conversions at once, reference tables, and visual scale comparisons. Free online tool — no signup required.">
+  <link rel="canonical" href="https://temperature.toolrip.com/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Temperature Converter — Free, Fast, No Signup | Toolrip">
+  <meta property="og:description" content="Convert temperatures between Celsius, Fahrenheit, Kelvin, and Rankine instantly. View all conversions at once with reference tables and visual comparisons. Free online tool — no signup required.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://temperature.toolrip.com/">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Temperature Converter — Free, Fast, No Signup | Toolrip">
+  <meta name="twitter:description" content="Convert temperatures between Celsius, Fahrenheit, Kelvin, and Rankine instantly. View all conversions at once with reference tables and visual comparisons. Free online tool — no signup required.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--conversion)}</style>
+
+  <style>
+    /* Converter layout */
+    .converter-row{display:flex;gap:var(--sp-3);align-items:flex-end;flex-wrap:wrap}
+    .converter-row .input-group{flex:1;min-width:140px}
+    .swap-btn{width:44px;height:44px;border-radius:50%;background:var(--bg);border:1px solid var(--border);
+      color:var(--accent);font-size:1.25rem;cursor:pointer;transition:background .15s,transform .3s;
+      display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-bottom:var(--sp-3)}
+    .swap-btn:hover{background:color-mix(in srgb,var(--accent) 12%,transparent);transform:rotate(180deg)}
+
+    /* Results display */
+    .result-chain{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+      padding:var(--sp-4);margin-top:var(--sp-3);font-size:1.125rem;font-weight:600;
+      color:var(--text);text-align:center;line-height:1.8;position:relative;word-break:break-word}
+    .result-chain .copy-btn{position:absolute;top:var(--sp-2);right:var(--sp-2)}
+    .result-chain .empty-state{color:var(--text-muted);font-weight:400;font-size:.9375rem}
+
+    /* Formula display */
+    .formula-box{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+      padding:var(--sp-3);margin-top:var(--sp-3);font-family:'Fira Code','Consolas',monospace;
+      font-size:.875rem;color:var(--text-muted);line-height:1.8}
+    .formula-box strong{color:var(--text);font-weight:600}
+
+    /* Reference table */
+    .ref-table{width:100%;border-collapse:collapse;font-size:.875rem;margin-top:var(--sp-3)}
+    .ref-table th,.ref-table td{padding:var(--sp-2) var(--sp-3);text-align:left;border-bottom:1px solid var(--border)}
+    .ref-table th{color:var(--text-muted);font-weight:600;font-size:.8125rem;text-transform:uppercase;letter-spacing:.03em;
+      background:var(--bg);position:sticky;top:0}
+    .ref-table td{color:var(--text)}
+    .ref-table tr:hover td{background:color-mix(in srgb,var(--accent) 5%,transparent)}
+    .ref-table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius)}
+
+    /* Thermometer visual */
+    .thermo-container{display:flex;gap:var(--sp-4);justify-content:center;align-items:flex-end;
+      padding:var(--sp-5) var(--sp-3);overflow-x:auto}
+    .thermo-scale{display:flex;flex-direction:column;align-items:center;gap:var(--sp-1);min-width:80px}
+    .thermo-scale .label{font-size:.75rem;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.04em}
+    .thermo-bar-wrap{position:relative;width:32px;height:260px;background:var(--bg);border:1px solid var(--border);
+      border-radius:16px;overflow:hidden}
+    .thermo-fill{position:absolute;bottom:0;left:0;right:0;border-radius:0 0 16px 16px;transition:height .4s ease}
+    .thermo-ticks{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:8px 0}
+    .thermo-tick{font-size:.625rem;color:var(--text-muted);text-align:center;line-height:1}
+    .thermo-scale .range-text{font-size:.6875rem;color:var(--text-muted);text-align:center;margin-top:var(--sp-1);line-height:1.3}
+
+    /* Action buttons row */
+    .action-bar{display:flex;gap:var(--sp-2);flex-wrap:wrap;margin-top:var(--sp-3)}
+
+    @media(max-width:639px){
+      .converter-row{flex-direction:column;align-items:stretch}
+      .swap-btn{align-self:center;margin-bottom:0}
+      .thermo-container{gap:var(--sp-2)}
+      .thermo-bar-wrap{height:200px;width:28px}
+    }
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Temperature Converter",
+    "url": "https://temperature.toolrip.com/",
+    "description": "Convert temperatures between Celsius, Fahrenheit, Kelvin, and Rankine instantly. View all conversions at once with reference tables and visual scale comparisons.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Conversion Tools", "item": "https://toolrip.com/#conversion" },
+      { "@type": "ListItem", "position": 3, "name": "Temperature Converter", "item": "https://temperature.toolrip.com/" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the formula to convert Celsius to Fahrenheit?",
+        "acceptedAnswer": { "@type": "Answer", "text": "To convert Celsius to Fahrenheit, multiply the Celsius value by 9/5 and then add 32. The formula is: °F = °C × 9/5 + 32. For example, 100 °C equals 212 °F." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is absolute zero?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Absolute zero is the lowest theoretically possible temperature, where all molecular motion ceases. It equals 0 K (Kelvin), -273.15 °C, -459.67 °F, or 0 °R (Rankine)." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between Kelvin and Rankine?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Both Kelvin and Rankine are absolute temperature scales starting at absolute zero. Kelvin uses the same degree increment as Celsius, while Rankine uses the same increment as Fahrenheit. 1 K = 1.8 °R." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is normal human body temperature in all scales?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Normal human body temperature is approximately 37 °C, 98.6 °F, 310.15 K, or 558.27 °R." }
+      },
+      {
+        "@type": "Question",
+        "name": "When should I use Kelvin instead of Celsius?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Kelvin is used in scientific contexts where absolute temperature is important, such as thermodynamics, physics, and chemistry. Celsius is preferred for everyday weather, cooking, and general-purpose measurements." }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" id="ad-top" data-ad-slot="top">Ad</div>
+
+    <main class="main">
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#conversion">Conversion Tools</a>
+        <span>/</span>
+        <span>Temperature Converter</span>
+      </nav>
+
+      <h1>Temperature Converter</h1>
+      <p class="text-muted mt-1 mb-3">Convert between Celsius, Fahrenheit, Kelvin, and Rankine instantly. See all results at once with formulas and visual comparisons.</p>
+
+      <!-- ===== TOOL UI ===== -->
+      <div class="tool-card">
+        <div class="converter-row">
+          <div class="input-group">
+            <label for="temp-value">Temperature</label>
+            <input type="number" id="temp-value" class="input-field" placeholder="Enter value..." step="any" autocomplete="off">
+          </div>
+          <div class="input-group">
+            <label for="from-unit">From</label>
+            <select id="from-unit" class="select-field">
+              <option value="C">Celsius (°C)</option>
+              <option value="F">Fahrenheit (°F)</option>
+              <option value="K">Kelvin (K)</option>
+              <option value="R">Rankine (°R)</option>
+            </select>
+          </div>
+          <button class="swap-btn" id="swap-btn" title="Swap units" aria-label="Swap from and to units">&#8596;</button>
+          <div class="input-group">
+            <label for="to-unit">To</label>
+            <select id="to-unit" class="select-field">
+              <option value="F">Fahrenheit (°F)</option>
+              <option value="C">Celsius (°C)</option>
+              <option value="K">Kelvin (K)</option>
+              <option value="R">Rankine (°R)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn-primary" id="convert-btn">Convert</button>
+          <button class="btn-secondary" id="clear-btn">Clear</button>
+        </div>
+
+        <!-- All-at-once result -->
+        <div class="result-chain" id="result-chain">
+          <button class="copy-btn" id="copy-result-btn" style="display:none">Copy</button>
+          <span class="empty-state">Enter a temperature value above to see all conversions</span>
+        </div>
+
+        <!-- Formula used -->
+        <div class="formula-box" id="formula-box" style="display:none">
+          <strong>Formulas used:</strong><br>
+          <span id="formula-text"></span>
+        </div>
+      </div>
+
+      <!-- Temperature scale visual comparison -->
+      <div class="tool-card">
+        <h2 style="font-size:1.1rem;margin-bottom:var(--sp-2)">Temperature Scale Comparison</h2>
+        <p class="text-muted" style="font-size:.875rem;margin-bottom:var(--sp-3)">Visual comparison of the four temperature scales at key reference points.</p>
+        <div class="thermo-container" id="thermo-container">
+          <!-- Celsius -->
+          <div class="thermo-scale">
+            <span class="label">°C</span>
+            <div class="thermo-bar-wrap">
+              <div class="thermo-fill" id="thermo-c" style="height:50%;background:linear-gradient(to top,#06b6d4,#ef4444)"></div>
+              <div class="thermo-ticks">
+                <span class="thermo-tick">100</span>
+                <span class="thermo-tick">50</span>
+                <span class="thermo-tick">0</span>
+                <span class="thermo-tick">-50</span>
+                <span class="thermo-tick">-273</span>
+              </div>
+            </div>
+            <span class="range-text">-273.15 to 100+</span>
+          </div>
+          <!-- Fahrenheit -->
+          <div class="thermo-scale">
+            <span class="label">°F</span>
+            <div class="thermo-bar-wrap">
+              <div class="thermo-fill" id="thermo-f" style="height:50%;background:linear-gradient(to top,#3b82f6,#f97316)"></div>
+              <div class="thermo-ticks">
+                <span class="thermo-tick">212</span>
+                <span class="thermo-tick">122</span>
+                <span class="thermo-tick">32</span>
+                <span class="thermo-tick">-58</span>
+                <span class="thermo-tick">-460</span>
+              </div>
+            </div>
+            <span class="range-text">-459.67 to 212+</span>
+          </div>
+          <!-- Kelvin -->
+          <div class="thermo-scale">
+            <span class="label">K</span>
+            <div class="thermo-bar-wrap">
+              <div class="thermo-fill" id="thermo-k" style="height:50%;background:linear-gradient(to top,#8b5cf6,#ec4899)"></div>
+              <div class="thermo-ticks">
+                <span class="thermo-tick">373</span>
+                <span class="thermo-tick">323</span>
+                <span class="thermo-tick">273</span>
+                <span class="thermo-tick">223</span>
+                <span class="thermo-tick">0</span>
+              </div>
+            </div>
+            <span class="range-text">0 to 373.15+</span>
+          </div>
+          <!-- Rankine -->
+          <div class="thermo-scale">
+            <span class="label">°R</span>
+            <div class="thermo-bar-wrap">
+              <div class="thermo-fill" id="thermo-r" style="height:50%;background:linear-gradient(to top,#14b8a6,#f59e0b)"></div>
+              <div class="thermo-ticks">
+                <span class="thermo-tick">672</span>
+                <span class="thermo-tick">582</span>
+                <span class="thermo-tick">492</span>
+                <span class="thermo-tick">402</span>
+                <span class="thermo-tick">0</span>
+              </div>
+            </div>
+            <span class="range-text">0 to 671.67+</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Common temperature reference table -->
+      <div class="tool-card">
+        <h2 style="font-size:1.1rem;margin-bottom:var(--sp-2)">Common Temperature Reference Table</h2>
+        <div class="ref-table-wrap">
+          <table class="ref-table">
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>°C</th>
+                <th>°F</th>
+                <th>K</th>
+                <th>°R</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Absolute zero</td><td>-273.15</td><td>-459.67</td><td>0</td><td>0</td></tr>
+              <tr><td>Water freezing point</td><td>0</td><td>32</td><td>273.15</td><td>491.67</td></tr>
+              <tr><td>Room temperature</td><td>20</td><td>68</td><td>293.15</td><td>527.67</td></tr>
+              <tr><td>Human body temperature</td><td>37</td><td>98.6</td><td>310.15</td><td>558.27</td></tr>
+              <tr><td>Water boiling point</td><td>100</td><td>212</td><td>373.15</td><td>671.67</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" id="ad-in-content" data-ad-slot="in-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>All Scales at Once</h3>
+            <p>See your temperature converted to Celsius, Fahrenheit, Kelvin, and Rankine simultaneously. No need to run separate conversions for each scale.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Real-Time Results</h3>
+            <p>Conversions update as you type, giving you instant feedback. No need to click a button or wait for page reloads.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Reference &amp; Formulas</h3>
+            <p>Built-in reference table with common temperatures and a visual thermometer comparison. Every conversion shows the exact formula used.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Temperature Converter</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li>Enter the temperature value you want to convert in the input field.</li>
+          <li>Select the source unit (Celsius, Fahrenheit, Kelvin, or Rankine) from the "From" dropdown.</li>
+          <li>Optionally select a target unit in the "To" dropdown, or view all conversions at once in the result area.</li>
+          <li>Use the swap button (&#8596;) to quickly reverse the from and to units.</li>
+          <li>Click the "Copy" button to copy the full conversion result to your clipboard.</li>
+        </ol>
+      </section>
+
+      <!-- SEO Content Section -->
+      <section class="mt-4">
+        <h2>Understanding Temperature Scales</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          Temperature is one of the most fundamental physical quantities measured in science and everyday life. Throughout history, scientists developed multiple scales to quantify heat and cold, each with its own origin story and practical applications. Understanding these scales is essential for accurate scientific work, cooking, weather interpretation, engineering, and international communication.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          The <strong style="color:var(--text)">Celsius scale</strong>, also known as centigrade, was developed by Swedish astronomer Anders Celsius in 1742. It defines 0 degrees as the freezing point of water and 100 degrees as the boiling point at standard atmospheric pressure. This clean, decimal-friendly design has made Celsius the most widely used temperature scale worldwide. It is the standard in science, medicine, and nearly every country outside the United States for weather and daily use.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          <strong style="color:var(--text)">Fahrenheit</strong> was proposed by Daniel Gabriel Fahrenheit in 1724, making it one of the earliest standardized temperature scales. On this scale, water freezes at 32 degrees and boils at 212 degrees. While less intuitive for scientific work, Fahrenheit offers finer granularity for ambient temperatures since its degree increments are smaller. It remains the primary scale used in the United States for weather forecasting, cooking, and everyday applications.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          The <strong style="color:var(--text)">Kelvin scale</strong>, named after Lord Kelvin (William Thomson), is the SI base unit of temperature used in the scientific community. It starts at absolute zero, the point where all molecular motion theoretically stops, which equals -273.15 degrees Celsius. Kelvin uses the same degree increment size as Celsius, so converting between them requires only adding or subtracting 273.15. Scientists prefer Kelvin for thermodynamic calculations, gas laws, and any context where negative temperatures would be problematic or meaningless.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          <strong style="color:var(--text)">Rankine</strong>, developed by Scottish engineer William John Macquorn Rankine in 1859, is an absolute temperature scale that pairs with Fahrenheit in the same way Kelvin pairs with Celsius. It starts at absolute zero (0 °R = -459.67 °F) and uses the same degree size as Fahrenheit. Rankine is primarily used in certain engineering fields in the United States, particularly in thermodynamic calculations involving the Fahrenheit system, such as in HVAC and some aerospace applications.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8">
+          Choosing the right scale depends on your context. For scientific research, Kelvin is the standard. For everyday use in most of the world, Celsius is the default. In the United States, Fahrenheit dominates daily life. Rankine is a niche scale but remains important for specialized engineering. This converter handles all four, letting you switch between them effortlessly and ensuring you always have the right number for the job.
+        </p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is the formula to convert Celsius to Fahrenheit?</summary>
+          <p>To convert Celsius to Fahrenheit, use the formula: °F = °C × 9/5 + 32. Multiply the Celsius temperature by 9, divide by 5, then add 32. For example, 25 °C equals (25 × 9/5) + 32 = 77 °F. This formula accounts for both the offset between the two scales (water freezes at 0 °C but 32 °F) and the difference in degree size (each Fahrenheit degree is 5/9 the size of a Celsius degree).</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is absolute zero and why does it matter?</summary>
+          <p>Absolute zero is the lowest temperature theoretically possible, defined as 0 Kelvin, -273.15 °C, -459.67 °F, or 0 °R. At this temperature, particles have minimal vibrational motion and cannot be any colder. Absolute zero is significant because it serves as the foundation for the Kelvin and Rankine scales and plays a central role in thermodynamics, quantum mechanics, and cryogenics. While scientists have come extremely close, true absolute zero has never been reached in practice.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between Kelvin and Rankine?</summary>
+          <p>Both Kelvin and Rankine are absolute temperature scales that start at absolute zero, meaning neither can have negative values. The key difference is the size of their degree increments. One Kelvin degree is the same size as one Celsius degree, while one Rankine degree equals one Fahrenheit degree. This means 1 K = 1.8 °R. Kelvin is the SI standard used in international science, while Rankine is used mainly in U.S. engineering contexts where Fahrenheit-based calculations are preferred.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Why does the United States still use Fahrenheit?</summary>
+          <p>The United States adopted Fahrenheit before the metric system became widespread. While most countries transitioned to Celsius during the global push toward metric standardization in the 20th century, the U.S. retained Fahrenheit for cultural and institutional reasons. The scale remains embedded in everyday life, from weather reports and thermostats to cooking recipes and medical practices. Scientific institutions in the U.S. do use Celsius and Kelvin, but public-facing temperature readings remain in Fahrenheit.</p>
+        </details>
+        <details class="faq-item">
+          <summary>When should I use Kelvin instead of Celsius?</summary>
+          <p>Use Kelvin when working in scientific or engineering contexts that require absolute temperature values. This includes thermodynamic calculations (gas laws, entropy, enthalpy), physics experiments, color temperature in photography and lighting, and any formula where temperature must be strictly positive. For everyday tasks like checking the weather, setting an oven, or monitoring a fever, Celsius (or Fahrenheit, depending on your country) is the more practical choice.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do I convert Fahrenheit to Celsius quickly in my head?</summary>
+          <p>A useful mental shortcut is: subtract 30 from the Fahrenheit value, then divide by 2. This gives a rough approximation. For example, 80 °F becomes (80 - 30) / 2 = 25 °C (the actual value is about 26.7 °C). For more precision, use the exact formula: °C = (°F - 32) × 5/9. Another trick is to remember key reference points: 32 °F = 0 °C, 72 °F ≈ 22 °C, 98.6 °F = 37 °C, and 212 °F = 100 °C.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is there a temperature where Celsius and Fahrenheit are equal?</summary>
+          <p>Yes. Celsius and Fahrenheit scales intersect at exactly -40 degrees. At this point, -40 °C equals -40 °F. This can be proven algebraically by setting the conversion formula equal: °C = (°F - 32) × 5/9. When °C = °F, solving the equation yields -40. This is a well-known fact in meteorology and serves as a useful reference point when converting between the two scales.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://length.toolrip.com">Length Converter</a>
+          <a href="https://weight.toolrip.com">Weight Converter</a>
+          <a href="https://speed.toolrip.com">Speed Converter</a>
+          <a href="https://data-storage.toolrip.com">Data Storage Converter</a>
+          <a href="https://number-base.toolrip.com">Number Base Converter</a>
+          <a href="https://angle.toolrip.com">Angle Converter</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" id="ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" id="ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+  (function() {
+    'use strict';
+
+    var valueInput = document.getElementById('temp-value');
+    var fromSelect = document.getElementById('from-unit');
+    var toSelect   = document.getElementById('to-unit');
+    var swapBtn    = document.getElementById('swap-btn');
+    var convertBtn = document.getElementById('convert-btn');
+    var clearBtn   = document.getElementById('clear-btn');
+    var resultChain = document.getElementById('result-chain');
+    var copyResultBtn = document.getElementById('copy-result-btn');
+    var formulaBox = document.getElementById('formula-box');
+    var formulaText = document.getElementById('formula-text');
+
+    /* --- Conversion core: everything goes through Celsius --- */
+    function toCelsius(value, unit) {
+      switch (unit) {
+        case 'C': return value;
+        case 'F': return (value - 32) * 5 / 9;
+        case 'K': return value - 273.15;
+        case 'R': return (value - 491.67) * 5 / 9;
+        default:  return value;
+      }
+    }
+
+    function fromCelsius(c, unit) {
+      switch (unit) {
+        case 'C': return c;
+        case 'F': return c * 9 / 5 + 32;
+        case 'K': return c + 273.15;
+        case 'R': return (c + 273.15) * 9 / 5;
+        default:  return c;
+      }
+    }
+
+    function unitSymbol(u) {
+      switch (u) {
+        case 'C': return '°C';
+        case 'F': return '°F';
+        case 'K': return 'K';
+        case 'R': return '°R';
+        default:  return u;
+      }
+    }
+
+    function formatTemp(val) {
+      /* Show up to 4 decimal places, but strip trailing zeros */
+      var n = Number(val);
+      if (!isFinite(n)) return '—';
+      return parseFloat(n.toFixed(4)).toString();
+    }
+
+    /* --- Build the formulas text --- */
+    function buildFormulas(fromUnit) {
+      var lines = [];
+      if (fromUnit !== 'C') {
+        if (fromUnit === 'F') lines.push('°C = (°F − 32) × 5/9');
+        if (fromUnit === 'K') lines.push('°C = K − 273.15');
+        if (fromUnit === 'R') lines.push('°C = (°R − 491.67) × 5/9');
+      }
+      if (fromUnit !== 'F') lines.push('°F = °C × 9/5 + 32');
+      if (fromUnit !== 'K') lines.push('K = °C + 273.15');
+      if (fromUnit !== 'R') lines.push('°R = (°C + 273.15) × 9/5');
+      return lines.join('<br>');
+    }
+
+    /* --- Main convert logic --- */
+    function doConvert() {
+      var raw = valueInput.value.trim();
+      if (raw === '') {
+        resultChain.innerHTML = '<button class="copy-btn" id="copy-result-btn" style="display:none">Copy</button><span class="empty-state">Enter a temperature value above to see all conversions</span>';
+        formulaBox.style.display = 'none';
+        updateThermometers(null);
+        return;
+      }
+
+      var value = parseFloat(raw);
+      if (isNaN(value)) {
+        resultChain.innerHTML = '<button class="copy-btn" id="copy-result-btn" style="display:none">Copy</button><span class="empty-state" style="color:#ef4444">Please enter a valid number</span>';
+        formulaBox.style.display = 'none';
+        return;
+      }
+
+      var from = fromSelect.value;
+      var celsius = toCelsius(value, from);
+      var results = {
+        C: fromCelsius(celsius, 'C'),
+        F: fromCelsius(celsius, 'F'),
+        K: fromCelsius(celsius, 'K'),
+        R: fromCelsius(celsius, 'R')
+      };
+
+      /* Build all-at-once display */
+      var chain = formatTemp(results.C) + ' °C = ' +
+                  formatTemp(results.F) + ' °F = ' +
+                  formatTemp(results.K) + ' K = ' +
+                  formatTemp(results.R) + ' °R';
+
+      resultChain.innerHTML = '<button class="copy-btn" id="copy-result-btn">Copy</button>' + chain;
+
+      /* Re-bind copy button */
+      document.getElementById('copy-result-btn').addEventListener('click', function() {
+        copyToClipboard(chain, this);
+      });
+
+      /* Show formulas */
+      formulaText.innerHTML = buildFormulas(from);
+      formulaBox.style.display = '';
+
+      /* Update thermometers */
+      updateThermometers(celsius);
+    }
+
+    /* --- Thermometer visual update --- */
+    function updateThermometers(celsius) {
+      /* Map celsius range [-273.15 .. 100] to 0%..100% height */
+      var minC = -273.15, maxC = 150;
+      var range = maxC - minC;
+
+      function pct(c) {
+        if (c === null || c === undefined || !isFinite(c)) return 50;
+        return Math.max(0, Math.min(100, ((c - minC) / range) * 100));
+      }
+
+      if (celsius === null) {
+        /* Default 50% */
+        document.getElementById('thermo-c').style.height = '50%';
+        document.getElementById('thermo-f').style.height = '50%';
+        document.getElementById('thermo-k').style.height = '50%';
+        document.getElementById('thermo-r').style.height = '50%';
+        return;
+      }
+
+      var p = pct(celsius);
+      document.getElementById('thermo-c').style.height = p + '%';
+      document.getElementById('thermo-f').style.height = p + '%';
+      document.getElementById('thermo-k').style.height = p + '%';
+      document.getElementById('thermo-r').style.height = p + '%';
+    }
+
+    /* --- Swap units --- */
+    swapBtn.addEventListener('click', function() {
+      var tmp = fromSelect.value;
+      fromSelect.value = toSelect.value;
+      toSelect.value = tmp;
+      doConvert();
+    });
+
+    /* --- Convert button --- */
+    convertBtn.addEventListener('click', doConvert);
+
+    /* --- Clear --- */
+    clearBtn.addEventListener('click', function() {
+      valueInput.value = '';
+      fromSelect.value = 'C';
+      toSelect.value = 'F';
+      resultChain.innerHTML = '<button class="copy-btn" id="copy-result-btn" style="display:none">Copy</button><span class="empty-state">Enter a temperature value above to see all conversions</span>';
+      formulaBox.style.display = 'none';
+      updateThermometers(null);
+      valueInput.focus();
+    });
+
+    /* --- Real-time conversion as user types --- */
+    valueInput.addEventListener('input', doConvert);
+    fromSelect.addEventListener('change', doConvert);
+    toSelect.addEventListener('change', doConvert);
+
+    /* --- Keyboard: Enter to convert --- */
+    valueInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        doConvert();
+      }
+    });
+
+  })();
+  </script>
+</body>
+</html>

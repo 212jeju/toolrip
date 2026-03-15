@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tip Calculator — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Calculate tips instantly for any bill. Split between friends, compare tip percentages, round up or down. Free online tip calculator with real-time results and tipping guide.">
+  <link rel="canonical" href="https://tip.toolrip.com/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Tip Calculator — Toolrip">
+  <meta property="og:description" content="Calculate tips instantly for any bill. Split between friends, compare tip percentages, round up or down. Free online tip calculator with real-time results.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tip.toolrip.com/">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Tip Calculator — Toolrip">
+  <meta name="twitter:description" content="Calculate tips instantly for any bill. Split between friends, compare tip percentages, round up or down. Free online tip calculator with real-time results.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--finance)}</style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Tip Calculator",
+    "url": "https://tip.toolrip.com/",
+    "description": "Calculate tips instantly for any bill. Split between friends, compare tip percentages, round up or down. Free online tip calculator with real-time results and tipping guide.",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <style>
+    /* Tool-specific styles */
+
+    /* Bill input with $ prefix */
+    .bill-input-wrap {
+      position: relative;
+    }
+    .bill-input-wrap .currency-prefix {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 1.125rem;
+      font-weight: 600;
+      pointer-events: none;
+    }
+    .bill-input-wrap .input-field {
+      padding-left: 28px;
+      font-size: 1.125rem;
+    }
+
+    /* Tip quick buttons */
+    .tip-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-2);
+      margin-bottom: var(--sp-2);
+    }
+    .tip-btn {
+      flex: 1 1 auto;
+      min-width: 60px;
+      padding: var(--sp-2) var(--sp-3);
+      background: var(--bg-elevated);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font: inherit;
+      font-size: .9375rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color .15s, background .15s, color .15s;
+      text-align: center;
+    }
+    .tip-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .tip-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    /* Custom tip row */
+    .custom-tip-row {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+    }
+    .custom-tip-row .input-field {
+      width: 100px;
+    }
+    .custom-tip-row span {
+      color: var(--text-muted);
+      font-size: .875rem;
+    }
+
+    /* People counter */
+    .people-counter {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+    }
+    .counter-btn {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-elevated);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-size: 1.25rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: border-color .15s, background .15s;
+      user-select: none;
+      line-height: 1;
+    }
+    .counter-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .counter-btn:active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .people-counter .input-field {
+      width: 64px;
+      text-align: center;
+      font-size: 1.125rem;
+      font-weight: 600;
+    }
+
+    /* Results display */
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-3);
+      margin-top: var(--sp-4);
+    }
+    @media (max-width: 639px) {
+      .results-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .result-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-4);
+      text-align: center;
+    }
+    .result-card.primary {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 5%, var(--bg));
+    }
+    .result-label {
+      font-size: .8rem;
+      color: var(--text-muted);
+      margin-bottom: var(--sp-1);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .result-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .result-value.accent {
+      color: var(--accent);
+      font-size: 2rem;
+    }
+
+    /* Round toggles */
+    .round-toggles {
+      display: flex;
+      gap: var(--sp-3);
+      margin-top: var(--sp-3);
+      flex-wrap: wrap;
+    }
+    .round-toggle {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+      cursor: pointer;
+      font-size: .875rem;
+      color: var(--text-muted);
+      user-select: none;
+    }
+    .round-toggle input[type="radio"] {
+      accent-color: var(--accent);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    /* Comparison table */
+    .compare-table-wrap {
+      overflow-x: auto;
+      margin-top: var(--sp-4);
+    }
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .875rem;
+    }
+    .compare-table th {
+      text-align: left;
+      padding: var(--sp-2);
+      border-bottom: 2px solid var(--border);
+      font-size: .75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .03em;
+      white-space: nowrap;
+    }
+    .compare-table td {
+      padding: var(--sp-2);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .compare-table tr:hover td {
+      background: var(--bg-elevated);
+    }
+    .compare-table tr.active-row td {
+      background: color-mix(in srgb, var(--accent) 8%, var(--bg));
+      font-weight: 600;
+    }
+
+    /* Tipping guide */
+    .tipping-guide-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: var(--sp-3);
+      margin-top: var(--sp-3);
+    }
+    .tipping-guide-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-3);
+    }
+    .tipping-guide-card h3 {
+      font-size: 1rem;
+      margin: 0 0 var(--sp-1) 0;
+      color: var(--text);
+    }
+    .tipping-guide-card .tip-range {
+      color: var(--accent);
+      font-weight: 700;
+      font-size: .9375rem;
+      margin-bottom: var(--sp-1);
+    }
+    .tipping-guide-card p {
+      color: var(--text-muted);
+      font-size: .8125rem;
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* Section divider */
+    .section-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: var(--sp-4) 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="top">Ad</div>
+
+    <!-- Breadcrumb -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#finance">Finance Tools</a>
+        <span>/</span>
+        <span>Tip Calculator</span>
+      </nav>
+
+      <h1>Tip Calculator</h1>
+      <p class="text-muted mt-1 mb-3">Calculate tips instantly, split bills between friends, compare percentages, and round to the nearest dollar. Fast, free, and works entirely in your browser.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+
+        <!-- Bill Amount -->
+        <div class="input-group">
+          <label for="billAmount">Bill Amount</label>
+          <div class="bill-input-wrap">
+            <span class="currency-prefix">$</span>
+            <input type="text" id="billAmount" class="input-field" placeholder="0.00" inputmode="decimal" autocomplete="off">
+          </div>
+        </div>
+
+        <!-- Tip Percentage -->
+        <div class="input-group">
+          <label>Tip Percentage</label>
+          <div class="tip-buttons" id="tipButtons">
+            <button type="button" class="tip-btn" data-tip="10">10%</button>
+            <button type="button" class="tip-btn" data-tip="15">15%</button>
+            <button type="button" class="tip-btn active" data-tip="18">18%</button>
+            <button type="button" class="tip-btn" data-tip="20">20%</button>
+            <button type="button" class="tip-btn" data-tip="25">25%</button>
+          </div>
+          <div class="custom-tip-row">
+            <span>Custom:</span>
+            <input type="text" id="customTip" class="input-field" placeholder="18" inputmode="decimal" autocomplete="off">
+            <span>%</span>
+          </div>
+        </div>
+
+        <!-- Number of People -->
+        <div class="input-group">
+          <label>Number of People</label>
+          <div class="people-counter">
+            <button type="button" class="counter-btn" id="decPeople" aria-label="Decrease people">&#8722;</button>
+            <input type="text" id="numPeople" class="input-field" value="1" inputmode="numeric" autocomplete="off">
+            <button type="button" class="counter-btn" id="incPeople" aria-label="Increase people">+</button>
+          </div>
+        </div>
+
+        <!-- Round Options -->
+        <div class="round-toggles">
+          <label class="round-toggle">
+            <input type="radio" name="rounding" value="none" checked>
+            No rounding
+          </label>
+          <label class="round-toggle">
+            <input type="radio" name="rounding" value="up">
+            Round up total
+          </label>
+          <label class="round-toggle">
+            <input type="radio" name="rounding" value="down">
+            Round down total
+          </label>
+        </div>
+
+        <!-- Results -->
+        <div class="results-grid" id="resultsGrid">
+          <div class="result-card">
+            <div class="result-label">Tip Amount</div>
+            <div class="result-value" id="tipAmount">$0.00</div>
+          </div>
+          <div class="result-card primary">
+            <div class="result-label">Total Amount</div>
+            <div class="result-value accent" id="totalAmount">$0.00</div>
+          </div>
+          <div class="result-card" id="perPersonCard">
+            <div class="result-label">Per Person</div>
+            <div class="result-value" id="perPerson">$0.00</div>
+          </div>
+        </div>
+
+        <!-- Comparison Table -->
+        <hr class="section-divider">
+        <h2 style="font-size:1.125rem;margin-bottom:var(--sp-1)">Tip Comparison</h2>
+        <p class="text-muted" style="font-size:.8125rem;margin-bottom:var(--sp-2)">See how different tip percentages affect your total at a glance.</p>
+        <div class="compare-table-wrap">
+          <table class="compare-table" id="compareTable">
+            <thead>
+              <tr>
+                <th>Tip %</th>
+                <th>Tip Amount</th>
+                <th>Total</th>
+                <th>Per Person</th>
+              </tr>
+            </thead>
+            <tbody id="compareBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="in-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Instant Real-Time Results</h3>
+            <p>Every input you change recalculates automatically. There are no buttons to press and no page reloads. Type a bill amount, pick a tip percentage, and see the tip, total, and per-person share update live as you adjust any value. The streamlined interface is designed for speed so you can figure out the right tip in seconds, whether you are at a restaurant, a coffee shop, or reviewing a delivery receipt at home.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Easy Bill Splitting</h3>
+            <p>Dining with friends or coworkers? Use the built-in bill splitter to divide the total evenly among any number of people. The plus and minus buttons make it fast to adjust the group size, and the per-person amount updates instantly. No more awkward mental math at the table or debates about who owes what. Simply enter the number of people sharing the bill and everyone gets a clear, fair amount to pay.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Side-by-Side Tip Comparison</h3>
+            <p>Not sure whether to tip 15% or 20%? The comparison table shows tip amounts, totals, and per-person costs for every common percentage at once. The row matching your current selection is highlighted so you can instantly see the difference a few percentage points makes. This is especially useful for large bills or big groups where even a small percentage change can shift each person's share significantly.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Tip Calculator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li>Enter your bill amount in the dollar field at the top. You can type the number with or without decimals and the calculator will handle formatting automatically.</li>
+          <li>Select a tip percentage by tapping one of the quick-select buttons (10%, 15%, 18%, 20%, 25%) or type any custom percentage in the input field. The active button is highlighted so you always know which rate is applied.</li>
+          <li>If you are splitting the bill, use the plus and minus buttons to set the number of people. The per-person card shows exactly how much each person owes including their share of the tip.</li>
+          <li>Optionally toggle rounding to round the total up or down to the nearest whole dollar for cleaner payment amounts. Review the comparison table below the results to see how alternative tip percentages would change your total.</li>
+        </ol>
+      </section>
+
+      <!-- Tipping Guide -->
+      <section class="mt-4">
+        <h2>Tipping Guide by Service Type</h2>
+        <p class="text-muted" style="margin-bottom:var(--sp-2)">Tipping customs vary by industry. Below are commonly accepted ranges in the United States to help you decide how much to leave.</p>
+        <div class="tipping-guide-grid">
+          <div class="tipping-guide-card">
+            <h3>Restaurant (Sit-Down)</h3>
+            <div class="tip-range">15% &ndash; 20%</div>
+            <p>Standard for table service. Tip on the pre-tax subtotal. For exceptional service or large parties, 20% or more is customary. Many restaurants add automatic gratuity for groups of six or more.</p>
+          </div>
+          <div class="tipping-guide-card">
+            <h3>Food Delivery</h3>
+            <div class="tip-range">15% &ndash; 20%</div>
+            <p>Delivery drivers use their own vehicles and fuel. A minimum of $3 to $5 is common for smaller orders. In bad weather or for long-distance deliveries, consider tipping at the higher end of the range.</p>
+          </div>
+          <div class="tipping-guide-card">
+            <h3>Coffee &amp; Takeout</h3>
+            <div class="tip-range">$1 &ndash; $2 or 10%</div>
+            <p>A dollar or two per drink is standard at coffee shops. For larger or more complex orders, a percentage-based tip of around 10% is appreciated by baristas and counter staff.</p>
+          </div>
+          <div class="tipping-guide-card">
+            <h3>Taxi &amp; Rideshare</h3>
+            <div class="tip-range">15% &ndash; 20%</div>
+            <p>Tip your taxi or rideshare driver 15% to 20% of the fare. If the driver helps with luggage or provides an especially smooth ride, tipping at the higher end is a nice gesture.</p>
+          </div>
+          <div class="tipping-guide-card">
+            <h3>Hair Salon &amp; Barber</h3>
+            <div class="tip-range">15% &ndash; 25%</div>
+            <p>Hairstylists, barbers, and colorists typically receive 15% to 20%. For complex services like coloring or styling for special events, 20% to 25% shows appreciation for the extra time and skill involved.</p>
+          </div>
+          <div class="tipping-guide-card">
+            <h3>Hotel Housekeeping</h3>
+            <div class="tip-range">$2 &ndash; $5 per night</div>
+            <p>Leave cash daily rather than at checkout since housekeepers rotate shifts. For suites or rooms requiring extra cleaning, tip toward the higher end of the range per night of your stay.</p>
+          </div>
+          <div class="tipping-guide-card">
+            <h3>Bartender</h3>
+            <div class="tip-range">$1 &ndash; $2 per drink or 15%&ndash;20%</div>
+            <p>A dollar per beer or simple drink and two dollars per cocktail is standard. If you run a tab, tipping 15% to 20% of the total bill at the end of the night is the usual practice.</p>
+          </div>
+          <div class="tipping-guide-card">
+            <h3>Valet Parking</h3>
+            <div class="tip-range">$2 &ndash; $5</div>
+            <p>Tip the valet when they return your car. Two to five dollars is standard depending on the venue and location. At upscale establishments, tipping on the higher side is expected.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>How do I calculate a tip on a restaurant bill?</summary>
+          <p>To calculate a tip, multiply your bill amount by the tip percentage you want to leave. For example, if your bill is $50 and you want to leave an 18% tip, multiply $50 by 0.18 to get $9.00. Your total would be $59.00. This calculator automates that math for you. Simply enter the bill amount, choose a percentage, and the tip amount and total appear instantly. You can also switch between different percentages using the quick-select buttons to compare what each option costs before you decide. The comparison table at the bottom shows all common percentages side by side so you never have to do mental math again.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Should I tip on the pre-tax or post-tax amount?</summary>
+          <p>Etiquette experts generally recommend tipping on the pre-tax subtotal of your bill rather than the total that includes sales tax. The tax portion is paid to the government and is not part of the service you received, so it makes more sense to base your gratuity on the cost of the food and drinks alone. That said, many people simply tip on the full amount for convenience, and the difference is usually small. On a $100 meal with 8% tax, tipping 18% on the pre-tax amount gives $18.00, while tipping 18% on the post-tax total of $108 gives $19.44. Either approach is acceptable. If you want to keep things simple, tipping on the total is perfectly fine and your server will appreciate it regardless of which method you choose.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is a good tip percentage for different services?</summary>
+          <p>Tip percentages vary by service type and region. In the United States, the standard range for sit-down restaurant service is 15% to 20%, with 18% being the most common starting point for adequate service. For delivery drivers and rideshare services, 15% to 20% is typical, with a minimum of three to five dollars on small orders. Coffee shops and takeout counters usually receive one to two dollars per item or about 10% of the order. Hair salons, barbers, and spa services generally warrant 15% to 25%, depending on the complexity of the service. Hotel housekeeping is customarily tipped two to five dollars per night. Bartenders receive one to two dollars per drink or 15% to 20% when settling a tab. The tipping guide section above provides a detailed breakdown for each service category to help you decide.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How does the bill splitting feature work?</summary>
+          <p>The bill splitting feature divides the total amount, including the tip, equally among the number of people in your group. Use the plus and minus buttons or type directly into the people field to set the group size. The per-person card updates in real time as you change the number. For example, if the bill is $120, the tip is $21.60 at 18%, and there are four people, each person pays $35.40. This makes it easy to tell everyone at the table exactly what they owe without pulling out a separate calculator app. The feature works with any combination of bill amount, tip percentage, and group size. If you enable rounding, the total is rounded first and then divided among the group, so each share is based on the rounded total rather than the exact calculated amount.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What does the round up and round down feature do?</summary>
+          <p>The rounding feature adjusts your total to the nearest whole dollar for cleaner, easier-to-pay amounts. When you select "Round up total," the calculated total is rounded up to the next whole dollar. For instance, a total of $47.36 becomes $48.00. When you select "Round down total," the total is rounded down, so $47.36 becomes $47.00. The tip amount adjusts accordingly to match the new total. This is especially useful when paying with cash or when you prefer tidy numbers on your credit card statement. The default setting is no rounding, which gives you the exact calculated amounts. You can switch between the three options at any time and the results update instantly. The comparison table also reflects the current rounding setting so you can see rounded totals across all tip percentages simultaneously.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is this tip calculator free to use?</summary>
+          <p>Yes, this tip calculator is completely free with no signup, no account, and no hidden fees. All calculations run entirely in your browser, meaning nothing is sent to a server and your bill information stays private on your device. You can use it as many times as you want, on any device with a web browser, including phones, tablets, laptops, and desktops. There are no usage limits and no premium features locked behind a paywall. Bookmark this page for quick access the next time you need to figure out a tip at a restaurant, bar, coffee shop, or anywhere else. The tool works offline after the initial page load since all the math is handled by JavaScript running locally in your browser.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://percentage.toolrip.com">Percentage Calculator</a>
+          <a href="https://sales-tax.toolrip.com">Sales Tax Calculator</a>
+          <a href="https://currency.toolrip.com">Currency Converter</a>
+          <a href="https://salary.toolrip.com">Salary Calculator</a>
+          <a href="https://mortgage.toolrip.com">Mortgage Calculator</a>
+          <a href="https://roi.toolrip.com">ROI Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tip Calculator JS -->
+  <script>
+    (function() {
+      'use strict';
+
+      /* --- State --- */
+      var state = {
+        bill: 0,
+        tipPercent: 18,
+        people: 1,
+        rounding: 'none' // 'none' | 'up' | 'down'
+      };
+
+      var STANDARD_TIPS = [10, 15, 18, 20, 25];
+
+      /* --- DOM References --- */
+      var els = {
+        billAmount:   document.getElementById('billAmount'),
+        customTip:    document.getElementById('customTip'),
+        tipButtons:   document.getElementById('tipButtons'),
+        numPeople:    document.getElementById('numPeople'),
+        decPeople:    document.getElementById('decPeople'),
+        incPeople:    document.getElementById('incPeople'),
+        tipAmount:    document.getElementById('tipAmount'),
+        totalAmount:  document.getElementById('totalAmount'),
+        perPerson:    document.getElementById('perPerson'),
+        perPersonCard:document.getElementById('perPersonCard'),
+        compareBody:  document.getElementById('compareBody')
+      };
+
+      /* --- Helpers --- */
+      function parseNum(str) {
+        if (!str) return 0;
+        return parseFloat(str.replace(/[^0-9.\-]/g, '')) || 0;
+      }
+
+      function fmt(val) {
+        return typeof formatCurrency === 'function' ? formatCurrency(val) : '$' + val.toFixed(2);
+      }
+
+      /* --- Calculation --- */
+      function calculate() {
+        state.bill = parseNum(els.billAmount.value);
+        state.people = Math.max(1, parseInt(els.numPeople.value, 10) || 1);
+
+        var tipAmt = state.bill * (state.tipPercent / 100);
+        var total = state.bill + tipAmt;
+
+        // Apply rounding
+        if (state.rounding === 'up') {
+          total = Math.ceil(total);
+          tipAmt = total - state.bill;
+        } else if (state.rounding === 'down') {
+          total = Math.floor(total);
+          tipAmt = total - state.bill;
+          if (tipAmt < 0) { tipAmt = 0; total = state.bill; }
+        }
+
+        var perPerson = state.people > 1 ? total / state.people : total;
+
+        // Update results
+        els.tipAmount.textContent = fmt(tipAmt);
+        els.totalAmount.textContent = fmt(total);
+        els.perPerson.textContent = fmt(perPerson);
+
+        // Show/hide per person label detail
+        if (state.people > 1) {
+          els.perPersonCard.style.opacity = '1';
+        } else {
+          els.perPersonCard.style.opacity = '0.5';
+        }
+
+        // Build comparison table
+        buildComparisonTable();
+      }
+
+      /* --- Comparison Table --- */
+      function buildComparisonTable() {
+        var percentages = [10, 15, 18, 20, 25, 30];
+        var html = '';
+
+        percentages.forEach(function(pct) {
+          var tipAmt = state.bill * (pct / 100);
+          var total = state.bill + tipAmt;
+
+          if (state.rounding === 'up') {
+            total = Math.ceil(total);
+            tipAmt = total - state.bill;
+          } else if (state.rounding === 'down') {
+            total = Math.floor(total);
+            tipAmt = total - state.bill;
+            if (tipAmt < 0) { tipAmt = 0; total = state.bill; }
+          }
+
+          var pp = state.people > 1 ? total / state.people : total;
+          var isActive = pct === state.tipPercent;
+
+          html += '<tr' + (isActive ? ' class="active-row"' : '') + '>'
+            + '<td>' + pct + '%</td>'
+            + '<td>' + fmt(tipAmt) + '</td>'
+            + '<td>' + fmt(total) + '</td>'
+            + '<td>' + fmt(pp) + '</td>'
+            + '</tr>';
+        });
+
+        els.compareBody.innerHTML = html;
+      }
+
+      /* --- Tip Button Handling --- */
+      function setActiveTipButton(tipValue) {
+        var btns = els.tipButtons.querySelectorAll('.tip-btn');
+        var matched = false;
+        for (var i = 0; i < btns.length; i++) {
+          if (parseInt(btns[i].getAttribute('data-tip'), 10) === tipValue) {
+            btns[i].classList.add('active');
+            matched = true;
+          } else {
+            btns[i].classList.remove('active');
+          }
+        }
+        return matched;
+      }
+
+      els.tipButtons.addEventListener('click', function(e) {
+        var btn = e.target.closest('.tip-btn');
+        if (!btn) return;
+        var val = parseInt(btn.getAttribute('data-tip'), 10);
+        state.tipPercent = val;
+        els.customTip.value = val;
+        setActiveTipButton(val);
+        calculate();
+      });
+
+      els.customTip.addEventListener('input', function() {
+        var val = parseNum(this.value);
+        if (val >= 0 && val <= 100) {
+          state.tipPercent = val;
+          setActiveTipButton(val);
+          calculate();
+        }
+      });
+
+      /* --- People Counter --- */
+      els.incPeople.addEventListener('click', function() {
+        var current = parseInt(els.numPeople.value, 10) || 1;
+        if (current < 99) {
+          els.numPeople.value = current + 1;
+          calculate();
+        }
+      });
+
+      els.decPeople.addEventListener('click', function() {
+        var current = parseInt(els.numPeople.value, 10) || 1;
+        if (current > 1) {
+          els.numPeople.value = current - 1;
+          calculate();
+        }
+      });
+
+      els.numPeople.addEventListener('input', function() {
+        var val = parseInt(this.value, 10);
+        if (val < 1 || isNaN(val)) {
+          this.value = 1;
+        } else if (val > 99) {
+          this.value = 99;
+        }
+        calculate();
+      });
+
+      /* --- Rounding --- */
+      var roundRadios = document.querySelectorAll('input[name="rounding"]');
+      for (var i = 0; i < roundRadios.length; i++) {
+        roundRadios[i].addEventListener('change', function() {
+          state.rounding = this.value;
+          calculate();
+        });
+      }
+
+      /* --- Bill Amount Input --- */
+      els.billAmount.addEventListener('input', function() {
+        calculate();
+      });
+
+      els.billAmount.addEventListener('blur', function() {
+        var val = parseNum(this.value);
+        if (val > 0) {
+          this.value = val.toFixed(2);
+        }
+      });
+
+      /* --- Set defaults --- */
+      els.customTip.value = '18';
+      els.billAmount.focus();
+
+      // Initial calc
+      calculate();
+
+    })();
+  </script>
+</body>
+</html>

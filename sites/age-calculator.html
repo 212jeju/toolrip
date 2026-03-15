@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Age Calculator — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Calculate your exact age in years, months, days, hours, and minutes. Find your zodiac sign, Chinese zodiac, generation, next birthday countdown, and fun facts. Free, instant, no signup required.">
+  <meta name="keywords" content="age calculator, birthday calculator, how old am I, exact age, zodiac sign, chinese zodiac, generation calculator, birthday countdown">
+  <link rel="canonical" href="https://age.toolrip.com/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Age Calculator — Free, Fast, No Signup | Toolrip">
+  <meta property="og:description" content="Calculate your exact age in years, months, days, hours, and minutes. Find your zodiac sign, Chinese zodiac, generation, next birthday countdown, and more.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://age.toolrip.com/">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Age Calculator — Free, Fast, No Signup | Toolrip">
+  <meta name="twitter:description" content="Calculate your exact age in years, months, days, hours, and minutes. Find your zodiac sign, Chinese zodiac, generation, next birthday countdown, and more.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root { --accent: var(--datetime); }
+
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-3);
+    }
+    @media (max-width: 639px) {
+      .input-row { grid-template-columns: 1fr; }
+    }
+
+    /* Results area */
+    .results-area { display: none; margin-top: var(--sp-4); }
+    .results-area.visible { display: block; }
+
+    /* Age headline */
+    .age-headline {
+      text-align: center;
+      padding: var(--sp-5);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--sp-4);
+    }
+    .age-headline .age-big {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1.2;
+    }
+    .age-headline .age-sub {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-top: var(--sp-1);
+    }
+
+    /* Result cards grid */
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--sp-3);
+    }
+    @media (min-width: 640px) {
+      .result-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (min-width: 1024px) {
+      .result-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    .result-item {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-3);
+      text-align: center;
+    }
+    .result-item .ri-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+      word-break: break-word;
+    }
+    .result-item .ri-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: var(--sp-1);
+    }
+
+    /* Detail cards */
+    .detail-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--sp-3);
+      margin-top: var(--sp-4);
+    }
+    @media (min-width: 640px) {
+      .detail-cards { grid-template-columns: repeat(3, 1fr); }
+    }
+    .detail-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-3);
+    }
+    .detail-card .dc-icon {
+      font-size: 1.5rem;
+      margin-bottom: var(--sp-1);
+    }
+    .detail-card .dc-title {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .detail-card .dc-value {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-top: var(--sp-1);
+    }
+    .detail-card .dc-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Fun facts section */
+    .fun-facts {
+      margin-top: var(--sp-4);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-4);
+    }
+    .fun-facts h3 {
+      font-size: 1rem;
+      margin-bottom: var(--sp-3);
+    }
+    .fun-fact-list {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-2);
+    }
+    .fun-fact-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--sp-2);
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .fun-fact-list li span.ff-icon {
+      flex-shrink: 0;
+      font-size: 1.1rem;
+    }
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Age Calculator",
+    "url": "https://age.toolrip.com/",
+    "description": "Calculate your exact age in years, months, days, hours, and minutes. Find your zodiac sign, Chinese zodiac, generation, next birthday countdown, and fun facts.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How does the Age Calculator work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Age Calculator computes the exact difference between your date of birth and a target date (today by default). It breaks down the result into years, months, and days while correctly accounting for varying month lengths and leap years. All calculations happen in your browser — no data is sent to any server."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does the calculator handle leap years?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Leap years occur every 4 years, except for century years not divisible by 400. The calculator uses the Gregorian calendar rules to accurately count each day, including February 29 in leap years. If you were born on February 29, your age increments each year on March 1 in non-leap years."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What zodiac signs does the calculator show?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The calculator shows both your Western zodiac sign (based on your birth month and day) and your Chinese zodiac animal (based on your birth year in the Chinese lunar calendar cycle of 12 animals)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How are generations defined?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Generations are defined by birth year ranges: Greatest Generation (before 1928), Silent Generation (1928-1945), Baby Boomers (1946-1964), Generation X (1965-1980), Millennials (1981-1996), Generation Z (1997-2012), and Generation Alpha (2013 and later). These boundaries are based on widely used demographic definitions."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I calculate age between two custom dates?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. By default the calculator uses today as the end date, but you can change the 'Calculate to' field to any date. This lets you find the exact age at any point in time — past or future."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Date & Time Tools", "item": "https://toolrip.com/#datetime" },
+      { "@type": "ListItem", "position": 3, "name": "Age Calculator", "item": "https://age.toolrip.com/" }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="age-top">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#datetime">Date &amp; Time Tools</a>
+        <span>/</span>
+        <span>Age Calculator</span>
+      </nav>
+
+      <h1>Age Calculator</h1>
+      <p class="text-muted mt-1 mb-3">Calculate your exact age down to the minute, discover your zodiac sign, Chinese zodiac, generation, and fun facts about your life. Free, instant, and private.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <div class="input-row">
+          <div class="input-group">
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" class="input-field" aria-label="Date of Birth">
+          </div>
+          <div class="input-group">
+            <label for="target-date">Calculate to</label>
+            <input type="date" id="target-date" class="input-field" aria-label="Target date for calculation">
+          </div>
+        </div>
+
+        <div class="flex gap-2 mt-2">
+          <button class="btn-primary" onclick="calculateAge()">Calculate Age</button>
+          <button class="btn-secondary" onclick="resetForm()">Reset</button>
+        </div>
+
+        <!-- Results -->
+        <div class="results-area" id="results-area">
+
+          <!-- Exact Age Headline -->
+          <div class="age-headline" id="age-headline">
+            <div class="age-big" id="age-big"></div>
+            <div class="age-sub" id="age-sub"></div>
+          </div>
+
+          <!-- Totals Grid -->
+          <div class="result-grid" id="result-grid"></div>
+
+          <!-- Detail Cards -->
+          <div class="detail-cards" id="detail-cards"></div>
+
+          <!-- Fun Facts -->
+          <div class="fun-facts" id="fun-facts">
+            <h3>Fun Facts About Your Life</h3>
+            <ul class="fun-fact-list" id="fun-fact-list"></ul>
+          </div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="age-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Precise Age Breakdown</h3>
+            <p>Get your exact age in years, months, and days with totals broken down into months, weeks, days, hours, and minutes. The calculator correctly handles varying month lengths and leap years for pinpoint accuracy.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Birthday &amp; Zodiac Insights</h3>
+            <p>Discover the day of the week you were born, your Western zodiac sign, Chinese zodiac animal, and which generation you belong to. See a live countdown showing exactly how many days until your next birthday celebration.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Fun Life Statistics</h3>
+            <p>Explore fascinating facts about your life so far, including how many leap years you have experienced, approximate heartbeats, breaths taken, and more. A delightful way to appreciate the numbers behind your journey.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Age Calculator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Enter your date of birth</strong> — Use the date picker to select the year, month, and day you were born. The calculator supports any date from January 1, 1900 onward.</li>
+          <li><strong>Choose the target date</strong> — By default this is set to today. Change it to any other date if you want to know your age at a specific point in the past or future.</li>
+          <li><strong>View your results</strong> — Your exact age, totals, zodiac signs, generation, birthday countdown, and fun life facts appear instantly. Results update in real time whenever you change either date.</li>
+        </ol>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>How does the Age Calculator work?</summary>
+          <p>The Age Calculator computes the exact difference between your date of birth and a target date (today by default). It works by first counting the number of full years that have elapsed, then counting full months within the remaining period, and finally counting the leftover days. This approach ensures that the result correctly reflects calendar months of varying lengths — for instance, a month starting on January 31 and ending on February 28 counts as exactly one full month. All arithmetic respects the Gregorian calendar, and every calculation runs entirely in your browser so no personal data ever leaves your device. You can also set a custom target date to find out how old you were — or will be — on any specific day in history or in the future.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How does the calculator handle leap years?</summary>
+          <p>Leap years are years divisible by 4, with the exception of century years that are not divisible by 400. Under these rules, the year 2000 was a leap year, but 1900 was not, and 2100 will not be either. Our calculator uses the built-in JavaScript Date object, which implements the full Gregorian calendar including leap year rules, so February 29 is counted when it exists. If your birthday falls on February 29, the calculator still increments your age each year — on March 1 during non-leap years. The "leap years lived through" fun fact counts every February 29 that occurred between your date of birth and the target date, giving you a precise tally of those rare extra days you have experienced in your lifetime.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What zodiac signs does the calculator show?</summary>
+          <p>The calculator displays two zodiac systems. The Western zodiac is based on the position of the sun at the time of your birth and divides the year into twelve signs: Aries, Taurus, Gemini, Cancer, Leo, Virgo, Libra, Scorpio, Sagittarius, Capricorn, Aquarius, and Pisces. Each sign spans roughly 30 days. The Chinese zodiac, on the other hand, follows a 12-year cycle where each year is associated with an animal: Rat, Ox, Tiger, Rabbit, Dragon, Snake, Horse, Goat, Monkey, Rooster, Dog, and Pig. Our calculator uses the Gregorian birth year to determine the Chinese zodiac animal, which is a simplified but widely accepted approximation. Both zodiac results appear instantly alongside your age breakdown.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How are generations defined in the calculator?</summary>
+          <p>Generational labels are based on commonly used demographic research boundaries. The Greatest Generation includes those born before 1928. The Silent Generation covers 1928 through 1945. Baby Boomers were born between 1946 and 1964, a period marked by a significant increase in birth rates following World War II. Generation X spans 1965 to 1980, often called the "latch-key" generation. Millennials (also known as Generation Y) were born from 1981 to 1996 and came of age during the rise of the internet. Generation Z covers 1997 to 2012 and are considered true digital natives. Generation Alpha, born from 2013 onward, is the newest cohort. These ranges may vary slightly depending on the source, but the boundaries used in this calculator align with the most widely cited definitions from the Pew Research Center and similar organizations.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can I calculate age between two custom dates?</summary>
+          <p>Absolutely. While the calculator defaults the target date to today, you can change it to any date you like. This is useful in many scenarios: checking how old you were when a significant life event occurred, calculating someone else's age at a particular time, or finding out exactly how old you will be on a future date such as a milestone birthday or retirement. Simply select the desired date in the "Calculate to" field and the results update automatically. The calculator works with any valid date combination where the target date is on or after the date of birth.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is my data private when using this calculator?</summary>
+          <p>Yes, completely. The Age Calculator runs entirely in your web browser using client-side JavaScript. Your date of birth and any other information you enter never leaves your device — no data is transmitted to our servers or any third party. There are no accounts to create, no cookies that store personal details, and no analytics that capture your birth date. You can verify this by using your browser's developer tools to inspect network requests while using the tool. This privacy-first approach is a core principle across all Toolrip utilities.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How accurate are the fun facts and statistics?</summary>
+          <p>The fun facts use well-established average values from medical and scientific research. For example, the average human heart beats about 72 times per minute, and the average person takes roughly 16 breaths per minute at rest. The total heartbeat and breath counts are approximations based on these averages multiplied by the exact number of minutes you have been alive. Leap year counts are precise because they are calculated day-by-day using calendar rules. While individual variation means the heartbeat and breath numbers will differ from your actual totals, they provide a fascinating and broadly accurate sense of scale for the biological milestones your body has achieved since the day you were born.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://date-diff.toolrip.com">Date Difference Calculator</a>
+          <a href="https://timer.toolrip.com">Online Timer</a>
+          <a href="https://timezone.toolrip.com">Time Zone Converter</a>
+          <a href="https://week-number.toolrip.com">Week Number Calculator</a>
+          <a href="https://business-days.toolrip.com">Business Days Calculator</a>
+          <a href="https://due-date.toolrip.com">Due Date Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="age-sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="age-bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Age Calculator JS -->
+  <script>
+    /* --- Initialize --- */
+    document.addEventListener('DOMContentLoaded', function () {
+      var today = new Date();
+      var iso = toISO(today);
+      document.getElementById('target-date').value = iso;
+
+      document.getElementById('dob').addEventListener('change', calculateAge);
+      document.getElementById('target-date').addEventListener('change', calculateAge);
+    });
+
+    /* --- Helpers --- */
+    function toISO(d) {
+      var y = d.getFullYear();
+      var m = String(d.getMonth() + 1).padStart(2, '0');
+      var day = String(d.getDate()).padStart(2, '0');
+      return y + '-' + m + '-' + day;
+    }
+
+    function parseDateInput(id) {
+      var val = document.getElementById(id).value;
+      if (!val) return null;
+      var parts = val.split('-');
+      return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+    }
+
+    function daysInMonth(year, month) {
+      return new Date(year, month + 1, 0).getDate();
+    }
+
+    function isLeapYear(year) {
+      return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+    }
+
+    /* --- Exact age calculation --- */
+    function calcExactAge(birth, target) {
+      var years = target.getFullYear() - birth.getFullYear();
+      var months = target.getMonth() - birth.getMonth();
+      var days = target.getDate() - birth.getDate();
+
+      if (days < 0) {
+        months--;
+        var prevMonth = target.getMonth() - 1;
+        var prevYear = target.getFullYear();
+        if (prevMonth < 0) { prevMonth = 11; prevYear--; }
+        days += daysInMonth(prevYear, prevMonth);
+      }
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+
+      return { years: years, months: months, days: days };
+    }
+
+    /* --- Total days between two dates --- */
+    function totalDaysBetween(a, b) {
+      var msPerDay = 86400000;
+      var utcA = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+      var utcB = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+      return Math.floor((utcB - utcA) / msPerDay);
+    }
+
+    /* --- Total months between two dates --- */
+    function totalMonthsBetween(a, b) {
+      return (b.getFullYear() - a.getFullYear()) * 12 + (b.getMonth() - a.getMonth()) + (b.getDate() >= a.getDate() ? 0 : -1);
+    }
+
+    /* --- Day of week name --- */
+    function dayOfWeekName(d) {
+      var names = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      return names[d.getDay()];
+    }
+
+    /* --- Western Zodiac --- */
+    function getWesternZodiac(month, day) {
+      // month is 0-indexed
+      var signs = [
+        { name: 'Capricorn',   icon: '\u2651', end: [0, 19] },
+        { name: 'Aquarius',    icon: '\u2652', end: [1, 18] },
+        { name: 'Pisces',      icon: '\u2653', end: [2, 20] },
+        { name: 'Aries',       icon: '\u2648', end: [3, 19] },
+        { name: 'Taurus',      icon: '\u2649', end: [4, 20] },
+        { name: 'Gemini',      icon: '\u264A', end: [5, 20] },
+        { name: 'Cancer',      icon: '\u264B', end: [6, 22] },
+        { name: 'Leo',         icon: '\u264C', end: [7, 22] },
+        { name: 'Virgo',       icon: '\u264D', end: [8, 22] },
+        { name: 'Libra',       icon: '\u264E', end: [9, 22] },
+        { name: 'Scorpio',     icon: '\u264F', end: [10, 21] },
+        { name: 'Sagittarius', icon: '\u2650', end: [11, 21] },
+        { name: 'Capricorn',   icon: '\u2651', end: [11, 31] }
+      ];
+      for (var i = 0; i < signs.length; i++) {
+        if (month < signs[i].end[0] || (month === signs[i].end[0] && day <= signs[i].end[1])) {
+          return signs[i];
+        }
+      }
+      return signs[0];
+    }
+
+    /* --- Chinese Zodiac --- */
+    function getChineseZodiac(year) {
+      var animals = [
+        { name: 'Rat',     icon: '\uD83D\uDC00' },
+        { name: 'Ox',      icon: '\uD83D\uDC02' },
+        { name: 'Tiger',   icon: '\uD83D\uDC05' },
+        { name: 'Rabbit',  icon: '\uD83D\uDC07' },
+        { name: 'Dragon',  icon: '\uD83D\uDC09' },
+        { name: 'Snake',   icon: '\uD83D\uDC0D' },
+        { name: 'Horse',   icon: '\uD83D\uDC0E' },
+        { name: 'Goat',    icon: '\uD83D\uDC10' },
+        { name: 'Monkey',  icon: '\uD83D\uDC12' },
+        { name: 'Rooster', icon: '\uD83D\uDC13' },
+        { name: 'Dog',     icon: '\uD83D\uDC15' },
+        { name: 'Pig',     icon: '\uD83D\uDC16' }
+      ];
+      var idx = (year - 4) % 12;
+      if (idx < 0) idx += 12;
+      return animals[idx];
+    }
+
+    /* --- Generation --- */
+    function getGeneration(year) {
+      if (year < 1928) return 'Greatest Generation';
+      if (year <= 1945) return 'Silent Generation';
+      if (year <= 1964) return 'Baby Boomer';
+      if (year <= 1980) return 'Generation X';
+      if (year <= 1996) return 'Millennial';
+      if (year <= 2012) return 'Generation Z';
+      return 'Generation Alpha';
+    }
+
+    /* --- Next Birthday --- */
+    function getNextBirthday(birth, target) {
+      var nextBday = new Date(target.getFullYear(), birth.getMonth(), birth.getDate());
+      // Handle Feb 29 birth in non-leap year
+      if (birth.getMonth() === 1 && birth.getDate() === 29) {
+        if (!isLeapYear(target.getFullYear())) {
+          nextBday = new Date(target.getFullYear(), 2, 1);
+        }
+      }
+      if (nextBday <= target) {
+        var nextYear = target.getFullYear() + 1;
+        if (birth.getMonth() === 1 && birth.getDate() === 29) {
+          // Find next leap year
+          while (!isLeapYear(nextYear)) nextYear++;
+          nextBday = new Date(nextYear, 1, 29);
+        } else {
+          nextBday = new Date(nextYear, birth.getMonth(), birth.getDate());
+        }
+      }
+      return totalDaysBetween(target, nextBday);
+    }
+
+    /* --- Leap years lived through --- */
+    function countLeapYears(birth, target) {
+      var count = 0;
+      var startYear = birth.getFullYear();
+      var endYear = target.getFullYear();
+      for (var y = startYear; y <= endYear; y++) {
+        if (!isLeapYear(y)) continue;
+        var feb29 = new Date(y, 1, 29);
+        if (feb29 >= birth && feb29 <= target) count++;
+      }
+      return count;
+    }
+
+    /* --- Format large numbers --- */
+    function fmtNum(n) {
+      return Math.floor(n).toLocaleString('en-US');
+    }
+
+    /* --- Main calculation --- */
+    function calculateAge() {
+      var birth = parseDateInput('dob');
+      var target = parseDateInput('target-date');
+
+      if (!birth) return;
+      if (!target) {
+        target = new Date();
+        document.getElementById('target-date').value = toISO(target);
+      }
+
+      if (birth > target) {
+        showToast('Date of birth must be before the target date.', 'error');
+        document.getElementById('results-area').classList.remove('visible');
+        return;
+      }
+
+      var exact = calcExactAge(birth, target);
+      var tDays = totalDaysBetween(birth, target);
+      var tMonths = totalMonthsBetween(birth, target);
+      var tWeeks = Math.floor(tDays / 7);
+      var tHours = tDays * 24;
+      var tMinutes = tHours * 60;
+
+      var dayBorn = dayOfWeekName(birth);
+      var zodiac = getWesternZodiac(birth.getMonth(), birth.getDate());
+      var cZodiac = getChineseZodiac(birth.getFullYear());
+      var generation = getGeneration(birth.getFullYear());
+      var nextBday = getNextBirthday(birth, target);
+      var leapYears = countLeapYears(birth, target);
+
+      // Approximate fun facts
+      var heartbeats = tMinutes * 72;
+      var breaths = tMinutes * 16;
+      var sleepDays = Math.floor(tDays / 3);
+      var meals = tDays * 3;
+      var blinks = tDays * 14400; // ~10 blinks/min * 24 waking hrs * 60 min (rough)
+
+      // --- Render ---
+      var area = document.getElementById('results-area');
+      area.classList.add('visible');
+
+      // Headline
+      document.getElementById('age-big').textContent = exact.years + ' years, ' + exact.months + ' months, ' + exact.days + ' days';
+      document.getElementById('age-sub').textContent = 'Born on ' + dayBorn + ', ' + birth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+      // Totals grid
+      var gridHTML = '';
+      var totals = [
+        { value: fmtNum(tMonths), label: 'Total Months' },
+        { value: fmtNum(tWeeks), label: 'Total Weeks' },
+        { value: fmtNum(tDays), label: 'Total Days' },
+        { value: fmtNum(tHours), label: 'Total Hours' },
+        { value: fmtNum(tMinutes), label: 'Total Minutes' }
+      ];
+      for (var i = 0; i < totals.length; i++) {
+        gridHTML += '<div class="result-item"><div class="ri-value">' + totals[i].value + '</div><div class="ri-label">' + totals[i].label + '</div></div>';
+      }
+      document.getElementById('result-grid').innerHTML = gridHTML;
+
+      // Detail cards
+      var cardsHTML = '';
+      var details = [
+        { icon: '\uD83C\uDF82', title: 'Next Birthday', value: nextBday + ' day' + (nextBday !== 1 ? 's' : ''), sub: nextBday === 0 ? 'Happy Birthday!' : 'until your next birthday' },
+        { icon: '\uD83D\uDCC5', title: 'Day Born', value: dayBorn, sub: birth.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) },
+        { icon: zodiac.icon, title: 'Western Zodiac', value: zodiac.name, sub: 'Your sun sign' },
+        { icon: cZodiac.icon, title: 'Chinese Zodiac', value: cZodiac.name, sub: 'Year of the ' + cZodiac.name },
+        { icon: '\uD83D\uDC65', title: 'Generation', value: generation, sub: 'Born in ' + birth.getFullYear() },
+        { icon: '\uD83D\uDCC6', title: 'Leap Years', value: leapYears, sub: 'Feb 29 dates experienced' }
+      ];
+      for (var j = 0; j < details.length; j++) {
+        var d = details[j];
+        cardsHTML += '<div class="detail-card">';
+        cardsHTML += '<div class="dc-icon">' + d.icon + '</div>';
+        cardsHTML += '<div class="dc-title">' + d.title + '</div>';
+        cardsHTML += '<div class="dc-value">' + d.value + '</div>';
+        cardsHTML += '<div class="dc-sub">' + d.sub + '</div>';
+        cardsHTML += '</div>';
+      }
+      document.getElementById('detail-cards').innerHTML = cardsHTML;
+
+      // Fun facts
+      var facts = [
+        { icon: '\u2764\uFE0F', text: 'Your heart has beaten approximately ' + fmtNum(heartbeats) + ' times' },
+        { icon: '\uD83C\uDF2C\uFE0F', text: 'You have taken roughly ' + fmtNum(breaths) + ' breaths' },
+        { icon: '\uD83D\uDE34', text: 'You have spent about ' + fmtNum(sleepDays) + ' days sleeping' },
+        { icon: '\uD83C\uDF7D\uFE0F', text: 'You have eaten approximately ' + fmtNum(meals) + ' meals' },
+        { icon: '\uD83D\uDC41\uFE0F', text: 'You have blinked around ' + fmtNum(blinks) + ' times' },
+        { icon: '\uD83C\uDF0D', text: 'Earth has traveled about ' + fmtNum(tDays * 2573000) + ' km around the Sun since you were born' },
+        { icon: '\uD83D\uDC97', text: 'You have lived through ' + leapYears + ' leap year' + (leapYears !== 1 ? 's' : '') },
+        { icon: '\uD83C\uDF19', text: 'You have experienced roughly ' + fmtNum(Math.floor(tDays / 29.53)) + ' full moons' }
+      ];
+      var factsHTML = '';
+      for (var k = 0; k < facts.length; k++) {
+        factsHTML += '<li><span class="ff-icon">' + facts[k].icon + '</span><span>' + facts[k].text + '</span></li>';
+      }
+      document.getElementById('fun-fact-list').innerHTML = factsHTML;
+
+      // Scroll to results
+      area.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    /* --- Reset --- */
+    function resetForm() {
+      document.getElementById('dob').value = '';
+      document.getElementById('target-date').value = toISO(new Date());
+      document.getElementById('results-area').classList.remove('visible');
+    }
+  </script>
+</body>
+</html>

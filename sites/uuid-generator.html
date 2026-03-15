@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UUID Generator — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Generate secure UUID v4, v1-like (timestamp), and Nil UUIDs instantly. Bulk generation up to 1000, multiple format options, validator, and decoder. Free, client-side, no signup required.">
+  <link rel="canonical" href="https://uuid.toolrip.com/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="UUID Generator — Toolrip">
+  <meta property="og:description" content="Generate secure UUID v4, v1-like (timestamp), and Nil UUIDs instantly. Bulk generation, multiple formats, validator, and decoder. 100% client-side.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://uuid.toolrip.com/">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="UUID Generator — Toolrip">
+  <meta name="twitter:description" content="Generate secure UUID v4, v1-like (timestamp), and Nil UUIDs instantly. Bulk generation, multiple formats, validator, and decoder. 100% client-side.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root{--accent:var(--developer)}
+
+    /* UUID display */
+    .uuid-display{font-family:'Consolas','Monaco','Courier New',monospace;font-size:1.5rem;text-align:center;
+      padding:var(--sp-4) var(--sp-3);background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+      word-break:break-all;color:var(--text);letter-spacing:.02em;position:relative;min-height:60px;
+      display:flex;align-items:center;justify-content:center;user-select:all}
+    @media(max-width:639px){.uuid-display{font-size:1.05rem;padding:var(--sp-3) var(--sp-2)}}
+
+    /* Generate button */
+    .btn-generate{width:100%;padding:var(--sp-3) var(--sp-4);font-size:1.125rem;font-weight:700;
+      border-radius:var(--radius);border:none;cursor:pointer;background:var(--accent);color:#fff;
+      font-family:inherit;transition:opacity .15s}
+    .btn-generate:hover{opacity:.88}
+    .btn-generate:active{transform:scale(.99)}
+
+    /* Format options */
+    .format-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:var(--sp-2);margin:var(--sp-3) 0}
+    .format-option{display:flex;align-items:center;gap:var(--sp-2);padding:var(--sp-2);background:var(--bg);
+      border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-size:.875rem;
+      color:var(--text-muted);transition:border-color .15s}
+    .format-option:hover{border-color:var(--accent)}
+    .format-option.active{border-color:var(--accent);color:var(--text);background:color-mix(in srgb,var(--accent) 8%,transparent)}
+    .format-option input[type="radio"]{accent-color:var(--accent)}
+
+    /* Bulk section */
+    .bulk-controls{display:flex;gap:var(--sp-2);align-items:center;flex-wrap:wrap}
+    .bulk-controls .input-field{width:100px;text-align:center}
+    .bulk-textarea{width:100%;min-height:180px;resize:vertical;background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);color:var(--text);font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.8125rem;padding:var(--sp-3);line-height:1.6}
+    .bulk-textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent)}
+
+    /* Validator / Decoder results */
+    .result-box{padding:var(--sp-3);background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+      font-size:.875rem;margin-top:var(--sp-2)}
+    .result-valid{border-color:rgba(16,185,129,0.4);color:#6ee7b7}
+    .result-invalid{border-color:rgba(239,68,68,0.4);color:#fca5a5}
+    .result-info{color:var(--text-muted)}
+    .result-label{font-weight:600;color:var(--text);margin-bottom:var(--sp-1);display:block}
+
+    /* History list */
+    .history-list{list-style:none;padding:0;margin:0}
+    .history-item{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-2);
+      padding:var(--sp-2);border-bottom:1px solid var(--border);font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.8125rem}
+    .history-item:last-child{border-bottom:none}
+    .history-item .uuid-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text-muted)}
+    .history-item .copy-btn{position:static;flex-shrink:0}
+
+    /* Section dividers inside tool card */
+    .tool-section{border-top:1px solid var(--border);padding-top:var(--sp-3);margin-top:var(--sp-3)}
+    .tool-section-title{font-size:1rem;font-weight:600;margin-bottom:var(--sp-2)}
+
+    /* Compact buttons row */
+    .btn-row{display:flex;gap:var(--sp-2);flex-wrap:wrap;margin-top:var(--sp-2)}
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "UUID Generator",
+    "url": "https://uuid.toolrip.com/",
+    "description": "Generate secure UUID v4, v1-like (timestamp), and Nil UUIDs instantly. Bulk generation up to 1000, multiple format options, validator, and decoder. Free, client-side, no signup required.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Developer Tools", "item": "https://toolrip.com/#developer" },
+      { "@type": "ListItem", "position": 3, "name": "UUID Generator", "item": "https://uuid.toolrip.com/" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is a UUID?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A UUID (Universally Unique Identifier) is a 128-bit identifier defined by RFC 4122. It is designed to be globally unique without requiring a central registration authority. UUIDs are commonly used as primary keys in databases, session tokens, correlation IDs in distributed systems, and any context where a unique identifier is needed without coordination between systems."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between UUID v1 and v4?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "UUID v1 incorporates a timestamp and the MAC address of the generating machine, producing time-ordered identifiers. UUID v4 is generated entirely from cryptographically secure random numbers. Version 4 is the most widely used because it does not leak information about the generating host or the time of creation, making it ideal for most application scenarios."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the probability of a UUID v4 collision?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "UUID v4 has 122 random bits, producing approximately 5.3 x 10^36 possible values. The probability of generating a duplicate is astronomically low. You would need to generate about 2.71 x 10^18 UUIDs (2.71 quintillion) before reaching a 50% probability of a single collision."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is this UUID generator secure?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. This generator uses the Web Crypto API (crypto.getRandomValues()) which provides cryptographically strong random numbers. All generation happens entirely in your browser — no data is sent to any server. The generated UUIDs are suitable for security-sensitive applications including authentication tokens and session identifiers."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What UUID format should I use?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The standard format with dashes (8-4-4-4-12) is the canonical representation defined by RFC 4122 and is recommended for most use cases. The no-dashes format is useful for compact storage in databases. Uppercase is sometimes required by legacy systems. The braces format is used in Microsoft technologies like COM and .NET, and the URN format is the formal namespace representation."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#developer">Developer Tools</a>
+        <span>/</span>
+        <span>UUID Generator</span>
+      </nav>
+
+      <h1>UUID Generator</h1>
+      <p class="text-muted mt-1 mb-3">Generate cryptographically secure UUIDs instantly. Supports v4 (random), v1-like (timestamp-based), and Nil UUIDs with multiple format options, bulk generation, validation, and decoding. Runs entirely in your browser.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <!-- Version Tabs -->
+        <div class="tab-group">
+          <button class="tab active" data-tab="panel-v4">v4 (Random)</button>
+          <button class="tab" data-tab="panel-v1">v1-like (Timestamp)</button>
+          <button class="tab" data-tab="panel-nil">Nil UUID</button>
+        </div>
+
+        <!-- v4 Panel -->
+        <div id="panel-v4" class="tab-panel">
+          <p style="font-size:.8125rem;color:var(--text-muted);margin-bottom:var(--sp-2)">Generates a random UUID using <code>crypto.getRandomValues()</code> per RFC 4122 v4.</p>
+        </div>
+
+        <!-- v1-like Panel -->
+        <div id="panel-v1" class="tab-panel hidden">
+          <p style="font-size:.8125rem;color:var(--text-muted);margin-bottom:var(--sp-2)">Generates a timestamp-based UUID with the current time embedded in the identifier. Uses random node ID for privacy.</p>
+        </div>
+
+        <!-- Nil Panel -->
+        <div id="panel-nil" class="tab-panel hidden">
+          <p style="font-size:.8125rem;color:var(--text-muted);margin-bottom:var(--sp-2)">The Nil UUID is the special zero-value UUID: all 128 bits set to zero. Used as a placeholder or null value.</p>
+        </div>
+
+        <!-- Generate Button -->
+        <button class="btn-generate" id="btn-generate" onclick="generateSingle()">Generate UUID</button>
+
+        <!-- UUID Output -->
+        <div style="margin-top:var(--sp-3);position:relative">
+          <div class="uuid-display" id="uuid-output">Click Generate to create a UUID</div>
+          <div class="btn-row" style="justify-content:center">
+            <button class="btn-secondary" style="font-size:.8125rem;padding:var(--sp-1) var(--sp-3)" onclick="copySingle()">Copy</button>
+          </div>
+        </div>
+
+        <!-- Format Options -->
+        <div class="tool-section">
+          <div class="tool-section-title">Format Options</div>
+          <div class="format-grid">
+            <label class="format-option active">
+              <input type="radio" name="uuid-format" value="standard" checked> Standard (dashes)
+            </label>
+            <label class="format-option">
+              <input type="radio" name="uuid-format" value="no-dashes"> No dashes
+            </label>
+            <label class="format-option">
+              <input type="radio" name="uuid-format" value="uppercase"> Uppercase
+            </label>
+            <label class="format-option">
+              <input type="radio" name="uuid-format" value="braces"> Braces {uuid}
+            </label>
+            <label class="format-option">
+              <input type="radio" name="uuid-format" value="urn"> URN (urn:uuid:...)
+            </label>
+          </div>
+        </div>
+
+        <!-- Bulk Generation -->
+        <div class="tool-section">
+          <div class="tool-section-title">Bulk Generation</div>
+          <div class="bulk-controls">
+            <label for="bulk-qty" style="font-size:.875rem;color:var(--text-muted)">Quantity:</label>
+            <input type="number" id="bulk-qty" class="input-field" min="1" max="1000" value="10">
+            <button class="btn-primary" style="font-size:.875rem" onclick="generateBulk()">Generate Bulk</button>
+            <button class="btn-secondary" style="font-size:.875rem" onclick="copyBulk()">Copy All</button>
+          </div>
+          <textarea class="bulk-textarea mt-2" id="bulk-output" placeholder="Bulk UUIDs will appear here, one per line..." readonly></textarea>
+        </div>
+
+        <!-- UUID Validator -->
+        <div class="tool-section">
+          <div class="tool-section-title">UUID Validator</div>
+          <div class="input-group" style="margin-bottom:0">
+            <input type="text" id="validator-input" class="input-field" placeholder="Paste a UUID to validate..." spellcheck="false">
+          </div>
+          <div class="btn-row">
+            <button class="btn-primary" style="font-size:.875rem" onclick="validateUUID()">Validate</button>
+            <button class="btn-secondary" style="font-size:.875rem" onclick="clearValidator()">Clear</button>
+          </div>
+          <div id="validator-result"></div>
+        </div>
+
+        <!-- UUID Decoder -->
+        <div class="tool-section">
+          <div class="tool-section-title">UUID Decoder</div>
+          <div class="input-group" style="margin-bottom:0">
+            <input type="text" id="decoder-input" class="input-field" placeholder="Paste a UUID to decode..." spellcheck="false">
+          </div>
+          <div class="btn-row">
+            <button class="btn-primary" style="font-size:.875rem" onclick="decodeUUID()">Decode</button>
+            <button class="btn-secondary" style="font-size:.875rem" onclick="clearDecoder()">Clear</button>
+          </div>
+          <div id="decoder-result"></div>
+        </div>
+
+        <!-- History -->
+        <div class="tool-section">
+          <div class="tool-section-title">History <span style="font-size:.75rem;color:var(--text-muted);font-weight:400">(last 10)</span></div>
+          <ul class="history-list" id="history-list">
+            <li style="padding:var(--sp-2);color:var(--text-muted);font-size:.8125rem">No UUIDs generated yet.</li>
+          </ul>
+          <div class="btn-row">
+            <button class="btn-secondary" style="font-size:.8125rem" onclick="clearHistory()">Clear History</button>
+          </div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Cryptographically Secure</h3>
+            <p>Every UUID v4 is generated using the Web Crypto API (<code>crypto.getRandomValues()</code>), which provides cryptographically strong random numbers sourced from the operating system's entropy pool. This ensures that generated UUIDs are suitable for security-sensitive applications such as session tokens, API keys, and authentication identifiers. Unlike <code>Math.random()</code>, the Web Crypto API produces truly unpredictable values that cannot be guessed or reproduced by an attacker.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Instant &amp; Offline</h3>
+            <p>UUID generation happens entirely within your browser with zero network requests. There is no server involved, no API calls, no latency, and no rate limits. You can generate a single UUID or thousands in bulk in under a millisecond. The tool works fully offline once the page has loaded, making it reliable even without an internet connection. Your data never leaves your device, guaranteeing complete privacy for any identifiers you create.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Standards-Compliant</h3>
+            <p>All generated UUIDs follow the format and bit-layout defined in RFC 4122. Version 4 UUIDs have the correct version nibble (4) in the third group and the correct variant bits (10xx) in the fourth group, producing the canonical pattern <code>xxxxxxxx-xxxx-4xxx-[89ab]xxx-xxxxxxxxxxxx</code>. Timestamp-based v1-like UUIDs embed a real timestamp for time-ordered sorting. Every output is guaranteed to be a valid UUID that will pass any standards-compliant parser or validator.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the UUID Generator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Select a UUID version.</strong> Choose between v4 (Random) for cryptographically secure random identifiers, v1-like (Timestamp) for time-ordered UUIDs with an embedded timestamp, or Nil UUID for the special all-zeros placeholder value. Version 4 is recommended for most use cases.</li>
+          <li><strong>Pick your format and generate.</strong> Select from five output formats: standard with dashes, no dashes, uppercase, braces, or URN notation. Then click the Generate UUID button to create a single identifier, or use the Bulk Generation section to produce up to 1000 UUIDs at once. All formats are applied in real time.</li>
+          <li><strong>Copy, validate, or decode.</strong> Click Copy to send the UUID to your clipboard instantly. Use the Validator to check whether any string is a valid UUID and identify its version. Use the Decoder to extract embedded information such as timestamps from v1-like UUIDs. The last 10 generated UUIDs are saved in the History section for easy access.</li>
+        </ol>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is a UUID?</summary>
+          <p>A UUID (Universally Unique Identifier) is a 128-bit number used to uniquely identify information in computer systems. Defined by RFC 4122, UUIDs are formatted as 32 hexadecimal digits displayed in five groups separated by dashes, following the pattern 8-4-4-4-12 (for example, <code>550e8400-e29b-41d4-a716-446655440000</code>). The total number of possible UUID values is approximately 3.4 x 10^38, which makes them practically unique without requiring a central registration authority. UUIDs are used extensively as database primary keys, distributed system identifiers, session tokens, message correlation IDs, file names, and anywhere a globally unique reference is needed. Unlike auto-incrementing integers, UUIDs can be generated independently on any machine without coordination, making them ideal for distributed architectures, microservices, and offline-capable applications.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between UUID v1 and UUID v4?</summary>
+          <p>UUID version 1 is based on a combination of the current timestamp (measured in 100-nanosecond intervals since October 15, 1582) and the MAC address of the generating machine. This produces time-ordered identifiers that can be sorted chronologically, but it also means that the generating host and the approximate creation time can be inferred from the UUID itself. UUID version 4 is generated entirely from random or pseudo-random numbers, specifically using 122 bits of randomness. It does not contain any information about the host or the time of creation, which makes it the preferred choice for most modern applications where privacy and simplicity matter more than time ordering. Version 4 is by far the most commonly used variant in web development, APIs, and database systems. Our v1-like generator uses a real timestamp for the time component but substitutes a random node identifier instead of an actual MAC address, giving you the time-ordering benefits of v1 without exposing your hardware identity.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the probability of a UUID v4 collision?</summary>
+          <p>UUID v4 contains 122 bits of randomness (6 bits are reserved for the version and variant fields), which yields approximately 5.3 x 10^36 unique values. According to the birthday paradox, you would need to generate roughly 2.71 x 10^18 (2.71 quintillion) UUIDs before reaching a 50% probability of at least one collision. To put this in perspective, if you generated one billion UUIDs every second, it would take approximately 86 years to reach that threshold. In any practical application, the chance of a collision is effectively zero. Even the largest databases in the world with billions of records have an astronomically low probability of encountering a duplicate UUID v4. This extreme uniqueness, combined with cryptographically strong random number generation, is what makes UUID v4 the industry standard for generating identifiers without centralized coordination.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is this UUID generator secure?</summary>
+          <p>Yes. This tool uses the Web Crypto API (<code>crypto.getRandomValues()</code>) for all random number generation. The Web Crypto API draws entropy from the operating system's cryptographically secure pseudorandom number generator (CSPRNG), which is the same source used for TLS key generation and other security-critical operations. Unlike <code>Math.random()</code>, which uses a deterministic algorithm that can potentially be predicted, <code>crypto.getRandomValues()</code> produces output that is computationally infeasible to predict. Additionally, all UUID generation runs entirely in your browser. No data is transmitted to any server, no identifiers are logged, and nothing is stored remotely. You can verify this by inspecting network activity in your browser's developer tools while using the generator. The generated UUIDs are suitable for use as authentication tokens, session identifiers, API keys, and any other security-sensitive purpose.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What UUID format should I use?</summary>
+          <p>The standard format with dashes (<code>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</code>) is the canonical representation specified by RFC 4122 and is the most widely accepted format across programming languages, databases, and APIs. It is recommended as your default choice. The no-dashes format is useful when you need compact storage, such as in database columns with character limits, or when embedding UUIDs in URLs where dashes might cause issues. The uppercase format is sometimes required by legacy systems, Microsoft COM interfaces, and certain enterprise APIs that expect uppercase hexadecimal characters. The braces format (<code>{uuid}</code>) is the standard representation in Microsoft technologies including COM, .NET, and the Windows Registry. The URN format (<code>urn:uuid:...</code>) is the formal namespace representation defined in RFC 4122 itself, used in XML documents, SOAP messages, and formal identifier schemes where a fully qualified resource name is required.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is a Nil UUID?</summary>
+          <p>The Nil UUID is the special UUID value where all 128 bits are set to zero: <code>00000000-0000-0000-0000-000000000000</code>. It is defined in RFC 4122 as a valid UUID that represents an empty or non-existent identifier. Developers commonly use the Nil UUID as a default value, a placeholder for optional UUID fields, or a sentinel value indicating that no real identifier has been assigned yet. For example, a database record might use the Nil UUID in a foreign key column to indicate that the relationship has not been established. It is preferable to using NULL in some contexts because it maintains the UUID data type while clearly signaling the absence of a meaningful value. The Nil UUID is the only UUID where the version and variant bits do not follow the standard patterns, since every bit is zero.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can I use UUID as a database primary key?</summary>
+          <p>Yes, UUIDs are widely used as database primary keys, especially in distributed systems where multiple nodes need to generate unique identifiers independently. UUID v4 provides excellent uniqueness guarantees without requiring a central sequence generator. However, there are trade-offs to consider. UUIDs are 128 bits (16 bytes) compared to a typical 32-bit or 64-bit auto-incrementing integer, which means they consume more storage space and can result in larger indexes. Random UUID v4 values also cause B-tree index fragmentation in some database engines because inserts are not sequential. For databases like PostgreSQL, which has a native UUID type, the storage overhead is minimal and performance is excellent. If sequential ordering matters for insert performance, consider using a v1-like (timestamp-based) UUID or alternatives like ULID that combine timestamps with randomness for naturally sorted identifiers. Always benchmark with your specific database engine and workload to make the right choice for your use case.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://json.toolrip.com">JSON Formatter</a>
+          <a href="https://random-string.toolrip.com">Random String Generator</a>
+          <a href="https://password.toolrip.com">Password Generator</a>
+          <a href="https://md5.toolrip.com">MD5 Hash Generator</a>
+          <a href="https://sha256.toolrip.com">SHA-256 Hash Generator</a>
+          <a href="https://base64.toolrip.com">Base64 Encoder/Decoder</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+    /* ========== State ========== */
+    var currentVersion = 'v4';
+    var history = [];
+
+    /* ========== UUID v4 (RFC 4122 compliant) ========== */
+    function generateUUIDv4() {
+      var bytes = new Uint8Array(16);
+      crypto.getRandomValues(bytes);
+      // Set version 4: byte 6 = 0100xxxx
+      bytes[6] = (bytes[6] & 0x0f) | 0x40;
+      // Set variant 10xxxxxx: byte 8
+      bytes[8] = (bytes[8] & 0x3f) | 0x80;
+      return bytesToUUID(bytes);
+    }
+
+    /* ========== UUID v1-like (timestamp-based) ========== */
+    function generateUUIDv1Like() {
+      // Get timestamp: 100-ns intervals since 1582-10-15
+      var now = Date.now();
+      var gregorianOffset = 122192928000000000; // 100-ns intervals from 1582-10-15 to 1970-01-01
+      var timestamp = BigInt(now) * 10000n + BigInt(gregorianOffset);
+
+      var bytes = new Uint8Array(16);
+
+      // time_low (bytes 0-3): bits 0-31 of timestamp
+      var timeLow = Number(timestamp & 0xFFFFFFFFn);
+      bytes[0] = (timeLow >>> 24) & 0xff;
+      bytes[1] = (timeLow >>> 16) & 0xff;
+      bytes[2] = (timeLow >>> 8) & 0xff;
+      bytes[3] = timeLow & 0xff;
+
+      // time_mid (bytes 4-5): bits 32-47 of timestamp
+      var timeMid = Number((timestamp >> 32n) & 0xFFFFn);
+      bytes[4] = (timeMid >>> 8) & 0xff;
+      bytes[5] = timeMid & 0xff;
+
+      // time_hi_and_version (bytes 6-7): bits 48-59 of timestamp + version 1
+      var timeHi = Number((timestamp >> 48n) & 0x0FFFn);
+      bytes[6] = ((timeHi >>> 8) & 0x0f) | 0x10; // version 1
+      bytes[7] = timeHi & 0xff;
+
+      // clock_seq (bytes 8-9): random with variant bits
+      var randBytes = new Uint8Array(8);
+      crypto.getRandomValues(randBytes);
+      bytes[8] = (randBytes[0] & 0x3f) | 0x80; // variant 10xxxxxx
+      bytes[9] = randBytes[1];
+
+      // node (bytes 10-15): random (privacy-safe, no real MAC)
+      bytes[10] = randBytes[2] | 0x01; // multicast bit set to indicate random node
+      bytes[11] = randBytes[3];
+      bytes[12] = randBytes[4];
+      bytes[13] = randBytes[5];
+      bytes[14] = randBytes[6];
+      bytes[15] = randBytes[7];
+
+      return bytesToUUID(bytes);
+    }
+
+    /* ========== Nil UUID ========== */
+    function generateNilUUID() {
+      return '00000000-0000-0000-0000-000000000000';
+    }
+
+    /* ========== Bytes to UUID string ========== */
+    function bytesToUUID(bytes) {
+      var hex = [];
+      for (var i = 0; i < 16; i++) {
+        hex.push(bytes[i].toString(16).padStart(2, '0'));
+      }
+      return (
+        hex.slice(0, 4).join('') + '-' +
+        hex.slice(4, 6).join('') + '-' +
+        hex.slice(6, 8).join('') + '-' +
+        hex.slice(8, 10).join('') + '-' +
+        hex.slice(10, 16).join('')
+      );
+    }
+
+    /* ========== Generate based on current version ========== */
+    function generateRawUUID() {
+      switch (currentVersion) {
+        case 'v4': return generateUUIDv4();
+        case 'v1': return generateUUIDv1Like();
+        case 'nil': return generateNilUUID();
+        default: return generateUUIDv4();
+      }
+    }
+
+    /* ========== Format UUID ========== */
+    function getSelectedFormat() {
+      var radios = document.querySelectorAll('input[name="uuid-format"]');
+      for (var i = 0; i < radios.length; i++) {
+        if (radios[i].checked) return radios[i].value;
+      }
+      return 'standard';
+    }
+
+    function formatUUID(uuid, format) {
+      format = format || getSelectedFormat();
+      // Ensure we start from a clean lowercase dashed form
+      var clean = uuid.toLowerCase().replace(/[^0-9a-f]/g, '');
+      // Rebuild standard form
+      var std = clean.substring(0, 8) + '-' + clean.substring(8, 12) + '-' +
+                clean.substring(12, 16) + '-' + clean.substring(16, 20) + '-' +
+                clean.substring(20, 32);
+
+      switch (format) {
+        case 'standard': return std;
+        case 'no-dashes': return clean;
+        case 'uppercase': return std.toUpperCase();
+        case 'braces': return '{' + std + '}';
+        case 'urn': return 'urn:uuid:' + std;
+        default: return std;
+      }
+    }
+
+    /* ========== Generate Single UUID ========== */
+    function generateSingle() {
+      var raw = generateRawUUID();
+      var formatted = formatUUID(raw);
+      document.getElementById('uuid-output').textContent = formatted;
+      addToHistory(raw);
+    }
+
+    /* ========== Copy Single UUID ========== */
+    function copySingle() {
+      var text = document.getElementById('uuid-output').textContent;
+      if (!text || text === 'Click Generate to create a UUID') {
+        showToast('Generate a UUID first', 'error');
+        return;
+      }
+      copyToClipboard(text);
+      showToast('UUID copied to clipboard!', 'success');
+    }
+
+    /* ========== Bulk Generation ========== */
+    function generateBulk() {
+      var qty = parseInt(document.getElementById('bulk-qty').value, 10);
+      if (isNaN(qty) || qty < 1) qty = 1;
+      if (qty > 1000) qty = 1000;
+      document.getElementById('bulk-qty').value = qty;
+
+      var format = getSelectedFormat();
+      var results = [];
+      for (var i = 0; i < qty; i++) {
+        var raw = generateRawUUID();
+        results.push(formatUUID(raw, format));
+      }
+      document.getElementById('bulk-output').value = results.join('\n');
+      showToast(qty + ' UUIDs generated', 'success');
+    }
+
+    function copyBulk() {
+      var text = document.getElementById('bulk-output').value;
+      if (!text) {
+        showToast('Generate bulk UUIDs first', 'error');
+        return;
+      }
+      copyToClipboard(text);
+      showToast('All UUIDs copied to clipboard!', 'success');
+    }
+
+    /* ========== UUID Validator ========== */
+    function validateUUID() {
+      var input = document.getElementById('validator-input').value.trim();
+      var resultDiv = document.getElementById('validator-result');
+
+      if (!input) {
+        resultDiv.innerHTML = '';
+        showToast('Please enter a UUID to validate', 'error');
+        return;
+      }
+
+      // Strip urn:uuid: prefix, braces
+      var cleaned = input.replace(/^urn:uuid:/i, '').replace(/^\{/, '').replace(/\}$/, '').trim();
+
+      // Check standard UUID pattern (with or without dashes)
+      var uuidRegex = /^[0-9a-f]{8}-?[0-9a-f]{4}-?[0-9a-f]{4}-?[0-9a-f]{4}-?[0-9a-f]{12}$/i;
+      if (!uuidRegex.test(cleaned)) {
+        resultDiv.innerHTML = '<div class="result-box result-invalid"><span class="result-label">Invalid UUID</span>' +
+          'The input does not match any valid UUID format. A UUID must contain exactly 32 hexadecimal characters in the pattern 8-4-4-4-12.</div>';
+        return;
+      }
+
+      // Normalize to dashed lowercase
+      var hex = cleaned.replace(/-/g, '').toLowerCase();
+      var normalized = hex.substring(0, 8) + '-' + hex.substring(8, 12) + '-' +
+                       hex.substring(12, 16) + '-' + hex.substring(16, 20) + '-' +
+                       hex.substring(20, 32);
+
+      // Detect version
+      var versionNibble = parseInt(hex.charAt(12), 16);
+      var variantBits = parseInt(hex.charAt(16), 16);
+      var isNil = hex === '00000000000000000000000000000000';
+
+      var versionStr = 'Unknown';
+      if (isNil) {
+        versionStr = 'Nil (all zeros)';
+      } else if (versionNibble >= 1 && versionNibble <= 5) {
+        versionStr = 'Version ' + versionNibble;
+        if (versionNibble === 1) versionStr += ' (Timestamp)';
+        else if (versionNibble === 2) versionStr += ' (DCE Security)';
+        else if (versionNibble === 3) versionStr += ' (MD5 Name-based)';
+        else if (versionNibble === 4) versionStr += ' (Random)';
+        else if (versionNibble === 5) versionStr += ' (SHA-1 Name-based)';
+      }
+
+      var variantStr = 'Unknown';
+      if (isNil) {
+        variantStr = 'Nil (not applicable)';
+      } else if ((variantBits & 0x8) === 0) {
+        variantStr = 'NCS backward compatibility';
+      } else if ((variantBits & 0xc) === 0x8) {
+        variantStr = 'RFC 4122 / ITU-T X.667';
+      } else if ((variantBits & 0xe) === 0xc) {
+        variantStr = 'Microsoft backward compatibility';
+      } else {
+        variantStr = 'Reserved for future use';
+      }
+
+      var html = '<div class="result-box result-valid">';
+      html += '<span class="result-label">Valid UUID</span>';
+      html += '<div style="margin-top:var(--sp-1);line-height:1.8">';
+      html += '<div><strong>Normalized:</strong> ' + normalized + '</div>';
+      html += '<div><strong>Version:</strong> ' + versionStr + '</div>';
+      html += '<div><strong>Variant:</strong> ' + variantStr + '</div>';
+      html += '<div><strong>Hex digits:</strong> ' + hex.length + '</div>';
+      html += '</div></div>';
+      resultDiv.innerHTML = html;
+    }
+
+    function clearValidator() {
+      document.getElementById('validator-input').value = '';
+      document.getElementById('validator-result').innerHTML = '';
+    }
+
+    /* ========== UUID Decoder ========== */
+    function decodeUUID() {
+      var input = document.getElementById('decoder-input').value.trim();
+      var resultDiv = document.getElementById('decoder-result');
+
+      if (!input) {
+        resultDiv.innerHTML = '';
+        showToast('Please enter a UUID to decode', 'error');
+        return;
+      }
+
+      // Strip prefix/braces
+      var cleaned = input.replace(/^urn:uuid:/i, '').replace(/^\{/, '').replace(/\}$/, '').trim();
+      var hex = cleaned.replace(/-/g, '').toLowerCase();
+
+      if (hex.length !== 32 || !/^[0-9a-f]{32}$/.test(hex)) {
+        resultDiv.innerHTML = '<div class="result-box result-invalid"><span class="result-label">Invalid UUID</span>' +
+          'Cannot decode: input is not a valid UUID.</div>';
+        return;
+      }
+
+      var versionNibble = parseInt(hex.charAt(12), 16);
+      var isNil = hex === '00000000000000000000000000000000';
+
+      var html = '<div class="result-box result-info">';
+      html += '<span class="result-label">UUID Decoded</span>';
+      html += '<div style="margin-top:var(--sp-1);line-height:1.8;font-family:Consolas,Monaco,Courier New,monospace;font-size:.8125rem">';
+
+      // Bit layout
+      html += '<div><strong>Time Low:</strong> 0x' + hex.substring(0, 8) + '</div>';
+      html += '<div><strong>Time Mid:</strong> 0x' + hex.substring(8, 12) + '</div>';
+      html += '<div><strong>Time Hi &amp; Version:</strong> 0x' + hex.substring(12, 16) + '</div>';
+      html += '<div><strong>Clock Seq &amp; Variant:</strong> 0x' + hex.substring(16, 20) + '</div>';
+      html += '<div><strong>Node:</strong> 0x' + hex.substring(20, 32) + '</div>';
+      html += '<div><strong>Version Nibble:</strong> ' + (isNil ? 'Nil' : versionNibble) + '</div>';
+
+      // For v1 and v1-like, extract timestamp
+      if (versionNibble === 1 && !isNil) {
+        try {
+          // Reconstruct 60-bit timestamp from UUID fields
+          var timeLow = hex.substring(0, 8);
+          var timeMid = hex.substring(8, 12);
+          var timeHi = hex.substring(13, 16); // skip version nibble
+          var timestampHex = timeHi + timeMid + timeLow;
+          var timestamp = BigInt('0x' + timestampHex);
+
+          // Convert from 100-ns intervals since 1582-10-15 to Unix ms
+          var gregorianOffset = 122192928000000000n;
+          var unixNs100 = timestamp - gregorianOffset;
+          var unixMs = Number(unixNs100 / 10000n);
+          var date = new Date(unixMs);
+
+          if (!isNaN(date.getTime()) && date.getFullYear() > 1970 && date.getFullYear() < 3000) {
+            html += '<div style="margin-top:var(--sp-2);border-top:1px solid var(--border);padding-top:var(--sp-2)">';
+            html += '<strong>Embedded Timestamp:</strong><br>';
+            html += '<div>UTC: ' + date.toISOString() + '</div>';
+            html += '<div>Local: ' + date.toLocaleString() + '</div>';
+            html += '<div>Unix (ms): ' + unixMs + '</div>';
+            html += '</div>';
+          }
+        } catch (e) {
+          // BigInt not supported or parse error, skip timestamp
+        }
+      }
+
+      if (versionNibble === 4) {
+        html += '<div style="margin-top:var(--sp-2);border-top:1px solid var(--border);padding-top:var(--sp-2);color:var(--text-muted)">';
+        html += 'Version 4 UUIDs are fully random. No embedded timestamp or node information to decode.</div>';
+      }
+
+      if (isNil) {
+        html += '<div style="margin-top:var(--sp-2);border-top:1px solid var(--border);padding-top:var(--sp-2);color:var(--text-muted)">';
+        html += 'This is the Nil UUID (all zeros). It is used as a placeholder or null value.</div>';
+      }
+
+      html += '</div></div>';
+      resultDiv.innerHTML = html;
+    }
+
+    function clearDecoder() {
+      document.getElementById('decoder-input').value = '';
+      document.getElementById('decoder-result').innerHTML = '';
+    }
+
+    /* ========== History ========== */
+    function addToHistory(rawUUID) {
+      history.unshift(rawUUID);
+      if (history.length > 10) history.pop();
+      renderHistory();
+    }
+
+    function renderHistory() {
+      var list = document.getElementById('history-list');
+      if (history.length === 0) {
+        list.innerHTML = '<li style="padding:var(--sp-2);color:var(--text-muted);font-size:.8125rem">No UUIDs generated yet.</li>';
+        return;
+      }
+
+      var format = getSelectedFormat();
+      var html = '';
+      for (var i = 0; i < history.length; i++) {
+        var formatted = formatUUID(history[i], format);
+        html += '<li class="history-item">' +
+          '<span class="uuid-text">' + escapeHTML(formatted) + '</span>' +
+          '<button class="copy-btn" onclick="copyHistoryItem(' + i + ')">Copy</button>' +
+          '</li>';
+      }
+      list.innerHTML = html;
+    }
+
+    function copyHistoryItem(index) {
+      if (index < 0 || index >= history.length) return;
+      var formatted = formatUUID(history[index]);
+      copyToClipboard(formatted);
+      showToast('UUID copied!', 'success');
+    }
+
+    function clearHistory() {
+      history = [];
+      renderHistory();
+      showToast('History cleared', 'info');
+    }
+
+    /* ========== Escape HTML ========== */
+    function escapeHTML(str) {
+      var div = document.createElement('div');
+      div.appendChild(document.createTextNode(str));
+      return div.innerHTML;
+    }
+
+    /* ========== Tab Version Switching ========== */
+    document.addEventListener('DOMContentLoaded', function() {
+      var tabs = document.querySelectorAll('.tab-group .tab');
+      tabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          var target = tab.dataset.tab;
+          if (target === 'panel-v4') currentVersion = 'v4';
+          else if (target === 'panel-v1') currentVersion = 'v1';
+          else if (target === 'panel-nil') currentVersion = 'nil';
+        });
+      });
+
+      // Format radio buttons: highlight selected and re-render
+      var formatOptions = document.querySelectorAll('.format-option');
+      formatOptions.forEach(function(opt) {
+        opt.addEventListener('click', function() {
+          formatOptions.forEach(function(o) { o.classList.remove('active'); });
+          opt.classList.add('active');
+          // Re-render displayed UUID
+          var outputEl = document.getElementById('uuid-output');
+          var text = outputEl.textContent;
+          if (text && text !== 'Click Generate to create a UUID' && history.length > 0) {
+            outputEl.textContent = formatUUID(history[0]);
+          }
+          // Re-render history
+          renderHistory();
+          // Re-render bulk if present
+          var bulkEl = document.getElementById('bulk-output');
+          if (bulkEl.value) {
+            // Re-format is expensive for large sets, skip for bulk
+          }
+        });
+      });
+
+      // Keyboard shortcut: Enter to generate
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.target.matches('input, textarea')) {
+          e.preventDefault();
+          generateSingle();
+        }
+      });
+
+      // Validator enter key
+      document.getElementById('validator-input').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') { e.preventDefault(); validateUUID(); }
+      });
+
+      // Decoder enter key
+      document.getElementById('decoder-input').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') { e.preventDefault(); decodeUUID(); }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salary to Hourly Calculator — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Convert annual salary to hourly rate or hourly wage to annual salary. See daily, weekly, bi-weekly, semi-monthly, monthly, and quarterly breakdowns with vacation adjustments. Free online salary calculator.">
+  <link rel="canonical" href="https://salary.toolrip.com/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Salary to Hourly Calculator — Toolrip">
+  <meta property="og:description" content="Convert annual salary to hourly rate or hourly wage to annual salary. See daily, weekly, bi-weekly, semi-monthly, monthly, and quarterly breakdowns with vacation adjustments.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://salary.toolrip.com/">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Salary to Hourly Calculator — Toolrip">
+  <meta name="twitter:description" content="Convert annual salary to hourly rate or hourly wage to annual salary. See daily, weekly, bi-weekly, semi-monthly, monthly, and quarterly breakdowns with vacation adjustments.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--finance)}</style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Salary to Hourly Calculator",
+    "url": "https://salary.toolrip.com/",
+    "description": "Convert annual salary to hourly rate or hourly wage to annual salary. See daily, weekly, bi-weekly, semi-monthly, monthly, and quarterly breakdowns with vacation adjustments. Free online salary calculator.",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Finance Tools", "item": "https://toolrip.com/#finance" },
+      { "@type": "ListItem", "position": 3, "name": "Salary to Hourly Calculator", "item": "https://salary.toolrip.com/" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I convert my annual salary to an hourly rate?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Divide your annual salary by the total number of working hours in a year. For a standard full-time schedule, that is 40 hours per week multiplied by 52 weeks, which equals 2,080 hours. For example, a $60,000 annual salary divided by 2,080 hours equals approximately $28.85 per hour."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between salary and hourly pay?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Salaried employees receive a fixed annual or monthly amount regardless of the specific hours worked each week, while hourly employees are paid for each hour they work. Salaried positions typically come with benefits like health insurance and retirement plans but may require working beyond 40 hours without extra compensation. Hourly workers are usually eligible for overtime pay at 1.5 times their regular rate for hours exceeding 40 in a workweek."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are exempt vs. non-exempt employees?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Under the Fair Labor Standards Act (FLSA), exempt employees are not entitled to overtime pay and typically receive a fixed salary. Non-exempt employees must be paid at least the federal minimum wage and receive overtime pay for hours worked beyond 40 per week. Classification depends on salary level, salary basis, and job duties."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do holidays and vacation days affect my hourly rate?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Paid holidays and vacation days reduce your actual working hours but not your total pay. This means your effective hourly rate is higher than your standard calculated rate. For example, with 10 holidays and 10 vacation days (20 days total), you work 240 fewer hours, making your effective hourly rate higher than the base calculation."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I convert an hourly wage to an annual salary?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Multiply your hourly rate by the number of hours you work per week, then multiply by the number of weeks you work per year. For example, at $25 per hour, 40 hours per week, and 52 weeks per year: $25 x 40 x 52 = $52,000 annual salary."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    /* Tool-specific styles */
+    .salary-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--sp-4);
+    }
+    @media (min-width: 640px) {
+      .salary-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .result-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-3);
+      text-align: center;
+    }
+    .result-card.primary {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 5%, var(--bg));
+    }
+    .result-label {
+      font-size: .75rem;
+      color: var(--text-muted);
+      margin-bottom: var(--sp-1);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .result-value {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .result-value.large {
+      font-size: 2rem;
+      color: var(--accent);
+    }
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--sp-2);
+      margin-top: var(--sp-3);
+    }
+    @media (min-width: 640px) {
+      .results-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    /* Comparison table */
+    .cmp-table-wrap {
+      overflow-x: auto;
+      margin-top: var(--sp-3);
+    }
+    .cmp-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .8125rem;
+    }
+    .cmp-table th {
+      text-align: left;
+      padding: var(--sp-2);
+      border-bottom: 2px solid var(--border);
+      font-size: .75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .03em;
+      white-space: nowrap;
+    }
+    .cmp-table td {
+      padding: var(--sp-2);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .cmp-table tr:hover td {
+      background: var(--bg-elevated);
+    }
+    .cmp-table tr.highlight td {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* Adjusted salary section */
+    .adjusted-card {
+      background: color-mix(in srgb, var(--accent) 5%, var(--bg));
+      border: 1px solid var(--accent);
+      border-radius: var(--radius);
+      padding: var(--sp-4);
+      margin-top: var(--sp-3);
+    }
+    .adjusted-card h3 {
+      font-size: 1rem;
+      margin-bottom: var(--sp-2);
+    }
+    .adjusted-row {
+      display: flex;
+      justify-content: space-between;
+      padding: var(--sp-1) 0;
+      font-size: .875rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .adjusted-row:last-child {
+      border-bottom: none;
+    }
+    .adjusted-row .label {
+      color: var(--text-muted);
+    }
+    .adjusted-row .value {
+      font-weight: 600;
+    }
+
+    /* Input row layout */
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-3);
+    }
+    @media (max-width: 479px) {
+      .input-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Error styling */
+    .input-field.error {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
+    }
+    .error-msg {
+      color: #ef4444;
+      font-size: .75rem;
+      margin-top: 2px;
+      display: none;
+    }
+    .error-msg.visible {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" id="ad-top" data-ad-slot="top">Ad</div>
+
+    <!-- Breadcrumb -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#finance">Finance Tools</a>
+        <span>/</span>
+        <span>Salary to Hourly Calculator</span>
+      </nav>
+
+      <h1>Salary to Hourly Calculator</h1>
+      <p class="text-muted mt-1 mb-3">Convert between annual salary and hourly wage instantly. See your pay broken down by hour, day, week, bi-weekly, semi-monthly, monthly, and quarterly periods with adjustments for holidays and vacation days.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+
+        <!-- Mode Tabs -->
+        <div class="tab-group">
+          <button class="tab active" data-tab="panel-annual">Annual Salary &rarr; Hourly</button>
+          <button class="tab" data-tab="panel-hourly">Hourly &rarr; Annual Salary</button>
+        </div>
+
+        <div class="salary-grid">
+
+          <!-- Left: Inputs -->
+          <div>
+            <!-- Annual to Hourly Panel -->
+            <div id="panel-annual" class="tab-panel">
+              <div class="input-group">
+                <label for="annualSalary">Annual Salary ($)</label>
+                <input type="text" id="annualSalary" class="input-field" placeholder="60,000" inputmode="decimal">
+                <span class="error-msg" id="annualSalaryErr">Enter a valid salary amount greater than 0.</span>
+              </div>
+            </div>
+
+            <!-- Hourly to Annual Panel -->
+            <div id="panel-hourly" class="tab-panel hidden">
+              <div class="input-group">
+                <label for="hourlyRate">Hourly Rate ($)</label>
+                <input type="text" id="hourlyRate" class="input-field" placeholder="30.00" inputmode="decimal">
+                <span class="error-msg" id="hourlyRateErr">Enter a valid hourly rate greater than 0.</span>
+              </div>
+            </div>
+
+            <!-- Shared parameters -->
+            <div class="input-row">
+              <div class="input-group">
+                <label for="hoursPerWeek">Hours per Week</label>
+                <input type="number" id="hoursPerWeek" class="input-field" value="40" min="1" max="168" step="1">
+                <span class="error-msg" id="hoursPerWeekErr">Enter hours between 1 and 168.</span>
+              </div>
+              <div class="input-group">
+                <label for="weeksPerYear">Weeks per Year</label>
+                <input type="number" id="weeksPerYear" class="input-field" value="52" min="1" max="52" step="1">
+                <span class="error-msg" id="weeksPerYearErr">Enter weeks between 1 and 52.</span>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label for="holidays">Holidays / Vacation Days per Year</label>
+              <input type="number" id="holidays" class="input-field" value="10" min="0" max="365" step="1">
+              <span class="error-msg" id="holidaysErr">Enter a valid number of days (0-365).</span>
+            </div>
+
+            <div class="flex gap-2 mt-2">
+              <button class="btn-primary" onclick="calculate()">Calculate</button>
+              <button class="btn-secondary" onclick="resetAll()">Reset</button>
+            </div>
+          </div>
+
+          <!-- Right: Primary Result -->
+          <div>
+            <div class="result-card primary" id="primaryResultCard">
+              <div class="result-label" id="primaryLabel">HOURLY RATE</div>
+              <div class="result-value large" id="primaryValue">$0.00</div>
+            </div>
+
+            <div class="result-card" style="margin-top:var(--sp-2)">
+              <div class="result-label" id="secondaryLabel">ANNUAL SALARY</div>
+              <div class="result-value" id="secondaryValue">$0.00</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Results Breakdown -->
+      <div class="tool-card" id="resultsCard" style="display:none">
+        <h2 style="font-size:1.125rem;margin-bottom:var(--sp-2)">Pay Breakdown</h2>
+        <div class="results-grid">
+          <div class="result-card">
+            <div class="result-label">Hourly</div>
+            <div class="result-value" id="resHourly">$0.00</div>
+          </div>
+          <div class="result-card">
+            <div class="result-label">Daily (8 hrs)</div>
+            <div class="result-value" id="resDaily">$0.00</div>
+          </div>
+          <div class="result-card">
+            <div class="result-label">Weekly</div>
+            <div class="result-value" id="resWeekly">$0.00</div>
+          </div>
+          <div class="result-card">
+            <div class="result-label">Bi-Weekly</div>
+            <div class="result-value" id="resBiWeekly">$0.00</div>
+          </div>
+          <div class="result-card">
+            <div class="result-label">Semi-Monthly</div>
+            <div class="result-value" id="resSemiMonthly">$0.00</div>
+          </div>
+          <div class="result-card">
+            <div class="result-label">Monthly</div>
+            <div class="result-value" id="resMonthly">$0.00</div>
+          </div>
+          <div class="result-card">
+            <div class="result-label">Quarterly</div>
+            <div class="result-value" id="resQuarterly">$0.00</div>
+          </div>
+          <div class="result-card">
+            <div class="result-label">Annual</div>
+            <div class="result-value" id="resAnnual">$0.00</div>
+          </div>
+        </div>
+
+        <!-- Adjusted Salary after Holidays/Vacation -->
+        <div class="adjusted-card" id="adjustedCard">
+          <h3>Adjusted for Holidays &amp; Vacation</h3>
+          <div class="adjusted-row">
+            <span class="label">Total paid days off</span>
+            <span class="value" id="adjDaysOff">0 days</span>
+          </div>
+          <div class="adjusted-row">
+            <span class="label">Working hours lost</span>
+            <span class="value" id="adjHoursLost">0 hours</span>
+          </div>
+          <div class="adjusted-row">
+            <span class="label">Actual working hours/year</span>
+            <span class="value" id="adjActualHours">0 hours</span>
+          </div>
+          <div class="adjusted-row">
+            <span class="label">Effective hourly rate</span>
+            <span class="value" id="adjEffectiveRate">$0.00</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Comparison Table -->
+      <div class="tool-card" id="comparisonCard" style="display:none">
+        <h2 style="font-size:1.125rem;margin-bottom:var(--sp-2)">Weekly Hours Comparison</h2>
+        <div class="cmp-table-wrap">
+          <table class="cmp-table">
+            <thead>
+              <tr>
+                <th>Hours/Week</th>
+                <th>Hourly Rate</th>
+                <th>Weekly Pay</th>
+                <th>Monthly Pay</th>
+                <th>Annual Salary</th>
+              </tr>
+            </thead>
+            <tbody id="cmpBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" id="ad-in-content" data-ad-slot="in-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Instant Two-Way Conversion</h3>
+            <p>Switch seamlessly between annual-to-hourly and hourly-to-annual modes. Enter your salary or hourly rate, and the calculator instantly computes every pay frequency, giving you a complete picture of your compensation in seconds without any signup required.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Vacation &amp; Holiday Adjustment</h3>
+            <p>Account for paid time off to see your true effective hourly rate. Enter your holidays and vacation days, and the calculator shows how paid days off increase your actual per-hour earnings compared to the standard calculation, helping you understand your real compensation value.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Weekly Hours Comparison Table</h3>
+            <p>Compare pay across different work schedules at a glance. The comparison table shows how working 35, 40, or 45 hours per week affects your hourly rate, weekly pay, monthly income, and annual salary, making it easy to evaluate job offers with different hour expectations.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Salary to Hourly Calculator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li>Select your conversion mode using the tabs at the top: choose "Annual Salary to Hourly" if you know your yearly pay, or "Hourly to Annual Salary" if you know your hourly wage. Then enter the corresponding amount in the input field.</li>
+          <li>Adjust the hours per week (default 40), weeks per year (default 52), and holidays or vacation days (default 10) to match your specific work schedule. These parameters ensure the calculation reflects your real-world situation.</li>
+          <li>Review the full pay breakdown panel showing your hourly, daily, weekly, bi-weekly, semi-monthly, monthly, quarterly, and annual figures. Check the adjusted section for your effective hourly rate after accounting for paid time off, and compare scenarios in the weekly hours comparison table.</li>
+        </ol>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+
+        <details class="faq-item">
+          <summary>How do I convert my annual salary to an hourly rate?</summary>
+          <p>To convert an annual salary to an hourly rate, divide your total yearly compensation by the number of working hours in a year. The standard calculation uses 40 hours per week multiplied by 52 weeks per year, giving you 2,080 total working hours. For example, if your annual salary is $60,000, your hourly rate would be $60,000 divided by 2,080, which equals approximately $28.85 per hour. This straightforward formula works well for full-time salaried employees working a standard schedule. If your workweek differs from 40 hours, simply adjust the hours-per-week value in the calculator to get an accurate result. Keep in mind that this base calculation does not account for overtime, bonuses, or benefits, which can significantly affect your total compensation package. For a more realistic picture of your effective hourly earnings, factor in your paid holidays and vacation days using the adjustment feature in this calculator.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What is the difference between salary and hourly pay?</summary>
+          <p>Salary and hourly pay represent two fundamentally different compensation structures that affect how and when you get paid. A salaried employee receives a predetermined fixed amount per pay period, typically expressed as an annual figure, regardless of the exact number of hours worked each week. This means salaried workers earn the same paycheck whether they work 38 or 50 hours in a given week. Hourly employees, by contrast, are compensated for each hour they work, and their total pay varies depending on the number of hours logged. One of the most significant distinctions involves overtime eligibility. Under the Fair Labor Standards Act, most hourly workers are entitled to overtime pay at one and a half times their regular rate for any hours worked beyond 40 in a workweek, while many salaried employees are classified as exempt from overtime requirements. Salaried positions often come with more comprehensive benefits packages including health insurance, retirement contributions, paid vacation, and professional development opportunities. Hourly positions typically offer greater flexibility in scheduling and a clearer boundary between work and personal time, since compensation is directly tied to hours on the clock.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What are exempt vs. non-exempt employees?</summary>
+          <p>The terms exempt and non-exempt refer to an employee's classification under the Fair Labor Standards Act (FLSA) and determine whether they are eligible for overtime pay. Exempt employees are not entitled to overtime compensation, meaning they do not receive extra pay for working more than 40 hours in a workweek. To qualify as exempt, an employee must generally meet three criteria: they must be paid on a salary basis rather than hourly, their salary must meet a minimum threshold set by the Department of Labor, and their primary job duties must fall into specific categories such as executive, administrative, professional, computer-related, or outside sales roles. Non-exempt employees, on the other hand, must be paid at least the federal minimum wage for all hours worked and are entitled to overtime pay at 1.5 times their regular hourly rate for any hours exceeding 40 per workweek. Misclassification of employees is a common legal issue that can result in significant penalties for employers. If you are unsure about your classification, check whether your job duties and salary level meet the current FLSA exemption criteria, or consult your company's human resources department for clarification about your specific situation.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>How do holidays and vacation days affect my effective hourly rate?</summary>
+          <p>Paid holidays and vacation days have a meaningful impact on your effective hourly rate because they reduce the total number of hours you actually work while your annual salary remains unchanged. When you receive paid time off, you are essentially being compensated for hours you do not work, which increases the value of each hour you spend on the job. For example, consider an employee earning $60,000 per year with a standard 40-hour workweek. Without any time off, they work 2,080 hours per year, resulting in an hourly rate of approximately $28.85. Now suppose they receive 10 paid holidays and 15 vacation days, totaling 25 days off. That reduces their actual working time by 200 hours (25 days multiplied by 8 hours per day), bringing their real working hours down to 1,880. Dividing the same $60,000 salary by 1,880 hours yields an effective hourly rate of about $31.91, a meaningful increase over the base calculation. This effective rate more accurately represents the value of your time when negotiating compensation or comparing job offers with different time-off policies. An employer offering fewer vacation days at the same salary is effectively paying a lower real hourly rate for your working time.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>How do I convert an hourly wage to an annual salary?</summary>
+          <p>Converting an hourly wage to an annual salary is the reverse of the salary-to-hourly calculation and is equally straightforward. Multiply your hourly rate by the number of hours you work per week, and then multiply that result by the number of weeks you work per year. Using standard full-time assumptions of 40 hours per week and 52 weeks per year, the formula becomes: Annual Salary = Hourly Rate times 40 times 52. For instance, if you earn $25 per hour, your annual salary equivalent would be $25 multiplied by 40 multiplied by 52, which equals $52,000 per year. This calculation is particularly useful when comparing a job offer quoted as an hourly rate against one quoted as an annual salary. Remember to consider the complete compensation package beyond just the base pay, including health insurance, retirement matching, bonuses, and paid time off, since these benefits can add 20 to 40 percent to the total value of your compensation and may differ significantly between hourly and salaried positions.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What is the standard number of working hours in a year?</summary>
+          <p>The standard number of working hours in a year for a full-time employee in the United States is 2,080 hours. This figure comes from multiplying the typical 40-hour workweek by 52 weeks in a year. However, this number represents the maximum possible working hours and does not account for any time off. In practice, most full-time employees work fewer hours due to paid holidays, vacation days, sick leave, and personal days. The average American worker receives approximately 8 to 10 paid holidays per year and around 10 to 15 vacation days, depending on their employer and years of service. When you subtract these paid days off, the actual number of working hours typically falls between 1,800 and 1,960 hours per year. Some countries and industries use different standards. For example, many European countries have shorter standard workweeks of 35 to 37 hours, and some professionals in fields like finance, law, or technology may regularly work 50 to 60 hours per week. This calculator lets you customize both the hours per week and weeks per year to accurately reflect your particular working arrangement regardless of industry or location.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>How should I use this calculator when evaluating job offers?</summary>
+          <p>When evaluating job offers, this salary-to-hourly calculator becomes an essential tool for making fair comparisons between positions with different compensation structures. Start by entering each offer's base salary or hourly rate, then adjust the hours per week to reflect each position's expected workload. A position offering $75,000 per year but expecting 50-hour weeks has a very different effective hourly rate than one offering $65,000 for a standard 40-hour week. Use the holiday and vacation inputs to account for differences in paid time off, since an offer with 20 days of PTO is worth more than one with only 10 days at the same salary. The comparison table lets you quickly see how varying work hours affect your pay across different scenarios. Beyond what this calculator shows, remember to factor in other benefits such as health insurance premiums, retirement plan matching, commuting costs, and remote work flexibility. Converting everything to an effective hourly rate provides a consistent baseline that makes it much easier to objectively evaluate which opportunity offers the best total compensation for your time.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://tip.toolrip.com">Tip Calculator</a>
+          <a href="https://percentage.toolrip.com">Percentage Calculator</a>
+          <a href="https://compound-interest.toolrip.com">Compound Interest Calculator</a>
+          <a href="https://roi.toolrip.com">ROI Calculator</a>
+          <a href="https://mortgage.toolrip.com">Mortgage Calculator</a>
+          <a href="https://sales-tax.toolrip.com">Sales Tax Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" id="ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" id="ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Salary Calculator JS -->
+  <script>
+    (function() {
+      'use strict';
+
+      /* --- DOM References --- */
+      var els = {
+        annualSalary:    document.getElementById('annualSalary'),
+        hourlyRate:      document.getElementById('hourlyRate'),
+        hoursPerWeek:    document.getElementById('hoursPerWeek'),
+        weeksPerYear:    document.getElementById('weeksPerYear'),
+        holidays:        document.getElementById('holidays'),
+        primaryLabel:    document.getElementById('primaryLabel'),
+        primaryValue:    document.getElementById('primaryValue'),
+        secondaryLabel:  document.getElementById('secondaryLabel'),
+        secondaryValue:  document.getElementById('secondaryValue'),
+        resultsCard:     document.getElementById('resultsCard'),
+        comparisonCard:  document.getElementById('comparisonCard'),
+        resHourly:       document.getElementById('resHourly'),
+        resDaily:        document.getElementById('resDaily'),
+        resWeekly:       document.getElementById('resWeekly'),
+        resBiWeekly:     document.getElementById('resBiWeekly'),
+        resSemiMonthly:  document.getElementById('resSemiMonthly'),
+        resMonthly:      document.getElementById('resMonthly'),
+        resQuarterly:    document.getElementById('resQuarterly'),
+        resAnnual:       document.getElementById('resAnnual'),
+        adjDaysOff:      document.getElementById('adjDaysOff'),
+        adjHoursLost:    document.getElementById('adjHoursLost'),
+        adjActualHours:  document.getElementById('adjActualHours'),
+        adjEffectiveRate:document.getElementById('adjEffectiveRate'),
+        adjustedCard:    document.getElementById('adjustedCard'),
+        cmpBody:         document.getElementById('cmpBody'),
+        annualSalaryErr: document.getElementById('annualSalaryErr'),
+        hourlyRateErr:   document.getElementById('hourlyRateErr'),
+        hoursPerWeekErr: document.getElementById('hoursPerWeekErr'),
+        weeksPerYearErr: document.getElementById('weeksPerYearErr'),
+        holidaysErr:     document.getElementById('holidaysErr')
+      };
+
+      var currentMode = 'annual'; // 'annual' or 'hourly'
+
+      /* --- Parsing Helpers --- */
+      function parseNum(str) {
+        if (!str && str !== 0) return 0;
+        return parseFloat(String(str).replace(/[^0-9.\-]/g, '')) || 0;
+      }
+
+      function fmtInput(el) {
+        var val = parseNum(el.value);
+        if (val >= 0 && el.value.trim() !== '') {
+          el.value = formatNumber(val, 0);
+        }
+      }
+
+      /* --- Validation --- */
+      function showError(inputEl, errEl, show) {
+        if (show) {
+          inputEl.classList.add('error');
+          errEl.classList.add('visible');
+        } else {
+          inputEl.classList.remove('error');
+          errEl.classList.remove('visible');
+        }
+      }
+
+      function validate() {
+        var valid = true;
+
+        if (currentMode === 'annual') {
+          var salary = parseNum(els.annualSalary.value);
+          if (salary <= 0) {
+            showError(els.annualSalary, els.annualSalaryErr, true);
+            valid = false;
+          } else {
+            showError(els.annualSalary, els.annualSalaryErr, false);
+          }
+        } else {
+          var rate = parseNum(els.hourlyRate.value);
+          if (rate <= 0) {
+            showError(els.hourlyRate, els.hourlyRateErr, true);
+            valid = false;
+          } else {
+            showError(els.hourlyRate, els.hourlyRateErr, false);
+          }
+        }
+
+        var hpw = parseNum(els.hoursPerWeek.value);
+        if (hpw < 1 || hpw > 168) {
+          showError(els.hoursPerWeek, els.hoursPerWeekErr, true);
+          valid = false;
+        } else {
+          showError(els.hoursPerWeek, els.hoursPerWeekErr, false);
+        }
+
+        var wpy = parseNum(els.weeksPerYear.value);
+        if (wpy < 1 || wpy > 52) {
+          showError(els.weeksPerYear, els.weeksPerYearErr, true);
+          valid = false;
+        } else {
+          showError(els.weeksPerYear, els.weeksPerYearErr, false);
+        }
+
+        var hol = parseNum(els.holidays.value);
+        if (hol < 0 || hol > 365) {
+          showError(els.holidays, els.holidaysErr, true);
+          valid = false;
+        } else {
+          showError(els.holidays, els.holidaysErr, false);
+        }
+
+        return valid;
+      }
+
+      /* --- Core Calculation --- */
+      function calculate() {
+        if (!validate()) return;
+
+        var hoursPerWeek = parseNum(els.hoursPerWeek.value);
+        var weeksPerYear = parseNum(els.weeksPerYear.value);
+        var holidays     = parseNum(els.holidays.value);
+        var totalHoursPerYear = hoursPerWeek * weeksPerYear;
+
+        var annualSalary, hourlyRate;
+
+        if (currentMode === 'annual') {
+          annualSalary = parseNum(els.annualSalary.value);
+          hourlyRate   = annualSalary / totalHoursPerYear;
+        } else {
+          hourlyRate   = parseNum(els.hourlyRate.value);
+          annualSalary = hourlyRate * totalHoursPerYear;
+        }
+
+        // Primary and secondary display
+        if (currentMode === 'annual') {
+          els.primaryLabel.textContent  = 'HOURLY RATE';
+          els.primaryValue.textContent  = formatCurrency(hourlyRate);
+          els.secondaryLabel.textContent = 'ANNUAL SALARY';
+          els.secondaryValue.textContent = formatCurrency(annualSalary);
+        } else {
+          els.primaryLabel.textContent  = 'ANNUAL SALARY';
+          els.primaryValue.textContent  = formatCurrency(annualSalary);
+          els.secondaryLabel.textContent = 'HOURLY RATE';
+          els.secondaryValue.textContent = formatCurrency(hourlyRate);
+        }
+
+        // Pay breakdown
+        var daily       = hourlyRate * 8;
+        var weekly      = hourlyRate * hoursPerWeek;
+        var biWeekly    = weekly * 2;
+        var semiMonthly = annualSalary / 24;
+        var monthly     = annualSalary / 12;
+        var quarterly   = annualSalary / 4;
+
+        els.resHourly.textContent      = formatCurrency(hourlyRate);
+        els.resDaily.textContent       = formatCurrency(daily);
+        els.resWeekly.textContent      = formatCurrency(weekly);
+        els.resBiWeekly.textContent    = formatCurrency(biWeekly);
+        els.resSemiMonthly.textContent = formatCurrency(semiMonthly);
+        els.resMonthly.textContent     = formatCurrency(monthly);
+        els.resQuarterly.textContent   = formatCurrency(quarterly);
+        els.resAnnual.textContent      = formatCurrency(annualSalary);
+
+        // Adjusted salary after holidays/vacation
+        var hoursPerDay  = hoursPerWeek / 5; // assume 5-day workweek for daily hours
+        var hoursLost    = holidays * hoursPerDay;
+        var actualHours  = totalHoursPerYear - hoursLost;
+        var effectiveRate = actualHours > 0 ? annualSalary / actualHours : 0;
+
+        els.adjDaysOff.textContent      = holidays + (holidays === 1 ? ' day' : ' days');
+        els.adjHoursLost.textContent    = formatNumber(hoursLost, 1) + ' hours';
+        els.adjActualHours.textContent  = formatNumber(actualHours, 1) + ' hours';
+        els.adjEffectiveRate.textContent = formatCurrency(effectiveRate);
+
+        // Show/hide adjusted card
+        els.adjustedCard.style.display = holidays > 0 ? '' : 'none';
+
+        // Comparison table: 35, 40, 45 hour weeks
+        var scenarios = [35, 40, 45];
+        var html = '';
+        scenarios.forEach(function(hrs) {
+          var isMatch = (hrs === hoursPerWeek);
+          var scenarioTotalHours = hrs * weeksPerYear;
+          var scenarioHourly, scenarioAnnual;
+
+          if (currentMode === 'annual') {
+            scenarioAnnual = annualSalary;
+            scenarioHourly = scenarioAnnual / scenarioTotalHours;
+          } else {
+            scenarioHourly = hourlyRate;
+            scenarioAnnual = scenarioHourly * scenarioTotalHours;
+          }
+
+          var scenarioWeekly  = scenarioHourly * hrs;
+          var scenarioMonthly = scenarioAnnual / 12;
+
+          html += '<tr' + (isMatch ? ' class="highlight"' : '') + '>'
+            + '<td>' + hrs + ' hrs/wk' + (isMatch ? ' *' : '') + '</td>'
+            + '<td>' + formatCurrency(scenarioHourly) + '</td>'
+            + '<td>' + formatCurrency(scenarioWeekly) + '</td>'
+            + '<td>' + formatCurrency(scenarioMonthly) + '</td>'
+            + '<td>' + formatCurrency(scenarioAnnual) + '</td>'
+            + '</tr>';
+        });
+
+        // If user's hours per week is not one of the standard scenarios, add their row
+        if (scenarios.indexOf(hoursPerWeek) === -1) {
+          var userWeekly  = hourlyRate * hoursPerWeek;
+          var userMonthly = annualSalary / 12;
+
+          html += '<tr class="highlight">'
+            + '<td>' + hoursPerWeek + ' hrs/wk *</td>'
+            + '<td>' + formatCurrency(hourlyRate) + '</td>'
+            + '<td>' + formatCurrency(userWeekly) + '</td>'
+            + '<td>' + formatCurrency(userMonthly) + '</td>'
+            + '<td>' + formatCurrency(annualSalary) + '</td>'
+            + '</tr>';
+        }
+
+        els.cmpBody.innerHTML = html;
+
+        // Show result panels
+        els.resultsCard.style.display    = '';
+        els.comparisonCard.style.display = '';
+      }
+
+      /* --- Reset --- */
+      window.resetAll = function() {
+        els.annualSalary.value  = '';
+        els.hourlyRate.value    = '';
+        els.hoursPerWeek.value  = '40';
+        els.weeksPerYear.value  = '52';
+        els.holidays.value      = '10';
+
+        els.primaryLabel.textContent   = currentMode === 'annual' ? 'HOURLY RATE' : 'ANNUAL SALARY';
+        els.primaryValue.textContent   = '$0.00';
+        els.secondaryLabel.textContent = currentMode === 'annual' ? 'ANNUAL SALARY' : 'HOURLY RATE';
+        els.secondaryValue.textContent = '$0.00';
+
+        els.resultsCard.style.display    = 'none';
+        els.comparisonCard.style.display = 'none';
+
+        showError(els.annualSalary, els.annualSalaryErr, false);
+        showError(els.hourlyRate, els.hourlyRateErr, false);
+        showError(els.hoursPerWeek, els.hoursPerWeekErr, false);
+        showError(els.weeksPerYear, els.weeksPerYearErr, false);
+        showError(els.holidays, els.holidaysErr, false);
+
+        showToast('All fields reset.', 'info');
+      };
+
+      // Make calculate globally accessible
+      window.calculate = calculate;
+
+      /* --- Tab Switching --- */
+      document.querySelectorAll('.tab-group .tab').forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          var target = tab.dataset.tab;
+          if (target === 'panel-annual') {
+            currentMode = 'annual';
+            els.primaryLabel.textContent   = 'HOURLY RATE';
+            els.secondaryLabel.textContent = 'ANNUAL SALARY';
+          } else {
+            currentMode = 'hourly';
+            els.primaryLabel.textContent   = 'ANNUAL SALARY';
+            els.secondaryLabel.textContent = 'HOURLY RATE';
+          }
+          // Clear validation errors on mode switch
+          showError(els.annualSalary, els.annualSalaryErr, false);
+          showError(els.hourlyRate, els.hourlyRateErr, false);
+          // Trigger recalculation if there's valid input
+          onInput();
+        });
+      });
+
+      /* --- Real-time Listeners --- */
+      var debounceTimer;
+      function onInput() {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(function() {
+          var hasValue = false;
+          if (currentMode === 'annual') {
+            hasValue = parseNum(els.annualSalary.value) > 0;
+          } else {
+            hasValue = parseNum(els.hourlyRate.value) > 0;
+          }
+
+          var hpw = parseNum(els.hoursPerWeek.value);
+          var wpy = parseNum(els.weeksPerYear.value);
+
+          if (hasValue && hpw > 0 && wpy > 0) {
+            calculate();
+          }
+        }, 300);
+      }
+
+      // Number formatting on blur for salary and rate
+      els.annualSalary.addEventListener('blur', function() { fmtInput(els.annualSalary); });
+      els.hourlyRate.addEventListener('blur', function() {
+        var val = parseNum(els.hourlyRate.value);
+        if (val > 0 && els.hourlyRate.value.trim() !== '') {
+          els.hourlyRate.value = formatNumber(val, 2);
+        }
+      });
+
+      // Input listeners for real-time calculation
+      els.annualSalary.addEventListener('input', onInput);
+      els.hourlyRate.addEventListener('input', onInput);
+      els.hoursPerWeek.addEventListener('input', onInput);
+      els.weeksPerYear.addEventListener('input', onInput);
+      els.holidays.addEventListener('input', onInput);
+
+      /* --- Default values and initial calculation --- */
+      els.annualSalary.value = '60,000';
+      els.hoursPerWeek.value = '40';
+      els.weeksPerYear.value = '52';
+      els.holidays.value     = '10';
+
+      calculate();
+
+    })();
+  </script>
+</body>
+</html>

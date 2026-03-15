@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hex to RGB Color Converter — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Convert between Hex, RGB, and HSL color formats instantly. Features a live color preview, alpha/opacity support, WCAG contrast checker, CSS output, and complementary color palette. Free, no signup, 100% client-side.">
+  <link rel="canonical" href="https://hex-rgb.toolrip.com/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Hex to RGB Color Converter — Toolrip">
+  <meta property="og:description" content="Convert between Hex, RGB, and HSL color formats instantly. Features a live color preview, alpha/opacity support, WCAG contrast checker, CSS output, and complementary color palette. Free, no signup, 100% client-side.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://hex-rgb.toolrip.com/">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Hex to RGB Color Converter — Toolrip">
+  <meta name="twitter:description" content="Convert between Hex, RGB, and HSL color formats instantly. Features a live color preview, alpha/opacity support, WCAG contrast checker, CSS output, and complementary color palette. Free, no signup, 100% client-side.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root{--accent:var(--conversion)}
+
+    .color-main{display:grid;grid-template-columns:1fr;gap:var(--sp-3)}
+    @media(min-width:640px){.color-main{grid-template-columns:1fr 220px}}
+
+    .color-preview{width:200px;height:200px;border-radius:var(--radius-lg);border:2px solid var(--border);
+      margin:0 auto var(--sp-3);transition:background-color .15s}
+    @media(min-width:640px){.color-preview{margin:0 0 var(--sp-3)}}
+
+    .color-name{text-align:center;font-size:.875rem;font-weight:600;color:var(--accent);min-height:1.4em;margin-bottom:var(--sp-2)}
+
+    .picker-row{display:flex;align-items:center;gap:var(--sp-2);margin-bottom:var(--sp-3)}
+    .picker-row input[type="color"]{width:48px;height:40px;border:1px solid var(--border);border-radius:var(--radius-sm);
+      background:var(--bg);cursor:pointer;padding:2px}
+
+    .slider-group{margin-bottom:var(--sp-2)}
+    .slider-label{display:flex;justify-content:space-between;font-size:.8125rem;color:var(--text-muted);margin-bottom:2px}
+    .slider-label strong{color:var(--text)}
+    input[type="range"]{width:100%;height:6px;-webkit-appearance:none;appearance:none;background:var(--border);
+      border-radius:3px;outline:none;cursor:pointer}
+    input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;
+      background:var(--accent);border:2px solid var(--bg-surface);cursor:pointer}
+    input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;
+      background:var(--accent);border:2px solid var(--bg-surface);cursor:pointer}
+
+    .hex-input-wrap{display:flex;align-items:center;gap:var(--sp-1)}
+    .hex-input-wrap .hash{font-size:1.1rem;font-weight:700;color:var(--text-muted)}
+    .hex-input{width:120px;text-transform:uppercase;font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:1rem;letter-spacing:1px}
+
+    .rgb-inputs,.hsl-inputs{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-2)}
+
+    .output-row{display:flex;align-items:center;gap:var(--sp-2);margin-bottom:var(--sp-2);flex-wrap:wrap}
+    .output-label{font-size:.8125rem;color:var(--text-muted);min-width:50px}
+    .output-value{flex:1;font-family:'Consolas','Monaco','Courier New',monospace;font-size:.875rem;
+      padding:var(--sp-1) var(--sp-2);background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);
+      color:var(--text);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .copy-sm{padding:var(--sp-1) var(--sp-2);background:var(--bg-elevated);border:1px solid var(--border);
+      border-radius:var(--radius-sm);color:var(--text-muted);font-size:.75rem;cursor:pointer;white-space:nowrap;flex-shrink:0}
+    .copy-sm:hover{color:var(--text);border-color:var(--accent)}
+
+    .section-label{font-size:.9375rem;font-weight:600;margin:var(--sp-3) 0 var(--sp-2);padding-bottom:var(--sp-1);
+      border-bottom:1px solid var(--border)}
+
+    .palette-row{display:flex;gap:var(--sp-2);flex-wrap:wrap;margin:var(--sp-2) 0}
+    .palette-swatch{width:52px;height:52px;border-radius:var(--radius);border:2px solid var(--border);cursor:pointer;
+      position:relative;transition:transform .15s}
+    .palette-swatch:hover{transform:scale(1.1)}
+    .palette-swatch .swatch-hex{position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);
+      font-size:.625rem;color:var(--text-muted);white-space:nowrap}
+
+    .contrast-box{display:inline-flex;align-items:center;justify-content:center;padding:var(--sp-2) var(--sp-3);
+      border-radius:var(--radius);font-size:.875rem;font-weight:600;min-width:120px;text-align:center;
+      border:1px solid var(--border)}
+    .contrast-row{display:flex;flex-wrap:wrap;gap:var(--sp-3);align-items:center;margin-bottom:var(--sp-2)}
+    .contrast-info{font-size:.8125rem;color:var(--text-muted)}
+    .contrast-ratio{font-family:'Consolas','Monaco','Courier New',monospace;font-weight:700}
+    .pass{color:#10b981}
+    .fail{color:#ef4444}
+
+    .css-output{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+      padding:var(--sp-3);font-family:'Consolas','Monaco','Courier New',monospace;font-size:.8125rem;
+      line-height:1.8;position:relative;white-space:pre-wrap;word-break:break-all}
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Hex to RGB Color Converter",
+    "url": "https://hex-rgb.toolrip.com/",
+    "description": "Convert between Hex, RGB, and HSL color formats instantly. Features a live color preview, alpha/opacity support, WCAG contrast checker, CSS output, and complementary color palette.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com"},
+      {"@type": "ListItem", "position": 2, "name": "Conversion Tools", "item": "https://toolrip.com/#conversion"},
+      {"@type": "ListItem", "position": 3, "name": "Hex to RGB Converter", "item": "https://hex-rgb.toolrip.com/"}
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the difference between Hex and RGB color formats?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Hex color codes use a six-character hexadecimal notation prefixed with a hash symbol to represent red, green, and blue channel values from 00 to FF. RGB notation uses decimal values from 0 to 255 for each channel. Both formats describe the same color space, but Hex is more compact for CSS while RGB is more intuitive for manual adjustments."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I convert a Hex color to RGB?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Split the six-character hex code into three pairs of two characters each. Convert each pair from hexadecimal to decimal. The first pair is the red value, the second is green, and the third is blue. For example, #FF5733 becomes R=255, G=87, B=51."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is HSL and when should I use it?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "HSL stands for Hue, Saturation, and Lightness. Hue is the color angle on the color wheel (0-360 degrees), saturation is the color intensity (0-100%), and lightness is how light or dark the color is (0-100%). HSL is ideal when you need to create color variations, adjust brightness, or build harmonious palettes because its parameters map naturally to how humans perceive color."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the WCAG contrast ratio and why does it matter?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The WCAG contrast ratio measures the luminance difference between two colors. A ratio of at least 4.5:1 is required for normal text (AA standard) and 7:1 for enhanced readability (AAA standard). Large text requires at least 3:1 for AA. Proper contrast ensures your content is readable for users with visual impairments."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I use this tool to find CSS named colors?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The converter automatically detects if your selected color matches one of the 148 standard CSS named colors defined in the CSS Color Level 4 specification. When a match is found, the color name is displayed alongside the other format outputs, making it easy to use a human-readable name in your stylesheets instead of a numeric code."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#conversion">Conversion Tools</a>
+        <span>/</span>
+        <span>Hex to RGB Converter</span>
+      </nav>
+
+      <h1>Hex to RGB Color Converter</h1>
+      <p class="text-muted mt-1 mb-3">Convert between Hex, RGB, and HSL color formats in real time. Includes a live color preview, alpha channel support, CSS output, WCAG contrast checker, and complementary color palette. All conversions run instantly in your browser.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <div class="color-main">
+          <!-- Left: Inputs -->
+          <div>
+            <!-- Color Picker + Hex -->
+            <div class="section-label">Color Input</div>
+            <div class="picker-row">
+              <input type="color" id="color-picker" value="#FF5733" aria-label="Color picker">
+              <div class="hex-input-wrap">
+                <span class="hash">#</span>
+                <input type="text" id="hex-input" class="input-field hex-input" value="FF5733" maxlength="8" placeholder="FF5733" spellcheck="false" aria-label="Hex color code">
+              </div>
+            </div>
+
+            <!-- RGB Sliders -->
+            <div class="section-label">RGB</div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Red</span><strong id="r-val">255</strong></div>
+              <input type="range" id="r-slider" min="0" max="255" value="255" aria-label="Red channel">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Green</span><strong id="g-val">87</strong></div>
+              <input type="range" id="g-slider" min="0" max="255" value="87" aria-label="Green channel">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Blue</span><strong id="b-val">51</strong></div>
+              <input type="range" id="b-slider" min="0" max="255" value="51" aria-label="Blue channel">
+            </div>
+
+            <!-- HSL Sliders -->
+            <div class="section-label">HSL</div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Hue</span><strong id="h-val">11°</strong></div>
+              <input type="range" id="h-slider" min="0" max="360" value="11" aria-label="Hue">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Saturation</span><strong id="s-val">100%</strong></div>
+              <input type="range" id="s-slider" min="0" max="100" value="100" aria-label="Saturation">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Lightness</span><strong id="l-val">60%</strong></div>
+              <input type="range" id="l-slider" min="0" max="100" value="60" aria-label="Lightness">
+            </div>
+
+            <!-- Alpha Slider -->
+            <div class="section-label">Alpha / Opacity</div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Alpha</span><strong id="a-val">1.00</strong></div>
+              <input type="range" id="a-slider" min="0" max="100" value="100" aria-label="Alpha channel">
+            </div>
+          </div>
+
+          <!-- Right: Preview + Output -->
+          <div>
+            <div id="color-preview" class="color-preview" style="background-color:#FF5733"></div>
+            <div id="color-name" class="color-name"></div>
+
+            <!-- Output Values -->
+            <div class="output-row">
+              <span class="output-label">HEX</span>
+              <span class="output-value" id="out-hex">#FF5733</span>
+              <button class="copy-sm" onclick="copyVal('out-hex',this)">Copy</button>
+            </div>
+            <div class="output-row">
+              <span class="output-label">RGB</span>
+              <span class="output-value" id="out-rgb">rgb(255, 87, 51)</span>
+              <button class="copy-sm" onclick="copyVal('out-rgb',this)">Copy</button>
+            </div>
+            <div class="output-row">
+              <span class="output-label">HSL</span>
+              <span class="output-value" id="out-hsl">hsl(11, 100%, 60%)</span>
+              <button class="copy-sm" onclick="copyVal('out-hsl',this)">Copy</button>
+            </div>
+            <div class="output-row">
+              <span class="output-label">RGBA</span>
+              <span class="output-value" id="out-rgba">rgba(255, 87, 51, 1)</span>
+              <button class="copy-sm" onclick="copyVal('out-rgba',this)">Copy</button>
+            </div>
+            <div class="output-row">
+              <span class="output-label">HSLA</span>
+              <span class="output-value" id="out-hsla">hsla(11, 100%, 60%, 1)</span>
+              <button class="copy-sm" onclick="copyVal('out-hsla',this)">Copy</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CSS Output -->
+        <div class="section-label">CSS Output</div>
+        <div class="css-output" id="css-output">color: #FF5733;
+background-color: #FF5733;
+border-color: #FF5733;</div>
+        <button class="copy-sm" style="margin-top:var(--sp-2)" onclick="copyCss(this)">Copy CSS</button>
+
+        <!-- Palette -->
+        <div class="section-label">Color Palette</div>
+        <div class="palette-row" id="palette"></div>
+
+        <!-- Contrast Checker -->
+        <div class="section-label">WCAG Contrast Checker</div>
+        <div class="contrast-row">
+          <div class="contrast-box" id="contrast-white" style="background:#fff;color:#FF5733">Aa Text</div>
+          <div class="contrast-info">On White — Ratio: <span class="contrast-ratio" id="ratio-white">3.28:1</span> <span id="wcag-white"></span></div>
+        </div>
+        <div class="contrast-row">
+          <div class="contrast-box" id="contrast-black" style="background:#000;color:#FF5733">Aa Text</div>
+          <div class="contrast-info">On Black — Ratio: <span class="contrast-ratio" id="ratio-black">5.41:1</span> <span id="wcag-black"></span></div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Bidirectional Real-Time Conversion</h3>
+            <p>Enter a color in any format and instantly see the equivalent values in every other format. Type a hex code like #FF5733 and the RGB, HSL, RGBA, and HSLA values update immediately. Adjust any RGB or HSL slider and all other fields synchronize in real time with no button clicks needed. The native color picker is also fully integrated, so selecting a color visually updates every field simultaneously. This bidirectional approach means you can start from whichever format you are most comfortable with and always get accurate results in every other notation. All calculations are performed with full mathematical precision using the standard color conversion algorithms, ensuring pixel-perfect accuracy across browsers and design tools.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Alpha Channel &amp; CSS Output</h3>
+            <p>Go beyond opaque colors with the built-in alpha slider that generates RGBA and HSLA values instantly. Set opacity from fully transparent to fully opaque and watch the CSS output update in real time. The tool produces ready-to-paste CSS declarations for color, background-color, and border-color properties, saving you the effort of typing out syntax manually. Whether you are writing inline styles, editing a stylesheet, or prototyping in a design system, the CSS output block gives you production-ready code for the exact color and opacity you have chosen. Copy any individual value or the entire CSS block to your clipboard with a single click.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Accessibility &amp; Palette Tools</h3>
+            <p>Every color choice has accessibility implications. The built-in WCAG contrast checker displays your selected color as foreground text against both white and black backgrounds, with the precise contrast ratio calculated according to the Web Content Accessibility Guidelines. Each ratio is evaluated against WCAG AA and AAA thresholds for both normal and large text, so you can immediately see whether your color meets accessibility standards. Additionally, the tool generates a palette of five harmonious colors — complementary, analogous, and triadic — giving you a starting point for building cohesive and accessible color schemes for your designs.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Hex to RGB Converter</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Pick your starting format.</strong> Enter a hex code in the text field (with or without the # prefix), use the native color picker to select visually, or adjust the RGB or HSL sliders to define your color. The tool accepts 3-digit shorthand hex codes like #F00 and expands them automatically, as well as full 6-digit and 8-digit hex codes with alpha.</li>
+          <li><strong>Fine-tune with sliders.</strong> Drag the Red, Green, and Blue sliders to adjust individual channels, or use the Hue, Saturation, and Lightness sliders for more intuitive control. Adjust the Alpha slider to set opacity from 0 (fully transparent) to 1 (fully opaque). Every change updates all output values and the preview swatch in real time.</li>
+          <li><strong>Copy and use.</strong> Click the Copy button next to any output format to send it to your clipboard. Use the CSS output block for ready-to-paste stylesheet declarations. Check the WCAG contrast ratios to verify accessibility, and explore the generated color palette for harmonious companion colors. Click any palette swatch to switch to that color instantly.</li>
+        </ol>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is the difference between Hex and RGB color formats?</summary>
+          <p>Hex and RGB are two different ways of expressing the same color information. A hex color code is a six-character string prefixed with a hash symbol, where the first two characters represent the red channel, the middle two represent green, and the last two represent blue. Each pair is a hexadecimal number ranging from 00 (0 in decimal, meaning none of that color) to FF (255 in decimal, meaning the maximum intensity). RGB notation uses the same three channels but expresses them as decimal integers from 0 to 255 inside the rgb() CSS function. For example, the hex code #FF5733 is equivalent to rgb(255, 87, 51). Both formats describe colors in the sRGB color space that all modern screens and browsers support. Hex codes are more compact and widely used in CSS stylesheets, design tokens, and brand guidelines. RGB values are often preferred in programmatic contexts because the decimal numbers are easier to manipulate arithmetically, such as when interpolating between two colors or applying mathematical transformations.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How does HSL differ from RGB, and when should I use it?</summary>
+          <p>HSL stands for Hue, Saturation, and Lightness, and it describes colors in a way that corresponds more closely to human visual perception. Hue is the position on the color wheel measured in degrees from 0 to 360, where 0 is red, 120 is green, and 240 is blue. Saturation is the intensity or purity of the color expressed as a percentage from 0 (gray) to 100 (fully vivid). Lightness indicates how bright or dark the color is, from 0 percent (black) through 50 percent (the pure hue) to 100 percent (white). This model makes it straightforward to create lighter or darker variations of a color by adjusting only the lightness value, or to desaturate a color without changing its hue or brightness. Designers often prefer HSL when building systematic color palettes, theming interfaces, or creating hover and active state variations, because small adjustments to one parameter produce predictable and visually coherent results. RGB is more common in digital imaging and screen rendering, while HSL excels in design workflows that require human-readable color relationships.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the WCAG contrast ratio and why is it important for accessibility?</summary>
+          <p>The Web Content Accessibility Guidelines define a contrast ratio formula that measures the luminance difference between a foreground color and a background color. The ratio ranges from 1:1 (no contrast, identical colors) to 21:1 (maximum contrast, black on white). WCAG Level AA requires a minimum contrast ratio of 4.5:1 for normal-sized text and 3:1 for large text (defined as 18 point or 14 point bold). WCAG Level AAA raises the bar to 7:1 for normal text and 4.5:1 for large text. Meeting these thresholds ensures that text remains legible for users with low vision, color vision deficiencies, or those viewing screens in challenging lighting conditions. Approximately 8 percent of men and 0.5 percent of women have some form of color vision deficiency, making contrast compliance essential for reaching a broad audience. This tool calculates the relative luminance of your chosen color and computes its contrast ratio against both pure white and pure black, providing an instant pass or fail assessment for each WCAG level. Incorporating contrast checking into your color selection process prevents accessibility issues before they reach production.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What are CSS named colors and how many are there?</summary>
+          <p>CSS named colors are predefined keywords that browsers recognize as specific color values. The CSS Color Level 4 specification defines 148 named colors, ranging from basic names like red, blue, and green to more specific ones like cornflowerblue, darkolivegreen, and rebeccapurple. Each named color maps to a precise hex and RGB value. For example, the name "coral" corresponds to #FF7F50 or rgb(255, 127, 80). Using named colors in your stylesheets can improve readability, especially for common colors, because a word like "tomato" communicates the intended appearance more clearly than #FF6347 at a glance. However, named colors cover only a tiny fraction of the over 16 million colors available in the sRGB space, so you will often need hex or RGB notation for precise brand colors and custom designs. This converter automatically detects when your selected color matches a CSS named color and displays the name alongside the numeric values, helping you choose the most readable notation for your code.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How does the alpha channel work in RGBA and HSLA?</summary>
+          <p>The alpha channel adds a fourth value to the RGB or HSL color model that controls the opacity of the color. Alpha is expressed as a number between 0 and 1, where 0 means fully transparent (invisible) and 1 means fully opaque (solid). The RGBA function writes as rgba(255, 87, 51, 0.5) for a 50 percent transparent version of the color, and the HSLA equivalent would be hsla(11, 100%, 60%, 0.5). In modern CSS, you can also use the slash notation inside rgb() and hsl() functions, such as rgb(255 87 51 / 0.5). Alpha transparency is widely used for overlay effects, frosted glass UI patterns, subtle shadows, and any situation where you want an underlying layer to show through partially. When compositing colors with alpha, the browser blends the foreground and background pixel by pixel according to the alpha value, producing a smooth transparency effect that cannot be achieved by simply choosing a lighter version of the color. This tool provides a dedicated alpha slider that updates the RGBA and HSLA outputs in real time, so you can preview the effect and copy the exact value you need.</p>
+        </details>
+        <details class="faq-item">
+          <summary>When should I use Hex versus RGB versus HSL in my CSS?</summary>
+          <p>The choice between Hex, RGB, and HSL in CSS often comes down to context, readability, and the specific task at hand. Hex codes are the most common format in web development because they are compact, universally supported, and easy to copy from design tools like Figma and Photoshop. They work well for static color definitions in variables, brand palettes, and design tokens. RGB is the natural choice when you need to manipulate individual color channels programmatically, such as calculating interpolated colors in animations or generating dynamic color values in JavaScript. HSL is ideal for design systems and theming because you can create consistent color variations by adjusting only one parameter. For instance, you can define a base hue and generate lighter tints, darker shades, and muted tones simply by changing the saturation and lightness values, keeping the hue constant. If you need transparency, both RGBA and HSLA support the alpha channel. Modern CSS also allows the newer color() function and other color spaces, but Hex, RGB, and HSL remain the most widely supported and understood formats across all browsers and development toolchains.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://color-palette.toolrip.com">Color Palette Generator</a>
+          <a href="https://gradient.toolrip.com">CSS Gradient Generator</a>
+          <a href="https://box-shadow.toolrip.com">Box Shadow Generator</a>
+          <a href="https://css-minify.toolrip.com">CSS Minifier</a>
+          <a href="https://base64.toolrip.com">Base64 Encoder</a>
+          <a href="https://svg-png.toolrip.com">SVG to PNG Converter</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+    /* ========== CSS Named Colors Map ========== */
+    var CSS_COLORS = {
+      'F0F8FF':'aliceblue','FAEBD7':'antiquewhite','00FFFF':'aqua','7FFFD4':'aquamarine',
+      'F0FFFF':'azure','F5F5DC':'beige','FFE4C4':'bisque','000000':'black',
+      'FFEBCD':'blanchedalmond','0000FF':'blue','8A2BE2':'blueviolet','A52A2A':'brown',
+      'DEB887':'burlywood','5F9EA0':'cadetblue','7FFF00':'chartreuse','D2691E':'chocolate',
+      'FF7F50':'coral','6495ED':'cornflowerblue','FFF8DC':'cornsilk','DC143C':'crimson',
+      '00FFFF':'cyan','00008B':'darkblue','008B8B':'darkcyan','B8860B':'darkgoldenrod',
+      'A9A9A9':'darkgray','006400':'darkgreen','BDB76B':'darkkhaki','8B008B':'darkmagenta',
+      '556B2F':'darkolivegreen','FF8C00':'darkorange','9932CC':'darkorchid','8B0000':'darkred',
+      'E9967A':'darksalmon','8FBC8F':'darkseagreen','483D8B':'darkslateblue','2F4F4F':'darkslategray',
+      '00CED1':'darkturquoise','9400D3':'darkviolet','FF1493':'deeppink','00BFFF':'deepskyblue',
+      '696969':'dimgray','1E90FF':'dodgerblue','B22222':'firebrick','FFFAF0':'floralwhite',
+      '228B22':'forestgreen','FF00FF':'fuchsia','DCDCDC':'gainsboro','F8F8FF':'ghostwhite',
+      'FFD700':'gold','DAA520':'goldenrod','808080':'gray','008000':'green',
+      'ADFF2F':'greenyellow','F0FFF0':'honeydew','FF69B4':'hotpink','CD5C5C':'indianred',
+      '4B0082':'indigo','FFFFF0':'ivory','F0E68C':'khaki','E6E6FA':'lavender',
+      'FFF0F5':'lavenderblush','7CFC00':'lawngreen','FFFACD':'lemonchiffon','ADD8E6':'lightblue',
+      'F08080':'lightcoral','E0FFFF':'lightcyan','FAFAD2':'lightgoldenrodyellow','D3D3D3':'lightgray',
+      '90EE90':'lightgreen','FFB6C1':'lightpink','FFA07A':'lightsalmon','20B2AA':'lightseagreen',
+      '87CEFA':'lightskyblue','778899':'lightslategray','B0C4DE':'lightsteelblue','FFFFE0':'lightyellow',
+      '00FF00':'lime','32CD32':'limegreen','FAF0E6':'linen','FF00FF':'magenta',
+      '800000':'maroon','66CDAA':'mediumaquamarine','0000CD':'mediumblue','BA55D3':'mediumorchid',
+      '9370DB':'mediumpurple','3CB371':'mediumseagreen','7B68EE':'mediumslateblue',
+      '00FA9A':'mediumspringgreen','48D1CC':'mediumturquoise','C71585':'mediumvioletred',
+      '191970':'midnightblue','F5FFFA':'mintcream','FFE4E1':'mistyrose','FFE4B5':'moccasin',
+      'FFDEAD':'navajowhite','000080':'navy','FDF5E6':'oldlace','808000':'olive',
+      '6B8E23':'olivedrab','FFA500':'orange','FF4500':'orangered','DA70D6':'orchid',
+      'EEE8AA':'palegoldenrod','98FB98':'palegreen','AFEEEE':'paleturquoise','DB7093':'palevioletred',
+      'FFEFD5':'papayawhip','FFDAB9':'peachpuff','CD853F':'peru','FFC0CB':'pink',
+      'DDA0DD':'plum','B0E0E6':'powderblue','800080':'purple','663399':'rebeccapurple',
+      'FF0000':'red','BC8F8F':'rosybrown','4169E1':'royalblue','8B4513':'saddlebrown',
+      'FA8072':'salmon','F4A460':'sandybrown','2E8B57':'seagreen','FFF5EE':'seashell',
+      'A0522D':'sienna','C0C0C0':'silver','87CEEB':'skyblue','6A5ACD':'slateblue',
+      '708090':'slategray','FFFAFA':'snow','00FF7F':'springgreen','4682B4':'steelblue',
+      'D2B48C':'tan','008080':'teal','D8BFD8':'thistle','FF6347':'tomato',
+      '40E0D0':'turquoise','EE82EE':'violet','F5DEB3':'wheat','FFFFFF':'white',
+      'F5F5F5':'whitesmoke','FFFF00':'yellow','9ACD32':'yellowgreen'
+    };
+
+    /* ========== State ========== */
+    var state = { r: 255, g: 87, b: 51, a: 1 };
+    var updating = false;
+
+    /* ========== Color Conversion ========== */
+    function rgbToHex(r, g, b) {
+      return ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1).toUpperCase();
+    }
+
+    function hexToRgb(hex) {
+      hex = hex.replace(/^#/, '');
+      if (hex.length === 3) {
+        hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+      }
+      if (hex.length === 8) {
+        // 8-digit hex with alpha
+        hex = hex.substring(0, 6);
+      }
+      if (hex.length !== 6) return null;
+      var num = parseInt(hex, 16);
+      if (isNaN(num)) return null;
+      return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
+    }
+
+    function rgbToHsl(r, g, b) {
+      r /= 255; g /= 255; b /= 255;
+      var max = Math.max(r, g, b), min = Math.min(r, g, b);
+      var h, s, l = (max + min) / 2;
+
+      if (max === min) {
+        h = s = 0;
+      } else {
+        var d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+          case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
+          case g: h = ((b - r) / d + 2) / 6; break;
+          case b: h = ((r - g) / d + 4) / 6; break;
+        }
+      }
+      return {
+        h: Math.round(h * 360),
+        s: Math.round(s * 100),
+        l: Math.round(l * 100)
+      };
+    }
+
+    function hslToRgb(h, s, l) {
+      h /= 360; s /= 100; l /= 100;
+      var r, g, b;
+
+      if (s === 0) {
+        r = g = b = l;
+      } else {
+        function hue2rgb(p, q, t) {
+          if (t < 0) t += 1;
+          if (t > 1) t -= 1;
+          if (t < 1/6) return p + (q - p) * 6 * t;
+          if (t < 1/2) return q;
+          if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+          return p;
+        }
+        var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        var p = 2 * l - q;
+        r = hue2rgb(p, q, h + 1/3);
+        g = hue2rgb(p, q, h);
+        b = hue2rgb(p, q, h - 1/3);
+      }
+      return {
+        r: Math.round(r * 255),
+        g: Math.round(g * 255),
+        b: Math.round(b * 255)
+      };
+    }
+
+    /* ========== Relative Luminance & Contrast ========== */
+    function srgbToLinear(c) {
+      c /= 255;
+      return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+    }
+
+    function relativeLuminance(r, g, b) {
+      return 0.2126 * srgbToLinear(r) + 0.7152 * srgbToLinear(g) + 0.0722 * srgbToLinear(b);
+    }
+
+    function contrastRatio(l1, l2) {
+      var lighter = Math.max(l1, l2);
+      var darker = Math.min(l1, l2);
+      return (lighter + 0.05) / (darker + 0.05);
+    }
+
+    function wcagRating(ratio) {
+      var parts = [];
+      if (ratio >= 7) parts.push('<span class="pass">AAA</span>');
+      else parts.push('<span class="fail">AAA ✗</span>');
+      if (ratio >= 4.5) parts.push('<span class="pass">AA</span>');
+      else parts.push('<span class="fail">AA ✗</span>');
+      if (ratio >= 3) parts.push('<span class="pass">AA Large</span>');
+      else parts.push('<span class="fail">AA Large ✗</span>');
+      return parts.join(' · ');
+    }
+
+    /* ========== Named Color Detection ========== */
+    function getColorName(hex) {
+      return CSS_COLORS[hex.toUpperCase()] || null;
+    }
+
+    /* ========== Palette Generation ========== */
+    function generatePalette(h, s, l) {
+      var colors = [];
+      // Complementary
+      colors.push({ h: (h + 180) % 360, s: s, l: l, label: 'Complementary' });
+      // Analogous left
+      colors.push({ h: (h + 330) % 360, s: s, l: l, label: 'Analogous' });
+      // Analogous right
+      colors.push({ h: (h + 30) % 360, s: s, l: l, label: 'Analogous' });
+      // Triadic 1
+      colors.push({ h: (h + 120) % 360, s: s, l: l, label: 'Triadic' });
+      // Triadic 2
+      colors.push({ h: (h + 240) % 360, s: s, l: l, label: 'Triadic' });
+      return colors;
+    }
+
+    /* ========== DOM References ========== */
+    var els = {
+      picker: document.getElementById('color-picker'),
+      hexInput: document.getElementById('hex-input'),
+      rSlider: document.getElementById('r-slider'),
+      gSlider: document.getElementById('g-slider'),
+      bSlider: document.getElementById('b-slider'),
+      hSlider: document.getElementById('h-slider'),
+      sSlider: document.getElementById('s-slider'),
+      lSlider: document.getElementById('l-slider'),
+      aSlider: document.getElementById('a-slider'),
+      rVal: document.getElementById('r-val'),
+      gVal: document.getElementById('g-val'),
+      bVal: document.getElementById('b-val'),
+      hVal: document.getElementById('h-val'),
+      sVal: document.getElementById('s-val'),
+      lVal: document.getElementById('l-val'),
+      aVal: document.getElementById('a-val'),
+      preview: document.getElementById('color-preview'),
+      colorName: document.getElementById('color-name'),
+      outHex: document.getElementById('out-hex'),
+      outRgb: document.getElementById('out-rgb'),
+      outHsl: document.getElementById('out-hsl'),
+      outRgba: document.getElementById('out-rgba'),
+      outHsla: document.getElementById('out-hsla'),
+      cssOutput: document.getElementById('css-output'),
+      palette: document.getElementById('palette'),
+      contrastWhite: document.getElementById('contrast-white'),
+      contrastBlack: document.getElementById('contrast-black'),
+      ratioWhite: document.getElementById('ratio-white'),
+      ratioBlack: document.getElementById('ratio-black'),
+      wcagWhite: document.getElementById('wcag-white'),
+      wcagBlack: document.getElementById('wcag-black')
+    };
+
+    /* ========== Update UI ========== */
+    function updateAll(source) {
+      if (updating) return;
+      updating = true;
+
+      var r = state.r, g = state.g, b = state.b, a = state.a;
+      var hex = rgbToHex(r, g, b);
+      var hsl = rgbToHsl(r, g, b);
+
+      // Update inputs that are not the source
+      if (source !== 'hex') {
+        els.hexInput.value = hex;
+      }
+      if (source !== 'picker') {
+        els.picker.value = '#' + hex;
+      }
+      if (source !== 'rgb') {
+        els.rSlider.value = r;
+        els.gSlider.value = g;
+        els.bSlider.value = b;
+      }
+      if (source !== 'hsl') {
+        els.hSlider.value = hsl.h;
+        els.sSlider.value = hsl.s;
+        els.lSlider.value = hsl.l;
+      }
+
+      // Slider value labels
+      els.rVal.textContent = r;
+      els.gVal.textContent = g;
+      els.bVal.textContent = b;
+      els.hVal.textContent = hsl.h + '\u00B0';
+      els.sVal.textContent = hsl.s + '%';
+      els.lVal.textContent = hsl.l + '%';
+      els.aVal.textContent = a.toFixed(2);
+
+      // Preview
+      els.preview.style.backgroundColor = 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
+
+      // Color name
+      var name = getColorName(hex);
+      els.colorName.textContent = name ? name : '';
+
+      // Output values
+      els.outHex.textContent = '#' + hex;
+      els.outRgb.textContent = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+      els.outHsl.textContent = 'hsl(' + hsl.h + ', ' + hsl.s + '%, ' + hsl.l + '%)';
+      els.outRgba.textContent = 'rgba(' + r + ', ' + g + ', ' + b + ', ' + a + ')';
+      els.outHsla.textContent = 'hsla(' + hsl.h + ', ' + hsl.s + '%, ' + hsl.l + '%, ' + a + ')';
+
+      // CSS output
+      if (a < 1) {
+        els.cssOutput.textContent =
+          'color: rgba(' + r + ', ' + g + ', ' + b + ', ' + a + ');\n' +
+          'background-color: rgba(' + r + ', ' + g + ', ' + b + ', ' + a + ');\n' +
+          'border-color: rgba(' + r + ', ' + g + ', ' + b + ', ' + a + ');';
+      } else {
+        els.cssOutput.textContent =
+          'color: #' + hex + ';\n' +
+          'background-color: #' + hex + ';\n' +
+          'border-color: #' + hex + ';';
+      }
+
+      // Contrast checker
+      var lum = relativeLuminance(r, g, b);
+      var lumWhite = relativeLuminance(255, 255, 255);
+      var lumBlack = relativeLuminance(0, 0, 0);
+
+      var rW = contrastRatio(lum, lumWhite);
+      var rB = contrastRatio(lum, lumBlack);
+
+      els.ratioWhite.textContent = rW.toFixed(2) + ':1';
+      els.ratioBlack.textContent = rB.toFixed(2) + ':1';
+
+      els.wcagWhite.innerHTML = wcagRating(rW);
+      els.wcagBlack.innerHTML = wcagRating(rB);
+
+      els.contrastWhite.style.color = 'rgb(' + r + ',' + g + ',' + b + ')';
+      els.contrastBlack.style.color = 'rgb(' + r + ',' + g + ',' + b + ')';
+
+      // Palette
+      renderPalette(hsl.h, hsl.s, hsl.l);
+
+      updating = false;
+    }
+
+    function renderPalette(h, s, l) {
+      var colors = generatePalette(h, s, l);
+      var html = '';
+      for (var i = 0; i < colors.length; i++) {
+        var c = colors[i];
+        var rgb = hslToRgb(c.h, c.s, c.l);
+        var chex = rgbToHex(rgb.r, rgb.g, rgb.b);
+        html += '<div class="palette-swatch" style="background:#' + chex + '" ' +
+          'onclick="setFromPalette(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')" ' +
+          'title="' + c.label + ': #' + chex + '">' +
+          '<span class="swatch-hex">#' + chex + '</span></div>';
+      }
+      els.palette.innerHTML = html;
+    }
+
+    function setFromPalette(r, g, b) {
+      state.r = r;
+      state.g = g;
+      state.b = b;
+      updateAll('palette');
+      showToast('Color updated from palette', 'success');
+    }
+
+    /* ========== Event Listeners ========== */
+
+    // Hex input
+    els.hexInput.addEventListener('input', function() {
+      var val = this.value.replace(/[^0-9A-Fa-f]/g, '');
+      if (val.length >= 3) {
+        var rgb = hexToRgb(val);
+        if (rgb) {
+          state.r = rgb.r;
+          state.g = rgb.g;
+          state.b = rgb.b;
+          updateAll('hex');
+        }
+      }
+    });
+
+    // Color picker
+    els.picker.addEventListener('input', function() {
+      var rgb = hexToRgb(this.value);
+      if (rgb) {
+        state.r = rgb.r;
+        state.g = rgb.g;
+        state.b = rgb.b;
+        updateAll('picker');
+      }
+    });
+
+    // RGB sliders
+    function onRgbSlider() {
+      state.r = parseInt(els.rSlider.value);
+      state.g = parseInt(els.gSlider.value);
+      state.b = parseInt(els.bSlider.value);
+      updateAll('rgb');
+    }
+    els.rSlider.addEventListener('input', onRgbSlider);
+    els.gSlider.addEventListener('input', onRgbSlider);
+    els.bSlider.addEventListener('input', onRgbSlider);
+
+    // HSL sliders
+    function onHslSlider() {
+      var h = parseInt(els.hSlider.value);
+      var s = parseInt(els.sSlider.value);
+      var l = parseInt(els.lSlider.value);
+      var rgb = hslToRgb(h, s, l);
+      state.r = rgb.r;
+      state.g = rgb.g;
+      state.b = rgb.b;
+      updateAll('hsl');
+    }
+    els.hSlider.addEventListener('input', onHslSlider);
+    els.sSlider.addEventListener('input', onHslSlider);
+    els.lSlider.addEventListener('input', onHslSlider);
+
+    // Alpha slider
+    els.aSlider.addEventListener('input', function() {
+      state.a = parseFloat((parseInt(this.value) / 100).toFixed(2));
+      updateAll('alpha');
+    });
+
+    /* ========== Copy Functions ========== */
+    function copyVal(id, btn) {
+      var text = document.getElementById(id).textContent;
+      copyToClipboard(text, btn);
+    }
+
+    function copyCss(btn) {
+      var text = els.cssOutput.textContent;
+      copyToClipboard(text, btn);
+    }
+
+    /* ========== Init ========== */
+    updateAll('init');
+  </script>
+</body>
+</html>
