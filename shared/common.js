@@ -160,6 +160,6 @@ document.addEventListener('DOMContentLoaded', function () {
   initTabs();
   initFaq();
   setTimeout(initAds, 100);
-  initGA4();
+  setTimeout(initGA4, 2000);
   initAnalytics();
 });
