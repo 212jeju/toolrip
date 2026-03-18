@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Line Counter Online — Free, Fast, No Signup | Toolrip</title>
-  <meta name="description" content="Count lines in your text instantly with our free online line counter. Get total lines, empty lines, unique lines, duplicate detection, and sort or number lines — no signup required.">
+  <title>Line Counter Online — Free, Fast, No Signup</title>
+  <meta name="description" content="Count lines in your text instantly. Get total lines, empty lines, unique lines, duplicate detection, and sort lines. Free online tool — no signup.">
   <link rel="canonical" href="https://toolrip.com/lines">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Line Counter Online — Free, Fast, No Signup | Toolrip">
+  <meta property="og:title" content="Line Counter Online — Free, Fast, No Signup">
   <meta property="og:description" content="Count lines in your text instantly. Get total lines, empty lines, unique lines, duplicate detection, sort and number lines — all in your browser.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://toolrip.com/lines">
@@ -16,7 +16,7 @@
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Line Counter Online — Free, Fast, No Signup | Toolrip">
+  <meta name="twitter:title" content="Line Counter Online — Free, Fast, No Signup">
   <meta name="twitter:description" content="Count lines in your text instantly. Get total lines, empty lines, unique lines, duplicate detection, sort and number lines — all in your browser.">
 
   <!-- Styles -->
@@ -78,6 +78,34 @@
     "operatingSystem": "Any",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
     "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Text & String Tools", "item": "https://toolrip.com/#text" },
+      { "@type": "ListItem", "position": 3, "name": "Line Counter", "item": "https://toolrip.com/lines" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "What counts as a line?", "acceptedAnswer": { "@type": "Answer", "text": "A line is any sequence of characters terminated by a newline character (LF on Unix/Mac or CRLF on Windows). The last line is counted even without a trailing newline. An empty document has zero lines." } },
+      { "@type": "Question", "name": "What is the difference between CRLF and LF line endings?", "acceptedAnswer": { "@type": "Answer", "text": "LF (Line Feed, \\n) is used on Unix, Linux, and macOS. CRLF (Carriage Return + Line Feed, \\r\\n) is used on Windows. Both represent line breaks but differ in byte representation. This tool handles both formats correctly." } },
+      { "@type": "Question", "name": "How are empty lines defined?", "acceptedAnswer": { "@type": "Answer", "text": "An empty line contains no characters or only whitespace characters (spaces, tabs). The tool counts both truly empty lines and whitespace-only lines to give you a complete picture of your text structure." } },
+      { "@type": "Question", "name": "What are common use cases for a line counter?", "acceptedAnswer": { "@type": "Answer", "text": "Line counters are used for counting lines of code (LOC), verifying CSV row counts, checking log file entries, ensuring data file completeness, and meeting line-count requirements for academic or technical submissions." } },
+      { "@type": "Question", "name": "Is my text sent to a server?", "acceptedAnswer": { "@type": "Answer", "text": "No. All counting and analysis happens locally in your browser using JavaScript. No data is transmitted to any server, stored, or logged. Your text remains completely private." } }
+    ]
   }
   </script>
 </head>

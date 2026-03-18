@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Image to Base64 Converter Online — Free, Fast, No Signup | Toolrip</title>
-  <meta name="description" content="Convert images to Base64 strings, data URIs, CSS background snippets, and HTML img tags. Supports PNG, JPG, GIF, SVG, WebP. 100% client-side — no upload required.">
+  <title>Image to Base64 Converter — Free, Fast, No Signup</title>
+  <meta name="description" content="Convert images to Base64 strings, data URIs, CSS background snippets, and HTML img tags. Supports PNG, JPG, GIF, SVG, WebP. 100% client-side.">
   <link rel="canonical" href="https://toolrip.com/img-base64">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Image to Base64 Converter — Toolrip">
-  <meta property="og:description" content="Convert images to Base64 strings, data URIs, CSS background snippets, and HTML img tags. Supports PNG, JPG, GIF, SVG, WebP. 100% client-side — no upload required.">
+  <meta property="og:title" content="Image to Base64 Converter — Free, Fast, No Signup">
+  <meta property="og:description" content="Convert images to Base64 strings, data URIs, CSS background snippets, and HTML img tags. Supports PNG, JPG, GIF, SVG, WebP. 100% client-side.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://toolrip.com/img-base64">
   <meta property="og:site_name" content="Toolrip">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Image to Base64 Converter — Toolrip">
-  <meta name="twitter:description" content="Convert images to Base64 strings, data URIs, CSS background snippets, and HTML img tags. Supports PNG, JPG, GIF, SVG, WebP. 100% client-side — no upload required.">
+  <meta name="twitter:title" content="Image to Base64 Converter — Free, Fast, No Signup">
+  <meta name="twitter:description" content="Convert images to Base64 strings, data URIs, CSS background snippets, and HTML img tags. Supports PNG, JPG, GIF, SVG, WebP. 100% client-side.">
 
   <!-- Styles -->
   <link rel="stylesheet" href="/shared/style.css">
@@ -84,6 +84,35 @@
     "operatingSystem": "Any",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
     "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Developer Tools", "item": "https://toolrip.com/#developer" },
+      { "@type": "ListItem", "position": 3, "name": "Image to Base64 Converter", "item": "https://toolrip.com/img-base64" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Why would I convert an image to Base64?", "acceptedAnswer": { "@type": "Answer", "text": "Base64 lets you embed images directly inside HTML, CSS, or JavaScript files, reducing HTTP requests and improving load times for small images. It is also essential in HTML email templates where clients block external images by default." } },
+      { "@type": "Question", "name": "How much larger does a Base64-encoded image become?", "acceptedAnswer": { "@type": "Answer", "text": "Base64 encoding increases data size by approximately 33 percent because every three bytes of input become four characters of output. A 10 KB PNG becomes roughly 13.3 KB when encoded." } },
+      { "@type": "Question", "name": "Does Base64 encoding affect image quality?", "acceptedAnswer": { "@type": "Answer", "text": "No. Base64 is a lossless encoding that preserves every byte of the original file exactly. When decoded it produces a bit-for-bit identical copy of the original image." } },
+      { "@type": "Question", "name": "Which image formats work with Base64 encoding?", "acceptedAnswer": { "@type": "Answer", "text": "Every image format works with Base64. This tool supports PNG, JPEG, GIF, SVG, and WebP. The browser renders the decoded image based on the MIME type in the data URI prefix." } },
+      { "@type": "Question", "name": "Is there a maximum image size for Base64 conversion?", "acceptedAnswer": { "@type": "Answer", "text": "No hard limit, but for web performance Base64 embedding is recommended only for images under 20-30 KB. Larger images should be served as separate files with proper cache headers." } },
+      { "@type": "Question", "name": "Do all browsers support Base64 data URIs?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, data URIs with Base64 images are supported by all modern browsers including Chrome, Firefox, Safari, Edge, and Opera, as well as mobile browsers on iOS and Android." } }
+    ]
   }
   </script>
 </head>

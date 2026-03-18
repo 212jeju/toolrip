@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JWT Decoder Online — Free, Fast, No Signup | Toolrip</title>
-  <meta name="description" content="Decode and inspect JSON Web Tokens (JWT) instantly. View header, payload, claims, and expiration status. Free, client-side only — your tokens never leave your browser.">
+  <title>JWT Decoder Online — Free, Fast, No Signup</title>
+  <meta name="description" content="Decode and inspect JSON Web Tokens (JWT) instantly. View header, payload, claims, and expiration status. Free, client-side — tokens never leave your browser.">
   <link rel="canonical" href="https://toolrip.com/jwt">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="JWT Decoder — Toolrip">
-  <meta property="og:description" content="Decode and inspect JSON Web Tokens (JWT) instantly. View header, payload, claims, and expiration status. Free, client-side only — your tokens never leave your browser.">
+  <meta property="og:title" content="JWT Decoder Online — Free, Fast, No Signup">
+  <meta property="og:description" content="Decode and inspect JSON Web Tokens (JWT) instantly. View header, payload, claims, and expiration status. Free, client-side — tokens never leave your browser.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://toolrip.com/jwt">
   <meta property="og:site_name" content="Toolrip">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="JWT Decoder — Toolrip">
-  <meta name="twitter:description" content="Decode and inspect JSON Web Tokens (JWT) instantly. View header, payload, claims, and expiration status. Free, client-side only — your tokens never leave your browser.">
+  <meta name="twitter:title" content="JWT Decoder Online — Free, Fast, No Signup">
+  <meta name="twitter:description" content="Decode and inspect JSON Web Tokens (JWT) instantly. View header, payload, claims, and expiration status. Free, client-side — tokens never leave your browser.">
 
   <!-- Styles -->
   <link rel="stylesheet" href="/shared/style.css">
@@ -92,6 +92,12 @@
     "browserRequirements": "Requires JavaScript"
   }
   </script>
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://toolrip.com/"},{"@type":"ListItem","position":2,"name":"Developer Tools","item":"https://toolrip.com/#developer"},{"@type":"ListItem","position":3,"name":"JWT Decoder","item":"https://toolrip.com/jwt"}]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is a JSON Web Token (JWT)?","acceptedAnswer":{"@type":"Answer","text":"A JWT is an open standard (RFC 7519) for securely transmitting information as a JSON object. It has three parts: header, payload, and signature, widely used for authentication."}},{"@type":"Question","name":"Is it safe to decode my JWT here?","acceptedAnswer":{"@type":"Answer","text":"Yes. All decoding happens locally in your browser. Your token is never transmitted to any server, stored, or logged."}},{"@type":"Question","name":"What is the difference between JWT and session-based authentication?","acceptedAnswer":{"@type":"Answer","text":"Sessions store data server-side and use a cookie ID. JWTs are stateless — user data is encoded in the token itself, making them ideal for distributed architectures."}},{"@type":"Question","name":"What are the most common JWT claims?","acceptedAnswer":{"@type":"Answer","text":"Common claims include iss (issuer), sub (subject), aud (audience), exp (expiration), iat (issued at), nbf (not before), and jti (JWT ID)."}},{"@type":"Question","name":"How large can a JWT be?","acceptedAnswer":{"@type":"Answer","text":"No hard limit exists, but HTTP headers are typically limited to 4-16 KB. Most JWTs range from 300 bytes to 2 KB. Include only claims your application needs."}},{"@type":"Question","name":"Can a JWT be decoded without the secret key?","acceptedAnswer":{"@type":"Answer","text":"Yes. The header and payload are only Base64URL-encoded, not encrypted. The secret key is only needed to verify the signature, not to read the contents."}},{"@type":"Question","name":"What signing algorithms do JWTs support?","acceptedAnswer":{"@type":"Answer","text":"JWTs support HMAC (HS256/384/512), RSA (RS256/384/512), ECDSA (ES256/384/512), and RSASSA-PSS (PS256/384/512). HS256 and RS256 are most common."}}]}
+</script>
 </head>
 <body>
   <div class="page">

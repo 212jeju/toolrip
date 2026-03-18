@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cron Expression Generator Online — Free, Fast, No Signup | Toolrip</title>
-  <meta name="description" content="Build and parse cron expressions visually. Generate cron schedules with an interactive builder, decode any cron string into plain English, and preview next execution times. Free, no signup.">
+  <title>Cron Expression Generator Online — Free, Fast, No Signup</title>
+  <meta name="description" content="Build and parse cron expressions visually. Interactive builder, decode cron to plain English, and preview next execution times. Free, no signup.">
   <link rel="canonical" href="https://toolrip.com/cron">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Cron Expression Generator &amp; Parser — Toolrip">
-  <meta property="og:description" content="Build and parse cron expressions visually. Generate cron schedules with an interactive builder, decode any cron string into plain English, and preview next execution times. Free, no signup.">
+  <meta property="og:title" content="Cron Expression Generator Online — Free, Fast, No Signup">
+  <meta property="og:description" content="Build and parse cron expressions visually. Interactive builder, decode cron to plain English, and preview next execution times. Free, no signup.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://toolrip.com/cron">
   <meta property="og:site_name" content="Toolrip">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Cron Expression Generator &amp; Parser — Toolrip">
-  <meta name="twitter:description" content="Build and parse cron expressions visually. Generate cron schedules with an interactive builder, decode any cron string into plain English, and preview next execution times. Free, no signup.">
+  <meta name="twitter:title" content="Cron Expression Generator Online — Free, Fast, No Signup">
+  <meta name="twitter:description" content="Build and parse cron expressions visually. Interactive builder, decode cron to plain English, and preview next execution times. Free, no signup.">
 
   <!-- Styles -->
   <link rel="stylesheet" href="/shared/style.css">
@@ -93,6 +93,12 @@
     "browserRequirements": "Requires JavaScript"
   }
   </script>
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://toolrip.com/"},{"@type":"ListItem","position":2,"name":"Developer Tools","item":"https://toolrip.com/#developer"},{"@type":"ListItem","position":3,"name":"Cron Expression Generator","item":"https://toolrip.com/cron"}]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is a cron expression?","acceptedAnswer":{"@type":"Answer","text":"A cron expression is a five-field string defining a recurring schedule: minute, hour, day of month, month, and day of week. Used by Unix cron daemon for automated task execution."}},{"@type":"Question","name":"What do the five cron fields mean?","acceptedAnswer":{"@type":"Answer","text":"From left to right: minute (0-59), hour (0-23), day of month (1-31), month (1-12), day of week (0-6, Sunday=0)."}},{"@type":"Question","name":"What do the special characters (*, /, -, ,) mean?","acceptedAnswer":{"@type":"Answer","text":"* matches every value, comma creates a list, hyphen defines a range, slash sets a step interval. They can be combined for complex patterns."}},{"@type":"Question","name":"How do timezones affect cron jobs?","acceptedAnswer":{"@type":"Answer","text":"Traditional cron uses server timezone. Cloud schedulers often default to UTC. Daylight saving transitions can cause skipped or double executions."}},{"@type":"Question","name":"What is the difference between 5-field and 6-field cron?","acceptedAnswer":{"@type":"Answer","text":"Classic cron has 5 fields. Extended formats (Quartz, Spring) add a seconds field at the beginning. Some add a 7th year field. Always check your platform."}},{"@type":"Question","name":"How is cron different from systemd timers?","acceptedAnswer":{"@type":"Answer","text":"Cron is the traditional Unix scheduler using crontab. Systemd timers are Linux-specific with better logging and dependency management. Cron is more portable."}},{"@type":"Question","name":"Where can I use cron expressions?","acceptedAnswer":{"@type":"Answer","text":"Linux/macOS crontab, Kubernetes CronJobs, GitHub Actions, AWS CloudWatch, Google Cloud Scheduler, Azure Logic Apps, Spring Boot, Laravel, and Celery Beat."}}]}
+</script>
 </head>
 <body>
   <div class="page">
