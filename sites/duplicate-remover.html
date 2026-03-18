@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Duplicate Line Remover Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Remove duplicate lines from text instantly with our free online duplicate remover. Deduplicate email lists, CSV data, log files, and more — case-sensitive or insensitive, no signup required.">
+  <link rel="canonical" href="https://toolrip.com/dedupe">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Duplicate Line Remover Online — Free, Fast, No Signup | Toolrip">
+  <meta property="og:description" content="Remove duplicate lines from text instantly. Deduplicate email lists, CSV data, log files, and more — case-sensitive or insensitive, no signup required.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/dedupe">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Duplicate Line Remover Online — Free, Fast, No Signup | Toolrip">
+  <meta name="twitter:description" content="Remove duplicate lines from text instantly. Deduplicate email lists, CSV data, log files, and more — case-sensitive or insensitive, no signup required.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--text-cat)}</style>
+
+  <style>
+    /* Stats Grid */
+    .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-2);margin-bottom:var(--sp-4)}
+    .stat-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+      padding:var(--sp-3);text-align:center;transition:border-color .15s}
+    .stat-card:hover{border-color:var(--accent)}
+    .stat-number{font-size:1.75rem;font-weight:700;color:var(--accent);line-height:1.2}
+    .stat-label{font-size:.75rem;color:var(--text-muted);margin-top:var(--sp-1);text-transform:uppercase;letter-spacing:.03em}
+
+    /* Options row */
+    .options-row{display:flex;flex-wrap:wrap;gap:var(--sp-3);align-items:center;margin-bottom:var(--sp-3);
+      padding:var(--sp-3);background:var(--bg);border:1px solid var(--border);border-radius:var(--radius)}
+    .option-item{display:flex;align-items:center;gap:var(--sp-2);font-size:.875rem;color:var(--text-muted)}
+    .option-item label{cursor:pointer;user-select:none}
+
+    /* Textareas */
+    #input,#output{min-height:200px;font-family:monospace;font-size:.875rem;line-height:1.6;transition:height .1s}
+    #output{background:var(--bg);color:var(--text);cursor:text}
+
+    /* Action buttons */
+    .action-bar{display:flex;gap:var(--sp-2);flex-wrap:wrap;margin-top:var(--sp-3)}
+
+    /* Arrow between textareas */
+    .arrow-divider{display:flex;align-items:center;justify-content:center;padding:var(--sp-2) 0;color:var(--accent)}
+
+    /* Responsive */
+    @media(max-width:639px){
+      .stats-grid{grid-template-columns:repeat(3,1fr)}
+      .options-row{flex-direction:column;align-items:flex-start}
+    }
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Duplicate Line Remover Online",
+    "url": "https://toolrip.com/dedupe",
+    "description": "Remove duplicate lines from text instantly with our free online duplicate remover. Deduplicate email lists, CSV data, log files, and more.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Text Tools", "item": "https://toolrip.com/#text" },
+      { "@type": "ListItem", "position": 3, "name": "Duplicate Remover", "item": "https://toolrip.com/dedupe" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is line deduplication?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Line deduplication is the process of removing repeated lines from a block of text so that only unique lines remain. It is commonly used to clean up mailing lists, CSV exports, server logs, and any dataset where duplicate entries cause problems." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between case-sensitive and case-insensitive deduplication?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Case-sensitive deduplication treats uppercase and lowercase letters as different characters, so 'Hello' and 'hello' are considered unique lines. Case-insensitive mode treats them as the same line and removes one of them as a duplicate." }
+      },
+      {
+        "@type": "Question",
+        "name": "Does this tool preserve the original line order?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. By default the tool preserves the order in which lines first appear in the input. If you prefer alphabetical output, you can enable the Sort Output option to sort the unique lines after deduplication." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can this tool handle large datasets?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. The tool processes text entirely in your browser using efficient JavaScript data structures. It can handle tens of thousands of lines without sending any data to a server, so your text remains private." }
+      },
+      {
+        "@type": "Question",
+        "name": "What does the Trim Whitespace option do?",
+        "acceptedAnswer": { "@type": "Answer", "text": "When Trim Whitespace is enabled, leading and trailing spaces and tabs are removed from each line before comparing. This prevents lines that differ only by extra spaces from being treated as unique." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between Keep First and Keep Last occurrence?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Keep First retains the earliest occurrence of each duplicated line and discards later copies. Keep Last retains the final occurrence and discards earlier copies. Both options let you control which version survives when duplicates exist." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is my data sent to any server?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. All processing happens locally in your browser. Your text is never uploaded, stored, or transmitted to any external server, making this tool completely safe for sensitive or confidential data." }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="top">Ad</div>
+
+    <!-- Breadcrumb -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#text">Text Tools</a>
+        <span>/</span>
+        <span>Duplicate Remover</span>
+      </nav>
+
+      <h1>Duplicate Line Remover</h1>
+      <p class="text-muted mt-1 mb-3">Remove duplicate lines from any text instantly. Clean up email lists, CSV exports, log files, and more with flexible deduplication options.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+
+        <!-- Stats Dashboard -->
+        <div class="stats-grid" id="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number" id="stat-total">0</div>
+            <div class="stat-label">Total Lines</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="stat-unique">0</div>
+            <div class="stat-label">Unique Lines</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="stat-removed">0</div>
+            <div class="stat-label">Duplicates Removed</div>
+          </div>
+        </div>
+
+        <!-- Options -->
+        <div class="options-row">
+          <div class="option-item">
+            <label class="toggle">
+              <input type="checkbox" id="opt-case" checked>
+              <span></span>
+            </label>
+            <label for="opt-case">Case Sensitive</label>
+          </div>
+          <div class="option-item">
+            <label class="toggle">
+              <input type="checkbox" id="opt-trim" checked>
+              <span></span>
+            </label>
+            <label for="opt-trim">Trim Whitespace</label>
+          </div>
+          <div class="option-item">
+            <label class="toggle">
+              <input type="checkbox" id="opt-sort">
+              <span></span>
+            </label>
+            <label for="opt-sort">Sort Output</label>
+          </div>
+          <div class="option-item">
+            <label for="opt-keep" style="margin-right:var(--sp-1)">Keep:</label>
+            <select id="opt-keep" class="select-field" style="width:auto;padding:var(--sp-1) var(--sp-3);padding-right:2rem;font-size:.8125rem">
+              <option value="first">First Occurrence</option>
+              <option value="last">Last Occurrence</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Input -->
+        <div class="input-group">
+          <label for="input">Paste your text (one item per line)</label>
+          <textarea id="input" class="textarea-field" placeholder="Paste your list here — one entry per line. Duplicate lines will be detected and removed automatically.&#10;&#10;Example:&#10;apple&#10;banana&#10;apple&#10;cherry&#10;banana&#10;date" rows="10"></textarea>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-bar">
+          <button class="btn-primary" id="dedupe-btn">Remove Duplicates</button>
+          <button class="btn-secondary" id="copy-btn">Copy Result</button>
+          <button class="btn-secondary" id="clear-btn">Clear</button>
+        </div>
+
+        <!-- Arrow Divider -->
+        <div class="arrow-divider">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+        </div>
+
+        <!-- Output -->
+        <div class="input-group">
+          <label for="output">Deduplicated output</label>
+          <textarea id="output" class="textarea-field" placeholder="Unique lines will appear here after you click Remove Duplicates." rows="10" readonly></textarea>
+        </div>
+
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="content">Ad</div>
+
+      <!-- About Section -->
+      <section class="mt-4">
+        <h2>What Is a Duplicate Line Remover?</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">A duplicate line remover is a text processing utility that scans a block of text line by line, identifies entries that appear more than once, and outputs only the unique lines. Deduplication is one of the most fundamental operations in data cleaning and preparation. Whether you are working with a spreadsheet export, a server access log, a list of email subscribers, or the output of a database query, duplicate entries waste space, skew analytics, and create confusion. Manually finding and removing duplicates in a long list is tedious and error-prone, especially when the list contains hundreds or thousands of lines that look similar at a glance.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">Our online duplicate line remover solves this problem in seconds. You paste your text into the input area, choose your preferred options, and click a single button. The tool processes everything directly in your browser using optimized JavaScript, so no data is ever uploaded to a server. This makes it safe for handling confidential customer lists, internal reports, proprietary datasets, and any other text you would not want leaving your machine. The result is a clean list of unique entries that you can copy to your clipboard and paste into any application, file, or workflow you need.</p>
+        <p style="color:var(--text-muted);line-height:1.8">Deduplication is essential across many professional fields. Data analysts use it to clean raw exports before importing them into visualization tools. Marketers remove duplicate email addresses to maintain list hygiene and improve deliverability rates. Developers filter out repeated log entries to focus on distinct error messages. System administrators use deduplication when consolidating configuration files, IP address lists, or DNS records from multiple sources. Researchers rely on it to eliminate redundant references when merging citation databases. Regardless of your use case, this tool gives you precise control over how duplicates are detected and which occurrence is kept, all with zero setup and no account required.</p>
+      </section>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(2,1fr)">
+          <div class="feature-card">
+            <h3>Flexible Case Handling</h3>
+            <p>Choose between case-sensitive and case-insensitive comparison. When case sensitivity is off, lines like "Error" and "error" are treated as duplicates, which is ideal for normalizing lists where capitalization varies. When it is on, only exact character matches are removed.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Whitespace Trimming</h3>
+            <p>Enable the Trim Whitespace option to strip leading and trailing spaces and tabs from each line before comparison. This catches hidden duplicates caused by inconsistent formatting, copy-paste artifacts, or tab-separated data where trailing spaces sneak in.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Keep First or Last Occurrence</h3>
+            <p>Decide which copy of a duplicated line survives. Keep First preserves the earliest appearance and discards later repeats. Keep Last retains the final occurrence, which is useful when newer entries in a log or list carry updated information you want to preserve.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Optional Sorted Output</h3>
+            <p>After removing duplicates, optionally sort the remaining lines alphabetically. Sorted output makes it easy to visually scan large lists, spot near-duplicates, and prepare data for import into systems that expect ordered input such as lookup tables and autocomplete databases.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Real-Time Statistics</h3>
+            <p>The stats dashboard shows total input lines, unique lines remaining, and the exact number of duplicates removed. These metrics update after each deduplication run, giving you a clear before-and-after comparison so you know exactly how much redundancy was eliminated.</p>
+          </div>
+          <div class="feature-card">
+            <h3>100% Client-Side Privacy</h3>
+            <p>Your text never leaves your browser. All comparison, filtering, and sorting happen locally using JavaScript. There are no server requests, no cookies storing your data, and no analytics on the content you process. This makes the tool safe for handling passwords, tokens, customer data, and other sensitive text.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Duplicate Line Remover</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Paste your text</strong> — Copy your list or dataset and paste it into the input text area. Each line is treated as a separate entry. The tool works with any amount of text, from a handful of lines to tens of thousands of rows.</li>
+          <li><strong>Configure options</strong> — Toggle Case Sensitive on or off depending on whether letter casing matters for your data. Enable Trim Whitespace to ignore leading and trailing spaces. Choose Keep First or Keep Last to control which duplicate survives. Turn on Sort Output if you want alphabetical results.</li>
+          <li><strong>Click Remove Duplicates</strong> — Press the button and the tool instantly processes your text. The stats dashboard updates to show total lines, unique lines, and how many duplicates were removed. The output area displays the cleaned result.</li>
+          <li><strong>Copy or export</strong> — Click the Copy Result button to place the deduplicated text on your clipboard. You can then paste it into a spreadsheet, text editor, database import tool, email client, or any other application. Click Clear to reset both fields and start over.</li>
+        </ol>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is line deduplication?</summary>
+          <p>Line deduplication is the process of scanning a list of text entries and removing any line that appears more than once, leaving only unique entries behind. It is one of the most common data cleaning operations used across programming, data analysis, marketing, and system administration. When you export data from a database, merge multiple CSV files, or compile information from different sources, duplicate records almost always appear. Deduplication ensures your final dataset is accurate, compact, and free of redundant entries that could cause double-counting in reports, repeated emails to the same address, or inflated metrics in analytics dashboards.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between case-sensitive and case-insensitive mode?</summary>
+          <p>In case-sensitive mode, the tool compares lines exactly as they are written. The line "Server Error" and "server error" would be considered two distinct entries because their capitalization differs. In case-insensitive mode, the tool converts all lines to the same case internally before comparing, so "Server Error" and "server error" are treated as duplicates and only one is kept. Case-insensitive mode is particularly useful for cleaning email lists (since email addresses are case-insensitive by specification), normalizing tag lists, and working with log files where applications may log the same message with different capitalization across versions or environments.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does the tool preserve the original order of lines?</summary>
+          <p>Yes. By default, the tool preserves the order in which unique lines first appear (or last appear, depending on your Keep setting) in the original input. This is called stable deduplication and it is important when the sequence of your data carries meaning, such as chronological log entries, ordered configuration directives, or steps in a process. If you prefer alphabetical output instead, simply enable the Sort Output toggle and the unique lines will be sorted after deduplication is complete.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can this tool handle large datasets with thousands of lines?</summary>
+          <p>Absolutely. The tool uses a JavaScript Set data structure for fast O(1) average-time lookups, which means performance scales linearly with the number of lines rather than quadratically as it would with a naive nested loop comparison. In practice, you can paste ten thousand, fifty thousand, or even more lines and get results in under a second on most modern devices. Because everything runs locally in your browser, performance depends on your device rather than network speed or server capacity. For extremely large files that exceed your browser's memory, consider splitting the data into smaller chunks.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What does the Trim Whitespace option do?</summary>
+          <p>When Trim Whitespace is enabled, the tool removes any spaces, tabs, and other whitespace characters from the beginning and end of each line before comparing it to other lines. This is crucial when dealing with data copied from spreadsheets, formatted documents, or terminal output where invisible trailing spaces can make otherwise identical lines appear different. For example, "hello " (with a trailing space) and "hello" (without) would normally be treated as unique lines, but with trimming enabled they are correctly identified as duplicates. The trimming is applied only for comparison purposes — the output preserves the original content of the kept lines unless trimmed whitespace is the only difference.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between Keep First and Keep Last occurrence?</summary>
+          <p>Keep First retains the earliest instance of each duplicated line in the input and discards all subsequent copies. This is the default behavior and works well for most use cases where you simply want to eliminate repeats. Keep Last does the opposite — it discards earlier instances and retains only the final occurrence of each duplicated line. Keep Last is useful in scenarios like processing log files where the most recent entry may contain updated information, or when working with configuration files where later entries are intended to override earlier ones. Both modes preserve the relative order of the surviving lines within the output.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is my data sent to any server?</summary>
+          <p>No, absolutely not. Every step of the deduplication process — reading your input, comparing lines, removing duplicates, and generating the output — happens entirely within your browser using client-side JavaScript. No network requests are made with your data, nothing is stored in a database, and no third party has access to the text you paste. This design makes the tool safe for processing sensitive information such as customer email lists, internal server logs, access tokens, API keys, employee records, or any other confidential data. You can verify this by opening your browser's developer tools and monitoring the Network tab while using the tool.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/word-count">Word Counter</a>
+          <a href="https://toolrip.com/case">Case Converter</a>
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* --- DOM References --- */
+      var input = document.getElementById('input');
+      var output = document.getElementById('output');
+      var statTotal = document.getElementById('stat-total');
+      var statUnique = document.getElementById('stat-unique');
+      var statRemoved = document.getElementById('stat-removed');
+      var optCase = document.getElementById('opt-case');
+      var optTrim = document.getElementById('opt-trim');
+      var optSort = document.getElementById('opt-sort');
+      var optKeep = document.getElementById('opt-keep');
+      var dedupeBtn = document.getElementById('dedupe-btn');
+      var copyBtn = document.getElementById('copy-btn');
+      var clearBtn = document.getElementById('clear-btn');
+
+      /* --- Core: Deduplicate --- */
+      function deduplicate() {
+        var raw = input.value;
+        if (!raw.trim()) {
+          output.value = '';
+          updateStats(0, 0, 0);
+          showToast('Please enter some text first.', 'error');
+          return;
+        }
+
+        var lines = raw.split('\n');
+        var totalLines = lines.length;
+        var caseSensitive = optCase.checked;
+        var trimWhitespace = optTrim.checked;
+        var sortOutput = optSort.checked;
+        var keepLast = optKeep.value === 'last';
+
+        var seen = new Map();
+        var result = [];
+        var i, line, key;
+
+        if (keepLast) {
+          /* Keep last: iterate in reverse, collect, then reverse back */
+          for (i = lines.length - 1; i >= 0; i--) {
+            line = lines[i];
+            key = trimWhitespace ? line.trim() : line;
+            if (!caseSensitive) key = key.toLowerCase();
+            if (!seen.has(key)) {
+              seen.set(key, true);
+              result.push(line);
+            }
+          }
+          result.reverse();
+        } else {
+          /* Keep first: straightforward forward pass */
+          for (i = 0; i < lines.length; i++) {
+            line = lines[i];
+            key = trimWhitespace ? line.trim() : line;
+            if (!caseSensitive) key = key.toLowerCase();
+            if (!seen.has(key)) {
+              seen.set(key, true);
+              result.push(line);
+            }
+          }
+        }
+
+        if (sortOutput) {
+          result.sort(function (a, b) {
+            var aVal = caseSensitive ? a : a.toLowerCase();
+            var bVal = caseSensitive ? b : b.toLowerCase();
+            return aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
+          });
+        }
+
+        var uniqueCount = result.length;
+        var removedCount = totalLines - uniqueCount;
+
+        output.value = result.join('\n');
+        updateStats(totalLines, uniqueCount, removedCount);
+
+        /* Auto-resize output textarea */
+        output.style.height = 'auto';
+        output.style.height = Math.max(200, output.scrollHeight) + 'px';
+
+        if (removedCount > 0) {
+          showToast(formatNumber(removedCount, 0) + ' duplicate line' + (removedCount === 1 ? '' : 's') + ' removed!', 'success');
+        } else {
+          showToast('No duplicate lines found.', 'info');
+        }
+      }
+
+      /* --- Update Stats --- */
+      function updateStats(total, unique, removed) {
+        statTotal.textContent = formatNumber(total, 0);
+        statUnique.textContent = formatNumber(unique, 0);
+        statRemoved.textContent = formatNumber(removed, 0);
+      }
+
+      /* --- Copy Result --- */
+      function copyResult() {
+        var text = output.value;
+        if (!text) {
+          showToast('Nothing to copy. Remove duplicates first.', 'error');
+          return;
+        }
+        copyToClipboard(text, copyBtn);
+        showToast('Result copied to clipboard!', 'success');
+      }
+
+      /* --- Clear All --- */
+      function clearAll() {
+        input.value = '';
+        output.value = '';
+        input.style.height = '';
+        output.style.height = '';
+        updateStats(0, 0, 0);
+        input.focus();
+        showToast('All cleared.', 'info');
+      }
+
+      /* --- Event Listeners --- */
+      dedupeBtn.addEventListener('click', deduplicate);
+      copyBtn.addEventListener('click', copyResult);
+      clearBtn.addEventListener('click', clearAll);
+
+      /* --- Keyboard shortcut: Ctrl/Cmd + Enter to deduplicate --- */
+      input.addEventListener('keydown', function (e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+          e.preventDefault();
+          deduplicate();
+        }
+      });
+
+      /* --- Initialize stats --- */
+      updateStats(0, 0, 0);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Line Counter Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Count lines in your text instantly with our free online line counter. Get total lines, empty lines, unique lines, duplicate detection, and sort or number lines — no signup required.">
+  <link rel="canonical" href="https://toolrip.com/lines">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Line Counter Online — Free, Fast, No Signup | Toolrip">
+  <meta property="og:description" content="Count lines in your text instantly. Get total lines, empty lines, unique lines, duplicate detection, sort and number lines — all in your browser.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/lines">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Line Counter Online — Free, Fast, No Signup | Toolrip">
+  <meta name="twitter:description" content="Count lines in your text instantly. Get total lines, empty lines, unique lines, duplicate detection, sort and number lines — all in your browser.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--text-cat)}</style>
+
+  <style>
+    /* Stats Grid */
+    .stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--sp-2);margin-bottom:var(--sp-4)}
+    .stat-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+      padding:var(--sp-3);text-align:center;transition:border-color .15s}
+    .stat-card:hover{border-color:var(--accent)}
+    .stat-number{font-size:1.75rem;font-weight:700;color:var(--accent);line-height:1.2}
+    .stat-label{font-size:.75rem;color:var(--text-muted);margin-top:var(--sp-1);text-transform:uppercase;letter-spacing:.03em}
+
+    /* Options row */
+    .options-row{display:flex;flex-wrap:wrap;gap:var(--sp-3);align-items:center;margin-bottom:var(--sp-3);
+      padding:var(--sp-3);background:var(--bg);border:1px solid var(--border);border-radius:var(--radius)}
+    .option-group{display:flex;align-items:center;gap:var(--sp-2);font-size:.875rem;color:var(--text-muted)}
+    .option-group label{cursor:pointer;display:flex;align-items:center;gap:var(--sp-1)}
+
+    /* Textarea */
+    #input{min-height:180px;transition:height .1s;font-family:var(--font);tab-size:4}
+
+    /* Action buttons */
+    .action-bar{display:flex;gap:var(--sp-2);flex-wrap:wrap;margin-top:var(--sp-3)}
+
+    /* Line length detail */
+    .line-detail{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+      padding:var(--sp-3);margin-top:var(--sp-3)}
+    .line-detail h3{font-size:.9375rem;margin-bottom:var(--sp-2);color:var(--text)}
+    .detail-row{display:flex;justify-content:space-between;align-items:center;padding:var(--sp-2) 0;
+      border-bottom:1px solid var(--border);font-size:.875rem}
+    .detail-row:last-child{border-bottom:none}
+    .detail-label{color:var(--text-muted)}
+    .detail-value{font-weight:600;color:var(--accent);word-break:break-all;max-width:60%;text-align:right}
+
+    /* Empty state */
+    .empty-state{text-align:center;padding:var(--sp-5);color:var(--text-muted);font-size:.875rem}
+
+    /* Responsive stats grid */
+    @media(min-width:640px){
+      .stats-grid{grid-template-columns:repeat(4,1fr)}
+    }
+    @media(min-width:1024px){
+      .stats-grid{grid-template-columns:repeat(4,1fr)}
+    }
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Line Counter Online",
+    "url": "https://toolrip.com/lines",
+    "description": "Count lines in your text instantly with our free online line counter. Get total lines, empty lines, unique lines, duplicate detection, and sort or number lines.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="top">Ad</div>
+
+    <!-- Breadcrumb -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#text">Text Tools</a>
+        <span>/</span>
+        <span>Line Counter</span>
+      </nav>
+
+      <h1>Line Counter — Count Lines in Text Online</h1>
+      <p class="text-muted mt-1 mb-3">Count total lines, empty lines, unique lines, and duplicates in real time. Sort, number, or remove empty lines with a single click.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+
+        <!-- Stats Dashboard -->
+        <div class="stats-grid" id="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number" id="stat-total">0</div>
+            <div class="stat-label">Total Lines</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="stat-nonempty">0</div>
+            <div class="stat-label">Non-Empty</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="stat-empty">0</div>
+            <div class="stat-label">Empty Lines</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="stat-unique">0</div>
+            <div class="stat-label">Unique Lines</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="stat-duplicate">0</div>
+            <div class="stat-label">Duplicate Lines</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="stat-longest">0</div>
+            <div class="stat-label">Longest (chars)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="stat-shortest">0</div>
+            <div class="stat-label">Shortest (chars)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="stat-avg">0</div>
+            <div class="stat-label">Avg Length</div>
+          </div>
+        </div>
+
+        <!-- Options -->
+        <div class="options-row">
+          <div class="option-group">
+            <span>Sort:</span>
+            <select id="sort-mode" class="select-field" style="width:auto;padding:var(--sp-1) var(--sp-3);padding-right:2rem;font-size:.8125rem">
+              <option value="none">None</option>
+              <option value="az">A &rarr; Z</option>
+              <option value="za">Z &rarr; A</option>
+              <option value="length-asc">Length (short first)</option>
+              <option value="length-desc">Length (long first)</option>
+            </select>
+          </div>
+          <div class="option-group">
+            <label><input type="checkbox" id="opt-remove-empty"> Remove empty lines</label>
+          </div>
+          <div class="option-group">
+            <label><input type="checkbox" id="opt-number-lines"> Number lines</label>
+          </div>
+        </div>
+
+        <!-- Text Input -->
+        <div class="input-group">
+          <label for="input">Paste or type your text below</label>
+          <textarea id="input" class="textarea-field" placeholder="Paste your text, code, CSV, or log file content here to count lines in real time..." rows="12"></textarea>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-bar">
+          <button class="btn-primary" id="copy-btn" onclick="copyResult()">Copy Result</button>
+          <button class="btn-secondary" id="copy-stats-btn" onclick="copyStats()">Copy Stats</button>
+          <button class="btn-secondary" onclick="clearAll()">Clear</button>
+        </div>
+
+        <!-- Line Length Detail -->
+        <div class="line-detail" id="line-detail">
+          <h3>Line Details</h3>
+          <div id="detail-container">
+            <p class="empty-state">Type or paste text to see line details</p>
+          </div>
+        </div>
+
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(2,1fr)">
+          <div class="feature-card">
+            <h3>Real-Time Line Counting</h3>
+            <p>Every keystroke triggers an instant recount of your text. Total lines, non-empty lines, empty lines, unique lines, and duplicate lines are calculated and displayed without delay. There is no submit button to press and no page reload to wait for, making the experience completely seamless whether you are typing fresh content or pasting thousands of lines from a log file.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Duplicate Detection</h3>
+            <p>Quickly identify repeated lines in your text. The tool compares every line against all other lines and reports the exact number of duplicates found. This is invaluable when you need to clean up configuration files, remove redundant entries from a dataset, or verify that each line in a list is unique before importing it into a database or spreadsheet.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Sort and Transform</h3>
+            <p>Reorganize your lines in alphabetical order from A to Z or Z to A, or sort them by character length with the shortest or longest lines first. You can also add line numbers to every line or strip out all empty lines with a single toggle. These transformations update the output instantly so you can preview the result before copying it.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Line Length Statistics</h3>
+            <p>Go beyond simple counting with detailed length metrics for every line. The tool reports the character count of the longest and shortest non-empty lines, computes the average line length, and shows you the actual content of the longest and shortest lines. These statistics are essential for validating fixed-width files, checking column widths in CSV exports, or enforcing coding style rules.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Line Counter</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Enter your text</strong> — Type directly into the text area or paste content from any source such as a code file, log output, CSV, or plain text document. The tool accepts any amount of text with no size limit.</li>
+          <li><strong>View real-time statistics</strong> — Watch the stats dashboard update instantly. You will see the total number of lines, non-empty lines, empty lines, unique lines, duplicate lines, and line length statistics including the longest line, shortest line, and average length.</li>
+          <li><strong>Apply transformations</strong> — Use the options bar to sort lines alphabetically or by length, remove empty lines, or prepend line numbers. The text area updates in place so you can immediately see and copy the transformed result.</li>
+          <li><strong>Copy and export</strong> — Click "Copy Result" to copy the processed text (with any active transformations applied) or click "Copy Stats" to copy the full statistics summary to your clipboard for use in reports, documentation, or messages.</li>
+        </ol>
+      </section>
+
+      <!-- Long-form Content Section -->
+      <section class="mt-4">
+        <h2>Why Line Counting Matters</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          Line counting is one of the most fundamental operations in text processing, yet it plays a critical role across a surprising range of professional workflows. Software developers routinely track lines of code, commonly known as LOC, as a rough proxy for project size, complexity, and progress. While LOC alone does not measure code quality, it remains a widely used metric in sprint planning, code reviews, and project estimation. A quick line count can reveal whether a module has grown beyond a manageable size or whether a refactoring effort successfully reduced duplication.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          System administrators and DevOps engineers rely on line counts when analyzing server logs. A web server access log can grow by millions of lines per day, and knowing the total number of entries over a given time window is the first step in diagnosing traffic spikes, identifying error patterns, or calculating request rates. Filtering out empty lines or duplicate entries is equally important when preparing log extracts for incident reports or feeding them into monitoring dashboards.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          Data analysts and scientists frequently work with CSV and TSV files where each line represents one record. Counting lines gives an instant row count without opening the file in a heavyweight spreadsheet application. Identifying duplicate lines in a dataset can flag data integrity issues before they propagate into downstream analysis. Sorting lines by length can expose malformed rows that contain too many or too few delimiters, a common issue when data is exported from legacy systems or scraped from web pages.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          Writers and content editors also benefit from line-level analysis. Poetry and song lyrics are structured by line, and counting those lines is essential for maintaining verse and stanza consistency. Screenwriters work with scripts where dialogue and action lines follow strict formatting rules, and a quick line count helps ensure compliance. Translators compare line counts between source and target documents to gauge translation expansion and compression ratios.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8">
+          Our line counter runs entirely in your browser, ensuring that sensitive code, proprietary log data, and confidential text never leave your device. There is no server-side processing, no upload, and no storage. This makes it safe for use with production logs containing IP addresses, internal configuration files with environment variables, or unreleased source code that must remain confidential. Every calculation is performed in real time using JavaScript, so results appear as fast as you can type.
+        </p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What counts as a line?</summary>
+          <p>A line is any sequence of characters that ends with a newline character or is the last portion of text after the final newline. When you press Enter in a text editor, you create a new line. Our tool splits the input on newline boundaries, which means the total line count equals the number of newline characters plus one (for the last line) unless the text ends with a trailing newline. An empty document with no characters has zero lines. A single character with no newline counts as one line. This behavior matches the POSIX definition used by the Unix wc command and most programming language standard libraries.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between CRLF and LF line endings?</summary>
+          <p>Line endings differ between operating systems. Unix, Linux, and macOS use a single Line Feed character (LF, represented as \n) to mark the end of a line. Windows uses a two-character sequence of Carriage Return followed by Line Feed (CRLF, represented as \r\n). Older Mac systems used a standalone Carriage Return (CR, \r). Our line counter normalizes all three formats internally, so it produces accurate counts regardless of which operating system created the text. When you paste content from a Windows text file or a Unix terminal output, the line count will be identical. This normalization prevents the off-by-one errors that often occur when mixing line ending formats across platforms.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How are empty lines defined?</summary>
+          <p>An empty line is a line that contains no visible characters. A line is considered empty if it consists solely of whitespace characters such as spaces and tabs, or if it contains nothing at all between two consecutive newline characters. The "Remove empty lines" option strips all such lines from your text, which is useful for compacting configuration files, cleaning up pasted terminal output, or preparing data for processing by tools that do not tolerate blank lines. The empty line count in the stats dashboard reflects the number of these whitespace-only or completely blank lines present in your input.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What are common use cases for a line counter?</summary>
+          <p>Line counting is used across many fields. Software developers count lines of code (LOC) to estimate project size and track changes across commits. System administrators count lines in log files to measure event frequency and detect anomalies. Data analysts count rows in CSV and TSV files to verify record counts after data exports. Writers count lines in poetry, scripts, and structured content to maintain formatting standards. Quality assurance engineers count test cases and assertions listed in plain text test plans. Network engineers count lines in routing tables and firewall rules to audit configuration complexity. The tool is also useful for anyone who needs to quickly check how many items are in a pasted list, such as email addresses, URLs, or inventory codes.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How does code line counting (LOC) work?</summary>
+          <p>Lines of code, or LOC, is a software metric that counts the number of lines in a source code file. There are several variants of this metric. Physical LOC counts every line in the file including blank lines and comments. Logical LOC counts only the lines that contain executable statements, excluding blanks and comments. Source Lines of Code (SLOC) is a synonym that sometimes refers to non-blank, non-comment lines specifically. Our tool counts physical lines, which gives you the raw total. To approximate SLOC, you can use the "Remove empty lines" option to strip blanks and then subtract the comment lines manually. For large codebases, dedicated tools like cloc or sloccount provide automated comment detection, but for quick checks on individual files or snippets, this line counter delivers instant results.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can I sort lines and remove duplicates at the same time?</summary>
+          <p>Yes. All transformation options work together in real time. When you enable sorting (A to Z, Z to A, or by length) and also check "Remove empty lines," both operations are applied simultaneously. The tool first removes empty lines, then sorts the remaining lines according to your selected order. You can also enable line numbering on top of sorting and filtering. The transformed text appears directly in the text area, ready to be copied. If you want to restore the original text, simply undo using your keyboard shortcut (Ctrl+Z or Cmd+Z) or clear the field and paste your original content again.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is my text sent to a server?</summary>
+          <p>No. All processing happens locally in your web browser using JavaScript. Your text is never transmitted over the network, stored on a server, or logged in any way. This makes the tool safe for sensitive content such as proprietary source code, server logs containing IP addresses or user data, confidential documents, and internal configuration files. You can verify this by disconnecting from the internet and confirming that the tool still works perfectly. We designed it this way because privacy is a fundamental requirement for any text processing tool that handles real-world data.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/word-count">Word Counter</a>
+          <a href="https://toolrip.com/case">Case Converter</a>
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* --- DOM References --- */
+      var input = document.getElementById('input');
+      var statTotal = document.getElementById('stat-total');
+      var statNonEmpty = document.getElementById('stat-nonempty');
+      var statEmpty = document.getElementById('stat-empty');
+      var statUnique = document.getElementById('stat-unique');
+      var statDuplicate = document.getElementById('stat-duplicate');
+      var statLongest = document.getElementById('stat-longest');
+      var statShortest = document.getElementById('stat-shortest');
+      var statAvg = document.getElementById('stat-avg');
+      var detailContainer = document.getElementById('detail-container');
+      var sortMode = document.getElementById('sort-mode');
+      var optRemoveEmpty = document.getElementById('opt-remove-empty');
+      var optNumberLines = document.getElementById('opt-number-lines');
+
+      /* --- State --- */
+      var originalText = '';
+      var isTransforming = false;
+
+      /* --- Core: Analyze Lines --- */
+      function analyzeLines(text) {
+        if (text === '') {
+          return {
+            total: 0, nonEmpty: 0, empty: 0, unique: 0, duplicate: 0,
+            longest: 0, shortest: 0, avg: 0,
+            longestLine: '', shortestLine: '', lines: []
+          };
+        }
+
+        /* Normalize line endings */
+        var normalized = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+
+        /* Split into lines */
+        var lines = normalized.split('\n');
+
+        /* Remove trailing empty line caused by trailing newline */
+        if (lines.length > 1 && lines[lines.length - 1] === '') {
+          lines.pop();
+        }
+
+        var total = lines.length;
+        var nonEmpty = 0;
+        var empty = 0;
+        var seen = {};
+        var uniqueCount = 0;
+        var duplicateLines = 0;
+        var longestLen = 0;
+        var shortestLen = Infinity;
+        var longestLine = '';
+        var shortestLine = '';
+        var totalChars = 0;
+        var nonEmptyForLength = 0;
+
+        for (var i = 0; i < lines.length; i++) {
+          var line = lines[i];
+          var trimmed = line.trim();
+
+          if (trimmed.length === 0) {
+            empty++;
+          } else {
+            nonEmpty++;
+            var len = line.length;
+            totalChars += len;
+            nonEmptyForLength++;
+
+            if (len > longestLen) {
+              longestLen = len;
+              longestLine = line;
+            }
+            if (len < shortestLen) {
+              shortestLen = len;
+              shortestLine = line;
+            }
+          }
+
+          /* Track uniqueness using trimmed content */
+          var key = line;
+          if (seen[key] === undefined) {
+            seen[key] = 1;
+            uniqueCount++;
+          } else {
+            seen[key]++;
+          }
+        }
+
+        /* Count lines that appear more than once */
+        duplicateLines = 0;
+        var keys = Object.keys(seen);
+        for (var j = 0; j < keys.length; j++) {
+          if (seen[keys[j]] > 1) {
+            duplicateLines += seen[keys[j]];
+          }
+        }
+
+        if (shortestLen === Infinity) shortestLen = 0;
+        var avg = nonEmptyForLength > 0 ? totalChars / nonEmptyForLength : 0;
+
+        return {
+          total: total,
+          nonEmpty: nonEmpty,
+          empty: empty,
+          unique: uniqueCount,
+          duplicate: duplicateLines,
+          longest: longestLen,
+          shortest: shortestLen,
+          avg: avg,
+          longestLine: longestLine,
+          shortestLine: shortestLine,
+          lines: lines
+        };
+      }
+
+      /* --- Transform Lines --- */
+      function transformLines(lines) {
+        var result = lines.slice();
+
+        /* Remove empty lines */
+        if (optRemoveEmpty.checked) {
+          result = result.filter(function (line) {
+            return line.trim().length > 0;
+          });
+        }
+
+        /* Sort */
+        var mode = sortMode.value;
+        if (mode === 'az') {
+          result.sort(function (a, b) { return a.localeCompare(b); });
+        } else if (mode === 'za') {
+          result.sort(function (a, b) { return b.localeCompare(a); });
+        } else if (mode === 'length-asc') {
+          result.sort(function (a, b) { return a.length - b.length; });
+        } else if (mode === 'length-desc') {
+          result.sort(function (a, b) { return b.length - a.length; });
+        }
+
+        /* Number lines */
+        if (optNumberLines.checked) {
+          var pad = String(result.length).length;
+          result = result.map(function (line, i) {
+            var num = String(i + 1);
+            while (num.length < pad) num = ' ' + num;
+            return num + '  ' + line;
+          });
+        }
+
+        return result;
+      }
+
+      /* --- Escape HTML --- */
+      function escapeHtml(str) {
+        var div = document.createElement('div');
+        div.appendChild(document.createTextNode(str));
+        return div.innerHTML;
+      }
+
+      /* --- Truncate for display --- */
+      function truncate(str, maxLen) {
+        if (str.length <= maxLen) return str;
+        return str.substring(0, maxLen) + '...';
+      }
+
+      /* --- Update UI --- */
+      function updateUI() {
+        var text = input.value;
+        var result = analyzeLines(text);
+
+        /* Stats cards */
+        statTotal.textContent = formatNumber(result.total, 0);
+        statNonEmpty.textContent = formatNumber(result.nonEmpty, 0);
+        statEmpty.textContent = formatNumber(result.empty, 0);
+        statUnique.textContent = formatNumber(result.unique, 0);
+        statDuplicate.textContent = formatNumber(result.duplicate, 0);
+        statLongest.textContent = formatNumber(result.longest, 0);
+        statShortest.textContent = result.total > 0 ? formatNumber(result.shortest, 0) : '0';
+        statAvg.textContent = result.total > 0 ? result.avg.toFixed(1) : '0';
+
+        /* Line detail section */
+        if (result.total === 0) {
+          detailContainer.innerHTML = '<p class="empty-state">Type or paste text to see line details</p>';
+        } else {
+          var html = '';
+
+          html += '<div class="detail-row">'
+            + '<span class="detail-label">Longest line</span>'
+            + '<span class="detail-value">' + escapeHtml(truncate(result.longestLine, 80))
+            + ' <span style="color:var(--text-muted);font-weight:400">(' + result.longest + ' chars)</span></span></div>';
+
+          html += '<div class="detail-row">'
+            + '<span class="detail-label">Shortest non-empty line</span>'
+            + '<span class="detail-value">' + escapeHtml(truncate(result.shortestLine, 80))
+            + ' <span style="color:var(--text-muted);font-weight:400">(' + result.shortest + ' chars)</span></span></div>';
+
+          html += '<div class="detail-row">'
+            + '<span class="detail-label">Average line length</span>'
+            + '<span class="detail-value">' + result.avg.toFixed(1) + ' characters</span></div>';
+
+          html += '<div class="detail-row">'
+            + '<span class="detail-label">Total characters</span>'
+            + '<span class="detail-value">' + formatNumber(text.length, 0) + '</span></div>';
+
+          html += '<div class="detail-row">'
+            + '<span class="detail-label">Unique / Total ratio</span>'
+            + '<span class="detail-value">' + (result.total > 0 ? Math.round((result.unique / result.total) * 100) : 0) + '%</span></div>';
+
+          detailContainer.innerHTML = html;
+        }
+
+        /* Auto-resize textarea */
+        input.style.height = 'auto';
+        input.style.height = Math.max(180, input.scrollHeight) + 'px';
+
+        /* Store last result for copy */
+        window._lastResult = result;
+      }
+
+      /* --- Apply Transform (modifies textarea content) --- */
+      function applyTransform() {
+        var text = input.value;
+        if (text === '') return;
+
+        var normalized = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+        var lines = normalized.split('\n');
+
+        /* Remove trailing empty line from trailing newline */
+        if (lines.length > 1 && lines[lines.length - 1] === '') {
+          lines.pop();
+        }
+
+        var needsTransform = sortMode.value !== 'none' || optRemoveEmpty.checked || optNumberLines.checked;
+        if (!needsTransform) {
+          updateUI();
+          return;
+        }
+
+        isTransforming = true;
+        var transformed = transformLines(lines);
+        input.value = transformed.join('\n');
+        isTransforming = false;
+        updateUI();
+      }
+
+      /* --- Copy Result --- */
+      window.copyResult = function () {
+        var text = input.value;
+        if (!text) {
+          showToast('No text to copy.', 'error');
+          return;
+        }
+        copyToClipboard(text, document.getElementById('copy-btn'));
+        showToast('Text copied to clipboard!', 'success');
+      };
+
+      /* --- Copy Stats --- */
+      window.copyStats = function () {
+        var r = window._lastResult;
+        if (!r || r.total === 0) {
+          showToast('No text to analyze yet.', 'error');
+          return;
+        }
+        var lines = [
+          'Line Counter Stats',
+          '==================',
+          'Total Lines: ' + formatNumber(r.total, 0),
+          'Non-Empty Lines: ' + formatNumber(r.nonEmpty, 0),
+          'Empty Lines: ' + formatNumber(r.empty, 0),
+          'Unique Lines: ' + formatNumber(r.unique, 0),
+          'Duplicate Lines: ' + formatNumber(r.duplicate, 0),
+          'Longest Line: ' + formatNumber(r.longest, 0) + ' chars',
+          'Shortest Line: ' + formatNumber(r.shortest, 0) + ' chars',
+          'Average Line Length: ' + r.avg.toFixed(1) + ' chars',
+          '',
+          'Longest: ' + truncate(r.longestLine, 100),
+          'Shortest: ' + truncate(r.shortestLine, 100)
+        ];
+        copyToClipboard(lines.join('\n'), document.getElementById('copy-stats-btn'));
+        showToast('Stats copied to clipboard!', 'success');
+      };
+
+      /* --- Clear All --- */
+      window.clearAll = function () {
+        input.value = '';
+        originalText = '';
+        sortMode.value = 'none';
+        optRemoveEmpty.checked = false;
+        optNumberLines.checked = false;
+        input.style.height = '180px';
+        updateUI();
+        input.focus();
+        showToast('Text cleared.', 'info');
+      };
+
+      /* --- Event Listeners --- */
+      var debounceTimer;
+      input.addEventListener('input', function () {
+        if (isTransforming) return;
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(updateUI, 50);
+      });
+
+      sortMode.addEventListener('change', applyTransform);
+      optRemoveEmpty.addEventListener('change', applyTransform);
+      optNumberLines.addEventListener('change', applyTransform);
+
+      /* Initialize */
+      updateUI();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Water Intake Calculator Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Calculate your daily water intake based on weight, activity level, and climate. Get personalized hydration goals in liters, ounces, and glasses with our free water intake calculator.">
+  <meta name="keywords" content="water intake calculator, daily water intake, hydration calculator, how much water should I drink, water needs, hydration tracker">
+  <link rel="canonical" href="https://toolrip.com/water-intake">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Water Intake Calculator Online — Free, Fast, No Signup | Toolrip">
+  <meta property="og:description" content="Calculate your daily water intake based on weight, activity level, and climate. Get personalized hydration goals in liters, ounces, and glasses.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/water-intake">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Water Intake Calculator Online — Free, Fast, No Signup | Toolrip">
+  <meta name="twitter:description" content="Calculate your daily water intake based on weight, activity level, and climate. Get personalized hydration goals in liters, ounces, and glasses.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root { --accent: var(--health); }
+
+    /* Unit Toggle */
+    .unit-toggle-group {
+      display: flex;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .unit-toggle-group button {
+      flex: 1;
+      padding: var(--sp-2) var(--sp-3);
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font: inherit;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .unit-toggle-group button.active {
+      background: var(--accent);
+      color: #fff;
+    }
+    .unit-toggle-group button:hover:not(.active) {
+      background: var(--bg-elevated);
+      color: var(--text);
+    }
+
+    /* Input Row */
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-3);
+    }
+    @media (max-width: 639px) {
+      .input-row { grid-template-columns: 1fr; }
+    }
+
+    /* Result card */
+    .result-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-5);
+      text-align: center;
+      margin-top: var(--sp-4);
+    }
+    .result-card.hidden { display: none; }
+
+    .water-value {
+      font-size: 3.5rem;
+      font-weight: 800;
+      line-height: 1.1;
+      color: var(--accent);
+      margin-bottom: var(--sp-1);
+    }
+    .water-unit-label {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      margin-bottom: var(--sp-3);
+    }
+
+    /* Info grid */
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-3);
+      margin-top: var(--sp-4);
+      text-align: left;
+    }
+    @media (max-width: 639px) {
+      .info-grid { grid-template-columns: 1fr; }
+    }
+    .info-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-3);
+    }
+    .info-box h4 {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: var(--sp-1);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .info-box p {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* Glass counter */
+    .glass-counter {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--sp-2);
+      margin-top: var(--sp-4);
+      padding: var(--sp-3);
+    }
+    .glass-icon {
+      width: 36px;
+      height: 48px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      position: relative;
+    }
+    .glass-icon svg {
+      width: 36px;
+      height: 48px;
+    }
+    .glass-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: var(--sp-2);
+    }
+
+    /* Hourly schedule */
+    .schedule-bar {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+      padding: var(--sp-2) 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.875rem;
+    }
+    .schedule-bar:last-child { border-bottom: none; }
+    .schedule-time {
+      width: 70px;
+      font-weight: 600;
+      color: var(--text);
+      flex-shrink: 0;
+    }
+    .schedule-amount {
+      color: var(--text-muted);
+    }
+    .schedule-fill {
+      flex: 1;
+      height: 8px;
+      background: var(--bg-elevated);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .schedule-fill-inner {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 4px;
+      transition: width 0.4s ease;
+    }
+
+    /* Hydration tip panel */
+    .hydration-tip {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-4);
+      margin-top: var(--sp-3);
+      line-height: 1.7;
+    }
+    .hydration-tip h4 {
+      font-size: 1rem;
+      margin-bottom: var(--sp-2);
+    }
+    .hydration-tip ul {
+      padding-left: 1.25rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    .hydration-tip ul li { margin-bottom: var(--sp-1); }
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Water Intake Calculator",
+    "url": "https://toolrip.com/water-intake",
+    "description": "Calculate your recommended daily water intake based on body weight, activity level, and climate. Get results in liters, ounces, and glasses with a visual hydration tracker.",
+    "applicationCategory": "HealthApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="water-intake-top">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#health">Health &amp; Fitness</a>
+        <span>/</span>
+        <span>Water Intake Calculator</span>
+      </nav>
+
+      <h1>Water Intake Calculator</h1>
+      <p class="text-muted mt-1 mb-3">Calculate your recommended daily water intake based on your body weight, activity level, and climate. Free, instant, and private.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+
+        <!-- Unit Toggle -->
+        <div class="input-group">
+          <label>Unit System</label>
+          <div class="unit-toggle-group">
+            <button id="btn-metric" class="active" onclick="WI.setUnit('metric')">Metric (kg)</button>
+            <button id="btn-imperial" onclick="WI.setUnit('imperial')">Imperial (lbs)</button>
+          </div>
+        </div>
+
+        <!-- Weight -->
+        <div class="input-group">
+          <label for="weight" id="weight-label">Weight (kg)</label>
+          <input type="number" id="weight" class="input-field" placeholder="70" min="1" max="700" step="0.1">
+        </div>
+
+        <!-- Activity Level & Climate -->
+        <div class="input-row">
+          <div class="input-group">
+            <label for="activity">Activity Level</label>
+            <select id="activity" class="select-field">
+              <option value="sedentary">Sedentary (little or no exercise)</option>
+              <option value="light">Light (1-3 days/week)</option>
+              <option value="moderate" selected>Moderate (3-5 days/week)</option>
+              <option value="heavy">Heavy (6-7 days/week)</option>
+              <option value="athlete">Athlete (2x daily training)</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="climate">Climate</label>
+            <select id="climate" class="select-field">
+              <option value="normal" selected>Normal / Temperate</option>
+              <option value="hot">Hot / Humid</option>
+              <option value="dry">Hot / Dry (Arid)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex gap-2 mt-2">
+          <button class="btn-primary" onclick="WI.calculate()">Calculate Water Intake</button>
+          <button class="btn-secondary" onclick="WI.reset()">Reset</button>
+        </div>
+
+        <!-- Result Section -->
+        <div class="result-card hidden" id="result-card">
+          <div class="water-value" id="water-liters">--</div>
+          <div class="water-unit-label" id="water-unit-label">liters per day</div>
+
+          <!-- Info Grid -->
+          <div class="info-grid">
+            <div class="info-box">
+              <h4>In Ounces</h4>
+              <p id="water-oz">--</p>
+            </div>
+            <div class="info-box">
+              <h4>Glasses (250 ml)</h4>
+              <p id="water-glasses">--</p>
+            </div>
+            <div class="info-box">
+              <h4>Hourly Intake</h4>
+              <p id="water-hourly">--</p>
+            </div>
+            <div class="info-box">
+              <h4>Activity Adjustment</h4>
+              <p id="water-activity-adj">--</p>
+            </div>
+          </div>
+
+          <!-- Visual Glass Counter -->
+          <div id="glass-counter-section">
+            <p class="glass-label">Your daily glasses (250 ml each):</p>
+            <div class="glass-counter" id="glass-counter"></div>
+          </div>
+
+          <!-- Hourly Schedule -->
+          <div class="hydration-tip mt-3" id="schedule-section">
+            <h4>Suggested Hourly Schedule (awake 16 hrs)</h4>
+            <div id="hourly-schedule"></div>
+          </div>
+
+          <!-- Tips -->
+          <div class="hydration-tip mt-3">
+            <h4>Hydration Tips for You</h4>
+            <ul id="hydration-tips"></ul>
+          </div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="water-intake-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Personalized Hydration Goals</h3>
+            <p>Get a daily water intake recommendation tailored to your exact body weight rather than relying on a one-size-fits-all guideline. The calculator uses a proven weight-based formula to determine your baseline hydration needs.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Activity &amp; Climate Adjustments</h3>
+            <p>Your water needs change dramatically based on how active you are and where you live. The calculator adjusts for five activity levels from sedentary to athlete, and accounts for hot or arid climates that increase perspiration.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Multiple Output Formats</h3>
+            <p>View your recommended intake in liters, fluid ounces, and standard 250 ml glasses. Whether you track water with a bottle, a measuring cup, or a glass, you will have the number you need at a glance.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Visual Glass Counter</h3>
+            <p>A row of glass icons shows exactly how many glasses you should aim for each day. This visual representation makes it simple to track your progress throughout the day by counting filled glasses.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Hourly Intake Schedule</h3>
+            <p>Spreading your water intake evenly throughout the day is more effective than drinking large amounts at once. The calculator generates an hourly schedule so you know how much to sip every hour you are awake.</p>
+          </div>
+          <div class="feature-card">
+            <h3>100% Client-Side Privacy</h3>
+            <p>All calculations run entirely in your browser. No data is sent to any server, no account is required, and nothing is stored. Your weight and health information remains completely private on your own device.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Water Intake Calculator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Enter your body weight</strong> — Toggle between kilograms and pounds at the top, then type your weight. The calculator converts units automatically behind the scenes so you always get an accurate result.</li>
+          <li><strong>Select your activity level</strong> — Choose the option that best describes your typical week: sedentary if you rarely exercise, light for one to three workout days, moderate for three to five, heavy for six to seven, or athlete if you train twice daily.</li>
+          <li><strong>Choose your climate</strong> — Pick normal for temperate weather, hot for humid tropical conditions, or dry for arid desert-like environments. Hot and dry climates increase sweat loss and therefore your water needs.</li>
+          <li><strong>View your results</strong> — Click "Calculate Water Intake" to see your daily recommendation in liters, ounces, and glasses along with an hourly schedule and a visual glass counter for easy daily tracking.</li>
+        </ol>
+      </section>
+
+      <!-- Understanding Hydration -->
+      <section class="mt-4">
+        <h2>Understanding Your Daily Water Needs</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">Water is the most essential nutrient for human survival. Every cell, tissue, and organ in your body depends on adequate hydration to function properly. Water regulates body temperature through perspiration, transports nutrients and oxygen to cells, cushions joints and organs, aids digestion and nutrient absorption, and flushes waste products through the kidneys. Despite its importance, studies consistently show that a significant portion of adults walk around in a state of mild chronic dehydration without realizing it, which can impair cognitive performance, physical endurance, and mood.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">The amount of water you need each day depends on several individual factors. Body weight is the primary determinant because larger bodies contain more water and require more to maintain fluid balance. A person weighing 90 kilograms naturally needs more water than someone weighing 55 kilograms, which is why generic guidelines like "drink eight glasses a day" fall short for many people. Physical activity is the second major factor because exercise increases sweat output, breathing rate, and metabolic water loss. Even moderate exercise can increase daily water needs by half a liter or more. Environmental conditions also play a critical role. Hot and humid climates cause more perspiration, while dry arid environments increase water loss through evaporation from the skin and respiratory tract, often without the person noticing because sweat evaporates quickly.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">The popular advice to drink eight glasses of water per day, roughly two liters, originated from a 1945 recommendation by the United States Food and Nutrition Board. However, the original report also stated that most of this water would come from food, a detail that was widely overlooked when the guideline entered popular culture. Modern research from the National Academies of Sciences, Engineering, and Medicine suggests that adequate daily fluid intake is approximately 3.7 liters for adult men and 2.7 liters for adult women from all sources combined, including beverages and food. About 20 percent of daily water intake typically comes from food, particularly fruits and vegetables with high water content such as watermelon, cucumber, oranges, and lettuce.</p>
+        <p style="color:var(--text-muted);line-height:1.8">Recognizing the signs of dehydration is important for maintaining health. Early symptoms include thirst, dark yellow urine, dry mouth, fatigue, and headaches. More advanced dehydration can cause dizziness, rapid heartbeat, confusion, and in severe cases, fainting or organ damage. A simple way to monitor hydration is the urine color test: pale straw-colored urine generally indicates adequate hydration, while dark amber urine suggests you need to drink more. This calculator uses a scientifically grounded weight-based formula with adjustments for activity and climate to give you a personalized daily target that is far more accurate than any one-size-fits-all rule.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>How much water should I drink every day?</summary>
+          <p>The amount of water you need depends on your body weight, activity level, climate, and overall health. A widely used baseline formula is to multiply your body weight in kilograms by 0.033, which gives you a starting point in liters. For a 70 kg person, that works out to about 2.3 liters per day before any adjustments for exercise or heat. Active individuals and those living in hot climates will need significantly more. Rather than following a generic rule, using a calculator that accounts for your personal variables provides a much more accurate daily target. Keep in mind that roughly 20 percent of your water intake comes from food, so the calculated amount refers to what you should aim to drink in addition to eating a balanced diet.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is the "8 glasses a day" rule a myth?</summary>
+          <p>The idea that everyone should drink exactly eight glasses of water per day is an oversimplification rather than a strict myth. It originated from a 1945 guideline that recommended approximately 2.5 liters of daily water intake but also noted that most of this would come from food. Over the decades, the food portion was forgotten and the number eight became a standalone rule. In reality, water needs vary widely between individuals. A sedentary person weighing 50 kg has very different requirements from an active person weighing 100 kg. While eight glasses of water is a reasonable starting point for an average adult in a temperate climate, it may be too little for some and more than enough for others. The best approach is to calculate your personal needs and adjust based on thirst, urine color, and how you feel throughout the day.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does coffee and tea count toward daily water intake?</summary>
+          <p>Yes, coffee and tea do contribute to your daily fluid intake. For many years, people believed that the caffeine in these beverages had such a strong diuretic effect that they caused a net loss of water. However, research published in peer-reviewed journals has consistently shown that the diuretic effect of moderate caffeine consumption is mild and does not offset the hydration provided by the water in the beverage itself. A standard cup of coffee or tea is mostly water, and habitual caffeine consumers develop a tolerance to its mild diuretic properties. That said, water remains the ideal hydration source because it contains no calories, sugar, or additives. If you rely heavily on caffeinated drinks, it is still a good idea to ensure plain water makes up the majority of your fluid intake, especially during exercise or in hot weather.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can you drink too much water?</summary>
+          <p>Yes, it is possible to drink too much water, a condition known as water intoxication or hyponatremia. This occurs when excessive water intake dilutes the sodium concentration in your blood to dangerously low levels. Symptoms include nausea, headaches, confusion, seizures, and in extreme cases, it can be life-threatening. However, water intoxication is rare in everyday life and primarily occurs in endurance athletes who consume very large volumes of water over short periods without replacing electrolytes, or in water-drinking contests. For the average person following a calculated daily target and drinking steadily throughout the day, overhydration is extremely unlikely. A good rule of thumb is to avoid drinking more than one liter per hour and to spread your intake evenly across your waking hours.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What are the signs of dehydration?</summary>
+          <p>Dehydration occurs when your body loses more fluid than it takes in, and it can range from mild to severe. The earliest sign is thirst itself, which means your body is already slightly behind on fluids. Other early symptoms include dark yellow or amber-colored urine, dry or sticky mouth, reduced urine output, fatigue and low energy, and mild headaches. As dehydration progresses, symptoms can escalate to dizziness or lightheadedness, rapid heartbeat, dry skin that does not bounce back when pinched, irritability, and difficulty concentrating. Severe dehydration is a medical emergency characterized by extreme thirst, very dark urine or no urination, sunken eyes, confusion, and fainting. Monitoring your urine color throughout the day is one of the simplest and most reliable ways to check your hydration status.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Should I drink more water when exercising?</summary>
+          <p>Absolutely. Physical activity increases your body's water needs because you lose fluid through sweat and increased respiration. The amount of additional water you need depends on the intensity and duration of your workout, as well as the environmental conditions. For moderate exercise lasting about an hour, drinking an extra 400 to 600 milliliters of water is generally recommended. For intense or prolonged exercise exceeding one hour, you may need considerably more, and adding electrolytes can help replace the sodium and potassium lost through sweat. A practical guideline is to drink about 200 to 300 milliliters of water every 15 to 20 minutes during exercise. Weigh yourself before and after a workout session: for every kilogram of body weight lost, drink approximately 1.5 liters of water to fully rehydrate.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does the weather affect how much water I need?</summary>
+          <p>Yes, weather and climate have a substantial impact on your hydration requirements. In hot and humid environments, your body produces more sweat to cool itself through evaporation, which increases water loss significantly. In hot and dry or arid climates, sweat evaporates so quickly that you may not realize how much fluid you are losing, making dehydration particularly sneaky. Cold weather can also increase water needs because dry winter air and indoor heating pull moisture from your skin and respiratory tract, and the cold suppresses your thirst sensation. High altitude environments similarly increase water loss through faster breathing and drier air. As a general rule, add approximately 500 milliliters to your daily baseline for hot or arid conditions. If you are exercising in the heat, the combined effect of activity and climate can double your baseline water requirement.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/bmi">BMI Calculator</a>
+          <a href="https://toolrip.com/calorie">Calorie Calculator</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+          <a href="https://toolrip.com/age">Age Calculator</a>
+          <a href="https://toolrip.com/fraction">Fraction Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="water-intake-sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="water-intake-bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Water Intake Calculator JS -->
+  <script>
+    var WI = (function() {
+      'use strict';
+
+      var currentUnit = 'metric';
+
+      /* Activity level adjustments in liters */
+      var activityAdj = {
+        sedentary: 0,
+        light: 0.35,
+        moderate: 0.5,
+        heavy: 0.7,
+        athlete: 1.0
+      };
+
+      var activityLabels = {
+        sedentary: 'No adjustment',
+        light: '+0.35 L (light exercise)',
+        moderate: '+0.50 L (moderate exercise)',
+        heavy: '+0.70 L (heavy exercise)',
+        athlete: '+1.00 L (athlete training)'
+      };
+
+      /* Climate adjustments in liters */
+      var climateAdj = {
+        normal: 0,
+        hot: 0.5,
+        dry: 0.5
+      };
+
+      /* --- Unit Switching --- */
+      function setUnit(unit) {
+        currentUnit = unit;
+        document.getElementById('btn-metric').classList.toggle('active', unit === 'metric');
+        document.getElementById('btn-imperial').classList.toggle('active', unit === 'imperial');
+
+        var weightLabel = document.getElementById('weight-label');
+        var weightInput = document.getElementById('weight');
+
+        if (unit === 'metric') {
+          weightLabel.textContent = 'Weight (kg)';
+          weightInput.placeholder = '70';
+        } else {
+          weightLabel.textContent = 'Weight (lbs)';
+          weightInput.placeholder = '154';
+        }
+      }
+
+      /* --- Get weight in kg --- */
+      function getWeightKg() {
+        var w = parseFloat(document.getElementById('weight').value);
+        if (isNaN(w) || w <= 0) return NaN;
+        return currentUnit === 'imperial' ? w * 0.453592 : w;
+      }
+
+      /* --- Build glass SVG --- */
+      function buildGlassSVG(filled) {
+        var fillColor = filled ? 'var(--accent)' : 'var(--border)';
+        var waterColor = filled ? 'rgba(245,158,11,0.25)' : 'transparent';
+        return '<svg viewBox="0 0 36 48" fill="none" xmlns="http://www.w3.org/2000/svg">'
+          + '<path d="M6 4 L4 42 C4 44.2 6 46 8 46 L28 46 C30 46 32 44.2 32 42 L30 4 Z" '
+          + 'stroke="' + fillColor + '" stroke-width="2" fill="' + waterColor + '"/>'
+          + (filled ? '<path d="M6.5 16 L5 42 C5 43.6 6.5 45 8 45 L28 45 C29.5 45 31 43.6 31 42 L29.5 16 Z" '
+          + 'fill="var(--accent)" opacity="0.5"/>' : '')
+          + '</svg>';
+      }
+
+      /* --- Build hourly schedule --- */
+      function buildSchedule(totalLiters) {
+        var container = document.getElementById('hourly-schedule');
+        container.innerHTML = '';
+
+        var awakeHours = 16;
+        var perHour = totalLiters / awakeHours;
+        var startHour = 7; /* 7 AM */
+
+        /* Show every 2 hours */
+        for (var i = 0; i < awakeHours; i += 2) {
+          var hour = (startHour + i) % 24;
+          var ampm = hour < 12 ? 'AM' : 'PM';
+          var displayHour = hour === 0 ? 12 : (hour > 12 ? hour - 12 : hour);
+          var amount = perHour * 2;
+
+          var bar = document.createElement('div');
+          bar.className = 'schedule-bar';
+          bar.innerHTML = '<span class="schedule-time">' + displayHour + ':00 ' + ampm + '</span>'
+            + '<div class="schedule-fill"><div class="schedule-fill-inner" style="width:' + Math.min(100, (amount / (totalLiters * 0.2)) * 100) + '%"></div></div>'
+            + '<span class="schedule-amount">' + (amount * 1000).toFixed(0) + ' ml</span>';
+          container.appendChild(bar);
+        }
+      }
+
+      /* --- Get hydration tips based on context --- */
+      function getTips(activity, climate) {
+        var tips = [
+          'Start your day with a full glass of water within 30 minutes of waking up to kickstart your metabolism and rehydrate after sleep.',
+          'Keep a reusable water bottle at your desk or workspace as a visual reminder to drink consistently throughout the day.',
+          'Set a timer or use a hydration app to remind yourself to take a sip every 30 to 45 minutes during work hours.'
+        ];
+
+        if (activity === 'heavy' || activity === 'athlete') {
+          tips.push('Drink 200-300 ml of water 15-20 minutes before exercise and continue sipping every 15 minutes during your workout.');
+          tips.push('Weigh yourself before and after intense workouts. For every kilogram lost, drink 1.5 liters to fully rehydrate.');
+        }
+
+        if (activity === 'moderate' || activity === 'light') {
+          tips.push('Drink an extra glass of water before and after each workout session to compensate for sweat loss.');
+        }
+
+        if (climate === 'hot' || climate === 'dry') {
+          tips.push('In hot or arid conditions, increase your intake by at least 500 ml above your baseline and watch for signs of excessive sweating.');
+          tips.push('Eat water-rich foods like watermelon, cucumber, and oranges to supplement your fluid intake in warm weather.');
+        }
+
+        if (activity === 'sedentary') {
+          tips.push('Even without exercise, your body loses water through breathing, digestion, and skin evaporation. Do not skip hydrating just because you are not sweating.');
+        }
+
+        tips.push('Monitor your urine color as a hydration indicator. Pale straw color means you are well-hydrated; dark amber means drink more.');
+
+        return tips;
+      }
+
+      /* --- Main Calculation --- */
+      function calculate() {
+        var weightKg = getWeightKg();
+
+        if (isNaN(weightKg)) {
+          showToast('Please enter a valid weight.', 'error');
+          return;
+        }
+
+        if (weightKg < 10 || weightKg > 350) {
+          showToast('Please enter a realistic weight value.', 'error');
+          return;
+        }
+
+        var activity = document.getElementById('activity').value;
+        var climate = document.getElementById('climate').value;
+
+        /* Base formula: weight(kg) x 0.033 L */
+        var baseLiters = weightKg * 0.033;
+        var actAdj = activityAdj[activity] || 0;
+        var cliAdj = climateAdj[climate] || 0;
+        var totalLiters = baseLiters + actAdj + cliAdj;
+
+        var totalOz = totalLiters * 33.814;
+        var glasses = Math.ceil(totalLiters / 0.25);
+        var hourlyMl = (totalLiters * 1000) / 16; /* 16 waking hours */
+
+        /* Update DOM */
+        var resultCard = document.getElementById('result-card');
+        resultCard.classList.remove('hidden');
+
+        document.getElementById('water-liters').textContent = totalLiters.toFixed(2) + ' L';
+        document.getElementById('water-oz').textContent = totalOz.toFixed(1) + ' fl oz';
+        document.getElementById('water-glasses').textContent = glasses + ' glasses';
+        document.getElementById('water-hourly').textContent = Math.round(hourlyMl) + ' ml / hour';
+        document.getElementById('water-activity-adj').textContent = activityLabels[activity] || 'None';
+
+        /* Glass counter */
+        var glassContainer = document.getElementById('glass-counter');
+        glassContainer.innerHTML = '';
+        var maxIcons = Math.min(glasses, 20); /* cap visual at 20 */
+        for (var i = 0; i < maxIcons; i++) {
+          var icon = document.createElement('div');
+          icon.className = 'glass-icon';
+          icon.innerHTML = buildGlassSVG(true);
+          icon.title = 'Glass ' + (i + 1) + ' of ' + glasses;
+          glassContainer.appendChild(icon);
+        }
+        if (glasses > 20) {
+          var more = document.createElement('div');
+          more.style.cssText = 'display:flex;align-items:center;font-size:0.85rem;color:var(--text-muted);padding-left:var(--sp-2)';
+          more.textContent = '+' + (glasses - 20) + ' more';
+          glassContainer.appendChild(more);
+        }
+
+        /* Hourly schedule */
+        buildSchedule(totalLiters);
+
+        /* Tips */
+        var tips = getTips(activity, climate);
+        var tipsList = document.getElementById('hydration-tips');
+        tipsList.innerHTML = '';
+        tips.forEach(function(tip) {
+          var li = document.createElement('li');
+          li.textContent = tip;
+          tipsList.appendChild(li);
+        });
+
+        /* Scroll to results */
+        resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      /* --- Reset Form --- */
+      function reset() {
+        document.getElementById('weight').value = '';
+        document.getElementById('activity').value = 'moderate';
+        document.getElementById('climate').value = 'normal';
+        document.getElementById('result-card').classList.add('hidden');
+        setUnit('metric');
+      }
+
+      /* --- Auto-calculate on input change --- */
+      function init() {
+        var weightInput = document.getElementById('weight');
+        var activitySelect = document.getElementById('activity');
+        var climateSelect = document.getElementById('climate');
+
+        function autoCalc() {
+          var w = parseFloat(weightInput.value);
+          if (!isNaN(w) && w > 0) {
+            calculate();
+          }
+        }
+
+        weightInput.addEventListener('input', autoCalc);
+        activitySelect.addEventListener('change', autoCalc);
+        climateSelect.addEventListener('change', autoCalc);
+      }
+
+      document.addEventListener('DOMContentLoaded', init);
+
+      /* Public API */
+      return {
+        setUnit: setUnit,
+        calculate: calculate,
+        reset: reset
+      };
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slug Generator Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Generate clean, SEO-friendly URL slugs from any text instantly. Supports custom separators, Unicode transliteration, bulk mode, and real-time preview. Free online tool — no signup required.">
+  <link rel="canonical" href="https://toolrip.com/slug">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Slug Generator Online — Free, Fast, No Signup | Toolrip">
+  <meta property="og:description" content="Generate clean, SEO-friendly URL slugs from any text. Custom separators, Unicode support, bulk mode, and real-time preview. Free online tool — no signup required.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/slug">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Slug Generator Online — Free, Fast, No Signup | Toolrip">
+  <meta name="twitter:description" content="Generate clean, SEO-friendly URL slugs from any text. Custom separators, Unicode support, bulk mode, and real-time preview. Free online tool — no signup required.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--text-cat)}</style>
+
+  <style>
+    /* Options row */
+    .slug-options{display:flex;flex-wrap:wrap;gap:var(--sp-3);align-items:center;margin-bottom:var(--sp-3)}
+    .slug-options label{font-size:.875rem;color:var(--text-muted);display:flex;align-items:center;gap:var(--sp-1);cursor:pointer}
+    .slug-options input[type="checkbox"]{accent-color:var(--accent);width:16px;height:16px;cursor:pointer}
+
+    /* Separator select */
+    .separator-group{display:flex;align-items:center;gap:var(--sp-2)}
+    .separator-group label{font-size:.875rem;font-weight:500;color:var(--text-muted);white-space:nowrap}
+
+    /* Output display */
+    .slug-output{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+      padding:var(--sp-3);font-family:'Fira Code','Consolas',monospace;font-size:.9375rem;
+      color:var(--accent);word-break:break-all;min-height:48px;line-height:1.6;
+      user-select:all;cursor:text}
+    .slug-output:empty::before{content:'Your slug will appear here...';color:var(--text-muted);
+      font-family:var(--font);font-style:italic}
+
+    /* Char count */
+    .slug-meta{display:flex;gap:var(--sp-4);font-size:.8125rem;color:var(--text-muted);margin-top:var(--sp-2);flex-wrap:wrap}
+    .slug-meta span{display:flex;align-items:center;gap:var(--sp-1)}
+
+    /* Action buttons row */
+    .action-bar{display:flex;gap:var(--sp-2);flex-wrap:wrap;margin-top:var(--sp-3)}
+
+    /* Mode tabs */
+    .mode-tabs{display:flex;gap:var(--sp-2);margin-bottom:var(--sp-3)}
+    .mode-tab{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+      padding:var(--sp-2) var(--sp-3);font-size:.875rem;font-weight:500;color:var(--text-muted);
+      cursor:pointer;transition:border-color .15s,background .15s,color .15s;font-family:inherit}
+    .mode-tab:hover{border-color:var(--accent);color:var(--accent)}
+    .mode-tab.active{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent);
+      color:var(--accent);font-weight:600}
+
+    /* Bulk output */
+    .bulk-output{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+      padding:var(--sp-3);font-family:'Fira Code','Consolas',monospace;font-size:.875rem;
+      color:var(--accent);word-break:break-all;min-height:120px;line-height:1.8;white-space:pre-wrap}
+    .bulk-output:empty::before{content:'Bulk slugs will appear here, one per line...';color:var(--text-muted);
+      font-family:var(--font);font-style:italic}
+
+    /* Section label */
+    .section-label{font-size:.8125rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;
+      letter-spacing:.04em;margin-bottom:var(--sp-2)}
+
+    /* Preview URL bar */
+    .url-preview{background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius);
+      padding:var(--sp-2) var(--sp-3);font-size:.8125rem;color:var(--text-muted);margin-top:var(--sp-2);
+      font-family:'Fira Code','Consolas',monospace;overflow-x:auto;white-space:nowrap}
+    .url-preview strong{color:var(--accent);font-weight:600}
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Slug Generator",
+    "url": "https://toolrip.com/slug",
+    "description": "Generate clean, SEO-friendly URL slugs from any text instantly. Supports custom separators, Unicode transliteration, bulk mode, and real-time preview.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Text Tools", "item": "https://toolrip.com/#text" },
+      { "@type": "ListItem", "position": 3, "name": "Slug Generator", "item": "https://toolrip.com/slug" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is a URL slug?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A URL slug is the part of a web address that comes after the domain name and identifies a specific page in a human-readable format. For example, in the URL https://example.com/my-blog-post, the slug is my-blog-post. Slugs are typically lowercase, use hyphens to separate words, and exclude special characters, making them easy for both people and search engines to understand." }
+      },
+      {
+        "@type": "Question",
+        "name": "Why are SEO-friendly slugs important?",
+        "acceptedAnswer": { "@type": "Answer", "text": "SEO-friendly slugs help search engines understand the content of a page before even crawling it. A descriptive slug that includes relevant keywords can improve click-through rates from search results because users can see at a glance what the page is about. Clean slugs also make URLs easier to share, remember, and type manually." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the ideal length for a URL slug?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The ideal URL slug is between 3 and 5 words, or roughly 50 to 60 characters. While there is no hard technical limit, shorter slugs are easier to read, share, and remember. Google typically displays the first 50 to 60 characters of a URL in search results, so keeping your slug concise ensures it remains fully visible." }
+      },
+      {
+        "@type": "Question",
+        "name": "How does this tool handle special characters and Unicode?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The slug generator removes diacritical marks by normalizing Unicode text to NFD form and stripping combining characters. This converts accented letters like e with acute accent to plain e. Non-alphanumeric characters such as punctuation, symbols, and emoji are stripped entirely. The result is a clean, ASCII-safe slug that works reliably in any URL." }
+      },
+      {
+        "@type": "Question",
+        "name": "What separator should I use: hyphens, underscores, or dots?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Hyphens are the recommended separator for URL slugs. Google treats hyphens as word separators, which means a slug like my-blog-post is interpreted as three separate words. Underscores are not treated as separators by Google, so my_blog_post would be read as a single token. Dots can cause confusion with file extensions. For SEO purposes, hyphens are the best choice." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I generate slugs for non-English text?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. The tool handles internationalized text by removing diacritical marks through Unicode normalization. Accented characters from languages like French, Spanish, German, and Portuguese are transliterated to their base Latin equivalents. Characters from non-Latin scripts such as Chinese, Japanese, Korean, or Arabic are removed because URL slugs are best kept in ASCII for maximum compatibility across all browsers and servers." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is bulk mode and when should I use it?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Bulk mode lets you paste multiple titles or phrases, one per line, and generate a slug for each simultaneously. This is useful when you need to create slugs for an entire list of blog posts, product names, category labels, or database entries at once instead of converting them individually. The output shows one slug per line in the same order as your input." }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="top">Ad</div>
+
+    <!-- Breadcrumb -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#text">Text Tools</a>
+        <span>/</span>
+        <span>Slug Generator</span>
+      </nav>
+
+      <h1>Slug Generator</h1>
+      <p class="text-muted mt-1 mb-3">Generate clean, SEO-friendly URL slugs from any text. Choose your separator, toggle options, and preview the result in real time. Supports Unicode transliteration and bulk conversion.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+
+        <!-- Mode Tabs -->
+        <div class="mode-tabs">
+          <button class="mode-tab active" data-mode="single">Single</button>
+          <button class="mode-tab" data-mode="bulk">Bulk Mode</button>
+        </div>
+
+        <!-- Single Mode -->
+        <div id="single-mode">
+          <div class="input-group">
+            <label for="input-text">Enter your text</label>
+            <input type="text" id="input-text" class="input-field" placeholder="Type a title, heading, or phrase to convert into a slug..." autocomplete="off">
+          </div>
+
+          <!-- Options -->
+          <div class="section-label">Options</div>
+          <div class="slug-options">
+            <div class="separator-group">
+              <label for="separator-select">Separator</label>
+              <select id="separator-select" class="select-field" style="width:auto;min-width:120px">
+                <option value="-" selected>Hyphen (-)</option>
+                <option value="_">Underscore (_)</option>
+                <option value=".">Dot (.)</option>
+              </select>
+            </div>
+            <label><input type="checkbox" id="opt-lowercase" checked> Lowercase</label>
+            <label><input type="checkbox" id="opt-remove-special" checked> Remove special chars</label>
+            <label><input type="checkbox" id="opt-trim" checked> Trim edges</label>
+          </div>
+
+          <!-- Output -->
+          <div class="section-label">Generated Slug</div>
+          <div class="slug-output" id="slug-output"></div>
+          <div class="url-preview" id="url-preview">https://example.com/<strong id="url-slug-preview"></strong></div>
+          <div class="slug-meta">
+            <span id="slug-char-count">0 characters</span>
+            <span id="slug-word-count">0 words</span>
+          </div>
+        </div>
+
+        <!-- Bulk Mode (hidden by default) -->
+        <div id="bulk-mode" style="display:none">
+          <div class="input-group">
+            <label for="bulk-input">Enter text (one per line)</label>
+            <textarea id="bulk-input" class="textarea-field" placeholder="My First Blog Post&#10;How to Learn JavaScript&#10;10 Tips for Better SEO&#10;Caf&eacute; Menu &amp; Prices" rows="8"></textarea>
+          </div>
+
+          <!-- Bulk Options -->
+          <div class="section-label">Options</div>
+          <div class="slug-options">
+            <div class="separator-group">
+              <label for="bulk-separator-select">Separator</label>
+              <select id="bulk-separator-select" class="select-field" style="width:auto;min-width:120px">
+                <option value="-" selected>Hyphen (-)</option>
+                <option value="_">Underscore (_)</option>
+                <option value=".">Dot (.)</option>
+              </select>
+            </div>
+            <label><input type="checkbox" id="bulk-opt-lowercase" checked> Lowercase</label>
+            <label><input type="checkbox" id="bulk-opt-remove-special" checked> Remove special chars</label>
+            <label><input type="checkbox" id="bulk-opt-trim" checked> Trim edges</label>
+          </div>
+
+          <div class="section-label">Generated Slugs</div>
+          <div class="bulk-output" id="bulk-output"></div>
+          <div class="slug-meta">
+            <span id="bulk-line-count">0 lines</span>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-bar">
+          <button class="btn-primary" id="copy-btn">Copy Result</button>
+          <button class="btn-secondary" id="clear-btn">Clear</button>
+        </div>
+
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(3,1fr)">
+          <div class="feature-card">
+            <h3>Real-Time Preview</h3>
+            <p>Every keystroke instantly generates a fresh slug so you can see the result as you type. The URL preview bar shows exactly how your slug will look inside a real web address, giving you immediate visual feedback without needing to click any button. This live approach lets you experiment with different phrasings and see the impact on your slug length and readability in real time.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Unicode Transliteration</h3>
+            <p>The generator strips diacritical marks from accented characters by normalizing text to Unicode NFD form and removing combining code points. Characters like accented vowels from French, German, Spanish, and Portuguese are converted to their plain ASCII equivalents automatically. This ensures your slugs remain compatible with every web server, browser, and content management system without manual editing.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Bulk Conversion</h3>
+            <p>Switch to bulk mode to paste dozens or hundreds of titles at once, each on its own line. The tool generates a matching slug for every line simultaneously, producing output you can copy with a single click. This is invaluable for content teams migrating blog posts, e-commerce managers creating product URLs, or developers seeding databases with clean URL identifiers at scale.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Custom Separators</h3>
+            <p>Choose between hyphens, underscores, and dots as your word separator depending on where the slug will be used. Hyphens are the standard for SEO-optimized web URLs because search engines treat them as word boundaries. Underscores are common in programming identifiers and file names. Dots appear in Java package names and configuration keys. The separator applies consistently across single and bulk modes.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Flexible Options</h3>
+            <p>Toggle lowercase conversion, special character removal, and edge trimming independently to fine-tune the output for your exact use case. Need to preserve uppercase letters for a technical identifier? Uncheck the lowercase option. Want to keep certain punctuation? Disable special character removal. Every combination produces a valid, usable slug tailored to your specific formatting requirements.</p>
+          </div>
+          <div class="feature-card">
+            <h3>100% Client-Side</h3>
+            <p>All slug generation happens directly in your browser with zero network requests. Your text is never uploaded to any server, logged, or stored anywhere. This makes the tool safe for converting confidential project titles, internal codenames, proprietary product names, or any other sensitive content you would not want transmitted over the internet. Close the tab and the data is gone.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Slug Generator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Enter your text</strong> — Type or paste a title, heading, or phrase into the input field. The slug is generated in real time as you type, so you can see the result instantly without pressing any button. The tool accepts any combination of letters, numbers, spaces, punctuation, accented characters, and emoji.</li>
+          <li><strong>Choose your options</strong> — Select a separator (hyphen, underscore, or dot) from the dropdown menu. Use the checkboxes to toggle lowercase conversion, special character removal, and edge trimming. Each change is reflected immediately in the output so you can compare different configurations.</li>
+          <li><strong>Copy the result</strong> — Click the "Copy Result" button to place the generated slug on your clipboard. For bulk conversions, switch to Bulk Mode, paste multiple lines of text, and copy all generated slugs at once. Use the "Clear" button to reset the input and output and start over.</li>
+        </ol>
+      </section>
+
+      <!-- Understanding URL Slugs -->
+      <section class="mt-4">
+        <h2>Understanding URL Slugs and Why They Matter</h2>
+        <p style="color:var(--text-muted);line-height:1.8">A URL slug is the portion of a web address that appears after the domain name and any directory path, serving as a human-readable identifier for a specific page. When you visit a blog post at example.com/how-to-bake-bread, the slug is the how-to-bake-bread segment. Well-crafted slugs are a foundational element of search engine optimization because they communicate page content to both users and search engine crawlers before anyone even clicks through to the page.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-2)">Search engines like Google use the words in a URL as a lightweight relevance signal when determining rankings. A descriptive slug that contains your target keywords reinforces the topic of the page and improves the likelihood that it will appear in relevant search results. Beyond rankings, clean URLs increase click-through rates because users are more likely to trust and click a link when they can read exactly what the destination page is about directly in the URL.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-2)">Good slug hygiene also involves keeping URLs short and removing unnecessary filler words like articles, conjunctions, and prepositions that add length without adding meaning. A slug like tips-improve-seo performs just as well as 10-tips-to-help-you-improve-your-seo-strategy while being far easier to read, share, and remember. Consistent slug formatting across your entire site creates a predictable URL structure that helps search engines crawl and index your pages more efficiently.</p>
+
+        <h3 style="margin-top:var(--sp-4)">Best Practices for Creating URL Slugs</h3>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-2)">The most effective slugs follow a consistent set of principles that balance readability, SEO value, and technical compatibility. First, always use lowercase letters. Mixed-case URLs can cause duplicate content issues on case-sensitive servers and confuse users who type addresses manually. Second, use hyphens as word separators rather than underscores or spaces. Google explicitly treats hyphens as word delimiters, while underscores join words into a single token, reducing keyword recognition. Encoded spaces produce ugly percent-20 sequences that harm both readability and aesthetics.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-2)">Third, strip all special characters, accents, and non-ASCII symbols from your slugs. Accented characters like those found in French, Spanish, and German words should be transliterated to their ASCII equivalents so that the URL works reliably across every browser, operating system, and email client. Fourth, keep slugs concise by removing stop words that do not contribute to meaning. Words like the, and, of, is, and it rarely add search value and can be dropped without changing what the URL communicates to readers or crawlers.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-2)">Fifth, never change a slug after publication unless you set up a proper 301 redirect from the old URL to the new one. Broken links damage your search rankings, create poor user experiences, and waste the link equity that the original URL accumulated over time. Planning your slugs carefully before publishing eliminates the need for retroactive changes and keeps your link profile clean and authoritative over the long term.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is a URL slug?</summary>
+          <p>A URL slug is the part of a web address that comes after the domain name and identifies a specific page in a human-readable format. For example, in the URL https://example.com/my-blog-post, the slug is my-blog-post. Slugs are typically lowercase, use hyphens to separate words, and exclude special characters, making them easy for both people and search engines to understand. A good slug describes the page content concisely using relevant keywords without unnecessary filler words. Most content management systems like WordPress, Ghost, and Webflow automatically generate slugs from page titles, but manually reviewing and optimizing them before publishing is a recommended best practice for SEO.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Why are SEO-friendly slugs important?</summary>
+          <p>SEO-friendly slugs help search engines understand the content of a page before even crawling it. A descriptive slug that includes relevant keywords can improve click-through rates from search results because users can see at a glance what the page is about. Clean slugs also make URLs easier to share, remember, and type manually. When someone shares your link on social media, in an email, or in a printed document, a readable slug like best-chocolate-cake-recipe communicates far more than a string of random numbers or database identifiers. Search engines use URL keywords as a minor ranking factor, so including your primary keyword in the slug gives a small but meaningful boost to your page's relevance signal.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the ideal length for a URL slug?</summary>
+          <p>The ideal URL slug is between three and five words, or roughly fifty to sixty characters. While there is no hard technical limit imposed by browsers or servers, shorter slugs are easier to read, share, and remember. Google typically displays the first fifty to sixty characters of a URL in search results, so keeping your slug concise ensures it remains fully visible and does not get truncated with an ellipsis. Extremely long slugs dilute keyword density and look spammy to both users and search engines. Focus on including only the core keywords that describe the page content and remove articles, prepositions, and conjunctions that do not add search value. A slug like learn-python-basics is stronger than a-complete-beginners-guide-to-learning-python-programming-basics.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How does this tool handle special characters and Unicode?</summary>
+          <p>The slug generator removes diacritical marks by normalizing Unicode text to NFD form and stripping combining characters. This converts accented letters like e with an acute accent to plain e, n with a tilde to n, and u with an umlaut to u. Non-alphanumeric characters such as punctuation marks, symbols, currency signs, and emoji are stripped entirely from the output. Consecutive spaces or separators are collapsed into a single separator so the slug never contains double hyphens, double underscores, or similar artifacts. The result is a clean, ASCII-safe slug that works reliably in any URL, any browser, any server, and any content management system without encoding issues or broken links.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What separator should I use: hyphens, underscores, or dots?</summary>
+          <p>Hyphens are the recommended separator for URL slugs. Google treats hyphens as word separators, which means a slug like my-blog-post is interpreted as three separate words for indexing purposes. Underscores are not treated as separators by Google, so my_blog_post would be read as a single compound token, reducing keyword recognition and potentially hurting your SEO. Dots can cause confusion with file extensions because a slug like my.blog.post might be misinterpreted as a file named my.blog with a .post extension by certain servers or proxies. For standard web pages and blog posts, always use hyphens. Reserve underscores for programming identifiers and file names where hyphens are not syntactically valid, and use dots only for namespaced configuration keys or Java-style package identifiers.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can I generate slugs for non-English text?</summary>
+          <p>Yes. The tool handles internationalized text by removing diacritical marks through Unicode normalization. Accented characters from languages like French, Spanish, German, Portuguese, Vietnamese, and Turkish are transliterated to their base Latin equivalents automatically. For example, a French title containing accented characters would have those accents removed while preserving the base letters, producing a readable ASCII slug. Characters from non-Latin scripts such as Chinese, Japanese, Korean, Arabic, or Cyrillic are removed because URL slugs perform best when kept in pure ASCII for maximum compatibility across all browsers, servers, and platforms. If you need to preserve non-Latin characters in your URLs, you would typically use percent-encoding, but this produces long, unreadable strings that defeat the purpose of human-friendly slugs.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is bulk mode and when should I use it?</summary>
+          <p>Bulk mode lets you paste multiple titles or phrases, one per line, and generate a slug for each simultaneously. This is useful when you need to create slugs for an entire list of blog posts, product names, category labels, or database entries at once instead of converting them individually. Content teams migrating websites can paste hundreds of page titles and get matching slugs in a single operation. E-commerce managers can convert product catalogs into URL-friendly identifiers without manual editing. Developers can seed databases or generate route configurations by converting specification lists into clean slugs. The output preserves the original line order so you can easily match each slug back to its source text. Copy all results at once with the copy button and paste them directly into your spreadsheet, CMS, or code editor.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/word-count">Word Counter</a>
+          <a href="https://toolrip.com/case">Case Converter</a>
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+          <a href="https://toolrip.com/password">Password Generator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* ========================================
+       *  DOM References
+       * ======================================== */
+      var inputEl = document.getElementById('input-text');
+      var outputEl = document.getElementById('slug-output');
+      var urlPreviewEl = document.getElementById('url-slug-preview');
+      var charCountEl = document.getElementById('slug-char-count');
+      var wordCountEl = document.getElementById('slug-word-count');
+      var separatorEl = document.getElementById('separator-select');
+      var optLowercase = document.getElementById('opt-lowercase');
+      var optRemoveSpecial = document.getElementById('opt-remove-special');
+      var optTrim = document.getElementById('opt-trim');
+      var copyBtn = document.getElementById('copy-btn');
+      var clearBtn = document.getElementById('clear-btn');
+
+      /* Bulk mode elements */
+      var bulkInputEl = document.getElementById('bulk-input');
+      var bulkOutputEl = document.getElementById('bulk-output');
+      var bulkLineCountEl = document.getElementById('bulk-line-count');
+      var bulkSeparatorEl = document.getElementById('bulk-separator-select');
+      var bulkOptLowercase = document.getElementById('bulk-opt-lowercase');
+      var bulkOptRemoveSpecial = document.getElementById('bulk-opt-remove-special');
+      var bulkOptTrim = document.getElementById('bulk-opt-trim');
+
+      /* Mode tabs */
+      var modeTabs = document.querySelectorAll('.mode-tab');
+      var singleModeEl = document.getElementById('single-mode');
+      var bulkModeEl = document.getElementById('bulk-mode');
+      var currentMode = 'single';
+
+      /* ========================================
+       *  Core: Generate slug from text
+       * ======================================== */
+      function generateSlug(text, separator, lowercase, removeSpecial, trim) {
+        var slug = text;
+
+        /* Step 1: Normalize Unicode — remove diacritical marks */
+        slug = slug.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+        /* Step 2: Lowercase if enabled */
+        if (lowercase) {
+          slug = slug.toLowerCase();
+        }
+
+        /* Step 3: Remove special characters (keep letters, numbers, spaces) */
+        if (removeSpecial) {
+          slug = slug.replace(/[^a-zA-Z0-9\s]/g, '');
+        }
+
+        /* Step 4: Replace whitespace sequences with separator */
+        slug = slug.replace(/\s+/g, separator);
+
+        /* Step 5: Collapse repeated separators */
+        var escapedSep = separator.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        slug = slug.replace(new RegExp('(' + escapedSep + '){2,}', 'g'), separator);
+
+        /* Step 6: Trim separator from edges if enabled */
+        if (trim) {
+          slug = slug.replace(new RegExp('^' + escapedSep + '+|' + escapedSep + '+$', 'g'), '');
+        }
+
+        return slug;
+      }
+
+      /* ========================================
+       *  Update single mode output
+       * ======================================== */
+      function updateSingle() {
+        var text = inputEl.value;
+        var sep = separatorEl.value;
+        var lower = optLowercase.checked;
+        var removeSpec = optRemoveSpecial.checked;
+        var trimEdges = optTrim.checked;
+
+        var slug = generateSlug(text, sep, lower, removeSpec, trimEdges);
+        outputEl.textContent = slug;
+        urlPreviewEl.textContent = slug;
+
+        /* Update meta */
+        charCountEl.textContent = slug.length + ' character' + (slug.length !== 1 ? 's' : '');
+        var wordCount = slug.length === 0 ? 0 : slug.split(new RegExp(sep.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))).filter(function (w) { return w.length > 0; }).length;
+        wordCountEl.textContent = wordCount + ' word' + (wordCount !== 1 ? 's' : '');
+      }
+
+      /* ========================================
+       *  Update bulk mode output
+       * ======================================== */
+      function updateBulk() {
+        var text = bulkInputEl.value;
+        var sep = bulkSeparatorEl.value;
+        var lower = bulkOptLowercase.checked;
+        var removeSpec = bulkOptRemoveSpecial.checked;
+        var trimEdges = bulkOptTrim.checked;
+
+        var lines = text.split('\n');
+        var slugs = [];
+        for (var i = 0; i < lines.length; i++) {
+          var line = lines[i];
+          if (line.trim() === '') {
+            slugs.push('');
+          } else {
+            slugs.push(generateSlug(line, sep, lower, removeSpec, trimEdges));
+          }
+        }
+
+        var output = slugs.join('\n');
+        bulkOutputEl.textContent = output;
+
+        var nonEmpty = slugs.filter(function (s) { return s.length > 0; }).length;
+        bulkLineCountEl.textContent = nonEmpty + ' line' + (nonEmpty !== 1 ? 's' : '');
+      }
+
+      /* ========================================
+       *  Mode switching
+       * ======================================== */
+      modeTabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          var mode = tab.getAttribute('data-mode');
+          if (mode === currentMode) return;
+          currentMode = mode;
+
+          modeTabs.forEach(function (t) { t.classList.remove('active'); });
+          tab.classList.add('active');
+
+          if (mode === 'single') {
+            singleModeEl.style.display = '';
+            bulkModeEl.style.display = 'none';
+          } else {
+            singleModeEl.style.display = 'none';
+            bulkModeEl.style.display = '';
+          }
+        });
+      });
+
+      /* ========================================
+       *  Event: real-time generation (single)
+       * ======================================== */
+      inputEl.addEventListener('input', updateSingle);
+      separatorEl.addEventListener('change', updateSingle);
+      optLowercase.addEventListener('change', updateSingle);
+      optRemoveSpecial.addEventListener('change', updateSingle);
+      optTrim.addEventListener('change', updateSingle);
+
+      /* ========================================
+       *  Event: real-time generation (bulk)
+       * ======================================== */
+      bulkInputEl.addEventListener('input', updateBulk);
+      bulkSeparatorEl.addEventListener('change', updateBulk);
+      bulkOptLowercase.addEventListener('change', updateBulk);
+      bulkOptRemoveSpecial.addEventListener('change', updateBulk);
+      bulkOptTrim.addEventListener('change', updateBulk);
+
+      /* ========================================
+       *  Copy result
+       * ======================================== */
+      copyBtn.addEventListener('click', function () {
+        var text;
+        if (currentMode === 'single') {
+          text = outputEl.textContent;
+        } else {
+          text = bulkOutputEl.textContent;
+        }
+
+        if (!text) {
+          showToast('Nothing to copy. Enter some text first.', 'error');
+          return;
+        }
+        copyToClipboard(text, copyBtn);
+        showToast('Copied to clipboard!', 'success');
+      });
+
+      /* ========================================
+       *  Clear all
+       * ======================================== */
+      clearBtn.addEventListener('click', function () {
+        if (currentMode === 'single') {
+          inputEl.value = '';
+          outputEl.textContent = '';
+          urlPreviewEl.textContent = '';
+          charCountEl.textContent = '0 characters';
+          wordCountEl.textContent = '0 words';
+          inputEl.focus();
+        } else {
+          bulkInputEl.value = '';
+          bulkOutputEl.textContent = '';
+          bulkLineCountEl.textContent = '0 lines';
+          bulkInputEl.focus();
+        }
+        showToast('Cleared.', 'info');
+      });
+
+      /* ========================================
+       *  Initialize
+       * ======================================== */
+      updateSingle();
+
+    })();
+  </script>
+</body>
+</html>

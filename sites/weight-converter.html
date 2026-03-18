@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weight Converter Online — Free, Fast, No Signup</title>
+  <meta name="description" content="Convert weight and mass between Kilogram, Pound, Ounce, Gram, Stone, Metric Ton, and more. See all conversions at once with formulas. Free online tool — no signup required.">
+  <link rel="canonical" href="https://toolrip.com/weight">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Weight Converter Online — Free, Fast, No Signup">
+  <meta property="og:description" content="Convert weight and mass between Kilogram, Pound, Ounce, Gram, Stone, Metric Ton, and more. See all conversions at once with formulas. Free online tool — no signup required.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/weight">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Weight Converter Online — Free, Fast, No Signup">
+  <meta name="twitter:description" content="Convert weight and mass between Kilogram, Pound, Ounce, Gram, Stone, Metric Ton, and more. See all conversions at once with formulas. Free online tool — no signup required.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--conversion)}</style>
+
+  <style>
+    /* Converter layout */
+    .converter-row{display:flex;gap:var(--sp-3);align-items:flex-end;flex-wrap:wrap}
+    .converter-row .input-group{flex:1;min-width:140px}
+    .swap-btn{width:44px;height:44px;border-radius:50%;background:var(--bg);border:1px solid var(--border);
+      color:var(--accent);font-size:1.25rem;cursor:pointer;transition:background .15s,transform .3s;
+      display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-bottom:var(--sp-3)}
+    .swap-btn:hover{background:color-mix(in srgb,var(--accent) 12%,transparent);transform:rotate(180deg)}
+
+    /* Results display */
+    .result-chain{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+      padding:var(--sp-4);margin-top:var(--sp-3);font-size:1rem;font-weight:600;
+      color:var(--text);text-align:center;line-height:2;position:relative;word-break:break-word}
+    .result-chain .copy-btn{position:absolute;top:var(--sp-2);right:var(--sp-2)}
+    .result-chain .empty-state{color:var(--text-muted);font-weight:400;font-size:.9375rem}
+
+    /* Formula display */
+    .formula-box{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+      padding:var(--sp-3);margin-top:var(--sp-3);font-family:'Fira Code','Consolas',monospace;
+      font-size:.875rem;color:var(--text-muted);line-height:1.8}
+    .formula-box strong{color:var(--text);font-weight:600}
+
+    /* Reference table */
+    .ref-table{width:100%;border-collapse:collapse;font-size:.875rem;margin-top:var(--sp-3)}
+    .ref-table th,.ref-table td{padding:var(--sp-2) var(--sp-3);text-align:left;border-bottom:1px solid var(--border)}
+    .ref-table th{color:var(--text-muted);font-weight:600;font-size:.8125rem;text-transform:uppercase;letter-spacing:.03em;
+      background:var(--bg);position:sticky;top:0}
+    .ref-table td{color:var(--text)}
+    .ref-table tr:hover td{background:color-mix(in srgb,var(--accent) 5%,transparent)}
+    .ref-table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius)}
+
+    /* Action buttons row */
+    .action-bar{display:flex;gap:var(--sp-2);flex-wrap:wrap;margin-top:var(--sp-3)}
+
+    @media(max-width:639px){
+      .converter-row{flex-direction:column;align-items:stretch}
+      .swap-btn{align-self:center;margin-bottom:0}
+    }
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Weight Converter",
+    "url": "https://toolrip.com/weight",
+    "description": "Convert weight and mass between Kilogram, Pound, Ounce, Gram, Milligram, Stone, Metric Ton, US Ton, and Imperial Ton instantly. View all conversions at once with formulas.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Conversion Tools", "item": "https://toolrip.com/#conversion" },
+      { "@type": "ListItem", "position": 3, "name": "Weight Converter", "item": "https://toolrip.com/weight" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the formula to convert kilograms to pounds?",
+        "acceptedAnswer": { "@type": "Answer", "text": "To convert kilograms to pounds, multiply the kilogram value by 2.20462. The formula is: lb = kg × 2.20462. For example, 10 kg equals 22.0462 lb." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between metric and imperial weight systems?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The metric system uses grams and kilograms based on powers of ten, while the imperial system uses ounces, pounds, and stones. The metric system is used worldwide in science and by most countries, while the imperial system is primarily used in the United States and United Kingdom." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a troy ounce and how does it differ from a regular ounce?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A troy ounce equals approximately 31.1035 grams and is used for precious metals like gold and silver. A regular (avoirdupois) ounce equals approximately 28.3495 grams. The troy ounce is about 10% heavier than a standard ounce." }
+      },
+      {
+        "@type": "Question",
+        "name": "Why is the stone unit still used in the UK?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The stone (14 pounds) remains common in the United Kingdom and Ireland for expressing body weight due to long cultural tradition. While officially the UK uses the metric system, everyday conversation and medical contexts often still reference weight in stones and pounds." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between a US ton and an Imperial ton?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A US ton (short ton) equals 2,000 pounds or approximately 907.185 kg. An Imperial ton (long ton) equals 2,240 pounds or approximately 1,016.047 kg. A metric ton (tonne) equals 1,000 kg or about 2,204.62 pounds." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many grams are in one pound?",
+        "acceptedAnswer": { "@type": "Answer", "text": "One pound (avoirdupois) is exactly equal to 453.59237 grams. This means one pound is slightly less than half a kilogram. Conversely, one kilogram equals about 2.205 pounds." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is mass the same as weight?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Technically, mass and weight are different. Mass measures the amount of matter in an object and remains constant regardless of location. Weight is the force of gravity on that mass and changes with gravitational pull. However, in everyday use and on Earth's surface, the terms are used interchangeably since the gravitational field is effectively constant." }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" id="ad-top" data-ad-slot="top">Ad</div>
+
+    <main class="main">
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#conversion">Conversion Tools</a>
+        <span>/</span>
+        <span>Weight Converter</span>
+      </nav>
+
+      <h1>Weight Converter</h1>
+      <p class="text-muted mt-1 mb-3">Convert between Kilogram, Pound, Ounce, Gram, Milligram, Stone, Metric Ton, US Ton, and Imperial Ton instantly. See all results at once with formulas.</p>
+
+      <!-- ===== TOOL UI ===== -->
+      <div class="tool-card">
+        <div class="converter-row">
+          <div class="input-group">
+            <label for="weight-value">Weight / Mass</label>
+            <input type="number" id="weight-value" class="input-field" placeholder="Enter value..." step="any" autocomplete="off">
+          </div>
+          <div class="input-group">
+            <label for="from-unit">From</label>
+            <select id="from-unit" class="select-field">
+              <option value="kg">Kilogram (kg)</option>
+              <option value="lb">Pound (lb)</option>
+              <option value="oz">Ounce (oz)</option>
+              <option value="g">Gram (g)</option>
+              <option value="mg">Milligram (mg)</option>
+              <option value="st">Stone (st)</option>
+              <option value="t">Metric Ton (t)</option>
+              <option value="ust">US Ton (short ton)</option>
+              <option value="imt">Imperial Ton (long ton)</option>
+            </select>
+          </div>
+          <button class="swap-btn" id="swap-btn" title="Swap units" aria-label="Swap from and to units">&#8596;</button>
+          <div class="input-group">
+            <label for="to-unit">To</label>
+            <select id="to-unit" class="select-field">
+              <option value="lb">Pound (lb)</option>
+              <option value="kg">Kilogram (kg)</option>
+              <option value="oz">Ounce (oz)</option>
+              <option value="g">Gram (g)</option>
+              <option value="mg">Milligram (mg)</option>
+              <option value="st">Stone (st)</option>
+              <option value="t">Metric Ton (t)</option>
+              <option value="ust">US Ton (short ton)</option>
+              <option value="imt">Imperial Ton (long ton)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn-primary" id="convert-btn">Convert</button>
+          <button class="btn-secondary" id="clear-btn">Clear</button>
+        </div>
+
+        <!-- All-at-once result -->
+        <div class="result-chain" id="result-chain">
+          <button class="copy-btn" id="copy-result-btn" style="display:none">Copy</button>
+          <span class="empty-state">Enter a weight value above to see all conversions</span>
+        </div>
+
+        <!-- Formula used -->
+        <div class="formula-box" id="formula-box" style="display:none">
+          <strong>Formulas used:</strong><br>
+          <span id="formula-text"></span>
+        </div>
+      </div>
+
+      <!-- Common weight reference table -->
+      <div class="tool-card">
+        <h2 style="font-size:1.1rem;margin-bottom:var(--sp-2)">Common Weight Reference Table</h2>
+        <div class="ref-table-wrap">
+          <table class="ref-table">
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>kg</th>
+                <th>lb</th>
+                <th>oz</th>
+                <th>g</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1 Kilogram</td><td>1</td><td>2.2046</td><td>35.274</td><td>1,000</td></tr>
+              <tr><td>1 Pound</td><td>0.4536</td><td>1</td><td>16</td><td>453.59</td></tr>
+              <tr><td>1 Ounce</td><td>0.02835</td><td>0.0625</td><td>1</td><td>28.35</td></tr>
+              <tr><td>1 Stone</td><td>6.3503</td><td>14</td><td>224</td><td>6,350.3</td></tr>
+              <tr><td>1 Metric Ton</td><td>1,000</td><td>2,204.6</td><td>35,274</td><td>1,000,000</td></tr>
+              <tr><td>1 US Ton (short)</td><td>907.19</td><td>2,000</td><td>32,000</td><td>907,185</td></tr>
+              <tr><td>1 Imperial Ton (long)</td><td>1,016.0</td><td>2,240</td><td>35,840</td><td>1,016,047</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" id="ad-in-content" data-ad-slot="in-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>All Units at Once</h3>
+            <p>See your weight value converted to all nine units simultaneously. Kilogram, Pound, Ounce, Gram, Milligram, Stone, Metric Ton, US Ton, and Imperial Ton are all displayed together so you never need to run multiple conversions.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Real-Time Results</h3>
+            <p>Conversions update instantly as you type. No need to press a button or wait for a page reload. Just start entering a number and watch every unit update in real time.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Formulas &amp; Reference Table</h3>
+            <p>Every conversion shows the exact formula used so you can understand the math. A built-in reference table provides quick lookups for common weight equivalences across metric and imperial systems.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Weight Converter</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li>Enter the weight or mass value you want to convert in the input field.</li>
+          <li>Select the source unit (e.g., Kilogram, Pound, Ounce) from the "From" dropdown.</li>
+          <li>Optionally select a target unit in the "To" dropdown, or view all conversions at once in the result area below.</li>
+          <li>Use the swap button (&#8596;) to quickly reverse the from and to units.</li>
+          <li>Click the "Copy" button to copy the full conversion result to your clipboard.</li>
+          <li>Click "Clear" to reset all fields and start a new conversion.</li>
+        </ol>
+      </section>
+
+      <!-- SEO Content Section -->
+      <section class="mt-4">
+        <h2>Understanding Weight and Mass Measurement</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          Weight and mass are among the most essential measurements in daily life, science, commerce, and industry. Whether you are weighing ingredients for a recipe, checking your body weight, shipping a package overseas, or performing laboratory experiments, understanding the different units of weight and how they relate to one another is critically important. Two major systems dominate global weight measurement: the metric system and the imperial system, each with its own history, logic, and set of units.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          The <strong style="color:var(--text)">metric system</strong> of mass measurement is built on the gram as its base unit, with the kilogram serving as the primary standard. One kilogram equals exactly one thousand grams, and one metric ton equals one thousand kilograms. This clean decimal structure makes the metric system remarkably easy to work with: converting between grams, kilograms, and metric tons requires only moving the decimal point. The metric system was formalized during the French Revolution in the 1790s as part of an effort to create a universal, rational system of measurement. Today, the kilogram is defined by the Planck constant, a fundamental constant of quantum mechanics, making it one of the most precisely defined units in all of science. Virtually every country in the world uses the metric system as its official standard for trade, science, and regulation.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          The <strong style="color:var(--text)">imperial and US customary systems</strong> use pounds and ounces as their primary units. One pound equals sixteen ounces, and the pound is formally defined as exactly 0.45359237 kilograms. The imperial system traces its roots to ancient Roman and medieval English measurement standards. While most of the world has moved to metric, the United States continues to use pounds and ounces for everyday purposes including grocery shopping, body weight, and postal services. The United Kingdom occupies an interesting middle ground: it officially uses the metric system but culturally retains the stone (equal to fourteen pounds) for expressing body weight. If someone in Britain tells you they weigh ten stone, that means 140 pounds or about 63.5 kilograms.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          <strong style="color:var(--text)">Tons</strong> present a particularly confusing area because three different units share the name. The metric ton, also called a tonne, equals exactly 1,000 kilograms or approximately 2,204.6 pounds. The US ton, known as the short ton, equals 2,000 pounds or about 907.2 kilograms. The imperial ton, known as the long ton, equals 2,240 pounds or about 1,016 kilograms. The long ton was historically used in British shipping and trade, while the short ton became standard in North American commerce. When reading specifications for vehicles, shipping containers, or industrial materials, it is essential to know which type of ton is being referenced, as the difference between a short ton and a metric ton exceeds 200 pounds.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          At the smaller end of the scale, <strong style="color:var(--text)">milligrams and grams</strong> are indispensable in fields such as medicine, chemistry, and jewelry. Pharmaceutical dosages are almost always measured in milligrams, and even a small error in conversion can have significant health consequences. One gram contains one thousand milligrams, and one kilogram contains one million milligrams. Scientists working in laboratories routinely handle measurements in the microgram range, but for most practical everyday purposes, milligrams represent the finest granularity people encounter.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          Understanding the distinction between <strong style="color:var(--text)">mass and weight</strong> is also valuable. In physics, mass is a measure of how much matter an object contains and remains constant regardless of location. Weight, on the other hand, is the gravitational force acting on that mass and varies depending on the strength of the gravitational field. An astronaut with a mass of 70 kilograms would weigh about 686 newtons on Earth but only about 114 newtons on the Moon. In everyday language, however, we use the terms interchangeably because gravitational acceleration is essentially constant across Earth's surface.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8">
+          Choosing the right unit depends entirely on context. For international trade and science, kilograms and metric tons are the standard. For daily life in the United States, pounds and ounces remain dominant. For body weight in the United Kingdom, stones and pounds persist. For precious metals, the troy ounce (approximately 31.1 grams, heavier than a standard ounce) is the industry standard. This converter supports all major units, letting you switch between metric, imperial, and specialized systems effortlessly to ensure you always have the precise figure you need.
+        </p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is the formula to convert kilograms to pounds?</summary>
+          <p>To convert kilograms to pounds, multiply the kilogram value by 2.20462. The formula is: lb = kg × 2.20462. For example, 10 kg equals 22.0462 lb. This factor comes from the international definition of one pound being exactly 0.45359237 kilograms. To convert back from pounds to kilograms, divide the pound value by 2.20462 or multiply by 0.45359237.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between metric and imperial weight systems?</summary>
+          <p>The metric system is based on the gram and uses powers of ten for larger and smaller units: milligrams, grams, kilograms, and metric tons. The imperial system uses ounces, pounds, and stones with non-decimal relationships: 16 ounces in a pound and 14 pounds in a stone. The metric system is used by most of the world and by all scientists, while the imperial system persists primarily in the United States, the United Kingdom, and a few other countries for everyday measurements.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is a troy ounce and how does it differ from a regular ounce?</summary>
+          <p>A troy ounce is a unit of weight used exclusively for precious metals such as gold, silver, and platinum. It equals approximately 31.1035 grams. A standard ounce (called an avoirdupois ounce) equals approximately 28.3495 grams. This means a troy ounce is about 10 percent heavier than a regular ounce. When gold prices are quoted per ounce, they always refer to the troy ounce, not the avoirdupois ounce used at grocery stores.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Why is the stone unit still used in the United Kingdom?</summary>
+          <p>The stone, equal to 14 pounds or about 6.35 kilograms, remains common in the United Kingdom and Ireland for expressing human body weight. This is primarily a matter of cultural tradition. Although the UK officially adopted the metric system for most purposes, colloquial usage of stones and pounds for body weight has persisted across generations. Medical professionals in the UK often record weight in both kilograms and stones to accommodate patient preferences.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between a US ton, Imperial ton, and metric ton?</summary>
+          <p>A US ton (short ton) equals 2,000 pounds or approximately 907.185 kilograms. An Imperial ton (long ton) equals 2,240 pounds or approximately 1,016.047 kilograms. A metric ton (tonne) equals exactly 1,000 kilograms or approximately 2,204.62 pounds. The short ton is standard in North American commerce, the long ton was historically used in British shipping, and the metric ton is the international standard used in global trade and science.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How many grams are in one pound?</summary>
+          <p>One avoirdupois pound is defined as exactly 453.59237 grams. This is the international standard used since 1959 when the United States, United Kingdom, and other English-speaking countries agreed on a common definition. This means one pound is slightly less than half a kilogram, and one kilogram equals approximately 2.20462 pounds. For rough mental math, you can think of one kilogram as roughly two and a fifth pounds.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is mass the same as weight?</summary>
+          <p>In physics, mass and weight are different concepts. Mass measures the amount of matter in an object and is measured in kilograms. Weight measures the gravitational force on that mass and is measured in newtons. An object with a mass of 1 kilogram weighs about 9.81 newtons on Earth but only about 1.62 newtons on the Moon. However, in everyday life and for this converter, the terms are used interchangeably because Earth's gravitational field is effectively constant at the surface.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/length">Length Converter</a>
+          <a href="https://toolrip.com/temperature">Temperature Converter</a>
+          <a href="https://toolrip.com/bmi">BMI Calculator</a>
+          <a href="https://toolrip.com/calorie">Calorie Calculator</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" id="ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" id="ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+  (function() {
+    'use strict';
+
+    var valueInput = document.getElementById('weight-value');
+    var fromSelect = document.getElementById('from-unit');
+    var toSelect   = document.getElementById('to-unit');
+    var swapBtn    = document.getElementById('swap-btn');
+    var convertBtn = document.getElementById('convert-btn');
+    var clearBtn   = document.getElementById('clear-btn');
+    var resultChain = document.getElementById('result-chain');
+    var formulaBox = document.getElementById('formula-box');
+    var formulaText = document.getElementById('formula-text');
+
+    /* --- Conversion factors: everything goes through kilograms --- */
+    var toKg = {
+      kg:  1,
+      lb:  0.45359237,
+      oz:  0.028349523125,
+      g:   0.001,
+      mg:  0.000001,
+      st:  6.35029318,
+      t:   1000,
+      ust: 907.18474,
+      imt: 1016.0469088
+    };
+
+    var unitLabels = {
+      kg:  'kg',
+      lb:  'lb',
+      oz:  'oz',
+      g:   'g',
+      mg:  'mg',
+      st:  'st',
+      t:   't',
+      ust: 'short ton',
+      imt: 'long ton'
+    };
+
+    var unitNames = {
+      kg:  'Kilogram',
+      lb:  'Pound',
+      oz:  'Ounce',
+      g:   'Gram',
+      mg:  'Milligram',
+      st:  'Stone',
+      t:   'Metric Ton',
+      ust: 'US Ton',
+      imt: 'Imperial Ton'
+    };
+
+    function convertWeight(value, fromUnit, toUnit) {
+      return value * toKg[fromUnit] / toKg[toUnit];
+    }
+
+    function formatVal(val) {
+      var n = Number(val);
+      if (!isFinite(n)) return '—';
+      /* Use up to 6 decimal places but strip trailing zeros */
+      if (Math.abs(n) >= 1000) return parseFloat(n.toFixed(2)).toLocaleString('en-US');
+      if (Math.abs(n) >= 1) return parseFloat(n.toFixed(4)).toString();
+      if (Math.abs(n) >= 0.0001) return parseFloat(n.toFixed(6)).toString();
+      return n.toExponential(4);
+    }
+
+    /* --- Build formulas text --- */
+    function buildFormulas(fromUnit) {
+      var lines = [];
+      var units = ['kg','lb','oz','g','mg','st','t','ust','imt'];
+      var fromFactor = toKg[fromUnit];
+      for (var i = 0; i < units.length; i++) {
+        var u = units[i];
+        if (u === fromUnit) continue;
+        var factor = fromFactor / toKg[u];
+        lines.push(unitLabels[u] + ' = ' + unitLabels[fromUnit] + ' × ' + parseFloat(factor.toPrecision(6)));
+      }
+      return lines.join('<br>');
+    }
+
+    /* --- Main convert logic --- */
+    function doConvert() {
+      var raw = valueInput.value.trim();
+      if (raw === '') {
+        resultChain.innerHTML = '<button class="copy-btn" id="copy-result-btn" style="display:none">Copy</button><span class="empty-state">Enter a weight value above to see all conversions</span>';
+        formulaBox.style.display = 'none';
+        return;
+      }
+
+      var value = parseFloat(raw);
+      if (isNaN(value)) {
+        resultChain.innerHTML = '<button class="copy-btn" id="copy-result-btn" style="display:none">Copy</button><span class="empty-state" style="color:#ef4444">Please enter a valid number</span>';
+        formulaBox.style.display = 'none';
+        return;
+      }
+
+      var from = fromSelect.value;
+      var units = ['kg','lb','oz','g','mg','st','t','ust','imt'];
+      var parts = [];
+      var plainParts = [];
+
+      for (var i = 0; i < units.length; i++) {
+        var u = units[i];
+        var converted = convertWeight(value, from, u);
+        var formatted = formatVal(converted);
+        parts.push(formatted + ' ' + unitLabels[u]);
+        plainParts.push(formatted + ' ' + unitLabels[u]);
+      }
+
+      var chain = parts.join(' = ');
+      var plainChain = plainParts.join(' = ');
+
+      resultChain.innerHTML = '<button class="copy-btn" id="copy-result-btn">Copy</button>' + chain;
+
+      /* Re-bind copy button */
+      document.getElementById('copy-result-btn').addEventListener('click', function() {
+        copyToClipboard(plainChain, this);
+      });
+
+      /* Show formulas */
+      formulaText.innerHTML = buildFormulas(from);
+      formulaBox.style.display = '';
+    }
+
+    /* --- Swap units --- */
+    swapBtn.addEventListener('click', function() {
+      var tmp = fromSelect.value;
+      fromSelect.value = toSelect.value;
+      toSelect.value = tmp;
+      doConvert();
+    });
+
+    /* --- Convert button --- */
+    convertBtn.addEventListener('click', doConvert);
+
+    /* --- Clear --- */
+    clearBtn.addEventListener('click', function() {
+      valueInput.value = '';
+      fromSelect.value = 'kg';
+      toSelect.value = 'lb';
+      resultChain.innerHTML = '<button class="copy-btn" id="copy-result-btn" style="display:none">Copy</button><span class="empty-state">Enter a weight value above to see all conversions</span>';
+      formulaBox.style.display = 'none';
+      valueInput.focus();
+    });
+
+    /* --- Real-time conversion as user types --- */
+    valueInput.addEventListener('input', doConvert);
+    fromSelect.addEventListener('change', doConvert);
+    toSelect.addEventListener('change', doConvert);
+
+    /* --- Keyboard: Enter to convert --- */
+    valueInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        doConvert();
+      }
+    });
+
+  })();
+  </script>
+</body>
+</html>

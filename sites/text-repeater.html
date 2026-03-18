@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text Repeater Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Repeat any text up to 10,000 times instantly with custom separators, prefix, and suffix. Free online text repeater tool — no signup, no data sent to servers.">
+  <link rel="canonical" href="https://toolrip.com/repeat">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Text Repeater Online — Free, Fast, No Signup | Toolrip">
+  <meta property="og:description" content="Repeat any text up to 10,000 times instantly with custom separators, prefix, and suffix. Free online text repeater tool — no signup, no data sent to servers.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/repeat">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Text Repeater Online — Free, Fast, No Signup | Toolrip">
+  <meta name="twitter:description" content="Repeat any text up to 10,000 times instantly with custom separators, prefix, and suffix. Free online text repeater tool — no signup, no data sent to servers.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--text-cat)}</style>
+
+  <style>
+    /* Options grid */
+    .repeat-options{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-3);margin-bottom:var(--sp-3)}
+    .repeat-options .input-group{margin-bottom:0}
+
+    /* Separator radio group */
+    .sep-group{display:flex;flex-wrap:wrap;gap:var(--sp-2);margin-top:var(--sp-1)}
+    .sep-group label{display:flex;align-items:center;gap:var(--sp-1);font-size:.875rem;color:var(--text-muted);
+      cursor:pointer;padding:var(--sp-1) var(--sp-2);border:1px solid var(--border);border-radius:var(--radius-sm);
+      transition:border-color .15s,background .15s}
+    .sep-group label:hover{border-color:var(--accent)}
+    .sep-group input[type="radio"]{accent-color:var(--accent);margin:0}
+    .sep-group input[type="radio"]:checked+span{color:var(--accent)}
+
+    /* Custom separator input */
+    #custom-sep-wrap{margin-top:var(--sp-2)}
+    #custom-sep{width:120px;padding:var(--sp-1) var(--sp-2);font-size:.875rem}
+
+    /* Output stats */
+    .output-stats{display:flex;gap:var(--sp-4);font-size:.8125rem;color:var(--text-muted);margin-top:var(--sp-2);flex-wrap:wrap}
+    .output-stats span{display:flex;align-items:center;gap:var(--sp-1)}
+
+    /* Action buttons row */
+    .action-bar{display:flex;gap:var(--sp-2);flex-wrap:wrap;margin-top:var(--sp-3)}
+
+    /* Preview truncation notice */
+    .truncation-notice{font-size:.8125rem;color:var(--accent);margin-top:var(--sp-1);display:none}
+
+    @media(max-width:639px){
+      .repeat-options{grid-template-columns:1fr}
+    }
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Text Repeater",
+    "url": "https://toolrip.com/repeat",
+    "description": "Repeat any text up to 10,000 times instantly with custom separators, prefix, and suffix. Free online text repeater tool with no signup required.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="top">Ad</div>
+
+    <!-- Breadcrumb -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#text">Text Tools</a>
+        <span>/</span>
+        <span>Text Repeater</span>
+      </nav>
+
+      <h1>Text Repeater</h1>
+      <p class="text-muted mt-1 mb-3">Repeat any text, word, or phrase up to 10,000 times with customizable separators, prefix, and suffix options. Generate repeated text instantly in your browser for testing, filler content, data generation, and more.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+
+        <!-- Input Text -->
+        <div class="input-group">
+          <label for="input-text">Text to repeat</label>
+          <textarea id="input-text" class="textarea-field" placeholder="Enter the text you want to repeat..." rows="4"></textarea>
+        </div>
+
+        <!-- Options Row -->
+        <div class="repeat-options">
+          <div class="input-group">
+            <label for="repeat-count">Repeat count (1 - 10,000)</label>
+            <input type="number" id="repeat-count" class="input-field" value="5" min="1" max="10000" step="1">
+          </div>
+          <div class="input-group">
+            <label for="prefix-input">Prefix per repetition</label>
+            <input type="text" id="prefix-input" class="input-field" placeholder='e.g. "  or ['>
+          </div>
+          <div class="input-group">
+            <label for="suffix-input">Suffix per repetition</label>
+            <input type="text" id="suffix-input" class="input-field" placeholder='e.g. "  or ]'>
+          </div>
+        </div>
+
+        <!-- Separator Selection -->
+        <div class="input-group">
+          <label>Separator between repetitions</label>
+          <div class="sep-group">
+            <label><input type="radio" name="separator" value="newline" checked><span>New Line</span></label>
+            <label><input type="radio" name="separator" value="space"><span>Space</span></label>
+            <label><input type="radio" name="separator" value="comma"><span>Comma</span></label>
+            <label><input type="radio" name="separator" value="none"><span>None</span></label>
+            <label><input type="radio" name="separator" value="custom"><span>Custom</span></label>
+          </div>
+          <div id="custom-sep-wrap" class="hidden">
+            <input type="text" id="custom-sep" class="input-field" placeholder="e.g. | or ;  ">
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-bar">
+          <button class="btn-primary" id="generate-btn">Generate</button>
+          <button class="btn-secondary" id="copy-btn">Copy Result</button>
+          <button class="btn-secondary" id="clear-btn">Clear</button>
+        </div>
+
+        <!-- Output -->
+        <div class="input-group" style="margin-top:var(--sp-4)">
+          <label for="output-text">Result</label>
+          <textarea id="output-text" class="textarea-field" placeholder="Repeated text will appear here..." rows="10" readonly></textarea>
+          <div class="truncation-notice" id="truncation-notice">Output is truncated for preview. The full text will be copied when you click "Copy Result."</div>
+          <div class="output-stats">
+            <span id="stat-chars">0 characters</span>
+            <span id="stat-words">0 words</span>
+            <span id="stat-lines">0 lines</span>
+          </div>
+        </div>
+
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(3,1fr)">
+          <div class="feature-card">
+            <h3>Flexible Repeat Count</h3>
+            <p>Repeat any text from a single time up to 10,000 repetitions. Whether you need a quick duplicate or thousands of copies for load testing and data generation, the tool handles any volume. The count input accepts only valid integers within range, preventing accidental browser slowdowns from excessively large numbers.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Custom Separators</h3>
+            <p>Choose from five separator modes to control how repeated segments are joined: new line for list-style output, space for inline flow, comma for CSV-compatible data, no separator for continuous strings, or a fully custom delimiter. The custom option lets you use any character or string, including pipes, semicolons, tabs, or multi-character sequences.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Prefix and Suffix</h3>
+            <p>Wrap each repetition with a custom prefix and suffix to produce structured output instantly. Use quotation marks to create quoted string arrays, brackets for list items, HTML tags for markup generation, or numbering patterns for ordered lists. This feature eliminates the tedious manual editing that normally follows repetition.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Real-Time Preview</h3>
+            <p>The output area updates as you type and change settings, giving you an instant preview of the repeated text. For very large outputs that exceed 100,000 characters, the preview is intelligently truncated to keep the browser responsive, while the full text is still available when you copy or download the result.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Performance Optimized</h3>
+            <p>The tool uses efficient string construction techniques such as Array.join instead of repeated concatenation, ensuring that even 10,000 repetitions of long text blocks are generated in milliseconds. The output preview is truncated for extremely large results to prevent the browser from becoming unresponsive during rendering.</p>
+          </div>
+          <div class="feature-card">
+            <h3>100% Client-Side</h3>
+            <p>Every operation runs entirely in your browser using JavaScript. Your text never leaves your device, there are no server calls, no tracking of input content, and no usage limits. You can safely repeat confidential data, passwords, test credentials, or any sensitive content without worrying about exposure to third-party services.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Text Repeater</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Enter your text</strong> — Type or paste the word, phrase, sentence, or block of text you want to repeat into the input area. The tool accepts any characters including Unicode, emoji, special symbols, and multi-line content.</li>
+          <li><strong>Set the repeat count</strong> — Enter how many times you want the text repeated, from 1 to 10,000. The input is validated automatically and clamped to the allowed range to prevent accidental browser freezes.</li>
+          <li><strong>Choose a separator</strong> — Select how each repetition is separated: newline (default), space, comma, no separator, or a custom delimiter of your choice. The custom option reveals an additional input where you can type any string.</li>
+          <li><strong>Add prefix and suffix (optional)</strong> — If you want each repetition wrapped with additional text, enter a prefix and suffix. For example, a prefix of <code>"</code> and suffix of <code>"</code> would wrap each copy in double quotes.</li>
+          <li><strong>Generate and copy</strong> — Click "Generate" to produce the output, then use "Copy Result" to place the full text on your clipboard, or select and copy manually from the output area. Click "Clear" to reset all fields.</li>
+        </ol>
+      </section>
+
+      <!-- Use Cases Section -->
+      <section class="mt-4">
+        <h2>Common Use Cases for Text Repetition</h2>
+        <p class="text-muted mb-3">Text repetition is a deceptively simple operation that serves a wide variety of practical purposes across software development, content creation, quality assurance, data science, and everyday productivity. Below are some of the most common scenarios where a text repeater tool saves significant time and effort.</p>
+
+        <h3 style="margin-top:var(--sp-4);font-size:1rem">Software Testing and QA</h3>
+        <p class="text-muted" style="line-height:1.7">One of the primary use cases for a text repeater is generating test data for software applications. QA engineers and developers frequently need to verify how their applications handle large volumes of input, unusually long strings, or specific boundary conditions. By repeating a string thousands of times, you can quickly create inputs that stress-test text fields, database columns, API payloads, and file parsers. This is especially valuable when testing character limits in forms, validating that truncation logic works correctly, or checking that buffer overflows are properly prevented. Instead of manually typing hundreds of characters, you generate the exact length you need in one click and paste it into your test environment.</p>
+
+        <h3 style="margin-top:var(--sp-4);font-size:1rem">Filler and Placeholder Content</h3>
+        <p class="text-muted" style="line-height:1.7">Designers and front-end developers often need placeholder text to fill layouts, mockups, and prototypes during the design phase. While Lorem Ipsum is the traditional choice, there are situations where repeating a specific word or phrase is more appropriate. For example, repeating a product name helps stakeholders visualize how a catalog page will look with real content. Repeating a headline gives a realistic preview of a news feed layout. Unlike random Lorem Ipsum text, repeated content lets you control exactly what appears in the design, which is useful for demonstrating typography, spacing, and alignment with content that closely resembles what the final product will contain.</p>
+
+        <h3 style="margin-top:var(--sp-4);font-size:1rem">Social Media and Messaging</h3>
+        <p class="text-muted" style="line-height:1.7">Social media users and content creators sometimes want to repeat text for emphasis, visual effect, or playful messaging. Repeating a word dozens of times can be a deliberate stylistic choice in tweets, captions, comments, or chat messages. Similarly, creating patterns of emoji or decorative characters for profile bios, status updates, or digital art requires exact repetition. Rather than manually copying and pasting the same character over and over, you can generate the exact repetition count you want, choose whether to separate items with spaces or keep them continuous, and paste the result directly into your platform of choice.</p>
+
+        <h3 style="margin-top:var(--sp-4);font-size:1rem">Data Generation and CSV Preparation</h3>
+        <p class="text-muted" style="line-height:1.7">Data analysts, database administrators, and backend developers regularly need to generate mock datasets for testing queries, imports, and data pipelines. A text repeater can quickly produce comma-separated rows, tab-delimited records, or JSON array entries that serve as seed data for development databases. By using the comma separator mode with appropriate prefix and suffix options, you can generate CSV rows or array elements that are ready to paste into spreadsheets, SQL insert statements, or JSON files. This approach is faster than writing scripts for simple repetitive data and does not require any programming knowledge.</p>
+
+        <h3 style="margin-top:var(--sp-4);font-size:1rem">Programming and Development</h3>
+        <p class="text-muted" style="line-height:1.7">Developers across all languages encounter situations where they need a long repeated string for configuration, test fixtures, seeded data, or documentation examples. Generating a repeated pattern for a regular expression test, creating a padding string of a specific length, building an array literal with identical initial values, or producing a sequence of identical HTML elements are all tasks that a text repeater handles in seconds. The prefix and suffix options are particularly useful here because they let you wrap each repetition in code syntax such as quotation marks, brackets, or XML tags, producing code-ready output that can be dropped directly into source files without further editing.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is a text repeater and what can I use it for?</summary>
+          <p>A text repeater is a tool that takes any input text and duplicates it a specified number of times, joining each copy with a chosen separator. It is useful in many scenarios including software testing, where you need long strings to stress-test input fields and databases; content creation, where you want placeholder or filler text for designs and mockups; social media, where repeating text or emoji creates visual emphasis; data generation, where you need rows of identical records for CSV files or SQL inserts; and programming, where you need repeated patterns for arrays, configuration values, or test fixtures. Instead of manually copying and pasting text dozens or hundreds of times, the text repeater generates the exact output you need in a single click.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the maximum number of times I can repeat text?</summary>
+          <p>The tool allows up to 10,000 repetitions per generation. This upper limit is set to balance usefulness with browser performance. At 10,000 repetitions of a moderately sized input text, the resulting output can be several megabytes in size, which is more than sufficient for the vast majority of use cases including load testing, data generation, and bulk content creation. If your input text is very long, the total output size could become extremely large, so the tool intelligently truncates the preview display at 100,000 characters while still keeping the full result available for copying. If you need more than 10,000 repetitions, you can generate the maximum, copy the result, and repeat the process, concatenating the outputs.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does the text repeater support Unicode, emoji, and special characters?</summary>
+          <p>Yes, the text repeater fully supports Unicode text in all forms. You can repeat any characters including accented letters, Chinese, Japanese, Korean, Arabic, Hindi, and other non-Latin scripts, as well as emoji, mathematical symbols, currency signs, and any other Unicode code points that your browser can render. The separator, prefix, and suffix fields also accept Unicode input, so you can use emoji as delimiters or wrap each repetition in Unicode brackets or decorative characters. The tool processes text as native JavaScript strings, which handle the full Unicode range including supplementary plane characters like newer emoji. Character and word counts in the output statistics also work correctly with multi-byte characters.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Will the tool freeze my browser with large repeat counts?</summary>
+          <p>No, the tool is designed to handle large repeat counts efficiently without freezing your browser. It uses the Array.join method for string construction instead of repeated concatenation, which is the most performant approach for generating repeated strings in JavaScript. The output preview is truncated at 100,000 characters to prevent the browser from slowing down when rendering very large text blocks in the textarea element. However, the full untruncated result is stored in memory and will be copied in its entirety when you click the "Copy Result" button. For extremely large outputs exceeding several megabytes, the copy operation may take a moment, but the browser will remain responsive throughout the process.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can I use the text repeater for bulk test data generation?</summary>
+          <p>Absolutely. The text repeater is an excellent tool for generating bulk test data quickly. By combining the repeat count with the comma separator and appropriate prefix and suffix values, you can generate comma-separated value rows, JSON array elements, SQL insert values, or any other structured data format. For example, entering a sample data row as the input text, setting the separator to a new line, and repeating 1,000 times produces a file with 1,000 identical rows that you can import into a spreadsheet or database for testing. For more varied test data, you can generate the repeated base structure here and then use other tools to randomize specific fields. This approach is much faster than writing custom scripts for simple repetitive test data.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is my text private when using this tool?</summary>
+          <p>Yes, your privacy is fully protected. The text repeater runs entirely in your web browser using client-side JavaScript. No data is sent to any server, no API calls are made, and no input content is logged or tracked. You can verify this by inspecting network traffic in your browser developer tools while using the tool. This makes it safe to repeat sensitive content such as passwords, API keys, internal identifiers, or confidential text without any risk of exposure. Nothing is stored in cookies or local storage, and all data is discarded when you close or refresh the page. We designed every tool on Toolrip with this privacy-first approach to ensure you can use them confidently with any type of content.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do the prefix and suffix options work?</summary>
+          <p>The prefix and suffix options let you wrap each individual repetition of your text with additional characters or strings before and after it. The prefix is prepended to the beginning of each copy, and the suffix is appended to the end of each copy, before the separator is added between copies. For example, if your input text is "hello", the prefix is a left bracket "[", the suffix is a right bracket "]", and the separator is a comma, the output for 3 repetitions would be "[hello],[hello],[hello]". This feature is particularly useful for generating arrays, quoted strings, HTML lists, tagged content, or any format where each repeated item needs consistent wrapping. Both the prefix and suffix fields accept any characters including Unicode and multi-character strings.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/word-count">Word Counter</a>
+          <a href="https://toolrip.com/case">Case Converter</a>
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* ========================================
+       *  Constants
+       * ======================================== */
+      var MAX_REPEAT = 10000;
+      var PREVIEW_LIMIT = 100000;
+
+      /* ========================================
+       *  DOM References
+       * ======================================== */
+      var inputEl = document.getElementById('input-text');
+      var countEl = document.getElementById('repeat-count');
+      var prefixEl = document.getElementById('prefix-input');
+      var suffixEl = document.getElementById('suffix-input');
+      var outputEl = document.getElementById('output-text');
+      var customSepWrap = document.getElementById('custom-sep-wrap');
+      var customSepEl = document.getElementById('custom-sep');
+      var truncNotice = document.getElementById('truncation-notice');
+      var statChars = document.getElementById('stat-chars');
+      var statWords = document.getElementById('stat-words');
+      var statLines = document.getElementById('stat-lines');
+      var generateBtn = document.getElementById('generate-btn');
+      var copyBtn = document.getElementById('copy-btn');
+      var clearBtn = document.getElementById('clear-btn');
+
+      /* ========================================
+       *  State: store full result for copy
+       * ======================================== */
+      var fullResult = '';
+
+      /* ========================================
+       *  Get selected separator value
+       * ======================================== */
+      function getSeparator() {
+        var checked = document.querySelector('input[name="separator"]:checked');
+        if (!checked) return '\n';
+        switch (checked.value) {
+          case 'newline': return '\n';
+          case 'space': return ' ';
+          case 'comma': return ',';
+          case 'none': return '';
+          case 'custom': return customSepEl.value;
+          default: return '\n';
+        }
+      }
+
+      /* ========================================
+       *  Clamp repeat count to valid range
+       * ======================================== */
+      function getCount() {
+        var val = parseInt(countEl.value, 10);
+        if (isNaN(val) || val < 1) return 1;
+        if (val > MAX_REPEAT) return MAX_REPEAT;
+        return val;
+      }
+
+      /* ========================================
+       *  Count words (whitespace split)
+       * ======================================== */
+      function countWords(text) {
+        var trimmed = text.trim();
+        if (trimmed === '') return 0;
+        return trimmed.split(/\s+/).length;
+      }
+
+      /* ========================================
+       *  Count lines
+       * ======================================== */
+      function countLines(text) {
+        if (text === '') return 0;
+        return text.split('\n').length;
+      }
+
+      /* ========================================
+       *  Update output statistics
+       * ======================================== */
+      function updateStats(text) {
+        var charCount = text.length;
+        var wordCount = countWords(text);
+        var lineCount = countLines(text);
+        statChars.textContent = charCount.toLocaleString('en-US') + ' character' + (charCount !== 1 ? 's' : '');
+        statWords.textContent = wordCount.toLocaleString('en-US') + ' word' + (wordCount !== 1 ? 's' : '');
+        statLines.textContent = lineCount.toLocaleString('en-US') + ' line' + (lineCount !== 1 ? 's' : '');
+      }
+
+      /* ========================================
+       *  Generate repeated text
+       * ======================================== */
+      function generate() {
+        var text = inputEl.value;
+        if (!text) {
+          showToast('Please enter some text to repeat.', 'error');
+          inputEl.focus();
+          return;
+        }
+
+        var count = getCount();
+        var separator = getSeparator();
+        var prefix = prefixEl.value;
+        var suffix = suffixEl.value;
+
+        // Build the repeated unit
+        var unit = prefix + text + suffix;
+
+        // Use Array.join for efficient string construction
+        var arr = new Array(count);
+        for (var i = 0; i < count; i++) {
+          arr[i] = unit;
+        }
+        fullResult = arr.join(separator);
+
+        // Truncate preview if needed
+        if (fullResult.length > PREVIEW_LIMIT) {
+          outputEl.value = fullResult.substring(0, PREVIEW_LIMIT);
+          truncNotice.style.display = 'block';
+        } else {
+          outputEl.value = fullResult;
+          truncNotice.style.display = 'none';
+        }
+
+        updateStats(fullResult);
+        showToast('Generated ' + count.toLocaleString('en-US') + ' repetitions!', 'success');
+      }
+
+      /* ========================================
+       *  Copy full result to clipboard
+       * ======================================== */
+      function copyResult() {
+        if (!fullResult) {
+          showToast('Nothing to copy. Generate some text first.', 'error');
+          return;
+        }
+        copyToClipboard(fullResult, copyBtn);
+        showToast('Copied to clipboard! (' + fullResult.length.toLocaleString('en-US') + ' characters)', 'success');
+      }
+
+      /* ========================================
+       *  Clear all fields
+       * ======================================== */
+      function clearAll() {
+        inputEl.value = '';
+        countEl.value = '5';
+        prefixEl.value = '';
+        suffixEl.value = '';
+        outputEl.value = '';
+        fullResult = '';
+        truncNotice.style.display = 'none';
+        customSepEl.value = '';
+        // Reset separator to newline
+        var newlineRadio = document.querySelector('input[name="separator"][value="newline"]');
+        if (newlineRadio) newlineRadio.checked = true;
+        customSepWrap.classList.add('hidden');
+        updateStats('');
+        inputEl.focus();
+        showToast('All fields cleared.', 'info');
+      }
+
+      /* ========================================
+       *  Event: separator radio change
+       * ======================================== */
+      var sepRadios = document.querySelectorAll('input[name="separator"]');
+      sepRadios.forEach(function (radio) {
+        radio.addEventListener('change', function () {
+          if (radio.value === 'custom') {
+            customSepWrap.classList.remove('hidden');
+            customSepEl.focus();
+          } else {
+            customSepWrap.classList.add('hidden');
+          }
+        });
+      });
+
+      /* ========================================
+       *  Event: clamp count on blur
+       * ======================================== */
+      countEl.addEventListener('blur', function () {
+        var val = parseInt(countEl.value, 10);
+        if (isNaN(val) || val < 1) countEl.value = '1';
+        else if (val > MAX_REPEAT) countEl.value = String(MAX_REPEAT);
+      });
+
+      /* ========================================
+       *  Event: button clicks
+       * ======================================== */
+      generateBtn.addEventListener('click', generate);
+      copyBtn.addEventListener('click', copyResult);
+      clearBtn.addEventListener('click', clearAll);
+
+      /* ========================================
+       *  Event: Enter key in count field triggers generate
+       * ======================================== */
+      countEl.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          generate();
+        }
+      });
+
+      /* ========================================
+       *  Initialize stats
+       * ======================================== */
+      updateStats('');
+    })();
+  </script>
+</body>
+</html>

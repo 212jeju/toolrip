@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Break-Even Calculator — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Calculate your break-even point in units and revenue. Analyze fixed costs, variable costs, contribution margin, and profit at different volumes. Free online break-even calculator.">
+  <link rel="canonical" href="https://toolrip.com/break-even">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Break-Even Calculator — Toolrip">
+  <meta property="og:description" content="Calculate your break-even point in units and revenue. Analyze fixed costs, variable costs, contribution margin, and profit at different volumes.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/break-even">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Break-Even Calculator — Toolrip">
+  <meta name="twitter:description" content="Calculate your break-even point in units and revenue. Analyze fixed costs, variable costs, contribution margin, and profit at different volumes.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--finance)}</style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Break-Even Calculator",
+    "url": "https://toolrip.com/break-even",
+    "description": "Calculate your break-even point in units and revenue. Analyze fixed costs, variable costs, contribution margin, and profit at different volumes. Free online break-even calculator.",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <style>
+    /* Tool-specific styles */
+    .be-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--sp-4);
+    }
+    @media (min-width: 640px) {
+      .be-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    /* Result cards */
+    .result-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-4);
+      text-align: center;
+    }
+    .result-card.primary {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 5%, var(--bg));
+    }
+    .result-label {
+      font-size: .8rem;
+      color: var(--text-muted);
+      margin-bottom: var(--sp-1);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .result-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .result-value.large {
+      font-size: 2.25rem;
+      color: var(--accent);
+    }
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-3);
+      margin-top: var(--sp-4);
+    }
+    @media (max-width: 639px) {
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Profit/Loss table */
+    .pl-table-wrap {
+      overflow-x: auto;
+      margin-top: var(--sp-3);
+    }
+    .pl-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .8125rem;
+    }
+    .pl-table th {
+      text-align: left;
+      padding: var(--sp-2);
+      border-bottom: 2px solid var(--border);
+      font-size: .75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .03em;
+      white-space: nowrap;
+    }
+    .pl-table td {
+      padding: var(--sp-2);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .pl-table tr:hover td {
+      background: var(--bg-elevated);
+    }
+    .pl-table .profit { color: #10b981; }
+    .pl-table .loss { color: #ef4444; }
+    .pl-table .breakeven-row td {
+      background: color-mix(in srgb, var(--accent) 8%, var(--bg));
+      font-weight: 600;
+    }
+
+    /* Bar chart */
+    .bar-chart-wrap {
+      margin-top: var(--sp-4);
+    }
+    .bar-row {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+      margin-bottom: var(--sp-2);
+      font-size: .8125rem;
+    }
+    .bar-label {
+      width: 70px;
+      text-align: right;
+      flex-shrink: 0;
+      color: var(--text-muted);
+      font-variant-numeric: tabular-nums;
+    }
+    .bar-track {
+      flex: 1;
+      height: 28px;
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      position: relative;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: var(--radius-sm);
+      transition: width .4s ease;
+      display: flex;
+      align-items: center;
+      padding-left: var(--sp-2);
+      font-size: .75rem;
+      color: #fff;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .bar-fill.profit-bar {
+      background: linear-gradient(90deg, #10b981, #059669);
+    }
+    .bar-fill.loss-bar {
+      background: linear-gradient(90deg, #ef4444, #dc2626);
+    }
+    .bar-fill.breakeven-bar {
+      background: linear-gradient(90deg, var(--accent), #059669);
+    }
+    .bar-amount {
+      flex-shrink: 0;
+      width: 90px;
+      text-align: right;
+      color: var(--text-muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Chart legend */
+    .chart-legend {
+      display: flex;
+      gap: var(--sp-4);
+      justify-content: center;
+      margin-top: var(--sp-3);
+      flex-wrap: wrap;
+    }
+    .chart-legend-item {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-1);
+      font-size: .8125rem;
+      color: var(--text-muted);
+    }
+    .chart-legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    /* Error styling */
+    .input-field.error {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
+    }
+    .error-msg {
+      color: #ef4444;
+      font-size: .75rem;
+      margin-top: 2px;
+      display: none;
+    }
+    .error-msg.visible {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="top">Ad</div>
+
+    <!-- Breadcrumb -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#finance">Finance</a>
+        <span>/</span>
+        <span>Break-Even Calculator</span>
+      </nav>
+
+      <h1>Break-Even Calculator</h1>
+      <p class="text-muted mt-1 mb-3">Determine exactly how many units you need to sell to cover all your costs. Enter your fixed costs, variable cost per unit, and selling price to instantly see your break-even point, contribution margin, and profit projections at different sales volumes.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <div class="be-grid">
+
+          <!-- Left: Inputs -->
+          <div>
+            <div class="input-group">
+              <label for="fixedCosts">Total Fixed Costs ($)</label>
+              <input type="text" id="fixedCosts" class="input-field" placeholder="50,000" inputmode="decimal">
+              <span class="error-msg" id="fixedCostsErr">Enter a valid amount greater than 0.</span>
+            </div>
+
+            <div class="input-group">
+              <label for="variableCost">Variable Cost per Unit ($)</label>
+              <input type="text" id="variableCost" class="input-field" placeholder="25" inputmode="decimal">
+              <span class="error-msg" id="variableCostErr">Enter a valid amount greater than or equal to 0.</span>
+            </div>
+
+            <div class="input-group">
+              <label for="sellingPrice">Selling Price per Unit ($)</label>
+              <input type="text" id="sellingPrice" class="input-field" placeholder="75" inputmode="decimal">
+              <span class="error-msg" id="sellingPriceErr">Selling price must be greater than variable cost.</span>
+            </div>
+
+            <div class="flex gap-2 mt-2">
+              <button class="btn-primary" onclick="calculate()">Calculate</button>
+              <button class="btn-secondary" onclick="resetAll()">Clear</button>
+            </div>
+          </div>
+
+          <!-- Right: Results Summary -->
+          <div>
+            <div class="result-card primary">
+              <div class="result-label">Break-Even Point</div>
+              <div class="result-value large" id="bepUnits">0 units</div>
+            </div>
+
+            <div class="result-grid" style="margin-top:var(--sp-3)">
+              <div class="result-card">
+                <div class="result-label">Break-Even Revenue</div>
+                <div class="result-value" id="bepRevenue">$0.00</div>
+              </div>
+              <div class="result-card">
+                <div class="result-label">Contribution Margin</div>
+                <div class="result-value" id="contribMargin">$0.00</div>
+              </div>
+              <div class="result-card">
+                <div class="result-label">Margin Ratio</div>
+                <div class="result-value" id="marginRatio">0%</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Bar Chart Card -->
+      <div class="tool-card" id="chartCard" style="display:none">
+        <h2 style="font-size:1.125rem;margin-bottom:var(--sp-2)">Profit / Loss at Different Volumes</h2>
+        <div class="bar-chart-wrap" id="barChart"></div>
+        <div class="chart-legend">
+          <div class="chart-legend-item">
+            <span class="chart-legend-dot" style="background:#10b981"></span>
+            Profit
+          </div>
+          <div class="chart-legend-item">
+            <span class="chart-legend-dot" style="background:#ef4444"></span>
+            Loss
+          </div>
+          <div class="chart-legend-item">
+            <span class="chart-legend-dot" style="background:var(--accent)"></span>
+            Break-Even
+          </div>
+        </div>
+      </div>
+
+      <!-- Profit/Loss Table -->
+      <div class="tool-card" id="tableCard" style="display:none">
+        <h2 style="font-size:1.125rem;margin-bottom:var(--sp-2)">Detailed Volume Analysis</h2>
+        <div class="pl-table-wrap">
+          <table class="pl-table">
+            <thead>
+              <tr>
+                <th>Units Sold</th>
+                <th>Revenue</th>
+                <th>Total Costs</th>
+                <th>Profit / Loss</th>
+              </tr>
+            </thead>
+            <tbody id="plBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="in-content">Ad</div>
+
+      <!-- Understanding Break-Even Analysis -->
+      <section class="mt-4">
+        <h2>Understanding Break-Even Analysis</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          Break-even analysis is one of the most fundamental tools in business finance. It answers a straightforward but critical question: how many units must you sell before your total revenue equals your total costs? At that exact point, your business neither earns a profit nor suffers a loss. Every unit sold beyond the break-even point generates pure profit, while every unit short of it represents a loss that must be covered by other means.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          For startups and small businesses, understanding the break-even point is essential before launching a product or service. Investors and lenders frequently request break-even projections because they reveal how realistic your pricing strategy is and how quickly you can expect to become profitable. A low break-even point suggests that a business can reach profitability with moderate sales volume, while a high break-even point may signal the need for aggressive marketing, higher prices, or lower production costs. Entrepreneurs who skip this analysis often find themselves running out of cash before they reach profitability, which is among the most common reasons new ventures fail.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          The break-even formula is elegantly simple: divide your total fixed costs by the contribution margin per unit, which is the selling price minus the variable cost per unit. Fixed costs are expenses that remain constant regardless of production volume, such as rent, salaries, insurance, and equipment leases. Variable costs, on the other hand, fluctuate directly with the number of units produced and include materials, packaging, shipping, and sales commissions. The contribution margin represents the portion of each sale that actually goes toward covering fixed costs and eventually generating profit. A higher contribution margin means fewer units are needed to break even, making it a powerful lever for improving business viability.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8">
+          Beyond simply finding the break-even point, this calculator helps you evaluate profitability across a range of sales volumes. By examining the profit and loss table, you can set realistic sales targets, evaluate the impact of cost changes, and understand the financial sensitivity of your business model. Whether you are pricing a new product, evaluating a potential investment, or preparing a business plan, break-even analysis provides the quantitative foundation for sound financial decision-making.
+        </p>
+      </section>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Instant Break-Even Calculation</h3>
+            <p>Enter your fixed costs, variable cost per unit, and selling price to immediately see the exact number of units you need to sell to cover all expenses. The calculator handles the math in real time so you can experiment with different pricing scenarios and see results update instantly without any delay.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Contribution Margin Analysis</h3>
+            <p>View both the dollar amount and percentage ratio of your contribution margin. The contribution margin shows how much each unit sale contributes toward covering fixed costs and generating profit, helping you evaluate whether your pricing structure is sustainable and competitive in your market.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Volume Profit Visualization</h3>
+            <p>See a clear bar chart and detailed table showing your projected profit or loss at multiple sales volumes. This visual breakdown makes it easy to identify how quickly losses turn into profits, set realistic revenue targets, and communicate financial projections to partners and investors.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Break-Even Calculator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li>Enter your total fixed costs, which include all expenses that stay the same regardless of how many units you produce, such as rent, salaries, insurance, and loan payments.</li>
+          <li>Input the variable cost per unit, covering direct materials, labor, packaging, and any expense that scales with each unit produced. Then enter your planned selling price per unit.</li>
+          <li>Click Calculate to see your break-even point in both units and revenue, along with the contribution margin. Review the profit and loss table and bar chart to understand profitability at different sales volumes and set informed business targets.</li>
+        </ol>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+
+        <details class="faq-item">
+          <summary>What is break-even analysis and why does it matter?</summary>
+          <p>Break-even analysis determines the point at which total revenue equals total costs, meaning your business has zero profit and zero loss. It matters because it gives entrepreneurs, managers, and investors a clear picture of the minimum sales performance required for a business or product to become viable. Without this analysis, you are essentially guessing whether your pricing and cost structure can sustain your operations. The break-even point serves as a baseline target: once you surpass it, every additional unit sold contributes directly to profit. Banks and venture capitalists often require break-even projections as part of loan applications and funding rounds because it demonstrates that you understand your cost structure and have a realistic path to profitability. For existing businesses, regularly recalculating the break-even point after cost changes or price adjustments helps ensure continued financial health and informed strategic planning.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What is the difference between fixed costs and variable costs?</summary>
+          <p>Fixed costs are expenses that remain constant regardless of how many units you produce or sell. Common examples include office or factory rent, employee salaries, insurance premiums, equipment depreciation, loan payments, and software subscriptions. These costs exist whether you sell one unit or ten thousand. Variable costs, in contrast, change directly in proportion to your production volume. They include raw materials, packaging supplies, shipping charges, sales commissions, and direct labor tied to production. Some costs fall into a gray area called semi-variable costs, such as utility bills that have a base charge plus usage-based fees. For break-even analysis, semi-variable costs should be split into their fixed and variable components for the most accurate calculation. Understanding which costs are fixed and which are variable is critical because it directly affects your contribution margin and therefore the number of units needed to break even.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What is contribution margin and how is it calculated?</summary>
+          <p>Contribution margin is the amount of money from each unit sale that goes toward covering fixed costs and eventually generating profit. It is calculated by subtracting the variable cost per unit from the selling price per unit. For example, if you sell a product for $75 and the variable cost is $25 per unit, your contribution margin is $50. The contribution margin ratio expresses this as a percentage of the selling price, which in this example would be 66.67%. A higher contribution margin means each sale covers more of your fixed costs, leading to a lower break-even point. Businesses with high contribution margins, such as software companies or consulting firms, typically reach profitability faster than those with thin margins, like grocery stores or commodity products. Monitoring your contribution margin over time helps you spot trends in cost efficiency and pricing power, making it one of the most important metrics in managerial accounting.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What are the limitations of break-even analysis?</summary>
+          <p>While break-even analysis is an invaluable planning tool, it comes with several important limitations. First, it assumes that the selling price remains constant at all volumes, which may not hold true if you offer bulk discounts or if market competition forces price adjustments. Second, it treats variable costs as perfectly linear, but in reality you may achieve economies of scale that lower per-unit costs at higher volumes, or face increasing marginal costs if production capacity is strained. Third, the analysis considers only a single product; businesses selling multiple products at different margins need a weighted-average approach. Fourth, it does not account for the time value of money or the period required to reach the break-even volume. Fifth, break-even analysis ignores external factors such as market demand, seasonal fluctuations, and competitive dynamics. Despite these limitations, it remains one of the most practical and widely used tools in financial planning, provided you treat the results as a useful estimate rather than an absolute guarantee.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>How do I perform break-even analysis for multiple products?</summary>
+          <p>When a business sells more than one product, the standard single-product break-even formula needs adaptation. The most common approach is the weighted-average contribution margin method. First, determine the contribution margin for each product. Then estimate the sales mix, which is the proportion of total sales that each product represents. Multiply each product contribution margin by its sales mix percentage and add the results to get the weighted-average contribution margin. Finally, divide total fixed costs by this weighted average to find the total break-even volume in units, which you can then allocate back to individual products based on the sales mix. For example, if Product A has a $40 margin and represents 60% of sales, and Product B has a $20 margin at 40% of sales, the weighted average is ($40 x 0.6) + ($20 x 0.4) = $32. This method assumes the sales mix remains stable, which is a simplification, but it provides a practical estimate for multi-product businesses.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>How can I lower my break-even point?</summary>
+          <p>There are three primary strategies for reducing your break-even point. First, you can reduce fixed costs by negotiating lower rent, outsourcing non-core functions, automating manual processes, or switching to more affordable software and service providers. Even small reductions in monthly fixed costs can significantly lower the number of units needed to break even. Second, you can reduce variable costs per unit by finding cheaper suppliers, improving production efficiency, reducing waste, or renegotiating shipping rates. Third, you can increase your selling price, which directly raises your contribution margin. However, price increases must be balanced against customer demand and competitive positioning. In practice, the most effective approach combines all three strategies. Many successful businesses continuously work to optimize their cost structure while testing price points that maximize both volume and margin. Regularly recalculating your break-even point after implementing changes helps you measure the impact of each improvement.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What is the break-even point in revenue dollars?</summary>
+          <p>The break-even point can be expressed in two ways: units and revenue. The unit-based break-even tells you how many items you need to sell, while the revenue-based break-even tells you the total dollar amount of sales needed to cover all costs. The revenue break-even is calculated by dividing total fixed costs by the contribution margin ratio. Using our earlier example, if fixed costs are $50,000 and the contribution margin ratio is 66.67% (contribution margin of $50 on a $75 selling price), the break-even revenue is $50,000 / 0.6667 = $75,000. This means you need $75,000 in total sales to cover all fixed and variable costs. The revenue-based break-even point is particularly useful for service businesses and companies with many product lines, where counting individual units may be impractical. It is also the metric that financial analysts and investors most commonly reference when evaluating business viability because it directly relates to top-line performance.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/mortgage">Mortgage Calculator</a>
+          <a href="https://toolrip.com/compound-interest">Compound Interest Calculator</a>
+          <a href="https://toolrip.com/salary">Salary Calculator</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+          <a href="https://toolrip.com/tip">Tip Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Break-Even Calculator JS -->
+  <script>
+    (function() {
+      'use strict';
+
+      /* --- DOM References --- */
+      var els = {
+        fixedCosts:    document.getElementById('fixedCosts'),
+        variableCost:  document.getElementById('variableCost'),
+        sellingPrice:  document.getElementById('sellingPrice'),
+        bepUnits:      document.getElementById('bepUnits'),
+        bepRevenue:    document.getElementById('bepRevenue'),
+        contribMargin: document.getElementById('contribMargin'),
+        marginRatio:   document.getElementById('marginRatio'),
+        chartCard:     document.getElementById('chartCard'),
+        barChart:      document.getElementById('barChart'),
+        tableCard:     document.getElementById('tableCard'),
+        plBody:        document.getElementById('plBody'),
+        fixedCostsErr:   document.getElementById('fixedCostsErr'),
+        variableCostErr: document.getElementById('variableCostErr'),
+        sellingPriceErr: document.getElementById('sellingPriceErr')
+      };
+
+      /* --- Parsing Helpers --- */
+      function parseNum(str) {
+        if (!str) return 0;
+        return parseFloat(str.replace(/[^0-9.\-]/g, '')) || 0;
+      }
+
+      function fmtInput(el) {
+        var val = parseNum(el.value);
+        if (val >= 0 && el.value.trim() !== '') {
+          el.value = formatNumber(val, 2);
+        }
+      }
+
+      /* --- Validation --- */
+      function showError(inputEl, errEl, show) {
+        if (show) {
+          inputEl.classList.add('error');
+          errEl.classList.add('visible');
+        } else {
+          inputEl.classList.remove('error');
+          errEl.classList.remove('visible');
+        }
+      }
+
+      function validate() {
+        var valid = true;
+        var fc = parseNum(els.fixedCosts.value);
+        var vc = parseNum(els.variableCost.value);
+        var sp = parseNum(els.sellingPrice.value);
+
+        if (fc <= 0) {
+          showError(els.fixedCosts, els.fixedCostsErr, true);
+          valid = false;
+        } else {
+          showError(els.fixedCosts, els.fixedCostsErr, false);
+        }
+
+        if (vc < 0) {
+          showError(els.variableCost, els.variableCostErr, true);
+          valid = false;
+        } else {
+          showError(els.variableCost, els.variableCostErr, false);
+        }
+
+        if (sp <= 0 || sp <= vc) {
+          showError(els.sellingPrice, els.sellingPriceErr, true);
+          valid = false;
+        } else {
+          showError(els.sellingPrice, els.sellingPriceErr, false);
+        }
+
+        return valid;
+      }
+
+      /* --- Core Calculation --- */
+      function calculate() {
+        if (!validate()) return;
+
+        var fc = parseNum(els.fixedCosts.value);
+        var vc = parseNum(els.variableCost.value);
+        var sp = parseNum(els.sellingPrice.value);
+
+        // Contribution margin per unit
+        var cm = sp - vc;
+        // Contribution margin ratio
+        var cmr = cm / sp;
+
+        // Break-even point in units (rounded up)
+        var bepUnits = Math.ceil(fc / cm);
+        // Break-even revenue
+        var bepRevenue = fc / cmr;
+
+        // Display results
+        els.bepUnits.textContent = formatNumber(bepUnits, 0) + ' units';
+        els.bepRevenue.textContent = formatCurrency(bepRevenue);
+        els.contribMargin.textContent = formatCurrency(cm);
+        els.marginRatio.textContent = (cmr * 100).toFixed(2) + '%';
+
+        // Build volume analysis data
+        var volumeData = buildVolumeData(fc, vc, sp, cm, bepUnits);
+
+        // Render bar chart
+        buildBarChart(volumeData, bepUnits);
+
+        // Render table
+        renderTable(volumeData, bepUnits);
+
+        els.chartCard.style.display = '';
+        els.tableCard.style.display = '';
+      }
+
+      /* --- Volume Data Builder --- */
+      function buildVolumeData(fc, vc, sp, cm, bep) {
+        var data = [];
+        // Generate volume steps: 0%, 25%, 50%, 75%, 100% (BEP), 125%, 150%, 200% of BEP
+        var multipliers = [0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 2];
+        var seenBep = false;
+
+        for (var i = 0; i < multipliers.length; i++) {
+          var units = Math.round(bep * multipliers[i]);
+          var revenue = units * sp;
+          var totalCosts = fc + (units * vc);
+          var profit = revenue - totalCosts;
+          var isBep = multipliers[i] === 1;
+          if (isBep) seenBep = true;
+
+          data.push({
+            units: units,
+            revenue: revenue,
+            totalCosts: totalCosts,
+            profit: profit,
+            isBep: isBep
+          });
+        }
+
+        return data;
+      }
+
+      /* --- Bar Chart --- */
+      function buildBarChart(data, bep) {
+        var html = '';
+        // Find max absolute profit for scaling
+        var maxAbs = 0;
+        for (var i = 0; i < data.length; i++) {
+          var abs = Math.abs(data[i].profit);
+          if (abs > maxAbs) maxAbs = abs;
+        }
+        if (maxAbs === 0) maxAbs = 1;
+
+        for (var i = 0; i < data.length; i++) {
+          var d = data[i];
+          var pct = Math.max((Math.abs(d.profit) / maxAbs) * 100, 2);
+          var barClass = d.isBep ? 'breakeven-bar' : (d.profit >= 0 ? 'profit-bar' : 'loss-bar');
+          var label = d.units === 0 ? '0' : formatNumber(d.units, 0);
+          var amountText = d.isBep ? '$0 (BEP)' : (d.profit >= 0 ? '+' : '') + formatCurrency(d.profit);
+
+          html += '<div class="bar-row">'
+            + '<span class="bar-label">' + label + '</span>'
+            + '<div class="bar-track">'
+            + '<div class="bar-fill ' + barClass + '" style="width:' + pct.toFixed(1) + '%">'
+            + (pct > 15 ? amountText : '')
+            + '</div>'
+            + '</div>'
+            + '<span class="bar-amount">' + (pct <= 15 ? amountText : '') + '</span>'
+            + '</div>';
+        }
+
+        els.barChart.innerHTML = html;
+      }
+
+      /* --- Profit/Loss Table --- */
+      function renderTable(data, bep) {
+        var html = '';
+        for (var i = 0; i < data.length; i++) {
+          var d = data[i];
+          var profitClass = d.isBep ? '' : (d.profit >= 0 ? 'profit' : 'loss');
+          var rowClass = d.isBep ? ' class="breakeven-row"' : '';
+          var profitText = d.isBep ? '$0.00 (Break-Even)' : formatCurrency(d.profit);
+
+          html += '<tr' + rowClass + '>'
+            + '<td>' + formatNumber(d.units, 0) + '</td>'
+            + '<td>' + formatCurrency(d.revenue) + '</td>'
+            + '<td>' + formatCurrency(d.totalCosts) + '</td>'
+            + '<td class="' + profitClass + '">' + profitText + '</td>'
+            + '</tr>';
+        }
+        els.plBody.innerHTML = html;
+      }
+
+      /* --- Reset --- */
+      window.resetAll = function() {
+        els.fixedCosts.value = '';
+        els.variableCost.value = '';
+        els.sellingPrice.value = '';
+        els.bepUnits.textContent = '0 units';
+        els.bepRevenue.textContent = '$0.00';
+        els.contribMargin.textContent = '$0.00';
+        els.marginRatio.textContent = '0%';
+        els.chartCard.style.display = 'none';
+        els.tableCard.style.display = 'none';
+        els.barChart.innerHTML = '';
+        els.plBody.innerHTML = '';
+
+        showError(els.fixedCosts, els.fixedCostsErr, false);
+        showError(els.variableCost, els.variableCostErr, false);
+        showError(els.sellingPrice, els.sellingPriceErr, false);
+
+        showToast('All fields cleared.', 'info');
+      };
+
+      // Make calculate globally accessible
+      window.calculate = calculate;
+
+      /* --- Real-time Listeners --- */
+      var debounceTimer;
+      function onInput() {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(function() {
+          var fc = parseNum(els.fixedCosts.value);
+          var vc = parseNum(els.variableCost.value);
+          var sp = parseNum(els.sellingPrice.value);
+          if (fc > 0 && sp > vc && sp > 0) {
+            calculate();
+          }
+        }, 400);
+      }
+
+      // Number formatting on blur
+      [els.fixedCosts, els.variableCost, els.sellingPrice].forEach(function(el) {
+        el.addEventListener('blur', function() { fmtInput(el); });
+      });
+
+      // Input listeners
+      els.fixedCosts.addEventListener('input', onInput);
+      els.variableCost.addEventListener('input', onInput);
+      els.sellingPrice.addEventListener('input', onInput);
+
+      /* --- Default values --- */
+      els.fixedCosts.value = '50,000';
+      els.variableCost.value = '25';
+      els.sellingPrice.value = '75';
+
+      // Run initial calculation
+      calculate();
+
+    })();
+  </script>
+</body>
+</html>

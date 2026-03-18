@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week Number Calculator — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Find the current week number, ISO week, US week, day of year, and quarter for any date. Calendar view with week numbers. Free, instant, no signup required.">
+  <meta name="keywords" content="week number calculator, what week is it, ISO week number, current week number, day of year, week of year, calendar week number, ISO 8601 week">
+  <link rel="canonical" href="https://toolrip.com/week-number">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Week Number Calculator — Free, Fast, No Signup | Toolrip">
+  <meta property="og:description" content="Find the current week number, ISO week, US week, day of year, quarter, and days remaining for any date. Calendar view with week numbers.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/week-number">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Week Number Calculator — Free, Fast, No Signup | Toolrip">
+  <meta name="twitter:description" content="Find the current week number, ISO week, US week, day of year, quarter, and days remaining for any date. Calendar view with week numbers.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root { --accent: var(--datetime); }
+
+    .live-display {
+      text-align: center;
+      padding: var(--sp-5);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--sp-4);
+    }
+    .live-display .ld-label {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: var(--sp-1);
+    }
+    .live-display .ld-week {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1.2;
+    }
+    @media (min-width: 640px) {
+      .live-display .ld-week { font-size: 4rem; }
+    }
+    .live-display .ld-date {
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      margin-top: var(--sp-1);
+    }
+
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: var(--sp-3);
+      align-items: end;
+    }
+    @media (max-width: 639px) {
+      .input-row { grid-template-columns: 1fr; }
+    }
+
+    /* Results */
+    .results-area { display: none; margin-top: var(--sp-4); }
+    .results-area.visible { display: block; }
+
+    .result-headline {
+      text-align: center;
+      padding: var(--sp-5);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--sp-4);
+    }
+    .result-headline .rh-big {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1.3;
+    }
+    @media (min-width: 640px) {
+      .result-headline .rh-big { font-size: 2.5rem; }
+    }
+    .result-headline .rh-sub {
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      margin-top: var(--sp-1);
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--sp-3);
+    }
+    @media (min-width: 640px) {
+      .result-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .result-item {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-3);
+      text-align: center;
+    }
+    .result-item .ri-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+    }
+    .result-item .ri-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: var(--sp-1);
+    }
+
+    /* Calendar */
+    .calendar-section {
+      margin-top: var(--sp-4);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-4);
+    }
+    .calendar-section h3 {
+      font-size: 1rem;
+      margin-bottom: var(--sp-3);
+      text-align: center;
+    }
+    .cal-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--sp-3);
+      margin-bottom: var(--sp-3);
+    }
+    .cal-nav button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1rem;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .cal-nav button:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .cal-nav .cal-title {
+      font-weight: 600;
+      font-size: 1rem;
+      min-width: 160px;
+      text-align: center;
+    }
+    .cal-grid {
+      display: grid;
+      grid-template-columns: 40px repeat(7, 1fr);
+      gap: 2px;
+      font-size: 0.8125rem;
+    }
+    .cal-header {
+      text-align: center;
+      font-weight: 600;
+      color: var(--text-muted);
+      padding: var(--sp-1) 0;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+    }
+    .cal-wk {
+      text-align: center;
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.75rem;
+      padding: var(--sp-1) 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cal-day {
+      text-align: center;
+      padding: 6px 2px;
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      transition: background 0.15s;
+    }
+    .cal-day.current-month {
+      color: var(--text);
+    }
+    .cal-day.today {
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+    }
+    .cal-day.selected {
+      background: color-mix(in srgb, var(--accent) 30%, transparent);
+      color: var(--text);
+      font-weight: 600;
+    }
+    .cal-day.today.selected {
+      background: var(--accent);
+      color: #fff;
+    }
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Week Number Calculator",
+    "url": "https://toolrip.com/week-number",
+    "description": "Find the current week number (ISO and US), day of year, quarter, and days remaining for any date. Calendar view with week numbers. Free, instant, no signup.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the difference between ISO and US week numbering?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ISO 8601 week numbering defines weeks as starting on Monday, with week 1 being the week that contains January 4th (or equivalently, the week containing the first Thursday of the year). The US system starts weeks on Sunday, and week 1 is the week that contains January 1st. This means the two systems can differ by one or two weeks at the start and end of the year. Most of Europe, Asia, and international business contexts use ISO weeks, while the US and Canada commonly use the Sunday-start system."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why does the ISO week start on Monday?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The ISO 8601 standard defines Monday as the first day of the week to reflect common business practice in most countries. In international commerce, the work week typically begins on Monday and ends on Friday, with Saturday and Sunday forming the weekend. By starting the week on Monday, the weekend days fall naturally at the end of the week as days 6 and 7. This convention was formalized in the ISO 8601 standard first published in 1988 and is now widely adopted in business, government, and technology systems worldwide."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can a year have 53 weeks?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Under ISO 8601, most years have 52 weeks, but some years have 53. A year has 53 ISO weeks when January 1st falls on a Thursday, or when December 31st falls on a Thursday. In leap years, a 53-week year also occurs when January 1st falls on a Wednesday. This happens roughly every five to six years. For example, the years 2004, 2009, 2015, 2020, and 2026 all have 53 ISO weeks. The extra week accounts for the fact that 52 weeks equal only 364 days, leaving one or two extra days that can push the count to 53."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How are week numbers used in business?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Week numbers are widely used in business for planning, reporting, and scheduling. Manufacturing companies use them to track production cycles and delivery schedules. Retail businesses reference week numbers to compare sales data year over year. Project managers use week numbers as milestones in Gantt charts and timelines. In supply chain management, shipments are often scheduled by week number. Payroll departments use week numbers for pay period tracking. Financial reports frequently reference fiscal weeks for revenue and expense tracking. The standardized nature of ISO week numbers makes them particularly useful for international business communication."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do fiscal year weeks differ from calendar weeks?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Fiscal year weeks are based on a company's or government's fiscal year, which may not start on January 1st. For example, the US federal fiscal year begins October 1st, and many retailers use a 4-5-4 calendar that groups weeks differently. In a fiscal calendar, week 1 starts on the first day of the fiscal year, so fiscal week numbers do not align with ISO or calendar week numbers unless the fiscal year coincidentally starts on January 1st. Some organizations use a 52/53 week fiscal year where each period contains exactly 4 or 5 complete weeks, which keeps weekly comparisons consistent but shifts the year-end date slightly."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which countries use ISO week numbering?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ISO 8601 week numbering is the standard across most of Europe, including Germany, France, the United Kingdom, Scandinavia, and the Netherlands. It is also widely adopted in China, Japan, South Korea, Australia, and much of South America. The United States and Canada are notable exceptions, where weeks traditionally start on Sunday and week 1 contains January 1st. However, even in the US and Canada, many multinational corporations, technology companies, and government agencies use ISO weeks for international coordination. The ISO system is also the default in most programming languages and database systems."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is my data private when using this tool?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The Week Number Calculator runs entirely in your web browser using client-side JavaScript. No dates, inputs, or results are transmitted to our servers or any third-party service. There are no accounts to create, no cookies storing personal data, and no analytics capturing the dates you enter. You can verify this by inspecting network requests in your browser's developer tools. This privacy-first approach applies to all Toolrip utilities — your data stays on your device."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Date & Time Tools", "item": "https://toolrip.com/#datetime" },
+      { "@type": "ListItem", "position": 3, "name": "Week Number Calculator", "item": "https://toolrip.com/week-number" }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="week-number-top">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#datetime">Date &amp; Time Tools</a>
+        <span>/</span>
+        <span>Week Number Calculator</span>
+      </nav>
+
+      <h1>Week Number Calculator</h1>
+      <p class="text-muted mt-1 mb-3">Find the ISO week number, US week number, day of year, quarter, and days remaining for any date. View a monthly calendar with week numbers. Free, instant, and private.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+
+        <!-- Live Display: What week is it now? -->
+        <div class="live-display" id="live-display">
+          <div class="ld-label">Current ISO Week Number</div>
+          <div class="ld-week" id="live-week"></div>
+          <div class="ld-date" id="live-date"></div>
+        </div>
+
+        <!-- Date Input -->
+        <div class="input-row">
+          <div class="input-group">
+            <label for="calc-date">Select a Date</label>
+            <input type="date" id="calc-date" class="input-field" aria-label="Date to calculate week number for">
+          </div>
+          <button class="btn-primary" onclick="calculate()">Calculate</button>
+          <button class="btn-secondary" onclick="resetToToday()">Today</button>
+        </div>
+
+        <!-- Results -->
+        <div class="results-area" id="results-area">
+
+          <!-- Headline -->
+          <div class="result-headline">
+            <div class="rh-big" id="rh-big"></div>
+            <div class="rh-sub" id="rh-sub"></div>
+          </div>
+
+          <!-- Result Grid -->
+          <div class="result-grid" id="result-grid"></div>
+
+          <!-- Calendar View -->
+          <div class="calendar-section" id="calendar-section">
+            <h3 id="cal-heading">Monthly Calendar with Week Numbers</h3>
+            <div class="cal-nav">
+              <button onclick="navigateMonth(-1)" title="Previous month" aria-label="Previous month">&#8249;</button>
+              <span class="cal-title" id="cal-title"></span>
+              <button onclick="navigateMonth(1)" title="Next month" aria-label="Next month">&#8250;</button>
+            </div>
+            <div class="cal-grid" id="cal-grid"></div>
+          </div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="week-number-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>ISO &amp; US Week Numbers</h3>
+            <p>Instantly view both the ISO 8601 week number (Monday start, used internationally) and the US week number (Sunday start) for any date you choose. The two systems can differ at the boundaries of the year, and this tool shows both side by side so you always have the right reference for your context, whether you are working with European partners or following a US-based schedule.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Day of Year &amp; Days Remaining</h3>
+            <p>See exactly where a date falls within the calendar year. The day-of-year count tells you how many days have passed since January 1, while the days-remaining figure shows how many days are left until December 31. This is invaluable for tracking annual goals, calculating elapsed time in insurance or financial contexts, and understanding how far through the year any given date sits.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Interactive Calendar View</h3>
+            <p>Browse a full monthly calendar that displays ISO week numbers alongside each row. Navigate forward and backward through months to see how week numbers progress across the year. The selected date is highlighted, and today is always marked, making it easy to orient yourself. This visual reference is helpful for planning meetings, deadlines, and project milestones by week number.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Live Week Display</h3>
+            <p>The moment you open the page, the current ISO week number is displayed prominently at the top. There is no need to enter a date or press any button to answer the most common question: what week is it right now? The display updates automatically at midnight, so you can bookmark this page and check it any time you need a quick reference for the current week number.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Week Number Calculator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Check the current week</strong> — The ISO week number for today is displayed automatically at the top of the page. No input is needed for the most common use case.</li>
+          <li><strong>Select a date</strong> — Use the date picker to choose any date, past or future. The tool accepts dates across all years supported by your browser.</li>
+          <li><strong>View your results</strong> — The ISO week number, US week number, day of year, days remaining, and fiscal quarter appear instantly. Results update in real time when you change the date.</li>
+          <li><strong>Browse the calendar</strong> — A monthly calendar view shows ISO week numbers in the left column. Use the arrow buttons to navigate between months and see how weeks flow across the year.</li>
+        </ol>
+      </section>
+
+      <!-- Understanding Week Numbers -->
+      <section class="mt-4">
+        <h2>Understanding ISO 8601 Week Numbering</h2>
+        <p style="color:var(--text-muted);line-height:1.8">Week numbers provide a standardized way to refer to specific weeks within a year, and the ISO 8601 standard is the most widely adopted system worldwide. Under this standard, every week begins on Monday and ends on Sunday. Week 1 is defined as the week that contains the first Thursday of the year, which is equivalent to saying it is the week that contains January 4th. This definition ensures that week 1 always has at least four days in the new year, preventing situations where a week with mostly December dates is labeled as the first week of the following year.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-3)">One consequence of this system is that the last few days of December may belong to week 1 of the next year, and the first few days of January may belong to week 52 or 53 of the previous year. For example, December 31, 2024, falls in ISO week 1 of 2025, because that Tuesday belongs to the Monday-to-Sunday week that contains the first Thursday of 2025. This crossover can be confusing at first, but it preserves the integrity of the weekly cycle and avoids partial weeks at year boundaries.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-3)">The ISO week numbering system was formalized in the original ISO 8601 standard published in 1988 and has since become the default in most European countries, many Asian nations, and across international business. Programming languages like Python, Java, and JavaScript all provide built-in support for ISO week calculations. Enterprise resource planning (ERP) systems, supply chain management software, and most calendar applications use ISO weeks as their default reference. When someone in a business meeting says "let's target week 12," they are almost always referring to ISO week 12 unless the context is explicitly US-centric.</p>
+
+        <h3 style="margin-top:var(--sp-4);margin-bottom:var(--sp-2)">Business Applications of Week Numbers</h3>
+        <p style="color:var(--text-muted);line-height:1.8">Week numbers serve as a universal shorthand in business communication. Manufacturing plants schedule production runs by week number, allowing suppliers and logistics partners across different time zones to synchronize without ambiguity. Retail chains use week numbers to compare sales performance year over year, since calendar dates shift but week numbers provide a consistent frame of reference. In agile software development, sprint cycles are often aligned to ISO weeks, making it easy to plan two-week or four-week iterations that start and end on consistent days. Financial analysts reference week numbers when producing weekly revenue reports, and marketing teams schedule campaigns by week to maintain predictable cadences. Government statistical agencies publish economic data indexed by ISO week, enabling cross-country comparisons without date format confusion.</p>
+
+        <h3 style="margin-top:var(--sp-4);margin-bottom:var(--sp-2)">Week Numbering by Country</h3>
+        <p style="color:var(--text-muted);line-height:1.8">While ISO 8601 is the international standard, not every country follows it for everyday purposes. The United States and Canada traditionally use a system where the week starts on Sunday and week 1 is simply the week that contains January 1st. This means that even a single day at the end of the previous year that falls on a Sunday starts a new week 1. The Middle East uses yet another convention in some countries, with the week beginning on Saturday. Despite these differences, ISO week numbering has become the de facto standard for international business, technology, and government coordination. Many calendar applications and operating systems allow users to choose their preferred week start day and numbering scheme, and this tool shows both ISO and US week numbers side by side so you can use whichever system fits your context.</p>
+
+        <h3 style="margin-top:var(--sp-4);margin-bottom:var(--sp-2)">Fiscal Calendars and Week-Based Periods</h3>
+        <p style="color:var(--text-muted);line-height:1.8">Many organizations operate on fiscal calendars that do not align with the January-through-December calendar year. The US federal government's fiscal year begins on October 1st, the UK government's on April 6th, and many corporations choose fiscal years that align with their industry's seasonal cycles. In retail, the National Retail Federation's 4-5-4 calendar divides the year into months of four or five weeks to ensure that each period contains the same number of weekends, making sales comparisons more meaningful. Some companies use a 52/53-week fiscal year where each quarter contains exactly 13 weeks, with an extra week added every five or six years to keep the fiscal calendar aligned with the solar year. Understanding how ISO calendar weeks map to your organization's fiscal weeks is essential for accurate reporting and planning.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is the difference between ISO and US week numbering?</summary>
+          <p>ISO 8601 week numbering defines weeks as starting on Monday, with week 1 being the week that contains January 4th, which is equivalent to the week containing the first Thursday of the year. This ensures that week 1 always has at least four days in the new year. The US system starts weeks on Sunday, and week 1 is the week that contains January 1st, regardless of which day it falls on. As a result, the two systems can differ by one or two weeks at the start and end of the year. For most of the year, however, the week numbers are identical or differ by one at most. Most of Europe, Asia, and international business contexts use ISO weeks, while the US and Canada commonly use the Sunday-start system. This tool shows both numbers so you always have the correct reference.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Why does the ISO week start on Monday?</summary>
+          <p>The ISO 8601 standard defines Monday as the first day of the week to align with international business practice. In most countries, the work week begins on Monday and ends on Friday, with Saturday and Sunday forming the weekend. By starting the week on Monday, the weekend falls naturally at the end of the week as days 6 and 7, which matches how most people think about the weekly cycle in a professional context. This convention was formalized in the original ISO 8601 standard in 1988, building on earlier European conventions that had treated Monday as the week's start for decades. The Monday-start convention also simplifies calculations in payroll systems, scheduling software, and business reporting tools, since the five-day work week occupies the first five days of every ISO week.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can a year have 53 weeks?</summary>
+          <p>Yes, under ISO 8601, some years have 53 weeks instead of the usual 52. A long year (53 ISO weeks) occurs when January 1st of the year falls on a Thursday, or when December 31st falls on a Thursday. In leap years, the condition is met when January 1st falls on either a Wednesday or a Thursday. This happens because 52 complete weeks account for only 364 days, leaving one day (or two in a leap year) that must be assigned to a week. When that extra day pushes the final week past the threshold, a 53rd week is created. Long years occur roughly every five to six years. Recent and upcoming examples include 2004, 2009, 2015, 2020, and 2026. The pattern is not strictly periodic because leap years introduce variability.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How are week numbers used in business?</summary>
+          <p>Week numbers are a standard reference system across many industries. Manufacturing companies use them to schedule production runs and coordinate with global supply chains, since a week number is unambiguous regardless of date format conventions. Retailers reference week numbers to compare year-over-year sales performance on a like-for-like basis. In project management, deliverables are often assigned to specific week numbers in Gantt charts and timelines. Agile software teams align sprint cycles to ISO weeks for consistency. Payroll departments use week numbers to define pay periods, particularly in countries where employees are paid weekly or biweekly. Financial analysts produce weekly reports indexed by week number, and marketing teams plan campaign launches by week to maintain predictable schedules. The universality of ISO week numbers makes them especially valuable in international business where date format differences could cause confusion.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do fiscal year weeks differ from calendar weeks?</summary>
+          <p>Fiscal year weeks are based on an organization's fiscal year, which may start on any date rather than January 1st. The US federal fiscal year begins on October 1st, so fiscal week 1 starts in October rather than January. Many retailers use a 4-5-4 calendar that divides the year into months of four and five complete weeks, ensuring each period has the same number of weekends for consistent sales comparisons. Some organizations use a 52/53-week fiscal year where each fiscal quarter contains exactly 13 weeks. Because fiscal weeks are tied to a different starting point, fiscal week 1 rarely coincides with ISO week 1 or US calendar week 1. When communicating across organizations, it is important to clarify whether a "week number" refers to the ISO calendar week or a fiscal week to avoid misunderstandings.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Which countries use ISO week numbering?</summary>
+          <p>ISO 8601 week numbering is the official or de facto standard in most of Europe, including Germany, France, the United Kingdom, Scandinavia, the Netherlands, and Spain. It is also widely adopted in China, Japan, South Korea, Australia, New Zealand, and much of South America. The United States and Canada are the most prominent exceptions, where the traditional convention starts weeks on Sunday and counts January 1st as part of week 1. However, many multinational corporations, technology companies, and government agencies in North America use ISO weeks for international coordination. Most programming languages, databases, and calendar applications default to ISO week numbering, making it the global standard in technology regardless of local conventions.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is my data private when using this tool?</summary>
+          <p>Yes. The Week Number Calculator runs entirely in your web browser using client-side JavaScript. No dates, inputs, or results are transmitted to our servers or any third-party service. There are no accounts to create, no cookies storing personal data, and no analytics capturing the dates you enter. You can verify this by inspecting network requests in your browser's developer tools while using the tool. This privacy-first approach applies to all Toolrip utilities. Your data stays on your device at all times, and the tool works offline once the page has been loaded in your browser.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/date-diff">Date Difference Calculator</a>
+          <a href="https://toolrip.com/age">Age Calculator</a>
+          <a href="https://toolrip.com/salary">Salary Calculator</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+          <a href="https://toolrip.com/tip">Tip Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="week-number-sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="week-number-bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Week Number Calculator JS -->
+  <script>
+  (function () {
+    'use strict';
+
+    /* --- Helpers --- */
+    function toISO(d) {
+      var y = d.getFullYear();
+      var m = String(d.getMonth() + 1).padStart(2, '0');
+      var day = String(d.getDate()).padStart(2, '0');
+      return y + '-' + m + '-' + day;
+    }
+
+    function parseInputDate(id) {
+      var val = document.getElementById(id).value;
+      if (!val) return null;
+      var parts = val.split('-');
+      return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+    }
+
+    function formatDateLong(d) {
+      return d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    var MONTH_NAMES = ['January','February','March','April','May','June',
+                       'July','August','September','October','November','December'];
+
+    /* --- ISO Week Number (ISO 8601) --- */
+    function getISOWeek(d) {
+      var target = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+      // Set to nearest Thursday: current date + 4 - current day number (Mon=1, Sun=7)
+      var dayNum = target.getDay() || 7; // Convert Sun=0 to 7
+      target.setDate(target.getDate() + 4 - dayNum);
+      var yearStart = new Date(target.getFullYear(), 0, 1);
+      var weekNum = Math.ceil((((target - yearStart) / 86400000) + 1) / 7);
+      return weekNum;
+    }
+
+    /* --- ISO Week Year --- */
+    function getISOWeekYear(d) {
+      var target = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+      var dayNum = target.getDay() || 7;
+      target.setDate(target.getDate() + 4 - dayNum);
+      return target.getFullYear();
+    }
+
+    /* --- US Week Number (Sunday start, week 1 contains Jan 1) --- */
+    function getUSWeek(d) {
+      var yearStart = new Date(d.getFullYear(), 0, 1);
+      var startDay = yearStart.getDay(); // 0=Sun
+      var dayOfYear = getDayOfYear(d);
+      var weekNum = Math.ceil((dayOfYear + startDay) / 7);
+      return weekNum;
+    }
+
+    /* --- Day of Year --- */
+    function getDayOfYear(d) {
+      var start = new Date(d.getFullYear(), 0, 0);
+      var diff = d - start;
+      var oneDay = 86400000;
+      return Math.floor(diff / oneDay);
+    }
+
+    /* --- Days in Year --- */
+    function daysInYear(year) {
+      return ((year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0)) ? 366 : 365;
+    }
+
+    /* --- Quarter --- */
+    function getQuarter(d) {
+      return Math.ceil((d.getMonth() + 1) / 3);
+    }
+
+    /* --- Total ISO Weeks in a Year --- */
+    function isoWeeksInYear(year) {
+      // A year has 53 ISO weeks if Jan 1 is Thu, or Dec 31 is Thu
+      var jan1 = new Date(year, 0, 1);
+      var dec31 = new Date(year, 11, 31);
+      if (jan1.getDay() === 4 || dec31.getDay() === 4) return 53;
+      return 52;
+    }
+
+    /* --- Calendar state --- */
+    var calYear, calMonth, selectedDate;
+
+    /* --- Live Display --- */
+    function updateLiveDisplay() {
+      var now = new Date();
+      var isoWeek = getISOWeek(now);
+      document.getElementById('live-week').textContent = 'Week ' + isoWeek;
+      document.getElementById('live-date').textContent = formatDateLong(now);
+    }
+
+    /* --- Main Calculation --- */
+    function calculate() {
+      var d = parseInputDate('calc-date');
+      if (!d) {
+        showToast('Please select a valid date.', 'error');
+        return;
+      }
+
+      selectedDate = d;
+      var isoWeek = getISOWeek(d);
+      var isoYear = getISOWeekYear(d);
+      var usWeek = getUSWeek(d);
+      var dayOfYear = getDayOfYear(d);
+      var totalDays = daysInYear(d.getFullYear());
+      var daysRemaining = totalDays - dayOfYear;
+      var quarter = getQuarter(d);
+      var totalISOWeeks = isoWeeksInYear(isoYear);
+
+      // Show results
+      var area = document.getElementById('results-area');
+      area.classList.add('visible');
+
+      // Headline
+      document.getElementById('rh-big').textContent = 'ISO Week ' + isoWeek;
+      document.getElementById('rh-sub').textContent = formatDateLong(d) + ' \u2014 ISO Week Year ' + isoYear;
+
+      // Grid
+      var gridItems = [
+        { value: String(isoWeek), label: 'ISO Week' },
+        { value: String(usWeek), label: 'US Week' },
+        { value: String(dayOfYear), label: 'Day of Year' },
+        { value: String(daysRemaining), label: 'Days Remaining' },
+        { value: 'Q' + quarter, label: 'Quarter' },
+        { value: isoWeek + ' / ' + totalISOWeeks, label: 'Week / Total Weeks' }
+      ];
+
+      var gridHTML = '';
+      for (var i = 0; i < gridItems.length; i++) {
+        gridHTML += '<div class="result-item"><div class="ri-value">' +
+          gridItems[i].value + '</div><div class="ri-label">' +
+          gridItems[i].label + '</div></div>';
+      }
+      document.getElementById('result-grid').innerHTML = gridHTML;
+
+      // Calendar
+      calYear = d.getFullYear();
+      calMonth = d.getMonth();
+      renderCalendar();
+
+      area.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+    window.calculate = calculate;
+
+    /* --- Reset to Today --- */
+    function resetToToday() {
+      var today = new Date();
+      document.getElementById('calc-date').value = toISO(today);
+      calculate();
+    }
+    window.resetToToday = resetToToday;
+
+    /* --- Calendar Navigation --- */
+    function navigateMonth(offset) {
+      calMonth += offset;
+      if (calMonth > 11) { calMonth = 0; calYear++; }
+      else if (calMonth < 0) { calMonth = 11; calYear--; }
+      renderCalendar();
+    }
+    window.navigateMonth = navigateMonth;
+
+    /* --- Render Calendar --- */
+    function renderCalendar() {
+      var today = new Date();
+      var todayStr = toISO(today);
+      var selStr = selectedDate ? toISO(selectedDate) : '';
+
+      document.getElementById('cal-title').textContent = MONTH_NAMES[calMonth] + ' ' + calYear;
+
+      // First day of the month
+      var firstDay = new Date(calYear, calMonth, 1);
+      var lastDay = new Date(calYear, calMonth + 1, 0);
+      var totalDaysInMonth = lastDay.getDate();
+
+      // ISO week starts on Monday: Mon=0 offset
+      var startDow = firstDay.getDay(); // 0=Sun
+      var mondayOffset = (startDow === 0) ? 6 : startDow - 1; // days to go back to reach Monday
+
+      var html = '';
+      // Header row
+      html += '<div class="cal-header">WK</div>';
+      var dayHeaders = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+      for (var h = 0; h < 7; h++) {
+        html += '<div class="cal-header">' + dayHeaders[h] + '</div>';
+      }
+
+      // Calendar cells
+      var cellDate = new Date(calYear, calMonth, 1 - mondayOffset);
+
+      var rowCount = Math.ceil((mondayOffset + totalDaysInMonth) / 7);
+      for (var row = 0; row < rowCount; row++) {
+        // Week number column
+        var wk = getISOWeek(cellDate);
+        html += '<div class="cal-wk">W' + wk + '</div>';
+
+        for (var col = 0; col < 7; col++) {
+          var cellStr = toISO(cellDate);
+          var isCurrentMonth = cellDate.getMonth() === calMonth;
+          var classes = 'cal-day';
+          if (isCurrentMonth) classes += ' current-month';
+          if (cellStr === todayStr) classes += ' today';
+          if (cellStr === selStr) classes += ' selected';
+
+          html += '<div class="' + classes + '">' + cellDate.getDate() + '</div>';
+          cellDate.setDate(cellDate.getDate() + 1);
+        }
+      }
+
+      document.getElementById('cal-grid').innerHTML = html;
+    }
+
+    /* --- Init --- */
+    document.addEventListener('DOMContentLoaded', function () {
+      updateLiveDisplay();
+
+      var today = new Date();
+      document.getElementById('calc-date').value = toISO(today);
+
+      // Auto-calculate on date change
+      document.getElementById('calc-date').addEventListener('change', calculate);
+
+      // Initial calculation
+      calculate();
+    });
+  })();
+  </script>
+</body>
+</html>

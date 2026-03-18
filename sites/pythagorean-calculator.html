@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pythagorean Theorem Calculator — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Calculate the missing side of a right triangle using the Pythagorean theorem. Find hypotenuse, legs, area, perimeter, and angles with step-by-step solutions. Free online calculator.">
+  <link rel="canonical" href="https://toolrip.com/pythagorean">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Pythagorean Theorem Calculator — Toolrip">
+  <meta property="og:description" content="Calculate the missing side of a right triangle using the Pythagorean theorem. Find hypotenuse, legs, area, perimeter, and angles with step-by-step solutions.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/pythagorean">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Pythagorean Theorem Calculator — Toolrip">
+  <meta name="twitter:description" content="Calculate the missing side of a right triangle using the Pythagorean theorem. Find hypotenuse, legs, area, perimeter, and angles with step-by-step solutions.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--math)}</style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Pythagorean Theorem Calculator",
+    "url": "https://toolrip.com/pythagorean",
+    "description": "Calculate the missing side of a right triangle using the Pythagorean theorem. Find hypotenuse, legs, area, perimeter, and angles with step-by-step solutions.",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Math & Science", "item": "https://toolrip.com/#math" },
+      { "@type": "ListItem", "position": 3, "name": "Pythagorean Calculator", "item": "https://toolrip.com/pythagorean" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the Pythagorean theorem?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Pythagorean theorem states that in a right triangle, the square of the hypotenuse (the side opposite the right angle) equals the sum of the squares of the other two sides. Written as a formula: a² + b² = c², where c is the hypotenuse and a and b are the two legs."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does the Pythagorean theorem only work for right triangles?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, the classic Pythagorean theorem only applies to right triangles — triangles that contain exactly one 90-degree angle. For non-right triangles, the generalized version called the Law of Cosines is used instead: c² = a² + b² − 2ab cos(C)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are Pythagorean triples?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Pythagorean triples are sets of three positive integers (a, b, c) that satisfy a² + b² = c². The most well-known examples include (3, 4, 5), (5, 12, 13), (8, 15, 17), and (7, 24, 25). Any multiple of a Pythagorean triple is also a valid triple, so (6, 8, 10) works because it is 2 times (3, 4, 5)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is the Pythagorean theorem related to the distance formula?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The distance formula used in coordinate geometry is derived directly from the Pythagorean theorem. To find the distance between two points (x1, y1) and (x2, y2), you compute d = √((x2−x1)² + (y2−y1)²). The horizontal and vertical differences form the two legs of a right triangle, and the distance is the hypotenuse."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can the Pythagorean theorem be extended to three dimensions?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. In three-dimensional space, the distance between two points uses an extended version: d = √(a² + b² + c²), where a, b, and c are the differences along the x, y, and z axes respectively. This is equivalent to applying the Pythagorean theorem twice — first in a 2D plane and then incorporating the third dimension."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you find the angles of a right triangle from the sides?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Once you know all three sides, you can find the non-right angles using inverse trigonometric functions. Angle A (opposite side a) equals arctan(a/b) or arcsin(a/c). Angle B (opposite side b) equals arctan(b/a) or arcsin(b/c). The third angle is always 90 degrees since it is a right triangle. This calculator computes all angles automatically."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is this Pythagorean theorem calculator free to use?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, this calculator is completely free with no signup or account required. All calculations run entirely in your browser using JavaScript, so your data stays private. There are no usage limits, and the tool works on any device with a web browser."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    /* Triangle SVG area */
+    .triangle-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--sp-4);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      margin-top: var(--sp-3);
+      min-height: 260px;
+    }
+    .triangle-container svg {
+      max-width: 360px;
+      width: 100%;
+      height: auto;
+    }
+    .triangle-container svg text {
+      font-family: var(--font);
+      font-size: 14px;
+      fill: var(--text);
+    }
+    .triangle-container svg .label-val {
+      font-weight: 700;
+      fill: var(--accent);
+    }
+    .triangle-container svg .label-name {
+      fill: var(--text-muted);
+      font-size: 12px;
+    }
+    .triangle-container svg .angle-label {
+      font-size: 11px;
+      fill: var(--text-muted);
+    }
+
+    /* Input row */
+    .pyth-inputs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-3);
+    }
+    .pyth-input-box {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-1);
+    }
+    .pyth-input-box label {
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .pyth-input-box .hint {
+      font-size: .75rem;
+      color: var(--text-muted);
+    }
+
+    /* Result grid */
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--sp-2);
+      margin-top: var(--sp-3);
+    }
+    .result-item {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-2) var(--sp-3);
+      text-align: center;
+    }
+    .result-item.active {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 4%, var(--bg));
+    }
+    .result-item .r-label {
+      font-size: .7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-bottom: 2px;
+    }
+    .result-item .r-value {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--accent);
+      word-break: break-word;
+    }
+    .result-item .r-value.empty {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    /* Steps area */
+    .steps-area {
+      margin-top: var(--sp-3);
+      padding: var(--sp-3);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .steps-area h4 {
+      font-size: .85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-bottom: var(--sp-2);
+    }
+    .step-line {
+      padding: var(--sp-1) 0;
+      font-size: .9rem;
+      color: var(--text);
+      line-height: 1.6;
+      border-bottom: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+    }
+    .step-line:last-child { border-bottom: none; }
+    .step-num {
+      display: inline-block;
+      width: 22px;
+      height: 22px;
+      line-height: 22px;
+      text-align: center;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-size: .7rem;
+      font-weight: 700;
+      margin-right: var(--sp-2);
+      flex-shrink: 0;
+    }
+    .step-highlight {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    @media (max-width: 639px) {
+      .pyth-inputs { grid-template-columns: 1fr; }
+      .result-grid { grid-template-columns: 1fr; }
+    }
+    @media (min-width: 640px) {
+      .result-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="top">Ad</div>
+
+    <!-- Breadcrumb -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#math">Math &amp; Science</a>
+        <span>/</span>
+        <span>Pythagorean Calculator</span>
+      </nav>
+
+      <h1>Pythagorean Theorem Calculator</h1>
+      <p class="text-muted mt-1 mb-3">Enter any two sides of a right triangle to calculate the missing side, area, perimeter, and all angles. Includes a visual SVG diagram and step-by-step solution. Based on the formula a&sup2; + b&sup2; = c&sup2;.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <p class="text-muted mb-2" style="font-size:.85rem">Enter exactly two of the three values. Leave one field empty and the calculator will solve for it.</p>
+
+        <div class="pyth-inputs">
+          <div class="pyth-input-box">
+            <label for="sideA">Side a (leg)</label>
+            <input type="text" id="sideA" class="input-field" inputmode="decimal" placeholder="e.g. 3" autocomplete="off" aria-label="Side a (leg)">
+            <span class="hint">Adjacent to right angle</span>
+          </div>
+          <div class="pyth-input-box">
+            <label for="sideB">Side b (leg)</label>
+            <input type="text" id="sideB" class="input-field" inputmode="decimal" placeholder="e.g. 4" autocomplete="off" aria-label="Side b (leg)">
+            <span class="hint">Adjacent to right angle</span>
+          </div>
+          <div class="pyth-input-box">
+            <label for="sideC">Side c (hypotenuse)</label>
+            <input type="text" id="sideC" class="input-field" inputmode="decimal" placeholder="e.g. 5" autocomplete="off" aria-label="Side c (hypotenuse)">
+            <span class="hint">Opposite the right angle</span>
+          </div>
+        </div>
+
+        <div class="flex gap-2 mt-2 mb-2" style="flex-wrap:wrap">
+          <button class="btn-primary" id="calcBtn" type="button">Calculate</button>
+          <button class="btn-secondary" id="clearBtn" type="button">Clear</button>
+        </div>
+
+        <!-- Result Grid -->
+        <div class="result-grid" id="resultGrid">
+          <div class="result-item" id="resA">
+            <div class="r-label">Side a</div>
+            <div class="r-value empty" id="valA">&mdash;</div>
+          </div>
+          <div class="result-item" id="resB">
+            <div class="r-label">Side b</div>
+            <div class="r-value empty" id="valB">&mdash;</div>
+          </div>
+          <div class="result-item" id="resC">
+            <div class="r-label">Side c (hypotenuse)</div>
+            <div class="r-value empty" id="valC">&mdash;</div>
+          </div>
+          <div class="result-item" id="resArea">
+            <div class="r-label">Area</div>
+            <div class="r-value empty" id="valArea">&mdash;</div>
+          </div>
+          <div class="result-item" id="resPerimeter">
+            <div class="r-label">Perimeter</div>
+            <div class="r-value empty" id="valPerimeter">&mdash;</div>
+          </div>
+          <div class="result-item" id="resAngles">
+            <div class="r-label">Angles</div>
+            <div class="r-value empty" id="valAngles">&mdash;</div>
+          </div>
+        </div>
+
+        <!-- Triangle Diagram -->
+        <div class="triangle-container" id="triangleDiagram">
+          <svg viewBox="0 0 360 280" aria-label="Right triangle diagram">
+            <!-- Default triangle outline -->
+            <polygon id="triPoly" points="40,240 300,240 40,40" fill="none" stroke="var(--border)" stroke-width="2"/>
+            <!-- Right angle marker -->
+            <polyline id="rightAngle" points="40,210 70,210 70,240" fill="none" stroke="var(--text-muted)" stroke-width="1.5"/>
+            <!-- Labels -->
+            <text id="labelA" x="20" y="145" class="label-name" text-anchor="end">a</text>
+            <text id="labelAVal" x="20" y="162" class="label-val" text-anchor="end"></text>
+            <text id="labelB" x="170" y="260" class="label-name" text-anchor="middle">b</text>
+            <text id="labelBVal" x="170" y="275" class="label-val" text-anchor="middle"></text>
+            <text id="labelC" x="185" y="130" class="label-name" text-anchor="start">c</text>
+            <text id="labelCVal" x="185" y="147" class="label-val" text-anchor="start"></text>
+            <!-- Angle labels -->
+            <text id="angleALabel" x="290" y="235" class="angle-label" text-anchor="end"></text>
+            <text id="angleBLabel" x="50" y="55" class="angle-label" text-anchor="start"></text>
+          </svg>
+        </div>
+
+        <!-- Steps -->
+        <div class="steps-area hidden" id="stepsArea">
+          <h4>Step-by-Step Solution</h4>
+          <div id="stepsContent"></div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="in-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Solve for Any Missing Side</h3>
+            <p>Enter any two of the three sides of a right triangle and the calculator instantly computes the missing one using the Pythagorean theorem. Whether you need the hypotenuse from two known legs, or a leg when the hypotenuse and one leg are given, the tool detects which value is missing and applies the correct formula. It handles both integer and decimal inputs with high precision, and warns you immediately if the input is geometrically impossible, such as a leg that is longer than the specified hypotenuse. The calculation runs entirely in your browser so results appear without any server delay.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Complete Triangle Properties</h3>
+            <p>Beyond finding the missing side, every calculation also provides the triangle's area using the formula (a times b) divided by 2, the perimeter by summing all three sides, and both non-right angles computed via inverse trigonometric functions. Angle A is found using arctan(a/b) and Angle B using arctan(b/a), with results displayed in degrees for easy interpretation. These additional properties save you from having to perform separate calculations and give you a complete picture of the right triangle in a single step. All values are rounded to a sensible number of decimal places for clarity.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Visual SVG Triangle Diagram</h3>
+            <p>A labeled SVG diagram updates in real time to reflect the calculated triangle. The diagram shows all three sides with their computed lengths and marks the right angle clearly, giving you a visual confirmation that the numbers make sense. The proportional rendering adjusts to the ratio of the sides so you can see at a glance whether the triangle is nearly isosceles or highly elongated. The SVG format ensures the diagram looks crisp on any screen resolution, from high-density mobile displays to large desktop monitors, and it loads instantly without any external image files.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Step-by-Step Solution</h3>
+            <p>Every computation comes with a detailed walkthrough showing the exact formula used, the substitution of your values, the intermediate arithmetic, and the final answer. Whether you are solving for the hypotenuse or a leg, the steps clearly show how the Pythagorean equation is rearranged and evaluated. This breakdown is invaluable for students learning geometry, teachers preparing worked examples, and professionals who need to verify their calculations. The step display uses color highlighting on key values so you can quickly scan the solution and confirm each stage.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Pythagorean Theorem Calculator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li>Enter two of the three values: side a, side b, or hypotenuse c. Leave the unknown field empty.</li>
+          <li>Click the Calculate button to instantly see the missing side along with area, perimeter, and angles.</li>
+          <li>Review the SVG triangle diagram, which updates to reflect the calculated values with labeled sides and the right angle marker.</li>
+          <li>Expand the step-by-step solution below the results to see the full mathematical working, including the formula, substitution, and simplification.</li>
+          <li>Click Clear to reset all fields and start a new calculation.</li>
+        </ol>
+      </section>
+
+      <!-- About the Pythagorean Theorem -->
+      <section class="mt-4">
+        <h2>Understanding the Pythagorean Theorem</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">The Pythagorean theorem is one of the most fundamental and widely recognized results in all of mathematics. It describes the relationship between the three sides of a right-angled triangle: the sum of the squares of the two shorter sides, known as legs, equals the square of the longest side, known as the hypotenuse. Written algebraically, this relationship is expressed as a&sup2; + b&sup2; = c&sup2;, where a and b represent the legs and c represents the hypotenuse, which is always the side directly opposite the 90-degree angle.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">Although the theorem carries the name of the ancient Greek mathematician Pythagoras, who lived around 570 to 495 BCE, the underlying principle was known to earlier civilizations. Babylonian clay tablets dating to approximately 1800 BCE contain lists of Pythagorean triples, indicating that Mesopotamian scribes understood the relationship long before the Greek formalization. Ancient Indian mathematicians documented the theorem in the Sulba Sutras, and Chinese mathematicians described it in texts associated with the Zhou Bi Suan Jing. The theorem has been independently discovered or rediscovered across multiple cultures, underscoring its universal mathematical significance.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">Hundreds of distinct proofs of the Pythagorean theorem have been cataloged over the centuries, more than any other theorem in mathematics. Some of the most elegant include the geometric rearrangement proof, where four copies of the same right triangle are arranged inside a square to show that the areas match the algebraic identity. Euclid's own proof, found in Book I of the Elements, uses the construction of squares on each side and demonstrates equal areas through congruent triangles. Algebraic proofs, proofs by similar triangles, and even a proof contributed by the 20th president of the United States, James A. Garfield, all demonstrate the theorem's validity through different mathematical perspectives.</p>
+        <p style="color:var(--text-muted);line-height:1.8">The real-world applications of the Pythagorean theorem are vast and span many fields. In construction and carpentry, builders use the 3-4-5 rule to verify that corners are perfectly square. Surveyors rely on the theorem to calculate distances across terrain that cannot be measured directly. Navigation systems, including GPS, apply the principle in distance computations. Computer graphics engines use it to calculate pixel distances and vector magnitudes. Architects, engineers, physicists, and game developers all use the theorem daily, making it one of the most practically useful results in mathematics. This calculator automates the process so you can focus on applying the result rather than performing the arithmetic by hand.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is the Pythagorean theorem?</summary>
+          <p>The Pythagorean theorem states that in any right triangle, the square of the hypotenuse (the side opposite the right angle) equals the sum of the squares of the other two sides. The formula is a&sup2; + b&sup2; = c&sup2;, where c is the hypotenuse and a and b are the two legs. This relationship allows you to find any missing side when the other two are known. For example, if a = 3 and b = 4, then c = &radic;(9 + 16) = &radic;25 = 5. The theorem is named after the Greek mathematician Pythagoras, though evidence shows the concept was understood by Babylonian, Indian, and Chinese mathematicians centuries earlier. It is a cornerstone of Euclidean geometry and forms the basis for distance calculations in coordinate systems, trigonometric identities, and many engineering formulas.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does the Pythagorean theorem only work for right triangles?</summary>
+          <p>Yes, the standard Pythagorean theorem (a&sup2; + b&sup2; = c&sup2;) applies exclusively to right triangles, which are triangles containing exactly one 90-degree angle. For triangles that are not right-angled, you need the Law of Cosines, a generalized version of the theorem: c&sup2; = a&sup2; + b&sup2; &minus; 2ab cos(C), where C is the angle opposite side c. When C is exactly 90 degrees, cos(C) equals zero, and the Law of Cosines reduces to the Pythagorean theorem. If C is less than 90 degrees (acute triangle), c&sup2; is less than a&sup2; + b&sup2;. If C is greater than 90 degrees (obtuse triangle), c&sup2; is greater than a&sup2; + b&sup2;. So the Pythagorean theorem can also be used as a test: if a&sup2; + b&sup2; equals c&sup2;, the triangle is right-angled.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What are Pythagorean triples?</summary>
+          <p>Pythagorean triples are sets of three positive integers (a, b, c) that exactly satisfy a&sup2; + b&sup2; = c&sup2;. The smallest and most famous triple is (3, 4, 5), since 9 + 16 = 25. Other common examples include (5, 12, 13), (8, 15, 17), (7, 24, 25), and (20, 21, 29). Any integer multiple of a Pythagorean triple is itself a valid triple, so (6, 8, 10) and (9, 12, 15) also work. Primitive triples, where the three numbers share no common factor greater than one, can be generated using the formula a = m&sup2; &minus; n&sup2;, b = 2mn, c = m&sup2; + n&sup2;, where m and n are positive integers with m greater than n. Pythagorean triples are used in number theory, cryptography, and practical construction because they guarantee exact right angles without requiring irrational numbers.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How is the Pythagorean theorem related to the distance formula?</summary>
+          <p>The distance formula used in coordinate geometry is a direct application of the Pythagorean theorem. To find the distance between two points (x1, y1) and (x2, y2) on a plane, you form a right triangle where the horizontal leg has length |x2 &minus; x1| and the vertical leg has length |y2 &minus; y1|. The straight-line distance between the two points is the hypotenuse of this right triangle, calculated as d = &radic;((x2 &minus; x1)&sup2; + (y2 &minus; y1)&sup2;). This formula is fundamental to analytic geometry, computer graphics, and geographic information systems. Every time a mapping application calculates the straight-line distance between two locations, it is essentially applying the Pythagorean theorem to coordinate differences.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can the Pythagorean theorem be extended to three dimensions?</summary>
+          <p>Yes, the three-dimensional extension calculates the diagonal of a rectangular box or the distance between two points in 3D space. The formula becomes d = &radic;(a&sup2; + b&sup2; + c&sup2;), where a, b, and c are the lengths along the three perpendicular axes. Conceptually, you apply the Pythagorean theorem twice: first compute the diagonal of the base rectangle using two dimensions, then treat that diagonal as one leg and the height as the other leg to find the space diagonal. For two points (x1, y1, z1) and (x2, y2, z2), the distance is d = &radic;((x2&minus;x1)&sup2; + (y2&minus;y1)&sup2; + (z2&minus;z1)&sup2;). This principle extends to any number of dimensions and forms the basis of Euclidean distance in higher-dimensional mathematics, machine learning, and physics.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do you find the angles of a right triangle from the sides?</summary>
+          <p>Once all three sides of a right triangle are known, the two non-right angles can be calculated using inverse trigonometric functions. One angle is always 90 degrees by definition. For angle A, which is opposite side a, you can use A = arctan(a / b), or equivalently A = arcsin(a / c). For angle B, opposite side b, use B = arctan(b / a) or B = arcsin(b / c). The two non-right angles always sum to exactly 90 degrees because the interior angles of any triangle add up to 180 degrees. This calculator automatically computes both angles in degrees whenever a valid right triangle is determined, so you get the complete geometric description without needing to perform the inverse trig calculations yourself.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is this Pythagorean theorem calculator free to use?</summary>
+          <p>Yes, this calculator is completely free, requires no registration or login, and imposes no usage limits. Every calculation runs entirely in your browser using JavaScript, meaning no data is sent to any server and your inputs remain private on your device. The tool works on desktops, laptops, tablets, and smartphones with any modern web browser. You can bookmark this page for instant access whenever you need to solve right triangle problems for homework, construction projects, surveying, engineering, or any other purpose. After the initial page load, the calculator functions offline since all computations are performed locally.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/fraction">Fraction Calculator</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+          <a href="https://toolrip.com/bmi">BMI Calculator</a>
+          <a href="https://toolrip.com/age">Age Calculator</a>
+          <a href="https://toolrip.com/compound-interest">Compound Interest Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <script>
+  (function() {
+    'use strict';
+
+    /* === DOM refs === */
+    var sideA = document.getElementById('sideA');
+    var sideB = document.getElementById('sideB');
+    var sideC = document.getElementById('sideC');
+    var calcBtn = document.getElementById('calcBtn');
+    var clearBtn = document.getElementById('clearBtn');
+
+    var valA = document.getElementById('valA');
+    var valB = document.getElementById('valB');
+    var valC = document.getElementById('valC');
+    var valArea = document.getElementById('valArea');
+    var valPerimeter = document.getElementById('valPerimeter');
+    var valAngles = document.getElementById('valAngles');
+
+    var stepsArea = document.getElementById('stepsArea');
+    var stepsContent = document.getElementById('stepsContent');
+
+    /* SVG labels */
+    var labelAVal = document.getElementById('labelAVal');
+    var labelBVal = document.getElementById('labelBVal');
+    var labelCVal = document.getElementById('labelCVal');
+    var angleALabel = document.getElementById('angleALabel');
+    var angleBLabel = document.getElementById('angleBLabel');
+    var triPoly = document.getElementById('triPoly');
+
+    /* === Helpers === */
+    function parseNum(val) {
+      var s = val.trim().replace(/,/g, '');
+      if (s === '') return NaN;
+      var n = Number(s);
+      return (isFinite(n) && n > 0) ? n : NaN;
+    }
+
+    function fmt(n) {
+      return Number(n.toFixed(8)).toString();
+    }
+
+    function fmtDeg(n) {
+      return n.toFixed(2) + '\u00b0';
+    }
+
+    function step(num, html) {
+      return '<div class="step-line"><span class="step-num">' + num + '</span>' + html + '</div>';
+    }
+
+    function setResult(el, wrapper, value) {
+      el.textContent = value;
+      el.classList.remove('empty');
+      if (wrapper) wrapper.classList.add('active');
+    }
+
+    function resetResults() {
+      var vals = [valA, valB, valC, valArea, valPerimeter, valAngles];
+      vals.forEach(function(v) {
+        v.textContent = '\u2014';
+        v.classList.add('empty');
+      });
+      document.querySelectorAll('.result-item').forEach(function(el) {
+        el.classList.remove('active');
+      });
+      stepsArea.classList.add('hidden');
+      stepsContent.innerHTML = '';
+      labelAVal.textContent = '';
+      labelBVal.textContent = '';
+      labelCVal.textContent = '';
+      angleALabel.textContent = '';
+      angleBLabel.textContent = '';
+      triPoly.setAttribute('stroke', 'var(--border)');
+    }
+
+    /* === SVG update === */
+    function updateTriangleSVG(a, b, c, angA, angB) {
+      /* Scale triangle to fit viewBox (360x280), with padding */
+      var maxSide = Math.max(a, b);
+      var scaleX = 260 / b;
+      var scaleY = 200 / a;
+      var scale = Math.min(scaleX, scaleY);
+
+      var drawB = b * scale;
+      var drawA = a * scale;
+
+      /* Triangle vertices: right angle at bottom-left */
+      var ox = 40;
+      var oy = 240;
+      var px = ox + drawB;
+      var py = oy;
+      var qx = ox;
+      var qy = oy - drawA;
+
+      triPoly.setAttribute('points', ox + ',' + oy + ' ' + px + ',' + py + ' ' + qx + ',' + qy);
+      triPoly.setAttribute('stroke', 'var(--accent)');
+
+      /* Right angle marker */
+      var markerSize = Math.min(30, drawA * 0.15, drawB * 0.15);
+      var ra = document.getElementById('rightAngle');
+      ra.setAttribute('points',
+        ox + ',' + (oy - markerSize) + ' ' +
+        (ox + markerSize) + ',' + (oy - markerSize) + ' ' +
+        (ox + markerSize) + ',' + oy
+      );
+
+      /* Side labels */
+      labelAVal.textContent = fmt(a);
+      labelAVal.setAttribute('x', ox - 10);
+      labelAVal.setAttribute('y', (oy + qy) / 2 + 6);
+      var labelAName = document.getElementById('labelA');
+      labelAName.setAttribute('x', ox - 10);
+      labelAName.setAttribute('y', (oy + qy) / 2 - 10);
+
+      labelBVal.textContent = fmt(b);
+      labelBVal.setAttribute('x', (ox + px) / 2);
+      labelBVal.setAttribute('y', oy + 18);
+      var labelBName = document.getElementById('labelB');
+      labelBName.setAttribute('x', (ox + px) / 2);
+      labelBName.setAttribute('y', oy + 32);
+
+      labelCVal.textContent = fmt(c);
+      var midCx = (px + qx) / 2 + 10;
+      var midCy = (py + qy) / 2;
+      labelCVal.setAttribute('x', midCx);
+      labelCVal.setAttribute('y', midCy + 6);
+      var labelCName = document.getElementById('labelC');
+      labelCName.setAttribute('x', midCx);
+      labelCName.setAttribute('y', midCy - 10);
+
+      /* Angle labels */
+      angleALabel.textContent = '\u2220A = ' + fmtDeg(angA);
+      angleALabel.setAttribute('x', px - 10);
+      angleALabel.setAttribute('y', py - 8);
+
+      angleBLabel.textContent = '\u2220B = ' + fmtDeg(angB);
+      angleBLabel.setAttribute('x', qx + 10);
+      angleBLabel.setAttribute('y', qy + 20);
+    }
+
+    /* === Main calculation === */
+    function calculate() {
+      var a = parseNum(sideA.value);
+      var b = parseNum(sideB.value);
+      var c = parseNum(sideC.value);
+
+      var hasA = !isNaN(a);
+      var hasB = !isNaN(b);
+      var hasC = !isNaN(c);
+      var count = (hasA ? 1 : 0) + (hasB ? 1 : 0) + (hasC ? 1 : 0);
+
+      if (count !== 2) {
+        showToast('Please enter exactly two side values.', 'error');
+        resetResults();
+        return;
+      }
+
+      var steps = [];
+      var solving = '';
+
+      if (!hasC) {
+        /* Solve for hypotenuse c */
+        solving = 'c';
+        steps.push(step(1, 'Known values: <span class="step-highlight">a = ' + fmt(a) + '</span>, <span class="step-highlight">b = ' + fmt(b) + '</span>'));
+        steps.push(step(2, 'Formula: a&sup2; + b&sup2; = c&sup2;'));
+        var a2 = a * a;
+        var b2 = b * b;
+        steps.push(step(3, 'Substitute: ' + fmt(a) + '&sup2; + ' + fmt(b) + '&sup2; = c&sup2;'));
+        steps.push(step(4, 'Compute squares: <span class="step-highlight">' + fmt(a2) + '</span> + <span class="step-highlight">' + fmt(b2) + '</span> = c&sup2;'));
+        var sum = a2 + b2;
+        steps.push(step(5, 'Sum: <span class="step-highlight">' + fmt(sum) + '</span> = c&sup2;'));
+        c = Math.sqrt(sum);
+        steps.push(step(6, 'Take square root: c = &radic;' + fmt(sum) + ' = <span class="step-highlight">' + fmt(c) + '</span>'));
+
+      } else if (!hasA) {
+        /* Solve for leg a */
+        solving = 'a';
+        if (c <= b) {
+          showToast('Hypotenuse c must be greater than side b.', 'error');
+          resetResults();
+          return;
+        }
+        steps.push(step(1, 'Known values: <span class="step-highlight">b = ' + fmt(b) + '</span>, <span class="step-highlight">c = ' + fmt(c) + '</span>'));
+        steps.push(step(2, 'Formula: a&sup2; + b&sup2; = c&sup2; &rarr; a&sup2; = c&sup2; &minus; b&sup2;'));
+        var c2 = c * c;
+        var b2 = b * b;
+        steps.push(step(3, 'Substitute: a&sup2; = ' + fmt(c) + '&sup2; &minus; ' + fmt(b) + '&sup2;'));
+        steps.push(step(4, 'Compute squares: a&sup2; = <span class="step-highlight">' + fmt(c2) + '</span> &minus; <span class="step-highlight">' + fmt(b2) + '</span>'));
+        var diff = c2 - b2;
+        steps.push(step(5, 'Difference: a&sup2; = <span class="step-highlight">' + fmt(diff) + '</span>'));
+        a = Math.sqrt(diff);
+        steps.push(step(6, 'Take square root: a = &radic;' + fmt(diff) + ' = <span class="step-highlight">' + fmt(a) + '</span>'));
+
+      } else {
+        /* Solve for leg b */
+        solving = 'b';
+        if (c <= a) {
+          showToast('Hypotenuse c must be greater than side a.', 'error');
+          resetResults();
+          return;
+        }
+        steps.push(step(1, 'Known values: <span class="step-highlight">a = ' + fmt(a) + '</span>, <span class="step-highlight">c = ' + fmt(c) + '</span>'));
+        steps.push(step(2, 'Formula: a&sup2; + b&sup2; = c&sup2; &rarr; b&sup2; = c&sup2; &minus; a&sup2;'));
+        var c2 = c * c;
+        var a2 = a * a;
+        steps.push(step(3, 'Substitute: b&sup2; = ' + fmt(c) + '&sup2; &minus; ' + fmt(a) + '&sup2;'));
+        steps.push(step(4, 'Compute squares: b&sup2; = <span class="step-highlight">' + fmt(c2) + '</span> &minus; <span class="step-highlight">' + fmt(a2) + '</span>'));
+        var diff = c2 - a2;
+        steps.push(step(5, 'Difference: b&sup2; = <span class="step-highlight">' + fmt(diff) + '</span>'));
+        b = Math.sqrt(diff);
+        steps.push(step(6, 'Take square root: b = &radic;' + fmt(diff) + ' = <span class="step-highlight">' + fmt(b) + '</span>'));
+      }
+
+      /* Compute derived values */
+      var area = (a * b) / 2;
+      var perimeter = a + b + c;
+      var angleA = Math.atan(a / b) * (180 / Math.PI);
+      var angleB = Math.atan(b / a) * (180 / Math.PI);
+
+      steps.push(step(7, 'Area = (a &times; b) / 2 = (' + fmt(a) + ' &times; ' + fmt(b) + ') / 2 = <span class="step-highlight">' + fmt(area) + '</span>'));
+      steps.push(step(8, 'Perimeter = a + b + c = ' + fmt(a) + ' + ' + fmt(b) + ' + ' + fmt(c) + ' = <span class="step-highlight">' + fmt(perimeter) + '</span>'));
+      steps.push(step(9, 'Angle A = arctan(a/b) = arctan(' + fmt(a) + '/' + fmt(b) + ') = <span class="step-highlight">' + fmtDeg(angleA) + '</span>'));
+      steps.push(step(10, 'Angle B = arctan(b/a) = arctan(' + fmt(b) + '/' + fmt(a) + ') = <span class="step-highlight">' + fmtDeg(angleB) + '</span>'));
+      steps.push(step(11, 'Right angle = <span class="step-highlight">90.00&deg;</span> &mdash; Total = ' + fmtDeg(angleA) + ' + ' + fmtDeg(angleB) + ' + 90.00&deg; = <span class="step-highlight">180.00&deg;</span>'));
+
+      /* Display results */
+      setResult(valA, document.getElementById('resA'), fmt(a));
+      setResult(valB, document.getElementById('resB'), fmt(b));
+      setResult(valC, document.getElementById('resC'), fmt(c));
+      setResult(valArea, document.getElementById('resArea'), fmt(area));
+      setResult(valPerimeter, document.getElementById('resPerimeter'), fmt(perimeter));
+      setResult(valAngles, document.getElementById('resAngles'), fmtDeg(angleA) + ', ' + fmtDeg(angleB) + ', 90\u00b0');
+
+      /* Highlight the solved value */
+      if (solving === 'a') document.getElementById('resA').style.borderColor = 'var(--accent)';
+      if (solving === 'b') document.getElementById('resB').style.borderColor = 'var(--accent)';
+      if (solving === 'c') document.getElementById('resC').style.borderColor = 'var(--accent)';
+
+      /* Update SVG */
+      updateTriangleSVG(a, b, c, angleA, angleB);
+
+      /* Show steps */
+      stepsContent.innerHTML = steps.join('');
+      stepsArea.classList.remove('hidden');
+    }
+
+    /* === Clear === */
+    clearBtn.addEventListener('click', function() {
+      sideA.value = '';
+      sideB.value = '';
+      sideC.value = '';
+      resetResults();
+      sideA.focus();
+    });
+
+    /* === Calculate on click === */
+    calcBtn.addEventListener('click', calculate);
+
+    /* === Enter key === */
+    [sideA, sideB, sideC].forEach(function(el) {
+      el.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          calculate();
+        }
+      });
+    });
+
+    /* === Focus first input === */
+    sideA.focus();
+
+  })();
+  </script>
+</body>
+</html>

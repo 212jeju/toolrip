@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reverse Text Generator Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Reverse text, flip words, mirror letters, and generate upside-down Unicode text instantly. Free online reverse text generator — no signup, no data sent to servers.">
+  <link rel="canonical" href="https://toolrip.com/reverse">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Reverse Text Generator Online — Free, Fast, No Signup | Toolrip">
+  <meta property="og:description" content="Reverse text, flip words, mirror letters, and generate upside-down Unicode text instantly. Free online reverse text generator with no signup required.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/reverse">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Reverse Text Generator Online — Free, Fast, No Signup | Toolrip">
+  <meta name="twitter:description" content="Reverse text, flip words, mirror letters, and generate upside-down Unicode text instantly. Free online reverse text generator with no signup required.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--text-cat)}</style>
+
+  <style>
+    /* Mode buttons grid */
+    .mode-buttons{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--sp-2);margin-bottom:var(--sp-4)}
+    .mode-btn{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+      padding:var(--sp-2) var(--sp-3);font-size:.875rem;font-weight:500;color:var(--text);
+      cursor:pointer;transition:border-color .15s,background .15s,color .15s;text-align:center;
+      font-family:inherit;line-height:1.4}
+    .mode-btn:hover{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,transparent);color:var(--accent)}
+    .mode-btn.active{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent);color:var(--accent);font-weight:600}
+
+    /* Text areas */
+    #input-text,#output-text{min-height:160px;transition:height .1s;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
+    #output-text{background:var(--bg);border-color:var(--border)}
+
+    /* Stats row */
+    .text-stats{display:flex;gap:var(--sp-4);font-size:.8125rem;color:var(--text-muted);margin-top:var(--sp-2);flex-wrap:wrap}
+    .text-stats span{display:flex;align-items:center;gap:var(--sp-1)}
+
+    /* Action buttons row */
+    .action-bar{display:flex;gap:var(--sp-2);flex-wrap:wrap;margin-top:var(--sp-3)}
+
+    /* Section label */
+    .section-label{font-size:.8125rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;
+      letter-spacing:.04em;margin-bottom:var(--sp-2)}
+
+    /* Mode explanation grid */
+    .mode-explain-grid{display:grid;grid-template-columns:1fr;gap:var(--sp-3)}
+    .mode-explain-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3)}
+    .mode-explain-card h3{font-size:.9375rem;margin-bottom:var(--sp-1);color:var(--text)}
+    .mode-explain-card code{background:color-mix(in srgb,var(--accent) 10%,transparent);color:var(--accent);
+      padding:2px 6px;border-radius:4px;font-size:.8125rem;font-family:'Fira Code','Consolas',monospace}
+    .mode-explain-card p{font-size:.875rem;color:var(--text-muted);line-height:1.6;margin-top:var(--sp-1)}
+
+    @media(min-width:640px){
+      .mode-buttons{grid-template-columns:repeat(3,1fr)}
+      .mode-explain-grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(min-width:1024px){
+      .mode-buttons{grid-template-columns:repeat(5,1fr)}
+      .mode-explain-grid{grid-template-columns:repeat(3,1fr)}
+    }
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Reverse Text Generator",
+    "url": "https://toolrip.com/reverse",
+    "description": "Reverse text, flip words, mirror letters, and generate upside-down Unicode text instantly. Free online reverse text generator with no signup required.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="top">Ad</div>
+
+    <!-- Breadcrumb -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#text">Text Tools</a>
+        <span>/</span>
+        <span>Reverse Text Generator</span>
+      </nav>
+
+      <h1>Reverse Text Generator</h1>
+      <p class="text-muted mt-1 mb-3">Reverse your text in five different ways: flip the entire string, reorder words, reverse individual word letters, turn text upside down with Unicode characters, or create mirror text. All conversions happen instantly in your browser.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+
+        <!-- Input -->
+        <div class="input-group">
+          <label for="input-text">Enter your text</label>
+          <textarea id="input-text" class="textarea-field" placeholder="Type or paste your text here to reverse it..." rows="8"></textarea>
+          <div class="text-stats" id="input-stats">
+            <span id="stat-chars">0 characters</span>
+            <span id="stat-words">0 words</span>
+          </div>
+        </div>
+
+        <!-- Mode Buttons -->
+        <div class="section-label" style="margin-top:var(--sp-4)">Choose reverse mode</div>
+        <div class="mode-buttons" id="mode-buttons">
+          <button class="mode-btn" data-mode="reverse-text">Reverse Text</button>
+          <button class="mode-btn" data-mode="reverse-words">Reverse Words</button>
+          <button class="mode-btn" data-mode="reverse-letters">Reverse Letters</button>
+          <button class="mode-btn" data-mode="flip-upside-down">Flip Upside Down</button>
+          <button class="mode-btn" data-mode="mirror-text">Mirror Text</button>
+        </div>
+
+        <!-- Output -->
+        <div class="input-group">
+          <label for="output-text">Result</label>
+          <textarea id="output-text" class="textarea-field" placeholder="Reversed text will appear here..." rows="8" readonly></textarea>
+          <div class="text-stats" id="output-stats">
+            <span id="stat-out-chars">0 characters</span>
+            <span id="stat-out-words">0 words</span>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-bar">
+          <button class="btn-primary" id="copy-btn" onclick="copyOutput()">Copy Result</button>
+          <button class="btn-secondary" id="download-btn" onclick="downloadOutput()">Download .txt</button>
+          <button class="btn-secondary" onclick="clearAll()">Clear</button>
+        </div>
+
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(3,1fr)">
+          <div class="feature-card">
+            <h3>5 Reverse Modes</h3>
+            <p>Choose from five distinct text reversal methods to get exactly the output you need. Reverse the entire string character by character, flip the word order while keeping each word intact, reverse only the letters within each word, generate upside-down Unicode text that reads from bottom to top, or produce mirror text that reads right to left. Each mode serves a different creative or technical purpose, giving you complete control over how your text is transformed.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Real-Time Preview</h3>
+            <p>Every keystroke triggers an instant conversion so you can see the result as you type. There is no submit button to press and no loading spinner to wait for. The tool uses efficient string manipulation algorithms that handle even large blocks of text without any perceptible delay. Whether you are experimenting with a short phrase or reversing an entire document, the output updates in real time with zero latency.</p>
+          </div>
+          <div class="feature-card">
+            <h3>100% Client-Side</h3>
+            <p>Your text never leaves your device. All five reversal modes run entirely in client-side JavaScript with no server calls, no API requests, and no data logging. You can safely reverse confidential notes, draft messages, code snippets, or any private content without worrying about third-party access. Nothing is stored after you close or refresh the page, and no cookies track your input.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Reverse Text Generator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Enter your text</strong> — Type directly into the input area or paste content from any source such as a document, email, messaging app, or code editor. The tool accepts any amount of text including special characters, numbers, emoji, and Unicode symbols.</li>
+          <li><strong>Select a reverse mode</strong> — Click one of the five mode buttons to transform your text. The active mode is highlighted and the result appears instantly in the output area. Switch between modes at any time to compare different reversal styles without retyping your input.</li>
+          <li><strong>Copy or download</strong> — Click "Copy Result" to place the reversed text on your clipboard for pasting elsewhere, or click "Download .txt" to save it as a plain text file. Use "Clear" to reset both fields and start over with new text.</li>
+        </ol>
+      </section>
+
+      <!-- Reverse Modes Explained -->
+      <section class="mt-4">
+        <h2>Reverse Modes Explained</h2>
+        <p class="text-muted mb-3">Each reversal mode transforms your text in a unique way. Below is a detailed explanation of all five modes and when you might use them.</p>
+        <div class="mode-explain-grid">
+          <div class="mode-explain-card">
+            <h3>Reverse Text</h3>
+            <code>Hello World &rarr; dlroW olleH</code>
+            <p>Reverses the entire input string character by character from end to start. This is the classic text reversal used to check for palindromes, create backward messages, or generate puzzle content. Every character including spaces, punctuation, and symbols is mirrored in position.</p>
+          </div>
+          <div class="mode-explain-card">
+            <h3>Reverse Words</h3>
+            <code>Hello World &rarr; World Hello</code>
+            <p>Reverses the order of words while keeping each individual word spelled correctly. This mode is commonly used in programming interview challenges, sentence restructuring exercises, and creative writing experiments where you want to invert the flow of a sentence.</p>
+          </div>
+          <div class="mode-explain-card">
+            <h3>Reverse Each Word's Letters</h3>
+            <code>Hello World &rarr; olleH dlroW</code>
+            <p>Reverses the letters within each word individually while maintaining the original word order in the sentence. This produces a scrambled effect that preserves sentence structure. It is useful for word games, educational activities, and testing string parsing logic in code.</p>
+          </div>
+          <div class="mode-explain-card">
+            <h3>Flip Upside Down</h3>
+            <code>Hello World &rarr; plɹoM oll&#x01DD;H</code>
+            <p>Replaces each character with its Unicode upside-down equivalent and reverses the string so the result reads as if the text were physically rotated 180 degrees. The output uses special Unicode characters like &#x0250;, &#x0279;, and &#x0265; that are natively supported in most modern fonts and platforms.</p>
+          </div>
+          <div class="mode-explain-card">
+            <h3>Mirror Text</h3>
+            <code>Hello World &rarr; bloW oll&#x01DD;H</code>
+            <p>Creates a mirrored version of the text by replacing each character with its closest visually mirrored Unicode counterpart and reversing the string. The result simulates what you would see if you held the text up to a mirror. Great for creative social media posts and design mockups.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Informational Content -->
+      <section class="mt-4">
+        <h2>Understanding Text Reversal: From Palindromes to Programming</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">
+          Text reversal is one of the oldest and most versatile string operations in both language and computing. At its simplest, reversing text means reading a sequence of characters from the last position to the first, producing a mirror image of the original string. While this may seem like a trivial operation, it underpins a surprising range of practical applications in software development, linguistics, cryptography, education, and entertainment.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">
+          In the world of programming, string reversal is one of the first algorithms that new developers learn. It appears in technical interviews at every level, from entry-level coding challenges to advanced algorithmic assessments. Candidates are routinely asked to reverse a string in place, reverse words within a sentence, or determine whether a given string is a palindrome. These exercises test fundamental knowledge of arrays, pointers, recursion, and time complexity. In languages like JavaScript, Python, and Java, the reverse operation can be implemented with built-in methods or manually with loops, each approach offering different trade-offs in readability and performance.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">
+          Palindromes occupy a special place in both mathematics and literature. A palindrome is a word, phrase, or sequence that reads the same forward and backward when spaces and punctuation are ignored. Classic examples include words like "racecar" and "madam," and famous phrases that have fascinated linguists for centuries. Palindromes also appear in molecular biology, where palindromic DNA sequences play a critical role in restriction enzyme recognition sites, and in music, where composers have written pieces that sound identical when played in reverse.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">
+          Beyond palindromes, reversed text has deep roots in culture and history. Leonardo da Vinci famously wrote many of his personal notebooks in mirror script, a form of reversed text that can only be read when held up to a mirror. Scholars debate whether he did this for secrecy, to prevent smudging as a left-handed writer, or simply out of habit. Mirror writing also appears in various religious and mystical traditions where reversed text is believed to carry hidden meanings or protective power. In modern culture, backward messages in music recordings became a topic of fascination and controversy during the late twentieth century.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">
+          Unicode has opened up entirely new possibilities for text transformation. The Unicode standard includes hundreds of characters from scripts around the world, and some of these characters happen to visually resemble upside-down or mirrored versions of Latin letters. By mapping each standard letter to its closest flipped Unicode counterpart, tools like this one can produce text that appears to be physically rotated or reflected. This technique is widely used on social media platforms, messaging apps, and forums to create eye-catching usernames, status updates, and decorative text. The flipped characters are real Unicode code points, not images, so they can be copied and pasted into any application that supports Unicode rendering.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">
+          In data processing and software engineering, word-order reversal is a common transformation used in natural language processing pipelines, search index construction, and localization testing. Reversing the order of words in a sentence helps developers verify that their layout engines handle right-to-left text correctly and that word-wrapping algorithms remain robust under different content structures. It is also used in linguistic research to study how word order affects comprehension and readability across different languages.
+        </p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is a palindrome and how can I check for one?</summary>
+          <p>A palindrome is a word, phrase, number, or other sequence of characters that reads the same forward and backward, ignoring spaces, punctuation, and capitalization. Classic examples include "racecar," "level," and "madam." To check if a piece of text is a palindrome, use the Reverse Text mode in this tool and compare the output with the original input. If they match after removing spaces and lowering the case, you have a palindrome. This technique is used not only in word games and puzzles but also in computer science for validating data structures and in molecular biology where palindromic DNA sequences serve as recognition sites for restriction enzymes.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Why would I need to reverse text?</summary>
+          <p>There are many practical and creative reasons to reverse text. Developers use string reversal to practice algorithms, debug text-processing code, and solve interview problems. Writers and content creators use reversed text for puzzles, riddles, and creative effects in storytelling. Social media users generate flipped or mirrored text to make their posts stand out in crowded feeds. Educators use reversed text exercises to teach students about string manipulation, character encoding, and linguistic patterns. Designers use mirror text to create symmetrical layouts and visual effects. Security researchers sometimes encounter reversed strings in obfuscated code or encoded messages that need to be decoded for analysis.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How is reversed text used in programming?</summary>
+          <p>String reversal is a fundamental operation taught in every introductory programming course and tested in most technical interviews. Common programming exercises include reversing a string in place without using extra memory, reversing the words in a sentence while preserving word spelling, checking whether a string is a palindrome, and implementing reversal using recursion instead of iteration. In production code, reversal appears in algorithms for stack-based parsing, undo operations in text editors, generating reverse complements in bioinformatics, and constructing suffix arrays for efficient text search. Understanding how to reverse strings efficiently also helps developers build intuition about time and space complexity that transfers to more advanced data structure problems.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How does the upside-down flip mode work?</summary>
+          <p>The upside-down flip mode uses a character-by-character mapping table that replaces each standard Latin letter, digit, and common punctuation mark with its closest visually flipped Unicode equivalent. For example, the letter "a" is mapped to the turned-a character, "b" becomes "q," and "e" becomes a turned-e. After replacing all characters, the entire string is reversed so the result reads as if you physically rotated the original text 180 degrees. These replacement characters are real Unicode code points drawn from the International Phonetic Alphabet, mathematical symbols, and other Unicode blocks. They display correctly in most modern browsers, messaging apps, and social media platforms without requiring any special fonts or plugins.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can I use flipped or mirrored text on social media?</summary>
+          <p>Yes, the upside-down and mirror text produced by this tool is composed entirely of standard Unicode characters that are supported on virtually every major platform including Facebook, Twitter, Instagram, TikTok, YouTube, Reddit, Discord, WhatsApp, and Telegram. You can copy the output and paste it directly into posts, comments, bios, usernames, and messages. The characters will display correctly on both desktop and mobile devices without any additional software. Keep in mind that some platforms may handle certain Unicode characters differently in search or notification previews, and accessibility tools like screen readers may not pronounce the flipped characters as expected, so use this feature thoughtfully in contexts where readability matters.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does this tool handle emoji and special characters?</summary>
+          <p>Yes, this tool correctly handles emoji, accented characters, and other Unicode symbols in all five reversal modes. The Reverse Text, Reverse Words, and Reverse Letters modes preserve every character exactly as it appears, simply changing their position in the output string. For the Upside Down and Mirror modes, characters that have a known flipped or mirrored equivalent are replaced accordingly, while characters without a mapping, such as most emoji, CJK ideographs, and uncommon symbols, are passed through unchanged. This means you can safely paste text containing emoji, mathematical notation, currency symbols, or characters from non-Latin scripts and the tool will process them without errors or data loss.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is my text private when using this tool?</summary>
+          <p>Absolutely. Privacy is a core principle of every tool on Toolrip. This reverse text generator runs entirely in your browser using client-side JavaScript. Your text is never sent to any server, API, database, or third-party service. There is no backend processing and no analytics tracking of your input content. You can verify this by opening your browser developer tools and monitoring the network tab while using the tool; you will see that no requests are made containing your text. This makes the tool completely safe for reversing confidential documents, private messages, proprietary code, personal notes, or any other sensitive content. Nothing is stored after you close or refresh the page.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/word-count">Word Counter</a>
+          <a href="https://toolrip.com/case">Case Converter</a>
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* ========================================
+       *  DOM References
+       * ======================================== */
+      var inputEl = document.getElementById('input-text');
+      var outputEl = document.getElementById('output-text');
+      var statChars = document.getElementById('stat-chars');
+      var statWords = document.getElementById('stat-words');
+      var statOutChars = document.getElementById('stat-out-chars');
+      var statOutWords = document.getElementById('stat-out-words');
+      var buttonsContainer = document.getElementById('mode-buttons');
+      var activeMode = null;
+
+      /* ========================================
+       *  Upside-Down Character Map
+       * ======================================== */
+      var flipMap = {
+        'a':'\u0250','b':'q','c':'\u0254','d':'p','e':'\u01DD',
+        'f':'\u025F','g':'\u0253','h':'\u0265','i':'\u0131','j':'\u027E',
+        'k':'\u029E','l':'l','m':'\u026F','n':'u','o':'o',
+        'p':'d','q':'b','r':'\u0279','s':'s','t':'\u0287',
+        'u':'n','v':'\u028C','w':'\u028D','x':'x','y':'\u028E',
+        'z':'z',
+        'A':'\u2200','B':'\u15FA','C':'\u0186','D':'\u15E1','E':'\u018E',
+        'F':'\u2132','G':'\u2141','H':'H','I':'I','J':'\u017F',
+        'K':'\u22CA','L':'\u2142','M':'W','N':'\u0418','O':'O',
+        'P':'\u0500','Q':'\u038C','R':'\u1D1A','S':'S','T':'\u2534',
+        'U':'\u2229','V':'\u039B','W':'M','X':'X','Y':'\u2144',
+        'Z':'Z',
+        '0':'0','1':'\u21C2','2':'\u1105','3':'\u0190','4':'\u3123',
+        '5':'\u078E','6':'9','7':'\u3125','8':'8','9':'6',
+        '.':'\u02D9',',':'\u02BB','\'':',','"':'\u201E',
+        '`':',','?':'\u00BF','!':'\u00A1','(':')',')':'(',
+        '[':']',']':'[','{':'}','}':'{','<':'>','>':'<',
+        '&':'\u214B','_':'\u203E','/':'\\','\\':'/',';':'\u061B'
+      };
+
+      /* ========================================
+       *  Mirror Character Map
+       * ======================================== */
+      var mirrorMap = {
+        'a':'\u0250','b':'d','c':'\u0254','d':'b','e':'\u01DD',
+        'f':'\u025F','g':'\u0253','h':'\u0265','i':'i','j':'\u027E',
+        'k':'\u029E','l':'l','m':'m','n':'n','o':'o',
+        'p':'q','q':'p','r':'\u0279','s':'\u0255','t':'\u0287',
+        'u':'u','v':'v','w':'w','x':'x','y':'\u028E',
+        'z':'z',
+        'A':'A','B':'\u15FA','C':'\u0186','D':'\u15E1','E':'\u018E',
+        'F':'\u2132','G':'\u2141','H':'H','I':'I','J':'\u017F',
+        'K':'\u22CA','L':'\u2142','M':'M','N':'N','O':'O',
+        'P':'\u0500','Q':'\u038C','R':'\u1D1A','S':'\u01A7','T':'T',
+        'U':'U','V':'V','W':'W','X':'X','Y':'Y',
+        'Z':'Z',
+        '(':')',')':'(','[':']',']':'[','{':'}','}':'{',
+        '<':'>','>':'<','/':'\\','\\':'/','?':'\u00BF','!':'\u00A1'
+      };
+
+      /* ========================================
+       *  Count words (simple whitespace split)
+       * ======================================== */
+      function countWords(text) {
+        var trimmed = text.trim();
+        if (trimmed === '') return 0;
+        return trimmed.split(/\s+/).length;
+      }
+
+      /* ========================================
+       *  Reverse the string (grapheme-aware)
+       * ======================================== */
+      function reverseString(str) {
+        return Array.from(str).reverse().join('');
+      }
+
+      /* ========================================
+       *  Conversion functions
+       * ======================================== */
+      var converters = {
+
+        'reverse-text': function (text) {
+          return reverseString(text);
+        },
+
+        'reverse-words': function (text) {
+          return text.split(/(\s+)/).reverse().join('');
+        },
+
+        'reverse-letters': function (text) {
+          return text.split(/(\s+)/).map(function (segment) {
+            if (/^\s+$/.test(segment)) return segment;
+            return reverseString(segment);
+          }).join('');
+        },
+
+        'flip-upside-down': function (text) {
+          var chars = Array.from(text);
+          var flipped = chars.map(function (ch) {
+            return flipMap[ch] || ch;
+          });
+          return flipped.reverse().join('');
+        },
+
+        'mirror-text': function (text) {
+          var chars = Array.from(text);
+          var mirrored = chars.map(function (ch) {
+            return mirrorMap[ch] || ch;
+          });
+          return mirrored.reverse().join('');
+        }
+      };
+
+      /* ========================================
+       *  Update character / word stats
+       * ======================================== */
+      function updateStats() {
+        var inputText = inputEl.value;
+        var outputText = outputEl.value;
+        statChars.textContent = inputText.length + ' character' + (inputText.length !== 1 ? 's' : '');
+        statWords.textContent = countWords(inputText) + ' word' + (countWords(inputText) !== 1 ? 's' : '');
+        statOutChars.textContent = outputText.length + ' character' + (outputText.length !== 1 ? 's' : '');
+        statOutWords.textContent = countWords(outputText) + ' word' + (countWords(outputText) !== 1 ? 's' : '');
+      }
+
+      /* ========================================
+       *  Perform conversion
+       * ======================================== */
+      function convert(modeName) {
+        var text = inputEl.value;
+        if (!converters[modeName]) return;
+        outputEl.value = converters[modeName](text);
+        updateStats();
+
+        /* Highlight active button */
+        var buttons = buttonsContainer.querySelectorAll('.mode-btn');
+        buttons.forEach(function (btn) {
+          btn.classList.toggle('active', btn.getAttribute('data-mode') === modeName);
+        });
+        activeMode = modeName;
+      }
+
+      /* ========================================
+       *  Event: button clicks
+       * ======================================== */
+      buttonsContainer.addEventListener('click', function (e) {
+        var btn = e.target.closest('.mode-btn');
+        if (!btn) return;
+        var modeName = btn.getAttribute('data-mode');
+        convert(modeName);
+      });
+
+      /* ========================================
+       *  Event: live re-conversion on input change
+       * ======================================== */
+      var debounceTimer;
+      inputEl.addEventListener('input', function () {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(function () {
+          if (activeMode) {
+            convert(activeMode);
+          }
+          updateStats();
+        }, 50);
+      });
+
+      /* ========================================
+       *  Copy output to clipboard
+       * ======================================== */
+      window.copyOutput = function () {
+        var text = outputEl.value;
+        if (!text) {
+          showToast('Nothing to copy. Reverse some text first.', 'error');
+          return;
+        }
+        copyToClipboard(text, document.getElementById('copy-btn'));
+        showToast('Copied to clipboard!', 'success');
+      };
+
+      /* ========================================
+       *  Download output as .txt
+       * ======================================== */
+      window.downloadOutput = function () {
+        var text = outputEl.value;
+        if (!text) {
+          showToast('Nothing to download. Reverse some text first.', 'error');
+          return;
+        }
+        var blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'reversed-text.txt';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('File downloaded!', 'success');
+      };
+
+      /* ========================================
+       *  Clear all
+       * ======================================== */
+      window.clearAll = function () {
+        inputEl.value = '';
+        outputEl.value = '';
+        activeMode = null;
+        var buttons = buttonsContainer.querySelectorAll('.mode-btn');
+        buttons.forEach(function (btn) { btn.classList.remove('active'); });
+        updateStats();
+        inputEl.focus();
+        showToast('Text cleared.', 'info');
+      };
+
+      /* ========================================
+       *  Initialize stats
+       * ======================================== */
+      updateStats();
+    })();
+  </script>
+</body>
+</html>

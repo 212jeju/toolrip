@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EMI Calculator Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Calculate your Equated Monthly Installment (EMI) instantly. View amortization schedule, total interest, and principal vs interest breakdown. Free online EMI calculator.">
+  <link rel="canonical" href="https://toolrip.com/emi">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="EMI Calculator — Toolrip">
+  <meta property="og:description" content="Calculate your Equated Monthly Installment (EMI) instantly. View amortization schedule, total interest, and principal vs interest breakdown. Free online EMI calculator.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/emi">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="EMI Calculator — Toolrip">
+  <meta name="twitter:description" content="Calculate your Equated Monthly Installment (EMI) instantly. View amortization schedule, total interest, and principal vs interest breakdown. Free online EMI calculator.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--finance)}</style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "EMI Calculator",
+    "url": "https://toolrip.com/emi",
+    "description": "Calculate your Equated Monthly Installment (EMI) instantly. View amortization schedule, total interest, and principal vs interest breakdown.",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Finance", "item": "https://toolrip.com/#finance" },
+      { "@type": "ListItem", "position": 3, "name": "EMI Calculator", "item": "https://toolrip.com/emi" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the EMI formula?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "EMI is calculated using the formula: EMI = P × r × (1+r)^n / ((1+r)^n - 1), where P is the principal loan amount, r is the monthly interest rate (annual rate divided by 12 and then by 100), and n is the total number of monthly installments."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What happens if I prepay my loan?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Prepaying your loan reduces the outstanding principal, which in turn reduces the total interest you pay. Most lenders allow partial or full prepayment, though some may charge a prepayment penalty. Prepayment can either reduce your EMI amount or shorten the loan tenure depending on the option you choose."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between flat rate and reducing balance rate?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A flat rate charges interest on the entire original loan amount throughout the tenure, making the effective rate much higher. A reducing balance rate charges interest only on the outstanding principal each month, which decreases as you make payments. Most banks use the reducing balance method, which this calculator follows."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does the interest rate affect my EMI?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Higher interest rates increase your EMI and the total interest paid over the loan term. Even a small change like 0.5% can significantly impact the total cost. For example, on a $200,000 loan for 20 years, a 0.5% rate increase can add over $12,000 in total interest."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I reduce my EMI amount?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can reduce your EMI by increasing your down payment, opting for a longer loan tenure, negotiating a lower interest rate, or making prepayments to reduce the outstanding principal. Comparing offers from multiple lenders can also help secure better terms."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is an amortization schedule?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "An amortization schedule is a detailed table showing each monthly payment broken down into principal and interest components along with the remaining balance. It helps you understand how your loan is paid off over time and how much interest you pay each month."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does EMI include insurance and taxes?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A standard EMI calculation only includes the principal repayment and interest. Insurance premiums, processing fees, and taxes are typically separate charges. This calculator focuses on the core EMI computation based on principal, interest rate, and tenure."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    /* Tool-specific styles */
+    .emi-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--sp-4);
+    }
+    @media (min-width: 640px) {
+      .emi-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .tenure-toggle {
+      display: flex;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .tenure-toggle button {
+      flex: 1;
+      padding: var(--sp-2) var(--sp-3);
+      background: var(--bg);
+      border: none;
+      color: var(--text-muted);
+      font: inherit;
+      font-size: .875rem;
+      cursor: pointer;
+      transition: background .15s, color .15s;
+    }
+    .tenure-toggle button.active {
+      background: var(--accent);
+      color: #fff;
+      font-weight: 600;
+    }
+    .result-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-4);
+      text-align: center;
+    }
+    .result-card.primary {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 5%, var(--bg));
+    }
+    .result-label {
+      font-size: .8rem;
+      color: var(--text-muted);
+      margin-bottom: var(--sp-1);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .result-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .result-value.large {
+      font-size: 2.25rem;
+      color: var(--accent);
+    }
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--sp-3);
+      margin-top: var(--sp-4);
+    }
+    @media (max-width: 639px) {
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Breakdown list */
+    .breakdown-list {
+      list-style: none;
+      padding: 0;
+      margin: var(--sp-3) 0 0;
+    }
+    .breakdown-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--sp-2) 0;
+      border-bottom: 1px solid var(--border);
+      font-size: .9375rem;
+    }
+    .breakdown-list li:last-child {
+      border-bottom: none;
+    }
+    .breakdown-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: var(--sp-2);
+      vertical-align: middle;
+    }
+    .breakdown-label {
+      color: var(--text-muted);
+    }
+    .breakdown-value {
+      font-weight: 600;
+    }
+
+    /* Pie chart */
+    .chart-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--sp-4);
+      flex-wrap: wrap;
+      margin-top: var(--sp-3);
+    }
+    .pie-chart-wrapper {
+      position: relative;
+      width: 200px;
+      height: 200px;
+    }
+    .pie-chart-wrapper svg {
+      width: 200px;
+      height: 200px;
+      transform: rotate(-90deg);
+    }
+    .pie-center-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+    .pie-center-label .amount {
+      font-size: 1.1rem;
+      font-weight: 700;
+      display: block;
+    }
+    .pie-center-label .label {
+      font-size: .7rem;
+      color: var(--text-muted);
+    }
+
+    /* Summary grid */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-3);
+      margin-top: var(--sp-3);
+    }
+    @media (max-width: 639px) {
+      .summary-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Amortization table */
+    .amort-table-wrap {
+      overflow-x: auto;
+      margin-top: var(--sp-3);
+    }
+    .amort-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .8125rem;
+    }
+    .amort-table th {
+      text-align: left;
+      padding: var(--sp-2) var(--sp-2);
+      border-bottom: 2px solid var(--border);
+      font-size: .75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .03em;
+      white-space: nowrap;
+    }
+    .amort-table td {
+      padding: var(--sp-2) var(--sp-2);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .amort-table tr:hover td {
+      background: var(--bg-elevated);
+    }
+
+    /* Show-all button */
+    .show-all-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-1);
+      margin-top: var(--sp-3);
+      padding: var(--sp-2) var(--sp-3);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--accent);
+      font: inherit;
+      font-size: .875rem;
+      cursor: pointer;
+      transition: border-color .15s;
+    }
+    .show-all-btn:hover {
+      border-color: var(--accent);
+    }
+
+    /* Error styling */
+    .input-field.error {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
+    }
+    .error-msg {
+      color: #ef4444;
+      font-size: .75rem;
+      margin-top: 2px;
+      display: none;
+    }
+    .error-msg.visible {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="top">Ad</div>
+
+    <!-- Breadcrumb -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#finance">Finance</a>
+        <span>/</span>
+        <span>EMI Calculator</span>
+      </nav>
+
+      <h1>EMI Calculator</h1>
+      <p class="text-muted mt-1 mb-3">Calculate your Equated Monthly Installment instantly with a full breakdown of principal, interest, and a detailed amortization schedule.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <div class="emi-grid">
+
+          <!-- Left: Inputs -->
+          <div>
+            <div class="input-group">
+              <label for="loanAmount">Loan Amount ($)</label>
+              <input type="text" id="loanAmount" class="input-field" placeholder="500,000" inputmode="decimal">
+              <span class="error-msg" id="loanAmountErr">Enter a valid loan amount greater than 0.</span>
+            </div>
+
+            <div class="input-group">
+              <label for="interestRate">Annual Interest Rate (%)</label>
+              <input type="text" id="interestRate" class="input-field" placeholder="8.5" inputmode="decimal">
+              <span class="error-msg" id="interestRateErr">Enter a valid interest rate (0.01 - 50).</span>
+            </div>
+
+            <div class="input-group">
+              <label>Loan Tenure</label>
+              <div class="tenure-toggle" id="tenureToggle">
+                <button type="button" class="active" data-unit="years">Years</button>
+                <button type="button" data-unit="months">Months</button>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label for="loanTenure" id="tenureLabel">Tenure (Years)</label>
+              <input type="text" id="loanTenure" class="input-field" placeholder="20" inputmode="decimal">
+              <span class="error-msg" id="loanTenureErr">Enter a valid tenure greater than 0.</span>
+            </div>
+
+            <div class="flex gap-2 mt-2">
+              <button class="btn-primary" onclick="calculate()">Calculate</button>
+              <button class="btn-secondary" onclick="resetAll()">Clear</button>
+            </div>
+          </div>
+
+          <!-- Right: Results Summary -->
+          <div>
+            <div class="result-card primary">
+              <div class="result-label">Monthly EMI</div>
+              <div class="result-value large" id="emiResult">$0.00</div>
+            </div>
+
+            <div class="result-grid">
+              <div class="result-card">
+                <div class="result-label">Total Interest</div>
+                <div class="result-value" id="totalInterest">$0.00</div>
+              </div>
+              <div class="result-card">
+                <div class="result-label">Total Payment</div>
+                <div class="result-value" id="totalPayment">$0.00</div>
+              </div>
+            </div>
+
+            <ul class="breakdown-list" id="breakdownList">
+              <li>
+                <span><span class="breakdown-dot" style="background:#10b981"></span><span class="breakdown-label">Principal</span></span>
+                <span class="breakdown-value" id="principalDisplay">$0.00</span>
+              </li>
+              <li>
+                <span><span class="breakdown-dot" style="background:#f59e0b"></span><span class="breakdown-label">Total Interest</span></span>
+                <span class="breakdown-value" id="interestDisplay">$0.00</span>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Pie Chart & Summary -->
+      <div class="tool-card" id="chartCard" style="display:none">
+        <h2 style="font-size:1.125rem;margin-bottom:var(--sp-2)">Principal vs Interest Breakdown</h2>
+        <div class="chart-container">
+          <div class="pie-chart-wrapper">
+            <svg viewBox="0 0 200 200" id="pieChart">
+              <circle cx="100" cy="100" r="80" fill="none" stroke="var(--border)" stroke-width="40"/>
+            </svg>
+            <div class="pie-center-label">
+              <span class="amount" id="pieCenter">$0</span>
+              <span class="label">Total</span>
+            </div>
+          </div>
+          <div>
+            <ul class="breakdown-list" id="chartLegend" style="min-width:180px"></ul>
+          </div>
+        </div>
+
+        <div class="summary-grid">
+          <div class="result-card">
+            <div class="result-label">Loan Amount</div>
+            <div class="result-value" id="summaryPrincipal">$0.00</div>
+          </div>
+          <div class="result-card">
+            <div class="result-label">Total Interest</div>
+            <div class="result-value" id="summaryInterest">$0.00</div>
+          </div>
+          <div class="result-card">
+            <div class="result-label">Total Payment</div>
+            <div class="result-value" id="summaryTotal">$0.00</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Amortization Schedule -->
+      <div class="tool-card" id="amortCard" style="display:none">
+        <h2 style="font-size:1.125rem;margin-bottom:var(--sp-2)">Amortization Schedule</h2>
+        <div class="amort-table-wrap">
+          <table class="amort-table">
+            <thead>
+              <tr>
+                <th>Month</th>
+                <th>EMI</th>
+                <th>Principal</th>
+                <th>Interest</th>
+                <th>Balance</th>
+              </tr>
+            </thead>
+            <tbody id="amortBody"></tbody>
+          </table>
+        </div>
+        <button class="show-all-btn" id="showAllBtn" onclick="toggleAmort()">Show All Months</button>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="in-content">Ad</div>
+
+      <!-- What is EMI -->
+      <section class="mt-4">
+        <h2>What Is EMI and How Is It Calculated?</h2>
+        <p style="color:var(--text-muted);line-height:1.8">EMI stands for Equated Monthly Installment. It is the fixed amount a borrower pays to the lender on a specific date each month until the loan is fully repaid. Each EMI consists of two components: the principal repayment and the interest charged on the outstanding loan balance. In the early months of the loan, a larger portion of the EMI goes toward paying interest, while a smaller portion reduces the principal. As time progresses and the outstanding balance decreases, the interest component shrinks and a greater share of each payment is applied toward the principal. This gradual shift is the hallmark of the reducing balance method, which is the standard approach used by most banks and financial institutions around the world.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-3)">The mathematical formula for calculating EMI is: <strong>EMI = P &times; r &times; (1+r)<sup>n</sup> / ((1+r)<sup>n</sup> &minus; 1)</strong>, where P represents the principal loan amount, r is the monthly interest rate (the annual rate divided by 12 and then by 100), and n is the total number of monthly installments. This formula assumes a fixed interest rate throughout the loan period and equal monthly payments from the first installment to the last. Understanding this formula helps borrowers evaluate different loan offers and determine the true cost of borrowing before committing to a financial agreement.</p>
+      </section>
+
+      <!-- Factors Affecting EMI -->
+      <section class="mt-4">
+        <h2>Factors That Affect Your EMI</h2>
+        <p style="color:var(--text-muted);line-height:1.8">Three primary factors determine the size of your EMI. The first and most obvious is the <strong>loan amount</strong> (principal). A higher borrowing amount directly increases your monthly installment. Borrowers should carefully assess how much they truly need and avoid over-borrowing, as even a modest increase in the loan amount can add up to thousands of dollars in additional interest over the loan term.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-3)">The second factor is the <strong>interest rate</strong>. Even a difference of half a percentage point can have a dramatic impact on total repayment. On a $200,000 loan over 20 years, an increase from 7% to 7.5% adds approximately $60 per month to the EMI and over $14,000 in total interest. Borrowers should compare rates from multiple lenders and consider whether a fixed or floating rate structure better suits their financial situation and risk tolerance.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-3)">The third factor is the <strong>loan tenure</strong>. A longer tenure reduces the monthly EMI but increases the total interest paid over the life of the loan. Conversely, a shorter tenure results in higher monthly payments but significantly lowers the overall interest cost. For example, choosing a 15-year term instead of a 30-year term on a $300,000 loan at 8% can save over $250,000 in total interest, though the monthly EMI will be substantially higher. Finding the right balance between affordable monthly payments and minimizing total interest is key to sound financial planning.</p>
+      </section>
+
+      <!-- Tips Section -->
+      <section class="mt-4">
+        <h2>Tips for Reducing Your EMI</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Increase Your Down Payment</h3>
+            <p>A larger down payment reduces the principal amount you need to borrow, which directly lowers your EMI. Even an additional 5% to 10% upfront can make a meaningful difference in your monthly obligation and the total interest paid over the loan term.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Compare Lenders for Best Rates</h3>
+            <p>Interest rates vary significantly across banks and financial institutions. Shopping around and negotiating can secure a lower rate that saves thousands over the loan period. Check for special offers, relationship discounts, and promotional rates before finalizing your loan.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Choose the Right Tenure</h3>
+            <p>Select a tenure that balances monthly affordability with total interest cost. Use this EMI calculator to experiment with different tenures and see how each option affects both your monthly payment and the total amount you will repay over the life of the loan.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Make Prepayments When Possible</h3>
+            <p>Whenever you receive a bonus, tax refund, or windfall, consider making a partial prepayment on your loan. Reducing the outstanding principal even slightly can lower your future interest charges and either reduce your remaining EMIs or shorten the loan tenure.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Maintain a Strong Credit Score</h3>
+            <p>Lenders offer lower interest rates to borrowers with excellent credit scores. Pay your bills on time, keep credit utilization low, and avoid taking on excessive debt. A good credit history gives you leverage when negotiating loan terms and can significantly reduce your EMI.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Consider Balance Transfer</h3>
+            <p>If interest rates drop after you take a loan, you may be able to transfer your outstanding balance to a new lender at a lower rate. This can reduce your remaining EMI payments substantially, though you should factor in any processing or transfer fees before making the switch.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the EMI Calculator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li>Enter the total loan amount you plan to borrow. This is the principal on which your EMI will be calculated. You can type the number with or without commas.</li>
+          <li>Enter the annual interest rate offered by your lender. The calculator converts this to a monthly rate automatically for the EMI computation.</li>
+          <li>Toggle between years and months for the loan tenure, then enter your preferred repayment period. A longer tenure means lower EMI but higher total interest.</li>
+          <li>Click the Calculate button to see your monthly EMI, total interest, total payment, a visual principal vs interest pie chart, and a detailed month-by-month amortization schedule.</li>
+        </ol>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is the EMI formula?</summary>
+          <p>EMI is calculated using the standard reducing balance formula: EMI = P &times; r &times; (1+r)<sup>n</sup> / ((1+r)<sup>n</sup> &minus; 1). Here, P is the principal loan amount, r is the monthly interest rate (annual rate divided by 1200), and n is the total number of monthly installments. This formula ensures that each monthly payment covers both interest on the outstanding balance and a portion of the principal, resulting in the loan being fully repaid by the end of the tenure. The formula assumes a fixed interest rate and equal payments throughout the loan period.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What happens if I prepay my loan?</summary>
+          <p>Prepaying your loan means making additional payments beyond your regular EMI to reduce the outstanding principal faster. This lowers the total interest you pay over the life of the loan. When you prepay, you typically have two options: reduce the remaining EMI amount while keeping the same tenure, or keep the same EMI and shorten the loan tenure. Most banks and financial institutions allow prepayments, though some may charge a prepayment penalty of around 1% to 3% of the prepaid amount. It is advisable to check your loan agreement for prepayment terms before making extra payments.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between flat rate and reducing balance rate?</summary>
+          <p>A flat rate charges interest on the original loan amount throughout the entire tenure, regardless of how much principal you have already repaid. This means you effectively pay interest on money you no longer owe, making the true cost significantly higher than the stated rate. A reducing balance rate, on the other hand, charges interest only on the outstanding principal each month. As you make payments and the balance decreases, the interest component of your EMI also decreases. Most banks use the reducing balance method, which is what this calculator uses. A flat rate of 8% is roughly equivalent to a reducing balance rate of 14% to 15%.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How does the interest rate affect my EMI?</summary>
+          <p>The interest rate is one of the most significant factors determining your EMI and total loan cost. A higher interest rate increases both the monthly payment and the total amount of interest paid over the loan term. For instance, on a $200,000 loan over 20 years, an interest rate of 7% results in an EMI of approximately $1,550, while a rate of 9% increases it to about $1,800. That difference of $250 per month adds up to $60,000 in additional payments over the full loan period. Even a quarter-point reduction in the rate can save thousands of dollars over a long-term loan.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can I reduce my EMI amount?</summary>
+          <p>There are several strategies to reduce your EMI. Increasing your down payment lowers the loan principal. Opting for a longer tenure spreads the repayment over more months, reducing each installment. Negotiating a lower interest rate or refinancing your existing loan at a better rate also brings down the EMI. Making partial prepayments reduces the outstanding balance and can lower subsequent EMIs. Additionally, maintaining a strong credit score gives you access to preferential interest rates, which naturally reduces the EMI for any given loan amount and tenure.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is an amortization schedule?</summary>
+          <p>An amortization schedule is a comprehensive table that shows the detailed breakdown of each monthly loan payment over the entire tenure. For every month, it lists the EMI amount, the portion applied to principal repayment, the portion going toward interest, and the remaining outstanding balance. In the early months, interest dominates the payment, but as the balance decreases, more of each EMI is applied to the principal. This schedule is valuable for understanding exactly how your loan is repaid and for planning prepayments or refinancing decisions at optimal points in the repayment cycle.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does EMI include insurance and taxes?</summary>
+          <p>A standard EMI calculation covers only the principal repayment and the interest charged on the outstanding loan balance. It does not include additional costs such as loan insurance premiums, processing fees, administrative charges, or applicable taxes. Some lenders bundle loan protection insurance into the EMI, but this is separate from the core EMI formula. When comparing loan offers, be sure to ask about all associated costs beyond the EMI to get a complete picture of your total monthly financial obligation and the true cost of the loan.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/mortgage">Mortgage Calculator</a>
+          <a href="https://toolrip.com/compound-interest">Compound Interest Calculator</a>
+          <a href="https://toolrip.com/salary">Salary Calculator</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+          <a href="https://toolrip.com/tip">Tip Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- EMI Calculator JS -->
+  <script>
+    (function() {
+      'use strict';
+
+      /* --- DOM References --- */
+      var els = {
+        loanAmount:     document.getElementById('loanAmount'),
+        interestRate:   document.getElementById('interestRate'),
+        loanTenure:     document.getElementById('loanTenure'),
+        tenureToggle:   document.getElementById('tenureToggle'),
+        tenureLabel:    document.getElementById('tenureLabel'),
+        emiResult:      document.getElementById('emiResult'),
+        totalInterest:  document.getElementById('totalInterest'),
+        totalPayment:   document.getElementById('totalPayment'),
+        principalDisplay: document.getElementById('principalDisplay'),
+        interestDisplay:  document.getElementById('interestDisplay'),
+        chartCard:      document.getElementById('chartCard'),
+        pieChart:       document.getElementById('pieChart'),
+        pieCenter:      document.getElementById('pieCenter'),
+        chartLegend:    document.getElementById('chartLegend'),
+        summaryPrincipal: document.getElementById('summaryPrincipal'),
+        summaryInterest:  document.getElementById('summaryInterest'),
+        summaryTotal:     document.getElementById('summaryTotal'),
+        amortCard:      document.getElementById('amortCard'),
+        amortBody:      document.getElementById('amortBody'),
+        showAllBtn:     document.getElementById('showAllBtn'),
+        loanAmountErr:  document.getElementById('loanAmountErr'),
+        interestRateErr:document.getElementById('interestRateErr'),
+        loanTenureErr:  document.getElementById('loanTenureErr')
+      };
+
+      var tenureUnit = 'years';
+      var amortData = [];
+      var showAll = false;
+
+      /* --- Parsing Helpers --- */
+      function parseNum(str) {
+        if (!str) return 0;
+        return parseFloat(str.replace(/[^0-9.\-]/g, '')) || 0;
+      }
+
+      function fmtInput(el) {
+        var val = parseNum(el.value);
+        if (val > 0) {
+          el.value = formatNumber(val, 0);
+        }
+      }
+
+      /* --- Validation --- */
+      function showError(inputEl, errEl, show) {
+        if (show) {
+          inputEl.classList.add('error');
+          errEl.classList.add('visible');
+        } else {
+          inputEl.classList.remove('error');
+          errEl.classList.remove('visible');
+        }
+      }
+
+      function validate() {
+        var valid = true;
+        var loan = parseNum(els.loanAmount.value);
+        var rate = parseNum(els.interestRate.value);
+        var tenure = parseNum(els.loanTenure.value);
+
+        if (loan <= 0) {
+          showError(els.loanAmount, els.loanAmountErr, true);
+          valid = false;
+        } else {
+          showError(els.loanAmount, els.loanAmountErr, false);
+        }
+
+        if (rate <= 0 || rate > 50) {
+          showError(els.interestRate, els.interestRateErr, true);
+          valid = false;
+        } else {
+          showError(els.interestRate, els.interestRateErr, false);
+        }
+
+        if (tenure <= 0) {
+          showError(els.loanTenure, els.loanTenureErr, true);
+          valid = false;
+        } else {
+          showError(els.loanTenure, els.loanTenureErr, false);
+        }
+
+        return valid;
+      }
+
+      /* --- Tenure Toggle --- */
+      els.tenureToggle.addEventListener('click', function(e) {
+        var btn = e.target.closest('button');
+        if (!btn) return;
+        var unit = btn.dataset.unit;
+        if (unit === tenureUnit) return;
+
+        tenureUnit = unit;
+        var buttons = els.tenureToggle.querySelectorAll('button');
+        buttons.forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+
+        els.tenureLabel.textContent = 'Tenure (' + (unit === 'years' ? 'Years' : 'Months') + ')';
+
+        // Convert value
+        var val = parseNum(els.loanTenure.value);
+        if (val > 0) {
+          if (unit === 'months') {
+            els.loanTenure.value = Math.round(val * 12);
+          } else {
+            els.loanTenure.value = (val / 12).toFixed(1).replace(/\.0$/, '');
+          }
+        }
+      });
+
+      /* --- Core Calculation --- */
+      function calculate() {
+        if (!validate()) return;
+
+        var P = parseNum(els.loanAmount.value);
+        var annualRate = parseNum(els.interestRate.value);
+        var tenureVal = parseNum(els.loanTenure.value);
+
+        // Convert tenure to months
+        var n = tenureUnit === 'years' ? Math.round(tenureVal * 12) : Math.round(tenureVal);
+
+        if (n <= 0) {
+          showToast('Tenure must be at least 1 month.', 'error');
+          return;
+        }
+
+        var r = annualRate / 100 / 12; // monthly interest rate
+
+        // EMI = P * r * (1+r)^n / ((1+r)^n - 1)
+        var emi;
+        if (r === 0) {
+          emi = P / n;
+        } else {
+          var factor = Math.pow(1 + r, n);
+          emi = P * (r * factor) / (factor - 1);
+        }
+
+        var totalAmount = emi * n;
+        var totalInterest = totalAmount - P;
+
+        // Update display
+        els.emiResult.textContent = formatCurrency(emi);
+        els.totalInterest.textContent = formatCurrency(totalInterest);
+        els.totalPayment.textContent = formatCurrency(totalAmount);
+        els.principalDisplay.textContent = formatCurrency(P);
+        els.interestDisplay.textContent = formatCurrency(totalInterest);
+
+        // Summary cards
+        els.summaryPrincipal.textContent = formatCurrency(P);
+        els.summaryInterest.textContent = formatCurrency(totalInterest);
+        els.summaryTotal.textContent = formatCurrency(totalAmount);
+
+        // Build pie chart
+        buildPieChart(P, totalInterest, totalAmount);
+
+        // Build amortization
+        buildAmortization(P, r, emi, n);
+
+        els.chartCard.style.display = '';
+        els.amortCard.style.display = '';
+      }
+
+      /* --- Pie Chart (SVG donut) --- */
+      function buildPieChart(principal, interest, total) {
+        var slices = [
+          { label: 'Principal', value: principal, color: '#10b981' },
+          { label: 'Interest',  value: interest,  color: '#f59e0b' }
+        ];
+
+        var svg = els.pieChart;
+        svg.innerHTML = '';
+
+        var cx = 100, cy = 100, r = 80;
+        var circumference = 2 * Math.PI * r;
+        var offset = 0;
+
+        slices.forEach(function(slice) {
+          if (slice.value <= 0) return;
+          var pct = slice.value / total;
+          var dashLen = pct * circumference;
+          var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          circle.setAttribute('cx', cx);
+          circle.setAttribute('cy', cy);
+          circle.setAttribute('r', r);
+          circle.setAttribute('fill', 'none');
+          circle.setAttribute('stroke', slice.color);
+          circle.setAttribute('stroke-width', '40');
+          circle.setAttribute('stroke-dasharray', dashLen + ' ' + (circumference - dashLen));
+          circle.setAttribute('stroke-dashoffset', -offset);
+          svg.appendChild(circle);
+          offset += dashLen;
+        });
+
+        els.pieCenter.textContent = formatCurrency(total);
+
+        // Legend
+        var legend = '';
+        slices.forEach(function(s) {
+          if (s.value <= 0) return;
+          var pct = ((s.value / total) * 100).toFixed(1);
+          legend += '<li><span><span class="breakdown-dot" style="background:' + s.color + '"></span>'
+            + '<span class="breakdown-label">' + s.label + '</span></span>'
+            + '<span class="breakdown-value">' + pct + '% (' + formatCurrency(s.value) + ')</span></li>';
+        });
+        els.chartLegend.innerHTML = legend;
+      }
+
+      /* --- Amortization Schedule --- */
+      function buildAmortization(principal, monthlyRate, emi, n) {
+        amortData = [];
+        var balance = principal;
+
+        for (var i = 1; i <= n; i++) {
+          var interestPart = balance * monthlyRate;
+          var principalPart = emi - interestPart;
+          balance -= principalPart;
+          if (balance < 0) balance = 0;
+
+          amortData.push({
+            month: i,
+            emi: emi,
+            principal: principalPart,
+            interest: interestPart,
+            balance: balance
+          });
+        }
+
+        showAll = false;
+        els.showAllBtn.textContent = 'Show All ' + n + ' Months';
+        els.showAllBtn.style.display = '';
+        renderAmort();
+      }
+
+      function renderAmort() {
+        var rows = showAll ? amortData : amortData.slice(0, 12);
+        var html = '';
+        rows.forEach(function(row) {
+          html += '<tr>'
+            + '<td>' + row.month + '</td>'
+            + '<td>' + formatCurrency(row.emi) + '</td>'
+            + '<td>' + formatCurrency(row.principal) + '</td>'
+            + '<td>' + formatCurrency(row.interest) + '</td>'
+            + '<td>' + formatCurrency(row.balance) + '</td>'
+            + '</tr>';
+        });
+        els.amortBody.innerHTML = html;
+
+        if (showAll || amortData.length <= 12) {
+          els.showAllBtn.style.display = 'none';
+        }
+      }
+
+      window.toggleAmort = function() {
+        showAll = true;
+        renderAmort();
+      };
+
+      /* --- Reset --- */
+      window.resetAll = function() {
+        els.loanAmount.value = '';
+        els.interestRate.value = '';
+        els.loanTenure.value = '';
+        els.emiResult.textContent = '$0.00';
+        els.totalInterest.textContent = '$0.00';
+        els.totalPayment.textContent = '$0.00';
+        els.principalDisplay.textContent = '$0.00';
+        els.interestDisplay.textContent = '$0.00';
+        els.summaryPrincipal.textContent = '$0.00';
+        els.summaryInterest.textContent = '$0.00';
+        els.summaryTotal.textContent = '$0.00';
+        els.chartCard.style.display = 'none';
+        els.amortCard.style.display = 'none';
+        amortData = [];
+        showAll = false;
+
+        // Reset tenure toggle to years
+        tenureUnit = 'years';
+        var buttons = els.tenureToggle.querySelectorAll('button');
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+        els.tenureLabel.textContent = 'Tenure (Years)';
+
+        // Clear errors
+        showError(els.loanAmount, els.loanAmountErr, false);
+        showError(els.interestRate, els.interestRateErr, false);
+        showError(els.loanTenure, els.loanTenureErr, false);
+
+        showToast('All fields cleared.', 'info');
+      };
+
+      // Make calculate globally accessible
+      window.calculate = calculate;
+
+      /* --- Real-time Listeners --- */
+      var debounceTimer;
+      function onInput() {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(function() {
+          var loan = parseNum(els.loanAmount.value);
+          var rate = parseNum(els.interestRate.value);
+          var tenure = parseNum(els.loanTenure.value);
+          if (loan > 0 && rate > 0 && tenure > 0) {
+            calculate();
+          }
+        }, 400);
+      }
+
+      // Number formatting on blur
+      els.loanAmount.addEventListener('blur', function() { fmtInput(els.loanAmount); });
+
+      // Input listeners
+      els.loanAmount.addEventListener('input', onInput);
+      els.interestRate.addEventListener('input', onInput);
+      els.loanTenure.addEventListener('input', onInput);
+
+      /* --- Default values for demo --- */
+      els.loanAmount.value = '500,000';
+      els.interestRate.value = '8.5';
+      els.loanTenure.value = '20';
+
+      // Run initial calculation
+      calculate();
+
+    })();
+  </script>
+</body>
+</html>

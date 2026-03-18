@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profit Margin Calculator — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Calculate profit margin, markup, and selling price instantly. Enter cost and revenue to find gross margin %, markup %, and net profit. Free online profit margin calculator with real-time results.">
+  <link rel="canonical" href="https://toolrip.com/profit-margin">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Profit Margin Calculator — Toolrip">
+  <meta property="og:description" content="Calculate profit margin, markup, and selling price instantly. Enter cost and revenue to find gross margin %, markup %, and net profit. Free online calculator.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/profit-margin">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Profit Margin Calculator — Toolrip">
+  <meta name="twitter:description" content="Calculate profit margin, markup, and selling price instantly. Enter cost and revenue to find gross margin %, markup %, and net profit. Free online calculator.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--finance)}</style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Profit Margin Calculator",
+    "url": "https://toolrip.com/profit-margin",
+    "description": "Calculate profit margin, markup, and selling price instantly. Enter cost and revenue to find gross margin %, markup %, and net profit. Free online profit margin calculator with real-time results.",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Finance Tools", "item": "https://toolrip.com/#finance" },
+      { "@type": "ListItem", "position": 3, "name": "Profit Margin Calculator", "item": "https://toolrip.com/profit-margin" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the difference between profit margin and markup?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Profit margin is the percentage of revenue that is profit, calculated as (Revenue - Cost) / Revenue × 100. Markup is the percentage added on top of cost, calculated as (Revenue - Cost) / Cost × 100. A product that costs $60 and sells for $100 has a 40% margin but a 66.67% markup."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a good profit margin for a business?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A good profit margin varies by industry. Retail businesses typically see 2-5% net margins, software companies can reach 20-40%, and service businesses often fall in the 15-25% range. Generally, a net profit margin above 10% is considered healthy, while above 20% is excellent."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between gross and net profit margin?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Gross profit margin only subtracts the direct cost of goods sold (COGS) from revenue. Net profit margin subtracts all expenses including operating costs, taxes, interest, and overhead. Gross margin shows production efficiency while net margin reveals overall business profitability."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I calculate selling price from cost and desired margin?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To find the selling price from cost and desired margin percentage, use the formula: Selling Price = Cost / (1 - Margin / 100). For example, if your cost is $60 and you want a 40% margin, the selling price is $60 / (1 - 0.40) = $100."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why is margin always lower than markup for the same product?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Margin and markup use different denominators. Margin divides profit by revenue (a larger number), while markup divides profit by cost (a smaller number). Since the denominator for margin is always larger, the resulting percentage is always lower than markup for the same dollar amount of profit."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I improve my profit margins?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can improve profit margins by increasing prices strategically, reducing cost of goods through better supplier negotiations, cutting unnecessary operating expenses, improving operational efficiency, focusing on higher-margin products or services, and increasing sales volume to benefit from economies of scale."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is operating profit margin?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Operating profit margin measures the percentage of revenue remaining after subtracting both cost of goods sold and operating expenses such as rent, salaries, and utilities, but before interest and taxes. It is calculated as Operating Income / Revenue × 100 and shows how efficiently a company runs its core business operations."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    /* Tool-specific styles */
+
+    .calc-mode-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-4);
+      margin-bottom: var(--sp-3);
+    }
+    .calc-mode-card h2 {
+      font-size: 1.05rem;
+      margin-bottom: var(--sp-3);
+      color: var(--text);
+    }
+
+    /* Input row layout */
+    .input-row {
+      display: flex;
+      align-items: flex-end;
+      gap: var(--sp-3);
+      flex-wrap: wrap;
+      margin-bottom: var(--sp-3);
+    }
+    .input-row .input-group {
+      flex: 1;
+      min-width: 140px;
+      margin-bottom: 0;
+    }
+
+    /* Results grid */
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--sp-2);
+    }
+    @media (min-width: 640px) {
+      .results-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .result-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-3);
+      text-align: center;
+      transition: border-color .2s;
+    }
+    .result-card.has-value {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 5%, var(--bg));
+    }
+    .result-card .label {
+      font-size: .75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .03em;
+      margin-bottom: 4px;
+    }
+    .result-card .value {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .result-card.has-value .value {
+      color: var(--accent);
+    }
+
+    /* Visual margin vs markup bar */
+    .visual-bar-section {
+      margin-top: var(--sp-3);
+    }
+    .bar-label-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: .75rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .bar-track {
+      width: 100%;
+      height: 24px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      position: relative;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: var(--radius-sm);
+      transition: width .3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 6px;
+      font-size: .7rem;
+      font-weight: 600;
+      color: #fff;
+      min-width: 0;
+    }
+    .bar-fill.margin-bar {
+      background: var(--accent);
+    }
+    .bar-fill.markup-bar {
+      background: color-mix(in srgb, var(--accent) 65%, #fff);
+    }
+
+    /* Comparison callout */
+    .comparison-callout {
+      background: color-mix(in srgb, var(--accent) 8%, var(--bg));
+      border: 1px solid color-mix(in srgb, var(--accent) 25%, var(--border));
+      border-radius: var(--radius);
+      padding: var(--sp-3);
+      font-size: .875rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-top: var(--sp-3);
+      display: none;
+    }
+    .comparison-callout.visible {
+      display: block;
+    }
+    .comparison-callout strong {
+      color: var(--text);
+    }
+
+    /* Button row */
+    .btn-row {
+      display: flex;
+      gap: var(--sp-2);
+      flex-wrap: wrap;
+      margin-top: var(--sp-2);
+    }
+
+    /* Industry benchmark table */
+    .benchmark-table-wrap {
+      overflow-x: auto;
+    }
+    .benchmark-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .875rem;
+    }
+    .benchmark-table th {
+      text-align: left;
+      padding: var(--sp-2);
+      border-bottom: 2px solid var(--border);
+      font-size: .75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .03em;
+      white-space: nowrap;
+    }
+    .benchmark-table td {
+      padding: var(--sp-2);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .benchmark-table tr:hover td {
+      background: var(--bg-elevated);
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="top">Ad</div>
+
+    <!-- Breadcrumb -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#finance">Finance</a>
+        <span>/</span>
+        <span>Profit Margin Calculator</span>
+      </nav>
+
+      <h1>Profit Margin Calculator</h1>
+      <p class="text-muted mt-1 mb-3">Calculate profit margin, markup percentage, and selling price in seconds. Enter your cost and revenue to see gross profit, margin, and markup side by side, or use the price finder to determine the selling price needed for your target margin.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+
+      <!-- Tab Group -->
+      <div class="tab-group">
+        <button class="tab active" data-tab="panel-margin">Margin Calculator</button>
+        <button class="tab" data-tab="panel-price">Price Finder</button>
+      </div>
+
+      <!-- Panel 1: Margin Calculator -->
+      <div class="tab-panel calc-mode-card" id="panel-margin">
+        <h2>Calculate Margin from Cost &amp; Revenue</h2>
+        <p class="text-muted" style="font-size:.8125rem;margin-bottom:var(--sp-3)">Enter the cost and selling price (revenue) for one unit or total amounts. Results update in real time.</p>
+        <div class="input-row">
+          <div class="input-group">
+            <label for="m1_cost">Cost ($)</label>
+            <input type="text" id="m1_cost" class="input-field" placeholder="60.00" inputmode="decimal" autocomplete="off">
+          </div>
+          <div class="input-group">
+            <label for="m1_revenue">Revenue / Selling Price ($)</label>
+            <input type="text" id="m1_revenue" class="input-field" placeholder="100.00" inputmode="decimal" autocomplete="off">
+          </div>
+        </div>
+        <div class="results-grid" id="m1_results">
+          <div class="result-card" id="m1_profit_card">
+            <div class="label">Gross Profit</div>
+            <div class="value" id="m1_profit">&mdash;</div>
+          </div>
+          <div class="result-card" id="m1_margin_card">
+            <div class="label">Margin %</div>
+            <div class="value" id="m1_margin">&mdash;</div>
+          </div>
+          <div class="result-card" id="m1_markup_card">
+            <div class="label">Markup %</div>
+            <div class="value" id="m1_markup">&mdash;</div>
+          </div>
+          <div class="result-card" id="m1_factor_card">
+            <div class="label">Cost Factor</div>
+            <div class="value" id="m1_factor">&mdash;</div>
+          </div>
+        </div>
+
+        <!-- Visual bars -->
+        <div class="visual-bar-section" id="m1_bars" style="display:none">
+          <div class="bar-label-row">
+            <span>Margin</span>
+            <span id="m1_bar_margin_label">0%</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill margin-bar" id="m1_bar_margin" style="width:0%"></div>
+          </div>
+          <div class="bar-label-row" style="margin-top:var(--sp-2)">
+            <span>Markup</span>
+            <span id="m1_bar_markup_label">0%</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill markup-bar" id="m1_bar_markup" style="width:0%"></div>
+          </div>
+        </div>
+
+        <!-- Comparison callout -->
+        <div class="comparison-callout" id="m1_callout"></div>
+
+        <div class="btn-row">
+          <button type="button" class="btn-secondary" id="m1_copy">Copy Results</button>
+          <button type="button" class="btn-secondary" id="m1_clear">Clear</button>
+        </div>
+      </div>
+
+      <!-- Panel 2: Price Finder -->
+      <div class="tab-panel calc-mode-card hidden" id="panel-price">
+        <h2>Find Selling Price from Cost &amp; Desired Margin</h2>
+        <p class="text-muted" style="font-size:.8125rem;margin-bottom:var(--sp-3)">Enter your cost and the profit margin you want to achieve. The calculator will determine the selling price, gross profit, and markup.</p>
+        <div class="input-row">
+          <div class="input-group">
+            <label for="m2_cost">Cost ($)</label>
+            <input type="text" id="m2_cost" class="input-field" placeholder="60.00" inputmode="decimal" autocomplete="off">
+          </div>
+          <div class="input-group">
+            <label for="m2_margin">Desired Margin (%)</label>
+            <input type="text" id="m2_margin" class="input-field" placeholder="40" inputmode="decimal" autocomplete="off">
+          </div>
+        </div>
+        <div class="results-grid" id="m2_results">
+          <div class="result-card" id="m2_price_card">
+            <div class="label">Selling Price</div>
+            <div class="value" id="m2_price">&mdash;</div>
+          </div>
+          <div class="result-card" id="m2_profit_card">
+            <div class="label">Gross Profit</div>
+            <div class="value" id="m2_profit">&mdash;</div>
+          </div>
+          <div class="result-card" id="m2_markup_card">
+            <div class="label">Markup %</div>
+            <div class="value" id="m2_markup">&mdash;</div>
+          </div>
+          <div class="result-card" id="m2_factor_card">
+            <div class="label">Cost Factor</div>
+            <div class="value" id="m2_factor">&mdash;</div>
+          </div>
+        </div>
+
+        <div class="comparison-callout" id="m2_callout"></div>
+
+        <div class="btn-row">
+          <button type="button" class="btn-secondary" id="m2_copy">Copy Results</button>
+          <button type="button" class="btn-secondary" id="m2_clear">Clear</button>
+        </div>
+      </div>
+
+      <!-- Industry Benchmark Table -->
+      <div class="calc-mode-card">
+        <h2>Industry Profit Margin Benchmarks</h2>
+        <p class="text-muted" style="font-size:.8125rem;margin-bottom:var(--sp-3)">Typical gross and net profit margins by industry. Use these as a reference to see how your business compares.</p>
+        <div class="benchmark-table-wrap">
+          <table class="benchmark-table">
+            <thead>
+              <tr>
+                <th>Industry</th>
+                <th>Gross Margin</th>
+                <th>Net Margin</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Software / SaaS</td><td>70 – 85%</td><td>20 – 40%</td></tr>
+              <tr><td>Financial Services</td><td>60 – 80%</td><td>15 – 30%</td></tr>
+              <tr><td>Healthcare / Pharma</td><td>60 – 80%</td><td>10 – 20%</td></tr>
+              <tr><td>Professional Services</td><td>50 – 70%</td><td>15 – 25%</td></tr>
+              <tr><td>Manufacturing</td><td>25 – 40%</td><td>5 – 10%</td></tr>
+              <tr><td>E-Commerce</td><td>40 – 60%</td><td>5 – 15%</td></tr>
+              <tr><td>Restaurants / Food</td><td>55 – 65%</td><td>3 – 9%</td></tr>
+              <tr><td>Retail (General)</td><td>25 – 50%</td><td>2 – 5%</td></tr>
+              <tr><td>Grocery</td><td>25 – 30%</td><td>1 – 3%</td></tr>
+              <tr><td>Construction</td><td>15 – 25%</td><td>3 – 7%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="in-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Two Calculation Modes</h3>
+            <p>Switch between the margin calculator and the price finder with a single click. The margin calculator takes cost and revenue as inputs and returns gross profit, margin percentage, and markup percentage. The price finder works in reverse: enter your cost and desired margin, and it calculates the exact selling price you need to charge. Both modes update results instantly as you type, eliminating the need to press a calculate button or wait for a page reload.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Margin vs. Markup Comparison</h3>
+            <p>One of the most common business accounting mistakes is confusing margin with markup. This calculator shows both values side by side with a visual bar chart so you can see the difference at a glance. A callout message explains the relationship between the two numbers in plain language, helping you avoid pricing errors that can significantly impact profitability. The cost factor multiplier is also displayed so you can quickly scale prices across product lines.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Industry Benchmarks</h3>
+            <p>Compare your calculated margins against typical ranges for ten major industries. The built-in benchmark table shows both gross and net profit margin ranges so you can evaluate whether your pricing strategy is competitive. Whether you run a SaaS company, a retail store, or a restaurant, these reference numbers give you context for understanding your financial performance without needing to research industry averages separately.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Profit Margin Calculator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li>Choose a calculation mode. The Margin Calculator tab lets you enter cost and revenue to find your margins. The Price Finder tab lets you enter cost and a desired margin to find the selling price you need.</li>
+          <li>Enter your numbers. Type the cost of your product or service and either the selling price or your target margin percentage. Results appear instantly as you type.</li>
+          <li>Review the results. The calculator displays gross profit in dollars, margin percentage, markup percentage, and the cost factor multiplier. A visual bar chart and callout text highlight the difference between margin and markup.</li>
+          <li>Copy your results using the Copy Results button to paste them into spreadsheets, invoices, or business plans. Use the Clear button to reset all fields and start a new calculation.</li>
+          <li>Scroll down to the industry benchmark table to compare your margins against typical ranges for your sector.</li>
+        </ol>
+      </section>
+
+      <!-- Understanding Profit Margins (SEO content) -->
+      <section class="mt-4">
+        <h2>Understanding Profit Margins: A Complete Guide</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Profit margin is the percentage of revenue that remains as profit after subtracting costs. It is one of the most important financial metrics for any business because it reveals how efficiently a company converts sales into actual earnings. A high profit margin means the business retains more money from each dollar of revenue, while a low margin indicates that costs are consuming a large share of income. Understanding the different types of profit margins and how they relate to markup is essential for setting prices, evaluating business health, and making informed financial decisions.</p>
+
+        <h3 style="margin-bottom:var(--sp-2)">Gross Margin vs. Net Margin vs. Operating Margin</h3>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Gross profit margin measures the percentage of revenue remaining after deducting only the direct cost of goods sold. It reflects production or procurement efficiency and is calculated as gross profit divided by revenue times one hundred. Net profit margin accounts for all expenses, including operating costs, taxes, interest payments, depreciation, and any other charges. It represents the true bottom line and tells you what percentage of every revenue dollar the business actually keeps. Operating profit margin falls between the two: it subtracts operating expenses such as rent, salaries, and utilities from gross profit, but excludes interest and taxes. Each margin type provides a different lens through which to evaluate a company. A business might have an excellent gross margin but a poor net margin if its overhead costs are too high, which is why looking at all three levels together gives the most complete picture of profitability.</p>
+
+        <h3 style="margin-bottom:var(--sp-2)">The Margin vs. Markup Confusion</h3>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Margin and markup both measure profit as a percentage, but they use different denominators and produce different numbers for the same dollar amount of profit. Margin divides profit by revenue, while markup divides profit by cost. Because revenue is always larger than cost for a profitable product, the margin percentage is always lower than the markup percentage. For example, a product that costs fifty dollars and sells for one hundred dollars has a fifty percent margin but a one hundred percent markup. This distinction matters enormously when setting prices. If a business owner intends to achieve a forty percent margin but accidentally applies a forty percent markup to cost instead, the resulting margin will only be about twenty-eight point six percent, leaving significantly less profit than expected. The calculator on this page displays both figures together precisely to help you avoid this common and costly mistake.</p>
+
+        <h3 style="margin-bottom:var(--sp-2)">How to Set Prices Using Margin</h3>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">To determine the selling price needed for a target margin, divide the cost by one minus the margin expressed as a decimal. If your cost is seventy-five dollars and you want a thirty percent margin, divide seventy-five by zero point seven to arrive at a selling price of roughly one hundred seven dollars and fourteen cents. This approach is preferable to simply adding a percentage on top of cost because it guarantees the revenue split between cost and profit matches your goal. Many businesses use a cost-plus pricing method where they add a fixed markup percentage to cost, but this can be misleading if the intent is to maintain a specific margin. The Price Finder tab in this calculator automates this formula so you can experiment with different cost and margin combinations and see the required selling price immediately.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is the difference between profit margin and markup?</summary>
+          <p>Profit margin is the percentage of revenue that is profit, calculated as (Revenue minus Cost) divided by Revenue, then multiplied by 100. Markup is the percentage of cost that is added as profit, calculated as (Revenue minus Cost) divided by Cost, then multiplied by 100. For the same product, margin is always a lower number than markup because margin uses the larger revenue figure as its base. A product costing $60 and selling for $100 has a 40% margin but a 66.67% markup. Confusing the two is one of the most common pricing mistakes in business, which is why this calculator shows both side by side.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is a good profit margin for a business?</summary>
+          <p>What counts as a good profit margin depends heavily on the industry and business model. Software and SaaS companies often achieve net margins of 20 to 40 percent due to low marginal costs, while grocery stores typically operate on thin net margins of 1 to 3 percent but compensate with high sales volume. Restaurants generally target net margins of 3 to 9 percent. As a general rule of thumb, a net profit margin above 10 percent is considered healthy for most industries, and anything above 20 percent is excellent. Gross margins are naturally higher since they only account for direct production costs. Use the benchmark table above to compare your margins against industry averages.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between gross and net profit margin?</summary>
+          <p>Gross profit margin subtracts only the direct cost of goods sold from revenue, showing how efficiently you produce or source your products. Net profit margin subtracts all expenses, including operating costs, salaries, rent, marketing, taxes, interest payments, and depreciation. A company can have a high gross margin but a low net margin if its overhead and operating expenses are substantial. Both metrics are important: gross margin helps you evaluate your pricing and production efficiency, while net margin reveals the actual profitability of the entire business after all costs are accounted for.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do I calculate selling price from cost and desired margin?</summary>
+          <p>Use the formula: Selling Price equals Cost divided by (1 minus Margin Percentage divided by 100). For example, if your product costs $75 and you want a 30% profit margin, divide $75 by (1 minus 0.30), which is $75 divided by 0.70, giving a selling price of $107.14. This formula ensures that the margin percentage of the final price matches your target. Do not simply add the margin percentage to cost, as that calculates markup instead and will result in a lower margin than intended. The Price Finder tab in this calculator automates this formula for you.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Why is margin always lower than markup?</summary>
+          <p>Margin and markup measure the same dollar amount of profit but express it as a percentage of different bases. Margin uses revenue as the denominator, while markup uses cost. Since revenue always exceeds cost for a profitable sale, dividing the same profit by a larger number produces a smaller percentage. Consider a product with $40 of profit: if revenue is $100, the margin is 40%. If cost is $60, the markup is 66.67%. The profit is identical at $40, but the percentages differ because of the denominator. As margin approaches 100%, markup approaches infinity, which is why high-margin products can have extremely large markup percentages.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How can I improve my profit margins?</summary>
+          <p>There are several strategies to improve profit margins. On the revenue side, you can raise prices strategically, focus marketing efforts on higher-margin products, upsell complementary items, and improve customer retention to reduce acquisition costs. On the cost side, you can negotiate better rates with suppliers, reduce waste in production processes, streamline operations to lower overhead, automate repetitive tasks, and take advantage of bulk purchasing discounts. Improving margins is often more effective for profitability than simply increasing total revenue, because every percentage point of margin improvement flows directly to the bottom line.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is operating profit margin?</summary>
+          <p>Operating profit margin, also called operating margin or EBIT margin, measures the percentage of revenue remaining after subtracting both cost of goods sold and operating expenses such as rent, wages, utilities, and depreciation, but before deducting interest and taxes. It is calculated as Operating Income divided by Revenue multiplied by 100. This metric isolates the core profitability of a business from its financing decisions and tax situation. A rising operating margin over time indicates that a company is becoming more efficient at running its day-to-day operations, while a declining operating margin suggests that costs are growing faster than revenue.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/mortgage">Mortgage Calculator</a>
+          <a href="https://toolrip.com/compound-interest">Compound Interest Calculator</a>
+          <a href="https://toolrip.com/salary">Salary Calculator</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+          <a href="https://toolrip.com/tip">Tip Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Profit Margin Calculator JS -->
+  <script>
+    (function() {
+      'use strict';
+
+      /* ========== Utility ========== */
+      function parseNum(str) {
+        if (!str) return NaN;
+        return parseFloat(str.replace(/[^0-9.\-]/g, ''));
+      }
+
+      function fmtPct(n) {
+        if (isNaN(n) || !isFinite(n)) return '\u2014';
+        return n.toFixed(2).replace(/\.?0+$/, '') + '%';
+      }
+
+      function fmtMoney(n) {
+        if (isNaN(n) || !isFinite(n)) return '\u2014';
+        return formatCurrency(n);
+      }
+
+      function fmtFactor(n) {
+        if (isNaN(n) || !isFinite(n)) return '\u2014';
+        return n.toFixed(4).replace(/\.?0+$/, '') + 'x';
+      }
+
+      function setResult(cardId, valueId, val) {
+        var card = document.getElementById(cardId);
+        var el = document.getElementById(valueId);
+        if (!card || !el) return;
+        el.textContent = val;
+        if (val === '\u2014') {
+          card.classList.remove('has-value');
+        } else {
+          card.classList.add('has-value');
+        }
+      }
+
+      /* ========== Mode 1: Margin from Cost & Revenue ========== */
+      var m1Cost = document.getElementById('m1_cost');
+      var m1Revenue = document.getElementById('m1_revenue');
+      var m1Bars = document.getElementById('m1_bars');
+      var m1Callout = document.getElementById('m1_callout');
+
+      function calcMode1() {
+        var cost = parseNum(m1Cost.value);
+        var revenue = parseNum(m1Revenue.value);
+
+        if (isNaN(cost) || isNaN(revenue) || revenue === 0) {
+          setResult('m1_profit_card', 'm1_profit', '\u2014');
+          setResult('m1_margin_card', 'm1_margin', '\u2014');
+          setResult('m1_markup_card', 'm1_markup', '\u2014');
+          setResult('m1_factor_card', 'm1_factor', '\u2014');
+          m1Bars.style.display = 'none';
+          m1Callout.classList.remove('visible');
+          return;
+        }
+
+        var profit = revenue - cost;
+        var margin = (profit / revenue) * 100;
+        var markup = cost !== 0 ? (profit / cost) * 100 : NaN;
+        var factor = cost !== 0 ? revenue / cost : NaN;
+
+        setResult('m1_profit_card', 'm1_profit', fmtMoney(profit));
+        setResult('m1_margin_card', 'm1_margin', fmtPct(margin));
+        setResult('m1_markup_card', 'm1_markup', isNaN(markup) ? '\u2014' : fmtPct(markup));
+        setResult('m1_factor_card', 'm1_factor', isNaN(factor) ? '\u2014' : fmtFactor(factor));
+
+        // Visual bars
+        if (!isNaN(margin) && !isNaN(markup) && margin >= 0 && markup >= 0) {
+          m1Bars.style.display = 'block';
+          var maxBar = Math.max(markup, 100);
+          var marginWidth = Math.min((margin / maxBar) * 100, 100);
+          var markupWidth = Math.min((markup / maxBar) * 100, 100);
+          document.getElementById('m1_bar_margin').style.width = marginWidth + '%';
+          document.getElementById('m1_bar_markup').style.width = markupWidth + '%';
+          document.getElementById('m1_bar_margin_label').textContent = fmtPct(margin);
+          document.getElementById('m1_bar_markup_label').textContent = fmtPct(markup);
+        } else {
+          m1Bars.style.display = 'none';
+        }
+
+        // Comparison callout
+        if (!isNaN(margin) && !isNaN(markup) && profit > 0) {
+          m1Callout.innerHTML = '<strong>Margin vs. Markup:</strong> Your profit margin is <strong>' + fmtPct(margin) + '</strong> and your markup is <strong>' + fmtPct(markup) + '</strong>. This means ' + fmtPct(margin) + ' of your revenue is profit, while you added ' + fmtPct(markup) + ' on top of your cost. The margin will always be lower than the markup for a profitable sale.';
+          m1Callout.classList.add('visible');
+        } else if (profit <= 0 && !isNaN(margin)) {
+          m1Callout.innerHTML = '<strong>Warning:</strong> Your selling price is lower than or equal to your cost. This results in no profit or a loss. Increase revenue or decrease cost to achieve a positive margin.';
+          m1Callout.classList.add('visible');
+        } else {
+          m1Callout.classList.remove('visible');
+        }
+      }
+
+      m1Cost.addEventListener('input', calcMode1);
+      m1Revenue.addEventListener('input', calcMode1);
+
+      /* ========== Mode 2: Price from Cost & Desired Margin ========== */
+      var m2Cost = document.getElementById('m2_cost');
+      var m2Margin = document.getElementById('m2_margin');
+      var m2Callout = document.getElementById('m2_callout');
+
+      function calcMode2() {
+        var cost = parseNum(m2Cost.value);
+        var marginPct = parseNum(m2Margin.value);
+
+        if (isNaN(cost) || isNaN(marginPct) || marginPct >= 100 || marginPct < 0) {
+          setResult('m2_price_card', 'm2_price', '\u2014');
+          setResult('m2_profit_card', 'm2_profit', '\u2014');
+          setResult('m2_markup_card', 'm2_markup', '\u2014');
+          setResult('m2_factor_card', 'm2_factor', '\u2014');
+          m2Callout.classList.remove('visible');
+
+          if (!isNaN(marginPct) && marginPct >= 100) {
+            m2Callout.innerHTML = '<strong>Invalid margin:</strong> Profit margin must be less than 100%. A margin of 100% would mean zero cost, which is not achievable.';
+            m2Callout.classList.add('visible');
+          }
+          return;
+        }
+
+        var price = cost / (1 - marginPct / 100);
+        var profit = price - cost;
+        var markup = cost !== 0 ? (profit / cost) * 100 : NaN;
+        var factor = cost !== 0 ? price / cost : NaN;
+
+        setResult('m2_price_card', 'm2_price', fmtMoney(price));
+        setResult('m2_profit_card', 'm2_profit', fmtMoney(profit));
+        setResult('m2_markup_card', 'm2_markup', isNaN(markup) ? '\u2014' : fmtPct(markup));
+        setResult('m2_factor_card', 'm2_factor', isNaN(factor) ? '\u2014' : fmtFactor(factor));
+
+        // Callout
+        if (profit > 0 && !isNaN(markup)) {
+          m2Callout.innerHTML = '<strong>Pricing Summary:</strong> To achieve a <strong>' + fmtPct(marginPct) + '</strong> margin on a cost of <strong>' + fmtMoney(cost) + '</strong>, set your selling price to <strong>' + fmtMoney(price) + '</strong>. This gives you <strong>' + fmtMoney(profit) + '</strong> profit per unit, equivalent to a <strong>' + fmtPct(markup) + '</strong> markup on cost.';
+          m2Callout.classList.add('visible');
+        } else {
+          m2Callout.classList.remove('visible');
+        }
+      }
+
+      m2Cost.addEventListener('input', calcMode2);
+      m2Margin.addEventListener('input', calcMode2);
+
+      /* ========== Copy Results ========== */
+      document.getElementById('m1_copy').addEventListener('click', function() {
+        var profit = document.getElementById('m1_profit').textContent;
+        var margin = document.getElementById('m1_margin').textContent;
+        var markup = document.getElementById('m1_markup').textContent;
+        var factor = document.getElementById('m1_factor').textContent;
+        if (profit === '\u2014') return;
+        var text = 'Gross Profit: ' + profit + '\nMargin: ' + margin + '\nMarkup: ' + markup + '\nCost Factor: ' + factor;
+        copyToClipboard(text, this);
+      });
+
+      document.getElementById('m2_copy').addEventListener('click', function() {
+        var price = document.getElementById('m2_price').textContent;
+        var profit = document.getElementById('m2_profit').textContent;
+        var markup = document.getElementById('m2_markup').textContent;
+        var factor = document.getElementById('m2_factor').textContent;
+        if (price === '\u2014') return;
+        var text = 'Selling Price: ' + price + '\nGross Profit: ' + profit + '\nMarkup: ' + markup + '\nCost Factor: ' + factor;
+        copyToClipboard(text, this);
+      });
+
+      /* ========== Clear Buttons ========== */
+      document.getElementById('m1_clear').addEventListener('click', function() {
+        m1Cost.value = '';
+        m1Revenue.value = '';
+        calcMode1();
+        m1Cost.focus();
+      });
+
+      document.getElementById('m2_clear').addEventListener('click', function() {
+        m2Cost.value = '';
+        m2Margin.value = '';
+        calcMode2();
+        m2Cost.focus();
+      });
+
+      /* ========== Focus first input ========== */
+      m1Cost.focus();
+
+    })();
+  </script>
+</body>
+</html>

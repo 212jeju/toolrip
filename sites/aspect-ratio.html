@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aspect Ratio Calculator Online — Free, Fast, No Signup</title>
+  <meta name="description" content="Calculate aspect ratios, find missing dimensions, simplify ratios with GCD, and preview common presets like 16:9, 4:3, 21:9. Free online tool with visual preview.">
+  <link rel="canonical" href="https://toolrip.com/aspect-ratio">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Aspect Ratio Calculator — Toolrip">
+  <meta property="og:description" content="Calculate aspect ratios, find missing dimensions, simplify ratios with GCD, and preview common presets like 16:9, 4:3, 21:9. Free online tool with visual preview.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/aspect-ratio">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Aspect Ratio Calculator — Toolrip">
+  <meta name="twitter:description" content="Calculate aspect ratios, find missing dimensions, simplify ratios with GCD, and preview common presets like 16:9, 4:3, 21:9. Free online tool with visual preview.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root{--accent:var(--design)}
+
+    .calc-grid{display:grid;grid-template-columns:1fr;gap:var(--sp-3)}
+    @media(min-width:640px){.calc-grid{grid-template-columns:1fr 1fr}}
+
+    .dim-row{display:grid;grid-template-columns:1fr auto 1fr;gap:var(--sp-2);align-items:end}
+    .dim-row .sep{font-size:1.25rem;font-weight:700;color:var(--text-muted);padding-bottom:var(--sp-2);text-align:center}
+
+    .result-box{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3);margin-top:var(--sp-3)}
+    .result-label{font-size:.8125rem;color:var(--text-muted);margin-bottom:var(--sp-1)}
+    .result-value{font-size:1.5rem;font-weight:700;color:var(--accent);font-family:'Consolas','Monaco','Courier New',monospace}
+    .result-row{display:flex;flex-wrap:wrap;gap:var(--sp-3);margin-top:var(--sp-2)}
+    .result-item{flex:1;min-width:120px}
+    .result-item .result-label{font-size:.75rem}
+    .result-item .result-value{font-size:1rem}
+
+    .presets{display:flex;flex-wrap:wrap;gap:var(--sp-2);margin-top:var(--sp-2)}
+    .preset-btn{padding:var(--sp-1) var(--sp-3);background:var(--bg-elevated);border:1px solid var(--border);
+      border-radius:var(--radius);color:var(--text-muted);font-size:.8125rem;cursor:pointer;transition:all .15s;white-space:nowrap}
+    .preset-btn:hover,.preset-btn.active{color:var(--text);border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--bg-elevated))}
+
+    .preview-container{display:flex;align-items:center;justify-content:center;min-height:200px;background:var(--bg);
+      border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3);margin-top:var(--sp-3)}
+    .preview-box{background:var(--accent);border-radius:var(--radius-sm);opacity:.25;transition:all .3s;max-width:100%;max-height:180px}
+    .preview-label{text-align:center;font-size:.75rem;color:var(--text-muted);margin-top:var(--sp-1)}
+
+    .section-label{font-size:.9375rem;font-weight:600;margin:var(--sp-3) 0 var(--sp-2);padding-bottom:var(--sp-1);
+      border-bottom:1px solid var(--border)}
+
+    .missing-dim-grid{display:grid;grid-template-columns:1fr;gap:var(--sp-3);margin-top:var(--sp-3)}
+    @media(min-width:640px){.missing-dim-grid{grid-template-columns:1fr 1fr 1fr}}
+
+    .copy-sm{padding:var(--sp-1) var(--sp-2);background:var(--bg-elevated);border:1px solid var(--border);
+      border-radius:var(--radius-sm);color:var(--text-muted);font-size:.75rem;cursor:pointer;white-space:nowrap;flex-shrink:0}
+    .copy-sm:hover{color:var(--text);border-color:var(--accent)}
+
+    .output-row{display:flex;align-items:center;gap:var(--sp-2);margin-top:var(--sp-2)}
+    .output-value{flex:1;font-family:'Consolas','Monaco','Courier New',monospace;font-size:.875rem;
+      padding:var(--sp-1) var(--sp-2);background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);
+      color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Aspect Ratio Calculator",
+    "url": "https://toolrip.com/aspect-ratio",
+    "description": "Calculate aspect ratios from width and height, find missing dimensions, simplify ratios with GCD, and preview common presets. Free online tool with visual preview.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com"},
+      {"@type": "ListItem", "position": 2, "name": "Design Tools", "item": "https://toolrip.com/#design"},
+      {"@type": "ListItem", "position": 3, "name": "Aspect Ratio Calculator", "item": "https://toolrip.com/aspect-ratio"}
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is an aspect ratio?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "An aspect ratio is the proportional relationship between the width and height of an image, screen, or video frame. It is expressed as two numbers separated by a colon, such as 16:9 or 4:3. The first number represents the width and the second represents the height. Aspect ratios describe the shape of a rectangle without specifying its actual size, so a 1920x1080 screen and a 3840x2160 screen both share the 16:9 aspect ratio."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I calculate an aspect ratio from pixel dimensions?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To calculate the aspect ratio from pixel dimensions, find the greatest common divisor (GCD) of the width and height, then divide both values by the GCD. For example, for 1920x1080, the GCD is 120. Dividing both by 120 gives 16:9. This tool performs this calculation automatically when you enter any width and height."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the most common aspect ratio for video?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The most common aspect ratio for video today is 16:9, also known as widescreen. It is the standard for HD, Full HD, and 4K video content, and it matches the native display ratio of most modern televisions, computer monitors, and smartphones held horizontally. Other common video ratios include 21:9 for cinematic ultrawide content, 4:3 for classic television, and 9:16 for vertical mobile video on platforms like TikTok and Instagram Reels."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I find a missing width or height from an aspect ratio?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To find a missing dimension, use the formula: missing dimension = known dimension multiplied by (corresponding ratio side divided by the other ratio side). For example, if the aspect ratio is 16:9 and the width is 1920, the height equals 1920 multiplied by 9 divided by 16, which gives 1080. This calculator handles both directions automatically."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What aspect ratio should I use for social media?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Different social media platforms prefer different aspect ratios. Instagram feed posts work best at 1:1 (square) or 4:5 (portrait). Instagram and Facebook Stories and Reels use 9:16 (vertical). YouTube and Facebook video use 16:9 (landscape). Twitter supports 16:9 for images and video. LinkedIn recommends 1.91:1 for link previews and 1:1 for feed images. Always check the latest platform guidelines as requirements may change."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between aspect ratio and resolution?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Aspect ratio describes the shape of an image as a proportion between width and height, while resolution specifies the exact number of pixels in each dimension. Two images can share the same aspect ratio but have very different resolutions. For example, 1280x720 (HD) and 3840x2160 (4K) are both 16:9, but the 4K image has nine times as many pixels, resulting in far greater detail and sharpness."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How are megapixels calculated from width and height?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Megapixels are calculated by multiplying the width in pixels by the height in pixels, then dividing by one million. For example, a 4000x3000 image has 12,000,000 pixels, or 12 megapixels (MP). This measurement indicates the total amount of detail a camera sensor or display can capture. Higher megapixel counts allow for larger prints and more flexibility when cropping images without losing sharpness."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#design">Design Tools</a>
+        <span>/</span>
+        <span>Aspect Ratio Calculator</span>
+      </nav>
+
+      <h1>Aspect Ratio Calculator</h1>
+      <p class="text-muted mt-1 mb-3">Calculate aspect ratios from any width and height, find missing dimensions, preview common presets, and see megapixel counts. All calculations run instantly in your browser with no signup required.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+
+        <!-- Width x Height Input -->
+        <div class="section-label">Enter Dimensions</div>
+        <div class="dim-row">
+          <div class="input-group" style="margin-bottom:0">
+            <label for="inp-width">Width (px)</label>
+            <input type="number" id="inp-width" class="input-field" value="1920" min="1" placeholder="1920" aria-label="Width in pixels">
+          </div>
+          <span class="sep">&times;</span>
+          <div class="input-group" style="margin-bottom:0">
+            <label for="inp-height">Height (px)</label>
+            <input type="number" id="inp-height" class="input-field" value="1080" min="1" placeholder="1080" aria-label="Height in pixels">
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div class="result-box">
+          <div class="result-label">Aspect Ratio</div>
+          <div class="result-value" id="out-ratio">16 : 9</div>
+          <div class="output-row">
+            <span class="output-value" id="out-ratio-copy">16:9</span>
+            <button class="copy-sm" onclick="copyVal('out-ratio-copy',this)">Copy</button>
+          </div>
+          <div class="result-row">
+            <div class="result-item">
+              <div class="result-label">Decimal Ratio</div>
+              <div class="result-value" id="out-decimal">1.7778</div>
+            </div>
+            <div class="result-item">
+              <div class="result-label">Diagonal (px)</div>
+              <div class="result-value" id="out-diagonal">2203</div>
+            </div>
+            <div class="result-item">
+              <div class="result-label">Megapixels</div>
+              <div class="result-value" id="out-megapixels">2.07 MP</div>
+            </div>
+            <div class="result-item">
+              <div class="result-label">Total Pixels</div>
+              <div class="result-value" id="out-pixels">2,073,600</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual Preview -->
+        <div class="section-label">Visual Preview</div>
+        <div class="preview-container">
+          <div>
+            <div class="preview-box" id="preview-box" style="width:180px;height:101px"></div>
+            <div class="preview-label" id="preview-label">16 : 9</div>
+          </div>
+        </div>
+
+        <!-- Common Presets -->
+        <div class="section-label">Common Presets</div>
+        <div class="presets" id="presets">
+          <button class="preset-btn active" data-w="16" data-h="9">16:9</button>
+          <button class="preset-btn" data-w="4" data-h="3">4:3</button>
+          <button class="preset-btn" data-w="21" data-h="9">21:9</button>
+          <button class="preset-btn" data-w="1" data-h="1">1:1</button>
+          <button class="preset-btn" data-w="9" data-h="16">9:16</button>
+          <button class="preset-btn" data-w="3" data-h="2">3:2</button>
+          <button class="preset-btn" data-w="5" data-h="4">5:4</button>
+          <button class="preset-btn" data-w="32" data-h="9">32:9</button>
+          <button class="preset-btn" data-w="2" data-h="3">2:3</button>
+          <button class="preset-btn" data-w="4" data-h="5">4:5</button>
+        </div>
+
+        <!-- Find Missing Dimension -->
+        <div class="section-label">Find Missing Dimension</div>
+        <div class="missing-dim-grid">
+          <div class="input-group" style="margin-bottom:0">
+            <label for="ratio-w">Ratio Width</label>
+            <input type="number" id="ratio-w" class="input-field" value="16" min="1" placeholder="16" aria-label="Ratio width">
+          </div>
+          <div class="input-group" style="margin-bottom:0">
+            <label for="ratio-h">Ratio Height</label>
+            <input type="number" id="ratio-h" class="input-field" value="9" min="1" placeholder="9" aria-label="Ratio height">
+          </div>
+          <div class="input-group" style="margin-bottom:0">
+            <label for="known-dim">Known Dimension (px)</label>
+            <input type="number" id="known-dim" class="input-field" value="1920" min="1" placeholder="1920" aria-label="Known dimension">
+          </div>
+        </div>
+        <div style="margin-top:var(--sp-2)">
+          <div class="input-group" style="margin-bottom:0">
+            <label for="dim-type">Known Dimension Is</label>
+            <select id="dim-type" class="select-field" aria-label="Dimension type">
+              <option value="width">Width</option>
+              <option value="height">Height</option>
+            </select>
+          </div>
+        </div>
+        <div class="result-box" style="margin-top:var(--sp-2)">
+          <div class="result-label">Calculated Dimension</div>
+          <div class="result-value" id="out-missing">1080 px height</div>
+          <div class="output-row">
+            <span class="output-value" id="out-missing-full">1920 x 1080</span>
+            <button class="copy-sm" onclick="copyVal('out-missing-full',this)">Copy</button>
+          </div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Instant Ratio Simplification</h3>
+            <p>Enter any width and height in pixels and the calculator instantly determines the simplified aspect ratio using the greatest common divisor algorithm. Whether you input 1920x1080, 2560x1440, or any custom resolution, the tool reduces the numbers to their simplest proportional form. This means you can quickly verify that your image, video, or screen dimensions conform to a standard ratio, or discover the exact ratio of non-standard dimensions. The GCD-based simplification ensures mathematical accuracy for every possible combination of whole-number dimensions, producing clean ratios that are easy to communicate to colleagues, clients, and content platforms.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Missing Dimension Finder</h3>
+            <p>When you know the aspect ratio and one dimension, the calculator finds the other dimension instantly. Select whether your known value is the width or the height, enter the ratio and the known pixel count, and the tool computes the missing measurement. This is invaluable for resizing images while maintaining their original proportions, setting up video export settings, or designing responsive layouts where one dimension is fixed by a container width. The calculation uses precise division to give you the exact pixel value, so your content scales without stretching or introducing black bars.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Visual Preview and Presets</h3>
+            <p>See how your chosen aspect ratio looks with the live visual preview box that scales proportionally in real time. The preview gives you an immediate spatial understanding of how wide or tall your content area will appear, which is especially helpful when comparing ultrawide formats like 21:9 against traditional ratios like 4:3. Ten built-in presets cover the most widely used ratios in film, television, photography, social media, and gaming, letting you switch between standards with a single click. Each preset updates all outputs and the preview simultaneously, so you can compare different formats and make informed decisions about framing and cropping.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Diagonal Size and Megapixel Count</h3>
+            <p>Beyond the basic ratio, the calculator shows the diagonal pixel length using the Pythagorean theorem and the total megapixel count by multiplying width by height and dividing by one million. The diagonal measurement is useful when comparing screen sizes or determining the viewing distance for displays of different resolutions. The megapixel count helps photographers and designers understand the total image detail available for printing, cropping, or digital distribution. Both values update in real time as you change the dimensions, giving you a complete picture of your resolution at a glance.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Aspect Ratio Calculator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Enter your dimensions.</strong> Type the width and height in pixels into the input fields at the top of the tool. The calculator accepts any positive whole number. As soon as you enter both values, the simplified aspect ratio, decimal ratio, diagonal size, megapixel count, and visual preview update automatically with no button clicks required.</li>
+          <li><strong>Use presets for standard ratios.</strong> Click any of the preset buttons such as 16:9, 4:3, 21:9, 1:1, or 9:16 to instantly load that ratio into the calculator. The width and height fields update to a common resolution for the selected ratio, and the visual preview adjusts to show the proportional shape. This is the fastest way to explore how different standard ratios compare visually and numerically.</li>
+          <li><strong>Find a missing dimension.</strong> If you know the aspect ratio and one dimension but need the other, scroll to the Find Missing Dimension section. Enter the ratio width and height, type the known pixel value, select whether it represents the width or height, and the calculator computes the missing dimension instantly. Copy the resulting resolution with the Copy button.</li>
+          <li><strong>Copy and share results.</strong> Click the Copy button next to any output value to send it to your clipboard. Use the simplified ratio string in your documentation, the full resolution in your export settings, or the megapixel count in your photography workflow. All values are formatted for immediate use in professional contexts.</li>
+        </ol>
+      </section>
+
+      <!-- SEO Content Section -->
+      <section class="mt-4">
+        <h2>Understanding Aspect Ratios in Photography, Video, and Web Design</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">Aspect ratios are a foundational concept in visual media that govern how images, videos, and screen layouts appear to viewers. The ratio defines the proportional relationship between width and height, determining whether content appears wide and cinematic, tall and vertical, or perfectly square. Understanding aspect ratios is essential for anyone working with cameras, video editors, graphic design software, web layouts, or social media content creation.</p>
+
+        <h3 style="margin-top:var(--sp-3);margin-bottom:var(--sp-2)">Aspect Ratios in Photography</h3>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">In photography, the aspect ratio is determined by the camera sensor. Full-frame and APS-C sensors typically produce images at 3:2, which has been the standard since the 35mm film era. Medium format cameras often use 4:3 or 5:4 ratios, producing images that feel slightly more square and are well suited for portrait and commercial work. Micro Four Thirds cameras use a 4:3 sensor ratio that matches many print sizes and computer displays. When cropping photographs in post-processing, choosing the right aspect ratio is critical for composition. A 1:1 square crop works well for symmetrical subjects and social media posts, while a panoramic 16:9 or even wider crop can emphasize landscapes and architectural scenes. Photographers planning to sell prints should consider standard print sizes such as 8x10 (4:5 ratio), 11x14 (approximately 7:9), and 16x20 (4:5 again), ensuring their original composition leaves room for cropping to these dimensions without losing important elements.</p>
+
+        <h3 style="margin-top:var(--sp-3);margin-bottom:var(--sp-2)">Aspect Ratios in Video Production</h3>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">Video production relies heavily on standardized aspect ratios to ensure content displays correctly across different devices and platforms. The 16:9 widescreen format is the universal standard for television broadcasts, streaming services, and most online video platforms. Common resolutions within this ratio include 1280x720 (HD), 1920x1080 (Full HD), 2560x1440 (QHD), and 3840x2160 (4K UHD). Cinematic content often uses wider ratios such as 1.85:1 (close to 16:9 but slightly wider), 2.35:1 (anamorphic widescreen), or 2.39:1 (modern anamorphic scope). These wider ratios create the letterbox bars that viewers associate with theatrical films. The rise of mobile video has introduced vertical formats, with 9:16 becoming the standard for platforms that display content in portrait orientation. Content creators targeting multiple platforms must plan their framing carefully, often shooting wider than needed and cropping different versions for each distribution channel.</p>
+
+        <h3 style="margin-top:var(--sp-3);margin-bottom:var(--sp-2)">Aspect Ratios in Web and Interface Design</h3>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">Web designers and front-end developers encounter aspect ratios when building responsive layouts, embedding media, and designing card-based interfaces. The CSS aspect-ratio property allows developers to maintain consistent proportions for elements as they resize across different viewport widths, eliminating the need for the older padding-top percentage technique. Image containers, video embeds, thumbnail grids, and hero banners all benefit from explicitly defined aspect ratios that prevent layout shifts during page load. Modern responsive design often requires serving images at multiple resolutions while maintaining the same aspect ratio, which tools like the srcset attribute and picture element handle by letting the browser choose the best source. Understanding the relationship between aspect ratio, resolution, and file size helps designers optimize performance without sacrificing visual quality. For example, a 16:9 hero image at 1920x1080 contains over two million pixels, while the same ratio at 960x540 contains only about half a million, reducing file size by roughly seventy-five percent while maintaining identical proportions.</p>
+
+        <h3 style="margin-top:var(--sp-3);margin-bottom:var(--sp-2)">Common Aspect Ratios and Their Uses</h3>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">The 16:9 ratio dominates modern screens from smartphones to televisions. The 4:3 ratio remains relevant for iPad displays, many webcams, and legacy video content. The 1:1 square format is a staple of social media platforms and works well for profile pictures and product images. The 21:9 ultrawide ratio serves gaming monitors and cinematic video, providing an immersive field of view. The 3:2 ratio connects photography to display, used by many laptop screens and the original Macintosh displays. The 9:16 vertical ratio has become indispensable for Stories, Reels, and Shorts across social platforms. The 32:9 super-ultrawide ratio targets multi-monitor replacements and specialized gaming setups. Each ratio carries visual and emotional associations that experienced creators leverage to control how their audience perceives content, making the aspect ratio one of the first and most impactful decisions in any visual project.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is an aspect ratio?</summary>
+          <p>An aspect ratio is the proportional relationship between the width and height of a rectangular shape such as an image, screen, or video frame. It is expressed as two numbers separated by a colon, for example 16:9 or 4:3, where the first number represents the relative width and the second represents the relative height. Aspect ratios describe shape rather than size, so a 1920x1080 display and a 3840x2160 display share the same 16:9 aspect ratio even though the 4K screen has four times as many pixels. Understanding aspect ratios is fundamental for anyone working with visual media because it determines how content is framed, how it fits different screens, and whether resizing will introduce distortion or cropping.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do I calculate an aspect ratio from pixel dimensions?</summary>
+          <p>To calculate the aspect ratio from pixel dimensions, you need to find the greatest common divisor of the width and height and then divide both numbers by that value. The greatest common divisor is the largest integer that divides both numbers evenly. For example, for a resolution of 1920x1080, the GCD is 120. Dividing 1920 by 120 gives 16, and dividing 1080 by 120 gives 9, producing the ratio 16:9. This calculator performs this computation automatically using the Euclidean algorithm, which is one of the oldest and most efficient methods for finding the GCD. Simply enter any width and height, and the simplified ratio appears instantly.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the most common aspect ratio for video?</summary>
+          <p>The most common aspect ratio for video content today is 16:9, also called widescreen. This ratio became the global standard for high-definition television in the early 2000s and is now used by virtually all streaming platforms, broadcast networks, and online video hosts. Standard resolutions within this ratio include 1280x720 for HD, 1920x1080 for Full HD, and 3840x2160 for 4K Ultra HD. The 16:9 ratio balances horizontal field of view with vertical space, making it versatile for everything from talking-head interviews to sweeping landscape shots. For vertical mobile video, 9:16 has emerged as the dominant format, and for cinematic productions, wider ratios like 2.39:1 are commonly used to create a more immersive theatrical experience.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do I find a missing width or height from an aspect ratio?</summary>
+          <p>To find a missing dimension when you know the aspect ratio and one measurement, use simple cross-multiplication. If you know the width and need the height, multiply the width by the ratio height and divide by the ratio width. For a 16:9 ratio with a width of 1920 pixels, the height is 1920 multiplied by 9 divided by 16, which equals 1080. If you know the height and need the width, reverse the formula by multiplying the height by the ratio width and dividing by the ratio height. This calculator handles both directions automatically. Enter the ratio, the known dimension, select whether it is the width or height, and the missing value appears immediately.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What aspect ratio should I use for social media?</summary>
+          <p>Social media platforms each have preferred aspect ratios optimized for their feed layouts and viewing contexts. Instagram feed posts perform well at 1:1 for square images or 4:5 for taller portrait images that take up more screen space in the feed. Instagram Stories, Facebook Stories, and TikTok videos use 9:16 to fill the entire phone screen vertically. YouTube videos should be 16:9 for standard playback, although YouTube Shorts uses 9:16. Facebook feed videos work at 16:9 or 1:1, with 4:5 recommended for ads. Twitter images display best at 16:9, and LinkedIn recommends 1.91:1 for article link previews and 1:1 for organic feed posts. Always check current platform documentation since these guidelines may evolve as platforms update their layouts.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between aspect ratio and resolution?</summary>
+          <p>Aspect ratio and resolution are related but distinct concepts. The aspect ratio describes the proportional shape of an image or screen as a ratio of width to height, such as 16:9 or 4:3, without specifying the actual number of pixels. Resolution specifies the exact pixel dimensions, such as 1920x1080 or 3840x2160. Multiple resolutions can share the same aspect ratio. For instance, 1280x720, 1920x1080, and 3840x2160 are all 16:9, but they differ dramatically in pixel count and therefore in visual detail and file size. When resizing content, maintaining the same aspect ratio ensures the image does not stretch or compress unnaturally. Changing the resolution within the same aspect ratio simply makes the image larger or smaller while preserving its proportions.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How are megapixels calculated from width and height?</summary>
+          <p>Megapixels are calculated by multiplying the width in pixels by the height in pixels to get the total pixel count, then dividing by one million. A 4000x3000 image contains 12,000,000 total pixels, which equals 12 megapixels. A 1920x1080 full HD frame contains approximately 2.07 megapixels, while a 3840x2160 four K frame has about 8.29 megapixels. The megapixel count indicates the total detail captured by a camera sensor or displayed on a screen. Higher megapixel counts allow for larger print sizes and more flexibility when cropping, because more pixel data is available. However, megapixels alone do not determine image quality. Factors like sensor size, lens quality, noise performance, and dynamic range also play critical roles in the final result.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/hex-rgb">Hex to RGB Converter</a>
+          <a href="https://toolrip.com/color-palette">Color Palette Generator</a>
+          <a href="https://toolrip.com/svg-to-png">SVG to PNG Converter</a>
+          <a href="https://toolrip.com/gradient">Gradient Generator</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+  (function() {
+    'use strict';
+
+    /* ========== GCD (Euclidean Algorithm) ========== */
+    function gcd(a, b) {
+      a = Math.abs(a);
+      b = Math.abs(b);
+      while (b) {
+        var t = b;
+        b = a % b;
+        a = t;
+      }
+      return a;
+    }
+
+    /* ========== Format Number with Commas ========== */
+    function formatNumber(n) {
+      return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
+    /* ========== DOM References ========== */
+    var inpW = document.getElementById('inp-width');
+    var inpH = document.getElementById('inp-height');
+    var outRatio = document.getElementById('out-ratio');
+    var outRatioCopy = document.getElementById('out-ratio-copy');
+    var outDecimal = document.getElementById('out-decimal');
+    var outDiagonal = document.getElementById('out-diagonal');
+    var outMegapixels = document.getElementById('out-megapixels');
+    var outPixels = document.getElementById('out-pixels');
+    var previewBox = document.getElementById('preview-box');
+    var previewLabel = document.getElementById('preview-label');
+    var presetContainer = document.getElementById('presets');
+
+    var ratioW = document.getElementById('ratio-w');
+    var ratioH = document.getElementById('ratio-h');
+    var knownDim = document.getElementById('known-dim');
+    var dimType = document.getElementById('dim-type');
+    var outMissing = document.getElementById('out-missing');
+    var outMissingFull = document.getElementById('out-missing-full');
+
+    /* ========== Preset Resolutions ========== */
+    var presetResolutions = {
+      '16:9': [1920, 1080],
+      '4:3': [1600, 1200],
+      '21:9': [2560, 1080],
+      '1:1': [1080, 1080],
+      '9:16': [1080, 1920],
+      '3:2': [1920, 1280],
+      '5:4': [1280, 1024],
+      '32:9': [3840, 1080],
+      '2:3': [1280, 1920],
+      '4:5': [1080, 1350]
+    };
+
+    /* ========== Calculate Ratio ========== */
+    function calculateRatio() {
+      var w = parseInt(inpW.value) || 0;
+      var h = parseInt(inpH.value) || 0;
+
+      if (w <= 0 || h <= 0) {
+        outRatio.textContent = '—';
+        outRatioCopy.textContent = '—';
+        outDecimal.textContent = '—';
+        outDiagonal.textContent = '—';
+        outMegapixels.textContent = '—';
+        outPixels.textContent = '—';
+        previewLabel.textContent = '—';
+        return;
+      }
+
+      var g = gcd(w, h);
+      var rw = w / g;
+      var rh = h / g;
+
+      outRatio.textContent = rw + ' : ' + rh;
+      outRatioCopy.textContent = rw + ':' + rh;
+
+      var decimal = (w / h).toFixed(4);
+      outDecimal.textContent = decimal;
+
+      var diagonal = Math.sqrt(w * w + h * h);
+      outDiagonal.textContent = Math.round(diagonal);
+
+      var totalPixels = w * h;
+      var mp = (totalPixels / 1000000).toFixed(2);
+      outMegapixels.textContent = mp + ' MP';
+      outPixels.textContent = formatNumber(totalPixels);
+
+      // Update preview
+      updatePreview(w, h, rw, rh);
+
+      // Update active preset
+      updateActivePreset(rw, rh);
+    }
+
+    /* ========== Update Visual Preview ========== */
+    function updatePreview(w, h, rw, rh) {
+      var maxW = 260;
+      var maxH = 180;
+      var scale;
+
+      if (w / h >= maxW / maxH) {
+        scale = maxW / w;
+      } else {
+        scale = maxH / h;
+      }
+
+      var pw = Math.max(Math.round(w * scale), 20);
+      var ph = Math.max(Math.round(h * scale), 20);
+
+      previewBox.style.width = pw + 'px';
+      previewBox.style.height = ph + 'px';
+      previewLabel.textContent = rw + ' : ' + rh;
+    }
+
+    /* ========== Update Active Preset Highlight ========== */
+    function updateActivePreset(rw, rh) {
+      var buttons = presetContainer.querySelectorAll('.preset-btn');
+      for (var i = 0; i < buttons.length; i++) {
+        var bw = parseInt(buttons[i].getAttribute('data-w'));
+        var bh = parseInt(buttons[i].getAttribute('data-h'));
+        if (bw === rw && bh === rh) {
+          buttons[i].classList.add('active');
+        } else {
+          buttons[i].classList.remove('active');
+        }
+      }
+    }
+
+    /* ========== Calculate Missing Dimension ========== */
+    function calculateMissing() {
+      var rw = parseFloat(ratioW.value) || 0;
+      var rh = parseFloat(ratioH.value) || 0;
+      var known = parseFloat(knownDim.value) || 0;
+      var type = dimType.value;
+
+      if (rw <= 0 || rh <= 0 || known <= 0) {
+        outMissing.textContent = '—';
+        outMissingFull.textContent = '—';
+        return;
+      }
+
+      var missing;
+      var fullW, fullH;
+
+      if (type === 'width') {
+        missing = Math.round(known * rh / rw);
+        fullW = Math.round(known);
+        fullH = missing;
+        outMissing.textContent = missing + ' px height';
+      } else {
+        missing = Math.round(known * rw / rh);
+        fullW = missing;
+        fullH = Math.round(known);
+        outMissing.textContent = missing + ' px width';
+      }
+
+      outMissingFull.textContent = fullW + ' x ' + fullH;
+    }
+
+    /* ========== Preset Click Handler ========== */
+    presetContainer.addEventListener('click', function(e) {
+      var btn = e.target.closest('.preset-btn');
+      if (!btn) return;
+
+      var w = parseInt(btn.getAttribute('data-w'));
+      var h = parseInt(btn.getAttribute('data-h'));
+      var key = w + ':' + h;
+      var res = presetResolutions[key];
+
+      if (res) {
+        inpW.value = res[0];
+        inpH.value = res[1];
+      } else {
+        // Fallback: scale to ~1080 on the larger side
+        var s = Math.max(w, h);
+        var factor = Math.round(1080 / s);
+        inpW.value = w * factor;
+        inpH.value = h * factor;
+      }
+
+      // Also update the missing dimension ratio fields
+      ratioW.value = w;
+      ratioH.value = h;
+
+      calculateRatio();
+      calculateMissing();
+    });
+
+    /* ========== Event Listeners ========== */
+    inpW.addEventListener('input', calculateRatio);
+    inpH.addEventListener('input', calculateRatio);
+
+    ratioW.addEventListener('input', calculateMissing);
+    ratioH.addEventListener('input', calculateMissing);
+    knownDim.addEventListener('input', calculateMissing);
+    dimType.addEventListener('change', calculateMissing);
+
+    /* ========== Copy Function ========== */
+    window.copyVal = function(id, btn) {
+      var text = document.getElementById(id).textContent;
+      copyToClipboard(text, btn);
+    };
+
+    /* ========== Init ========== */
+    calculateRatio();
+    calculateMissing();
+
+  })();
+  </script>
+</body>
+</html>

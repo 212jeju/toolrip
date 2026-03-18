@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Countdown Timer Online — Free, Fast, No Signup</title>
+  <meta name="description" content="Set a countdown timer with presets or custom hours, minutes, and seconds. Audio alert, progress bar, and tab title updates. Free, instant, no signup required.">
+  <meta name="keywords" content="countdown timer, online timer, Pomodoro timer, kitchen timer, free timer, countdown clock, web timer, productivity timer">
+  <link rel="canonical" href="https://toolrip.com/timer">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Countdown Timer Online — Free, Fast, No Signup">
+  <meta property="og:description" content="Set a countdown timer with presets or custom time. Audio alert when done, progress bar, and tab title updates. Free and private.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/timer">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Countdown Timer Online — Free, Fast, No Signup">
+  <meta name="twitter:description" content="Set a countdown timer with presets or custom time. Audio alert when done, progress bar, and tab title updates. Free and private.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root { --accent: var(--datetime); }
+
+    /* Preset buttons */
+    .preset-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-2);
+      margin-bottom: var(--sp-3);
+    }
+    .preset-btn {
+      padding: var(--sp-2) var(--sp-3);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text-muted);
+      font: inherit;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .preset-btn:hover, .preset-btn.active {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Custom time inputs */
+    .time-input-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: var(--sp-2);
+      margin-bottom: var(--sp-3);
+    }
+
+    /* Countdown display */
+    .countdown-display {
+      text-align: center;
+      padding: var(--sp-5);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--sp-3);
+    }
+    .countdown-time {
+      font-size: 4rem;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      color: var(--text);
+      line-height: 1.2;
+      letter-spacing: 0.02em;
+    }
+    @media (min-width: 640px) {
+      .countdown-time { font-size: 5.5rem; }
+    }
+    .countdown-time.finished {
+      color: var(--accent);
+      animation: pulse 1s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .countdown-label {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-top: var(--sp-1);
+    }
+
+    /* Progress bar */
+    .progress-bar-container {
+      width: 100%;
+      height: 8px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: var(--sp-3);
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 4px;
+      transition: width 0.1s linear;
+      width: 100%;
+    }
+
+    /* Control buttons */
+    .control-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-2);
+      justify-content: center;
+    }
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Countdown Timer",
+    "url": "https://toolrip.com/timer",
+    "description": "Set a countdown timer with quick presets or custom hours, minutes, and seconds. Includes audio alert, visual progress bar, and browser tab title updates. Free, instant, no signup.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I use the Countdown Timer?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Click one of the quick preset buttons (1 min, 5 min, 10 min, 15 min, 30 min, or 1 hr) to start a timer immediately. Alternatively, enter custom hours, minutes, and seconds in the input fields and click Start. The large display shows remaining time, and a progress bar tracks your progress visually."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What happens when the timer reaches zero?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "When the countdown finishes, the timer plays an audio beep generated by the Web Audio API directly in your browser — no external sound files are needed. The display flashes to draw your attention, and the browser tab title updates to show that time is up. You can dismiss the alert and reset the timer to start again."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does the timer keep running if I switch browser tabs?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The timer uses a time-comparison approach rather than relying solely on setInterval accuracy. Even if the browser throttles background tabs, the timer compares the current time against the target end time on each tick, ensuring the countdown remains accurate. The browser tab title also updates with the remaining time so you can monitor progress without switching back."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I pause and resume the countdown?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Absolutely. Click the Pause button at any time to freeze the countdown. The remaining time is preserved exactly as displayed. Click Resume to continue counting down from where you left off. You can also click Reset to clear the timer and return to the initial state."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the Pomodoro Technique and how can I use this timer for it?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Pomodoro Technique is a time management method that uses focused 25-minute work intervals followed by 5-minute breaks. After four work intervals, you take a longer 15–30 minute break. You can use this timer by setting a custom 25-minute countdown for your work sessions and a 5-minute countdown for short breaks. The audio alert will notify you when each interval is over."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is there a maximum time I can set?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can set the timer for up to 99 hours, 59 minutes, and 59 seconds. That covers virtually any practical use case, from a quick one-minute egg timer to a multi-day countdown. The display automatically switches between MM:SS format for times under one hour and HH:MM:SS format for longer durations."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is my data private when using this timer?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The Countdown Timer runs entirely in your web browser using client-side JavaScript. No data about your timer settings, usage patterns, or any personal information is transmitted to our servers or any third party. The audio alert is generated locally using the Web Audio API. Your data stays on your device at all times."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Date & Time Tools", "item": "https://toolrip.com/#datetime" },
+      { "@type": "ListItem", "position": 3, "name": "Countdown Timer", "item": "https://toolrip.com/timer" }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="timer-top">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#datetime">Date &amp; Time Tools</a>
+        <span>/</span>
+        <span>Countdown Timer</span>
+      </nav>
+
+      <h1>Countdown Timer</h1>
+      <p class="text-muted mt-1 mb-3">Set a countdown with quick presets or enter custom hours, minutes, and seconds. Includes a visual progress bar, audio alert when time is up, and live tab title updates. Free, instant, and private.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+
+        <!-- Quick Presets -->
+        <label style="font-size:.875rem;font-weight:500;color:var(--text-muted);margin-bottom:var(--sp-1);display:block">Quick Presets</label>
+        <div class="preset-row">
+          <button class="preset-btn" data-seconds="60">1 min</button>
+          <button class="preset-btn" data-seconds="300">5 min</button>
+          <button class="preset-btn" data-seconds="600">10 min</button>
+          <button class="preset-btn" data-seconds="900">15 min</button>
+          <button class="preset-btn" data-seconds="1800">30 min</button>
+          <button class="preset-btn" data-seconds="3600">1 hr</button>
+        </div>
+
+        <!-- Custom Time Input -->
+        <div class="time-input-row">
+          <div class="input-group" style="margin-bottom:0">
+            <label for="inp-hours">Hours</label>
+            <input type="number" id="inp-hours" class="input-field" min="0" max="99" value="0" aria-label="Hours">
+          </div>
+          <div class="input-group" style="margin-bottom:0">
+            <label for="inp-minutes">Minutes</label>
+            <input type="number" id="inp-minutes" class="input-field" min="0" max="59" value="5" aria-label="Minutes">
+          </div>
+          <div class="input-group" style="margin-bottom:0">
+            <label for="inp-seconds">Seconds</label>
+            <input type="number" id="inp-seconds" class="input-field" min="0" max="59" value="0" aria-label="Seconds">
+          </div>
+        </div>
+
+        <!-- Countdown Display -->
+        <div class="countdown-display">
+          <div class="countdown-time" id="countdown-time">05:00</div>
+          <div class="countdown-label" id="countdown-label">Ready</div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+
+        <!-- Control Buttons -->
+        <div class="control-row">
+          <button class="btn-primary" id="btn-start" onclick="startTimer()">Start</button>
+          <button class="btn-secondary" id="btn-pause" onclick="pauseTimer()" style="display:none">Pause</button>
+          <button class="btn-primary" id="btn-resume" onclick="resumeTimer()" style="display:none">Resume</button>
+          <button class="btn-secondary" id="btn-reset" onclick="resetTimer()">Reset</button>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="timer-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Quick Presets &amp; Custom Input</h3>
+            <p>Choose from six popular preset durations to start a timer with a single click, or enter any combination of hours, minutes, and seconds for a fully customized countdown. The interface is designed for speed — set your timer in under two seconds and get back to what matters.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Visual Progress Bar</h3>
+            <p>A smooth progress bar tracks the remaining time at a glance. The bar fills from left to right as the countdown elapses, giving you an intuitive visual sense of how much time is left without needing to read the numbers. Ideal for presentations, workouts, or cooking sessions where a quick glance is all you need.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Audio Alert &amp; Tab Title Updates</h3>
+            <p>When the countdown reaches zero, a clear audio beep generated entirely in your browser notifies you immediately — no external sound files or downloads required. The browser tab title also displays the remaining time in real time, so you can monitor your countdown from another tab or window without losing focus.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Countdown Timer</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Pick a preset or enter custom time</strong> — Click one of the quick preset buttons (1 min, 5 min, 10 min, 15 min, 30 min, or 1 hr) to load a duration instantly. For a custom duration, type your desired hours, minutes, and seconds into the three input fields.</li>
+          <li><strong>Start the countdown</strong> — Click the Start button. The large display begins counting down, the progress bar starts moving, and the browser tab title updates to show the remaining time.</li>
+          <li><strong>Pause or resume</strong> — Click Pause at any time to freeze the timer. Click Resume to continue from exactly where you left off. The remaining time is preserved precisely, down to the fraction of a second.</li>
+          <li><strong>Listen for the alert</strong> — When the countdown reaches zero, an audio beep plays and the display flashes. Click Reset to clear the timer and set a new duration.</li>
+        </ol>
+      </section>
+
+      <!-- SEO Content: Time Management & Productivity -->
+      <section class="mt-4">
+        <h2>Why Countdown Timers Matter for Productivity</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          Countdown timers are one of the simplest yet most effective tools for improving productivity and managing time. The concept is straightforward: set a specific amount of time, focus entirely on a single task until the timer reaches zero, and then take a break or move to the next task. This approach leverages a psychological principle known as time-boxing, where constraining work to a fixed interval forces you to prioritize, reduces procrastination, and creates a sense of urgency that drives efficiency.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          One of the most well-known applications of this principle is the Pomodoro Technique, developed by Francesco Cirillo in the late 1980s. The method divides work into intervals, traditionally 25 minutes in length, separated by short breaks of about five minutes. After completing four consecutive work intervals, you take a longer break of 15 to 30 minutes. This structured rhythm helps maintain sustained concentration while preventing mental fatigue. Research in cognitive psychology supports the idea that regular breaks during focused work lead to better retention, higher-quality output, and reduced burnout over extended periods.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          Beyond the Pomodoro Technique, countdown timers serve a wide variety of practical purposes. In the kitchen, a reliable timer ensures that recipes turn out perfectly by tracking cooking, baking, and resting times with precision. Athletes and fitness enthusiasts use interval timers to structure high-intensity interval training (HIIT) workouts, alternating between periods of intense exercise and recovery. Students preparing for standardized tests practice under timed conditions to build speed and familiarity with exam pressure. Presenters use timers to rehearse talks within allotted time slots, ensuring they stay on schedule during conferences and meetings.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          The advantage of a browser-based countdown timer like this one is accessibility. There is nothing to install, no account to create, and no data transmitted to external servers. The timer works on any device with a modern web browser — desktop computers, laptops, tablets, and smartphones. The Web Audio API generates the alert sound directly in your browser, eliminating the need for audio files or media downloads. Because all processing happens on your device, the tool remains responsive even without a persistent internet connection after the initial page load.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          Effective time management is not about working more hours; it is about making the hours you work count. A countdown timer provides the structure needed to enter a state of deep focus, the kind of concentrated attention that produces your best work. By setting clear boundaries around your work sessions and honoring the breaks in between, you establish a sustainable rhythm that supports long-term productivity without sacrificing well-being. Whether you are studying for an exam, writing a report, exercising, cooking dinner, or simply reminding yourself to stand up and stretch every 30 minutes, this timer adapts to your needs with minimal friction.
+        </p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>How do I use the Countdown Timer?</summary>
+          <p>Click one of the six quick preset buttons to start a timer for a common duration — 1 minute, 5 minutes, 10 minutes, 15 minutes, 30 minutes, or 1 hour. If you need a different duration, type the hours, minutes, and seconds into the custom input fields and click Start. The large display shows the remaining time, and a progress bar tracks your progress visually. You can pause, resume, or reset the timer at any time using the control buttons. The browser tab title also updates in real time so you can monitor the countdown from another tab.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What happens when the timer reaches zero?</summary>
+          <p>When the countdown finishes, the timer plays an audio beep directly in your browser using the Web Audio API. No external sound files are required and no downloads are triggered. The countdown display flashes with an animation to catch your attention visually, and the browser tab title changes to indicate that the timer has completed. You can then click Reset to set a new timer. The audio alert works in all modern browsers that support the Web Audio API, including Chrome, Firefox, Safari, and Edge.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does the timer keep running if I switch to another browser tab?</summary>
+          <p>Yes. The timer calculates the remaining time by comparing the current timestamp against the target end time, rather than relying on the precision of setInterval alone. Most browsers throttle JavaScript timers in background tabs to conserve resources, which can cause interval-based timers to drift. This timer compensates for that by re-checking the actual system time on every tick. When you return to the tab, the display will show the correct remaining time. The tab title also updates with the remaining time, so you can monitor the countdown without switching back to this tab.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can I pause and resume the countdown?</summary>
+          <p>Yes. Click the Pause button at any time to freeze the timer. The remaining time is preserved exactly as displayed, and the progress bar holds its current position. Click Resume to continue counting down from where you paused. This feature is useful if you are interrupted during a work session or need to temporarily halt a cooking timer. The pause and resume mechanism stores the remaining milliseconds precisely, so there is no time lost or gained when you resume.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How can I use this timer for the Pomodoro Technique?</summary>
+          <p>To practice the Pomodoro Technique, set the timer to 25 minutes for your work session by entering 25 in the minutes field and clicking Start. Focus entirely on your task until the audio alert signals the end of the interval. Then reset the timer to 5 minutes for a short break. After completing four 25-minute work sessions, take a longer break of 15 to 30 minutes. This structured cycle of focused work and rest helps maintain concentration, reduces fatigue, and improves the quality of your output over sustained periods. The quick preset buttons make it easy to switch between work and break intervals.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is there a maximum time I can set?</summary>
+          <p>The timer supports durations up to 99 hours, 59 minutes, and 59 seconds. For durations under one hour, the display shows the time in MM:SS format. For durations of one hour or more, it switches to HH:MM:SS format to keep the display clear and readable. This range covers virtually every practical use case, from quick one-minute timers for everyday tasks to multi-hour countdowns for extended activities like slow-cooking, marathon study sessions, or monitoring long-running processes.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is my data private when using this tool?</summary>
+          <p>Absolutely. The Countdown Timer runs entirely in your web browser using client-side JavaScript. No timer settings, durations, usage data, or personal information are transmitted to our servers or any third party. There are no accounts, no cookies storing personal data, and no server-side processing of any kind. The audio alert is generated locally using the Web Audio API. You can verify this by monitoring network requests in your browser's developer tools while using the timer. Your data stays on your device at all times.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/date-diff">Date Difference Calculator</a>
+          <a href="https://toolrip.com/age">Age Calculator</a>
+          <a href="https://toolrip.com/calorie">Calorie Calculator</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+          <a href="https://toolrip.com/tip">Tip Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="timer-sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="timer-bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Countdown Timer JS -->
+  <script>
+    /* --- State --- */
+    var timerState = {
+      totalMs: 300000,      // total duration in ms (default 5 min)
+      remainingMs: 300000,  // remaining in ms
+      endTime: 0,           // Date.now() target when running
+      interval: null,
+      running: false,
+      finished: false
+    };
+
+    var originalTitle = document.title;
+
+    /* --- DOM refs --- */
+    var elTime = document.getElementById('countdown-time');
+    var elLabel = document.getElementById('countdown-label');
+    var elProgress = document.getElementById('progress-fill');
+    var btnStart = document.getElementById('btn-start');
+    var btnPause = document.getElementById('btn-pause');
+    var btnResume = document.getElementById('btn-resume');
+    var btnReset = document.getElementById('btn-reset');
+    var inpH = document.getElementById('inp-hours');
+    var inpM = document.getElementById('inp-minutes');
+    var inpS = document.getElementById('inp-seconds');
+
+    /* --- Format time display --- */
+    function formatDisplay(ms) {
+      if (ms < 0) ms = 0;
+      var totalSec = Math.ceil(ms / 1000);
+      var h = Math.floor(totalSec / 3600);
+      var m = Math.floor((totalSec % 3600) / 60);
+      var s = totalSec % 60;
+
+      var pad = function(n) { return n < 10 ? '0' + n : '' + n; };
+
+      if (h > 0) {
+        return pad(h) + ':' + pad(m) + ':' + pad(s);
+      }
+      return pad(m) + ':' + pad(s);
+    }
+
+    /* --- Update display --- */
+    function updateDisplay() {
+      var display = formatDisplay(timerState.remainingMs);
+      elTime.textContent = display;
+
+      // Progress bar
+      var pct = timerState.totalMs > 0 ? (timerState.remainingMs / timerState.totalMs) * 100 : 0;
+      if (pct < 0) pct = 0;
+      elProgress.style.width = pct + '%';
+
+      // Tab title
+      if (timerState.running) {
+        document.title = display + ' \u2014 Countdown Timer | Toolrip';
+      } else if (timerState.finished) {
+        document.title = '\u23F0 Time\'s Up! \u2014 Countdown Timer | Toolrip';
+      } else {
+        document.title = originalTitle;
+      }
+    }
+
+    /* --- Read inputs and compute total ms --- */
+    function getInputMs() {
+      var h = parseInt(inpH.value) || 0;
+      var m = parseInt(inpM.value) || 0;
+      var s = parseInt(inpS.value) || 0;
+
+      // Clamp values
+      if (h < 0) h = 0; if (h > 99) h = 99;
+      if (m < 0) m = 0; if (m > 59) m = 59;
+      if (s < 0) s = 0; if (s > 59) s = 59;
+
+      inpH.value = h;
+      inpM.value = m;
+      inpS.value = s;
+
+      return (h * 3600 + m * 60 + s) * 1000;
+    }
+
+    /* --- Set inputs from ms --- */
+    function setInputsFromMs(ms) {
+      var totalSec = Math.round(ms / 1000);
+      var h = Math.floor(totalSec / 3600);
+      var m = Math.floor((totalSec % 3600) / 60);
+      var s = totalSec % 60;
+      inpH.value = h;
+      inpM.value = m;
+      inpS.value = s;
+    }
+
+    /* --- Tick --- */
+    function tick() {
+      if (!timerState.running) return;
+
+      timerState.remainingMs = timerState.endTime - Date.now();
+
+      if (timerState.remainingMs <= 0) {
+        timerState.remainingMs = 0;
+        timerState.running = false;
+        timerState.finished = true;
+        clearInterval(timerState.interval);
+        timerState.interval = null;
+
+        updateDisplay();
+        elTime.classList.add('finished');
+        elLabel.textContent = 'Time\'s up!';
+        showButtons('reset');
+        playBeep();
+        return;
+      }
+
+      updateDisplay();
+    }
+
+    /* --- Start --- */
+    function startTimer() {
+      var ms = getInputMs();
+      if (ms <= 0) {
+        showToast('Please enter a time greater than zero.', 'error');
+        return;
+      }
+
+      timerState.totalMs = ms;
+      timerState.remainingMs = ms;
+      timerState.endTime = Date.now() + ms;
+      timerState.running = true;
+      timerState.finished = false;
+
+      elTime.classList.remove('finished');
+      elLabel.textContent = 'Running';
+
+      updateDisplay();
+      timerState.interval = setInterval(tick, 100);
+
+      showButtons('pause');
+      clearPresetActive();
+    }
+
+    /* --- Pause --- */
+    function pauseTimer() {
+      if (!timerState.running) return;
+
+      timerState.running = false;
+      timerState.remainingMs = timerState.endTime - Date.now();
+      if (timerState.remainingMs < 0) timerState.remainingMs = 0;
+      clearInterval(timerState.interval);
+      timerState.interval = null;
+
+      elLabel.textContent = 'Paused';
+      document.title = formatDisplay(timerState.remainingMs) + ' (Paused) \u2014 Countdown Timer | Toolrip';
+
+      showButtons('resume');
+    }
+
+    /* --- Resume --- */
+    function resumeTimer() {
+      if (timerState.running || timerState.remainingMs <= 0) return;
+
+      timerState.endTime = Date.now() + timerState.remainingMs;
+      timerState.running = true;
+
+      elLabel.textContent = 'Running';
+      timerState.interval = setInterval(tick, 100);
+
+      showButtons('pause');
+    }
+
+    /* --- Reset --- */
+    function resetTimer() {
+      timerState.running = false;
+      timerState.finished = false;
+      clearInterval(timerState.interval);
+      timerState.interval = null;
+
+      var ms = getInputMs();
+      timerState.totalMs = ms;
+      timerState.remainingMs = ms;
+
+      elTime.classList.remove('finished');
+      elLabel.textContent = 'Ready';
+
+      updateDisplay();
+      document.title = originalTitle;
+
+      showButtons('start');
+    }
+
+    /* --- Button visibility --- */
+    function showButtons(mode) {
+      btnStart.style.display = mode === 'start' ? '' : 'none';
+      btnPause.style.display = mode === 'pause' ? '' : 'none';
+      btnResume.style.display = mode === 'resume' ? '' : 'none';
+    }
+
+    /* --- Clear preset active state --- */
+    function clearPresetActive() {
+      document.querySelectorAll('.preset-btn').forEach(function(btn) {
+        btn.classList.remove('active');
+      });
+    }
+
+    /* --- Preset buttons --- */
+    document.querySelectorAll('.preset-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var sec = parseInt(btn.dataset.seconds);
+        if (!sec || sec <= 0) return;
+
+        // Stop any running timer
+        timerState.running = false;
+        timerState.finished = false;
+        clearInterval(timerState.interval);
+        timerState.interval = null;
+        elTime.classList.remove('finished');
+
+        // Set inputs
+        setInputsFromMs(sec * 1000);
+
+        // Highlight active preset
+        clearPresetActive();
+        btn.classList.add('active');
+
+        // Start immediately
+        startTimer();
+      });
+    });
+
+    /* --- Input changes update display when not running --- */
+    function onInputChange() {
+      if (timerState.running) return;
+      var ms = getInputMs();
+      timerState.totalMs = ms;
+      timerState.remainingMs = ms;
+      timerState.finished = false;
+      elTime.classList.remove('finished');
+      elLabel.textContent = 'Ready';
+      updateDisplay();
+      document.title = originalTitle;
+      showButtons('start');
+      clearPresetActive();
+    }
+
+    inpH.addEventListener('input', onInputChange);
+    inpM.addEventListener('input', onInputChange);
+    inpS.addEventListener('input', onInputChange);
+
+    /* --- Web Audio API beep --- */
+    function playBeep() {
+      try {
+        var AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+
+        var ctx = new AudioContext();
+
+        // Play three short beeps
+        var beepTimes = [0, 0.25, 0.5];
+        for (var i = 0; i < beepTimes.length; i++) {
+          (function(offset) {
+            var osc = ctx.createOscillator();
+            var gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+
+            osc.type = 'sine';
+            osc.frequency.value = 880;
+
+            gain.gain.setValueAtTime(0.3, ctx.currentTime + offset);
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + offset + 0.15);
+
+            osc.start(ctx.currentTime + offset);
+            osc.stop(ctx.currentTime + offset + 0.15);
+          })(beepTimes[i]);
+        }
+
+        // Close context after beeps finish
+        setTimeout(function() { ctx.close(); }, 1500);
+      } catch (e) {
+        // Web Audio API not supported; fail silently
+      }
+    }
+
+    /* --- Init display --- */
+    updateDisplay();
+  </script>
+</body>
+</html>

@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matrix Calculator Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Perform matrix operations online: add, subtract, multiply, transpose, find determinant and inverse. Free matrix calculator with step-by-step solutions for 2x2 to 5x5 matrices.">
+  <link rel="canonical" href="https://toolrip.com/matrix">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Matrix Calculator — Toolrip">
+  <meta property="og:description" content="Perform matrix operations online: add, subtract, multiply, transpose, find determinant and inverse. Free matrix calculator with step-by-step solutions.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/matrix">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Matrix Calculator — Toolrip">
+  <meta name="twitter:description" content="Perform matrix operations online: add, subtract, multiply, transpose, find determinant and inverse. Free matrix calculator with step-by-step solutions.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--math)}</style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Matrix Calculator",
+    "url": "https://toolrip.com/matrix",
+    "description": "Perform matrix operations online: add, subtract, multiply, transpose, find determinant and inverse. Free matrix calculator with step-by-step solutions for 2x2 to 5x5 matrices.",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Math & Science", "item": "https://toolrip.com/#math" },
+      { "@type": "ListItem", "position": 3, "name": "Matrix Calculator", "item": "https://toolrip.com/matrix" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is a matrix in mathematics?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A matrix is a rectangular array of numbers, symbols, or expressions arranged in rows and columns. Matrices are used to represent and solve systems of linear equations, perform geometric transformations, and model data in fields such as computer graphics, physics, and machine learning."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What does the determinant of a matrix mean?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The determinant is a scalar value computed from a square matrix that encodes important geometric and algebraic properties. It tells you whether the matrix is invertible (non-zero determinant), the scaling factor of the linear transformation it represents, and the signed volume of the parallelepiped formed by its column vectors."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the inverse of a matrix and when does it exist?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The inverse of a square matrix A is another matrix A⁻¹ such that A × A⁻¹ equals the identity matrix. An inverse exists only when the determinant of the matrix is not zero. If the determinant is zero, the matrix is called singular and has no inverse."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does matrix multiplication work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Matrix multiplication combines the rows of the first matrix with the columns of the second matrix using dot products. For matrices A (m×n) and B (n×p), the result is an m×p matrix where each entry is the sum of products of corresponding elements from a row of A and a column of B. The number of columns in A must equal the number of rows in B."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the identity matrix?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The identity matrix is a square matrix with ones on the main diagonal and zeros everywhere else. It is the matrix equivalent of the number 1 in multiplication. Multiplying any matrix by the identity matrix of compatible size returns the original matrix unchanged."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a singular matrix?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A singular matrix is a square matrix whose determinant equals zero. Singular matrices do not have an inverse and represent transformations that collapse space into a lower dimension. For example, a singular 3×3 matrix maps three-dimensional space onto a plane, a line, or a single point."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are the common types of matrices?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Common types include the identity matrix (ones on diagonal), zero matrix (all zeros), diagonal matrix (non-zero entries only on the diagonal), symmetric matrix (equal to its transpose), orthogonal matrix (its inverse equals its transpose), upper and lower triangular matrices (zeros below or above the diagonal), and sparse matrix (mostly zero entries)."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+  .matrix-grid-wrap{overflow-x:auto}
+  .matrix-grid{display:inline-grid;gap:4px;margin:var(--sp-2) 0}
+  .matrix-grid input{width:60px;padding:6px 4px;text-align:center;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font:inherit;font-size:.875rem}
+  .matrix-grid input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent)}
+  .matrix-label{font-size:.875rem;font-weight:600;color:var(--accent);margin-bottom:var(--sp-1)}
+  .size-controls{display:flex;align-items:center;gap:var(--sp-2);flex-wrap:wrap;margin-bottom:var(--sp-2)}
+  .size-controls label{font-size:.8rem;color:var(--text-muted)}
+  .size-controls select{padding:4px 8px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font:inherit;font-size:.8rem}
+  .op-buttons{display:flex;flex-wrap:wrap;gap:var(--sp-2);margin:var(--sp-3) 0}
+  .op-btn{padding:var(--sp-2) var(--sp-3);background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font:inherit;font-size:.8rem;font-weight:500;cursor:pointer;transition:border-color .15s,background .15s}
+  .op-btn:hover{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,transparent)}
+  .op-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .scalar-wrap{display:inline-flex;align-items:center;gap:var(--sp-2)}
+  .scalar-wrap input{width:70px}
+  .result-matrix{display:inline-grid;gap:4px;margin:var(--sp-2) 0}
+  .result-matrix .cell{width:70px;padding:6px 4px;text-align:center;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:.875rem}
+  .steps-box{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3);margin-top:var(--sp-3);font-size:.875rem;line-height:1.8;white-space:pre-wrap;color:var(--text-muted);max-height:400px;overflow-y:auto}
+  .error-msg{color:var(--security);font-size:.875rem;margin-top:var(--sp-2)}
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <header class="header">
+    <a href="https://toolrip.com" class="logo">Toolrip</a>
+    <nav>
+      <a href="https://toolrip.com/fraction">Fraction</a>
+      <a href="https://toolrip.com/percentage">Percentage</a>
+      <a href="https://toolrip.com/statistics">Statistics</a>
+      <a href="https://toolrip.com/bmi">BMI</a>
+      <a href="https://toolrip.com/compound-interest">Compound Interest</a>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main">
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="https://toolrip.com">Home</a> <span>/</span>
+      <a href="https://toolrip.com/#math">Math &amp; Science</a> <span>/</span>
+      <span>Matrix Calculator</span>
+    </nav>
+
+    <h1>Matrix Calculator</h1>
+    <p class="text-muted mt-1 mb-3">Perform matrix addition, subtraction, multiplication, transposition, determinant, and inverse calculations online. Supports matrices up to 5&times;5 with step-by-step solutions.</p>
+
+    <!-- Ad Top -->
+    <div class="ad-slot ad-top" data-ad-slot="top">Ad</div>
+
+    <!-- Tool Card -->
+    <div class="tool-card" id="toolCard">
+      <!-- Matrix A -->
+      <div class="matrix-label">Matrix A</div>
+      <div class="size-controls">
+        <label>Rows</label>
+        <select id="rowsA"><option>2</option><option>3</option><option>4</option><option>5</option></select>
+        <label>Cols</label>
+        <select id="colsA"><option>2</option><option>3</option><option>4</option><option>5</option></select>
+      </div>
+      <div class="matrix-grid-wrap" id="gridWrapA">
+        <div class="matrix-grid" id="gridA"></div>
+      </div>
+
+      <!-- Matrix B -->
+      <div class="matrix-label mt-2">Matrix B</div>
+      <div class="size-controls">
+        <label>Rows</label>
+        <select id="rowsB"><option>2</option><option>3</option><option>4</option><option>5</option></select>
+        <label>Cols</label>
+        <select id="colsB"><option>2</option><option>3</option><option>4</option><option>5</option></select>
+      </div>
+      <div class="matrix-grid-wrap" id="gridWrapB">
+        <div class="matrix-grid" id="gridB"></div>
+      </div>
+
+      <!-- Scalar Input -->
+      <div class="scalar-wrap mt-2 hidden" id="scalarWrap">
+        <label class="text-muted" style="font-size:.8rem">Scalar k =</label>
+        <input type="number" id="scalarVal" class="input-field" value="2" step="any">
+      </div>
+
+      <!-- Operations -->
+      <div class="op-buttons" id="opButtons">
+        <button class="op-btn active" data-op="add">A + B</button>
+        <button class="op-btn" data-op="sub">A &minus; B</button>
+        <button class="op-btn" data-op="mul">A &times; B</button>
+        <button class="op-btn" data-op="scalar">k &times; A</button>
+        <button class="op-btn" data-op="transA">Transpose A</button>
+        <button class="op-btn" data-op="transB">Transpose B</button>
+        <button class="op-btn" data-op="detA">det(A)</button>
+        <button class="op-btn" data-op="detB">det(B)</button>
+        <button class="op-btn" data-op="invA">A&supmin;&sup1;</button>
+        <button class="op-btn" data-op="invB">B&supmin;&sup1;</button>
+      </div>
+
+      <button class="btn-primary" id="calcBtn">Calculate</button>
+      <button class="btn-secondary" id="clearBtn" style="margin-left:var(--sp-2)">Clear</button>
+
+      <!-- Error -->
+      <div class="error-msg hidden" id="errorMsg"></div>
+
+      <!-- Result -->
+      <div class="mt-3 hidden" id="resultArea">
+        <div class="matrix-label">Result</div>
+        <div class="matrix-grid-wrap">
+          <div class="result-matrix" id="resultGrid"></div>
+        </div>
+        <button class="copy-btn" id="copyResult" style="position:static;margin-top:var(--sp-2)">Copy Result</button>
+      </div>
+
+      <!-- Steps -->
+      <div class="hidden" id="stepsArea">
+        <div class="matrix-label mt-2">Step-by-Step Solution</div>
+        <div class="steps-box" id="stepsBox"></div>
+      </div>
+    </div>
+
+    <!-- Ad In-Content -->
+    <div class="ad-slot ad-in-content" data-ad-slot="in-content">Ad</div>
+
+    <!-- How-to Guide -->
+    <section class="tool-card">
+      <h2>How to Use the Matrix Calculator</h2>
+      <p style="color:var(--text-muted);font-size:.9375rem;line-height:1.7;margin-top:var(--sp-2)">
+        This matrix calculator is designed to help students, engineers, and anyone working with linear algebra. Follow these steps to perform matrix operations quickly and accurately:
+      </p>
+      <ol style="color:var(--text-muted);font-size:.9375rem;line-height:2;margin-top:var(--sp-2);padding-left:var(--sp-4)">
+        <li><strong>Set matrix dimensions</strong> &mdash; Use the row and column dropdowns to select the size for Matrix A and Matrix B. You can create matrices from 2&times;2 up to 5&times;5.</li>
+        <li><strong>Enter matrix values</strong> &mdash; Click on any cell in the grid and type a number. Decimal and negative values are supported. Leave a cell empty and it defaults to zero.</li>
+        <li><strong>Choose an operation</strong> &mdash; Click one of the operation buttons: Add, Subtract, Multiply, Transpose, Determinant, Inverse, or Scalar Multiply.</li>
+        <li><strong>Calculate</strong> &mdash; Press the "Calculate" button. The result matrix appears below the inputs along with a step-by-step solution when available.</li>
+        <li><strong>Copy or clear</strong> &mdash; Use the "Copy Result" button to copy the output to your clipboard, or "Clear" to reset all matrices and start fresh.</li>
+      </ol>
+      <p style="color:var(--text-muted);font-size:.9375rem;line-height:1.7;margin-top:var(--sp-2)">
+        For binary operations like addition, subtraction, and multiplication, both matrices must have compatible dimensions. Addition and subtraction require identical dimensions, while multiplication requires the number of columns in A to equal the number of rows in B. Unary operations such as transpose work on a single matrix, while determinant and inverse require a square matrix.
+      </p>
+    </section>
+
+    <!-- Feature Cards -->
+    <section>
+      <h2 class="mb-2">Features</h2>
+      <div class="feature-cards">
+        <div class="feature-card">
+          <h3>Flexible Matrix Sizes</h3>
+          <p>Create matrices from 2&times;2 up to 5&times;5 with independent row and column controls for each matrix. The grid updates dynamically as you change dimensions.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Complete Operations</h3>
+          <p>Addition, subtraction, multiplication, scalar multiplication, transpose, determinant, and inverse. All the essential matrix operations in one tool.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Step-by-Step Solutions</h3>
+          <p>View detailed solution steps for determinant calculations using cofactor expansion and inverse calculations via the adjugate method. Learn the process, not just the answer.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Instant Validation</h3>
+          <p>The calculator validates dimension compatibility before computing and provides clear error messages explaining what went wrong and how to fix it.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Copy &amp; Share Results</h3>
+          <p>Copy the result matrix to your clipboard in a clean, tab-separated format that can be pasted directly into spreadsheets, documents, or code editors.</p>
+        </div>
+        <div class="feature-card">
+          <h3>No Installation Required</h3>
+          <p>Runs entirely in your browser with zero dependencies. No signup, no downloads, and your data never leaves your device. Works offline once loaded.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Content Section -->
+    <section class="tool-card mt-3">
+      <h2>Understanding Matrices and Linear Algebra</h2>
+      <p style="color:var(--text-muted);font-size:.9375rem;line-height:1.7;margin-top:var(--sp-2)">
+        Matrices are one of the most fundamental structures in mathematics and applied sciences. A matrix is a rectangular array of numbers organized into rows and columns, and it provides a compact way to represent and manipulate linear transformations, systems of equations, and multidimensional data. The study of matrices falls under linear algebra, a branch of mathematics that underpins much of modern science and engineering.
+      </p>
+      <p style="color:var(--text-muted);font-size:.9375rem;line-height:1.7;margin-top:var(--sp-2)">
+        In computer graphics and game development, matrices are used extensively to perform transformations such as rotation, scaling, and translation of objects in two-dimensional and three-dimensional space. A 4&times;4 transformation matrix can encode position, orientation, and scale of any object in a 3D scene, and graphics processing units are specifically optimized for rapid matrix arithmetic. Every frame rendered in a modern video game involves millions of matrix multiplications.
+      </p>
+      <p style="color:var(--text-muted);font-size:.9375rem;line-height:1.7;margin-top:var(--sp-2)">
+        Physics and engineering rely on matrices for solving systems of differential equations, analyzing electrical circuits, modeling structural stress, and simulating fluid dynamics. The finite element method, widely used in mechanical and civil engineering, discretizes continuous structures into matrices that can be solved computationally. Quantum mechanics represents the state of a system using matrices and vectors in complex Hilbert spaces.
+      </p>
+      <p style="color:var(--text-muted);font-size:.9375rem;line-height:1.7;margin-top:var(--sp-2)">
+        Machine learning and data science treat datasets as matrices where each row represents an observation and each column represents a feature. Neural networks compute outputs through sequences of matrix multiplications and element-wise nonlinear activations. Principal component analysis, singular value decomposition, and other dimensionality reduction techniques are fundamentally matrix decomposition methods. Training a large language model involves multiplying parameter matrices with billions of entries.
+      </p>
+      <p style="color:var(--text-muted);font-size:.9375rem;line-height:1.7;margin-top:var(--sp-2)">
+        Cryptography uses matrices in several encryption schemes. The Hill cipher, one of the earliest polygraphic substitution ciphers, encrypts blocks of plaintext by multiplying them by a key matrix modulo a chosen integer. Modern cryptographic protocols employ matrix-based problems, such as the Learning With Errors problem over lattices, which forms the basis of several post-quantum cryptographic standards currently being adopted worldwide.
+      </p>
+      <p style="color:var(--text-muted);font-size:.9375rem;line-height:1.7;margin-top:var(--sp-2)">
+        Common types of matrices include the identity matrix, which has ones on its main diagonal and zeros elsewhere, and the zero matrix, which contains only zeros. A diagonal matrix has non-zero entries only along the main diagonal. Symmetric matrices equal their own transpose and arise naturally in distance computations and covariance calculations. Orthogonal matrices preserve lengths and angles, making them essential for rotations and reflections. Sparse matrices, which contain mostly zero entries, appear frequently in graph algorithms and large-scale scientific computations, and specialized storage formats allow them to be processed efficiently without wasting memory on zero values.
+      </p>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+
+      <details class="faq-item">
+        <summary>What is a matrix in mathematics?</summary>
+        <p>A matrix is a rectangular array of numbers arranged in rows and columns. Matrices are written inside brackets and described by their dimensions: an m&times;n matrix has m rows and n columns. They serve as a fundamental tool in linear algebra for representing linear transformations, solving systems of equations, and organizing data. For example, a 3&times;3 matrix can represent a rotation in three-dimensional space, while a 2&times;3 matrix might store the coordinates of three points in a plane.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>What does the determinant of a matrix mean?</summary>
+        <p>The determinant is a single number calculated from a square matrix that captures key properties of the linear transformation the matrix represents. Geometrically, the absolute value of the determinant tells you the factor by which areas (in 2D) or volumes (in 3D) are scaled by the transformation. A negative determinant indicates that the transformation reverses orientation. If the determinant is zero, the matrix is singular, meaning the transformation collapses space into a lower dimension, and the system of equations it represents has either no solution or infinitely many solutions.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>What is the inverse of a matrix and when does it exist?</summary>
+        <p>The inverse of a square matrix A is a matrix denoted A&supmin;&sup1; such that the product A &times; A&supmin;&sup1; equals the identity matrix. Think of it as the matrix equivalent of dividing by a number. An inverse exists if and only if the determinant of A is not zero. When the inverse exists, it can be used to solve the equation Ax = b by computing x = A&supmin;&sup1;b. If the determinant is zero, the matrix is called singular and no inverse exists because the transformation it represents loses information.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>How does matrix multiplication work?</summary>
+        <p>Matrix multiplication combines two matrices by computing dot products of rows from the first matrix with columns from the second. For A (m&times;n) multiplied by B (n&times;p), the result is an m&times;p matrix. Each element at position (i, j) in the result equals the sum of products a(i,k) &times; b(k,j) for k from 1 to n. An important rule is that the number of columns in A must equal the number of rows in B. Unlike regular number multiplication, matrix multiplication is not commutative: A &times; B generally does not equal B &times; A.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>What is the identity matrix?</summary>
+        <p>The identity matrix, often written as I or I_n, is a square matrix with ones along the main diagonal and zeros in every other position. It serves the same role for matrices as the number one does for ordinary multiplication: any matrix multiplied by the identity matrix of compatible size remains unchanged. The 2&times;2 identity matrix is [[1,0],[0,1]], and the 3&times;3 identity is [[1,0,0],[0,1,0],[0,0,1]]. In linear algebra, the identity matrix represents the transformation that leaves every vector in its original position.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>What is a singular matrix?</summary>
+        <p>A singular matrix is a square matrix whose determinant equals zero. Because its determinant is zero, a singular matrix does not have an inverse and cannot be used to uniquely solve a system of linear equations. Geometrically, a singular matrix represents a transformation that collapses at least one dimension: for instance, a singular 3&times;3 matrix might project all of three-dimensional space onto a plane or a line. In practical terms, encountering a singular matrix often signals that a system of equations is either inconsistent or has infinitely many solutions.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>What are the real-world applications of matrices?</summary>
+        <p>Matrices are used throughout science, engineering, and technology. In computer graphics, 4&times;4 matrices handle rotation, scaling, and perspective projection. In machine learning, neural networks compute outputs through chains of matrix multiplications. Physicists use matrices to describe quantum states and solve differential equations. Engineers use them in finite element analysis for structural simulations. Economists model input-output relationships between industries using Leontief matrices. Search engines like Google originally used the PageRank algorithm, which involves computing the dominant eigenvector of a massive web link matrix.</p>
+      </details>
+    </section>
+
+    <!-- Ad Bottom -->
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Related Tools -->
+    <section class="mt-3">
+      <h2 class="mb-2">Related Tools</h2>
+      <div class="related-tools">
+        <a href="https://toolrip.com/fraction">Fraction Calculator</a>
+        <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+        <a href="https://toolrip.com/statistics">Statistics Calculator</a>
+        <a href="https://toolrip.com/bmi">BMI Calculator</a>
+        <a href="https://toolrip.com/age">Age Calculator</a>
+        <a href="https://toolrip.com/compound-interest">Compound Interest Calculator</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="ad-slot ad-sidebar" data-ad-slot="sidebar">Ad</div>
+  </aside>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div>
+      <a href="https://toolrip.com">Home</a>
+      <a href="https://toolrip.com/legal/about.html">About</a>
+      <a href="https://toolrip.com/legal/privacy.html">Privacy</a>
+      <a href="https://toolrip.com/legal/terms.html">Terms</a>
+      <a href="https://toolrip.com/legal/contact.html">Contact</a>
+    </div>
+    <p style="margin-top:var(--sp-2)">&copy; 2025 Toolrip. All rights reserved.</p>
+  </footer>
+
+</div>
+
+<!-- Shared JS -->
+<script src="/shared/common.js"></script>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ---- DOM refs ---- */
+  var rowsA=document.getElementById('rowsA'),colsA=document.getElementById('colsA');
+  var rowsB=document.getElementById('rowsB'),colsB=document.getElementById('colsB');
+  var gridA=document.getElementById('gridA'),gridB=document.getElementById('gridB');
+  var opButtons=document.getElementById('opButtons');
+  var calcBtn=document.getElementById('calcBtn'),clearBtn=document.getElementById('clearBtn');
+  var resultArea=document.getElementById('resultArea'),resultGrid=document.getElementById('resultGrid');
+  var stepsArea=document.getElementById('stepsArea'),stepsBox=document.getElementById('stepsBox');
+  var errorMsg=document.getElementById('errorMsg');
+  var scalarWrap=document.getElementById('scalarWrap'),scalarVal=document.getElementById('scalarVal');
+  var copyResult=document.getElementById('copyResult');
+  var currentOp='add';
+
+  /* ---- Build grids ---- */
+  function buildGrid(container,rSel,cSel){
+    var r=parseInt(rSel.value),c=parseInt(cSel.value);
+    container.innerHTML='';
+    container.style.gridTemplateColumns='repeat('+c+',60px)';
+    for(var i=0;i<r;i++){
+      for(var j=0;j<c;j++){
+        var inp=document.createElement('input');
+        inp.type='number';
+        inp.step='any';
+        inp.setAttribute('aria-label','Row '+(i+1)+' Column '+(j+1));
+        inp.dataset.r=i;
+        inp.dataset.c=j;
+        container.appendChild(inp);
+      }
+    }
+  }
+
+  function initGrids(){
+    buildGrid(gridA,rowsA,colsA);
+    buildGrid(gridB,rowsB,colsB);
+  }
+
+  rowsA.addEventListener('change',function(){buildGrid(gridA,rowsA,colsA)});
+  colsA.addEventListener('change',function(){buildGrid(gridA,rowsA,colsA)});
+  rowsB.addEventListener('change',function(){buildGrid(gridB,rowsB,colsB)});
+  colsB.addEventListener('change',function(){buildGrid(gridB,rowsB,colsB)});
+
+  /* ---- Read matrix from grid ---- */
+  function readMatrix(container,rSel,cSel){
+    var r=parseInt(rSel.value),c=parseInt(cSel.value);
+    var inputs=container.querySelectorAll('input');
+    var m=[];
+    for(var i=0;i<r;i++){
+      m[i]=[];
+      for(var j=0;j<c;j++){
+        var v=parseFloat(inputs[i*c+j].value);
+        m[i][j]=isNaN(v)?0:v;
+      }
+    }
+    return m;
+  }
+
+  /* ---- Operation buttons ---- */
+  opButtons.addEventListener('click',function(e){
+    var btn=e.target.closest('.op-btn');
+    if(!btn)return;
+    opButtons.querySelectorAll('.op-btn').forEach(function(b){b.classList.remove('active')});
+    btn.classList.add('active');
+    currentOp=btn.dataset.op;
+    scalarWrap.classList.toggle('hidden',currentOp!=='scalar');
+  });
+
+  /* ---- Matrix operations ---- */
+  function addSub(a,b,sign){
+    if(a.length!==b.length||a[0].length!==b[0].length)return null;
+    var r=a.length,c=a[0].length,res=[];
+    for(var i=0;i<r;i++){res[i]=[];for(var j=0;j<c;j++){res[i][j]=a[i][j]+sign*b[i][j]}}
+    return res;
+  }
+
+  function multiply(a,b){
+    if(a[0].length!==b.length)return null;
+    var r=a.length,n=a[0].length,c=b[0].length,res=[];
+    for(var i=0;i<r;i++){res[i]=[];for(var j=0;j<c;j++){var s=0;for(var k=0;k<n;k++){s+=a[i][k]*b[k][j]}res[i][j]=s}}
+    return res;
+  }
+
+  function scalarMul(a,k){
+    var r=a.length,c=a[0].length,res=[];
+    for(var i=0;i<r;i++){res[i]=[];for(var j=0;j<c;j++){res[i][j]=a[i][j]*k}}
+    return res;
+  }
+
+  function transpose(a){
+    var r=a.length,c=a[0].length,res=[];
+    for(var j=0;j<c;j++){res[j]=[];for(var i=0;i<r;i++){res[j][i]=a[i][j]}}
+    return res;
+  }
+
+  /* ---- Determinant (cofactor expansion, with steps) ---- */
+  function minor(m,row,col){
+    var sub=[];
+    for(var i=0;i<m.length;i++){
+      if(i===row)continue;
+      var r=[];
+      for(var j=0;j<m[0].length;j++){if(j!==col)r.push(m[i][j])}
+      sub.push(r);
+    }
+    return sub;
+  }
+
+  function det(m,steps,depth){
+    var n=m.length;
+    var indent='';for(var d=0;d<depth;d++)indent+='  ';
+    if(n===1){
+      steps.push(indent+'det(['+m[0][0]+']) = '+m[0][0]);
+      return m[0][0];
+    }
+    if(n===2){
+      var v=m[0][0]*m[1][1]-m[0][1]*m[1][0];
+      steps.push(indent+'det([['+m[0].join(', ')+'],['+m[1].join(', ')+']]) = '+m[0][0]+'*'+m[1][1]+' - '+m[0][1]+'*'+m[1][0]+' = '+round(v));
+      return v;
+    }
+    steps.push(indent+'Expanding along row 1:');
+    var val=0;
+    var parts=[];
+    for(var j=0;j<n;j++){
+      var sign=j%2===0?1:-1;
+      var cofactor=m[0][j];
+      var sub=minor(m,0,j);
+      steps.push(indent+'  '+(sign>0?'+':'-')+' '+Math.abs(cofactor)+' * det(M_1'+(j+1)+'):');
+      var subDet=det(sub,steps,depth+2);
+      var term=sign*cofactor*subDet;
+      parts.push(term);
+      val+=term;
+    }
+    steps.push(indent+'= '+parts.map(function(p){return round(p)}).join(' + ')+' = '+round(val));
+    return val;
+  }
+
+  /* ---- Inverse (adjugate method, with steps) ---- */
+  function inverse(m,steps){
+    var n=m.length;
+    steps.push('Computing determinant of the matrix:');
+    var d=det(m,steps,0);
+    if(Math.abs(d)<1e-12){
+      steps.push('\nDeterminant = 0. The matrix is singular and has no inverse.');
+      return null;
+    }
+    steps.push('\nDeterminant = '+round(d));
+    steps.push('\nComputing matrix of cofactors:');
+    var cofactors=[];
+    for(var i=0;i<n;i++){
+      cofactors[i]=[];
+      for(var j=0;j<n;j++){
+        var subSteps=[];
+        var minorDet=det(minor(m,i,j),subSteps,0);
+        var sign=((i+j)%2===0)?1:-1;
+        cofactors[i][j]=sign*minorDet;
+        steps.push('  C('+(i+1)+','+(j+1)+') = '+(sign<0?'-':'+')+' det(M_'+(i+1)+(j+1)+') = '+round(cofactors[i][j]));
+      }
+    }
+    steps.push('\nTransposing cofactor matrix to get adjugate:');
+    var adj=transpose(cofactors);
+    for(var i=0;i<n;i++){
+      steps.push('  ['+adj[i].map(function(v){return round(v)}).join(', ')+']');
+    }
+    steps.push('\nDividing adjugate by determinant ('+round(d)+'):');
+    var inv=[];
+    for(var i=0;i<n;i++){
+      inv[i]=[];
+      for(var j=0;j<n;j++){
+        inv[i][j]=adj[i][j]/d;
+      }
+      steps.push('  ['+inv[i].map(function(v){return round(v)}).join(', ')+']');
+    }
+    return inv;
+  }
+
+  /* ---- Round helper ---- */
+  function round(v){
+    if(Math.abs(v)<1e-10)return 0;
+    return Math.round(v*1e8)/1e8;
+  }
+
+  /* ---- Display result ---- */
+  function showResult(matrix){
+    resultGrid.innerHTML='';
+    if(!matrix||matrix.length===0)return;
+    var r=matrix.length,c=matrix[0].length;
+    resultGrid.style.gridTemplateColumns='repeat('+c+',70px)';
+    for(var i=0;i<r;i++){
+      for(var j=0;j<c;j++){
+        var cell=document.createElement('div');
+        cell.className='cell';
+        cell.textContent=round(matrix[i][j]);
+        resultGrid.appendChild(cell);
+      }
+    }
+    resultArea.classList.remove('hidden');
+  }
+
+  function showScalar(value){
+    resultGrid.innerHTML='';
+    resultGrid.style.gridTemplateColumns='1fr';
+    var cell=document.createElement('div');
+    cell.className='cell';
+    cell.textContent=round(value);
+    resultGrid.appendChild(cell);
+    resultArea.classList.remove('hidden');
+  }
+
+  function showError(msg){
+    errorMsg.textContent=msg;
+    errorMsg.classList.remove('hidden');
+  }
+
+  function hideResults(){
+    resultArea.classList.add('hidden');
+    stepsArea.classList.add('hidden');
+    errorMsg.classList.add('hidden');
+  }
+
+  /* ---- Matrix to text ---- */
+  function matrixToText(){
+    var cells=resultGrid.querySelectorAll('.cell');
+    if(!cells.length)return'';
+    var cols=parseInt(resultGrid.style.gridTemplateColumns.split('repeat(')[1])||1;
+    var rows=[];var row=[];
+    cells.forEach(function(c,i){
+      row.push(c.textContent);
+      if((i+1)%cols===0){rows.push(row.join('\t'));row=[];}
+    });
+    if(row.length)rows.push(row.join('\t'));
+    return rows.join('\n');
+  }
+
+  /* ---- Calculate ---- */
+  calcBtn.addEventListener('click',function(){
+    hideResults();
+    var a=readMatrix(gridA,rowsA,colsA);
+    var b=readMatrix(gridB,rowsB,colsB);
+    var result=null;
+    var steps=[];
+    var showSteps=false;
+
+    switch(currentOp){
+      case 'add':
+        result=addSub(a,b,1);
+        if(!result)return showError('Addition requires matrices of the same dimensions. Matrix A is '+a.length+'x'+a[0].length+' but Matrix B is '+b.length+'x'+b[0].length+'.');
+        break;
+      case 'sub':
+        result=addSub(a,b,-1);
+        if(!result)return showError('Subtraction requires matrices of the same dimensions. Matrix A is '+a.length+'x'+a[0].length+' but Matrix B is '+b.length+'x'+b[0].length+'.');
+        break;
+      case 'mul':
+        result=multiply(a,b);
+        if(!result)return showError('Multiplication requires columns of A ('+a[0].length+') to equal rows of B ('+b.length+').');
+        break;
+      case 'scalar':
+        var k=parseFloat(scalarVal.value);
+        if(isNaN(k))return showError('Please enter a valid scalar value.');
+        result=scalarMul(a,k);
+        break;
+      case 'transA':
+        result=transpose(a);
+        break;
+      case 'transB':
+        result=transpose(b);
+        break;
+      case 'detA':
+        if(a.length!==a[0].length)return showError('Determinant requires a square matrix. Matrix A is '+a.length+'x'+a[0].length+'.');
+        var d=det(a,steps,0);
+        showScalar(d);
+        showSteps=true;
+        break;
+      case 'detB':
+        if(b.length!==b[0].length)return showError('Determinant requires a square matrix. Matrix B is '+b.length+'x'+b[0].length+'.');
+        var d=det(b,steps,0);
+        showScalar(d);
+        showSteps=true;
+        break;
+      case 'invA':
+        if(a.length!==a[0].length)return showError('Inverse requires a square matrix. Matrix A is '+a.length+'x'+a[0].length+'.');
+        result=inverse(a,steps);
+        if(!result)return(stepsBox.textContent=steps.join('\n'),stepsArea.classList.remove('hidden'),showError('Matrix A is singular (determinant = 0) and has no inverse.'));
+        showSteps=true;
+        break;
+      case 'invB':
+        if(b.length!==b[0].length)return showError('Inverse requires a square matrix. Matrix B is '+b.length+'x'+b[0].length+'.');
+        result=inverse(b,steps);
+        if(!result)return(stepsBox.textContent=steps.join('\n'),stepsArea.classList.remove('hidden'),showError('Matrix B is singular (determinant = 0) and has no inverse.'));
+        showSteps=true;
+        break;
+    }
+
+    if(result)showResult(result);
+    if(showSteps&&steps.length){
+      stepsBox.textContent=steps.join('\n');
+      stepsArea.classList.remove('hidden');
+    }
+  });
+
+  /* ---- Clear ---- */
+  clearBtn.addEventListener('click',function(){
+    hideResults();
+    gridA.querySelectorAll('input').forEach(function(i){i.value=''});
+    gridB.querySelectorAll('input').forEach(function(i){i.value=''});
+    scalarVal.value='2';
+  });
+
+  /* ---- Copy ---- */
+  copyResult.addEventListener('click',function(){
+    var txt=matrixToText();
+    if(txt)copyToClipboard(txt,copyResult);
+  });
+
+  /* ---- Init ---- */
+  initGrids();
+
+})();
+</script>
+</body>
+</html>

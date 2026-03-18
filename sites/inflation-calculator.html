@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inflation Calculator — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Calculate the future cost of goods and the real purchasing power of your money with our free inflation calculator. Adjust for CPI, view year-by-year breakdowns, and plan for retirement.">
+  <link rel="canonical" href="https://toolrip.com/inflation">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Inflation Calculator — Toolrip">
+  <meta property="og:description" content="Calculate the future cost of goods and the real purchasing power of your money. View year-by-year inflation impact with forward and reverse modes.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/inflation">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Inflation Calculator — Toolrip">
+  <meta name="twitter:description" content="Calculate the future cost of goods and the real purchasing power of your money. View year-by-year inflation impact with forward and reverse modes.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--finance)}</style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Inflation Calculator",
+    "url": "https://toolrip.com/inflation",
+    "description": "Calculate the future cost of goods and the real purchasing power of your money with our free inflation calculator. Adjust for CPI, view year-by-year breakdowns, and plan for retirement.",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Finance Tools", "item": "https://toolrip.com/#finance" },
+      { "@type": "ListItem", "position": 3, "name": "Inflation Calculator", "item": "https://toolrip.com/inflation" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What causes inflation and why do prices rise over time?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Inflation is driven by several forces working individually or together. Demand-pull inflation occurs when consumer spending outpaces the economy's ability to produce goods, pushing prices higher. Cost-push inflation happens when production costs rise due to increases in raw materials, energy, or wages, which businesses pass on to consumers. Monetary inflation results from a central bank expanding the money supply faster than economic output grows. Government fiscal policy, supply chain disruptions, and global commodity price shocks also contribute. The interplay of these factors determines whether inflation remains moderate or accelerates into more damaging territory."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the Consumer Price Index (CPI) and how is it measured?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Consumer Price Index is a statistical measure that tracks the average change in prices paid by urban consumers for a representative basket of goods and services over time. In the United States, the Bureau of Labor Statistics collects prices for approximately 80,000 items each month across 75 urban areas. The basket includes categories like housing, food, transportation, medical care, apparel, recreation, and education. CPI is the most widely used gauge of inflation and serves as a basis for cost-of-living adjustments in Social Security benefits, tax brackets, and many employment contracts."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between inflation and deflation?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Inflation is a sustained increase in the general price level, reducing the purchasing power of each unit of currency over time. Deflation is the opposite: a sustained decrease in prices, which increases the purchasing power of money. While deflation sounds beneficial, it often signals economic trouble because consumers delay purchases expecting lower prices, businesses earn less revenue, wages stagnate or fall, and debt burdens become relatively larger. Central banks typically aim for low, stable inflation of around two percent per year as a healthy target that encourages spending and investment without eroding savings too quickly."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I protect my savings and investments against inflation?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Several strategies help hedge against inflation. Treasury Inflation-Protected Securities (TIPS) adjust their principal value based on CPI changes. Equities have historically outpaced inflation over long periods, particularly shares in companies with strong pricing power. Real estate and real estate investment trusts tend to appreciate with inflation since property values and rents rise. Commodities including gold and energy often increase in price during inflationary periods. Series I Savings Bonds offer a fixed rate plus an inflation-adjusted component. Diversifying across these asset classes provides broad protection for long-term financial plans."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What has the historical average inflation rate been in the United States?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Since the Bureau of Labor Statistics began tracking CPI in 1913, the average annual inflation rate in the United States has been approximately 3.2 percent. However, the rate has varied significantly across different eras. The post-World War II period saw spikes above ten percent, and the late 1970s through early 1980s experienced double-digit inflation reaching nearly 14.8 percent in 1980. From the mid-1980s through 2020, inflation generally stayed between two and four percent. The Federal Reserve targets a two percent annual rate as its long-term goal for price stability."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is hyperinflation and has it happened in modern history?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Hyperinflation is an extremely rapid and out-of-control rise in prices, typically defined as exceeding 50 percent per month. It destroys the value of a currency so quickly that people rush to spend money immediately or convert it to stable foreign currencies. Notable modern examples include Germany's Weimar Republic in 1923 where prices doubled every few days, Zimbabwe in 2008 when monthly inflation exceeded 79.6 billion percent, and Venezuela from 2016 onward with annual rates surpassing one million percent. Hyperinflation is usually caused by a government printing massive amounts of money to finance deficits, combined with a collapse in productive economic output."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why does inflation matter for retirement planning?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Inflation is one of the most significant risks to retirement security because it silently erodes purchasing power over decades. A person retiring at 65 who needs $50,000 per year in today's dollars would need approximately $90,000 per year in 20 years at just three percent annual inflation. Over a 30-year retirement, the cumulative effect means your money buys less than half of what it did when you retired. This is why financial planners recommend investing in growth assets even during retirement and why Social Security includes cost-of-living adjustments. Using an inflation calculator to project future costs is an essential step in building a retirement plan that maintains your standard of living."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    /* Tool-specific styles */
+    .inf-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--sp-4);
+    }
+    @media (min-width: 640px) {
+      .inf-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    /* Mode tabs */
+    .mode-tabs {
+      display: flex;
+      gap: 2px;
+      margin-bottom: var(--sp-3);
+    }
+    .mode-tab {
+      flex: 1;
+      padding: var(--sp-2) var(--sp-3);
+      font: inherit;
+      font-size: .875rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: background .15s, color .15s, border-color .15s;
+      text-align: center;
+    }
+    .mode-tab:first-child {
+      border-radius: var(--radius) 0 0 var(--radius);
+    }
+    .mode-tab:last-child {
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+    .mode-tab.active {
+      background: color-mix(in srgb, var(--accent) 15%, var(--bg));
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    /* Slider */
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+    }
+    .slider-row input[type="range"] {
+      flex: 1;
+      accent-color: var(--accent);
+      height: 6px;
+      cursor: pointer;
+    }
+    .slider-value {
+      min-width: 52px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--accent);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-1) var(--sp-2);
+    }
+
+    /* Result cards */
+    .result-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-4);
+      text-align: center;
+    }
+    .result-card.primary {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 5%, var(--bg));
+    }
+    .result-label {
+      font-size: .8rem;
+      color: var(--text-muted);
+      margin-bottom: var(--sp-1);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .result-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .result-value.large {
+      font-size: 2.25rem;
+      color: var(--accent);
+    }
+    .result-value.loss {
+      color: #ef4444;
+    }
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--sp-3);
+      margin-top: var(--sp-3);
+    }
+    @media (max-width: 639px) {
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Year-by-year table */
+    .yby-table-wrap {
+      overflow-x: auto;
+      margin-top: var(--sp-3);
+    }
+    .yby-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .8125rem;
+    }
+    .yby-table th {
+      text-align: left;
+      padding: var(--sp-2);
+      border-bottom: 2px solid var(--border);
+      font-size: .75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .03em;
+      white-space: nowrap;
+    }
+    .yby-table td {
+      padding: var(--sp-2);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .yby-table tr:hover td {
+      background: var(--bg-elevated);
+    }
+
+    /* Show-all button */
+    .show-all-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-1);
+      margin-top: var(--sp-3);
+      padding: var(--sp-2) var(--sp-3);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--accent);
+      font: inherit;
+      font-size: .875rem;
+      cursor: pointer;
+      transition: border-color .15s;
+    }
+    .show-all-btn:hover {
+      border-color: var(--accent);
+    }
+
+    /* Error styling */
+    .input-field.error {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
+    }
+    .error-msg {
+      color: #ef4444;
+      font-size: .75rem;
+      margin-top: 2px;
+      display: none;
+    }
+    .error-msg.visible {
+      display: block;
+    }
+
+    /* Mode description */
+    .mode-desc {
+      font-size: .8125rem;
+      color: var(--text-muted);
+      margin-bottom: var(--sp-3);
+      padding: var(--sp-2) var(--sp-3);
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="top">Ad</div>
+
+    <!-- Breadcrumb -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#finance">Finance</a>
+        <span>/</span>
+        <span>Inflation Calculator</span>
+      </nav>
+
+      <h1>Inflation Calculator</h1>
+      <p class="text-muted mt-1 mb-3">Estimate how inflation erodes your purchasing power over time. Enter an amount, an annual inflation rate, and a time period to see what your money will be worth in the future, or use reverse mode to find today's equivalent of a future sum.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+
+        <!-- Mode Toggle -->
+        <div class="mode-tabs">
+          <button class="mode-tab active" id="tabForward" onclick="setMode('forward')">Forward (Cost in Future)</button>
+          <button class="mode-tab" id="tabReverse" onclick="setMode('reverse')">Reverse (Value Today)</button>
+        </div>
+        <div class="mode-desc" id="modeDesc">Enter a present-day amount to see what it will cost in the future after inflation.</div>
+
+        <div class="inf-grid">
+
+          <!-- Left: Inputs -->
+          <div>
+            <div class="input-group">
+              <label for="amount" id="amountLabel">Amount ($)</label>
+              <input type="text" id="amount" class="input-field" placeholder="50,000" inputmode="decimal">
+              <span class="error-msg" id="amountErr">Enter a valid amount greater than 0.</span>
+            </div>
+
+            <div class="input-group">
+              <label for="rate">Annual Inflation Rate (%)</label>
+              <input type="text" id="rate" class="input-field" placeholder="3" inputmode="decimal">
+              <span class="error-msg" id="rateErr">Enter a valid rate between 0.01 and 100.</span>
+            </div>
+
+            <div class="input-group">
+              <label for="yearsSlider">Number of Years</label>
+              <div class="slider-row">
+                <input type="range" id="yearsSlider" min="1" max="50" value="10">
+                <span class="slider-value" id="yearsDisplay">10</span>
+              </div>
+            </div>
+
+            <div class="flex gap-2 mt-2">
+              <button class="btn-primary" onclick="calculate()">Calculate</button>
+              <button class="btn-secondary" onclick="resetAll()">Clear</button>
+            </div>
+          </div>
+
+          <!-- Right: Results Summary -->
+          <div id="resultsPanel">
+            <div class="result-card primary">
+              <div class="result-label" id="primaryLabel">Future Cost</div>
+              <div class="result-value large" id="primaryValue">$0.00</div>
+            </div>
+
+            <div class="result-grid">
+              <div class="result-card">
+                <div class="result-label" id="secondaryLabel">Purchasing Power</div>
+                <div class="result-value" id="secondaryValue">$0.00</div>
+              </div>
+              <div class="result-card">
+                <div class="result-label">Total Inflation</div>
+                <div class="result-value loss" id="totalInflation">0%</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Year-by-Year Breakdown -->
+      <div class="tool-card" id="tableCard" style="display:none">
+        <h2 style="font-size:1.125rem;margin-bottom:var(--sp-2)">Year-by-Year Breakdown</h2>
+        <div class="yby-table-wrap">
+          <table class="yby-table">
+            <thead>
+              <tr>
+                <th>Year</th>
+                <th id="thCost">Future Cost</th>
+                <th id="thPower">Purchasing Power</th>
+                <th>Cumulative Inflation</th>
+              </tr>
+            </thead>
+            <tbody id="ybyBody"></tbody>
+          </table>
+        </div>
+        <button class="show-all-btn" id="showAllBtn" onclick="toggleShowAll()">Show All Years</button>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="in-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Forward and Reverse Modes</h3>
+            <p>Use forward mode to find out how much something that costs a given amount today will cost in the future. Switch to reverse mode to determine the present-day equivalent of a future sum, which is essential when evaluating retirement targets or future salary expectations in real terms.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Year-by-Year Inflation Table</h3>
+            <p>View a detailed table that shows the adjusted cost or purchasing power for every single year in your chosen time range. This granular breakdown helps you identify specific milestones, such as when your money loses half its value, and supports more precise financial planning across decades.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Purchasing Power Visualization</h3>
+            <p>Instantly see how much your current dollars will actually buy in the future. The calculator simultaneously displays the inflated cost of goods and the diminished buying power of your savings, giving you a complete picture of how inflation affects both sides of your financial equation.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Customizable Inflation Rate</h3>
+            <p>Set any annual inflation rate from fractions of a percent to extreme scenarios. Test with the historical US average of around three percent, use recent elevated figures, or model hyperinflationary conditions to stress-test your long-term financial assumptions and savings goals.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Inflation Calculator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li>Select your mode: forward mode calculates the future cost of a present amount, while reverse mode finds the present-day value of a future amount. Choose the direction that matches your planning needs.</li>
+          <li>Enter the dollar amount you want to analyze and set the annual inflation rate. The default of 3% reflects the long-term US historical average. Adjust higher for conservative estimates or lower if targeting a specific central bank target rate.</li>
+          <li>Use the slider to set the number of years, then click Calculate. Review the summary cards for instant results and scroll to the year-by-year table for a complete timeline showing cumulative inflation and value changes at each step.</li>
+        </ol>
+      </section>
+
+      <!-- Understanding Inflation Section -->
+      <section class="mt-4">
+        <h2>Understanding Inflation and Why It Matters</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Inflation is the gradual increase in the general price level of goods and services in an economy over time. When inflation rises, each unit of currency buys fewer items than it did before. This is why a loaf of bread that cost a quarter in the 1940s costs several dollars today. The rate of inflation is most commonly measured using the Consumer Price Index, which tracks price changes for a representative basket of household purchases including food, housing, transportation, healthcare, and education.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Central banks around the world, including the Federal Reserve in the United States, aim to maintain a target inflation rate of approximately two percent annually. This moderate level of inflation is considered healthy because it encourages consumers to spend and invest rather than hoarding cash, which stimulates economic growth. When inflation runs significantly above this target, it erodes household purchasing power rapidly and creates uncertainty that hampers business investment and long-term planning.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">For individuals, understanding inflation is critical to sound financial planning. A savings account earning one percent interest while inflation runs at three percent means your money is losing real value every year, even though the nominal balance grows. Retirement planning is especially sensitive to inflation because retirees depend on fixed or slowly growing income streams that must cover rising costs over twenty to thirty years or more. Using an inflation calculator to project the future cost of living is one of the most practical steps anyone can take when building a financial plan.</p>
+        <p style="color:var(--text-muted);line-height:1.7">Throughout modern history, inflation has varied dramatically. The United States experienced double-digit inflation in the 1970s and early 1980s driven by oil price shocks and expansionary monetary policy, while Japan grappled with decades of near-zero inflation and deflation starting in the 1990s. Extreme cases of hyperinflation, such as those in Weimar Germany, Zimbabwe, and Venezuela, demonstrate the catastrophic consequences when monetary policy loses control entirely. These episodes destroyed personal savings, destabilized governments, and required complete currency resets. Even in stable economies, the slow and steady compounding effect of moderate inflation can cut the real value of a fixed sum in half within twenty to twenty-five years, making inflation awareness an essential component of financial literacy for people at every income level.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+
+        <details class="faq-item">
+          <summary>What causes inflation and why do prices rise over time?</summary>
+          <p>Inflation is driven by several forces working individually or together. Demand-pull inflation occurs when consumer spending outpaces the economy's ability to produce goods, pushing prices higher. Cost-push inflation happens when production costs rise due to increases in raw materials, energy, or wages, which businesses pass on to consumers. Monetary inflation results from a central bank expanding the money supply faster than economic output grows. Government fiscal policy, supply chain disruptions, and global commodity price shocks also contribute. The interplay of these factors determines whether inflation remains moderate or accelerates into more damaging territory.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What is the Consumer Price Index (CPI) and how is it measured?</summary>
+          <p>The Consumer Price Index is a statistical measure that tracks the average change in prices paid by urban consumers for a representative basket of goods and services over time. In the United States, the Bureau of Labor Statistics collects prices for approximately 80,000 items each month across 75 urban areas. The basket includes categories like housing, food, transportation, medical care, apparel, recreation, and education. CPI is the most widely used gauge of inflation and serves as a basis for cost-of-living adjustments in Social Security benefits, tax brackets, and many employment contracts.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What is the difference between inflation and deflation?</summary>
+          <p>Inflation is a sustained increase in the general price level, reducing the purchasing power of each unit of currency over time. Deflation is the opposite: a sustained decrease in prices, which increases the purchasing power of money. While deflation sounds beneficial, it often signals economic trouble because consumers delay purchases expecting lower prices, businesses earn less revenue, wages stagnate or fall, and debt burdens become relatively larger. Central banks typically aim for low, stable inflation of around two percent per year as a healthy target that encourages spending and investment without eroding savings too quickly.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>How can I protect my savings and investments against inflation?</summary>
+          <p>Several strategies help hedge against inflation. Treasury Inflation-Protected Securities (TIPS) adjust their principal value based on CPI changes. Equities have historically outpaced inflation over long periods, particularly shares in companies with strong pricing power. Real estate and real estate investment trusts tend to appreciate with inflation since property values and rents rise. Commodities including gold and energy often increase in price during inflationary periods. Series I Savings Bonds offer a fixed rate plus an inflation-adjusted component. Diversifying across these asset classes provides broad protection for long-term financial plans.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What has the historical average inflation rate been in the United States?</summary>
+          <p>Since the Bureau of Labor Statistics began tracking CPI in 1913, the average annual inflation rate in the United States has been approximately 3.2 percent. However, the rate has varied significantly across different eras. The post-World War II period saw spikes above ten percent, and the late 1970s through early 1980s experienced double-digit inflation reaching nearly 14.8 percent in 1980. From the mid-1980s through 2020, inflation generally stayed between two and four percent. The Federal Reserve targets a two percent annual rate as its long-term goal for price stability.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What is hyperinflation and has it happened in modern history?</summary>
+          <p>Hyperinflation is an extremely rapid and out-of-control rise in prices, typically defined as exceeding 50 percent per month. It destroys the value of a currency so quickly that people rush to spend money immediately or convert it to stable foreign currencies. Notable modern examples include Germany's Weimar Republic in 1923 where prices doubled every few days, Zimbabwe in 2008 when monthly inflation exceeded 79.6 billion percent, and Venezuela from 2016 onward with annual rates surpassing one million percent. Hyperinflation is usually caused by a government printing massive amounts of money to finance deficits, combined with a collapse in productive economic output.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Why does inflation matter for retirement planning?</summary>
+          <p>Inflation is one of the most significant risks to retirement security because it silently erodes purchasing power over decades. A person retiring at 65 who needs $50,000 per year in today's dollars would need approximately $90,000 per year in 20 years at just three percent annual inflation. Over a 30-year retirement, the cumulative effect means your money buys less than half of what it did when you retired. This is why financial planners recommend investing in growth assets even during retirement and why Social Security includes cost-of-living adjustments. Using an inflation calculator to project future costs is an essential step in building a retirement plan that maintains your standard of living.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/mortgage">Mortgage Calculator</a>
+          <a href="https://toolrip.com/compound-interest">Compound Interest Calculator</a>
+          <a href="https://toolrip.com/salary">Salary Calculator</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+          <a href="https://toolrip.com/tip">Tip Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Inflation Calculator JS -->
+  <script>
+    (function() {
+      'use strict';
+
+      /* --- DOM References --- */
+      var els = {
+        tabForward:    document.getElementById('tabForward'),
+        tabReverse:    document.getElementById('tabReverse'),
+        modeDesc:      document.getElementById('modeDesc'),
+        amountLabel:   document.getElementById('amountLabel'),
+        amount:        document.getElementById('amount'),
+        rate:          document.getElementById('rate'),
+        yearsSlider:   document.getElementById('yearsSlider'),
+        yearsDisplay:  document.getElementById('yearsDisplay'),
+        primaryLabel:  document.getElementById('primaryLabel'),
+        primaryValue:  document.getElementById('primaryValue'),
+        secondaryLabel:document.getElementById('secondaryLabel'),
+        secondaryValue:document.getElementById('secondaryValue'),
+        totalInflation:document.getElementById('totalInflation'),
+        tableCard:     document.getElementById('tableCard'),
+        ybyBody:       document.getElementById('ybyBody'),
+        showAllBtn:    document.getElementById('showAllBtn'),
+        thCost:        document.getElementById('thCost'),
+        thPower:       document.getElementById('thPower'),
+        amountErr:     document.getElementById('amountErr'),
+        rateErr:       document.getElementById('rateErr')
+      };
+
+      var mode = 'forward'; // 'forward' or 'reverse'
+      var yearData = [];
+      var showAll = false;
+
+      /* --- Parsing Helpers --- */
+      function parseNum(str) {
+        if (!str) return 0;
+        return parseFloat(str.replace(/[^0-9.\-]/g, '')) || 0;
+      }
+
+      function fmtInput(el) {
+        var val = parseNum(el.value);
+        if (val > 0 && el.value.trim() !== '') {
+          el.value = formatNumber(val, 0);
+        }
+      }
+
+      /* --- Validation --- */
+      function showError(inputEl, errEl, show) {
+        if (show) {
+          inputEl.classList.add('error');
+          errEl.classList.add('visible');
+        } else {
+          inputEl.classList.remove('error');
+          errEl.classList.remove('visible');
+        }
+      }
+
+      function validate() {
+        var valid = true;
+        var a = parseNum(els.amount.value);
+        var r = parseNum(els.rate.value);
+
+        if (a <= 0) {
+          showError(els.amount, els.amountErr, true);
+          valid = false;
+        } else {
+          showError(els.amount, els.amountErr, false);
+        }
+
+        if (r <= 0 || r > 100) {
+          showError(els.rate, els.rateErr, true);
+          valid = false;
+        } else {
+          showError(els.rate, els.rateErr, false);
+        }
+
+        return valid;
+      }
+
+      /* --- Mode Switching --- */
+      function setMode(m) {
+        mode = m;
+        els.tabForward.classList.toggle('active', m === 'forward');
+        els.tabReverse.classList.toggle('active', m === 'reverse');
+
+        if (m === 'forward') {
+          els.modeDesc.textContent = 'Enter a present-day amount to see what it will cost in the future after inflation.';
+          els.amountLabel.textContent = 'Amount ($)';
+          els.primaryLabel.textContent = 'Future Cost';
+          els.secondaryLabel.textContent = 'Purchasing Power';
+          els.thCost.textContent = 'Future Cost';
+          els.thPower.textContent = 'Purchasing Power';
+        } else {
+          els.modeDesc.textContent = 'Enter a future amount to find its equivalent value in today\'s dollars.';
+          els.amountLabel.textContent = 'Future Amount ($)';
+          els.primaryLabel.textContent = 'Present Value';
+          els.secondaryLabel.textContent = 'Value Lost to Inflation';
+          els.thCost.textContent = 'Present Value';
+          els.thPower.textContent = 'Value Lost';
+        }
+
+        // Recalculate if inputs are valid
+        var a = parseNum(els.amount.value);
+        var r = parseNum(els.rate.value);
+        if (a > 0 && r > 0) {
+          calculate();
+        }
+      }
+      window.setMode = setMode;
+
+      /* --- Core Calculation --- */
+      function calculate() {
+        if (!validate()) return;
+
+        var amount = parseNum(els.amount.value);
+        var r = parseNum(els.rate.value) / 100;
+        var years = parseInt(els.yearsSlider.value, 10);
+
+        yearData = [];
+
+        if (mode === 'forward') {
+          // Forward: Future Value = Present * (1 + rate)^years
+          for (var y = 1; y <= years; y++) {
+            var factor = Math.pow(1 + r, y);
+            var futureVal = amount * factor;
+            var purchasingPower = amount / factor;
+            var cumulativeInflation = (factor - 1) * 100;
+
+            yearData.push({
+              year: y,
+              col1: futureVal,
+              col2: purchasingPower,
+              inflation: cumulativeInflation
+            });
+          }
+
+          var finalData = yearData[yearData.length - 1];
+          els.primaryValue.textContent = formatCurrency(finalData.col1);
+          els.secondaryValue.textContent = formatCurrency(finalData.col2);
+          els.totalInflation.textContent = '+' + formatNumber(finalData.inflation, 1) + '%';
+        } else {
+          // Reverse: Present Value = Future / (1 + rate)^years
+          for (var y = 1; y <= years; y++) {
+            var factor = Math.pow(1 + r, y);
+            var presentVal = amount / factor;
+            var valueLost = amount - presentVal;
+            var cumulativeInflation = (factor - 1) * 100;
+
+            yearData.push({
+              year: y,
+              col1: presentVal,
+              col2: valueLost,
+              inflation: cumulativeInflation
+            });
+          }
+
+          var finalData = yearData[yearData.length - 1];
+          els.primaryValue.textContent = formatCurrency(finalData.col1);
+          els.secondaryValue.textContent = formatCurrency(finalData.col2);
+          els.totalInflation.textContent = '+' + formatNumber(finalData.inflation, 1) + '%';
+        }
+
+        // Build table
+        showAll = false;
+        els.showAllBtn.textContent = 'Show All ' + years + ' Years';
+        els.showAllBtn.style.display = years > 10 ? '' : 'none';
+        renderTable();
+        els.tableCard.style.display = '';
+      }
+      window.calculate = calculate;
+
+      /* --- Year-by-Year Table --- */
+      function renderTable() {
+        var rows = showAll ? yearData : yearData.slice(0, 10);
+        var html = '';
+        rows.forEach(function(row) {
+          html += '<tr>'
+            + '<td>' + row.year + '</td>'
+            + '<td>' + formatCurrency(row.col1) + '</td>'
+            + '<td>' + formatCurrency(row.col2) + '</td>'
+            + '<td>+' + formatNumber(row.inflation, 1) + '%</td>'
+            + '</tr>';
+        });
+        els.ybyBody.innerHTML = html;
+
+        if (showAll || yearData.length <= 10) {
+          els.showAllBtn.style.display = 'none';
+        }
+      }
+
+      window.toggleShowAll = function() {
+        showAll = true;
+        renderTable();
+      };
+
+      /* --- Reset --- */
+      window.resetAll = function() {
+        els.amount.value = '';
+        els.rate.value = '';
+        els.yearsSlider.value = '10';
+        els.yearsDisplay.textContent = '10';
+        els.primaryValue.textContent = '$0.00';
+        els.secondaryValue.textContent = '$0.00';
+        els.totalInflation.textContent = '0%';
+        els.tableCard.style.display = 'none';
+        yearData = [];
+        showAll = false;
+
+        showError(els.amount, els.amountErr, false);
+        showError(els.rate, els.rateErr, false);
+
+        showToast('All fields cleared.', 'info');
+      };
+
+      /* --- Slider sync --- */
+      els.yearsSlider.addEventListener('input', function() {
+        els.yearsDisplay.textContent = this.value;
+        onInput();
+      });
+
+      /* --- Real-time Listeners --- */
+      var debounceTimer;
+      function onInput() {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(function() {
+          var a = parseNum(els.amount.value);
+          var r = parseNum(els.rate.value);
+          if (a > 0 && r > 0) {
+            calculate();
+          }
+        }, 400);
+      }
+
+      // Number formatting on blur
+      els.amount.addEventListener('blur', function() { fmtInput(els.amount); });
+
+      // Input listeners
+      els.amount.addEventListener('input', onInput);
+      els.rate.addEventListener('input', onInput);
+
+      /* --- Default values --- */
+      els.amount.value = '50,000';
+      els.rate.value = '3';
+      els.yearsSlider.value = '10';
+      els.yearsDisplay.textContent = '10';
+
+      // Run initial calculation
+      calculate();
+
+    })();
+  </script>
+</body>
+</html>

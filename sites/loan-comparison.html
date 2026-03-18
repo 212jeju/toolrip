@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loan Comparison Calculator Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Compare up to 3 loans side by side. See monthly payments, total interest, total cost, and payoff dates to find the best deal. Free online loan comparison tool.">
+  <link rel="canonical" href="https://toolrip.com/loan-compare">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Loan Comparison Calculator — Toolrip">
+  <meta property="og:description" content="Compare up to 3 loans side by side. See monthly payments, total interest, total cost, and payoff dates to find the best deal. Free online loan comparison tool.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/loan-compare">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Loan Comparison Calculator — Toolrip">
+  <meta name="twitter:description" content="Compare up to 3 loans side by side. See monthly payments, total interest, total cost, and payoff dates to find the best deal. Free online loan comparison tool.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--finance)}</style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Loan Comparison Calculator",
+    "url": "https://toolrip.com/loan-compare",
+    "description": "Compare up to 3 loans side by side. See monthly payments, total interest, total cost, and payoff dates to find the best deal.",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Finance", "item": "https://toolrip.com/#finance" },
+      { "@type": "ListItem", "position": 3, "name": "Loan Comparison Calculator", "item": "https://toolrip.com/loan-compare" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How does the loan comparison calculator work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The calculator uses the standard amortization formula M = P[r(1+r)^n]/[(1+r)^n – 1] to compute each loan's monthly payment. It then calculates total interest, total cost, and payoff date for up to three loans so you can compare them side by side and identify the most affordable option."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the standard amortization formula?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The standard amortization formula is M = P × r × (1+r)^n / ((1+r)^n − 1), where M is the monthly payment, P is the principal loan amount, r is the monthly interest rate (annual rate divided by 12 and then by 100), and n is the total number of monthly payments. This formula calculates a fixed monthly payment that covers both principal and interest."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why should I compare multiple loans before borrowing?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Comparing multiple loan offers helps you find the lowest total cost of borrowing. Even small differences in interest rates or loan terms can result in thousands of dollars in savings over the life of the loan. A side-by-side comparison makes these differences easy to see and helps you make a well-informed financial decision."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do extra monthly payments affect a loan?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Extra monthly payments go directly toward reducing the loan principal, which decreases the total interest charged over the remaining term. Even a small extra payment each month can shorten the payoff period significantly and save a substantial amount in total interest, making it one of the most effective strategies for reducing loan costs."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What factors should I consider when comparing loans?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Key factors include the interest rate, loan term, monthly payment amount, total interest paid, total cost of the loan, and any fees or penalties. A lower interest rate does not always mean the best deal if the term is much longer, as total interest may be higher. Balancing monthly affordability with total cost is essential."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does a longer loan term always mean more interest?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, in virtually all cases a longer loan term results in more total interest paid even if the monthly payment is lower. Extending the repayment period means you are paying interest on the outstanding balance for a longer time. Shorter terms have higher monthly payments but significantly reduce the overall cost of borrowing."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is the lowest monthly payment always the best loan option?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Not necessarily. A lower monthly payment often comes with a longer term or higher interest rate, both of which increase total interest and total cost. The best loan depends on your financial situation. If you can afford a higher monthly payment, a shorter term or lower rate will save you more money overall."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    /* Tool-specific styles */
+    .loan-columns {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--sp-3);
+    }
+    @media (min-width: 768px) {
+      .loan-columns {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    .loan-panel {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-3);
+      position: relative;
+    }
+    .loan-panel.best {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 20%, transparent);
+    }
+    .loan-label {
+      font-size: .9375rem;
+      font-weight: 700;
+      margin-bottom: var(--sp-3);
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+    }
+    .loan-label .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 999px;
+      font-size: .7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+    }
+
+    /* Result cards */
+    .result-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-3);
+      text-align: center;
+    }
+    .result-card.primary {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 5%, var(--bg));
+    }
+    .result-label {
+      font-size: .75rem;
+      color: var(--text-muted);
+      margin-bottom: var(--sp-1);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .result-value {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .result-value.accent {
+      color: var(--accent);
+    }
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-2);
+      margin-top: var(--sp-3);
+    }
+    .result-grid.full {
+      grid-template-columns: 1fr;
+    }
+
+    /* Comparison table */
+    .compare-table-wrap {
+      overflow-x: auto;
+      margin-top: var(--sp-3);
+    }
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .875rem;
+    }
+    .compare-table th {
+      text-align: left;
+      padding: var(--sp-2) var(--sp-3);
+      border-bottom: 2px solid var(--border);
+      font-size: .75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .03em;
+      white-space: nowrap;
+    }
+    .compare-table td {
+      padding: var(--sp-2) var(--sp-3);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .compare-table tr:hover td {
+      background: var(--bg-elevated);
+    }
+    .compare-table .best-cell {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* Savings banner */
+    .savings-banner {
+      background: color-mix(in srgb, var(--accent) 8%, var(--bg-surface));
+      border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--border));
+      border-radius: var(--radius);
+      padding: var(--sp-3) var(--sp-4);
+      margin-top: var(--sp-3);
+    }
+    .savings-banner h3 {
+      font-size: 1rem;
+      margin-bottom: var(--sp-2);
+      color: var(--accent);
+    }
+    .savings-banner p {
+      font-size: .875rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    .savings-banner strong {
+      color: var(--text);
+    }
+
+    /* Error styling */
+    .input-field.error {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
+    }
+    .error-msg {
+      color: #ef4444;
+      font-size: .75rem;
+      margin-top: 2px;
+      display: none;
+    }
+    .error-msg.visible {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="top">Ad</div>
+
+    <!-- Breadcrumb -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#finance">Finance</a>
+        <span>/</span>
+        <span>Loan Comparison Calculator</span>
+      </nav>
+
+      <h1>Loan Comparison Calculator</h1>
+      <p class="text-muted mt-1 mb-3">Compare up to 3 loan offers side by side. See monthly payments, total interest, total cost, and payoff dates to find the best borrowing option instantly.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <div class="loan-columns" id="loanColumns">
+
+          <!-- Loan A -->
+          <div class="loan-panel" id="panelA">
+            <div class="loan-label">Loan A <span class="badge" id="badgeA" style="display:none">Best</span></div>
+            <div class="input-group">
+              <label for="amountA">Loan Amount ($)</label>
+              <input type="text" id="amountA" class="input-field" placeholder="250,000" inputmode="decimal">
+            </div>
+            <div class="input-group">
+              <label for="rateA">Interest Rate (%)</label>
+              <input type="text" id="rateA" class="input-field" placeholder="6.5" inputmode="decimal">
+            </div>
+            <div class="input-group">
+              <label for="termA">Loan Term (Years)</label>
+              <input type="text" id="termA" class="input-field" placeholder="30" inputmode="decimal">
+            </div>
+            <div class="input-group">
+              <label for="extraA">Extra Monthly Payment ($)</label>
+              <input type="text" id="extraA" class="input-field" placeholder="0" inputmode="decimal">
+            </div>
+            <div id="resultsA" style="display:none">
+              <div class="result-card primary" style="margin-top:var(--sp-3)">
+                <div class="result-label">Monthly Payment</div>
+                <div class="result-value accent" id="monthlyA">$0.00</div>
+              </div>
+              <div class="result-grid">
+                <div class="result-card">
+                  <div class="result-label">Total Interest</div>
+                  <div class="result-value" id="interestA">$0.00</div>
+                </div>
+                <div class="result-card">
+                  <div class="result-label">Total Cost</div>
+                  <div class="result-value" id="costA">$0.00</div>
+                </div>
+              </div>
+              <div class="result-grid full">
+                <div class="result-card">
+                  <div class="result-label">Payoff Date</div>
+                  <div class="result-value" id="payoffA">—</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Loan B -->
+          <div class="loan-panel" id="panelB">
+            <div class="loan-label">Loan B <span class="badge" id="badgeB" style="display:none">Best</span></div>
+            <div class="input-group">
+              <label for="amountB">Loan Amount ($)</label>
+              <input type="text" id="amountB" class="input-field" placeholder="250,000" inputmode="decimal">
+            </div>
+            <div class="input-group">
+              <label for="rateB">Interest Rate (%)</label>
+              <input type="text" id="rateB" class="input-field" placeholder="7.0" inputmode="decimal">
+            </div>
+            <div class="input-group">
+              <label for="termB">Loan Term (Years)</label>
+              <input type="text" id="termB" class="input-field" placeholder="15" inputmode="decimal">
+            </div>
+            <div class="input-group">
+              <label for="extraB">Extra Monthly Payment ($)</label>
+              <input type="text" id="extraB" class="input-field" placeholder="0" inputmode="decimal">
+            </div>
+            <div id="resultsB" style="display:none">
+              <div class="result-card primary" style="margin-top:var(--sp-3)">
+                <div class="result-label">Monthly Payment</div>
+                <div class="result-value accent" id="monthlyB">$0.00</div>
+              </div>
+              <div class="result-grid">
+                <div class="result-card">
+                  <div class="result-label">Total Interest</div>
+                  <div class="result-value" id="interestB">$0.00</div>
+                </div>
+                <div class="result-card">
+                  <div class="result-label">Total Cost</div>
+                  <div class="result-value" id="costB">$0.00</div>
+                </div>
+              </div>
+              <div class="result-grid full">
+                <div class="result-card">
+                  <div class="result-label">Payoff Date</div>
+                  <div class="result-value" id="payoffB">—</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Loan C -->
+          <div class="loan-panel" id="panelC">
+            <div class="loan-label">Loan C <span class="badge" id="badgeC" style="display:none">Best</span></div>
+            <div class="input-group">
+              <label for="amountC">Loan Amount ($)</label>
+              <input type="text" id="amountC" class="input-field" placeholder="250,000" inputmode="decimal">
+            </div>
+            <div class="input-group">
+              <label for="rateC">Interest Rate (%)</label>
+              <input type="text" id="rateC" class="input-field" placeholder="5.9" inputmode="decimal">
+            </div>
+            <div class="input-group">
+              <label for="termC">Loan Term (Years)</label>
+              <input type="text" id="termC" class="input-field" placeholder="20" inputmode="decimal">
+            </div>
+            <div class="input-group">
+              <label for="extraC">Extra Monthly Payment ($)</label>
+              <input type="text" id="extraC" class="input-field" placeholder="0" inputmode="decimal">
+            </div>
+            <div id="resultsC" style="display:none">
+              <div class="result-card primary" style="margin-top:var(--sp-3)">
+                <div class="result-label">Monthly Payment</div>
+                <div class="result-value accent" id="monthlyC">$0.00</div>
+              </div>
+              <div class="result-grid">
+                <div class="result-card">
+                  <div class="result-label">Total Interest</div>
+                  <div class="result-value" id="interestC">$0.00</div>
+                </div>
+                <div class="result-card">
+                  <div class="result-label">Total Cost</div>
+                  <div class="result-value" id="costC">$0.00</div>
+                </div>
+              </div>
+              <div class="result-grid full">
+                <div class="result-card">
+                  <div class="result-label">Payoff Date</div>
+                  <div class="result-value" id="payoffC">—</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="flex gap-2 mt-2" style="justify-content:center">
+          <button class="btn-primary" onclick="compareLoans()">Compare Loans</button>
+          <button class="btn-secondary" onclick="resetAll()">Clear All</button>
+        </div>
+      </div>
+
+      <!-- Summary Comparison Table -->
+      <div class="tool-card" id="summaryCard" style="display:none">
+        <h2 style="font-size:1.125rem;margin-bottom:var(--sp-2)">Side-by-Side Comparison</h2>
+        <div class="compare-table-wrap">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Loan A</th>
+                <th>Loan B</th>
+                <th>Loan C</th>
+              </tr>
+            </thead>
+            <tbody id="compareBody"></tbody>
+          </table>
+        </div>
+        <div id="savingsBanner" class="savings-banner" style="display:none"></div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="in-content">Ad</div>
+
+      <!-- What is Loan Comparison -->
+      <section class="mt-4">
+        <h2>Why Comparing Loans Is Essential Before You Borrow</h2>
+        <p style="color:var(--text-muted);line-height:1.8">Taking out a loan is one of the most significant financial commitments you can make, whether it is for a home, a car, education, or personal expenses. The terms of that loan will shape your monthly budget and long-term financial health for years or even decades. Yet many borrowers accept the first offer they receive without exploring alternatives. Comparing loan offers side by side is the single most effective step you can take to reduce borrowing costs. Even a difference of half a percentage point in the interest rate can translate to thousands of dollars in savings over the life of the loan. This calculator makes that comparison instant and transparent by computing each loan's monthly payment, total interest, total cost, and projected payoff date using the standard amortization formula.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-3)">The standard amortization formula used here is: <strong>M = P &times; r &times; (1+r)<sup>n</sup> / ((1+r)<sup>n</sup> &minus; 1)</strong>, where M is the monthly payment, P is the principal amount borrowed, r is the monthly interest rate (the annual rate divided by 12 and then by 100), and n is the total number of monthly payments over the loan term. This formula assumes a fixed interest rate and equal monthly payments from the first installment to the last. By applying it to multiple loan scenarios simultaneously, you can see exactly how different combinations of principal, rate, term, and extra payments affect your total financial obligation.</p>
+      </section>
+
+      <!-- Understanding Key Metrics -->
+      <section class="mt-4">
+        <h2>Understanding the Key Metrics in a Loan Comparison</h2>
+        <p style="color:var(--text-muted);line-height:1.8">When comparing loans, it is tempting to focus exclusively on the monthly payment because that number directly impacts your month-to-month cash flow. However, the monthly payment tells only part of the story. A lower monthly payment often comes with a longer loan term, which means you are paying interest on the remaining balance for more months. This can dramatically increase the <strong>total interest</strong> you pay over the life of the loan, sometimes by tens of thousands of dollars.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-3)">The <strong>total cost</strong> is the sum of all monthly payments you make over the entire term, including both principal and interest. It is the true price of the loan and the most important figure for comparing offers on an apples-to-apples basis. Two loans with the same monthly payment can have very different total costs if one has a shorter term and lower rate. The <strong>payoff date</strong> tells you when you will be completely debt-free, which is especially relevant when factoring in optional extra monthly payments that accelerate the repayment and reduce total interest.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-3)">Making <strong>extra monthly payments</strong> is one of the most powerful strategies for reducing loan costs. Even an additional fifty or one hundred dollars per month applied to the principal can shave years off your repayment schedule and save thousands in interest. This calculator lets you model that scenario for each loan so you can see the concrete impact before committing. When combined with a lower interest rate or shorter term, extra payments can turn an already good loan into an exceptional one.</p>
+      </section>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features of This Loan Comparison Tool</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Compare Up to 3 Loans</h3>
+            <p>Enter the details for up to three different loan offers and see all results side by side in a clear summary table. The tool highlights the best option based on total cost so you can identify the most affordable loan at a glance.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Extra Payment Modeling</h3>
+            <p>Add an optional extra monthly payment to any loan and instantly see how it affects the payoff date, total interest, and total cost. This helps you understand the real savings of paying even a little extra each month toward your principal.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Instant Savings Summary</h3>
+            <p>After comparing, the tool calculates the exact dollar amount you save by choosing the best loan over the most expensive one. The savings banner makes it easy to see the financial benefit of shopping around for the right terms.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Accurate Amortization Math</h3>
+            <p>Every calculation uses the standard amortization formula used by banks and financial institutions worldwide. The results accurately reflect fixed-rate loan payments with reducing balance interest, giving you trustworthy numbers for real decisions.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Loan Comparison Calculator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li>Enter the loan amount, annual interest rate, and loan term in years for Loan A. Optionally add an extra monthly payment amount if you plan to pay more than the minimum each month.</li>
+          <li>Fill in the same fields for Loan B and Loan C with the details of the other offers you want to compare. You can leave a loan blank if you only need to compare two options.</li>
+          <li>Click the Compare Loans button to calculate monthly payments, total interest, total cost, and payoff dates for all filled-in loans simultaneously.</li>
+          <li>Review the side-by-side comparison table that appears below the loan panels. The best option (lowest total cost) is highlighted with a green badge and accent border.</li>
+          <li>Check the savings banner to see exactly how much money you save by choosing the best loan over the most expensive option, helping you make a confident and informed borrowing decision.</li>
+        </ol>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>How does the loan comparison calculator work?</summary>
+          <p>The calculator uses the standard amortization formula M = P &times; r &times; (1+r)<sup>n</sup> / ((1+r)<sup>n</sup> &minus; 1) to compute each loan's monthly payment, where P is the principal, r is the monthly interest rate, and n is the total number of payments. It then multiplies the monthly payment by the number of months to determine total cost and subtracts the principal to find total interest. If extra monthly payments are specified, the tool simulates month-by-month repayment to determine the accelerated payoff date and reduced total interest. All results are displayed side by side so you can compare up to three loans instantly.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the standard amortization formula?</summary>
+          <p>The standard amortization formula calculates a fixed monthly payment for a loan with a fixed interest rate. The formula is M = P &times; r &times; (1+r)<sup>n</sup> / ((1+r)<sup>n</sup> &minus; 1), where M represents the monthly payment, P is the total loan amount (principal), r is the monthly interest rate (the annual rate divided by 12 and then by 100), and n is the total number of monthly payments over the full loan term. This formula is used by virtually all banks and financial institutions for standard fixed-rate loans including mortgages, auto loans, and personal loans.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Why should I compare multiple loans before borrowing?</summary>
+          <p>Comparing multiple loan offers helps you find the lowest total cost of borrowing. Lenders compete for your business and offer different interest rates, terms, and fee structures. Even a small difference in the interest rate can compound into a significant amount over a long-term loan. For example, on a $300,000 mortgage, a 0.25% rate difference over 30 years can save more than $15,000 in total interest. Without comparing, you may unknowingly accept a far more expensive deal than necessary.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do extra monthly payments affect my loan?</summary>
+          <p>Extra monthly payments are applied directly to the loan principal, which reduces the outstanding balance faster than the standard schedule. Because interest is calculated on the remaining balance, a lower balance means less interest accrues each month. This creates a compounding effect where even modest extra payments of fifty to one hundred dollars per month can shorten a 30-year mortgage by several years and save tens of thousands of dollars in total interest. This calculator simulates extra payments month by month to show you the exact impact on payoff date and total cost.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What factors should I consider when comparing loans?</summary>
+          <p>The most important factors are the interest rate, loan term, total interest paid, and total cost of the loan. Monthly payment affordability matters for your budget, but do not choose a loan solely based on the lowest monthly payment. A longer term with a lower monthly payment often costs far more in total interest. Also consider whether the rate is fixed or variable, any origination fees or closing costs, prepayment penalties, and the lender's reputation and customer service quality. This calculator focuses on the core financial comparison of rate, term, and payment amounts.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does a longer loan term always mean more interest?</summary>
+          <p>In virtually all cases, yes. A longer loan term means you are making payments over a longer period, and the outstanding balance remains higher for longer. This means more interest accrues over the life of the loan even though the monthly payment is lower. For instance, a $200,000 loan at 6% over 30 years costs approximately $231,700 in total interest, while the same loan over 15 years costs only about $103,800 in total interest. Choosing a shorter term nearly always saves you a substantial amount in total borrowing costs, provided you can afford the higher monthly payments.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is the lowest monthly payment always the best loan?</summary>
+          <p>No. The lowest monthly payment is often tied to a longer loan term or a higher interest rate, both of which increase the total amount of interest and the total cost you pay over the life of the loan. The best loan depends on your personal financial situation and goals. If your priority is to minimize total spending, you should choose the loan with the lowest total cost. If monthly cash flow is the primary concern, the lowest monthly payment might be more suitable. This calculator shows all metrics side by side so you can weigh both perspectives before deciding.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/mortgage">Mortgage Calculator</a>
+          <a href="https://toolrip.com/compound-interest">Compound Interest Calculator</a>
+          <a href="https://toolrip.com/emi">EMI Calculator</a>
+          <a href="https://toolrip.com/apr">APR Calculator</a>
+          <a href="https://toolrip.com/tip">Tip Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Loan Comparison Calculator JS -->
+  <script>
+    (function() {
+      'use strict';
+
+      var LOANS = ['A', 'B', 'C'];
+
+      /* --- DOM References --- */
+      function el(id) { return document.getElementById(id); }
+
+      /* --- Parsing Helpers --- */
+      function parseNum(str) {
+        if (!str) return 0;
+        return parseFloat(str.replace(/[^0-9.\-]/g, '')) || 0;
+      }
+
+      /* --- Format amount input on blur --- */
+      function fmtInput(inputEl) {
+        var val = parseNum(inputEl.value);
+        if (val > 0) {
+          inputEl.value = formatNumber(val, 0);
+        }
+      }
+
+      /* --- Attach blur formatting to amount inputs --- */
+      LOANS.forEach(function(key) {
+        el('amount' + key).addEventListener('blur', function() { fmtInput(el('amount' + key)); });
+        el('extra' + key).addEventListener('blur', function() { fmtInput(el('extra' + key)); });
+      });
+
+      /* --- Calculate a single loan --- */
+      function calcLoan(principal, annualRate, termYears, extraMonthly) {
+        if (principal <= 0 || annualRate <= 0 || termYears <= 0) return null;
+
+        var r = annualRate / 100 / 12;
+        var n = Math.round(termYears * 12);
+        var factor = Math.pow(1 + r, n);
+        var baseMonthly = principal * (r * factor) / (factor - 1);
+
+        var totalMonthly = baseMonthly + extraMonthly;
+        var totalInterest, totalCost, actualMonths;
+
+        if (extraMonthly > 0) {
+          /* Simulate month-by-month for extra payments */
+          var balance = principal;
+          var totalPaid = 0;
+          actualMonths = 0;
+
+          while (balance > 0.01 && actualMonths < n * 2) {
+            actualMonths++;
+            var interestPart = balance * r;
+            var payment = Math.min(totalMonthly, balance + interestPart);
+            balance = balance + interestPart - payment;
+            totalPaid += payment;
+            if (balance < 0) balance = 0;
+          }
+
+          totalCost = totalPaid;
+          totalInterest = totalCost - principal;
+        } else {
+          actualMonths = n;
+          totalCost = baseMonthly * n;
+          totalInterest = totalCost - principal;
+        }
+
+        /* Compute payoff date */
+        var now = new Date();
+        var payoffDate = new Date(now.getFullYear(), now.getMonth() + actualMonths, 1);
+        var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var payoffStr = monthNames[payoffDate.getMonth()] + ' ' + payoffDate.getFullYear();
+
+        return {
+          monthly: baseMonthly + extraMonthly,
+          baseMonthly: baseMonthly,
+          totalInterest: totalInterest,
+          totalCost: totalCost,
+          actualMonths: actualMonths,
+          payoffDate: payoffStr,
+          principal: principal,
+          rate: annualRate,
+          term: termYears,
+          extra: extraMonthly
+        };
+      }
+
+      /* --- Compare all loans --- */
+      function compareLoans() {
+        var results = [];
+        var filledCount = 0;
+
+        LOANS.forEach(function(key) {
+          var amount = parseNum(el('amount' + key).value);
+          var rate = parseNum(el('rate' + key).value);
+          var term = parseNum(el('term' + key).value);
+          var extra = parseNum(el('extra' + key).value);
+
+          var result = calcLoan(amount, rate, term, extra);
+          results.push({ key: key, data: result });
+
+          if (result) {
+            filledCount++;
+            el('results' + key).style.display = '';
+            el('monthly' + key).textContent = formatCurrency(result.monthly);
+            el('interest' + key).textContent = formatCurrency(result.totalInterest);
+            el('cost' + key).textContent = formatCurrency(result.totalCost);
+            el('payoff' + key).textContent = result.payoffDate;
+          } else {
+            el('results' + key).style.display = 'none';
+          }
+        });
+
+        if (filledCount < 1) {
+          showToast('Fill in at least one loan to calculate.', 'error');
+          return;
+        }
+
+        /* Find best (lowest total cost) */
+        var best = null;
+        var worst = null;
+        results.forEach(function(r) {
+          if (!r.data) return;
+          if (!best || r.data.totalCost < best.data.totalCost) best = r;
+          if (!worst || r.data.totalCost > worst.data.totalCost) worst = r;
+        });
+
+        /* Update badges and panel borders */
+        LOANS.forEach(function(key) {
+          el('badge' + key).style.display = 'none';
+          el('panel' + key).classList.remove('best');
+        });
+        if (filledCount >= 2 && best) {
+          el('badge' + best.key).style.display = '';
+          el('panel' + best.key).classList.add('best');
+        }
+
+        /* Build comparison table */
+        if (filledCount >= 2) {
+          el('summaryCard').style.display = '';
+          buildCompareTable(results, best);
+          buildSavingsBanner(results, best, worst, filledCount);
+        } else {
+          el('summaryCard').style.display = 'none';
+        }
+
+        showToast('Loan comparison complete!', 'success');
+      }
+
+      /* --- Build Comparison Table --- */
+      function buildCompareTable(results, best) {
+        var metrics = [
+          { label: 'Loan Amount', key: 'principal', fmt: 'currency' },
+          { label: 'Interest Rate', key: 'rate', fmt: 'percent' },
+          { label: 'Loan Term', key: 'term', fmt: 'years' },
+          { label: 'Extra Monthly', key: 'extra', fmt: 'currency' },
+          { label: 'Monthly Payment', key: 'monthly', fmt: 'currency' },
+          { label: 'Total Interest', key: 'totalInterest', fmt: 'currency', bestLowest: true },
+          { label: 'Total Cost', key: 'totalCost', fmt: 'currency', bestLowest: true },
+          { label: 'Payoff Months', key: 'actualMonths', fmt: 'number', bestLowest: true },
+          { label: 'Payoff Date', key: 'payoffDate', fmt: 'text' }
+        ];
+
+        var html = '';
+        metrics.forEach(function(m) {
+          html += '<tr><td><strong>' + m.label + '</strong></td>';
+
+          /* Find best value for this metric row */
+          var bestVal = null;
+          if (m.bestLowest) {
+            results.forEach(function(r) {
+              if (!r.data) return;
+              var v = r.data[m.key];
+              if (bestVal === null || v < bestVal) bestVal = v;
+            });
+          }
+
+          results.forEach(function(r) {
+            if (!r.data) {
+              html += '<td style="color:var(--text-muted)">—</td>';
+              return;
+            }
+            var val = r.data[m.key];
+            var display;
+            if (m.fmt === 'currency') display = formatCurrency(val);
+            else if (m.fmt === 'percent') display = formatNumber(val, 2) + '%';
+            else if (m.fmt === 'years') display = formatNumber(val, 1) + ' yrs';
+            else if (m.fmt === 'number') display = formatNumber(val, 0);
+            else display = val;
+
+            var isBest = m.bestLowest && val === bestVal && countFilled(results) >= 2;
+            html += '<td' + (isBest ? ' class="best-cell"' : '') + '>' + display + '</td>';
+          });
+          html += '</tr>';
+        });
+
+        el('compareBody').innerHTML = html;
+      }
+
+      function countFilled(results) {
+        var c = 0;
+        results.forEach(function(r) { if (r.data) c++; });
+        return c;
+      }
+
+      /* --- Build Savings Banner --- */
+      function buildSavingsBanner(results, best, worst, filledCount) {
+        var banner = el('savingsBanner');
+        if (filledCount < 2 || !best || !worst || best.key === worst.key) {
+          banner.style.display = 'none';
+          return;
+        }
+
+        var savings = worst.data.totalCost - best.data.totalCost;
+        var interestSavings = worst.data.totalInterest - best.data.totalInterest;
+
+        if (savings <= 0) {
+          banner.style.display = 'none';
+          return;
+        }
+
+        banner.style.display = '';
+        banner.innerHTML = '<h3>Potential Savings</h3>'
+          + '<p>By choosing <strong>Loan ' + best.key + '</strong> over <strong>Loan ' + worst.key
+          + '</strong>, you save <strong>' + formatCurrency(savings) + '</strong> in total cost and <strong>'
+          + formatCurrency(interestSavings) + '</strong> in interest payments over the life of the loan.</p>';
+      }
+
+      /* --- Reset --- */
+      function resetAll() {
+        LOANS.forEach(function(key) {
+          el('amount' + key).value = '';
+          el('rate' + key).value = '';
+          el('term' + key).value = '';
+          el('extra' + key).value = '';
+          el('results' + key).style.display = 'none';
+          el('badge' + key).style.display = 'none';
+          el('panel' + key).classList.remove('best');
+        });
+        el('summaryCard').style.display = 'none';
+        el('savingsBanner').style.display = 'none';
+        showToast('All fields cleared.', 'info');
+      }
+
+      /* --- Expose globals --- */
+      window.compareLoans = compareLoans;
+      window.resetAll = resetAll;
+
+      /* --- Default values for demo --- */
+      el('amountA').value = '250,000';
+      el('rateA').value = '6.5';
+      el('termA').value = '30';
+      el('extraA').value = '0';
+
+      el('amountB').value = '250,000';
+      el('rateB').value = '7.0';
+      el('termB').value = '15';
+      el('extraB').value = '0';
+
+      el('amountC').value = '250,000';
+      el('rateC').value = '5.9';
+      el('termC').value = '20';
+      el('extraC').value = '100';
+
+      /* Run initial comparison */
+      compareLoans();
+
+    })();
+  </script>
+</body>
+</html>

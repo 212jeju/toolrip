@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prime Number Checker &amp; Generator — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Check if a number is prime, generate primes in a range, find the nth prime, and compute prime factorizations. Free online prime number tool with instant results, no signup required.">
+  <link rel="canonical" href="https://toolrip.com/prime">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Prime Number Checker &amp; Generator — Toolrip">
+  <meta property="og:description" content="Check if a number is prime, generate primes in a range, find the nth prime, and compute prime factorizations. Free online prime number tool with instant results.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/prime">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Prime Number Checker &amp; Generator — Toolrip">
+  <meta name="twitter:description" content="Check if a number is prime, generate primes in a range, find the nth prime, and compute prime factorizations. Free online prime number tool with instant results.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--math)}</style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Prime Number Checker & Generator",
+    "url": "https://toolrip.com/prime",
+    "description": "Check if a number is prime, generate primes in a range, find the nth prime, and compute prime factorizations. Free online prime number tool with instant results.",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Math & Science", "item": "https://toolrip.com/#math" },
+      { "@type": "ListItem", "position": 3, "name": "Prime Number Checker", "item": "https://toolrip.com/prime" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is a prime number?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A prime number is a natural number greater than 1 that has no positive divisors other than 1 and itself. The first few primes are 2, 3, 5, 7, 11, 13, 17, 19, 23, and 29. The number 2 is the only even prime because every other even number is divisible by 2."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is the number 1 a prime number?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No, 1 is not considered a prime number. By modern mathematical convention, a prime must be greater than 1. Excluding 1 from the primes preserves the Fundamental Theorem of Arithmetic, which states that every integer greater than 1 has a unique prime factorization."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the largest known prime number?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The largest known prime numbers are Mersenne primes of the form 2^p minus 1, discovered by the Great Internet Mersenne Prime Search (GIMPS) project. These numbers contain millions of digits. New record primes are found every few years as computing power increases."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How are prime numbers used in RSA encryption?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "RSA encryption relies on the fact that multiplying two large primes is easy, but factoring the resulting product back into those primes is computationally infeasible for very large numbers. A public key is derived from the product of two secret primes, and the private key depends on knowing those original primes. This asymmetry is what makes RSA secure for protecting online communications, banking transactions, and digital signatures."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are twin primes?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Twin primes are pairs of prime numbers that differ by exactly 2, such as (3, 5), (11, 13), (17, 19), and (29, 31). The Twin Prime Conjecture proposes that there are infinitely many twin prime pairs, but this remains unproven. Significant progress was made in 2013 when Yitang Zhang proved that there are infinitely many prime pairs with a gap of at most 70 million, a bound later reduced dramatically by the Polymath project."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the Goldbach Conjecture?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Goldbach Conjecture, proposed in 1742 by Christian Goldbach, states that every even integer greater than 2 can be expressed as the sum of two prime numbers. For example, 4 equals 2 plus 2, 10 equals 3 plus 7, and 28 equals 5 plus 23. Despite being verified computationally for numbers up to extremely large bounds, no general proof has been found, making it one of the oldest unsolved problems in number theory."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is this prime number checker free to use?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, this prime number checker and generator is completely free with no signup or account required. All calculations run entirely in your browser using JavaScript, so your data stays private. There are no usage limits, and the tool works on any device with a web browser."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    /* Prime checker specific styles */
+    .prime-result {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-4);
+      margin-top: var(--sp-3);
+      transition: border-color .2s, background .2s;
+    }
+    .prime-result.is-prime {
+      border-color: #10b981;
+      background: color-mix(in srgb, #10b981 6%, var(--bg));
+    }
+    .prime-result.not-prime {
+      border-color: #ef4444;
+      background: color-mix(in srgb, #ef4444 6%, var(--bg));
+    }
+    .prime-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-2);
+      padding: var(--sp-2) var(--sp-3);
+      border-radius: var(--radius);
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: var(--sp-3);
+    }
+    .prime-badge.yes {
+      background: color-mix(in srgb, #10b981 15%, var(--bg-surface));
+      color: #10b981;
+    }
+    .prime-badge.no {
+      background: color-mix(in srgb, #ef4444 15%, var(--bg-surface));
+      color: #ef4444;
+    }
+    .prime-badge .icon {
+      font-size: 1.25rem;
+    }
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: var(--sp-2);
+      margin-top: var(--sp-3);
+    }
+    .detail-item {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-2) var(--sp-3);
+    }
+    .detail-item .label {
+      font-size: .7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-bottom: 2px;
+    }
+    .detail-item .value {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      word-break: break-all;
+    }
+    .prime-list-output {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-3);
+      margin-top: var(--sp-3);
+      max-height: 320px;
+      overflow-y: auto;
+      font-size: .9rem;
+      line-height: 1.8;
+      word-break: break-all;
+      position: relative;
+    }
+    .prime-list-output .prime-num {
+      display: inline-block;
+      padding: 2px 8px;
+      margin: 2px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-variant-numeric: tabular-nums;
+    }
+    .stats-bar {
+      display: flex;
+      gap: var(--sp-3);
+      flex-wrap: wrap;
+      margin-top: var(--sp-3);
+      padding: var(--sp-2) var(--sp-3);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: .85rem;
+    }
+    .stats-bar .stat {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-1);
+    }
+    .stats-bar .stat-label {
+      color: var(--text-muted);
+    }
+    .stats-bar .stat-value {
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .factor-chain {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-top: var(--sp-2);
+    }
+    .factor-chain .factor {
+      color: var(--accent);
+    }
+    .factor-chain .times {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+    .input-row {
+      display: flex;
+      gap: var(--sp-2);
+      align-items: end;
+      flex-wrap: wrap;
+    }
+    .input-row .input-group {
+      margin-bottom: 0;
+      flex: 1;
+      min-width: 140px;
+    }
+    .input-row .btn-primary {
+      height: 42px;
+      white-space: nowrap;
+    }
+    .range-separator {
+      font-size: 1rem;
+      color: var(--text-muted);
+      padding-bottom: 4px;
+      align-self: end;
+    }
+
+    @media (max-width: 480px) {
+      .input-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .input-row .input-group {
+        min-width: 0;
+      }
+      .range-separator {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="top">Ad</div>
+
+    <!-- Breadcrumb -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#math">Math &amp; Science</a>
+        <span>/</span>
+        <span>Prime Number Checker</span>
+      </nav>
+
+      <h1>Prime Number Checker &amp; Generator</h1>
+      <p class="text-muted mt-1 mb-3">Check whether any number is prime, generate all primes within a range, find the nth prime number, and compute complete prime factorizations. All calculations run instantly in your browser with no data sent to any server.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+
+      <div class="tool-card">
+        <div class="tab-group">
+          <button class="tab active" data-tab="tab-check">Prime Check</button>
+          <button class="tab" data-tab="tab-range">Generate Range</button>
+          <button class="tab" data-tab="tab-nth">Nth Prime</button>
+          <button class="tab" data-tab="tab-factor">Factorization</button>
+        </div>
+
+        <!-- Tab 1: Prime Check -->
+        <div class="tab-panel" id="tab-check">
+          <p class="text-muted mb-2" style="font-size:.85rem">Enter a positive integer to check if it is a prime number.</p>
+          <div class="input-row">
+            <div class="input-group">
+              <label for="checkInput">Number to check</label>
+              <input type="text" id="checkInput" class="input-field" inputmode="numeric" placeholder="e.g. 97" autocomplete="off">
+            </div>
+            <button type="button" class="btn-primary" id="checkBtn">Check</button>
+            <button type="button" class="btn-secondary" id="checkClearBtn">Clear</button>
+          </div>
+          <div class="prime-result hidden" id="checkResult">
+            <div id="checkBadge"></div>
+            <div id="checkDetails"></div>
+            <div class="detail-grid" id="checkGrid"></div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Generate Range -->
+        <div class="tab-panel hidden" id="tab-range">
+          <p class="text-muted mb-2" style="font-size:.85rem">Generate all prime numbers between two values (max range: 10,000,000).</p>
+          <div class="input-row">
+            <div class="input-group">
+              <label for="rangeFrom">From</label>
+              <input type="text" id="rangeFrom" class="input-field" inputmode="numeric" placeholder="1" autocomplete="off">
+            </div>
+            <span class="range-separator">to</span>
+            <div class="input-group">
+              <label for="rangeTo">To</label>
+              <input type="text" id="rangeTo" class="input-field" inputmode="numeric" placeholder="100" autocomplete="off">
+            </div>
+            <button type="button" class="btn-primary" id="rangeBtn">Generate</button>
+          </div>
+          <div class="hidden" id="rangeOutput">
+            <div class="stats-bar" id="rangeStats"></div>
+            <div class="prime-list-output" id="rangeList"></div>
+          </div>
+        </div>
+
+        <!-- Tab 3: Nth Prime -->
+        <div class="tab-panel hidden" id="tab-nth">
+          <p class="text-muted mb-2" style="font-size:.85rem">Find the nth prime number (supports up to the 664,579th prime).</p>
+          <div class="input-row">
+            <div class="input-group">
+              <label for="nthInput">n (position)</label>
+              <input type="text" id="nthInput" class="input-field" inputmode="numeric" placeholder="e.g. 100" autocomplete="off">
+            </div>
+            <button type="button" class="btn-primary" id="nthBtn">Find</button>
+          </div>
+          <div class="prime-result hidden" id="nthResult">
+            <div class="detail-grid" id="nthGrid"></div>
+          </div>
+        </div>
+
+        <!-- Tab 4: Prime Factorization -->
+        <div class="tab-panel hidden" id="tab-factor">
+          <p class="text-muted mb-2" style="font-size:.85rem">Break any positive integer into its prime factors.</p>
+          <div class="input-row">
+            <div class="input-group">
+              <label for="factorInput">Number to factorize</label>
+              <input type="text" id="factorInput" class="input-field" inputmode="numeric" placeholder="e.g. 360" autocomplete="off">
+            </div>
+            <button type="button" class="btn-primary" id="factorBtn">Factorize</button>
+          </div>
+          <div class="prime-result hidden" id="factorResult">
+            <div id="factorDisplay"></div>
+            <div class="detail-grid" id="factorGrid"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="in-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Instant Primality Testing</h3>
+            <p>Enter any positive integer up to ten million and find out immediately whether it is prime. The checker uses optimized trial division that only tests potential divisors up to the square root of the number, skipping even numbers after checking for divisibility by two. When the number is not prime, the tool displays its smallest factor, the complete list of divisors, the total number of factors, and the sum of all factors, giving you a thorough divisibility profile in a single click. The tool also identifies the nearest prime numbers below and above your input so you can quickly locate neighboring primes on the number line.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Prime Range Generator</h3>
+            <p>Generate every prime number within a custom range using the Sieve of Eratosthenes, one of the most efficient classical algorithms for finding all primes below a given limit. The sieve systematically marks composite numbers by iterating through each prime and crossing off its multiples, leaving only the primes unmarked. This approach is significantly faster than checking each number individually and handles ranges up to ten million with ease. The output displays a scrollable grid of prime chips along with statistics including the total count of primes found and the sum of all primes in the range.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Nth Prime Finder</h3>
+            <p>Curious what the 1,000th or 100,000th prime number is? The nth prime finder computes the answer using a sieve with an upper bound estimate derived from the prime number theorem. Enter any position from 1 up to 664,579 and the tool returns the exact prime at that position. This feature is useful for mathematical exploration, programming challenges, and verifying sequences in number theory research. The result panel shows the prime value along with its ordinal position for easy reference.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Complete Prime Factorization</h3>
+            <p>Decompose any integer into its unique product of prime factors, a process guaranteed by the Fundamental Theorem of Arithmetic. The factorization engine uses trial division starting from the smallest prime and working upward, extracting each factor along with its exponent. The result is displayed as a clean multiplication chain with exponents, making it easy to read and copy. In addition to the factorization itself, the tool shows the total number of distinct prime factors, the total number of divisors computed from the exponents, and the sum of all divisors. Prime factorization is foundational for computing greatest common divisors, least common multiples, and understanding the structure of numbers in algebra and cryptography.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Factor Statistics Dashboard</h3>
+            <p>Every result panel includes detailed statistics about the number you entered. For composite numbers, you get the complete divisor list, divisor count, divisor sum, smallest prime factor, and largest prime factor. These metrics are widely used in number theory, competitive programming, and mathematical analysis. Understanding the divisor structure of a number helps in problems involving modular arithmetic, combinatorics, and algebraic factoring. The statistics are computed alongside the primary result so there is no additional waiting time.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Privacy-First Browser Computation</h3>
+            <p>All prime checking, generation, and factorization runs entirely within your web browser using JavaScript. No numbers are transmitted to any server, which means your input remains completely private on your device. The tool loads once and works without further network requests, making it suitable for use on slow connections or even offline after the initial page load. There are no usage limits, no accounts, and no fees. Students, teachers, developers, and hobbyists can use this tool as often as needed for homework, lesson preparation, coding challenges, or recreational mathematics.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Prime Number Checker</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li>Select a mode from the tabs: Prime Check tests a single number, Generate Range lists all primes in an interval, Nth Prime finds the prime at a specific position, and Factorization decomposes a number into prime factors.</li>
+          <li>Enter your number or range into the input fields. All inputs accept positive integers up to 10,000,000.</li>
+          <li>Click the action button to run the calculation. Results appear instantly below the input area.</li>
+          <li>Review the result badge, detail cards, and statistics. For range generation, scroll through the list of primes or note the count and sum in the stats bar.</li>
+          <li>Use the Clear button or switch tabs to start a new calculation at any time.</li>
+        </ol>
+      </section>
+
+      <!-- Understanding Prime Numbers -->
+      <section class="mt-4">
+        <h2>Understanding Prime Numbers</h2>
+        <p style="color:var(--text-muted);line-height:1.8">Prime numbers are the fundamental building blocks of arithmetic. Every integer greater than one can be expressed as a unique product of primes, a principle known as the Fundamental Theorem of Arithmetic. This property makes primes indispensable across many branches of mathematics, computer science, and engineering. The ancient Greek mathematician Euclid proved over two thousand years ago that there are infinitely many primes, and mathematicians have been studying their distribution and properties ever since.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-3)">One of the oldest and most elegant methods for finding primes is the Sieve of Eratosthenes, developed in the third century BCE. The algorithm begins with a list of consecutive integers starting from two and iteratively marks the multiples of each prime as composite. After processing all primes up to the square root of the upper limit, the unmarked numbers remaining in the list are prime. Despite its age, the sieve remains remarkably efficient for generating primes up to moderate bounds and is still widely used in programming competitions and educational contexts.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-3)">In the modern era, prime numbers play a critical role in cryptography. The RSA encryption algorithm, used to secure online banking, e-commerce transactions, and private communications, depends on the mathematical difficulty of factoring very large numbers that are the product of two primes. While multiplying two 300-digit primes takes a fraction of a second, reversing the process to recover the original factors from their product is computationally infeasible with current technology. This asymmetry between multiplication and factoring is the foundation of public-key cryptography and underpins much of internet security today.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-3)">Among the many unsolved problems in prime number theory, the Twin Prime Conjecture and the Goldbach Conjecture stand out. Twin primes are pairs like (11, 13) and (29, 31) that differ by exactly two, and mathematicians believe there are infinitely many such pairs despite lacking a complete proof. The Goldbach Conjecture, dating to 1742, asserts that every even integer greater than two is the sum of two primes. Both conjectures have been verified computationally for enormously large numbers, yet definitive proofs remain elusive, highlighting how much mystery still surrounds these deceptively simple numbers. The search for the largest known prime continues through distributed computing projects like the Great Internet Mersenne Prime Search, which has discovered primes with tens of millions of digits.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is a prime number?</summary>
+          <p>A prime number is a natural number greater than 1 whose only positive divisors are 1 and itself. The smallest prime is 2, which is also the only even prime since every other even number can be divided by 2. The sequence of primes begins 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, and continues infinitely. Primes serve as the atomic elements of multiplication because every positive integer greater than 1 can be uniquely decomposed into a product of primes, a fact established by the Fundamental Theorem of Arithmetic. Understanding primes is essential for topics ranging from basic divisibility rules taught in elementary school to advanced topics in abstract algebra and analytic number theory studied at the graduate level.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is 1 a prime number?</summary>
+          <p>No, by modern mathematical convention, 1 is not considered a prime number. While 1 was historically sometimes classified as prime, mathematicians in the twentieth century adopted the definition that primes must be greater than 1. The primary reason for this exclusion is to preserve the uniqueness of prime factorization. If 1 were considered prime, any number could be factored in infinitely many ways by including arbitrary powers of 1, which would undermine the Fundamental Theorem of Arithmetic. Removing 1 from the set of primes keeps factorizations unique and simplifies many theorems and proofs throughout number theory.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the largest known prime number?</summary>
+          <p>The largest known primes are Mersenne primes, numbers of the form 2 raised to the power p minus 1 where p is itself prime. These enormous primes are discovered by the Great Internet Mersenne Prime Search (GIMPS), a distributed computing project that harnesses thousands of volunteer computers worldwide. The most recent record-holding Mersenne primes contain tens of millions of digits and would fill thousands of printed pages if written out. New records are set every few years as hardware improves and more volunteers contribute computing time. The search for ever-larger primes has practical applications in testing algorithms and hardware, in addition to its pure mathematical significance.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How are prime numbers used in RSA encryption?</summary>
+          <p>RSA encryption, one of the first practical public-key cryptosystems, relies directly on the properties of prime numbers. To generate an RSA key pair, you select two large random primes and multiply them to form a modulus. The public key is published openly and used by anyone to encrypt messages, while the private key, which depends on knowing the original prime factors, is kept secret for decryption. Security rests on the computational asymmetry between multiplication and factoring: multiplying two large primes is fast, but no known algorithm can efficiently factor their product when the primes are sufficiently large. RSA secures web traffic, email encryption, digital signatures, and certificate authorities that underpin the trust framework of the internet.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What are twin primes?</summary>
+          <p>Twin primes are pairs of prime numbers that differ by exactly 2, such as (3, 5), (5, 7), (11, 13), (17, 19), (29, 31), and (41, 43). As numbers grow larger, twin primes become increasingly rare, yet they never seem to disappear entirely. The Twin Prime Conjecture states that there are infinitely many such pairs, but despite centuries of effort, no one has proven or disproven this claim. A major breakthrough came in 2013 when mathematician Yitang Zhang proved that there are infinitely many prime pairs with a gap no larger than 70 million, the first finite bound ever established. Subsequent collaborative work by the Polymath project reduced this bound to 246, bringing mathematicians closer to the twin prime threshold of 2 but still leaving the final step unresolved.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the Goldbach Conjecture?</summary>
+          <p>The Goldbach Conjecture, proposed in a 1742 letter from Christian Goldbach to Leonhard Euler, states that every even integer greater than 2 can be written as the sum of two prime numbers. For example, 4 equals 2 plus 2, 10 equals 3 plus 7, 20 equals 3 plus 17, and 100 equals 3 plus 97. Despite being one of the oldest open problems in mathematics, no proof or counterexample has been found. Computational verification has confirmed the conjecture for all even numbers up to extremely large bounds, and heuristic arguments based on the distribution of primes strongly suggest it is true. The conjecture remains a central open question in additive number theory and a benchmark for progress in understanding how primes interact under addition.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is this prime number checker free to use?</summary>
+          <p>Yes, this prime number checker and generator is entirely free, requires no registration or account, and has no daily usage limits. Every calculation is performed locally in your browser using JavaScript, so no data leaves your device. The tool works on desktop computers, laptops, tablets, and smartphones running any modern browser. After the page loads initially, subsequent calculations do not require an internet connection because all the mathematical logic is embedded in the page. Students, educators, programmers, and math enthusiasts can use it anytime for homework help, algorithm verification, lesson planning, coding challenges, or exploring the fascinating world of prime numbers.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/fraction">Fraction Calculator</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+          <a href="https://toolrip.com/bmi">BMI Calculator</a>
+          <a href="https://toolrip.com/age">Age Calculator</a>
+          <a href="https://toolrip.com/compound-interest">Compound Interest Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Prime Checker JS -->
+  <script>
+  (function() {
+    'use strict';
+
+    var MAX_VAL = 1e7;
+
+    /* ========== Math Utilities ========== */
+
+    function isPrime(n) {
+      if (n < 2) return false;
+      if (n < 4) return true;
+      if (n % 2 === 0 || n % 3 === 0) return false;
+      for (var i = 5; i * i <= n; i += 6) {
+        if (n % i === 0 || n % (i + 2) === 0) return false;
+      }
+      return true;
+    }
+
+    function getFactors(n) {
+      var factors = [];
+      if (n < 1) return factors;
+      for (var i = 1; i * i <= n; i++) {
+        if (n % i === 0) {
+          factors.push(i);
+          if (i !== n / i) factors.push(n / i);
+        }
+      }
+      factors.sort(function(a, b) { return a - b; });
+      return factors;
+    }
+
+    function nearestPrimes(n) {
+      var below = null, above = null;
+      for (var i = n - 1; i >= 2; i--) {
+        if (isPrime(i)) { below = i; break; }
+      }
+      for (var j = n + 1; j <= n + 1000; j++) {
+        if (isPrime(j)) { above = j; break; }
+      }
+      return { below: below, above: above };
+    }
+
+    function sieve(limit) {
+      if (limit < 2) return [];
+      var arr = new Uint8Array(limit + 1);
+      arr[0] = 1; arr[1] = 1;
+      for (var i = 2; i * i <= limit; i++) {
+        if (!arr[i]) {
+          for (var j = i * i; j <= limit; j += i) {
+            arr[j] = 1;
+          }
+        }
+      }
+      var primes = [];
+      for (var k = 2; k <= limit; k++) {
+        if (!arr[k]) primes.push(k);
+      }
+      return primes;
+    }
+
+    function nthPrimeUpperBound(n) {
+      if (n < 6) return 15;
+      var ln = Math.log(n);
+      var lnln = Math.log(ln);
+      return Math.ceil(n * (ln + lnln)) + 100;
+    }
+
+    function findNthPrime(n) {
+      if (n < 1) return null;
+      var bound = nthPrimeUpperBound(n);
+      if (bound > MAX_VAL) bound = MAX_VAL;
+      var primes = sieve(bound);
+      if (n > primes.length) return null;
+      return primes[n - 1];
+    }
+
+    function primeFactorization(n) {
+      var factors = [];
+      if (n < 2) return factors;
+      var d = 2;
+      while (d * d <= n) {
+        var count = 0;
+        while (n % d === 0) {
+          count++;
+          n = n / d;
+        }
+        if (count > 0) factors.push({ factor: d, exponent: count });
+        d++;
+      }
+      if (n > 1) factors.push({ factor: n, exponent: 1 });
+      return factors;
+    }
+
+    function parsePositiveInt(str) {
+      if (!str || str.trim() === '') return NaN;
+      var cleaned = str.trim().replace(/,/g, '');
+      if (!/^\d+$/.test(cleaned)) return NaN;
+      var n = parseInt(cleaned, 10);
+      if (n > MAX_VAL) return -1; // over limit
+      return n;
+    }
+
+    function fmtNum(n) {
+      return n.toLocaleString('en-US');
+    }
+
+    /* ========== DOM Helpers ========== */
+
+    function $(id) { return document.getElementById(id); }
+
+    function showEl(el) { el.classList.remove('hidden'); }
+    function hideEl(el) { el.classList.add('hidden'); }
+
+    /* ========== Tab 1: Prime Check ========== */
+
+    $('checkBtn').addEventListener('click', doCheck);
+    $('checkClearBtn').addEventListener('click', function() {
+      $('checkInput').value = '';
+      hideEl($('checkResult'));
+      $('checkResult').className = 'prime-result hidden';
+    });
+    $('checkInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') doCheck();
+    });
+
+    function doCheck() {
+      var raw = $('checkInput').value;
+      var n = parsePositiveInt(raw);
+      if (isNaN(n) || n < 0) {
+        showToast('Please enter a valid positive integer.', 'error');
+        return;
+      }
+      if (n === -1) {
+        showToast('Maximum supported value is ' + fmtNum(MAX_VAL) + '.', 'error');
+        return;
+      }
+
+      var result = $('checkResult');
+      var badge = $('checkBadge');
+      var details = $('checkDetails');
+      var grid = $('checkGrid');
+
+      result.className = 'prime-result';
+      showEl(result);
+
+      var prime = isPrime(n);
+
+      if (n < 2) {
+        badge.innerHTML = '<div class="prime-badge no"><span class="icon">&#10007;</span> ' + fmtNum(n) + ' is not a prime number</div>';
+        details.innerHTML = '<p style="color:var(--text-muted);font-size:.9rem">Prime numbers must be greater than 1.</p>';
+        result.classList.add('not-prime');
+        grid.innerHTML = '';
+        var nearest = nearestPrimes(n);
+        var gridHtml = '';
+        if (nearest.above !== null) {
+          gridHtml += '<div class="detail-item"><div class="label">Next Prime Above</div><div class="value">' + fmtNum(nearest.above) + '</div></div>';
+        }
+        grid.innerHTML = gridHtml;
+        return;
+      }
+
+      if (prime) {
+        badge.innerHTML = '<div class="prime-badge yes"><span class="icon">&#10003;</span> ' + fmtNum(n) + ' is a prime number</div>';
+        result.classList.add('is-prime');
+        details.innerHTML = '';
+
+        var nearest = nearestPrimes(n);
+        var gridHtml = '';
+        gridHtml += '<div class="detail-item"><div class="label">Factors</div><div class="value">1, ' + fmtNum(n) + '</div></div>';
+        gridHtml += '<div class="detail-item"><div class="label">Factor Count</div><div class="value">2</div></div>';
+        gridHtml += '<div class="detail-item"><div class="label">Factor Sum</div><div class="value">' + fmtNum(1 + n) + '</div></div>';
+        if (nearest.below !== null) {
+          gridHtml += '<div class="detail-item"><div class="label">Previous Prime</div><div class="value">' + fmtNum(nearest.below) + '</div></div>';
+        }
+        if (nearest.above !== null) {
+          gridHtml += '<div class="detail-item"><div class="label">Next Prime</div><div class="value">' + fmtNum(nearest.above) + '</div></div>';
+        }
+        grid.innerHTML = gridHtml;
+      } else {
+        badge.innerHTML = '<div class="prime-badge no"><span class="icon">&#10007;</span> ' + fmtNum(n) + ' is not a prime number</div>';
+        result.classList.add('not-prime');
+
+        var factors = getFactors(n);
+        var smallestPrime = null;
+        for (var i = 0; i < factors.length; i++) {
+          if (factors[i] > 1 && isPrime(factors[i])) { smallestPrime = factors[i]; break; }
+        }
+        var factorsStr = factors.map(fmtNum).join(', ');
+        var factorSum = 0;
+        for (var j = 0; j < factors.length; j++) factorSum += factors[j];
+
+        details.innerHTML = '<p style="color:var(--text-muted);font-size:.9rem">Divisible by ' + fmtNum(smallestPrime) + ' (' + fmtNum(n) + ' = ' + fmtNum(smallestPrime) + ' &times; ' + fmtNum(n / smallestPrime) + ')</p>';
+
+        var nearest = nearestPrimes(n);
+        var gridHtml = '';
+        gridHtml += '<div class="detail-item"><div class="label">All Factors</div><div class="value">' + factorsStr + '</div></div>';
+        gridHtml += '<div class="detail-item"><div class="label">Factor Count</div><div class="value">' + fmtNum(factors.length) + '</div></div>';
+        gridHtml += '<div class="detail-item"><div class="label">Factor Sum</div><div class="value">' + fmtNum(factorSum) + '</div></div>';
+        gridHtml += '<div class="detail-item"><div class="label">Smallest Prime Factor</div><div class="value">' + fmtNum(smallestPrime) + '</div></div>';
+        if (nearest.below !== null) {
+          gridHtml += '<div class="detail-item"><div class="label">Previous Prime</div><div class="value">' + fmtNum(nearest.below) + '</div></div>';
+        }
+        if (nearest.above !== null) {
+          gridHtml += '<div class="detail-item"><div class="label">Next Prime</div><div class="value">' + fmtNum(nearest.above) + '</div></div>';
+        }
+        grid.innerHTML = gridHtml;
+      }
+    }
+
+    /* ========== Tab 2: Range Generator ========== */
+
+    $('rangeBtn').addEventListener('click', doRange);
+
+    function doRange() {
+      var from = parsePositiveInt($('rangeFrom').value || '1');
+      var to = parsePositiveInt($('rangeTo').value);
+
+      if (isNaN(from) || isNaN(to) || from < 0 || to < 0) {
+        showToast('Please enter valid positive integers for both fields.', 'error');
+        return;
+      }
+      if (from === -1 || to === -1) {
+        showToast('Maximum supported value is ' + fmtNum(MAX_VAL) + '.', 'error');
+        return;
+      }
+      if (from > to) {
+        var tmp = from; from = to; to = tmp;
+      }
+      if (to - from > MAX_VAL) {
+        showToast('Range too large. Maximum span is ' + fmtNum(MAX_VAL) + '.', 'error');
+        return;
+      }
+
+      var primes = sieve(to);
+      var filtered = [];
+      for (var i = 0; i < primes.length; i++) {
+        if (primes[i] >= from) filtered.push(primes[i]);
+      }
+
+      var output = $('rangeOutput');
+      var stats = $('rangeStats');
+      var list = $('rangeList');
+
+      showEl(output);
+
+      var sum = 0;
+      for (var j = 0; j < filtered.length; j++) sum += filtered[j];
+
+      stats.innerHTML =
+        '<div class="stat"><span class="stat-label">Primes found:</span> <span class="stat-value">' + fmtNum(filtered.length) + '</span></div>' +
+        '<div class="stat"><span class="stat-label">Range:</span> <span class="stat-value">' + fmtNum(from) + ' &ndash; ' + fmtNum(to) + '</span></div>' +
+        '<div class="stat"><span class="stat-label">Sum:</span> <span class="stat-value">' + fmtNum(sum) + '</span></div>';
+
+      if (filtered.length === 0) {
+        list.innerHTML = '<span style="color:var(--text-muted)">No primes found in this range.</span>';
+      } else if (filtered.length > 5000) {
+        // For very large lists, show as comma-separated text for performance
+        list.innerHTML = '<span style="color:var(--text-muted);font-size:.8rem;display:block;margin-bottom:var(--sp-2)">' + fmtNum(filtered.length) + ' primes (showing as text for performance)</span>' + filtered.map(fmtNum).join(', ');
+      } else {
+        var html = '';
+        for (var k = 0; k < filtered.length; k++) {
+          html += '<span class="prime-num">' + fmtNum(filtered[k]) + '</span>';
+        }
+        list.innerHTML = html;
+      }
+    }
+
+    /* ========== Tab 3: Nth Prime ========== */
+
+    $('nthBtn').addEventListener('click', doNth);
+    $('nthInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') doNth();
+    });
+
+    function doNth() {
+      var n = parsePositiveInt($('nthInput').value);
+      if (isNaN(n) || n < 1) {
+        showToast('Please enter a positive integer (1 or greater).', 'error');
+        return;
+      }
+      if (n === -1 || n > 664579) {
+        showToast('Supports up to the 664,579th prime (within 10,000,000 limit).', 'error');
+        return;
+      }
+
+      var prime = findNthPrime(n);
+      if (prime === null) {
+        showToast('Could not compute. Try a smaller value.', 'error');
+        return;
+      }
+
+      var result = $('nthResult');
+      var grid = $('nthGrid');
+      result.className = 'prime-result is-prime';
+      showEl(result);
+
+      var ordinal = n === 1 ? '1st' : n === 2 ? '2nd' : n === 3 ? '3rd' : fmtNum(n) + 'th';
+
+      grid.innerHTML =
+        '<div class="detail-item"><div class="label">Position</div><div class="value">' + ordinal + ' prime</div></div>' +
+        '<div class="detail-item"><div class="label">Value</div><div class="value" style="color:var(--accent);font-size:1.2rem">' + fmtNum(prime) + '</div></div>';
+    }
+
+    /* ========== Tab 4: Prime Factorization ========== */
+
+    $('factorBtn').addEventListener('click', doFactor);
+    $('factorInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') doFactor();
+    });
+
+    function doFactor() {
+      var n = parsePositiveInt($('factorInput').value);
+      if (isNaN(n) || n < 1) {
+        showToast('Please enter a positive integer (1 or greater).', 'error');
+        return;
+      }
+      if (n === -1) {
+        showToast('Maximum supported value is ' + fmtNum(MAX_VAL) + '.', 'error');
+        return;
+      }
+
+      var result = $('factorResult');
+      var display = $('factorDisplay');
+      var grid = $('factorGrid');
+      result.className = 'prime-result';
+      showEl(result);
+
+      if (n === 1) {
+        display.innerHTML = '<p style="color:var(--text-muted);font-size:.95rem;margin-bottom:var(--sp-2)">1 has no prime factorization (it is the empty product).</p>';
+        grid.innerHTML =
+          '<div class="detail-item"><div class="label">Number</div><div class="value">1</div></div>' +
+          '<div class="detail-item"><div class="label">Divisor Count</div><div class="value">1</div></div>' +
+          '<div class="detail-item"><div class="label">Divisor Sum</div><div class="value">1</div></div>';
+        return;
+      }
+
+      var factors = primeFactorization(n);
+
+      // Build chain display: 2^3 x 3^2 x 5
+      var chainHtml = '<div class="factor-chain">';
+      chainHtml += '<span style="color:var(--text-muted);font-weight:400;margin-right:6px">' + fmtNum(n) + ' =</span>';
+      for (var i = 0; i < factors.length; i++) {
+        if (i > 0) chainHtml += '<span class="times">&times;</span>';
+        chainHtml += '<span class="factor">' + fmtNum(factors[i].factor);
+        if (factors[i].exponent > 1) {
+          chainHtml += '<sup>' + factors[i].exponent + '</sup>';
+        }
+        chainHtml += '</span>';
+      }
+      chainHtml += '</div>';
+      display.innerHTML = chainHtml;
+
+      // Compute stats
+      var distinctCount = factors.length;
+      var divisorCount = 1;
+      var divisorSum = 1;
+      for (var j = 0; j < factors.length; j++) {
+        divisorCount *= (factors[j].exponent + 1);
+        // sum of divisors for p^e = (p^(e+1) - 1) / (p - 1)
+        var p = factors[j].factor;
+        var e = factors[j].exponent;
+        var pSum = (Math.pow(p, e + 1) - 1) / (p - 1);
+        divisorSum *= pSum;
+      }
+
+      var factorListStr = factors.map(function(f) {
+        return fmtNum(f.factor) + (f.exponent > 1 ? '^' + f.exponent : '');
+      }).join(' x ');
+
+      grid.innerHTML =
+        '<div class="detail-item"><div class="label">Factorization</div><div class="value">' + factorListStr + '</div></div>' +
+        '<div class="detail-item"><div class="label">Distinct Prime Factors</div><div class="value">' + distinctCount + '</div></div>' +
+        '<div class="detail-item"><div class="label">Total Divisors</div><div class="value">' + fmtNum(divisorCount) + '</div></div>' +
+        '<div class="detail-item"><div class="label">Sum of Divisors</div><div class="value">' + fmtNum(divisorSum) + '</div></div>';
+
+      result.classList.add(isPrime(parseInt($('factorInput').value.trim().replace(/,/g, ''), 10)) ? 'is-prime' : 'not-prime');
+    }
+
+  })();
+  </script>
+</body>
+</html>

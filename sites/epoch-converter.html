@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Epoch/Unix Time Converter — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Convert Unix epoch timestamps to human-readable dates and vice versa. Live clock, auto-detect seconds vs milliseconds, UTC, local time, ISO 8601, and relative time. Free, instant, no signup.">
+  <meta name="keywords" content="epoch converter, unix timestamp converter, epoch to date, date to epoch, unix time, timestamp converter, epoch clock, unix time converter">
+  <link rel="canonical" href="https://toolrip.com/epoch">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Epoch/Unix Time Converter — Free, Fast, No Signup | Toolrip">
+  <meta property="og:description" content="Convert Unix epoch timestamps to human-readable dates and vice versa. Live clock with seconds and milliseconds, auto-detect format, UTC and local time output.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/epoch">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Epoch/Unix Time Converter — Free, Fast, No Signup | Toolrip">
+  <meta name="twitter:description" content="Convert Unix epoch timestamps to human-readable dates and vice versa. Live clock with seconds and milliseconds, auto-detect format, UTC and local time output.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root { --accent: var(--datetime); }
+
+    .live-clock {
+      text-align: center;
+      padding: var(--sp-5);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--sp-4);
+    }
+    .live-clock .clock-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: var(--sp-1);
+    }
+    .live-clock .clock-seconds {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1.2;
+      font-variant-numeric: tabular-nums;
+    }
+    .live-clock .clock-ms {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      font-variant-numeric: tabular-nums;
+      margin-top: var(--sp-1);
+    }
+    .live-clock .clock-human {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-top: var(--sp-2);
+    }
+    @media (min-width: 640px) {
+      .live-clock .clock-seconds { font-size: 3rem; }
+    }
+
+    .converter-section {
+      margin-top: var(--sp-4);
+      padding-top: var(--sp-4);
+      border-top: 1px solid var(--border);
+    }
+    .converter-section:first-child {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: none;
+    }
+    .converter-section h3 {
+      font-size: 1rem;
+      margin-bottom: var(--sp-3);
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--sp-2);
+      margin-top: var(--sp-3);
+    }
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--sp-2) var(--sp-3);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      gap: var(--sp-2);
+    }
+    .result-row .rr-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      flex-shrink: 0;
+    }
+    .result-row .rr-value {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--text);
+      text-align: right;
+      word-break: break-all;
+    }
+
+    .quick-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-2);
+      margin-top: var(--sp-3);
+    }
+    .quick-btn {
+      padding: var(--sp-1) var(--sp-3);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      font: inherit;
+      font-size: 0.8125rem;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+      white-space: nowrap;
+    }
+    .quick-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .detect-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-left: var(--sp-2);
+      background: color-mix(in srgb, var(--accent) 15%, transparent);
+      color: var(--accent);
+    }
+
+    .datetime-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-2);
+    }
+    @media (max-width: 639px) {
+      .datetime-inputs { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Epoch/Unix Time Converter",
+    "url": "https://toolrip.com/epoch",
+    "description": "Convert Unix epoch timestamps to human-readable dates and vice versa. Live clock, auto-detect seconds vs milliseconds, UTC, local time, ISO 8601, and relative time.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is a Unix epoch timestamp?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A Unix epoch timestamp is a number representing the total seconds (or milliseconds) that have elapsed since January 1, 1970, at 00:00:00 UTC, known as the Unix epoch. It is a universal, timezone-independent way to represent a point in time that is used by virtually every operating system, programming language, and database. For example, the timestamp 1700000000 corresponds to November 14, 2023, at 22:13:20 UTC."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why does the Unix epoch start on January 1, 1970?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The choice of January 1, 1970, as the epoch origin was a practical decision made by the early Unix engineers at Bell Labs. When they redesigned the Unix operating system around 1971, they needed a fixed reference point for time. The original epoch was January 1, 1971, but it was soon changed to 1970 to give a rounder number and more headroom. The date itself has no astronomical or historical significance — it was simply a convenient, recent starting point that allowed a 32-bit signed integer to cover dates well into the future at the time."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the Year 2038 problem (Y2K38)?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Year 2038 problem, often called Y2K38, is a computing limitation that will affect systems storing Unix time as a 32-bit signed integer. Such integers have a maximum value of 2,147,483,647, which corresponds to January 19, 2038, at 03:14:07 UTC. One second later the value overflows and wraps to a large negative number, causing the date to jump to December 13, 1901. Most modern systems have already transitioned to 64-bit time, which extends the range to over 292 billion years, effectively eliminating the problem. However, legacy embedded systems and older software may still be vulnerable."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can epoch timestamps be negative?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. A negative epoch timestamp represents a date before January 1, 1970, 00:00:00 UTC. For example, -86400 corresponds to December 31, 1969, because it is exactly one day (86,400 seconds) before the epoch. Most programming languages and databases support negative timestamps, allowing you to represent historical dates. JavaScript's Date object, for instance, accepts negative millisecond values. The practical lower limit depends on whether the system uses a 32-bit or 64-bit integer for storage."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between seconds and milliseconds in epoch timestamps?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A Unix timestamp in seconds is typically a 10-digit number (for current dates), while a millisecond timestamp is a 13-digit number. Seconds-based timestamps are the traditional Unix format and are used in most server-side languages such as Python, PHP, and Ruby. Millisecond timestamps are common in JavaScript (Date.now() returns milliseconds), Java (System.currentTimeMillis()), and many front-end APIs. To convert between them, multiply seconds by 1,000 to get milliseconds, or divide milliseconds by 1,000 to get seconds. This converter automatically detects which format you entered based on the digit count."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I get the current epoch time in JavaScript?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "In JavaScript, you can get the current epoch time in milliseconds using Date.now(), which returns a 13-digit number like 1700000000000. To get seconds, use Math.floor(Date.now() / 1000). You can also create a Date object and call getTime() on it: new Date().getTime() returns milliseconds. To convert a specific date string to an epoch, use new Date('2024-01-15').getTime() for milliseconds. These methods are available in all modern browsers and Node.js environments without any external libraries."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do different operating systems use different epoch dates?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. While Unix epoch (January 1, 1970) is the most widely used, other systems have different reference points. Classic Mac OS used January 1, 1904, as its epoch. Windows FILETIME uses January 1, 1601, counting in 100-nanosecond intervals. NTP (Network Time Protocol) uses January 1, 1900. Cocoa and Swift on Apple platforms use January 1, 2001, as their reference date. GPS time starts on January 6, 1980. Despite these differences, most modern software and web APIs standardize on the Unix epoch, and conversion between systems is straightforward arithmetic."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Date & Time Tools", "item": "https://toolrip.com/#datetime" },
+      { "@type": "ListItem", "position": 3, "name": "Epoch Converter", "item": "https://toolrip.com/epoch" }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="epoch-top">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#datetime">Date &amp; Time Tools</a>
+        <span>/</span>
+        <span>Epoch Converter</span>
+      </nav>
+
+      <h1>Epoch/Unix Time Converter</h1>
+      <p class="text-muted mt-1 mb-3">Convert Unix epoch timestamps to human-readable dates and back. Live current epoch clock, auto-detect seconds vs milliseconds, output in UTC, local time, ISO 8601, and relative time. Free, instant, and private.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+
+        <!-- Live Clock -->
+        <div class="live-clock">
+          <div class="clock-label">Current Unix Epoch Time</div>
+          <div class="clock-seconds" id="clock-seconds">—</div>
+          <div class="clock-ms" id="clock-ms">—</div>
+          <div class="clock-human" id="clock-human">—</div>
+        </div>
+
+        <!-- Epoch → Date -->
+        <div class="converter-section">
+          <h3>Epoch to Date</h3>
+          <div class="input-group" style="margin-bottom:0">
+            <label for="epoch-input">Enter Unix Timestamp</label>
+            <div class="flex gap-2" style="align-items:end">
+              <input type="text" id="epoch-input" class="input-field" placeholder="e.g. 1700000000 or 1700000000000" inputmode="numeric" aria-label="Unix timestamp to convert">
+              <button class="btn-primary" onclick="epochToDate()" style="white-space:nowrap">Convert</button>
+            </div>
+          </div>
+          <div id="epoch-detect" style="margin-top:var(--sp-2);font-size:0.8rem;color:var(--text-muted)"></div>
+          <div class="result-grid" id="e2d-results" style="display:none">
+            <div class="result-row"><span class="rr-label">UTC</span><span class="rr-value" id="e2d-utc"></span></div>
+            <div class="result-row"><span class="rr-label">Local Time</span><span class="rr-value" id="e2d-local"></span></div>
+            <div class="result-row"><span class="rr-label">ISO 8601</span><span class="rr-value" id="e2d-iso"></span></div>
+            <div class="result-row"><span class="rr-label">Relative</span><span class="rr-value" id="e2d-relative"></span></div>
+            <div class="result-row"><span class="rr-label">Day of Week</span><span class="rr-value" id="e2d-dow"></span></div>
+            <div class="result-row"><span class="rr-label">Seconds</span><span class="rr-value" id="e2d-sec"></span></div>
+            <div class="result-row"><span class="rr-label">Milliseconds</span><span class="rr-value" id="e2d-ms"></span></div>
+          </div>
+        </div>
+
+        <!-- Date → Epoch -->
+        <div class="converter-section">
+          <h3>Date to Epoch</h3>
+          <div class="datetime-inputs">
+            <div class="input-group">
+              <label for="d2e-date">Date</label>
+              <input type="date" id="d2e-date" class="input-field" aria-label="Date to convert">
+            </div>
+            <div class="input-group">
+              <label for="d2e-time">Time</label>
+              <input type="time" id="d2e-time" class="input-field" step="1" aria-label="Time to convert">
+            </div>
+          </div>
+          <div class="flex gap-2" style="margin-top:var(--sp-2)">
+            <button class="btn-primary" onclick="dateToEpoch()">Convert</button>
+            <button class="btn-secondary" onclick="setNowD2E()">Now</button>
+          </div>
+          <div class="result-grid" id="d2e-results" style="display:none">
+            <div class="result-row"><span class="rr-label">Seconds</span><span class="rr-value" id="d2e-sec"></span></div>
+            <div class="result-row"><span class="rr-label">Milliseconds</span><span class="rr-value" id="d2e-ms"></span></div>
+            <div class="result-row"><span class="rr-label">ISO 8601</span><span class="rr-value" id="d2e-iso"></span></div>
+            <div class="result-row"><span class="rr-label">UTC</span><span class="rr-value" id="d2e-utc"></span></div>
+          </div>
+        </div>
+
+        <!-- Quick Buttons -->
+        <div class="converter-section">
+          <h3>Quick Timestamps</h3>
+          <div class="quick-buttons" id="quick-buttons">
+            <button class="quick-btn" onclick="quickTimestamp('now')">Now</button>
+            <button class="quick-btn" onclick="quickTimestamp('hour')">+1 Hour</button>
+            <button class="quick-btn" onclick="quickTimestamp('day')">+1 Day</button>
+            <button class="quick-btn" onclick="quickTimestamp('week')">+1 Week</button>
+            <button class="quick-btn" onclick="quickTimestamp('today')">Start of Today</button>
+            <button class="quick-btn" onclick="quickTimestamp('year')">Start of Year</button>
+          </div>
+          <div class="result-grid" id="quick-results" style="display:none">
+            <div class="result-row"><span class="rr-label">Date</span><span class="rr-value" id="quick-date"></span></div>
+            <div class="result-row"><span class="rr-label">Seconds</span><span class="rr-value" id="quick-sec"></span></div>
+            <div class="result-row"><span class="rr-label">Milliseconds</span><span class="rr-value" id="quick-ms"></span></div>
+          </div>
+        </div>
+
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="epoch-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Live Epoch Clock</h3>
+            <p>Watch the current Unix timestamp tick upward in real time, displayed in both seconds and milliseconds. The live clock gives you an instant reference point for debugging, logging, and verifying timestamp values against the current moment without needing to open a terminal or write any code.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Auto-Detect Seconds &amp; Milliseconds</h3>
+            <p>Paste any timestamp and the converter automatically determines whether it is in seconds or milliseconds based on its digit count. You see the result in both formats, along with UTC, local time, ISO 8601, and a human-friendly relative time like "3 hours ago" or "in 2 days." No manual selection needed.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Bidirectional Conversion</h3>
+            <p>Convert in either direction — from an epoch timestamp to a human-readable date, or from a date and time picker back to an epoch value. The date-to-epoch converter outputs seconds and milliseconds simultaneously, making it easy to copy the format your application requires.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Quick Timestamp Shortcuts</h3>
+            <p>Generate commonly needed timestamps with a single click. Buttons for "Now," "+1 Hour," "+1 Day," "+1 Week," "Start of Today," and "Start of Year" let you produce reference timestamps instantly. Each shortcut displays the full date alongside the seconds and milliseconds values.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Epoch Converter</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>View the live clock</strong> — The top of the tool displays the current Unix epoch time updating every second, shown in both seconds and milliseconds. Use it as an instant reference while working with timestamps in your code or logs.</li>
+          <li><strong>Convert epoch to date</strong> — Paste a numeric timestamp into the "Epoch to Date" input field and click Convert. The tool automatically detects whether the value is in seconds (10 digits) or milliseconds (13 digits) and displays the result in UTC, your local timezone, ISO 8601 format, and as a relative time description.</li>
+          <li><strong>Convert date to epoch</strong> — Use the date and time pickers in the "Date to Epoch" section. Select any date and time, then click Convert to see the corresponding epoch value in both seconds and milliseconds. Click "Now" to instantly populate the current date and time.</li>
+          <li><strong>Use quick shortcuts</strong> — Click any quick timestamp button to generate a commonly needed value. Each shortcut shows the full date alongside the epoch in seconds and milliseconds, ready to copy into your application, database query, or configuration file.</li>
+        </ol>
+      </section>
+
+      <!-- Guide Section -->
+      <section class="mt-4">
+        <h2>Understanding Unix Epoch Time</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Unix epoch time, also called POSIX time or Unix time, is a system for tracking time as a running count of seconds since a fixed reference point: midnight on January 1, 1970, Coordinated Universal Time (UTC). This reference moment is known simply as "the epoch." Every second that passes increments the counter by one, making the timestamp a single, unambiguous integer that carries no timezone or daylight saving information. Because of its simplicity, epoch time has become the universal lingua franca for representing points in time across operating systems, programming languages, databases, and network protocols.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">The original choice of January 1, 1970, was a pragmatic decision by the engineers who built the early Unix operating system at Bell Labs. When they redesigned Unix around 1971, they needed a compact, fixed reference for their internal clock. The 1970 date provided a recent, round-numbered starting point that allowed a 32-bit signed integer to represent dates spanning roughly 68 years into the past and 68 years into the future. There is no astronomical, religious, or political significance behind the choice — it was purely a matter of engineering convenience.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">One well-known limitation of the original 32-bit representation is the Year 2038 problem, commonly abbreviated as Y2K38. A signed 32-bit integer can hold a maximum value of 2,147,483,647, which maps to Tuesday, January 19, 2038, at 03:14:07 UTC. One second later the integer overflows, wrapping around to a large negative number that the system interprets as a date in December 1901. While this is analogous to the Year 2000 bug, the fix is more straightforward: transitioning to a 64-bit integer pushes the overflow date to over 292 billion years into the future. Most modern operating systems, including Linux, macOS, and Windows, have already completed this migration, but older embedded devices, industrial controllers, and legacy database schemas may still be at risk.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">In day-to-day programming, epoch timestamps appear everywhere. JavaScript represents time in milliseconds since the epoch — calling Date.now() returns a 13-digit number. Python's time.time() returns a floating-point number of seconds, while its datetime module can convert between epoch values and structured date objects. Java and Kotlin use System.currentTimeMillis() for milliseconds. PHP's time() function and MySQL's UNIX_TIMESTAMP() return seconds. Understanding which unit a given API or database column uses — seconds versus milliseconds — is essential to avoid bugs where dates appear either thousands of years in the future or stuck in January 1970.</p>
+        <p style="color:var(--text-muted);line-height:1.7">Not all computing platforms share the same epoch. Classic Mac OS used January 1, 1904. Microsoft Windows FILETIME counts 100-nanosecond intervals from January 1, 1601. The Network Time Protocol (NTP) uses January 1, 1900. Apple's Cocoa framework and Swift language reference January 1, 2001. GPS time began on January 6, 1980, and does not account for leap seconds, creating a growing offset from UTC. Despite these variations, the Unix epoch remains the dominant standard on the web and in server-side development. Converting between epoch systems is simply a matter of adding or subtracting a fixed offset, making cross-platform interoperability reliable once you know which epoch each system uses.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is a Unix epoch timestamp?</summary>
+          <p>A Unix epoch timestamp is a single number that represents a specific moment in time by counting the seconds (or milliseconds) that have elapsed since January 1, 1970, at 00:00:00 Coordinated Universal Time (UTC). This reference point is called the Unix epoch. Because it is a plain integer with no timezone information baked in, it provides a universal, unambiguous way to store and transmit time data. Virtually every programming language, operating system, and database supports epoch timestamps. For example, the value 1700000000 corresponds to November 14, 2023, at 22:13:20 UTC. Millisecond-precision timestamps are 13 digits long and are used by JavaScript, Java, and many web APIs, while second-precision timestamps are 10 digits and are the standard in Python, PHP, and Unix shell commands.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Why does the Unix epoch start on January 1, 1970?</summary>
+          <p>The Unix epoch was set to January 1, 1970, by the engineers who developed the early Unix operating system at Bell Labs. When they redesigned the system around 1971, they needed a fixed, compact reference point for their time-keeping function. The original epoch was actually January 1, 1971, but it was soon shifted to 1970 to give a rounder number and ensure the 32-bit counter would cover a useful range of dates. There is no special scientific or historical reason behind the date — it was a pragmatic engineering decision. The simplicity of a single integer counting from a fixed origin made time arithmetic fast and portable across hardware platforms, which is why the convention endured and spread to virtually every computing environment in use today.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the Year 2038 problem (Y2K38)?</summary>
+          <p>The Year 2038 problem is a software limitation that affects systems storing Unix time as a 32-bit signed integer. The maximum value such an integer can hold is 2,147,483,647, which corresponds to January 19, 2038, at 03:14:07 UTC. One second after that, the integer overflows and wraps to a large negative number, causing the system clock to jump backward to December 13, 1901. The fix is to use a 64-bit integer for time storage, which extends the representable range to approximately 292 billion years. Most modern operating systems and programming languages have already made this transition. However, legacy embedded systems, older firmware, certain file formats, and some database schemas may still rely on 32-bit time values and remain vulnerable unless they are updated before 2038.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can Unix epoch timestamps be negative?</summary>
+          <p>Yes, negative epoch timestamps are valid and represent dates before January 1, 1970, 00:00:00 UTC. For instance, the timestamp -86400 means exactly one day before the epoch, which is December 31, 1969. The timestamp -62135596800 represents January 1, year 1 AD in the proleptic Gregorian calendar. Most programming languages handle negative timestamps correctly. JavaScript's Date object, Python's datetime module, and Java's Instant class all accept negative values. The practical lower limit depends on the integer size: a 32-bit signed integer can go back to December 13, 1901, while a 64-bit integer can represent dates billions of years in the past. Negative timestamps are commonly encountered when working with historical data, astronomical calculations, or legacy records.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between seconds and milliseconds in epoch timestamps?</summary>
+          <p>The difference is purely one of precision and scale. A seconds-based Unix timestamp is typically 10 digits for dates in the current era (for example, 1700000000), while a millisecond timestamp is 13 digits (1700000000000) because it includes three extra digits representing the fractional second. Seconds-based timestamps are the traditional Unix standard, used by Python's time.time(), PHP's time(), Unix shell date commands, and most SQL databases. Millisecond timestamps are standard in JavaScript (Date.now()), Java (System.currentTimeMillis()), and many REST APIs. To convert between them, multiply seconds by 1,000 to get milliseconds, or divide milliseconds by 1,000 and take the floor to get seconds. This converter detects the format automatically based on digit count, so you never need to guess which unit was used.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do I get the current epoch time in JavaScript?</summary>
+          <p>JavaScript provides several ways to retrieve the current epoch time. The most direct is Date.now(), which returns the current time as milliseconds since January 1, 1970, UTC. To get seconds, divide by 1,000 and round down: Math.floor(Date.now() / 1000). You can also instantiate a Date object and call getTime(): new Date().getTime() returns the same millisecond value. To convert a date string to epoch, pass it to the Date constructor: new Date('2024-06-15T12:00:00Z').getTime(). For higher-precision timing (sub-millisecond), use performance.now(), but note that it measures elapsed time from page load rather than from the Unix epoch. All these methods work in every modern browser and in Node.js without any external dependencies.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Do different operating systems use different epoch dates?</summary>
+          <p>Yes, although Unix epoch (January 1, 1970) is by far the most common standard on the web and in server-side development, other platforms define their own reference dates. Classic Mac OS used January 1, 1904. Microsoft's Win32 FILETIME structure counts 100-nanosecond intervals from January 1, 1601. The Network Time Protocol (NTP) uses January 1, 1900. Apple's Cocoa framework and Swift use January 1, 2001, as their reference date. GPS time started on January 6, 1980, and notably does not include leap second corrections, so it currently differs from UTC by a fixed number of seconds. Converting between these systems is straightforward — you simply add or subtract the constant offset in seconds between the two epoch points. This converter focuses on the Unix epoch, which is the standard for web development and the vast majority of APIs and databases you will encounter.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/date-diff">Date Difference Calculator</a>
+          <a href="https://toolrip.com/age">Age Calculator</a>
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+          <a href="https://toolrip.com/base64">Base64 Encoder/Decoder</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="epoch-sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="epoch-bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Epoch Converter JS -->
+  <script>
+  (function () {
+    'use strict';
+
+    /* --- Live Clock --- */
+    var clockSec = document.getElementById('clock-seconds');
+    var clockMs = document.getElementById('clock-ms');
+    var clockHuman = document.getElementById('clock-human');
+
+    function updateClock() {
+      var now = Date.now();
+      var sec = Math.floor(now / 1000);
+      clockSec.textContent = sec.toLocaleString('en-US');
+      clockMs.textContent = now.toLocaleString('en-US') + ' ms';
+      clockHuman.textContent = new Date(now).toUTCString();
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    /* --- Helpers --- */
+    function detectUnit(val) {
+      var abs = Math.abs(val);
+      // 13+ digits → milliseconds, <=10 digits → seconds
+      if (abs > 9999999999) return 'ms';
+      return 's';
+    }
+
+    function relativeTime(ms) {
+      var now = Date.now();
+      var diff = ms - now;
+      var absDiff = Math.abs(diff);
+      var future = diff > 0;
+
+      var seconds = Math.floor(absDiff / 1000);
+      var minutes = Math.floor(seconds / 60);
+      var hours = Math.floor(minutes / 60);
+      var days = Math.floor(hours / 24);
+      var weeks = Math.floor(days / 7);
+      var months = Math.floor(days / 30.44);
+      var years = Math.floor(days / 365.25);
+
+      var str;
+      if (seconds < 5) str = 'just now';
+      else if (seconds < 60) str = seconds + ' seconds';
+      else if (minutes < 60) str = minutes + ' minute' + (minutes !== 1 ? 's' : '');
+      else if (hours < 24) str = hours + ' hour' + (hours !== 1 ? 's' : '');
+      else if (days < 7) str = days + ' day' + (days !== 1 ? 's' : '');
+      else if (weeks < 5) str = weeks + ' week' + (weeks !== 1 ? 's' : '');
+      else if (months < 12) str = months + ' month' + (months !== 1 ? 's' : '');
+      else str = years + ' year' + (years !== 1 ? 's' : '');
+
+      if (str === 'just now') return str;
+      return future ? 'in ' + str : str + ' ago';
+    }
+
+    function toISODate(d) {
+      var y = d.getFullYear();
+      var m = String(d.getMonth() + 1).padStart(2, '0');
+      var day = String(d.getDate()).padStart(2, '0');
+      return y + '-' + m + '-' + day;
+    }
+
+    function toISOTime(d) {
+      var h = String(d.getHours()).padStart(2, '0');
+      var m = String(d.getMinutes()).padStart(2, '0');
+      var s = String(d.getSeconds()).padStart(2, '0');
+      return h + ':' + m + ':' + s;
+    }
+
+    var DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+    /* --- Epoch → Date --- */
+    window.epochToDate = function () {
+      var raw = document.getElementById('epoch-input').value.trim();
+      if (!raw) {
+        showToast('Please enter a Unix timestamp.', 'error');
+        return;
+      }
+
+      var val = Number(raw);
+      if (isNaN(val)) {
+        showToast('Invalid timestamp. Please enter a numeric value.', 'error');
+        return;
+      }
+
+      var unit = detectUnit(val);
+      var ms = unit === 'ms' ? val : val * 1000;
+      var sec = unit === 's' ? val : Math.floor(val / 1000);
+
+      var detectEl = document.getElementById('epoch-detect');
+      detectEl.innerHTML = 'Detected: <span class="detect-badge">' + (unit === 'ms' ? 'Milliseconds' : 'Seconds') + '</span>';
+
+      var d = new Date(ms);
+
+      document.getElementById('e2d-utc').textContent = d.toUTCString();
+      document.getElementById('e2d-local').textContent = d.toLocaleString();
+      document.getElementById('e2d-iso').textContent = d.toISOString();
+      document.getElementById('e2d-relative').textContent = relativeTime(ms);
+      document.getElementById('e2d-dow').textContent = DAYS[d.getDay()];
+      document.getElementById('e2d-sec').textContent = sec.toLocaleString('en-US');
+      document.getElementById('e2d-ms').textContent = ms.toLocaleString('en-US');
+
+      document.getElementById('e2d-results').style.display = 'grid';
+    };
+
+    /* --- Date → Epoch --- */
+    window.dateToEpoch = function () {
+      var dateVal = document.getElementById('d2e-date').value;
+      var timeVal = document.getElementById('d2e-time').value;
+
+      if (!dateVal) {
+        showToast('Please select a date.', 'error');
+        return;
+      }
+
+      var parts = dateVal.split('-');
+      var timeParts = timeVal ? timeVal.split(':') : ['0', '0', '0'];
+      var d = new Date(
+        parseInt(parts[0]),
+        parseInt(parts[1]) - 1,
+        parseInt(parts[2]),
+        parseInt(timeParts[0]) || 0,
+        parseInt(timeParts[1]) || 0,
+        parseInt(timeParts[2]) || 0
+      );
+
+      var ms = d.getTime();
+      var sec = Math.floor(ms / 1000);
+
+      document.getElementById('d2e-sec').textContent = sec.toLocaleString('en-US');
+      document.getElementById('d2e-ms').textContent = ms.toLocaleString('en-US');
+      document.getElementById('d2e-iso').textContent = d.toISOString();
+      document.getElementById('d2e-utc').textContent = d.toUTCString();
+
+      document.getElementById('d2e-results').style.display = 'grid';
+    };
+
+    window.setNowD2E = function () {
+      var now = new Date();
+      document.getElementById('d2e-date').value = toISODate(now);
+      document.getElementById('d2e-time').value = toISOTime(now);
+      dateToEpoch();
+    };
+
+    /* --- Quick Timestamps --- */
+    window.quickTimestamp = function (type) {
+      var now = new Date();
+      var target;
+
+      switch (type) {
+        case 'now':
+          target = now;
+          break;
+        case 'hour':
+          target = new Date(now.getTime() + 3600000);
+          break;
+        case 'day':
+          target = new Date(now.getTime() + 86400000);
+          break;
+        case 'week':
+          target = new Date(now.getTime() + 604800000);
+          break;
+        case 'today':
+          target = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+          break;
+        case 'year':
+          target = new Date(now.getFullYear(), 0, 1);
+          break;
+        default:
+          target = now;
+      }
+
+      var ms = target.getTime();
+      var sec = Math.floor(ms / 1000);
+
+      document.getElementById('quick-date').textContent = target.toLocaleString('en-US', {
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+        hour: '2-digit', minute: '2-digit', second: '2-digit'
+      });
+      document.getElementById('quick-sec').textContent = sec.toLocaleString('en-US');
+      document.getElementById('quick-ms').textContent = ms.toLocaleString('en-US');
+
+      document.getElementById('quick-results').style.display = 'grid';
+    };
+
+    /* --- Enter key support for epoch input --- */
+    document.getElementById('epoch-input').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') epochToDate();
+    });
+
+    /* --- Init date/time pickers --- */
+    var now = new Date();
+    document.getElementById('d2e-date').value = toISODate(now);
+    document.getElementById('d2e-time').value = toISOTime(now);
+  })();
+  </script>
+</body>
+</html>

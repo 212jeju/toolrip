@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Blindness Simulator Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Simulate how colors appear to people with color blindness. Test Protanopia, Deuteranopia, Tritanopia and more. WCAG contrast checker included. Free online tool, no signup.">
+  <link rel="canonical" href="https://toolrip.com/color-blind">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Color Blindness Simulator — Toolrip">
+  <meta property="og:description" content="Simulate how colors appear to people with color blindness. Test Protanopia, Deuteranopia, Tritanopia and more. WCAG contrast checker included.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/color-blind">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Color Blindness Simulator — Toolrip">
+  <meta name="twitter:description" content="Simulate how colors appear to people with color blindness. Test Protanopia, Deuteranopia, Tritanopia and more. WCAG contrast checker included.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root{--accent:var(--design)}
+
+    .cb-input-row{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;margin-bottom:var(--sp-3)}
+    .cb-input-row input[type="color"]{width:56px;height:48px;border:2px solid var(--border);border-radius:var(--radius);
+      background:var(--bg);cursor:pointer;padding:2px}
+    .cb-hex-wrap{display:flex;align-items:center;gap:var(--sp-1)}
+    .cb-hex-wrap .hash{font-size:1.1rem;font-weight:700;color:var(--text-muted)}
+    .cb-hex-input{width:120px;text-transform:uppercase;font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:1rem;letter-spacing:1px}
+
+    .cb-original{display:flex;align-items:center;gap:var(--sp-3);margin-bottom:var(--sp-4);padding:var(--sp-3);
+      background:var(--bg);border:1px solid var(--border);border-radius:var(--radius)}
+    .cb-original-swatch{width:64px;height:64px;border-radius:var(--radius);border:2px solid var(--border);flex-shrink:0}
+    .cb-original-info{font-size:.8125rem;color:var(--text-muted);line-height:1.8}
+    .cb-original-info span{font-family:'Consolas','Monaco','Courier New',monospace;color:var(--text)}
+
+    .cb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:var(--sp-3);margin-bottom:var(--sp-3)}
+    .cb-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;
+      cursor:pointer;transition:border-color .15s,transform .15s}
+    .cb-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+    .cb-card-swatch{height:80px;position:relative}
+    .cb-card-swatch .copied-label{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+      font-size:.75rem;font-weight:700;color:#fff;background:rgba(0,0,0,.5);opacity:0;transition:opacity .2s;pointer-events:none}
+    .cb-card-swatch .copied-label.show{opacity:1}
+    .cb-card-body{padding:var(--sp-2) var(--sp-3)}
+    .cb-card-title{font-size:.875rem;font-weight:600;color:var(--text);margin-bottom:2px}
+    .cb-card-type{font-size:.6875rem;color:var(--accent);margin-bottom:var(--sp-1)}
+    .cb-card-values{font-size:.75rem;font-family:'Consolas','Monaco','Courier New',monospace;color:var(--text-muted);line-height:1.6}
+
+    .cb-contrast-section{margin-top:var(--sp-4)}
+    .cb-contrast-row{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;margin-bottom:var(--sp-3)}
+    .cb-contrast-row label{font-size:.875rem;font-weight:600;color:var(--text);min-width:100px}
+    .cb-contrast-row input[type="color"]{width:44px;height:36px;border:2px solid var(--border);border-radius:var(--radius);
+      background:var(--bg);cursor:pointer;padding:2px}
+    .cb-contrast-hex{width:100px;text-transform:uppercase;font-family:'Consolas','Monaco','Courier New',monospace;font-size:.875rem}
+
+    .cb-contrast-preview{display:flex;gap:var(--sp-3);flex-wrap:wrap;margin-bottom:var(--sp-3)}
+    .cb-preview-box{flex:1;min-width:200px;padding:var(--sp-4);border-radius:var(--radius);border:1px solid var(--border);
+      text-align:center;font-size:1.125rem;font-weight:600;line-height:1.6}
+    .cb-preview-box small{display:block;font-weight:400;font-size:.8125rem;margin-top:var(--sp-1)}
+
+    .cb-contrast-results{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:var(--sp-2)}
+    .cb-ratio-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3);text-align:center}
+    .cb-ratio-value{font-size:1.5rem;font-weight:700;color:var(--text);font-family:'Consolas','Monaco','Courier New',monospace}
+    .cb-ratio-label{font-size:.75rem;color:var(--text-muted);margin-top:2px}
+    .cb-badge{display:inline-block;font-size:.6875rem;font-weight:700;padding:2px 10px;border-radius:10px;margin-top:var(--sp-1)}
+    .cb-badge.pass{background:#10b98120;color:#10b981}
+    .cb-badge.fail{background:#ef444420;color:#ef4444}
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Color Blindness Simulator",
+    "url": "https://toolrip.com/color-blind",
+    "description": "Simulate how colors appear to people with different types of color blindness. Includes Protanopia, Deuteranopia, Tritanopia, Protanomaly, Deuteranomaly, Tritanomaly, Achromatopsia, and Achromatomaly simulations with a WCAG contrast checker.",
+    "applicationCategory": "DesignApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com"},
+      {"@type": "ListItem", "position": 2, "name": "Design Tools", "item": "https://toolrip.com/#design"},
+      {"@type": "ListItem", "position": 3, "name": "Color Blindness Simulator", "item": "https://toolrip.com/color-blind"}
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is color blindness and how common is it?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Color blindness, also called color vision deficiency, is a condition where a person cannot perceive certain colors or differences between colors. It affects roughly 8 percent of men and 0.5 percent of women of Northern European descent, though prevalence varies across populations. The most common forms are red-green deficiencies (Protanopia, Deuteranopia, Protanomaly, Deuteranomaly), while blue-yellow deficiency (Tritanopia, Tritanomaly) and total color blindness (Achromatopsia) are rarer. Most color blindness is inherited through the X chromosome, which is why it affects men more frequently."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between Protanopia and Deuteranopia?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Protanopia and Deuteranopia are both forms of red-green color blindness, but they affect different photoreceptor cells. Protanopia results from the complete absence of red cone photoreceptors (L-cones), causing reds to appear dark and indistinguishable from certain greens and browns. Deuteranopia is caused by the absence of green cone photoreceptors (M-cones), making greens difficult to distinguish from reds and yellows. While both types cause confusion between red and green hues, the specific colors that are conflated differ slightly because each type removes a different part of the visible spectrum."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does a color blindness simulator work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A color blindness simulator applies color transformation matrices to the original RGB values of a color. These matrices are derived from research by Brettel, Vienot, and Mollon, who studied how the absence or alteration of specific cone photoreceptors changes color perception. The simulator converts the input color from sRGB to linear RGB space, applies the appropriate 3x3 transformation matrix for each type of color vision deficiency, and then converts the result back to sRGB. The output shows what the color would look like to a person with that specific condition, allowing designers to check whether their color choices remain distinguishable."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is Tritanopia and how does it differ from red-green color blindness?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Tritanopia is a blue-yellow color vision deficiency caused by the absence of short-wavelength (S-cone) photoreceptors. Unlike the common red-green deficiencies, Tritanopia affects the ability to distinguish between blue and yellow hues, as well as between blue and green. People with Tritanopia see the world primarily in shades of pink and teal. It is much rarer than Protanopia or Deuteranopia, affecting fewer than 1 in 10,000 people, and it is not sex-linked like red-green deficiencies, meaning it occurs at equal rates in men and women."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are the WCAG contrast ratio requirements?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Web Content Accessibility Guidelines define two conformance levels for contrast. WCAG AA requires a minimum contrast ratio of 4.5:1 for normal text (under 18pt or under 14pt bold) and 3:1 for large text. WCAG AAA requires 7:1 for normal text and 4.5:1 for large text. These ratios are calculated using the relative luminance of the foreground and background colors. Meeting these thresholds ensures that text remains legible for users with low vision and certain types of color vision deficiency."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I make my designs accessible for color blind users?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Start by never relying solely on color to convey information. Use additional visual cues such as icons, patterns, text labels, or different shapes alongside color differences. Ensure sufficient contrast between foreground and background elements by meeting WCAG AA or AAA ratio thresholds. Test your color palette with a simulator like this tool to verify that your chosen colors remain distinguishable across all common types of color vision deficiency. Use color blind-friendly palettes that avoid problematic red-green combinations, and consider using blue and orange as contrasting colors since they remain distinct for most people with color vision deficiency."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is Achromatopsia and how rare is it?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Achromatopsia is complete color blindness, also known as total color vision deficiency or rod monochromacy. People with Achromatopsia have no functioning cone photoreceptors and see the world entirely in shades of gray. It is extremely rare, affecting approximately 1 in 30,000 to 50,000 people worldwide. In addition to the absence of color perception, Achromatopsia is often accompanied by extreme light sensitivity, reduced visual acuity, and involuntary eye movements called nystagmus. Achromatomaly is a milder form where some cone function remains, resulting in severely reduced but not completely absent color vision."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#design">Design Tools</a>
+        <span>/</span>
+        <span>Color Blindness Simulator</span>
+      </nav>
+
+      <h1>Color Blindness Simulator</h1>
+      <p class="text-muted mt-1 mb-3">Simulate how any color appears to people with different types of color vision deficiency. Enter a hex color code or use the color picker to test Protanopia, Deuteranopia, Tritanopia, Protanomaly, Deuteranomaly, Tritanomaly, Achromatopsia, and Achromatomaly. Includes a WCAG contrast ratio checker for accessibility testing. All calculations run entirely in your browser.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <!-- Color Input -->
+        <div class="cb-input-row">
+          <input type="color" id="colorPicker" value="#a855f7" aria-label="Color picker">
+          <div class="cb-hex-wrap">
+            <span class="hash">#</span>
+            <input type="text" id="hexInput" class="input-field cb-hex-input" value="A855F7" maxlength="6" placeholder="A855F7" spellcheck="false" aria-label="Hex color code">
+          </div>
+          <button class="btn-primary" id="simulateBtn">Simulate</button>
+          <button class="btn-secondary" id="randomBtn">Random Color</button>
+        </div>
+
+        <!-- Original Color Preview -->
+        <div class="cb-original">
+          <div class="cb-original-swatch" id="originalSwatch" style="background:#a855f7"></div>
+          <div class="cb-original-info">
+            <div>Original Color</div>
+            <div>HEX: <span id="originalHex">#A855F7</span></div>
+            <div>RGB: <span id="originalRgb">rgb(168, 85, 247)</span></div>
+          </div>
+        </div>
+
+        <!-- Simulation Grid -->
+        <div class="cb-grid" id="simGrid"></div>
+      </div>
+
+      <!-- WCAG Contrast Checker -->
+      <div class="tool-card cb-contrast-section">
+        <h2 style="margin-bottom:var(--sp-3)">WCAG Contrast Checker</h2>
+        <div class="cb-contrast-row">
+          <label>Text Color</label>
+          <input type="color" id="fgPicker" value="#a855f7" aria-label="Text color picker">
+          <input type="text" id="fgHex" class="input-field cb-contrast-hex" value="A855F7" maxlength="6" spellcheck="false" aria-label="Text hex code">
+        </div>
+        <div class="cb-contrast-row">
+          <label>Background</label>
+          <input type="color" id="bgPicker" value="#1a1a2e" aria-label="Background color picker">
+          <input type="text" id="bgHex" class="input-field cb-contrast-hex" value="1A1A2E" maxlength="6" spellcheck="false" aria-label="Background hex code">
+        </div>
+        <button class="btn-primary" id="checkContrastBtn" style="margin-bottom:var(--sp-3)">Check Contrast</button>
+
+        <!-- Preview -->
+        <div class="cb-contrast-preview">
+          <div class="cb-preview-box" id="contrastPreviewNormal">
+            Normal Text (16px)
+            <small>The quick brown fox jumps over the lazy dog.</small>
+          </div>
+          <div class="cb-preview-box" id="contrastPreviewLarge" style="font-size:1.5rem">
+            Large Text (24px)
+            <small style="font-size:1rem">The quick brown fox jumps over the lazy dog.</small>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div class="cb-contrast-results" id="contrastResults"></div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Eight Color Vision Deficiency Types</h3>
+            <p>This simulator covers all major categories of color vision deficiency in a single tool. It includes the three complete forms of color blindness: Protanopia (no red cones), Deuteranopia (no green cones), and Tritanopia (no blue cones). It also simulates the three partial anomalous trichromacy conditions: Protanomaly, Deuteranomaly, and Tritanomaly, where the affected cones are present but have shifted sensitivity. Finally, it covers Achromatopsia (complete absence of color vision) and Achromatomaly (severely reduced color perception). Each simulation uses color transformation matrices derived from published vision research to produce accurate results that reflect how a person with each condition would perceive the input color.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Built-in WCAG Contrast Checker</h3>
+            <p>The integrated contrast checker lets you test any text and background color combination against the Web Content Accessibility Guidelines. It calculates the precise contrast ratio and evaluates it against four WCAG thresholds: AA Normal Text (4.5:1), AA Large Text (3:1), AAA Normal Text (7:1), and AAA Large Text (4.5:1). A live preview shows your text color rendered on your background color at both normal and large sizes so you can visually verify readability before committing to a color pair. This eliminates the need for a separate contrast testing tool and keeps all your accessibility checks in one place during the design process.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Click-to-Copy Color Values</h3>
+            <p>Every simulated color card displays the transformed hex code and RGB values. Click any card to instantly copy the hex code to your clipboard, confirmed by a brief visual indicator. This is useful when you need to see exactly what hex value a color blind person would perceive and use that value elsewhere in your design tools or documentation. Combined with the random color generator and real-time simulation, you can rapidly audit entire color palettes for accessibility issues without switching between multiple tools or performing manual calculations.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Accurate Color Science</h3>
+            <p>The simulation engine converts input colors from the standard sRGB color space to linear RGB before applying the transformation matrices. This linearization step is essential for accurate results because sRGB values use a gamma curve that distorts mathematical operations. After applying the color vision deficiency matrix, the result is converted back to sRGB with proper gamma encoding. The transformation matrices used in this tool are simplified implementations based on the research of Brettel, Vienot, and Mollon, which are the standard reference algorithms used in accessibility testing tools and academic literature on color vision simulation.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Color Blindness Simulator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Enter a color.</strong> Type a six-character hex code into the input field or use the native color picker to select a color visually. You can also click the Random Color button to generate a random hex value for quick exploration. The original color and its hex and RGB values appear in the preview area above the simulation grid.</li>
+          <li><strong>View the simulations.</strong> Click the Simulate button or simply change the color input to see how your color appears across all eight types of color vision deficiency. Each card in the grid shows the simulated color swatch, the condition name and type, and the resulting hex and RGB values. Compare the simulated swatches against the original to identify which conditions cause the most significant color shifts.</li>
+          <li><strong>Copy simulated values.</strong> Click any simulation card to copy its hex code to your clipboard. A brief confirmation overlay appears on the swatch. Use these values to document how your brand colors or UI palette appear to users with different types of color blindness.</li>
+          <li><strong>Check contrast ratios.</strong> Scroll to the WCAG Contrast Checker section. Enter your text color and background color using hex codes or the color pickers, then click Check Contrast. The tool displays the exact contrast ratio and shows pass or fail badges for WCAG AA and AAA at both normal and large text sizes. Use this to verify your color pairs meet accessibility requirements.</li>
+        </ol>
+      </section>
+
+      <!-- Educational Content -->
+      <section class="mt-4">
+        <h2>Understanding Color Blindness and Accessible Design</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">Color vision deficiency encompasses a range of conditions where the eye's cone photoreceptors do not function normally. The human retina contains three types of cone cells, each sensitive to a different range of wavelengths: L-cones (long wavelength, peaking near red), M-cones (medium wavelength, peaking near green), and S-cones (short wavelength, peaking near blue). When one type of cone is absent or has shifted sensitivity, the brain receives an incomplete signal and cannot distinguish certain colors that appear different to people with typical trichromatic vision. The most common forms involve the L-cones and M-cones, leading to red-green confusion, while S-cone deficiencies cause blue-yellow confusion.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">For designers and developers, understanding these conditions is not optional. Approximately one in twelve men and one in two hundred women have some form of color vision deficiency. That means any website or application with a meaningful user base will have visitors who perceive colors differently than the designer intended. If a dashboard uses red and green to indicate failure and success without any secondary indicator, a significant percentage of users will be unable to distinguish between the two states. Similarly, if a navigation element relies on a subtle color change for its hover state, that change may be invisible to users with certain conditions. These are not edge cases but routine accessibility failures that affect millions of people worldwide.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">The principle of inclusive design requires that color should never be the sole means of conveying information. Pair color with text labels, icons, patterns, or shape differences so that the information remains accessible regardless of how the user perceives color. Status indicators should combine color with icons such as checkmarks and crosses. Charts and graphs should use patterns or direct labels in addition to color coding. Form validation errors should include descriptive text alongside the red highlight. These practices benefit not only users with color vision deficiency but also users in challenging lighting conditions, those using monochrome displays, and anyone who prints a web page in grayscale.</p>
+        <p style="color:var(--text-muted);line-height:1.8">The WCAG contrast ratio is a complementary metric that measures the luminance difference between two colors. Even if two colors are distinguishable in hue, they may fail to provide adequate contrast if their lightness values are too similar. The contrast ratio formula uses relative luminance, which accounts for the human eye's greater sensitivity to green light compared to red and blue. A ratio of 1:1 indicates no contrast (identical colors), while 21:1 is the maximum (black on white). Meeting the WCAG AA threshold of 4.5:1 for normal text ensures readability for the majority of users, including those with moderate low vision. The stricter AAA threshold of 7:1 provides an additional safety margin for users with more significant visual impairments.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is color blindness and how common is it?</summary>
+          <p>Color blindness, or color vision deficiency, is a condition where a person cannot perceive certain colors or cannot distinguish between colors that appear different to people with typical vision. It affects roughly 8 percent of men and 0.5 percent of women of Northern European descent, though the prevalence varies across different populations and ethnic groups. The most common forms are red-green deficiencies, which include Protanopia, Deuteranopia, Protanomaly, and Deuteranomaly. Blue-yellow deficiency (Tritanopia and Tritanomaly) and total color blindness (Achromatopsia) are significantly rarer. Most cases are inherited through a gene on the X chromosome, which explains why men are affected far more frequently than women. Acquired color vision deficiency can also develop later in life due to aging, certain medications, or eye and neurological conditions.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between Protanopia and Deuteranopia?</summary>
+          <p>Protanopia and Deuteranopia are both forms of dichromacy that cause red-green color confusion, but they result from the loss of different photoreceptor types. Protanopia occurs when the L-cones (red-sensitive) are completely absent, causing the entire red end of the spectrum to appear dark and reducing the visible spectrum at the long-wavelength end. Deuteranopia occurs when the M-cones (green-sensitive) are absent. While both conditions make it difficult to distinguish reds from greens, Protanopia tends to make reds appear darker and more muted because the missing L-cones would normally respond to longer wavelengths. Deuteranopia shifts mid-spectrum colors but does not darken the red end as dramatically. In everyday life, both types cause similar challenges, such as confusing traffic light colors, difficulty reading color-coded information, and inability to see certain color contrasts in digital interfaces.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How does a color blindness simulator work?</summary>
+          <p>A color blindness simulator transforms input colors using mathematical matrices that model the effect of missing or altered cone photoreceptors. The process begins by converting the sRGB color value to linear RGB space using an inverse gamma function, because color operations must be performed on linear values to produce physically accurate results. Next, the simulator applies a 3x3 color transformation matrix specific to each type of color vision deficiency. These matrices are derived from the Brettel, Vienot, and Mollon research, which characterized how the human visual system processes color signals when one or more cone types are absent or abnormal. After the matrix multiplication, the resulting linear RGB values are converted back to sRGB with gamma encoding. The anomalous trichromacy types (Protanomaly, Deuteranomaly, Tritanomaly) use a blend between the normal and dichromatic matrices, reflecting the partial rather than complete loss of cone function.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is Tritanopia and how does it differ from red-green color blindness?</summary>
+          <p>Tritanopia is a blue-yellow color vision deficiency caused by the complete absence of S-cones (short-wavelength or blue-sensitive photoreceptors). Unlike Protanopia and Deuteranopia, which affect the ability to distinguish between red and green hues, Tritanopia impairs the ability to distinguish between blue and yellow, and between blue and green. People with Tritanopia typically perceive the world in shades of pink and teal. It is extremely rare, affecting fewer than 1 in 10,000 people. Another important distinction is that Tritanopia is not sex-linked; the gene responsible is on chromosome 7 rather than the X chromosome, so it occurs at roughly equal rates in men and women. Designers should be aware of Tritanopia when using blue-based color schemes or blue-yellow contrasts, as these combinations may be indistinguishable to affected users.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What are the WCAG contrast ratio requirements for accessibility?</summary>
+          <p>The Web Content Accessibility Guidelines (WCAG) specify minimum contrast ratios between text and its background to ensure readability. WCAG 2.1 Level AA requires a contrast ratio of at least 4.5:1 for normal text (below 18 point or below 14 point bold) and 3:1 for large text (18 point and above, or 14 point bold and above). Level AAA raises the bar to 7:1 for normal text and 4.5:1 for large text. The contrast ratio is calculated from the relative luminance of the two colors using the formula (L1 + 0.05) / (L2 + 0.05), where L1 is the lighter color's luminance and L2 is the darker. These requirements apply to both body text and user interface components like buttons and form labels. Non-text elements such as icons and graphical objects require a minimum 3:1 contrast against adjacent colors under WCAG 2.1 Success Criterion 1.4.11.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How can I make my designs accessible for color blind users?</summary>
+          <p>The most important principle is to never use color as the only means of conveying information. Pair color indicators with text labels, icons, patterns, or shape differences so that meaning is preserved for users who cannot perceive the color difference. For example, use a checkmark icon with green for success and a cross icon with red for errors, rather than relying on color alone. Choose a color palette that maintains distinguishability across common types of color vision deficiency by testing it with a simulator. Blue and orange are generally safe contrasting colors because they remain distinct for most forms of color blindness. Ensure all text meets WCAG contrast ratio requirements against its background. Use underlines or other non-color indicators for hyperlinks. In charts and data visualizations, add direct labels or use textures and patterns in addition to color coding.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is Achromatopsia and how rare is it?</summary>
+          <p>Achromatopsia, also known as rod monochromacy or total color blindness, is a condition in which none of the cone photoreceptors function. People with Achromatopsia perceive the world entirely in shades of gray and have no color vision at all. It is extremely rare, estimated to affect between 1 in 30,000 and 1 in 50,000 people worldwide, though it is more prevalent in certain isolated populations such as the island of Pingelap in Micronesia. In addition to the complete loss of color perception, Achromatopsia typically causes extreme sensitivity to light (photophobia), significantly reduced visual acuity (often 20/200 or worse), and involuntary rhythmic eye movements called nystagmus. Achromatomaly is a milder variant where some residual cone function exists, allowing for severely limited but not entirely absent color discrimination.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/hex-rgb">Hex to RGB Converter</a>
+          <a href="https://toolrip.com/color-palette">Color Palette Generator</a>
+          <a href="https://toolrip.com/gradient">CSS Gradient Generator</a>
+          <a href="https://toolrip.com/box-shadow">CSS Box Shadow Generator</a>
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+  (function(){
+    'use strict';
+
+    /* ========== sRGB <-> Linear RGB ========== */
+    function srgbToLinear(c){
+      c /= 255;
+      return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+    }
+    function linearToSrgb(c){
+      c = Math.max(0, Math.min(1, c));
+      return c <= 0.0031308 ? c * 12.92 : 1.055 * Math.pow(c, 1 / 2.4) - 0.055;
+    }
+
+    /* ========== Color Parsing Helpers ========== */
+    function hexToRgb(hex){
+      hex = hex.replace(/^#/, '');
+      if(hex.length === 3) hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+      var n = parseInt(hex, 16);
+      return [n >> 16 & 255, n >> 8 & 255, n & 255];
+    }
+    function rgbToHex(r, g, b){
+      return '#' + [r, g, b].map(function(v){
+        var h = Math.round(Math.max(0, Math.min(255, v))).toString(16);
+        return h.length < 2 ? '0' + h : h;
+      }).join('').toUpperCase();
+    }
+
+    /* ========== Color Vision Deficiency Matrices ========== */
+    /* Based on Brettel/Vienot simplified transformation matrices */
+    var CVD_MATRICES = {
+      protanopia:    [0.152286, 1.052583, -0.204868, 0.114503, 0.786281, 0.099216, -0.003882, -0.048116, 1.051998],
+      deuteranopia:  [0.367322, 0.860646, -0.227968, 0.280085, 0.672501, 0.047413, -0.011820, 0.042940, 0.968881],
+      tritanopia:    [1.255528, -0.076749, -0.178779, -0.078411, 0.930809, 0.147602, 0.004733, 0.691367, 0.303900],
+      achromatopsia: [0.212656, 0.715158, 0.072186, 0.212656, 0.715158, 0.072186, 0.212656, 0.715158, 0.072186]
+    };
+
+    /* Anomalous trichromacy = blend of normal + dichromat (severity ~0.6) */
+    var IDENTITY = [1,0,0, 0,1,0, 0,0,1];
+    var ANOMALY_SEVERITY = 0.6;
+
+    function blendMatrix(normal, dichromat, t){
+      return normal.map(function(v, i){ return v * (1 - t) + dichromat[i] * t; });
+    }
+
+    var ALL_TYPES = [
+      { id: 'protanopia',    name: 'Protanopia',    type: 'Red-Blind (No L-cones)',    matrix: CVD_MATRICES.protanopia },
+      { id: 'deuteranopia',  name: 'Deuteranopia',  type: 'Green-Blind (No M-cones)',  matrix: CVD_MATRICES.deuteranopia },
+      { id: 'tritanopia',    name: 'Tritanopia',    type: 'Blue-Blind (No S-cones)',   matrix: CVD_MATRICES.tritanopia },
+      { id: 'protanomaly',   name: 'Protanomaly',   type: 'Red-Weak (Anomalous L)',    matrix: blendMatrix(IDENTITY, CVD_MATRICES.protanopia, ANOMALY_SEVERITY) },
+      { id: 'deuteranomaly', name: 'Deuteranomaly', type: 'Green-Weak (Anomalous M)',  matrix: blendMatrix(IDENTITY, CVD_MATRICES.deuteranopia, ANOMALY_SEVERITY) },
+      { id: 'tritanomaly',   name: 'Tritanomaly',   type: 'Blue-Weak (Anomalous S)',   matrix: blendMatrix(IDENTITY, CVD_MATRICES.tritanopia, ANOMALY_SEVERITY) },
+      { id: 'achromatopsia', name: 'Achromatopsia', type: 'Total Color Blindness',     matrix: CVD_MATRICES.achromatopsia },
+      { id: 'achromatomaly', name: 'Achromatomaly',  type: 'Reduced Color Vision',      matrix: blendMatrix(IDENTITY, CVD_MATRICES.achromatopsia, ANOMALY_SEVERITY) }
+    ];
+
+    /* ========== Simulate CVD ========== */
+    function simulateCVD(rgb, matrix){
+      var lr = srgbToLinear(rgb[0]);
+      var lg = srgbToLinear(rgb[1]);
+      var lb = srgbToLinear(rgb[2]);
+      var r = matrix[0]*lr + matrix[1]*lg + matrix[2]*lb;
+      var g = matrix[3]*lr + matrix[4]*lg + matrix[5]*lb;
+      var b = matrix[6]*lr + matrix[7]*lg + matrix[8]*lb;
+      return [
+        Math.round(linearToSrgb(r) * 255),
+        Math.round(linearToSrgb(g) * 255),
+        Math.round(linearToSrgb(b) * 255)
+      ];
+    }
+
+    /* ========== WCAG Contrast ========== */
+    function relativeLuminance(rgb){
+      var r = srgbToLinear(rgb[0]);
+      var g = srgbToLinear(rgb[1]);
+      var b = srgbToLinear(rgb[2]);
+      return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    }
+    function contrastRatio(rgb1, rgb2){
+      var l1 = relativeLuminance(rgb1);
+      var l2 = relativeLuminance(rgb2);
+      var lighter = Math.max(l1, l2);
+      var darker = Math.min(l1, l2);
+      return (lighter + 0.05) / (darker + 0.05);
+    }
+
+    /* ========== DOM References ========== */
+    var colorPicker = document.getElementById('colorPicker');
+    var hexInput = document.getElementById('hexInput');
+    var simulateBtn = document.getElementById('simulateBtn');
+    var randomBtn = document.getElementById('randomBtn');
+    var originalSwatch = document.getElementById('originalSwatch');
+    var originalHex = document.getElementById('originalHex');
+    var originalRgb = document.getElementById('originalRgb');
+    var simGrid = document.getElementById('simGrid');
+
+    var fgPicker = document.getElementById('fgPicker');
+    var fgHex = document.getElementById('fgHex');
+    var bgPicker = document.getElementById('bgPicker');
+    var bgHex = document.getElementById('bgHex');
+    var checkContrastBtn = document.getElementById('checkContrastBtn');
+    var contrastResults = document.getElementById('contrastResults');
+    var contrastPreviewNormal = document.getElementById('contrastPreviewNormal');
+    var contrastPreviewLarge = document.getElementById('contrastPreviewLarge');
+
+    /* ========== Simulation Rendering ========== */
+    function isValidHex(h){
+      return /^[0-9A-Fa-f]{6}$/.test(h);
+    }
+
+    function runSimulation(){
+      var hex = hexInput.value.trim().replace(/^#/, '');
+      if(!isValidHex(hex)) return;
+
+      var rgb = hexToRgb(hex);
+      var hexFull = '#' + hex.toUpperCase();
+
+      /* Update original preview */
+      originalSwatch.style.background = hexFull;
+      originalHex.textContent = hexFull;
+      originalRgb.textContent = 'rgb(' + rgb[0] + ', ' + rgb[1] + ', ' + rgb[2] + ')';
+      colorPicker.value = hexFull;
+
+      /* Build grid */
+      simGrid.innerHTML = '';
+      ALL_TYPES.forEach(function(cvd){
+        var simRgb = simulateCVD(rgb, cvd.matrix);
+        var simHex = rgbToHex(simRgb[0], simRgb[1], simRgb[2]);
+
+        var card = document.createElement('div');
+        card.className = 'cb-card';
+        card.setAttribute('title', 'Click to copy ' + simHex);
+        card.innerHTML =
+          '<div class="cb-card-swatch" style="background:' + simHex + '">' +
+            '<div class="copied-label">Copied!</div>' +
+          '</div>' +
+          '<div class="cb-card-body">' +
+            '<div class="cb-card-title">' + cvd.name + '</div>' +
+            '<div class="cb-card-type">' + cvd.type + '</div>' +
+            '<div class="cb-card-values">' +
+              'HEX: ' + simHex + '<br>' +
+              'RGB: rgb(' + simRgb[0] + ', ' + simRgb[1] + ', ' + simRgb[2] + ')' +
+            '</div>' +
+          '</div>';
+
+        card.addEventListener('click', function(){
+          if(typeof copyToClipboard === 'function'){
+            copyToClipboard(simHex);
+          } else {
+            navigator.clipboard.writeText(simHex).catch(function(){});
+          }
+          var label = card.querySelector('.copied-label');
+          label.classList.add('show');
+          setTimeout(function(){ label.classList.remove('show'); }, 800);
+        });
+
+        simGrid.appendChild(card);
+      });
+    }
+
+    /* ========== Contrast Checker ========== */
+    function runContrastCheck(){
+      var fgVal = fgHex.value.trim().replace(/^#/, '');
+      var bgVal = bgHex.value.trim().replace(/^#/, '');
+      if(!isValidHex(fgVal) || !isValidHex(bgVal)) return;
+
+      var fgRgb = hexToRgb(fgVal);
+      var bgRgb = hexToRgb(bgVal);
+      var ratio = contrastRatio(fgRgb, bgRgb);
+      var ratioStr = ratio.toFixed(2) + ':1';
+
+      var fgColor = '#' + fgVal.toUpperCase();
+      var bgColor = '#' + bgVal.toUpperCase();
+
+      fgPicker.value = fgColor;
+      bgPicker.value = bgColor;
+
+      /* Update preview */
+      contrastPreviewNormal.style.color = fgColor;
+      contrastPreviewNormal.style.background = bgColor;
+      contrastPreviewLarge.style.color = fgColor;
+      contrastPreviewLarge.style.background = bgColor;
+
+      /* Thresholds */
+      var checks = [
+        { label: 'AA Normal Text', threshold: 4.5 },
+        { label: 'AA Large Text',  threshold: 3 },
+        { label: 'AAA Normal Text', threshold: 7 },
+        { label: 'AAA Large Text',  threshold: 4.5 }
+      ];
+
+      contrastResults.innerHTML = '';
+
+      /* Ratio display */
+      var ratioCard = document.createElement('div');
+      ratioCard.className = 'cb-ratio-card';
+      ratioCard.innerHTML =
+        '<div class="cb-ratio-value">' + ratioStr + '</div>' +
+        '<div class="cb-ratio-label">Contrast Ratio</div>';
+      contrastResults.appendChild(ratioCard);
+
+      checks.forEach(function(c){
+        var pass = ratio >= c.threshold;
+        var card = document.createElement('div');
+        card.className = 'cb-ratio-card';
+        card.innerHTML =
+          '<div class="cb-ratio-value">' + c.threshold + ':1</div>' +
+          '<div class="cb-ratio-label">' + c.label + '</div>' +
+          '<span class="cb-badge ' + (pass ? 'pass' : 'fail') + '">' + (pass ? 'PASS' : 'FAIL') + '</span>';
+        contrastResults.appendChild(card);
+      });
+    }
+
+    /* ========== Event Listeners ========== */
+    colorPicker.addEventListener('input', function(){
+      hexInput.value = colorPicker.value.replace('#', '').toUpperCase();
+      runSimulation();
+    });
+
+    hexInput.addEventListener('input', function(){
+      var v = hexInput.value.replace(/[^0-9A-Fa-f]/g, '').slice(0, 6);
+      hexInput.value = v.toUpperCase();
+      if(v.length === 6) runSimulation();
+    });
+
+    simulateBtn.addEventListener('click', runSimulation);
+
+    randomBtn.addEventListener('click', function(){
+      var r = Math.floor(Math.random() * 256);
+      var g = Math.floor(Math.random() * 256);
+      var b = Math.floor(Math.random() * 256);
+      var hex = rgbToHex(r, g, b).replace('#', '');
+      hexInput.value = hex;
+      colorPicker.value = '#' + hex;
+      runSimulation();
+    });
+
+    /* Contrast picker sync */
+    fgPicker.addEventListener('input', function(){
+      fgHex.value = fgPicker.value.replace('#', '').toUpperCase();
+      runContrastCheck();
+    });
+    fgHex.addEventListener('input', function(){
+      var v = fgHex.value.replace(/[^0-9A-Fa-f]/g, '').slice(0, 6);
+      fgHex.value = v.toUpperCase();
+      if(v.length === 6){
+        fgPicker.value = '#' + v;
+        runContrastCheck();
+      }
+    });
+    bgPicker.addEventListener('input', function(){
+      bgHex.value = bgPicker.value.replace('#', '').toUpperCase();
+      runContrastCheck();
+    });
+    bgHex.addEventListener('input', function(){
+      var v = bgHex.value.replace(/[^0-9A-Fa-f]/g, '').slice(0, 6);
+      bgHex.value = v.toUpperCase();
+      if(v.length === 6){
+        bgPicker.value = '#' + v;
+        runContrastCheck();
+      }
+    });
+    checkContrastBtn.addEventListener('click', runContrastCheck);
+
+    /* ========== Init ========== */
+    runSimulation();
+    runContrastCheck();
+
+  })();
+  </script>
+</body>
+</html>

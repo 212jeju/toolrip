@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Minifier Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Minify and beautify CSS online for free. Remove comments, whitespace, and optimize your stylesheets instantly. No signup required — 100% client-side.">
+  <link rel="canonical" href="https://toolrip.com/css-minify">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="CSS Minifier &amp; Beautifier — Toolrip">
+  <meta property="og:description" content="Minify and beautify CSS online for free. Remove comments, whitespace, and optimize your stylesheets instantly. No signup required — 100% client-side.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/css-minify">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="CSS Minifier &amp; Beautifier — Toolrip">
+  <meta name="twitter:description" content="Minify and beautify CSS online for free. Remove comments, whitespace, and optimize your stylesheets instantly. No signup required — 100% client-side.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root{--accent:var(--developer)}
+
+    /* Tool-specific styles */
+    .tool-grid{display:grid;grid-template-columns:1fr;gap:var(--sp-3)}
+    @media(min-width:768px){.tool-grid{grid-template-columns:1fr 1fr}}
+
+    .toolbar{display:flex;flex-wrap:wrap;gap:var(--sp-2);align-items:center;margin-bottom:var(--sp-3)}
+
+    .css-input{width:100%;min-height:320px;resize:vertical;background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);color:var(--text);font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.875rem;padding:var(--sp-3);line-height:1.6;tab-size:2}
+    .css-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent)}
+
+    .output-panel{position:relative;width:100%;min-height:320px;background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);padding:var(--sp-3);overflow:auto;font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.875rem;line-height:1.6;white-space:pre-wrap;word-break:break-word}
+
+    .stats-bar{display:flex;flex-wrap:wrap;gap:var(--sp-3);padding:var(--sp-2) var(--sp-3);background:var(--bg);
+      border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:var(--sp-3);font-size:.8125rem;color:var(--text-muted)}
+    .stats-bar .stat{display:flex;align-items:center;gap:var(--sp-1)}
+    .stats-bar .stat-value{color:var(--text);font-weight:600}
+    .stats-bar .stat-savings{color:var(--accent);font-weight:700}
+
+    .btn-sm{padding:var(--sp-1) var(--sp-2);font-size:.8125rem;border-radius:var(--radius-sm)}
+
+    .mode-label{font-size:.8125rem;color:var(--text-muted);display:flex;align-items:center;gap:var(--sp-1)}
+    .mode-label strong{color:var(--text)}
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "CSS Minifier & Beautifier",
+    "url": "https://toolrip.com/css-minify",
+    "description": "Minify and beautify CSS online for free. Remove comments, whitespace, and optimize your stylesheets instantly. No signup required — 100% client-side.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Developer Tools", "item": "https://toolrip.com/#developer" },
+      { "@type": "ListItem", "position": 3, "name": "CSS Minifier", "item": "https://toolrip.com/css-minify" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is CSS minification?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "CSS minification is the process of removing all unnecessary characters from CSS source code without changing its functionality. This includes stripping comments, extra whitespace, newlines, and redundant semicolons to produce the smallest possible file size for faster page loading."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is it safe to minify CSS?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, minifying CSS is completely safe. The process only removes characters that do not affect how browsers interpret your styles. Your selectors, properties, values, and media queries all remain identical. The minified output renders exactly the same as the original in every browser."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are CSS source maps?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "CSS source maps are files that map minified CSS back to the original source code. They allow browser developer tools to display the original, readable stylesheet when you inspect elements, even though the browser is loading the minified version. Source maps are typically generated by build tools like Webpack or PostCSS."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Should I use gzip compression or CSS minification?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You should use both. Minification removes unnecessary characters at the source level, while gzip compression reduces file size at the transfer level using algorithms like Deflate. Combined, they produce the smallest possible payload. Minification alone typically saves 10-30%, gzip alone saves 60-80%, and together they can save over 85%."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What specific optimizations does CSS minification perform?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "CSS minification removes block comments and inline comments, collapses multiple whitespace characters into single spaces, strips unnecessary newlines and tabs, removes spaces around colons, semicolons, braces, and commas, and eliminates the last semicolon before each closing brace since it is optional in CSS."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does minification break CSS specificity or the cascade?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Minification does not alter selectors, property order, or declaration blocks in any way that affects specificity or the cascade. The rule order remains exactly the same, so your styles will be applied identically by the browser. Only whitespace and comments are removed."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much file size reduction can I expect from minifying CSS?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Typical CSS minification reduces file size by 10-30%, depending on how the original code is formatted. Files with extensive comments, generous indentation, and many blank lines see the largest reductions. Already compact stylesheets see smaller gains. The savings are displayed in real time by this tool after each minification."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#developer">Developer Tools</a>
+        <span>/</span>
+        <span>CSS Minifier</span>
+      </nav>
+
+      <h1>CSS Minifier &amp; Beautifier Online</h1>
+      <p class="text-muted mt-1 mb-3">Paste your CSS to instantly minify or beautify it. See real-time size savings and copy the optimized output with one click. Completely free and runs entirely in your browser.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <!-- Toolbar -->
+        <div class="toolbar">
+          <button class="btn-primary btn-sm" id="btn-minify" onclick="handleMinify()">Minify</button>
+          <button class="btn-secondary btn-sm" id="btn-beautify" onclick="handleBeautify()">Beautify</button>
+          <button class="btn-secondary btn-sm" onclick="handleCopy()">Copy</button>
+          <button class="btn-secondary btn-sm" onclick="handleClear()">Clear</button>
+          <span class="mode-label" id="mode-label">Mode: <strong>Minify</strong></span>
+        </div>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar" id="stats-bar" style="display:none">
+          <div class="stat">Original: <span class="stat-value" id="stat-original">0 B</span></div>
+          <div class="stat">Output: <span class="stat-value" id="stat-output">0 B</span></div>
+          <div class="stat">Savings: <span class="stat-savings" id="stat-savings">0%</span></div>
+        </div>
+
+        <!-- Two-column layout -->
+        <div class="tool-grid">
+          <!-- Input -->
+          <div>
+            <textarea id="css-input" class="css-input" placeholder="Paste your CSS here..." spellcheck="false"></textarea>
+          </div>
+
+          <!-- Output -->
+          <div>
+            <div class="output-panel" id="css-output">
+              <button class="copy-btn" onclick="handleCopy()">Copy</button>
+              <span class="text-muted" style="font-size:.8125rem">Output will appear here...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(2,1fr)">
+          <div class="feature-card">
+            <h3>Instant CSS Minification</h3>
+            <p>Reduce the size of your CSS files in a single click. The minifier strips all block and inline comments, collapses multiple whitespace characters into the minimum needed by the parser, removes line breaks and tabs, and trims optional trailing semicolons before closing braces. The result is the most compact representation of your styles that still renders identically in every browser. This is the same fundamental technique used by production build tools, available here without any installation or configuration required.</p>
+          </div>
+          <div class="feature-card">
+            <h3>CSS Beautification</h3>
+            <p>Transform compressed, hard-to-read CSS into a neatly structured stylesheet with consistent two-space indentation, one declaration per line, and clearly separated rule blocks. Beautification is invaluable when you receive minified code from a production site and need to understand, debug, or modify it. The beautifier inserts line breaks after opening braces, after each semicolon, and before closing braces, so every selector and property is easy to locate and edit by hand.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Real-Time Size Statistics</h3>
+            <p>Every time you minify or beautify, the tool instantly calculates and displays the original file size, the output file size, and the percentage of bytes saved. This feedback loop helps you understand the impact of minification on your specific stylesheet. For developers optimizing performance budgets, these numbers make it easy to verify that your CSS is within target size limits before deploying to production servers.</p>
+          </div>
+          <div class="feature-card">
+            <h3>100% Client-Side Processing</h3>
+            <p>Your CSS never leaves your browser. All minification and beautification logic runs locally using pure JavaScript string operations. Nothing is uploaded to a server, stored in a database, or transmitted over the network. This means you can safely process proprietary stylesheets, internal design system tokens, and any other sensitive CSS without any privacy concerns. You can verify this by opening your browser developer tools and checking the network tab while using the tool.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the CSS Minifier</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Paste your CSS.</strong> Copy your stylesheet or a portion of it and paste it into the input area on the left side of the tool. The input field accepts CSS of any size, from a single rule to an entire framework stylesheet.</li>
+          <li><strong>Choose an action.</strong> Click <em>Minify</em> to compress the CSS by removing all unnecessary characters, or click <em>Beautify</em> to reformat it with clean indentation and line breaks. The active mode is displayed in the toolbar.</li>
+          <li><strong>Review the output and statistics.</strong> The processed CSS appears in the output panel on the right. Above the panels, the stats bar shows the original size, output size, and percentage saved so you can quantify the optimization at a glance.</li>
+          <li><strong>Copy the result.</strong> Click the <em>Copy</em> button in the toolbar or the small copy button inside the output panel to send the processed CSS to your clipboard. Paste it directly into your codebase, build pipeline, or wherever it is needed.</li>
+        </ol>
+      </section>
+
+      <!-- Content Section: Why CSS Minification Matters -->
+      <section class="mt-4">
+        <h2>Why CSS Minification Matters for Web Performance</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">CSS is a render-blocking resource. When a browser encounters a stylesheet link in your HTML, it must download and parse the entire file before it can paint any pixels on the screen. Every kilobyte in that file adds latency between the moment a user clicks a link and the moment they see meaningful content. On fast broadband connections the difference might be measured in milliseconds, but on mobile networks, high-latency satellite links, or congested public Wi-Fi, the penalty grows quickly. Minification directly targets this bottleneck by shrinking the number of bytes that must travel over the wire.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">The process is straightforward: comments intended for developers are stripped because browsers never read them, whitespace used for indentation and readability is collapsed to the minimum required by the CSS parser, and optional syntax like the final semicolon before a closing brace is removed. None of these changes affect how any browser interprets the stylesheet. Selectors retain their specificity, property values retain their precision, and the cascade order is preserved byte for byte.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">In a typical development workflow, CSS minification is one step in a larger optimization pipeline. Developers write readable, well-commented CSS during development, then run minification as part of the build step before deployment. Build tools like Webpack, Vite, Rollup, and Parcel all include CSS minification plugins. However, there are many situations where a quick online minifier is more practical: reviewing a vendor stylesheet you received via email, cleaning up a WordPress theme you are customizing, or compressing an inline style block that lives inside an HTML template. This tool fills that gap without requiring any local tooling or configuration.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">It is worth noting that minification and gzip compression serve complementary purposes. Minification operates at the source level, removing syntactic redundancy that the author added for readability. Gzip operates at the transfer level, using the Deflate algorithm to find and compress repetitive byte sequences. Because minified CSS contains fewer repeated whitespace patterns, gzip has less low-hanging fruit to compress, but the combined result is still significantly smaller than either technique alone. Industry benchmarks consistently show that serving minified and gzipped CSS together can reduce stylesheet transfer size by over eighty-five percent compared to the raw development version.</p>
+        <p style="color:var(--text-muted);line-height:1.7">For teams that care about Core Web Vitals, CSS minification contributes to better Largest Contentful Paint scores by reducing the time the browser spends downloading render-blocking resources. It also helps keep your total page weight within recommended budgets, which improves the experience for users on metered data plans. Combined with techniques like critical CSS extraction, tree-shaking unused rules, and HTTP caching, minification is one of the foundational practices that every performance-conscious web developer should adopt.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is CSS minification?</summary>
+          <p>CSS minification is the process of removing all unnecessary characters from a CSS file without changing its functionality. This includes stripping block comments (/* ... */), collapsing extra whitespace and newlines into single spaces, removing spaces around syntactic delimiters like colons, semicolons, and braces, and eliminating the optional trailing semicolon before each closing brace. The result is the smallest possible version of the stylesheet that browsers interpret identically to the original. Minification is a standard step in production deployment pipelines for virtually every modern website and web application.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is it safe to minify my CSS?</summary>
+          <p>Yes, minifying CSS is completely safe. The process only removes characters that have no effect on how browsers parse and apply your styles. Your selectors, property names, property values, media queries, keyframe definitions, and custom properties all remain exactly the same. The cascade order is preserved, specificity is unchanged, and every browser will render the minified stylesheet identically to the original. If you ever need to read or edit the code later, you can run it through a beautifier to restore readable formatting at any time.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What are CSS source maps and do I need them?</summary>
+          <p>CSS source maps are special files, typically with a .map extension, that create a mapping between the minified CSS your browser loads and the original source code you wrote. When source maps are available, browser developer tools display the original file names, line numbers, and readable code when you inspect an element, even though the actual stylesheet is minified. Source maps are generated by build tools like Webpack, PostCSS, and Sass during the compilation step. This online minifier does not generate source maps because it is designed for quick, one-off processing. For production builds where you need source map support, use a build tool integrated into your development workflow.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Should I use gzip compression instead of minification?</summary>
+          <p>You should use both together for the best results. Minification and gzip compression work at different levels and their effects are additive. Minification removes syntactic overhead at the source level — comments, whitespace, optional semicolons — reducing the raw character count of your CSS. Gzip compression operates at the transfer level, finding and encoding repetitive byte patterns using the Deflate algorithm. Because minification removes a lot of the easy-to-compress whitespace, the gzip step has to work harder on the remaining content, but the combined file size is still significantly smaller than applying either technique alone. Most web servers and CDNs enable gzip or Brotli compression by default, so minifying your CSS first gives you the maximum cumulative savings.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What specific things does CSS minification remove?</summary>
+          <p>This minifier performs the following optimizations: it removes all CSS block comments enclosed in /* and */, strips all newline and carriage return characters, collapses sequences of multiple spaces and tabs into single spaces, removes whitespace immediately before and after colons, semicolons, opening braces, closing braces, and commas, and deletes the last semicolon before each closing brace since CSS does not require it. These operations are performed using pure string manipulation and do not require a full CSS parser, which makes the tool extremely fast even on very large stylesheets.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does minification break CSS specificity or the cascade?</summary>
+          <p>No. CSS minification does not alter the order of rules, the structure of selectors, or the content of property values. Because the cascade depends on rule order and specificity depends on selector composition, neither is affected in any way. A minified stylesheet is semantically identical to the original — the only difference is the absence of human-readable formatting. If you ever suspect a visual change after minification, the cause is almost certainly unrelated (such as a caching issue or a difference in the file being served) rather than a minification defect.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How much file size reduction can I expect?</summary>
+          <p>The reduction depends entirely on the formatting style of the original CSS. Heavily commented, generously indented stylesheets with many blank lines can see reductions of 25 to 35 percent or more. Already compact CSS with minimal comments and tight formatting might only shrink by 5 to 10 percent. Framework stylesheets like Bootstrap or Tailwind, which include extensive documentation comments in their unminified versions, often see reductions at the higher end of the range. The stats bar displayed by this tool shows you the exact original size, output size, and percentage saved after each operation so you can measure the impact on your specific stylesheet.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+          <a href="https://toolrip.com/word-count">Word Counter</a>
+          <a href="https://toolrip.com/case">Case Converter</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+  (function() {
+    'use strict';
+
+    /* ========== State ========== */
+    var currentMode = 'minify';
+    var lastOutput = '';
+
+    /* ========== DOM References ========== */
+    var inputEl = document.getElementById('css-input');
+    var outputEl = document.getElementById('css-output');
+    var statsBar = document.getElementById('stats-bar');
+    var statOriginal = document.getElementById('stat-original');
+    var statOutput = document.getElementById('stat-output');
+    var statSavings = document.getElementById('stat-savings');
+    var modeLabel = document.getElementById('mode-label');
+
+    /* ========== Format Bytes ========== */
+    function formatBytes(bytes) {
+      if (bytes === 0) return '0 B';
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / 1048576).toFixed(2) + ' MB';
+    }
+
+    /* ========== Update Stats ========== */
+    function updateStats(original, output) {
+      var origSize = new Blob([original]).size;
+      var outSize = new Blob([output]).size;
+      var savings = origSize > 0 ? ((1 - outSize / origSize) * 100) : 0;
+
+      statOriginal.textContent = formatBytes(origSize);
+      statOutput.textContent = formatBytes(outSize);
+      statSavings.textContent = (savings >= 0 ? savings.toFixed(1) : '0.0') + '%';
+      statsBar.style.display = 'flex';
+    }
+
+    /* ========== CSS Minify ========== */
+    function minifyCSS(css) {
+      var result = css;
+
+      // Remove block comments /* ... */
+      result = result.replace(/\/\*[\s\S]*?\*\//g, '');
+
+      // Remove newlines and carriage returns
+      result = result.replace(/[\r\n]+/g, '');
+
+      // Collapse multiple spaces/tabs into single space
+      result = result.replace(/[\t ]+/g, ' ');
+
+      // Remove space before and after { } : ; ,
+      result = result.replace(/\s*\{\s*/g, '{');
+      result = result.replace(/\s*\}\s*/g, '}');
+      result = result.replace(/\s*:\s*/g, ':');
+      result = result.replace(/\s*;\s*/g, ';');
+      result = result.replace(/\s*,\s*/g, ',');
+
+      // Remove last semicolon before }
+      result = result.replace(/;}/g, '}');
+
+      // Trim leading/trailing whitespace
+      result = result.trim();
+
+      return result;
+    }
+
+    /* ========== CSS Beautify ========== */
+    function beautifyCSS(css) {
+      // First minify to normalize
+      var minified = minifyCSS(css);
+      var result = '';
+      var indent = 0;
+      var indentStr = '  ';
+      var i = 0;
+      var len = minified.length;
+      var inString = false;
+      var stringChar = '';
+
+      while (i < len) {
+        var ch = minified[i];
+
+        // Handle strings (preserve content inside quotes)
+        if (!inString && (ch === '"' || ch === "'")) {
+          inString = true;
+          stringChar = ch;
+          result += ch;
+          i++;
+          continue;
+        }
+
+        if (inString) {
+          result += ch;
+          if (ch === stringChar && minified[i - 1] !== '\\') {
+            inString = false;
+          }
+          i++;
+          continue;
+        }
+
+        if (ch === '{') {
+          // Add space before {, then newline and increase indent
+          result = result.trimEnd();
+          result += ' {\n';
+          indent++;
+          // Skip any whitespace after {
+          i++;
+          while (i < len && (minified[i] === ' ' || minified[i] === '\t')) i++;
+          continue;
+        }
+
+        if (ch === '}') {
+          indent = Math.max(0, indent - 1);
+          result = result.trimEnd();
+          result += '\n' + indentStr.repeat(indent) + '}\n';
+          // Add extra newline after closing brace at indent 0
+          if (indent === 0) {
+            result += '\n';
+          }
+          i++;
+          // Skip whitespace after }
+          while (i < len && (minified[i] === ' ' || minified[i] === '\t')) i++;
+          continue;
+        }
+
+        if (ch === ';') {
+          result += ';\n';
+          i++;
+          // Skip whitespace after ;
+          while (i < len && (minified[i] === ' ' || minified[i] === '\t')) i++;
+          // If next char is not }, add indent
+          if (i < len && minified[i] !== '}') {
+            result += indentStr.repeat(indent);
+          }
+          continue;
+        }
+
+        // Add indent at start of new content line if result ends with newline
+        if (result.length > 0 && result[result.length - 1] === '\n' && ch !== '}' && ch !== '\n') {
+          result += indentStr.repeat(indent);
+        }
+
+        // Add space after : for readability
+        if (ch === ':') {
+          result += ': ';
+          i++;
+          // Skip whitespace after :
+          while (i < len && minified[i] === ' ') i++;
+          continue;
+        }
+
+        // Add space after , for readability
+        if (ch === ',') {
+          result += ', ';
+          i++;
+          while (i < len && minified[i] === ' ') i++;
+          continue;
+        }
+
+        result += ch;
+        i++;
+      }
+
+      // Clean up: remove trailing blank lines
+      result = result.replace(/\n{3,}/g, '\n\n').trim();
+
+      return result;
+    }
+
+    /* ========== Escape HTML ========== */
+    function escapeHTML(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    /* ========== Handle Minify ========== */
+    window.handleMinify = function() {
+      var raw = inputEl.value;
+      if (!raw.trim()) {
+        showToast('Please enter some CSS to minify', 'error');
+        return;
+      }
+
+      currentMode = 'minify';
+      modeLabel.innerHTML = 'Mode: <strong>Minify</strong>';
+
+      var minified = minifyCSS(raw);
+      lastOutput = minified;
+
+      updateStats(raw, minified);
+
+      outputEl.innerHTML =
+        '<button class="copy-btn" onclick="handleCopy()">Copy</button>' +
+        '<code>' + escapeHTML(minified) + '</code>';
+
+      showToast('CSS minified successfully', 'success');
+    };
+
+    /* ========== Handle Beautify ========== */
+    window.handleBeautify = function() {
+      var raw = inputEl.value;
+      if (!raw.trim()) {
+        showToast('Please enter some CSS to beautify', 'error');
+        return;
+      }
+
+      currentMode = 'beautify';
+      modeLabel.innerHTML = 'Mode: <strong>Beautify</strong>';
+
+      var beautified = beautifyCSS(raw);
+      lastOutput = beautified;
+
+      updateStats(raw, beautified);
+
+      outputEl.innerHTML =
+        '<button class="copy-btn" onclick="handleCopy()">Copy</button>' +
+        '<code>' + escapeHTML(beautified) + '</code>';
+
+      showToast('CSS beautified successfully', 'success');
+    };
+
+    /* ========== Handle Copy ========== */
+    window.handleCopy = function() {
+      if (!lastOutput) {
+        showToast('Nothing to copy', 'error');
+        return;
+      }
+      copyToClipboard(lastOutput);
+      showToast('Copied to clipboard!', 'success');
+    };
+
+    /* ========== Handle Clear ========== */
+    window.handleClear = function() {
+      inputEl.value = '';
+      lastOutput = '';
+      statsBar.style.display = 'none';
+      modeLabel.innerHTML = 'Mode: <strong>Minify</strong>';
+      currentMode = 'minify';
+      outputEl.innerHTML =
+        '<button class="copy-btn" onclick="handleCopy()">Copy</button>' +
+        '<span class="text-muted" style="font-size:.8125rem">Output will appear here...</span>';
+      showToast('Cleared', 'info');
+    };
+
+    /* ========== Keyboard shortcut ========== */
+    inputEl.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        if (currentMode === 'beautify') {
+          handleBeautify();
+        } else {
+          handleMinify();
+        }
+      }
+    });
+  })();
+  </script>
+</body>
+</html>

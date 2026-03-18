@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Retirement Calculator Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Plan your retirement with our free calculator. See total savings, inflation-adjusted value, monthly income projections, and year-by-year growth. No signup required.">
+  <link rel="canonical" href="https://toolrip.com/retirement">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Retirement Calculator — Toolrip">
+  <meta property="og:description" content="Plan your retirement with our free calculator. See total savings, inflation-adjusted value, monthly income projections, and year-by-year growth.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/retirement">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Retirement Calculator — Toolrip">
+  <meta name="twitter:description" content="Plan your retirement with our free calculator. See total savings, inflation-adjusted value, monthly income projections, and year-by-year growth.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--finance)}</style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Retirement Calculator",
+    "url": "https://toolrip.com/retirement",
+    "description": "Plan your retirement with our free calculator. See total savings, inflation-adjusted value, monthly income projections, and year-by-year growth. No signup required.",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Finance Tools", "item": "https://toolrip.com/#finance" },
+      { "@type": "ListItem", "position": 3, "name": "Retirement Calculator", "item": "https://toolrip.com/retirement" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "When should I start saving for retirement?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The best time to start saving for retirement is as early as possible. Starting in your 20s gives your money decades of compound growth. Even small monthly contributions of $100 to $200 can grow into hundreds of thousands of dollars over a 30- to 40-year period thanks to compounding. If you start at age 25 versus age 35, the extra decade of growth can nearly double your final balance even with the same monthly contributions." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the 4% rule for retirement withdrawals?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The 4% rule is a widely cited guideline suggesting that retirees can withdraw 4% of their portfolio balance in the first year of retirement and adjust that amount for inflation each subsequent year with a high probability of not running out of money over a 30-year retirement. The rule was derived from historical stock and bond market data by financial planner William Bengen in 1994." }
+      },
+      {
+        "@type": "Question",
+        "name": "How does Social Security factor into retirement planning?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Social Security provides a baseline income stream in retirement, but it was never designed to be your sole source of income. The average Social Security benefit replaces roughly 40% of pre-retirement earnings for median earners. Financial planners recommend treating Social Security as a supplement and building enough personal savings to cover the remaining gap between your desired retirement income and your expected Social Security benefit." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between a 401(k) and an IRA?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A 401(k) is an employer-sponsored retirement plan with higher contribution limits, often including an employer match. An IRA (Individual Retirement Account) is opened independently with lower contribution limits but more investment options. Traditional versions of both offer tax-deferred growth, meaning you pay taxes when you withdraw in retirement. Roth versions use after-tax contributions but provide tax-free withdrawals in retirement." }
+      },
+      {
+        "@type": "Question",
+        "name": "How does inflation impact my retirement savings?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Inflation erodes the purchasing power of your money over time. At 3% average annual inflation, one million dollars today would have the purchasing power of roughly $412,000 in 30 years. This means your retirement savings need to grow faster than inflation to maintain your standard of living. This calculator shows both nominal and inflation-adjusted values so you can plan for the real purchasing power of your future savings." }
+      },
+      {
+        "@type": "Question",
+        "name": "How much do I need to save for retirement?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A common guideline is to aim for 25 times your expected annual expenses in retirement, which aligns with the 4% withdrawal rule. For example, if you expect to spend $50,000 per year in retirement, you would target $1.25 million in savings. However, the right amount depends on your lifestyle goals, expected Social Security benefits, pension income, healthcare costs, and how early you plan to retire." }
+      },
+      {
+        "@type": "Question",
+        "name": "What rate of return should I assume for retirement planning?",
+        "acceptedAnswer": { "@type": "Answer", "text": "For long-term retirement planning, many financial advisors suggest using 6% to 8% for a diversified stock-heavy portfolio based on historical stock market averages. A more conservative estimate of 5% to 6% accounts for fees and periods of lower returns. For inflation-adjusted (real) returns, subtract the expected inflation rate. Using 7% nominal with 3% inflation gives a 4% real return, which is a reasonable baseline for planning purposes." }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    /* Tool-specific styles */
+    .rc-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--sp-4);
+    }
+    @media (min-width: 640px) {
+      .rc-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    /* Result cards */
+    .result-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-4);
+      text-align: center;
+    }
+    .result-card.primary {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 5%, var(--bg));
+    }
+    .result-card.surplus {
+      border-color: var(--accent);
+    }
+    .result-card.shortfall {
+      border-color: #ef4444;
+    }
+    .result-label {
+      font-size: .8rem;
+      color: var(--text-muted);
+      margin-bottom: var(--sp-1);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .result-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .result-value.large {
+      font-size: 2.25rem;
+      color: var(--accent);
+    }
+    .result-value.surplus-val {
+      color: var(--accent);
+    }
+    .result-value.shortfall-val {
+      color: #ef4444;
+    }
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--sp-3);
+      margin-top: var(--sp-3);
+    }
+    @media (max-width: 639px) {
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* SVG Chart */
+    .chart-wrap {
+      margin-top: var(--sp-4);
+    }
+    .chart-svg {
+      width: 100%;
+      height: 300px;
+      display: block;
+    }
+    .chart-legend {
+      display: flex;
+      gap: var(--sp-4);
+      justify-content: center;
+      margin-top: var(--sp-2);
+      flex-wrap: wrap;
+    }
+    .chart-legend-item {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-1);
+      font-size: .8125rem;
+      color: var(--text-muted);
+    }
+    .chart-legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    /* Year-by-year table */
+    .yby-table-wrap {
+      overflow-x: auto;
+      margin-top: var(--sp-3);
+    }
+    .yby-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .8125rem;
+    }
+    .yby-table th {
+      text-align: left;
+      padding: var(--sp-2);
+      border-bottom: 2px solid var(--border);
+      font-size: .75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .03em;
+      white-space: nowrap;
+    }
+    .yby-table td {
+      padding: var(--sp-2);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .yby-table tr:hover td {
+      background: var(--bg-elevated);
+    }
+
+    /* Show-all button */
+    .show-all-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-1);
+      margin-top: var(--sp-3);
+      padding: var(--sp-2) var(--sp-3);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--accent);
+      font: inherit;
+      font-size: .875rem;
+      cursor: pointer;
+      transition: border-color .15s;
+    }
+    .show-all-btn:hover {
+      border-color: var(--accent);
+    }
+
+    /* Error styling */
+    .input-field.error {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
+    }
+    .error-msg {
+      color: #ef4444;
+      font-size: .75rem;
+      margin-top: 2px;
+      display: none;
+    }
+    .error-msg.visible {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="top">Ad</div>
+
+    <!-- Breadcrumb -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#finance">Finance</a>
+        <span>/</span>
+        <span>Retirement Calculator</span>
+      </nav>
+
+      <h1>Retirement Calculator</h1>
+      <p class="text-muted mt-1 mb-3">Estimate how much you need to save for a comfortable retirement. Enter your current age, savings, and contribution plan to see total projected savings, inflation-adjusted purchasing power, and sustainable monthly income during your retirement years.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <div class="rc-grid">
+
+          <!-- Left: Inputs -->
+          <div>
+            <div class="input-group">
+              <label for="currentAge">Current Age</label>
+              <input type="text" id="currentAge" class="input-field" placeholder="30" inputmode="numeric">
+              <span class="error-msg" id="currentAgeErr">Enter a valid age between 18 and 80.</span>
+            </div>
+
+            <div class="input-group">
+              <label for="retireAge">Retirement Age</label>
+              <input type="text" id="retireAge" class="input-field" placeholder="65" inputmode="numeric">
+              <span class="error-msg" id="retireAgeErr">Retirement age must be greater than current age.</span>
+            </div>
+
+            <div class="input-group">
+              <label for="currentSavings">Current Retirement Savings ($)</label>
+              <input type="text" id="currentSavings" class="input-field" placeholder="50,000" inputmode="decimal">
+              <span class="error-msg" id="currentSavingsErr">Enter a valid savings amount (0 or more).</span>
+            </div>
+
+            <div class="input-group">
+              <label for="monthlyContrib">Monthly Contribution ($)</label>
+              <input type="text" id="monthlyContrib" class="input-field" placeholder="500" inputmode="decimal">
+              <span class="error-msg" id="monthlyContribErr">Enter a valid monthly contribution (0 or more).</span>
+            </div>
+
+            <div class="input-group">
+              <label for="annualReturn">Expected Annual Return (%)</label>
+              <input type="text" id="annualReturn" class="input-field" placeholder="7" inputmode="decimal">
+              <span class="error-msg" id="annualReturnErr">Enter a valid return rate (0.1 - 30).</span>
+            </div>
+
+            <div class="input-group">
+              <label for="inflationRate">Expected Inflation Rate (%)</label>
+              <input type="text" id="inflationRate" class="input-field" placeholder="3" inputmode="decimal">
+              <span class="error-msg" id="inflationRateErr">Enter a valid inflation rate (0 - 15).</span>
+            </div>
+
+            <div class="flex gap-2 mt-2">
+              <button class="btn-primary" onclick="calculate()">Calculate</button>
+              <button class="btn-secondary" onclick="resetAll()">Clear</button>
+            </div>
+          </div>
+
+          <!-- Right: Results Summary -->
+          <div id="resultsPanel">
+            <div class="result-card primary">
+              <div class="result-label">Total Savings at Retirement</div>
+              <div class="result-value large" id="totalSavings">$0.00</div>
+            </div>
+
+            <div class="result-grid">
+              <div class="result-card">
+                <div class="result-label">Inflation-Adjusted Value</div>
+                <div class="result-value" id="inflationAdjusted">$0.00</div>
+              </div>
+              <div class="result-card">
+                <div class="result-label">Monthly Income (25-yr Drawdown)</div>
+                <div class="result-value" id="monthlyIncome">$0.00</div>
+              </div>
+              <div class="result-card">
+                <div class="result-label">Total Contributions</div>
+                <div class="result-value" id="totalContribs">$0.00</div>
+              </div>
+              <div class="result-card" id="surplusCard">
+                <div class="result-label" id="surplusLabel">Surplus / Shortfall</div>
+                <div class="result-value" id="surplusValue">$0.00</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Chart Card -->
+      <div class="tool-card" id="chartCard" style="display:none">
+        <h2 style="font-size:1.125rem;margin-bottom:var(--sp-2)">Savings Growth Projection</h2>
+        <div class="chart-wrap">
+          <svg class="chart-svg" id="growthChart" viewBox="0 0 800 300" preserveAspectRatio="xMidYMid meet"></svg>
+          <div class="chart-legend">
+            <div class="chart-legend-item">
+              <span class="chart-legend-dot" style="background:var(--accent)"></span>
+              Nominal Balance
+            </div>
+            <div class="chart-legend-item">
+              <span class="chart-legend-dot" style="background:#f59e0b"></span>
+              Inflation-Adjusted
+            </div>
+            <div class="chart-legend-item">
+              <span class="chart-legend-dot" style="background:#3b82f6"></span>
+              Total Contributions
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Year-by-Year Projection -->
+      <div class="tool-card" id="tableCard" style="display:none">
+        <h2 style="font-size:1.125rem;margin-bottom:var(--sp-2)">Year-by-Year Projection</h2>
+        <div class="yby-table-wrap">
+          <table class="yby-table">
+            <thead>
+              <tr>
+                <th>Age</th>
+                <th>Year</th>
+                <th>Contributions</th>
+                <th>Interest Earned</th>
+                <th>Nominal Balance</th>
+                <th>Inflation-Adjusted</th>
+              </tr>
+            </thead>
+            <tbody id="ybyBody"></tbody>
+          </table>
+        </div>
+        <button class="show-all-btn" id="showAllBtn" onclick="toggleShowAll()">Show All Years</button>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="in-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Inflation-Adjusted Projections</h3>
+            <p>See both the nominal future value of your retirement savings and the real purchasing power after accounting for inflation. Understanding the difference between nominal and inflation-adjusted values is critical for setting realistic retirement goals. A million dollars thirty years from now will not buy what it buys today, and this calculator helps you plan accordingly by showing the gap between raw numbers and actual spending power.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Monthly Retirement Income Estimate</h3>
+            <p>Find out exactly how much monthly income your nest egg can generate during a 25-year retirement drawdown period. The calculator uses a systematic withdrawal approach to determine sustainable income, helping you understand whether your savings trajectory will provide enough to cover living expenses, healthcare, travel, and leisure in your retirement years without running out of money.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Surplus and Shortfall Analysis</h3>
+            <p>Instantly see whether your current savings plan puts you on track or leaves a gap. The shortfall analysis compares your projected savings against a common retirement benchmark based on the 4% withdrawal rule, giving you a clear target to work toward. If there is a shortfall, you can experiment with higher contributions or a later retirement age to close the gap and build confidence in your financial future.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Interactive Growth Chart</h3>
+            <p>Visualize the trajectory of your retirement savings over every year leading up to retirement with a clean SVG chart. The chart displays three overlaid lines showing nominal balance, inflation-adjusted value, and cumulative contributions, making it easy to see how compound growth accelerates over time and how inflation gradually erodes your purchasing power if left unaccounted for.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Retirement Calculator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li>Enter your current age and the age at which you plan to retire. The years between these two numbers determine how long your savings have to grow through compound interest and regular contributions.</li>
+          <li>Input your current retirement savings balance and the amount you plan to contribute each month. Include contributions to all retirement accounts such as 401(k), IRA, and brokerage accounts combined.</li>
+          <li>Set your expected annual rate of return and the anticipated inflation rate. A common assumption is 7% return with 3% inflation for a diversified portfolio, but you can adjust these based on your investment strategy and risk tolerance.</li>
+          <li>Click Calculate to see your projected savings at retirement, inflation-adjusted purchasing power, estimated monthly income during a 25-year drawdown, and whether you face a surplus or shortfall relative to the 4% rule benchmark. Use the year-by-year table and growth chart to understand your savings trajectory at every stage.</li>
+        </ol>
+      </section>
+
+      <!-- Educational Content -->
+      <section class="mt-4">
+        <h2>Understanding Retirement Planning</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">Retirement planning is one of the most important financial decisions you will make in your lifetime. The goal is to accumulate enough wealth during your working years so that you can maintain a comfortable standard of living after you stop earning a regular income. The challenge is that retirement can last 20 to 30 years or more, and your savings need to withstand inflation, market volatility, healthcare costs, and unexpected expenses throughout that entire period.</p>
+
+        <h3 style="margin-bottom:var(--sp-2)">The Power of Starting Early</h3>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">Compound growth is the single most powerful force in retirement planning. When your investment returns earn their own returns, your wealth grows exponentially rather than linearly. The earlier you start, the more compounding cycles your money goes through. A person who begins investing $300 per month at age 25 with a 7% annual return will accumulate significantly more by age 65 than someone who starts the same contribution at age 35, even though the late starter contributes for only ten fewer years. Those extra ten years of compounding can account for hundreds of thousands of dollars in additional growth, which is why financial advisors universally emphasize starting as early as possible, even if you can only afford small amounts initially.</p>
+
+        <h3 style="margin-bottom:var(--sp-2)">The 4% Rule Explained</h3>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">The 4% rule is a foundational concept in retirement income planning. It states that if you withdraw 4% of your portfolio in the first year of retirement and adjust that withdrawal for inflation each year, your savings have a high probability of lasting at least 30 years based on historical market performance. For example, if you retire with one million dollars, you would withdraw $40,000 in your first year and increase that amount by the inflation rate each subsequent year. This rule provides a practical benchmark for determining how large your retirement portfolio needs to be. To find your target, multiply your desired annual retirement income by 25. If you want $60,000 per year, your savings target is $1,500,000. This calculator uses this framework in its shortfall analysis to help you understand whether your current savings trajectory is on track.</p>
+
+        <h3 style="margin-bottom:var(--sp-2)">Accounting for Inflation</h3>
+        <p style="color:var(--text-muted);line-height:1.8">Inflation is often called the silent threat to retirement savings. Even at a modest 3% annual rate, inflation cuts the purchasing power of a dollar in half roughly every 24 years. This means that if you plan to retire in 30 years, a dollar in your retirement account will buy only about 41 cents worth of goods and services in today's terms. This is why retirement projections must account for inflation to be meaningful. Nominal returns tell you the raw growth of your investments, but real (inflation-adjusted) returns tell you what that money can actually purchase. A portfolio returning 7% annually in a 3% inflation environment produces a real return of approximately 4%, which is the actual rate at which your purchasing power grows. This calculator shows both values side by side so you can plan based on real-world purchasing power rather than misleading nominal figures.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+
+        <details class="faq-item">
+          <summary>When should I start saving for retirement?</summary>
+          <p>The best time to start saving for retirement is as early as possible, ideally in your twenties when you begin earning a steady income. Starting early gives your money the maximum amount of time to benefit from compound growth, which is the most powerful driver of long-term wealth accumulation. Even modest contributions of a few hundred dollars per month can grow into substantial sums over three or four decades. For example, contributing $200 per month starting at age 25 with a 7% annual return would grow to over $525,000 by age 65. Starting the same contribution at age 35 would yield roughly $244,000, less than half as much, despite only missing ten years of contributions. The lesson is clear: time in the market matters far more than the size of your contributions. If you are past your twenties, the second best time to start is today. Every year of delay costs you potential compound growth that cannot be recovered later.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What is the 4% rule for retirement withdrawals?</summary>
+          <p>The 4% rule is a widely referenced retirement withdrawal guideline established by financial planner William Bengen in 1994 and supported by the Trinity Study. It suggests that retirees can withdraw 4% of their total portfolio value in the first year of retirement and then adjust that dollar amount for inflation each subsequent year, with a high probability of the portfolio lasting at least 30 years. The rule is based on historical analysis of stock and bond market returns in the United States. For example, with a $1 million portfolio, you would withdraw $40,000 in year one. If inflation is 3%, you would withdraw $41,200 in year two, $42,436 in year three, and so on. The 4% rule assumes a balanced portfolio of roughly 50-75% stocks and 25-50% bonds. While no rule guarantees future outcomes, the 4% guideline remains one of the most practical benchmarks for retirement income planning and is used by this calculator to assess whether your savings are on track.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>How does Social Security factor into retirement planning?</summary>
+          <p>Social Security provides a baseline income floor for American retirees, but it was never intended to be the sole source of retirement income. The average monthly Social Security retirement benefit replaces approximately 40% of pre-retirement earnings for median-income workers, meaning you need personal savings to fill the remaining 60% gap. Your actual benefit depends on your 35 highest-earning years and the age at which you begin collecting. Claiming at age 62 (the earliest eligibility) permanently reduces your benefit by up to 30% compared to waiting until your full retirement age of 66 or 67. Delaying until age 70 increases your benefit by roughly 8% per year beyond full retirement age. Financial planners recommend viewing Social Security as a supplement rather than a foundation. When using this retirement calculator, you can mentally subtract your expected Social Security income from your target monthly retirement income to determine how much your personal savings need to generate.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What is the difference between a 401(k) and an IRA?</summary>
+          <p>A 401(k) is an employer-sponsored retirement savings plan that allows you to contribute pre-tax dollars from your paycheck, reducing your current taxable income. Many employers offer a matching contribution, which is essentially free money. For 2024, the annual contribution limit for a 401(k) is $23,000 for workers under 50 and $30,500 for those 50 and older. An IRA (Individual Retirement Account) is a retirement account you open on your own through a brokerage, with lower contribution limits of $7,000 per year ($8,000 if 50 or older) but typically a wider range of investment options. Both account types come in traditional (tax-deferred) and Roth (after-tax) versions. With a traditional 401(k) or IRA, you pay taxes on withdrawals in retirement. With a Roth version, contributions are made with after-tax dollars, but all qualified withdrawals are completely tax-free. Many financial advisors recommend maximizing your 401(k) employer match first, then contributing to a Roth IRA, and then returning to additional 401(k) contributions if you have funds remaining.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>How does inflation impact my retirement savings?</summary>
+          <p>Inflation steadily erodes the purchasing power of your money over time, making it one of the most significant risks to retirement planning. At a 3% average annual inflation rate, the cost of goods and services roughly doubles every 24 years. This means that if you need $50,000 per year in today's dollars to live comfortably, you would need approximately $101,000 per year in 24 years to maintain the same lifestyle, and roughly $204,000 in 48 years. For retirement planning, the impact is twofold. First, your savings target needs to account for future prices, not current ones. Second, during retirement, your withdrawals need to increase each year to keep pace with rising costs. This is why financial planners recommend using an inflation-adjusted rate of return (your nominal return minus the inflation rate) when projecting retirement savings. This calculator handles inflation for you by showing both the nominal future value of your portfolio and the inflation-adjusted value in today's purchasing power, giving you a realistic picture of what your retirement savings will actually be worth.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>How much do I need to save for retirement?</summary>
+          <p>The amount you need depends on your desired lifestyle, expected expenses, other income sources like Social Security or pensions, and how long your retirement might last. A widely used benchmark is the 25x rule, derived from the 4% withdrawal guideline. Multiply your expected annual retirement expenses by 25 to get a savings target. If you anticipate spending $60,000 per year in retirement (in today's dollars), your target is $1.5 million. For $80,000 per year, the target rises to $2 million. Another approach is to aim for 10 to 12 times your final annual salary by retirement age. Fidelity Investments recommends having one times your salary saved by age 30, three times by 40, six times by 50, eight times by 60, and ten times by 67. These are rough benchmarks and your actual needs may vary based on where you live, whether your home is paid off, your health status, and your retirement lifestyle expectations. Use this calculator to model different contribution and return scenarios to find a savings plan that reaches your personal target.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What rate of return should I assume for retirement planning?</summary>
+          <p>The appropriate rate of return depends on your investment allocation and risk tolerance. Historically, a diversified portfolio of U.S. stocks has returned approximately 10% annually before inflation and about 7% after inflation over long periods. However, future returns are not guaranteed. For conservative planning, many financial advisors recommend using 6% to 7% as a nominal return assumption for a portfolio with a moderate allocation to stocks (60-80% equities, 20-40% bonds). If you want to be more conservative, use 5% to 6%. For the inflation rate, 2.5% to 3% is a reasonable long-term assumption based on the Federal Reserve's target and historical averages. The real (inflation-adjusted) return is your nominal return minus the inflation rate. With a 7% nominal return and 3% inflation, your real return is approximately 4%. This calculator lets you input both the expected return and inflation rate separately so you can see the impact of different assumptions on your retirement projections and stress-test your plan against various economic scenarios.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/compound-interest">Compound Interest Calculator</a>
+          <a href="https://toolrip.com/mortgage">Mortgage Calculator</a>
+          <a href="https://toolrip.com/salary">Salary Calculator</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+          <a href="https://toolrip.com/tip">Tip Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Retirement Calculator JS -->
+  <script>
+    (function() {
+      'use strict';
+
+      /* --- DOM References --- */
+      var els = {
+        currentAge:      document.getElementById('currentAge'),
+        retireAge:       document.getElementById('retireAge'),
+        currentSavings:  document.getElementById('currentSavings'),
+        monthlyContrib:  document.getElementById('monthlyContrib'),
+        annualReturn:    document.getElementById('annualReturn'),
+        inflationRate:   document.getElementById('inflationRate'),
+        totalSavings:    document.getElementById('totalSavings'),
+        inflationAdjusted: document.getElementById('inflationAdjusted'),
+        monthlyIncome:   document.getElementById('monthlyIncome'),
+        totalContribs:   document.getElementById('totalContribs'),
+        surplusCard:     document.getElementById('surplusCard'),
+        surplusLabel:    document.getElementById('surplusLabel'),
+        surplusValue:    document.getElementById('surplusValue'),
+        chartCard:       document.getElementById('chartCard'),
+        growthChart:     document.getElementById('growthChart'),
+        tableCard:       document.getElementById('tableCard'),
+        ybyBody:         document.getElementById('ybyBody'),
+        showAllBtn:      document.getElementById('showAllBtn'),
+        currentAgeErr:   document.getElementById('currentAgeErr'),
+        retireAgeErr:    document.getElementById('retireAgeErr'),
+        currentSavingsErr: document.getElementById('currentSavingsErr'),
+        monthlyContribErr: document.getElementById('monthlyContribErr'),
+        annualReturnErr: document.getElementById('annualReturnErr'),
+        inflationRateErr:document.getElementById('inflationRateErr')
+      };
+
+      var yearData = [];
+      var showAll = false;
+
+      /* --- Parsing Helpers --- */
+      function parseNum(str) {
+        if (!str) return 0;
+        return parseFloat(str.replace(/[^0-9.\-]/g, '')) || 0;
+      }
+
+      function parseInt2(str) {
+        if (!str) return 0;
+        return parseInt(str.replace(/[^0-9]/g, ''), 10) || 0;
+      }
+
+      function fmtInput(el) {
+        var val = parseNum(el.value);
+        if (val >= 0 && el.value.trim() !== '') {
+          el.value = formatNumber(val, 0);
+        }
+      }
+
+      /* --- Validation --- */
+      function showError(inputEl, errEl, show) {
+        if (show) {
+          inputEl.classList.add('error');
+          errEl.classList.add('visible');
+        } else {
+          inputEl.classList.remove('error');
+          errEl.classList.remove('visible');
+        }
+      }
+
+      function validate() {
+        var valid = true;
+        var age = parseInt2(els.currentAge.value);
+        var retAge = parseInt2(els.retireAge.value);
+        var savings = parseNum(els.currentSavings.value);
+        var contrib = parseNum(els.monthlyContrib.value);
+        var ret = parseNum(els.annualReturn.value);
+        var inf = parseNum(els.inflationRate.value);
+
+        if (age < 18 || age > 80 || !els.currentAge.value.trim()) {
+          showError(els.currentAge, els.currentAgeErr, true);
+          valid = false;
+        } else {
+          showError(els.currentAge, els.currentAgeErr, false);
+        }
+
+        if (retAge <= age || retAge > 100 || !els.retireAge.value.trim()) {
+          showError(els.retireAge, els.retireAgeErr, true);
+          valid = false;
+        } else {
+          showError(els.retireAge, els.retireAgeErr, false);
+        }
+
+        if (savings < 0) {
+          showError(els.currentSavings, els.currentSavingsErr, true);
+          valid = false;
+        } else {
+          showError(els.currentSavings, els.currentSavingsErr, false);
+        }
+
+        if (contrib < 0) {
+          showError(els.monthlyContrib, els.monthlyContribErr, true);
+          valid = false;
+        } else {
+          showError(els.monthlyContrib, els.monthlyContribErr, false);
+        }
+
+        if (ret <= 0 || ret > 30) {
+          showError(els.annualReturn, els.annualReturnErr, true);
+          valid = false;
+        } else {
+          showError(els.annualReturn, els.annualReturnErr, false);
+        }
+
+        if (inf < 0 || inf > 15) {
+          showError(els.inflationRate, els.inflationRateErr, true);
+          valid = false;
+        } else {
+          showError(els.inflationRate, els.inflationRateErr, false);
+        }
+
+        if (savings === 0 && contrib === 0) {
+          showError(els.currentSavings, els.currentSavingsErr, true);
+          showError(els.monthlyContrib, els.monthlyContribErr, true);
+          valid = false;
+        }
+
+        return valid;
+      }
+
+      /* --- Core Calculation --- */
+      function calculate() {
+        if (!validate()) return;
+
+        var age = parseInt2(els.currentAge.value);
+        var retAge = parseInt2(els.retireAge.value);
+        var P = parseNum(els.currentSavings.value);
+        var PMT = parseNum(els.monthlyContrib.value);
+        var annualReturn = parseNum(els.annualReturn.value) / 100;
+        var inflationRate = parseNum(els.inflationRate.value) / 100;
+        var yearsToRetire = retAge - age;
+
+        var monthlyRate = annualReturn / 12;
+
+        // Build year-by-year data
+        yearData = [];
+        var balance = P;
+        var totalContributed = P;
+
+        for (var yr = 1; yr <= yearsToRetire; yr++) {
+          // Grow balance month-by-month for this year
+          for (var m = 0; m < 12; m++) {
+            balance = balance * (1 + monthlyRate) + PMT;
+          }
+          totalContributed = P + PMT * 12 * yr;
+          var interestEarned = balance - totalContributed;
+          var inflationFactor = Math.pow(1 + inflationRate, yr);
+          var adjustedBalance = balance / inflationFactor;
+
+          yearData.push({
+            age: age + yr,
+            year: yr,
+            contributions: totalContributed,
+            interest: interestEarned,
+            balance: balance,
+            adjusted: adjustedBalance
+          });
+        }
+
+        // Final values
+        var finalData = yearData[yearData.length - 1];
+        var totalAtRetirement = finalData.balance;
+        var adjustedTotal = finalData.adjusted;
+
+        // Monthly income during 25-year drawdown
+        // Systematic withdrawal: PMT = PV * r / (1 - (1+r)^-n)
+        var drawdownYears = 25;
+        var drawdownMonths = drawdownYears * 12;
+        var drawdownMonthlyRate = annualReturn / 12;
+        var monthlyRetirementIncome;
+        if (drawdownMonthlyRate > 0) {
+          monthlyRetirementIncome = totalAtRetirement * drawdownMonthlyRate / (1 - Math.pow(1 + drawdownMonthlyRate, -drawdownMonths));
+        } else {
+          monthlyRetirementIncome = totalAtRetirement / drawdownMonths;
+        }
+
+        // Shortfall/surplus analysis based on 4% rule
+        // Annual income from 4% rule
+        var annualFrom4Pct = totalAtRetirement * 0.04;
+        // Target: 25x desired annual expenses (we use current monthly income * 12 as benchmark)
+        // Instead, we compare projected savings vs. the needed amount for the monthly income level
+        // Surplus = totalAtRetirement - (monthlyRetirementIncome * 12 * 25) is always 0 by definition
+        // Better: compare inflation-adjusted value to a benchmark
+        // We'll use: surplus = adjustedTotal - (current annual contribution * 25 as a simplified benchmark)
+        // Most useful: show how the 4% annual withdrawal compares to contributions
+        var annualIncome4Pct = totalAtRetirement * 0.04;
+        var annualIncome4PctAdjusted = adjustedTotal * 0.04;
+        // Surplus: how much more/less than total contributions
+        var surplusAmount = totalAtRetirement - finalData.contributions;
+
+        // Display results
+        els.totalSavings.textContent = formatCurrency(totalAtRetirement);
+        els.inflationAdjusted.textContent = formatCurrency(adjustedTotal);
+        els.monthlyIncome.textContent = formatCurrency(monthlyRetirementIncome);
+        els.totalContribs.textContent = formatCurrency(finalData.contributions);
+
+        // Surplus/shortfall display
+        els.surplusCard.className = 'result-card';
+        if (surplusAmount >= 0) {
+          els.surplusLabel.textContent = 'Interest Earned (Growth)';
+          els.surplusValue.textContent = '+' + formatCurrency(surplusAmount);
+          els.surplusValue.className = 'result-value surplus-val';
+          els.surplusCard.classList.add('surplus');
+        } else {
+          els.surplusLabel.textContent = 'Shortfall';
+          els.surplusValue.textContent = formatCurrency(surplusAmount);
+          els.surplusValue.className = 'result-value shortfall-val';
+          els.surplusCard.classList.add('shortfall');
+        }
+
+        // Build chart
+        buildChart();
+
+        // Build table
+        showAll = false;
+        els.showAllBtn.textContent = 'Show All ' + yearsToRetire + ' Years';
+        els.showAllBtn.style.display = yearsToRetire > 10 ? '' : 'none';
+        renderTable();
+
+        els.chartCard.style.display = '';
+        els.tableCard.style.display = '';
+      }
+
+      /* --- SVG Area Chart --- */
+      function buildChart() {
+        var svg = els.growthChart;
+        svg.innerHTML = '';
+
+        if (yearData.length === 0) return;
+
+        var W = 800, H = 300;
+        var padL = 70, padR = 20, padT = 20, padB = 40;
+        var chartW = W - padL - padR;
+        var chartH = H - padT - padB;
+
+        var maxVal = 0;
+        yearData.forEach(function(d) {
+          if (d.balance > maxVal) maxVal = d.balance;
+        });
+        if (maxVal === 0) maxVal = 1;
+        maxVal = maxVal * 1.1;
+
+        var totalYears = yearData.length;
+
+        function xPos(i) {
+          return padL + (i / (totalYears - 1 || 1)) * chartW;
+        }
+        function yPos(val) {
+          return padT + chartH - (val / maxVal) * chartH;
+        }
+
+        // Grid lines
+        var gridLines = 5;
+        for (var g = 0; g <= gridLines; g++) {
+          var gy = padT + (g / gridLines) * chartH;
+          var gVal = maxVal * (1 - g / gridLines);
+
+          var line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          line.setAttribute('x1', padL);
+          line.setAttribute('y1', gy);
+          line.setAttribute('x2', W - padR);
+          line.setAttribute('y2', gy);
+          line.setAttribute('stroke', 'rgba(255,255,255,0.06)');
+          line.setAttribute('stroke-width', '1');
+          svg.appendChild(line);
+
+          var label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          label.setAttribute('x', padL - 8);
+          label.setAttribute('y', gy + 4);
+          label.setAttribute('text-anchor', 'end');
+          label.setAttribute('fill', 'rgba(255,255,255,0.4)');
+          label.setAttribute('font-size', '11');
+          label.textContent = formatCompact(gVal);
+          svg.appendChild(label);
+        }
+
+        // Build path data for nominal balance
+        var balancePath = 'M' + xPos(0) + ',' + yPos(yearData[0].balance);
+        for (var i = 1; i < yearData.length; i++) {
+          balancePath += 'L' + xPos(i) + ',' + yPos(yearData[i].balance);
+        }
+        var balanceAreaPath = balancePath + 'L' + xPos(yearData.length - 1) + ',' + yPos(0) + 'L' + xPos(0) + ',' + yPos(0) + 'Z';
+
+        // Build path data for inflation-adjusted
+        var adjPath = 'M' + xPos(0) + ',' + yPos(yearData[0].adjusted);
+        for (var i = 1; i < yearData.length; i++) {
+          adjPath += 'L' + xPos(i) + ',' + yPos(yearData[i].adjusted);
+        }
+
+        // Build path data for contributions
+        var contribPath = 'M' + xPos(0) + ',' + yPos(yearData[0].contributions);
+        for (var i = 1; i < yearData.length; i++) {
+          contribPath += 'L' + xPos(i) + ',' + yPos(yearData[i].contributions);
+        }
+        var contribAreaPath = contribPath + 'L' + xPos(yearData.length - 1) + ',' + yPos(0) + 'L' + xPos(0) + ',' + yPos(0) + 'Z';
+
+        // Balance area fill
+        var balArea = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        balArea.setAttribute('d', balanceAreaPath);
+        balArea.setAttribute('fill', 'rgba(16, 185, 129, 0.12)');
+        svg.appendChild(balArea);
+
+        // Contributions area fill
+        var contribArea = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        contribArea.setAttribute('d', contribAreaPath);
+        contribArea.setAttribute('fill', 'rgba(59, 130, 246, 0.15)');
+        svg.appendChild(contribArea);
+
+        // Balance line
+        var balLine = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        balLine.setAttribute('d', balancePath);
+        balLine.setAttribute('fill', 'none');
+        balLine.setAttribute('stroke', '#10b981');
+        balLine.setAttribute('stroke-width', '2.5');
+        svg.appendChild(balLine);
+
+        // Inflation-adjusted line
+        var adjLine = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        adjLine.setAttribute('d', adjPath);
+        adjLine.setAttribute('fill', 'none');
+        adjLine.setAttribute('stroke', '#f59e0b');
+        adjLine.setAttribute('stroke-width', '2');
+        adjLine.setAttribute('stroke-dasharray', '8,4');
+        svg.appendChild(adjLine);
+
+        // Contributions line
+        var contribLine = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        contribLine.setAttribute('d', contribPath);
+        contribLine.setAttribute('fill', 'none');
+        contribLine.setAttribute('stroke', '#3b82f6');
+        contribLine.setAttribute('stroke-width', '2');
+        contribLine.setAttribute('stroke-dasharray', '6,3');
+        svg.appendChild(contribLine);
+
+        // X-axis labels
+        var labelInterval = Math.ceil(totalYears / 10);
+        for (var i = 0; i < yearData.length; i++) {
+          if (i === 0 || i === yearData.length - 1 || (yearData[i].year % labelInterval === 0)) {
+            var xl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            xl.setAttribute('x', xPos(i));
+            xl.setAttribute('y', H - padB + 20);
+            xl.setAttribute('text-anchor', 'middle');
+            xl.setAttribute('fill', 'rgba(255,255,255,0.4)');
+            xl.setAttribute('font-size', '11');
+            xl.textContent = 'Age ' + yearData[i].age;
+            svg.appendChild(xl);
+          }
+        }
+
+        // End-point dots
+        var last = yearData.length - 1;
+
+        var dotBal = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        dotBal.setAttribute('cx', xPos(last));
+        dotBal.setAttribute('cy', yPos(yearData[last].balance));
+        dotBal.setAttribute('r', '4');
+        dotBal.setAttribute('fill', '#10b981');
+        svg.appendChild(dotBal);
+
+        var dotAdj = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        dotAdj.setAttribute('cx', xPos(last));
+        dotAdj.setAttribute('cy', yPos(yearData[last].adjusted));
+        dotAdj.setAttribute('r', '4');
+        dotAdj.setAttribute('fill', '#f59e0b');
+        svg.appendChild(dotAdj);
+
+        var dotCon = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        dotCon.setAttribute('cx', xPos(last));
+        dotCon.setAttribute('cy', yPos(yearData[last].contributions));
+        dotCon.setAttribute('r', '4');
+        dotCon.setAttribute('fill', '#3b82f6');
+        svg.appendChild(dotCon);
+
+        // End-point label for balance
+        var endBalLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        endBalLabel.setAttribute('x', xPos(last) - 8);
+        endBalLabel.setAttribute('y', yPos(yearData[last].balance) - 10);
+        endBalLabel.setAttribute('text-anchor', 'end');
+        endBalLabel.setAttribute('fill', '#10b981');
+        endBalLabel.setAttribute('font-size', '12');
+        endBalLabel.setAttribute('font-weight', '600');
+        endBalLabel.textContent = formatCompact(yearData[last].balance);
+        svg.appendChild(endBalLabel);
+      }
+
+      /* --- Compact number format --- */
+      function formatCompact(val) {
+        if (val >= 1000000) return '$' + (val / 1000000).toFixed(1) + 'M';
+        if (val >= 1000) return '$' + (val / 1000).toFixed(0) + 'K';
+        return '$' + Math.round(val);
+      }
+
+      /* --- Year-by-Year Table --- */
+      function renderTable() {
+        var rows = showAll ? yearData : yearData.slice(0, 10);
+        var html = '';
+        rows.forEach(function(row) {
+          html += '<tr>'
+            + '<td>' + row.age + '</td>'
+            + '<td>' + row.year + '</td>'
+            + '<td>' + formatCurrency(row.contributions) + '</td>'
+            + '<td>' + formatCurrency(row.interest) + '</td>'
+            + '<td>' + formatCurrency(row.balance) + '</td>'
+            + '<td>' + formatCurrency(row.adjusted) + '</td>'
+            + '</tr>';
+        });
+        els.ybyBody.innerHTML = html;
+
+        if (showAll || yearData.length <= 10) {
+          els.showAllBtn.style.display = 'none';
+        }
+      }
+
+      window.toggleShowAll = function() {
+        showAll = true;
+        renderTable();
+      };
+
+      /* --- Reset --- */
+      window.resetAll = function() {
+        els.currentAge.value = '';
+        els.retireAge.value = '';
+        els.currentSavings.value = '';
+        els.monthlyContrib.value = '';
+        els.annualReturn.value = '';
+        els.inflationRate.value = '';
+        els.totalSavings.textContent = '$0.00';
+        els.inflationAdjusted.textContent = '$0.00';
+        els.monthlyIncome.textContent = '$0.00';
+        els.totalContribs.textContent = '$0.00';
+        els.surplusValue.textContent = '$0.00';
+        els.surplusValue.className = 'result-value';
+        els.surplusLabel.textContent = 'Surplus / Shortfall';
+        els.surplusCard.className = 'result-card';
+        els.chartCard.style.display = 'none';
+        els.tableCard.style.display = 'none';
+        yearData = [];
+        showAll = false;
+
+        showError(els.currentAge, els.currentAgeErr, false);
+        showError(els.retireAge, els.retireAgeErr, false);
+        showError(els.currentSavings, els.currentSavingsErr, false);
+        showError(els.monthlyContrib, els.monthlyContribErr, false);
+        showError(els.annualReturn, els.annualReturnErr, false);
+        showError(els.inflationRate, els.inflationRateErr, false);
+
+        showToast('All fields cleared.', 'info');
+      };
+
+      // Make calculate globally accessible
+      window.calculate = calculate;
+
+      /* --- Real-time Listeners --- */
+      var debounceTimer;
+      function onInput() {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(function() {
+          var age = parseInt2(els.currentAge.value);
+          var retAge = parseInt2(els.retireAge.value);
+          var savings = parseNum(els.currentSavings.value);
+          var contrib = parseNum(els.monthlyContrib.value);
+          var ret = parseNum(els.annualReturn.value);
+          if (age >= 18 && retAge > age && (savings > 0 || contrib > 0) && ret > 0) {
+            calculate();
+          }
+        }, 400);
+      }
+
+      // Number formatting on blur
+      [els.currentSavings, els.monthlyContrib].forEach(function(el) {
+        el.addEventListener('blur', function() { fmtInput(el); });
+      });
+
+      // Input listeners
+      els.currentAge.addEventListener('input', onInput);
+      els.retireAge.addEventListener('input', onInput);
+      els.currentSavings.addEventListener('input', onInput);
+      els.monthlyContrib.addEventListener('input', onInput);
+      els.annualReturn.addEventListener('input', onInput);
+      els.inflationRate.addEventListener('input', onInput);
+
+      /* --- Default values --- */
+      els.currentAge.value = '30';
+      els.retireAge.value = '65';
+      els.currentSavings.value = '50,000';
+      els.monthlyContrib.value = '500';
+      els.annualReturn.value = '7';
+      els.inflationRate.value = '3';
+
+      // Run initial calculation
+      calculate();
+
+    })();
+  </script>
+</body>
+</html>

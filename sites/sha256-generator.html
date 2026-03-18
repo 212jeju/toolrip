@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHA-256 Hash Generator Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Generate SHA-256, SHA-1, SHA-384, and SHA-512 hashes online for free. Real-time hashing with hash comparison. 100% client-side using Web Crypto API — no data leaves your browser.">
+  <link rel="canonical" href="https://toolrip.com/sha256">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="SHA-256 Hash Generator — Toolrip">
+  <meta property="og:description" content="Generate SHA-256, SHA-1, SHA-384, and SHA-512 hashes online for free. Real-time hashing with hash comparison. 100% client-side — no data leaves your browser.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/sha256">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="SHA-256 Hash Generator — Toolrip">
+  <meta name="twitter:description" content="Generate SHA-256, SHA-1, SHA-384, and SHA-512 hashes online for free. Real-time hashing with hash comparison. 100% client-side — no data leaves your browser.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root{--accent:var(--security)}
+
+    .hash-input{width:100%;min-height:160px;resize:vertical;background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);color:var(--text);font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.875rem;padding:var(--sp-3);line-height:1.6;tab-size:2}
+    .hash-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent)}
+
+    .hash-results{display:flex;flex-direction:column;gap:var(--sp-3);margin-top:var(--sp-3)}
+    .hash-row{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3);position:relative}
+    .hash-row label{font-size:.75rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.05em;margin-bottom:var(--sp-1);display:block}
+    .hash-row .hash-value{font-family:'Consolas','Monaco','Courier New',monospace;font-size:.8125rem;
+      word-break:break-all;color:var(--text);line-height:1.6;min-height:1.3em;user-select:all}
+    .hash-row .hash-value.empty{color:var(--text-muted)}
+    .hash-row .copy-btn{position:absolute;top:var(--sp-2);right:var(--sp-2)}
+
+    .toolbar{display:flex;flex-wrap:wrap;gap:var(--sp-2);align-items:center;margin-top:var(--sp-3)}
+
+    .btn-sm{padding:var(--sp-1) var(--sp-2);font-size:.8125rem;border-radius:var(--radius-sm)}
+
+    .stat-bar{display:flex;flex-wrap:wrap;gap:var(--sp-3);font-size:.8125rem;color:var(--text-muted);margin-top:var(--sp-2)}
+    .stat-bar span{display:inline-flex;align-items:center;gap:4px}
+
+    /* Compare section */
+    .compare-section{margin-top:var(--sp-4);padding:var(--sp-4);background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-lg)}
+    .compare-section h3{font-size:1rem;margin-bottom:var(--sp-3)}
+    .compare-inputs{display:flex;flex-direction:column;gap:var(--sp-2)}
+    .compare-input{width:100%;padding:var(--sp-2) var(--sp-3);background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);color:var(--text);font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.8125rem;transition:border-color .15s}
+    .compare-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent)}
+    .compare-result{margin-top:var(--sp-2);padding:var(--sp-2) var(--sp-3);border-radius:var(--radius-sm);
+      font-size:.875rem;font-weight:600;text-align:center;display:none}
+    .compare-result.match{display:block;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color:#6ee7b7}
+    .compare-result.mismatch{display:block;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);color:#fca5a5}
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "SHA-256 Hash Generator",
+    "url": "https://toolrip.com/sha256",
+    "description": "Generate SHA-256, SHA-1, SHA-384, and SHA-512 hashes online for free. Real-time hashing with hash comparison. 100% client-side using Web Crypto API.",
+    "applicationCategory": "SecurityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript and Web Crypto API"
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#security">Security</a>
+        <span>/</span>
+        <span>SHA-256 Hash Generator</span>
+      </nav>
+
+      <h1>SHA-256 Hash Generator Online</h1>
+      <p class="text-muted mt-1 mb-3">Generate SHA-256, SHA-1, SHA-384, and SHA-512 cryptographic hashes instantly in your browser. Paste or type any text and see all four hash outputs in real time. Compare two hashes to verify integrity. Everything runs locally using the Web Crypto API — your data never leaves your device.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <div class="input-group">
+          <label for="hash-input">Text to Hash</label>
+          <textarea id="hash-input" class="hash-input" placeholder="Type or paste text here to generate SHA hashes in real time..." spellcheck="false" rows="6"></textarea>
+          <div class="stat-bar">
+            <span>Length: <strong id="input-chars">0 chars</strong></span>
+            <span>Size: <strong id="input-bytes">0 bytes</strong></span>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <button class="btn-primary btn-sm" id="btn-generate" onclick="generateHashes()">Generate Hashes</button>
+          <button class="btn-secondary btn-sm" id="btn-clear" onclick="clearAll()">Clear</button>
+        </div>
+
+        <!-- Hash outputs -->
+        <div class="hash-results">
+          <div class="hash-row">
+            <label>SHA-256</label>
+            <div class="hash-value empty" id="out-sha256">Hash will appear here...</div>
+            <button class="copy-btn" onclick="copyHash('sha256')">Copy</button>
+          </div>
+          <div class="hash-row">
+            <label>SHA-1</label>
+            <div class="hash-value empty" id="out-sha1">Hash will appear here...</div>
+            <button class="copy-btn" onclick="copyHash('sha1')">Copy</button>
+          </div>
+          <div class="hash-row">
+            <label>SHA-384</label>
+            <div class="hash-value empty" id="out-sha384">Hash will appear here...</div>
+            <button class="copy-btn" onclick="copyHash('sha384')">Copy</button>
+          </div>
+          <div class="hash-row">
+            <label>SHA-512</label>
+            <div class="hash-value empty" id="out-sha512">Hash will appear here...</div>
+            <button class="copy-btn" onclick="copyHash('sha512')">Copy</button>
+          </div>
+        </div>
+
+        <!-- Hash Comparison -->
+        <div class="compare-section">
+          <h3>Hash Comparison</h3>
+          <p class="text-muted" style="font-size:.8125rem;margin-bottom:var(--sp-3)">Paste two hashes below to check if they match. Comparison is case-insensitive.</p>
+          <div class="compare-inputs">
+            <input type="text" class="compare-input" id="compare-a" placeholder="Paste first hash..." spellcheck="false">
+            <input type="text" class="compare-input" id="compare-b" placeholder="Paste second hash..." spellcheck="false">
+          </div>
+          <div class="compare-result" id="compare-result"></div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Real-Time Multi-Algorithm Hashing</h3>
+            <p>This tool computes four different SHA hash values simultaneously as you type. You get SHA-1, SHA-256, SHA-384, and SHA-512 outputs updating in real time with every keystroke. All computation is powered by the browser's native Web Crypto API, which provides hardware-accelerated cryptographic operations. There is no server round-trip and no processing delay. Whether you need to verify a file checksum, generate a content fingerprint, or compare hash outputs across different algorithms, all four results are always visible and ready to copy with a single click.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Built-In Hash Comparison</h3>
+            <p>Verifying data integrity often requires comparing two hash values. This tool includes a dedicated comparison section where you can paste any two hash strings side by side. The comparison is performed case-insensitively and trims whitespace automatically, so you do not need to worry about formatting differences. A clear visual indicator tells you instantly whether the hashes match or differ. This is particularly useful for verifying downloaded file checksums against published values, confirming that a message has not been tampered with, or validating that two copies of data are identical.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Complete Client-Side Privacy</h3>
+            <p>Every hashing operation runs entirely within your browser using the Web Crypto API. No text, no hash, and no metadata is ever transmitted to any server, stored in any database, or logged anywhere. This makes the tool safe for hashing sensitive information including passwords, API keys, private tokens, and confidential documents. You can verify this by disconnecting from the internet after loading the page — the tool continues to function perfectly because it has zero server-side dependencies. Your data stays on your device at all times.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the SHA-256 Hash Generator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Enter your text.</strong> Type or paste any string into the input area. As you type, SHA-256, SHA-1, SHA-384, and SHA-512 hashes are computed and displayed in real time. The character count and byte size update automatically so you can monitor your input length.</li>
+          <li><strong>Copy your hash.</strong> Click the <em>Copy</em> button next to any hash output to send it to your clipboard. You can also click the <em>Generate Hashes</em> button to explicitly trigger computation, which is useful if you paste a large block of text at once.</li>
+          <li><strong>Compare hashes.</strong> Scroll down to the Hash Comparison section. Paste the first hash into the top field and the second hash into the bottom field. The tool compares them in real time, ignoring case and whitespace, and shows you a clear match or mismatch result.</li>
+        </ol>
+      </section>
+
+      <!-- Understanding SHA-2 -->
+      <section class="mt-4">
+        <h2>Understanding SHA-2 and Cryptographic Hash Functions</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">A cryptographic hash function takes an arbitrary block of data and returns a fixed-size string of characters, called a digest or hash value. The fundamental property of a good hash function is that it is a one-way operation: given the output hash, it is computationally infeasible to reconstruct the original input. Even the smallest change to the input data produces a completely different hash, a property known as the avalanche effect. These characteristics make hash functions indispensable in modern computing for data integrity verification, digital signatures, password storage, and blockchain technology.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">SHA-2 (Secure Hash Algorithm 2) is a family of cryptographic hash functions designed by the United States National Security Agency and published by NIST in 2001. The SHA-2 family includes six hash functions with digests of varying lengths: SHA-224, SHA-256, SHA-384, SHA-512, SHA-512/224, and SHA-512/256. Among these, SHA-256 is by far the most widely adopted. It produces a 256-bit (32-byte) hash value, typically rendered as a 64-character hexadecimal string. SHA-256 serves as the backbone of the Bitcoin blockchain, where miners repeatedly hash block headers to find values below a target threshold in the proof-of-work consensus mechanism. It is also fundamental to TLS/SSL certificate verification, code signing, and software distribution integrity checks.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">Collision resistance is one of the most critical properties of a cryptographic hash function. A collision occurs when two different inputs produce the same hash output. For SHA-256, finding a collision would require approximately 2^128 operations, which is beyond the capability of any known computing technology. This stands in contrast to older algorithms like MD5 and SHA-1, both of which have known collision vulnerabilities. MD5 collisions can be generated in seconds on modern hardware, and SHA-1 was demonstrated to be vulnerable by Google's SHAttered attack in 2017. For this reason, security professionals strongly recommend using SHA-256 or stronger algorithms for any application where cryptographic strength matters.</p>
+        <p style="color:var(--text-muted);line-height:1.8">SHA-3, published by NIST in 2015, is the newest member of the Secure Hash Algorithm family. Unlike SHA-2, which is based on the Merkle-Damgard construction, SHA-3 uses a completely different internal structure called the Keccak sponge construction. While SHA-3 provides an additional layer of algorithm diversity, SHA-2 remains unbroken and is still the recommended standard for most applications. The two families are complementary rather than competitive, and the choice between them depends on specific security requirements, performance constraints, and regulatory mandates.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is SHA-256 and how does it work?</summary>
+          <p>SHA-256 is a cryptographic hash function that belongs to the SHA-2 family, designed by the National Security Agency and published by NIST in 2001. It takes any input of arbitrary length and produces a fixed 256-bit (32-byte) output, typically displayed as a 64-character hexadecimal string. The algorithm processes input data in 512-bit blocks through 64 rounds of mathematical operations including bitwise rotation, modular addition, and logical functions. Each round mixes the input data with a set of predefined constants derived from the fractional parts of the cube roots of the first 64 prime numbers. The result is a deterministic digest that is unique to the input: the same input always produces the same hash, but even changing a single bit in the input produces a completely different output. SHA-256 is considered cryptographically secure because it is computationally infeasible to reverse the hash back to the original input, find two different inputs that produce the same hash, or predict what input would produce a given hash value.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between SHA-256 and MD5?</summary>
+          <p>SHA-256 and MD5 are both hash functions, but they differ significantly in security, output length, and current suitability for cryptographic use. MD5 produces a 128-bit hash (32 hex characters) while SHA-256 produces a 256-bit hash (64 hex characters). The most critical difference is security: MD5 is cryptographically broken. Researchers demonstrated practical collision attacks against MD5 as early as 2004, and today collisions can be generated in seconds on consumer hardware. This means two entirely different files can be crafted to produce the same MD5 hash, making it unreliable for verifying data integrity or authenticity. SHA-256, by contrast, has no known practical vulnerabilities. No collision has ever been found for SHA-256, and the theoretical effort required to find one is approximately 2^128 operations, which is well beyond the reach of current or foreseeable computing technology. For any new application requiring a hash function, SHA-256 is the minimum recommended standard. MD5 should only be used for non-security purposes such as checksums for error detection in data transmission where malicious tampering is not a concern.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How is SHA-256 used in Bitcoin and blockchain?</summary>
+          <p>SHA-256 is the core cryptographic primitive of the Bitcoin network, used in two critical processes: mining and transaction verification. In Bitcoin mining, a process called proof-of-work requires miners to find a nonce value that, when combined with the block header data and hashed twice with SHA-256 (known as double-SHA-256), produces a hash with a certain number of leading zero bits. This difficulty target adjusts approximately every two weeks to maintain an average block time of ten minutes. The immense computational effort required to find valid hashes is what secures the network against attacks. Beyond mining, SHA-256 is used to create the Merkle tree structure within each block, where every transaction is hashed and then pairs of hashes are repeatedly hashed together until a single root hash remains. This Merkle root efficiently summarizes all transactions in the block and allows lightweight clients to verify that a specific transaction is included without downloading the entire block. Bitcoin addresses are also derived through a combination of SHA-256 and RIPEMD-160 hashing applied to the public key. The choice of SHA-256 was fundamental to Bitcoin's design, providing the collision resistance and computational hardness necessary for a trustless, decentralized monetary system.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can a SHA-256 hash be reversed or decrypted?</summary>
+          <p>No, SHA-256 is a one-way function and cannot be reversed or decrypted. Unlike encryption, which is designed to be reversible with the correct key, hashing is intentionally irreversible. The mathematical operations inside SHA-256 (bitwise shifts, rotations, modular additions, and logical combinations) destroy the structure of the original input in a way that cannot be undone. There is no key, no algorithm, and no shortcut that can recover the original data from a SHA-256 hash. The only way to find what input produced a given hash is through brute force: trying every possible input until you find one that matches. For short, predictable inputs like common passwords, attackers can use precomputed tables called rainbow tables or dictionary attacks to find matches, which is why passwords should always be hashed with dedicated password hashing algorithms like bcrypt or Argon2 that include salting and key stretching. For arbitrary data of any reasonable length, brute-forcing SHA-256 is computationally infeasible with current or foreseeable technology.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between SHA-2 and SHA-3?</summary>
+          <p>SHA-2 and SHA-3 are both families of cryptographic hash functions standardized by NIST, but they use fundamentally different internal designs. SHA-2, published in 2001, is based on the Merkle-Damgard construction with Davies-Meyer compression, processing data in fixed-size blocks through multiple rounds of bitwise operations. SHA-3, published in 2015, uses the Keccak sponge construction, which absorbs input data into a large internal state and then squeezes out the hash output. The sponge design provides a different security foundation: even if a vulnerability were found in the Merkle-Damgard approach underlying SHA-2, SHA-3 would remain unaffected due to its completely separate mathematical basis. In terms of practical performance, SHA-2 is generally faster on standard CPUs because processors have been optimized for its operations over two decades. SHA-3 can be faster in hardware implementations and offers additional flexibility through its extendable-output functions (SHAKE128 and SHAKE256). Currently, SHA-2 remains the most widely deployed standard and is considered fully secure. SHA-3 serves as a contingency and is increasingly adopted in protocols that benefit from its unique properties.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Why are there different SHA hash lengths like SHA-1, SHA-256, and SHA-512?</summary>
+          <p>Different hash lengths serve different security and performance requirements. SHA-1 produces a 160-bit hash (40 hex characters) and was widely used for over a decade, but it is now considered insecure after Google demonstrated a practical collision in 2017. SHA-256 produces a 256-bit hash (64 hex characters) and offers a security strength of 128 bits against collision attacks, making it suitable for virtually all current applications. SHA-384 produces a 384-bit hash (96 hex characters) as a truncated version of SHA-512, offering higher security margins for organizations with stricter requirements. SHA-512 produces a 512-bit hash (128 hex characters) and provides the highest security level in the SHA-2 family, with 256-bit collision resistance. Interestingly, SHA-512 can actually be faster than SHA-256 on 64-bit processors because its internal operations work on 64-bit words natively. The choice of hash length depends on your security requirements: SHA-256 is the standard recommendation for most use cases, SHA-384 is common in government and financial applications, and SHA-512 is used when maximum security margins are desired or when running on 64-bit systems where its performance advantage matters.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is SHA-256 used in SSL/TLS certificates?</summary>
+          <p>Yes, SHA-256 is the standard hash algorithm used in modern SSL/TLS certificates for digital signature verification. When a Certificate Authority issues an SSL certificate, it creates a digital signature by hashing the certificate contents with SHA-256 and then encrypting that hash with its private key. When your browser connects to an HTTPS website, it verifies the certificate by decrypting the signature with the CA's public key, independently hashing the certificate contents with SHA-256, and comparing the two values. If they match, the certificate is authentic and unmodified. Before 2017, many certificates used SHA-1 for signatures, but all major browsers and certificate authorities have since deprecated SHA-1 certificates due to demonstrated collision vulnerabilities. Google Chrome began displaying security warnings for SHA-1 certificates in 2016, and all major CAs stopped issuing them by 2017. Today, SHA-256 is the minimum requirement for certificate signatures, and the entire web public key infrastructure relies on its collision resistance to prevent attackers from forging certificates. Some high-security applications are beginning to use SHA-384 or SHA-512 for additional safety margins, particularly in government and defense contexts.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/password">Password Generator</a>
+          <a href="https://toolrip.com/qr">QR Code Generator</a>
+          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+  (function() {
+    'use strict';
+
+    /* ========== State ========== */
+    var hashValues = { sha1: '', sha256: '', sha384: '', sha512: '' };
+    var debounceTimer = null;
+
+    /* ========== DOM References ========== */
+    var inputEl = document.getElementById('hash-input');
+    var charsEl = document.getElementById('input-chars');
+    var bytesEl = document.getElementById('input-bytes');
+    var outSha1 = document.getElementById('out-sha1');
+    var outSha256 = document.getElementById('out-sha256');
+    var outSha384 = document.getElementById('out-sha384');
+    var outSha512 = document.getElementById('out-sha512');
+    var compareA = document.getElementById('compare-a');
+    var compareB = document.getElementById('compare-b');
+    var compareResult = document.getElementById('compare-result');
+
+    /* ========== Helpers ========== */
+    function formatBytes(bytes) {
+      if (bytes === 0) return '0 bytes';
+      if (bytes === 1) return '1 byte';
+      var units = ['bytes', 'KB', 'MB', 'GB'];
+      var i = Math.floor(Math.log(bytes) / Math.log(1024));
+      if (i === 0) return bytes + ' bytes';
+      return (bytes / Math.pow(1024, i)).toFixed(2) + ' ' + units[i];
+    }
+
+    function bufToHex(buffer) {
+      var bytes = new Uint8Array(buffer);
+      var hex = '';
+      for (var i = 0; i < bytes.length; i++) {
+        hex += bytes[i].toString(16).padStart(2, '0');
+      }
+      return hex;
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    /* ========== Hashing with Web Crypto API ========== */
+    function computeHash(algorithm, data) {
+      var encoded = new TextEncoder().encode(data);
+      return crypto.subtle.digest(algorithm, encoded).then(function(buffer) {
+        return bufToHex(buffer);
+      });
+    }
+
+    function computeAllHashes(text) {
+      return Promise.all([
+        computeHash('SHA-1', text),
+        computeHash('SHA-256', text),
+        computeHash('SHA-384', text),
+        computeHash('SHA-512', text)
+      ]).then(function(results) {
+        return {
+          sha1: results[0],
+          sha256: results[1],
+          sha384: results[2],
+          sha512: results[3]
+        };
+      });
+    }
+
+    /* ========== Display ========== */
+    function updateDisplay(hashes) {
+      hashValues = hashes;
+
+      outSha256.textContent = hashes.sha256;
+      outSha256.classList.remove('empty');
+
+      outSha1.textContent = hashes.sha1;
+      outSha1.classList.remove('empty');
+
+      outSha384.textContent = hashes.sha384;
+      outSha384.classList.remove('empty');
+
+      outSha512.textContent = hashes.sha512;
+      outSha512.classList.remove('empty');
+    }
+
+    function resetDisplay() {
+      var placeholder = 'Hash will appear here...';
+      hashValues = { sha1: '', sha256: '', sha384: '', sha512: '' };
+
+      outSha256.textContent = placeholder;
+      outSha256.classList.add('empty');
+      outSha1.textContent = placeholder;
+      outSha1.classList.add('empty');
+      outSha384.textContent = placeholder;
+      outSha384.classList.add('empty');
+      outSha512.textContent = placeholder;
+      outSha512.classList.add('empty');
+    }
+
+    function updateStats() {
+      var text = inputEl.value;
+      charsEl.textContent = text.length.toLocaleString('en-US') + ' chars';
+      var byteLen = new TextEncoder().encode(text).length;
+      bytesEl.textContent = formatBytes(byteLen);
+    }
+
+    /* ========== Core Actions ========== */
+    function doHash() {
+      var text = inputEl.value;
+      if (text.length === 0) {
+        resetDisplay();
+        return;
+      }
+      computeAllHashes(text).then(updateDisplay).catch(function(err) {
+        showToast('Hashing error: ' + (err.message || 'Unknown error'), 'error');
+      });
+    }
+
+    // Expose for onclick
+    window.generateHashes = function() {
+      doHash();
+      if (inputEl.value.length > 0) {
+        showToast('Hashes generated!', 'success');
+      }
+    };
+
+    window.clearAll = function() {
+      inputEl.value = '';
+      updateStats();
+      resetDisplay();
+      compareA.value = '';
+      compareB.value = '';
+      compareResult.className = 'compare-result';
+      compareResult.textContent = '';
+      showToast('Cleared', 'info');
+    };
+
+    window.copyHash = function(algo) {
+      var value = hashValues[algo];
+      if (!value) {
+        showToast('Nothing to copy', 'error');
+        return;
+      }
+      copyToClipboard(value);
+      showToast(algo.toUpperCase() + ' hash copied!', 'success');
+    };
+
+    /* ========== Real-Time Hashing ========== */
+    inputEl.addEventListener('input', function() {
+      updateStats();
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(doHash, 150);
+    });
+
+    /* ========== Keyboard Shortcut ========== */
+    inputEl.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        window.generateHashes();
+      }
+    });
+
+    /* ========== Hash Comparison ========== */
+    function doCompare() {
+      var a = compareA.value.trim().toLowerCase();
+      var b = compareB.value.trim().toLowerCase();
+
+      if (a.length === 0 || b.length === 0) {
+        compareResult.className = 'compare-result';
+        compareResult.textContent = '';
+        return;
+      }
+
+      if (a === b) {
+        compareResult.className = 'compare-result match';
+        compareResult.textContent = 'Hashes match!';
+      } else {
+        compareResult.className = 'compare-result mismatch';
+        compareResult.textContent = 'Hashes do NOT match.';
+      }
+    }
+
+    compareA.addEventListener('input', doCompare);
+    compareB.addEventListener('input', doCompare);
+
+    /* ========== Init ========== */
+    updateStats();
+
+  })();
+  </script>
+</body>
+</html>

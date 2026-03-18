@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASCII to Hex Converter Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Convert ASCII text to hexadecimal and hex to ASCII online for free. Supports decimal, octal output, custom separators, 0x prefix, and a full printable ASCII table reference.">
+  <link rel="canonical" href="https://toolrip.com/ascii-hex">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="ASCII to Hex Converter — Toolrip">
+  <meta property="og:description" content="Convert ASCII text to hexadecimal and hex to ASCII online for free. Supports decimal, octal output, custom separators, 0x prefix, and a full printable ASCII table reference.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/ascii-hex">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="ASCII to Hex Converter — Toolrip">
+  <meta name="twitter:description" content="Convert ASCII text to hexadecimal and hex to ASCII online for free. Supports decimal, octal output, custom separators, 0x prefix, and a full printable ASCII table reference.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root{--accent:var(--conversion)}
+
+    .toolbar{display:flex;flex-wrap:wrap;gap:var(--sp-2);align-items:center;margin-bottom:var(--sp-3)}
+    .btn-sm{padding:var(--sp-1) var(--sp-2);font-size:.8125rem;border-radius:var(--radius-sm)}
+
+    .conv-input{width:100%;min-height:160px;resize:vertical;background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);color:var(--text);font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.875rem;padding:var(--sp-3);line-height:1.6;tab-size:2}
+    .conv-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent)}
+
+    .output-panel{position:relative;width:100%;min-height:100px;background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);padding:var(--sp-3);overflow:auto;font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.875rem;line-height:1.6;white-space:pre-wrap;word-break:break-all}
+
+    .stat-bar{display:flex;flex-wrap:wrap;gap:var(--sp-3);font-size:.8125rem;color:var(--text-muted);margin-top:var(--sp-2)}
+    .stat-bar span{display:inline-flex;align-items:center;gap:4px}
+
+    .option-row{display:flex;flex-wrap:wrap;gap:var(--sp-3);align-items:center;margin-bottom:var(--sp-3);
+      padding:var(--sp-2) var(--sp-3);background:var(--bg);border:1px solid var(--border);border-radius:var(--radius)}
+    .option-row label{font-size:.8125rem;color:var(--text-muted);display:flex;align-items:center;gap:var(--sp-2)}
+
+    .opt-select{padding:var(--sp-1) var(--sp-2);background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius-sm);color:var(--text);font-size:.8125rem;cursor:pointer;
+      appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%239ca3af'%3E%3Cpath d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat:no-repeat;background-position:right .5rem center;padding-right:1.5rem}
+
+    .error-bar{background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);border-radius:var(--radius-sm);
+      padding:var(--sp-2) var(--sp-3);color:#fca5a5;font-size:.8125rem;margin-bottom:var(--sp-2);display:none;
+      font-family:'Consolas','Monaco','Courier New',monospace;line-height:1.5}
+    .error-bar.visible{display:block}
+
+    .multi-output{display:grid;grid-template-columns:1fr;gap:var(--sp-2);margin-top:var(--sp-3)}
+    .multi-output .out-block{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-2) var(--sp-3);position:relative}
+    .multi-output .out-label{font-size:.75rem;color:var(--accent);font-weight:600;margin-bottom:var(--sp-1);text-transform:uppercase;letter-spacing:.05em}
+    .multi-output .out-value{font-family:'Consolas','Monaco','Courier New',monospace;font-size:.8125rem;
+      word-break:break-all;white-space:pre-wrap;color:var(--text);min-height:1.4em}
+    @media(min-width:640px){.multi-output{grid-template-columns:1fr 1fr}}
+
+    .ascii-table-wrap{overflow-x:auto;margin:var(--sp-3) 0}
+    .ascii-table{width:100%;border-collapse:collapse;font-size:.75rem;font-family:'Consolas','Monaco','Courier New',monospace}
+    .ascii-table th,.ascii-table td{padding:var(--sp-1) var(--sp-2);border:1px solid var(--border);text-align:center;white-space:nowrap}
+    .ascii-table th{background:var(--bg-elevated);color:var(--accent);font-weight:600;position:sticky;top:0}
+    .ascii-table td{color:var(--text-muted)}
+    .ascii-table td:nth-child(4){color:var(--text);font-weight:500}
+    .ascii-table-scroll{max-height:400px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius)}
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "ASCII to Hex Converter",
+    "url": "https://toolrip.com/ascii-hex",
+    "description": "Convert ASCII text to hexadecimal and hex to ASCII online for free. Supports decimal, octal output, custom separators, 0x prefix, and a full printable ASCII table reference.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Conversion Tools", "item": "https://toolrip.com/#conversion" },
+      { "@type": "ListItem", "position": 3, "name": "ASCII Hex Converter", "item": "https://toolrip.com/ascii-hex" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is ASCII and why is it important?",
+        "acceptedAnswer": { "@type": "Answer", "text": "ASCII (American Standard Code for Information Interchange) is a character encoding standard that assigns numeric values to 128 characters, including English letters, digits, punctuation marks, and control characters. Published in 1963 and last updated in 1986, ASCII remains the foundation of nearly all modern character encoding systems. Every text file, programming language, network protocol, and operating system uses ASCII or a superset of it. ASCII uses seven bits to represent each character, giving it a range of 0 to 127. The first 32 codes (0 through 31) and code 127 are control characters used for device communication, while codes 32 through 126 are printable characters that include the space, letters, numbers, and symbols you see on a standard keyboard." }
+      },
+      {
+        "@type": "Question",
+        "name": "How are ASCII characters represented in hexadecimal?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Each ASCII character has a numeric code point that can be expressed in different number bases. Hexadecimal (base-16) is the most common representation in computing because it maps neatly to binary: each hex digit represents exactly four bits, so a single byte (eight bits) is always exactly two hex digits. For example, the uppercase letter A has ASCII code 65 in decimal, which is 41 in hexadecimal and 01000001 in binary. Programmers and system engineers frequently use hex notation because it is more compact than binary and easier to convert mentally. In most programming languages and data formats, hexadecimal values are prefixed with 0x to distinguish them from decimal numbers." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is extended ASCII and how does it differ from standard ASCII?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Standard ASCII defines 128 characters using seven bits (codes 0 to 127). Extended ASCII refers to various eight-bit encoding schemes that use the remaining 128 code points (128 to 255) to represent additional characters such as accented letters, box-drawing symbols, mathematical signs, and currency symbols. There is no single extended ASCII standard; different systems created their own mappings for the upper range. Common extended ASCII code pages include ISO 8859-1 (Latin-1) used in Western Europe, Windows-1252 used by Microsoft Windows, and Code Page 437 used by IBM PCs. Because these extensions are incompatible with each other, the same byte value can display different characters on different systems, which is one of the reasons Unicode was created as a universal replacement." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between Unicode and ASCII?",
+        "acceptedAnswer": { "@type": "Answer", "text": "ASCII encodes 128 characters using seven bits, covering only the basic Latin alphabet, digits, punctuation, and control codes used primarily in English. Unicode is a far more comprehensive standard that aims to encode every character from every writing system in the world. The current Unicode standard defines over 149,000 characters covering 161 modern and historic scripts, including emoji. UTF-8, the most widely used Unicode encoding on the web, is backward-compatible with ASCII: the first 128 code points in UTF-8 are identical to ASCII, and each is stored as a single byte. Characters beyond the ASCII range are encoded using two to four bytes. This backward compatibility means that any valid ASCII text is also valid UTF-8, which greatly eased the transition from ASCII to Unicode across the internet." }
+      },
+      {
+        "@type": "Question",
+        "name": "What are ASCII control characters?",
+        "acceptedAnswer": { "@type": "Answer", "text": "ASCII control characters occupy code points 0 through 31 and code point 127 (DEL). Unlike printable characters, control characters do not represent visible symbols. Instead, they were originally designed to control hardware devices such as teletypes, printers, and communication equipment. Some of the most commonly encountered control characters include NULL (0x00), which is used as a string terminator in the C programming language; Line Feed or LF (0x0A), which moves the cursor to the next line and serves as the newline character on Unix and Linux systems; Carriage Return or CR (0x0D), which returns the cursor to the beginning of the line and is paired with LF as the newline sequence on Windows; Tab or HT (0x09), which inserts horizontal whitespace; and Escape or ESC (0x1B), which is used to begin ANSI escape sequences for terminal formatting." }
+      },
+      {
+        "@type": "Question",
+        "name": "Why is hexadecimal used in computing instead of decimal?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Hexadecimal is preferred in computing because it provides a compact and human-readable representation of binary data. Since each hex digit corresponds to exactly four binary digits (bits), conversion between hex and binary is trivial: the hex value F equals binary 1111, and 0 equals 0000. A single byte of eight bits is always represented by exactly two hex digits, making it easy to read memory addresses, color codes, MAC addresses, and raw data dumps. Decimal, by contrast, does not align with binary boundaries, so a byte value can be one, two, or three decimal digits, and mental conversion is much harder. Hexadecimal strikes the ideal balance between compactness (shorter than binary) and simplicity (direct binary mapping), which is why it became the standard notation for low-level data representation in programming, debugging, networking, and digital design." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I convert hex to ASCII manually?",
+        "acceptedAnswer": { "@type": "Answer", "text": "To convert a hexadecimal string to ASCII text by hand, first split the hex string into pairs of two characters. Each pair represents one byte, which corresponds to one ASCII character. Convert each hex pair to its decimal equivalent by multiplying the first digit by 16 and adding the second digit, using the values A=10, B=11, C=12, D=13, E=14, and F=15. Then look up the resulting decimal number in an ASCII table to find the corresponding character. For example, the hex pair 48 converts to (4 times 16) plus 8, which equals 72, and ASCII code 72 is the uppercase letter H. The hex string 48 65 6C 6C 6F converts to the word Hello. If the hex values include a 0x prefix or separators like spaces, colons, or commas, remove those first before splitting into pairs." }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#conversion">Conversion Tools</a>
+        <span>/</span>
+        <span>ASCII Hex Converter</span>
+      </nav>
+
+      <h1>ASCII to Hex Converter Online</h1>
+      <p class="text-muted mt-1 mb-3">Convert ASCII text to hexadecimal values or decode hex strings back to readable ASCII characters. View results in hex, decimal, and octal simultaneously with configurable separators, prefixes, and letter casing. Includes a complete printable ASCII reference table. Everything runs locally in your browser.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <!-- Tabs -->
+        <div class="tab-group">
+          <button class="tab active" data-tab="panel-to-hex">ASCII &rarr; Hex</button>
+          <button class="tab" data-tab="panel-to-ascii">Hex &rarr; ASCII</button>
+        </div>
+
+        <!-- Options -->
+        <div class="option-row">
+          <label>
+            Separator:
+            <select id="opt-sep" class="opt-select">
+              <option value="space" selected>Space</option>
+              <option value="none">None</option>
+              <option value="comma">Comma</option>
+              <option value="colon">Colon</option>
+            </select>
+          </label>
+          <label>
+            Prefix:
+            <select id="opt-prefix" class="opt-select">
+              <option value="none" selected>None</option>
+              <option value="0x">0x</option>
+              <option value="\\x">\\x</option>
+            </select>
+          </label>
+          <label>
+            Case:
+            <select id="opt-case" class="opt-select">
+              <option value="upper" selected>Uppercase</option>
+              <option value="lower">Lowercase</option>
+            </select>
+          </label>
+        </div>
+
+        <!-- Error bar -->
+        <div class="error-bar" id="error-bar"></div>
+
+        <!-- ASCII to Hex panel -->
+        <div id="panel-to-hex" class="tab-panel">
+          <div class="input-group">
+            <label for="ascii-input">ASCII Text</label>
+            <textarea id="ascii-input" class="conv-input" placeholder="Enter ASCII text here..." spellcheck="false" rows="6"></textarea>
+            <div class="stat-bar">
+              <span>Characters: <strong id="ascii-char-count">0</strong></span>
+              <span>Bytes: <strong id="ascii-byte-count">0</strong></span>
+            </div>
+          </div>
+
+          <div class="toolbar">
+            <button class="btn-primary btn-sm" onclick="AHC.convertToHex()">Convert</button>
+            <button class="btn-secondary btn-sm" onclick="AHC.clearAscii()">Clear</button>
+          </div>
+
+          <div class="multi-output" id="hex-outputs">
+            <div class="out-block">
+              <div class="out-label">Hexadecimal</div>
+              <div class="out-value" id="out-hex">—</div>
+              <button class="copy-btn" onclick="AHC.copyField('out-hex')">Copy</button>
+            </div>
+            <div class="out-block">
+              <div class="out-label">Decimal</div>
+              <div class="out-value" id="out-dec">—</div>
+              <button class="copy-btn" onclick="AHC.copyField('out-dec')">Copy</button>
+            </div>
+            <div class="out-block">
+              <div class="out-label">Octal</div>
+              <div class="out-value" id="out-oct">—</div>
+              <button class="copy-btn" onclick="AHC.copyField('out-oct')">Copy</button>
+            </div>
+            <div class="out-block">
+              <div class="out-label">Binary</div>
+              <div class="out-value" id="out-bin">—</div>
+              <button class="copy-btn" onclick="AHC.copyField('out-bin')">Copy</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hex to ASCII panel -->
+        <div id="panel-to-ascii" class="tab-panel hidden">
+          <div class="input-group">
+            <label for="hex-input">Hex String</label>
+            <textarea id="hex-input" class="conv-input" placeholder="Enter hex values (e.g. 48 65 6C 6C 6F or 0x48 0x65 0x6C)..." spellcheck="false" rows="6"></textarea>
+            <div class="stat-bar">
+              <span>Hex bytes detected: <strong id="hex-byte-count">0</strong></span>
+            </div>
+          </div>
+
+          <div class="toolbar">
+            <button class="btn-primary btn-sm" onclick="AHC.convertToAscii()">Convert</button>
+            <button class="btn-secondary btn-sm" onclick="AHC.clearHex()">Clear</button>
+          </div>
+
+          <div class="input-group">
+            <label>ASCII Output</label>
+            <div class="output-panel" id="ascii-output">
+              <button class="copy-btn" onclick="AHC.copyField('ascii-output')">Copy</button>
+              <span class="text-muted" style="font-size:.8125rem">Decoded ASCII text will appear here...</span>
+            </div>
+          </div>
+
+          <div class="multi-output">
+            <div class="out-block">
+              <div class="out-label">Decimal</div>
+              <div class="out-value" id="out-dec2">—</div>
+              <button class="copy-btn" onclick="AHC.copyField('out-dec2')">Copy</button>
+            </div>
+            <div class="out-block">
+              <div class="out-label">Octal</div>
+              <div class="out-value" id="out-oct2">—</div>
+              <button class="copy-btn" onclick="AHC.copyField('out-oct2')">Copy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ASCII Table Reference -->
+      <section class="mt-4">
+        <h2>Printable ASCII Table Reference</h2>
+        <p class="text-muted mb-2">The table below lists all 95 printable ASCII characters (codes 32 through 126) with their decimal, hexadecimal, octal, and binary representations. Use this as a quick reference when working with character encoding conversions.</p>
+        <div class="ascii-table-scroll">
+          <table class="ascii-table" id="ascii-ref-table">
+            <thead>
+              <tr><th>Dec</th><th>Hex</th><th>Oct</th><th>Char</th><th>Description</th></tr>
+            </thead>
+            <tbody id="ascii-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Real-Time Bidirectional Conversion</h3>
+            <p>Convert ASCII text to hexadecimal or hex strings back to readable ASCII characters instantly as you type. The tool processes each character through its numeric code point and displays the corresponding hexadecimal, decimal, octal, and binary representations simultaneously. All conversions happen in real time within your browser using native JavaScript, so there is no server delay, no data upload, and no processing limit. Whether you are encoding a single character or an entire document, results appear immediately in all four number bases at once.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Flexible Output Formatting</h3>
+            <p>Customize the hex output to match any format your project requires. Choose between space, comma, colon, or no separator between hex values. Add a 0x or backslash-x prefix for programming contexts where prefix notation is standard. Toggle between uppercase and lowercase hex digits to suit your style guide or protocol specification. These formatting options apply to the hex output in the ASCII-to-Hex direction, letting you produce output that can be pasted directly into source code, configuration files, packet analyzers, or documentation without any manual editing.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Complete ASCII Reference Table</h3>
+            <p>Access a comprehensive printable ASCII character table directly on the page. The reference covers all 95 printable characters from code 32 (space) through 126 (tilde), showing each character alongside its decimal, hexadecimal, and octal value. Use this table to look up any character code without switching to a separate resource. The table is especially useful for developers debugging character encoding issues, students learning about number systems, and anyone who needs to verify that a specific byte value maps to the expected character.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Multi-Base Output Display</h3>
+            <p>Every conversion displays results in four number systems simultaneously: hexadecimal (base-16), decimal (base-10), octal (base-8), and binary (base-2). This multi-base view is invaluable for programmers who need to cross-reference values between different representations, hardware engineers inspecting register values, and students learning number system conversions. Each output field has its own copy button so you can grab exactly the format you need without selecting and copying manually from a mixed output.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Smart Hex Input Parsing</h3>
+            <p>The Hex-to-ASCII converter intelligently handles hex input in virtually any format. Paste hex values separated by spaces, commas, colons, or with no separators at all. The tool automatically strips 0x and backslash-x prefixes, ignores whitespace and line breaks, and processes the remaining hex digits in pairs. This flexibility means you can paste hex dumps from packet captures, memory inspectors, programming consoles, and documentation without any manual cleanup. Invalid hex characters are detected and reported with a clear error message.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Private and Secure</h3>
+            <p>All ASCII and hexadecimal conversions are performed entirely in your web browser. No data is transmitted to any server, stored in any database, or logged anywhere. Your text, hex values, and conversion results stay on your device at all times. This makes the tool safe for converting sensitive strings such as API tokens, password hashes, encryption keys, serial numbers, and proprietary protocol data. You can verify the client-side nature of this tool by checking your browser network tab while performing a conversion.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the ASCII to Hex Converter</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Choose your conversion direction.</strong> Click the <em>ASCII &rarr; Hex</em> tab to convert readable text into hexadecimal values, or click the <em>Hex &rarr; ASCII</em> tab to decode a hexadecimal string back into text. Configure the separator (space, comma, colon, or none), the prefix format (none, 0x, or \x), and the letter case (uppercase or lowercase) using the option dropdowns before converting.</li>
+          <li><strong>Enter your input.</strong> For ASCII-to-Hex, type or paste any text into the input area. For Hex-to-ASCII, paste hex values in any common format, including space-separated pairs, 0x-prefixed values, colon-separated bytes, or a continuous hex string. The tool auto-detects and cleans the input format for you.</li>
+          <li><strong>Review and copy results.</strong> The conversion runs in real time and shows results in hex, decimal, octal, and binary simultaneously. Click the <em>Copy</em> button on any output field to copy that specific format to your clipboard. Use the <em>Clear</em> button to reset the input and all output fields.</li>
+        </ol>
+      </section>
+
+      <!-- Understanding ASCII and Hexadecimal -->
+      <section class="mt-4">
+        <h2>Understanding ASCII and Hexadecimal Encoding</h2>
+        <p style="color:var(--text-muted);line-height:1.8">The American Standard Code for Information Interchange, commonly known as ASCII, was first published in 1963 by the American Standards Association (now ANSI). It was designed to standardize how computers represent text characters, replacing the incompatible proprietary codes used by different manufacturers. ASCII assigns a unique numeric value between 0 and 127 to each of 128 characters, including 33 non-printing control characters (used for device communication and text formatting) and 95 printable characters (the space character, 26 uppercase letters, 26 lowercase letters, 10 digits, and 32 punctuation and symbol characters). The encoding uses seven bits per character, which fit neatly within the eight-bit bytes that became the standard unit of computer memory.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-2)">Hexadecimal notation is a base-16 number system that uses the digits 0 through 9 and the letters A through F (or a through f) to represent values. It became the preferred notation for computing because of its direct relationship to binary: each hex digit maps to exactly four bits, so a complete byte is always represented by exactly two hex digits. This makes hexadecimal far more compact and readable than binary while preserving a straightforward conversion path. Memory addresses, color codes, MAC addresses, byte arrays, encryption keys, and raw data dumps are all conventionally expressed in hexadecimal.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-2)">When you convert ASCII text to hex, each character in the string is replaced by the hexadecimal representation of its code point. For instance, the word "Hello" becomes 48 65 6C 6C 6F because H is decimal 72 (hex 48), e is decimal 101 (hex 65), l is decimal 108 (hex 6C), and o is decimal 111 (hex 6F). The reverse operation takes each hex byte pair, converts it to a decimal number, and looks up the corresponding ASCII character. This round-trip conversion is lossless for all characters within the ASCII range (0 to 127), making it a fundamental operation in programming, networking, data analysis, and digital forensics.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is ASCII and why is it important?</summary>
+          <p>ASCII (American Standard Code for Information Interchange) is a character encoding standard that assigns numeric values to 128 characters, including English letters, digits, punctuation marks, and control characters. Published in 1963 and last updated in 1986, ASCII remains the foundation of nearly all modern character encoding systems. Every text file, programming language, network protocol, and operating system uses ASCII or a superset of it. ASCII uses seven bits to represent each character, giving it a range of 0 to 127. The first 32 codes (0 through 31) and code 127 are control characters used for device communication, while codes 32 through 126 are printable characters that include the space, letters, numbers, and symbols you see on a standard keyboard.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How are ASCII characters represented in hexadecimal?</summary>
+          <p>Each ASCII character has a numeric code point that can be expressed in different number bases. Hexadecimal (base-16) is the most common representation in computing because it maps neatly to binary: each hex digit represents exactly four bits, so a single byte (eight bits) is always exactly two hex digits. For example, the uppercase letter A has ASCII code 65 in decimal, which is 41 in hexadecimal and 01000001 in binary. Programmers and system engineers frequently use hex notation because it is more compact than binary and easier to convert mentally. In most programming languages and data formats, hexadecimal values are prefixed with 0x to distinguish them from decimal numbers.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is extended ASCII and how does it differ from standard ASCII?</summary>
+          <p>Standard ASCII defines 128 characters using seven bits (codes 0 to 127). Extended ASCII refers to various eight-bit encoding schemes that use the remaining 128 code points (128 to 255) to represent additional characters such as accented letters, box-drawing symbols, mathematical signs, and currency symbols. There is no single extended ASCII standard; different systems created their own mappings for the upper range. Common extended ASCII code pages include ISO 8859-1 (Latin-1) used in Western Europe, Windows-1252 used by Microsoft Windows, and Code Page 437 used by IBM PCs. Because these extensions are incompatible with each other, the same byte value can display different characters on different systems, which is one of the reasons Unicode was created as a universal replacement.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between Unicode and ASCII?</summary>
+          <p>ASCII encodes 128 characters using seven bits, covering only the basic Latin alphabet, digits, punctuation, and control codes used primarily in English. Unicode is a far more comprehensive standard that aims to encode every character from every writing system in the world. The current Unicode standard defines over 149,000 characters covering 161 modern and historic scripts, including emoji. UTF-8, the most widely used Unicode encoding on the web, is backward-compatible with ASCII: the first 128 code points in UTF-8 are identical to ASCII, and each is stored as a single byte. Characters beyond the ASCII range are encoded using two to four bytes. This backward compatibility means that any valid ASCII text is also valid UTF-8, which greatly eased the transition from ASCII to Unicode across the internet.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What are ASCII control characters?</summary>
+          <p>ASCII control characters occupy code points 0 through 31 and code point 127 (DEL). Unlike printable characters, control characters do not represent visible symbols. Instead, they were originally designed to control hardware devices such as teletypes, printers, and communication equipment. Some of the most commonly encountered control characters include NULL (0x00), which is used as a string terminator in the C programming language; Line Feed or LF (0x0A), which moves the cursor to the next line and serves as the newline character on Unix and Linux systems; Carriage Return or CR (0x0D), which returns the cursor to the beginning of the line and is paired with LF as the newline sequence on Windows; Tab or HT (0x09), which inserts horizontal whitespace; and Escape or ESC (0x1B), which is used to begin ANSI escape sequences for terminal formatting.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Why is hexadecimal used in computing instead of decimal?</summary>
+          <p>Hexadecimal is preferred in computing because it provides a compact and human-readable representation of binary data. Since each hex digit corresponds to exactly four binary digits (bits), conversion between hex and binary is trivial: the hex value F equals binary 1111, and 0 equals 0000. A single byte of eight bits is always represented by exactly two hex digits, making it easy to read memory addresses, color codes, MAC addresses, and raw data dumps. Decimal, by contrast, does not align with binary boundaries, so a byte value can be one, two, or three decimal digits, and mental conversion is much harder. Hexadecimal strikes the ideal balance between compactness (shorter than binary) and simplicity (direct binary mapping), which is why it became the standard notation for low-level data representation in programming, debugging, networking, and digital design.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do I convert hex to ASCII manually?</summary>
+          <p>To convert a hexadecimal string to ASCII text by hand, first split the hex string into pairs of two characters. Each pair represents one byte, which corresponds to one ASCII character. Convert each hex pair to its decimal equivalent by multiplying the first digit by 16 and adding the second digit, using the values A=10, B=11, C=12, D=13, E=14, and F=15. Then look up the resulting decimal number in an ASCII table to find the corresponding character. For example, the hex pair 48 converts to (4 times 16) plus 8, which equals 72, and ASCII code 72 is the uppercase letter H. The hex string 48 65 6C 6C 6F converts to the word Hello. If the hex values include a 0x prefix or separators like spaces, colons, or commas, remove those first before splitting into pairs.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/hex-rgb">Hex-RGB Converter</a>
+          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+          <a href="https://toolrip.com/word-count">Word Counter</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+  var AHC = (function() {
+    'use strict';
+
+    /* ========== Character descriptions for ASCII table ========== */
+    var charNames = {
+      32:'Space',33:'Exclamation mark',34:'Double quote',35:'Number sign',36:'Dollar sign',
+      37:'Percent',38:'Ampersand',39:'Single quote',40:'Left parenthesis',41:'Right parenthesis',
+      42:'Asterisk',43:'Plus',44:'Comma',45:'Hyphen-minus',46:'Period',47:'Slash',
+      48:'Digit 0',49:'Digit 1',50:'Digit 2',51:'Digit 3',52:'Digit 4',
+      53:'Digit 5',54:'Digit 6',55:'Digit 7',56:'Digit 8',57:'Digit 9',
+      58:'Colon',59:'Semicolon',60:'Less-than',61:'Equals',62:'Greater-than',
+      63:'Question mark',64:'At sign',
+      65:'Uppercase A',66:'Uppercase B',67:'Uppercase C',68:'Uppercase D',69:'Uppercase E',
+      70:'Uppercase F',71:'Uppercase G',72:'Uppercase H',73:'Uppercase I',74:'Uppercase J',
+      75:'Uppercase K',76:'Uppercase L',77:'Uppercase M',78:'Uppercase N',79:'Uppercase O',
+      80:'Uppercase P',81:'Uppercase Q',82:'Uppercase R',83:'Uppercase S',84:'Uppercase T',
+      85:'Uppercase U',86:'Uppercase V',87:'Uppercase W',88:'Uppercase X',89:'Uppercase Y',
+      90:'Uppercase Z',91:'Left bracket',92:'Backslash',93:'Right bracket',94:'Caret',
+      95:'Underscore',96:'Grave accent',
+      97:'Lowercase a',98:'Lowercase b',99:'Lowercase c',100:'Lowercase d',101:'Lowercase e',
+      102:'Lowercase f',103:'Lowercase g',104:'Lowercase h',105:'Lowercase i',106:'Lowercase j',
+      107:'Lowercase k',108:'Lowercase l',109:'Lowercase m',110:'Lowercase n',111:'Lowercase o',
+      112:'Lowercase p',113:'Lowercase q',114:'Lowercase r',115:'Lowercase s',116:'Lowercase t',
+      117:'Lowercase u',118:'Lowercase v',119:'Lowercase w',120:'Lowercase x',121:'Lowercase y',
+      122:'Lowercase z',123:'Left brace',124:'Vertical bar',125:'Right brace',126:'Tilde'
+    };
+
+    /* ========== Build ASCII reference table ========== */
+    function buildAsciiTable() {
+      var tbody = document.getElementById('ascii-table-body');
+      if (!tbody) return;
+      var html = '';
+      for (var i = 32; i <= 126; i++) {
+        var ch = String.fromCharCode(i);
+        var hex = i.toString(16).toUpperCase().padStart(2, '0');
+        var oct = i.toString(8).padStart(3, '0');
+        var display = i === 32 ? '(space)' : ch.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+        html += '<tr><td>' + i + '</td><td>' + hex + '</td><td>' + oct + '</td><td>' + display + '</td><td>' + (charNames[i] || '') + '</td></tr>';
+      }
+      tbody.innerHTML = html;
+    }
+
+    /* ========== Option getters ========== */
+    function getSep() {
+      var v = document.getElementById('opt-sep').value;
+      if (v === 'space') return ' ';
+      if (v === 'comma') return ', ';
+      if (v === 'colon') return ':';
+      return '';
+    }
+
+    function getPrefix() {
+      var v = document.getElementById('opt-prefix').value;
+      if (v === '0x') return '0x';
+      if (v === '\\x') return '\\x';
+      return '';
+    }
+
+    function isUpper() {
+      return document.getElementById('opt-case').value === 'upper';
+    }
+
+    /* ========== Helpers ========== */
+    function clearError() {
+      document.getElementById('error-bar').classList.remove('visible');
+    }
+
+    function showError(msg) {
+      var bar = document.getElementById('error-bar');
+      bar.textContent = msg;
+      bar.classList.add('visible');
+    }
+
+    function escapeHtml(s) {
+      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function formatHex(code) {
+      var h = code.toString(16).padStart(2, '0');
+      return isUpper() ? h.toUpperCase() : h.toLowerCase();
+    }
+
+    /* ========== ASCII to Hex ========== */
+    function convertToHex() {
+      clearError();
+      var input = document.getElementById('ascii-input').value;
+      if (!input) {
+        showError('Please enter some text to convert.');
+        return;
+      }
+
+      var sep = getSep();
+      var prefix = getPrefix();
+      var hexArr = [], decArr = [], octArr = [], binArr = [];
+
+      for (var i = 0; i < input.length; i++) {
+        var code = input.charCodeAt(i);
+        hexArr.push(prefix + formatHex(code));
+        decArr.push(code.toString(10));
+        octArr.push(code.toString(8).padStart(3, '0'));
+        binArr.push(code.toString(2).padStart(8, '0'));
+      }
+
+      document.getElementById('out-hex').textContent = hexArr.join(sep);
+      document.getElementById('out-dec').textContent = decArr.join(' ');
+      document.getElementById('out-oct').textContent = octArr.join(' ');
+      document.getElementById('out-bin').textContent = binArr.join(' ');
+
+      showToast('Converted ' + input.length + ' character' + (input.length !== 1 ? 's' : '') + ' to hex', 'success');
+    }
+
+    /* ========== Hex to ASCII ========== */
+    function parseHexInput(raw) {
+      // Strip 0x and \x prefixes
+      var cleaned = raw.replace(/0x/gi, '').replace(/\\x/gi, '');
+      // Split by common separators
+      cleaned = cleaned.replace(/[,;:\s]+/g, ' ').trim();
+      if (!cleaned) return [];
+
+      var parts = cleaned.split(' ').filter(function(s) { return s.length > 0; });
+      var bytes = [];
+
+      for (var i = 0; i < parts.length; i++) {
+        var part = parts[i];
+        // If the part is longer than 2 chars, split into pairs
+        if (part.length > 2) {
+          if (part.length % 2 !== 0) {
+            part = '0' + part;
+          }
+          for (var j = 0; j < part.length; j += 2) {
+            bytes.push(part.substring(j, j + 2));
+          }
+        } else {
+          if (part.length === 1) part = '0' + part;
+          bytes.push(part);
+        }
+      }
+
+      return bytes;
+    }
+
+    function convertToAscii() {
+      clearError();
+      var input = document.getElementById('hex-input').value.trim();
+      if (!input) {
+        showError('Please enter a hex string to convert.');
+        return;
+      }
+
+      var hexPairs = parseHexInput(input);
+      if (hexPairs.length === 0) {
+        showError('No valid hex values found in the input.');
+        return;
+      }
+
+      // Validate all pairs
+      var validHex = /^[0-9A-Fa-f]{2}$/;
+      for (var i = 0; i < hexPairs.length; i++) {
+        if (!validHex.test(hexPairs[i])) {
+          showError('Invalid hex value "' + hexPairs[i] + '" at position ' + (i + 1) + '. Each hex byte must be exactly two hex digits (0-9, A-F).');
+          return;
+        }
+      }
+
+      var chars = [], decArr = [], octArr = [];
+      for (var i = 0; i < hexPairs.length; i++) {
+        var code = parseInt(hexPairs[i], 16);
+        chars.push(code >= 32 && code <= 126 ? String.fromCharCode(code) : '\u00B7');
+        decArr.push(code.toString(10));
+        octArr.push(code.toString(8).padStart(3, '0'));
+      }
+
+      var asciiText = chars.join('');
+      var outputEl = document.getElementById('ascii-output');
+      outputEl.innerHTML = '<button class="copy-btn" onclick="AHC.copyField(\'ascii-output\')">Copy</button>' + escapeHtml(asciiText);
+
+      document.getElementById('out-dec2').textContent = decArr.join(' ');
+      document.getElementById('out-oct2').textContent = octArr.join(' ');
+
+      showToast('Converted ' + hexPairs.length + ' hex byte' + (hexPairs.length !== 1 ? 's' : '') + ' to ASCII', 'success');
+    }
+
+    /* ========== Copy ========== */
+    function copyField(id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      var text = el.textContent || '';
+      if (text === '\u2014' || text.indexOf('will appear here') !== -1) {
+        showToast('Nothing to copy', 'error');
+        return;
+      }
+      copyToClipboard(text);
+      showToast('Copied to clipboard!', 'success');
+    }
+
+    /* ========== Clear ========== */
+    function clearAscii() {
+      clearError();
+      document.getElementById('ascii-input').value = '';
+      document.getElementById('ascii-char-count').textContent = '0';
+      document.getElementById('ascii-byte-count').textContent = '0';
+      document.getElementById('out-hex').textContent = '\u2014';
+      document.getElementById('out-dec').textContent = '\u2014';
+      document.getElementById('out-oct').textContent = '\u2014';
+      document.getElementById('out-bin').textContent = '\u2014';
+      showToast('Cleared', 'info');
+    }
+
+    function clearHex() {
+      clearError();
+      document.getElementById('hex-input').value = '';
+      document.getElementById('hex-byte-count').textContent = '0';
+      document.getElementById('ascii-output').innerHTML =
+        '<button class="copy-btn" onclick="AHC.copyField(\'ascii-output\')">Copy</button>' +
+        '<span class="text-muted" style="font-size:.8125rem">Decoded ASCII text will appear here...</span>';
+      document.getElementById('out-dec2').textContent = '\u2014';
+      document.getElementById('out-oct2').textContent = '\u2014';
+      showToast('Cleared', 'info');
+    }
+
+    /* ========== Real-time input stats ========== */
+    function initListeners() {
+      var asciiInput = document.getElementById('ascii-input');
+      var hexInput = document.getElementById('hex-input');
+
+      asciiInput.addEventListener('input', function() {
+        var val = this.value;
+        document.getElementById('ascii-char-count').textContent = val.length;
+        document.getElementById('ascii-byte-count').textContent = new TextEncoder().encode(val).length;
+        if (val.length > 0) {
+          convertToHex();
+        }
+      });
+
+      hexInput.addEventListener('input', function() {
+        var val = this.value.trim();
+        if (val) {
+          var pairs = parseHexInput(val);
+          document.getElementById('hex-byte-count').textContent = pairs.length;
+          if (pairs.length > 0) {
+            convertToAscii();
+          }
+        } else {
+          document.getElementById('hex-byte-count').textContent = '0';
+        }
+      });
+
+      // Re-convert when options change
+      document.getElementById('opt-sep').addEventListener('change', function() {
+        var val = document.getElementById('ascii-input').value;
+        if (val) convertToHex();
+      });
+      document.getElementById('opt-prefix').addEventListener('change', function() {
+        var val = document.getElementById('ascii-input').value;
+        if (val) convertToHex();
+      });
+      document.getElementById('opt-case').addEventListener('change', function() {
+        var val = document.getElementById('ascii-input').value;
+        if (val) convertToHex();
+      });
+
+      // Keyboard shortcuts
+      asciiInput.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+          e.preventDefault();
+          convertToHex();
+        }
+      });
+      hexInput.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+          e.preventDefault();
+          convertToAscii();
+        }
+      });
+    }
+
+    /* ========== Init ========== */
+    document.addEventListener('DOMContentLoaded', function() {
+      buildAsciiTable();
+      initListeners();
+    });
+
+    /* ========== Public API ========== */
+    return {
+      convertToHex: convertToHex,
+      convertToAscii: convertToAscii,
+      copyField: copyField,
+      clearAscii: clearAscii,
+      clearHex: clearHex
+    };
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APR Calculator Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Calculate the true Annual Percentage Rate (APR) including fees and charges. Compare nominal interest rate vs APR, estimate monthly payments, total interest, and total loan cost.">
+  <link rel="canonical" href="https://toolrip.com/apr">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="APR Calculator — Toolrip">
+  <meta property="og:description" content="Calculate the true Annual Percentage Rate (APR) including fees and charges. Compare nominal interest rate vs APR, estimate monthly payments, total interest, and total loan cost.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/apr">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="APR Calculator — Toolrip">
+  <meta name="twitter:description" content="Calculate the true Annual Percentage Rate (APR) including fees and charges. Compare nominal interest rate vs APR, estimate monthly payments, total interest, and total loan cost.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--finance)}</style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "APR Calculator",
+    "url": "https://toolrip.com/apr",
+    "description": "Calculate the true Annual Percentage Rate (APR) including all fees and charges. Compare nominal rate vs APR, monthly payments, total interest, and total cost.",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <style>
+    .apr-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--sp-4);
+    }
+    @media (min-width: 640px) {
+      .apr-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .result-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-4);
+      text-align: center;
+    }
+    .result-card.primary {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 5%, var(--bg));
+    }
+    .result-label {
+      font-size: .8rem;
+      color: var(--text-muted);
+      margin-bottom: var(--sp-1);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .result-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .result-value.large {
+      font-size: 2.25rem;
+      color: var(--accent);
+    }
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--sp-3);
+      margin-top: var(--sp-4);
+    }
+    @media (max-width: 639px) {
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Comparison table */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .9rem;
+      margin-top: var(--sp-3);
+    }
+    .compare-table th {
+      text-align: left;
+      padding: var(--sp-2) var(--sp-3);
+      border-bottom: 2px solid var(--border);
+      font-size: .75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .03em;
+      white-space: nowrap;
+    }
+    .compare-table td {
+      padding: var(--sp-2) var(--sp-3);
+      border-bottom: 1px solid var(--border);
+    }
+    .compare-table tr:hover td {
+      background: var(--bg-elevated);
+    }
+    .compare-highlight {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* Summary cards */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-3);
+      margin-top: var(--sp-3);
+    }
+    @media (max-width: 639px) {
+      .summary-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Error styling */
+    .input-field.error {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
+    }
+    .error-msg {
+      color: #ef4444;
+      font-size: .75rem;
+      margin-top: 2px;
+      display: none;
+    }
+    .error-msg.visible {
+      display: block;
+    }
+
+    /* Breakdown list */
+    .breakdown-list {
+      list-style: none;
+      padding: 0;
+      margin: var(--sp-3) 0 0;
+    }
+    .breakdown-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--sp-2) 0;
+      border-bottom: 1px solid var(--border);
+      font-size: .9375rem;
+    }
+    .breakdown-list li:last-child {
+      border-bottom: none;
+    }
+    .breakdown-label {
+      color: var(--text-muted);
+    }
+    .breakdown-value {
+      font-weight: 600;
+    }
+
+    /* Chart */
+    .chart-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--sp-4);
+      flex-wrap: wrap;
+      margin-top: var(--sp-3);
+    }
+    .bar-chart {
+      display: flex;
+      gap: var(--sp-4);
+      align-items: flex-end;
+      height: 180px;
+    }
+    .bar-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--sp-1);
+    }
+    .bar-fill {
+      width: 60px;
+      border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+      transition: height .4s ease;
+      min-height: 4px;
+    }
+    .bar-label {
+      font-size: .7rem;
+      color: var(--text-muted);
+      text-align: center;
+      max-width: 70px;
+    }
+    .bar-value {
+      font-size: .75rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="top">Ad</div>
+
+    <!-- Breadcrumb -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#finance">Finance</a>
+        <span>/</span>
+        <span>APR Calculator</span>
+      </nav>
+
+      <h1>APR Calculator</h1>
+      <p class="text-muted mt-1 mb-3">Calculate the true Annual Percentage Rate on any loan by including fees and charges. Compare APR to the nominal interest rate and see the real cost of borrowing.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <div class="apr-grid">
+
+          <!-- Left: Inputs -->
+          <div>
+            <div class="input-group">
+              <label for="loanAmount">Loan Amount ($)</label>
+              <input type="text" id="loanAmount" class="input-field" placeholder="250,000" inputmode="decimal">
+              <span class="error-msg" id="loanAmountErr">Enter a valid loan amount greater than 0.</span>
+            </div>
+
+            <div class="input-group">
+              <label for="interestRate">Interest Rate (%)</label>
+              <input type="text" id="interestRate" class="input-field" placeholder="6.5" inputmode="decimal">
+              <span class="error-msg" id="interestRateErr">Enter a valid interest rate (0.01 - 50).</span>
+            </div>
+
+            <div class="input-group">
+              <label for="loanTerm">Loan Term (Years)</label>
+              <input type="text" id="loanTerm" class="input-field" placeholder="30" inputmode="numeric">
+              <span class="error-msg" id="loanTermErr">Enter a valid loan term (1 - 50 years).</span>
+            </div>
+
+            <div class="input-group">
+              <label for="fees">Additional Fees &amp; Charges ($)</label>
+              <input type="text" id="fees" class="input-field" placeholder="3,500" inputmode="decimal">
+              <span class="error-msg" id="feesErr">Fees cannot be negative.</span>
+            </div>
+
+            <div class="flex gap-2 mt-2">
+              <button class="btn-primary" onclick="aprCalc.calculate()">Calculate</button>
+              <button class="btn-secondary" onclick="aprCalc.reset()">Clear</button>
+            </div>
+          </div>
+
+          <!-- Right: Primary Result -->
+          <div>
+            <div class="result-card primary">
+              <div class="result-label">Annual Percentage Rate (APR)</div>
+              <div class="result-value large" id="aprResult">0.000%</div>
+            </div>
+
+            <ul class="breakdown-list">
+              <li>
+                <span class="breakdown-label">Nominal Interest Rate</span>
+                <span class="breakdown-value" id="nominalRate">0.000%</span>
+              </li>
+              <li>
+                <span class="breakdown-label">APR (with fees)</span>
+                <span class="breakdown-value" id="aprRate">0.000%</span>
+              </li>
+              <li>
+                <span class="breakdown-label">APR Increase from Fees</span>
+                <span class="breakdown-value" id="aprDiff">0.000%</span>
+              </li>
+              <li>
+                <span class="breakdown-label">Monthly Payment</span>
+                <span class="breakdown-value" id="monthlyPayment">$0.00</span>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Comparison & Summary -->
+      <div class="tool-card" id="resultsCard" style="display:none">
+        <h2 style="font-size:1.125rem;margin-bottom:var(--sp-2)">Rate Comparison: With Fees vs Without</h2>
+
+        <div class="chart-container">
+          <div class="bar-chart">
+            <div class="bar-group">
+              <div class="bar-value" id="barNoFeesVal">$0</div>
+              <div class="bar-fill" id="barNoFees" style="background:#3b82f6;height:4px"></div>
+              <div class="bar-label">Total Cost<br>(No Fees)</div>
+            </div>
+            <div class="bar-group">
+              <div class="bar-value" id="barWithFeesVal">$0</div>
+              <div class="bar-fill" id="barWithFees" style="background:var(--accent);height:4px"></div>
+              <div class="bar-label">Total Cost<br>(With Fees)</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="overflow-x:auto;margin-top:var(--sp-4)">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Without Fees</th>
+                <th>With Fees (APR)</th>
+              </tr>
+            </thead>
+            <tbody id="compareBody">
+              <tr><td>Annual Rate</td><td id="cmpRateNo">—</td><td id="cmpRateWith">—</td></tr>
+              <tr><td>Monthly Payment</td><td id="cmpPayNo">—</td><td id="cmpPayWith">—</td></tr>
+              <tr><td>Total Interest</td><td id="cmpIntNo">—</td><td id="cmpIntWith">—</td></tr>
+              <tr><td>Total Cost</td><td id="cmpTotalNo">—</td><td id="cmpTotalWith">—</td></tr>
+              <tr><td>Effective Extra Cost from Fees</td><td>—</td><td id="cmpExtraCost" class="compare-highlight">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="summary-grid">
+          <div class="result-card">
+            <div class="result-label">Monthly Payment</div>
+            <div class="result-value" id="summaryMonthly">$0.00</div>
+          </div>
+          <div class="result-card">
+            <div class="result-label">Total Interest Paid</div>
+            <div class="result-value" id="summaryInterest">$0.00</div>
+          </div>
+          <div class="result-card">
+            <div class="result-label">Total Loan Cost</div>
+            <div class="result-value" id="summaryTotal">$0.00</div>
+          </div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="in-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>True APR Calculation</h3>
+            <p>This calculator uses the Newton-Raphson iterative method to compute the exact APR that accounts for all upfront fees rolled into the loan. Unlike simplified estimates, our algorithm solves for the precise internal rate of return, matching the method lenders are required to use under federal disclosure regulations. The result reflects the actual annualized cost of borrowing after fees are factored in.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Side-by-Side Rate Comparison</h3>
+            <p>See the real impact of origination fees, closing costs, and other charges by comparing your loan with and without fees in one clear table. This helps you understand exactly how much those additional charges increase your effective borrowing rate over the full loan term, empowering you to make better decisions when comparing offers from different lenders.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Complete Cost Breakdown</h3>
+            <p>Get a full picture of your loan including monthly payment amount, total interest paid over the life of the loan, and the total cost of borrowing. The visual bar chart makes it easy to see at a glance how fees add to the overall expense, helping you evaluate whether refinancing or shopping for a lower-fee loan could save you money.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Instant Real-Time Results</h3>
+            <p>All calculations happen instantly in your browser with zero server calls. Change any input and hit Calculate to see updated APR, monthly payment, and comparison data immediately. Your financial data never leaves your device, ensuring complete privacy while you explore different loan scenarios and fee structures.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the APR Calculator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li>Enter the total loan amount you plan to borrow. This is the principal balance before any fees are added, representing the actual funds you will receive from the lender.</li>
+          <li>Input the nominal annual interest rate offered by your lender. This is the stated rate on your loan agreement before accounting for any additional fees or charges.</li>
+          <li>Specify the loan term in years. Common terms include 15 or 30 years for mortgages, 3 to 7 years for auto loans, and 5 to 20 years for personal loans.</li>
+          <li>Enter the total additional fees and charges such as origination fees, closing costs, discount points, application fees, or any other upfront costs charged by the lender.</li>
+          <li>Click Calculate to see your APR, monthly payment, total interest, and a side-by-side comparison showing the true cost impact of fees on your loan.</li>
+        </ol>
+      </section>
+
+      <!-- Long-form Content: APR Guide -->
+      <section class="mt-4">
+        <h2>Understanding APR: The True Cost of Borrowing</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          The Annual Percentage Rate, commonly known as APR, is one of the most important numbers to understand when taking out any loan or credit product. While the nominal interest rate tells you the basic cost of borrowing money, APR goes further by incorporating additional fees and charges into a single annualized figure. This makes APR the most reliable metric for comparing the true cost of different loan offers from competing lenders. When one lender quotes a lower interest rate but charges higher origination fees, the APR reveals which deal actually costs less over the life of the loan.
+        </p>
+        <h3 style="margin-bottom:var(--sp-2)">APR vs Interest Rate: What Is the Difference?</h3>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          The nominal interest rate is the percentage charged on the outstanding principal balance each year, and it directly determines how much interest accrues on your loan. APR, on the other hand, includes that interest rate plus mandatory fees such as origination charges, discount points, mortgage broker fees, and certain closing costs. Because these fees effectively increase the cost of borrowing even though they are paid upfront, the APR is almost always higher than the nominal rate. For example, a mortgage with a 6.5% interest rate and $4,000 in fees on a $250,000 loan over 30 years would have an APR of approximately 6.64%. That difference of 0.14 percentage points may seem small, but it represents thousands of dollars in additional cost over the full term.
+        </p>
+        <h3 style="margin-bottom:var(--sp-2)">The Truth in Lending Act and APR Disclosure</h3>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          In the United States, the Truth in Lending Act (TILA), enacted in 1968 and enforced by the Consumer Financial Protection Bureau, requires lenders to disclose the APR on all consumer credit products. This federal mandate exists to protect consumers from misleading advertising and hidden costs. Before TILA, lenders could advertise a low interest rate while burying substantial fees in the fine print, making it nearly impossible for borrowers to make accurate comparisons. The regulation standardized how APR must be calculated so that every lender uses the same methodology, creating a level playing field for consumers shopping for credit.
+        </p>
+        <h3 style="margin-bottom:var(--sp-2)">How APR Is Calculated</h3>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          APR calculation involves finding the interest rate that makes the present value of all future loan payments equal to the net amount of credit received by the borrower. The net amount is the loan principal minus any prepaid finance charges or fees. Mathematically, this requires solving a complex equation that cannot be rearranged algebraically, so iterative numerical methods such as Newton-Raphson or bisection are used. This calculator implements the Newton-Raphson method, which converges to the precise APR rapidly. The resulting rate is then annualized by multiplying the monthly periodic rate by 12, matching the standard convention used in financial disclosures.
+        </p>
+        <h3 style="margin-bottom:var(--sp-2)">Fixed APR vs Variable APR</h3>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          A fixed APR remains the same throughout the entire loan term, giving borrowers predictable monthly payments and total cost certainty. Most conventional mortgages and auto loans use fixed APRs. Variable APR, also called adjustable APR, fluctuates based on an underlying benchmark rate such as the prime rate or the Secured Overnight Financing Rate (SOFR). When the benchmark rate rises, your APR and monthly payment increase; when it falls, they decrease. Variable APRs are common on credit cards, home equity lines of credit (HELOCs), and adjustable-rate mortgages (ARMs). While variable rates often start lower than fixed rates, they carry the risk of significant increases over time, making long-term cost projections uncertain.
+        </p>
+        <h3 style="margin-bottom:var(--sp-2)">Credit Card APR: How It Works</h3>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          Credit card APR functions differently from loan APR in several important ways. Credit cards typically have multiple APRs for different transaction types: a purchase APR for regular spending, a cash advance APR that is usually higher, a balance transfer APR that may be promotional, and a penalty APR triggered by missed payments. Unlike mortgage APR, credit card APR generally does not include annual fees or other charges in its calculation, so the advertised rate is closer to the nominal rate. Interest on credit cards is usually compounded daily, meaning the card issuer divides the APR by 365 to get a daily periodic rate, then applies that rate to the outstanding balance each day. This daily compounding means the effective annual rate is slightly higher than the stated APR.
+        </p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is the difference between APR and interest rate?</summary>
+          <p>The interest rate is the annual cost of borrowing the principal balance, expressed as a percentage. It determines how much interest accrues each month on your outstanding loan balance. APR, the Annual Percentage Rate, includes the interest rate plus mandatory fees and charges such as origination fees, discount points, and certain closing costs, all expressed as a single annualized percentage. Because APR rolls these extra costs into the rate calculation, it is always equal to or higher than the nominal interest rate. APR provides a more complete picture of borrowing costs, making it the better metric for comparing loan offers from different lenders who may have different fee structures.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Why is APR higher than the interest rate?</summary>
+          <p>APR is higher than the nominal interest rate because it accounts for additional costs beyond the basic interest charge. When a lender charges origination fees, application fees, discount points, or other upfront costs, those expenses reduce the net amount of money you actually receive while your payment obligation remains based on the full loan amount. The APR calculation adjusts the rate upward to reflect this discrepancy. For instance, if you borrow $200,000 but pay $3,000 in fees upfront, you effectively receive only $197,000 while making payments on $200,000. The APR captures this by showing a higher rate than the nominal interest rate, giving you the true annualized cost of that financing arrangement.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do I use APR to compare loan offers?</summary>
+          <p>To compare loan offers accurately, look at the APR rather than just the interest rate. Two lenders might offer different combinations of rates and fees that result in different total costs. A lender offering 6.25% with $6,000 in fees might actually cost more than one offering 6.5% with $1,500 in fees. By comparing APRs, you get a standardized measure that incorporates both the rate and the fees into one number. However, ensure you are comparing loans with the same term length, since APR spreads costs over the loan duration. Also consider whether you plan to keep the loan for the full term, because high-fee, low-rate loans cost more if you refinance or sell early, since you paid those fees over a shorter period than the APR assumes.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is a variable APR and how does it work?</summary>
+          <p>A variable APR is a rate that can change over time based on movements in a benchmark interest rate, typically the U.S. prime rate or SOFR. When the benchmark rate increases, your variable APR rises by the same amount, resulting in higher monthly payments and more total interest. When the benchmark falls, your rate and payments decrease. Variable APRs are structured as the benchmark rate plus a fixed margin. For example, if your card has a margin of 12% and the prime rate is 8.5%, your APR would be 20.5%. Variable APRs are standard on most credit cards and common on HELOCs and adjustable-rate mortgages. They often start lower than fixed rates but carry the risk of increasing significantly over time.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How does credit card APR differ from loan APR?</summary>
+          <p>Credit card APR and loan APR differ in calculation, application, and structure. Loan APR is calculated by including origination fees and closing costs in the rate, giving a comprehensive cost figure mandated by the Truth in Lending Act. Credit card APR typically equals the nominal interest rate because most card fees are not rolled into the APR calculation. Credit cards also use daily compounding, dividing the APR by 365 and applying interest to the balance each day, which results in an effective annual rate slightly higher than the stated APR. Additionally, credit cards may have multiple APRs for purchases, cash advances, balance transfers, and penalties, each with different rates, whereas a standard loan has a single APR that applies to the entire balance.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What fees are included in APR?</summary>
+          <p>Under federal regulations, APR must include all finance charges that are a condition of obtaining the loan. For mortgages, this typically includes origination fees, discount points, mortgage broker fees, and certain closing costs paid to the lender. Fees not included in APR generally are costs payable to third parties such as appraisal fees, title insurance, recording fees, and prepaid property taxes or insurance. For personal loans and auto loans, common APR-included fees are origination or administration charges. The specific fees included can vary by loan type and regulation, which is why it is important to review the loan estimate or disclosure document provided by your lender to understand exactly what costs factor into the disclosed APR.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is a lower APR always the better deal?</summary>
+          <p>A lower APR is generally preferable because it indicates a lower annualized cost of borrowing, but it is not always the definitively better deal in every situation. APR assumes you keep the loan for its full term. If you plan to sell your home or refinance within a few years, a loan with a slightly higher APR but significantly lower upfront fees might cost less overall. Additionally, APR does not capture every cost difference between loans. It does not reflect prepayment penalties, rate lock fees in some cases, or the flexibility of payment terms. Compare APRs as a starting point, then factor in your expected loan duration, prepayment plans, and the specific fee breakdown before making a final decision.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/mortgage">Mortgage Calculator</a>
+          <a href="https://toolrip.com/compound-interest">Compound Interest Calculator</a>
+          <a href="https://toolrip.com/salary">Salary Calculator</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+          <a href="https://toolrip.com/tip">Tip Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- APR Calculator JS -->
+  <script>
+    var aprCalc = (function() {
+      'use strict';
+
+      /* --- DOM References --- */
+      var els = {
+        loanAmount:    document.getElementById('loanAmount'),
+        interestRate:  document.getElementById('interestRate'),
+        loanTerm:      document.getElementById('loanTerm'),
+        fees:          document.getElementById('fees'),
+        aprResult:     document.getElementById('aprResult'),
+        nominalRate:   document.getElementById('nominalRate'),
+        aprRate:       document.getElementById('aprRate'),
+        aprDiff:       document.getElementById('aprDiff'),
+        monthlyPayment:document.getElementById('monthlyPayment'),
+        resultsCard:   document.getElementById('resultsCard'),
+        cmpRateNo:     document.getElementById('cmpRateNo'),
+        cmpRateWith:   document.getElementById('cmpRateWith'),
+        cmpPayNo:      document.getElementById('cmpPayNo'),
+        cmpPayWith:    document.getElementById('cmpPayWith'),
+        cmpIntNo:      document.getElementById('cmpIntNo'),
+        cmpIntWith:    document.getElementById('cmpIntWith'),
+        cmpTotalNo:    document.getElementById('cmpTotalNo'),
+        cmpTotalWith:  document.getElementById('cmpTotalWith'),
+        cmpExtraCost:  document.getElementById('cmpExtraCost'),
+        summaryMonthly:document.getElementById('summaryMonthly'),
+        summaryInterest:document.getElementById('summaryInterest'),
+        summaryTotal:  document.getElementById('summaryTotal'),
+        barNoFees:     document.getElementById('barNoFees'),
+        barWithFees:   document.getElementById('barWithFees'),
+        barNoFeesVal:  document.getElementById('barNoFeesVal'),
+        barWithFeesVal:document.getElementById('barWithFeesVal'),
+        loanAmountErr: document.getElementById('loanAmountErr'),
+        interestRateErr:document.getElementById('interestRateErr'),
+        loanTermErr:   document.getElementById('loanTermErr'),
+        feesErr:       document.getElementById('feesErr')
+      };
+
+      /* --- Helpers --- */
+      function parseNum(str) {
+        if (!str) return 0;
+        return parseFloat(str.replace(/[^0-9.\-]/g, '')) || 0;
+      }
+
+      function fmtInput(el) {
+        var val = parseNum(el.value);
+        if (val > 0) {
+          el.value = formatNumber(val, 0);
+        }
+      }
+
+      function showError(inputEl, errEl, show) {
+        if (show) {
+          inputEl.classList.add('error');
+          errEl.classList.add('visible');
+        } else {
+          inputEl.classList.remove('error');
+          errEl.classList.remove('visible');
+        }
+      }
+
+      function fmtPct(val) {
+        return val.toFixed(3) + '%';
+      }
+
+      /* --- Validation --- */
+      function validate() {
+        var valid = true;
+        var loan = parseNum(els.loanAmount.value);
+        var rate = parseNum(els.interestRate.value);
+        var term = parseNum(els.loanTerm.value);
+        var fees = parseNum(els.fees.value);
+
+        if (loan <= 0) {
+          showError(els.loanAmount, els.loanAmountErr, true);
+          valid = false;
+        } else {
+          showError(els.loanAmount, els.loanAmountErr, false);
+        }
+
+        if (rate <= 0 || rate > 50) {
+          showError(els.interestRate, els.interestRateErr, true);
+          valid = false;
+        } else {
+          showError(els.interestRate, els.interestRateErr, false);
+        }
+
+        if (term < 1 || term > 50 || Math.floor(term) !== term) {
+          showError(els.loanTerm, els.loanTermErr, true);
+          valid = false;
+        } else {
+          showError(els.loanTerm, els.loanTermErr, false);
+        }
+
+        if (fees < 0) {
+          showError(els.fees, els.feesErr, true);
+          valid = false;
+        } else {
+          showError(els.fees, els.feesErr, false);
+        }
+
+        return valid;
+      }
+
+      /* --- Monthly Payment (standard amortization) --- */
+      function calcMonthlyPayment(principal, annualRate, years) {
+        var n = years * 12;
+        var r = annualRate / 100 / 12;
+        if (r === 0) return principal / n;
+        var factor = Math.pow(1 + r, n);
+        return principal * (r * factor) / (factor - 1);
+      }
+
+      /* --- APR via Newton-Raphson --- */
+      /**
+       * Find the monthly rate r such that:
+       *   PV of payments at rate r = loanAmount - fees
+       *
+       * PV = payment * [ (1 - (1+r)^(-n)) / r ]
+       *
+       * We solve: f(r) = payment * [(1-(1+r)^(-n))/r] - (loanAmount - fees) = 0
+       *
+       * Uses Newton-Raphson with analytic derivative.
+       */
+      function calcAPR(loanAmount, annualRate, years, fees) {
+        var n = years * 12;
+        var payment = calcMonthlyPayment(loanAmount, annualRate, years);
+        var netLoan = loanAmount - fees;
+
+        if (fees <= 0) return annualRate;
+        if (netLoan <= 0) return NaN;
+
+        // Initial guess: nominal monthly rate
+        var r = annualRate / 100 / 12;
+        if (r <= 0) r = 0.001;
+
+        var maxIter = 100;
+        var tol = 1e-10;
+
+        for (var i = 0; i < maxIter; i++) {
+          var pow = Math.pow(1 + r, -n);
+          // f(r) = payment * (1 - (1+r)^(-n)) / r - netLoan
+          var f = payment * (1 - pow) / r - netLoan;
+
+          // f'(r) = payment * [ n*(1+r)^(-n-1)/r - (1-(1+r)^(-n))/r^2 ]
+          //       = payment * [ n*pow/(r*(1+r)) - (1-pow)/(r*r) ]
+          var df = payment * (n * pow / (r * (1 + r)) - (1 - pow) / (r * r));
+
+          if (Math.abs(df) < 1e-20) break;
+
+          var rNew = r - f / df;
+
+          // Keep r positive
+          if (rNew <= 0) rNew = r / 2;
+
+          if (Math.abs(rNew - r) < tol) {
+            r = rNew;
+            break;
+          }
+          r = rNew;
+        }
+
+        // Convert monthly rate to annual percentage
+        return r * 12 * 100;
+      }
+
+      /* --- Update Bar Chart --- */
+      function updateBars(totalNoFees, totalWithFees) {
+        var maxVal = Math.max(totalNoFees, totalWithFees, 1);
+        var maxH = 150;
+        var h1 = Math.max(4, (totalNoFees / maxVal) * maxH);
+        var h2 = Math.max(4, (totalWithFees / maxVal) * maxH);
+
+        els.barNoFees.style.height = h1 + 'px';
+        els.barWithFees.style.height = h2 + 'px';
+        els.barNoFeesVal.textContent = formatCurrency(totalNoFees);
+        els.barWithFeesVal.textContent = formatCurrency(totalWithFees);
+      }
+
+      /* --- Main Calculate --- */
+      function calculate() {
+        if (!validate()) return;
+
+        var loan = parseNum(els.loanAmount.value);
+        var rate = parseNum(els.interestRate.value);
+        var years = parseNum(els.loanTerm.value);
+        var fees = parseNum(els.fees.value);
+        var n = years * 12;
+
+        // Monthly payment (based on full loan amount at nominal rate)
+        var payment = calcMonthlyPayment(loan, rate, years);
+
+        // APR calculation
+        var apr = calcAPR(loan, rate, years, fees);
+
+        if (isNaN(apr) || !isFinite(apr)) {
+          showToast('Fees exceed or equal the loan amount. Cannot calculate APR.', 'error');
+          return;
+        }
+
+        var aprDiff = apr - rate;
+
+        // Without fees
+        var totalPaidNoFees = payment * n;
+        var totalInterestNoFees = totalPaidNoFees - loan;
+
+        // With fees (actual cost)
+        var totalPaidWithFees = totalPaidNoFees + fees;
+        var totalInterestWithFees = totalInterestNoFees + fees;
+
+        // Update primary display
+        els.aprResult.textContent = fmtPct(apr);
+        els.nominalRate.textContent = fmtPct(rate);
+        els.aprRate.textContent = fmtPct(apr);
+        els.aprDiff.textContent = '+' + fmtPct(aprDiff);
+        els.monthlyPayment.textContent = formatCurrency(payment);
+
+        // Update comparison table
+        els.cmpRateNo.textContent = fmtPct(rate);
+        els.cmpRateWith.innerHTML = '<span class="compare-highlight">' + fmtPct(apr) + '</span>';
+        els.cmpPayNo.textContent = formatCurrency(payment);
+        els.cmpPayWith.textContent = formatCurrency(payment);
+        els.cmpIntNo.textContent = formatCurrency(totalInterestNoFees);
+        els.cmpIntWith.innerHTML = '<span class="compare-highlight">' + formatCurrency(totalInterestWithFees) + '</span>';
+        els.cmpTotalNo.textContent = formatCurrency(totalPaidNoFees);
+        els.cmpTotalWith.innerHTML = '<span class="compare-highlight">' + formatCurrency(totalPaidWithFees) + '</span>';
+        els.cmpExtraCost.textContent = formatCurrency(fees);
+
+        // Update summary
+        els.summaryMonthly.textContent = formatCurrency(payment);
+        els.summaryInterest.textContent = formatCurrency(totalInterestNoFees);
+        els.summaryTotal.textContent = formatCurrency(totalPaidWithFees);
+
+        // Update bars
+        updateBars(totalPaidNoFees, totalPaidWithFees);
+
+        // Show results
+        els.resultsCard.style.display = '';
+      }
+
+      /* --- Reset --- */
+      function reset() {
+        els.loanAmount.value = '';
+        els.interestRate.value = '';
+        els.loanTerm.value = '';
+        els.fees.value = '';
+        els.aprResult.textContent = '0.000%';
+        els.nominalRate.textContent = '0.000%';
+        els.aprRate.textContent = '0.000%';
+        els.aprDiff.textContent = '0.000%';
+        els.monthlyPayment.textContent = '$0.00';
+        els.resultsCard.style.display = 'none';
+        els.summaryMonthly.textContent = '$0.00';
+        els.summaryInterest.textContent = '$0.00';
+        els.summaryTotal.textContent = '$0.00';
+
+        // Clear errors
+        showError(els.loanAmount, els.loanAmountErr, false);
+        showError(els.interestRate, els.interestRateErr, false);
+        showError(els.loanTerm, els.loanTermErr, false);
+        showError(els.fees, els.feesErr, false);
+
+        showToast('All fields cleared.', 'info');
+      }
+
+      /* --- Number Formatting on Blur --- */
+      [els.loanAmount, els.fees].forEach(function(el) {
+        el.addEventListener('blur', function() { fmtInput(el); });
+      });
+
+      /* --- Default Values --- */
+      els.loanAmount.value = '250,000';
+      els.interestRate.value = '6.5';
+      els.loanTerm.value = '30';
+      els.fees.value = '3,500';
+
+      // Run initial calculation
+      calculate();
+
+      /* --- Public API --- */
+      return {
+        calculate: calculate,
+        reset: reset
+      };
+
+    })();
+  </script>
+</body>
+</html>

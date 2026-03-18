@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>String Escape &amp; Unescape Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Escape and unescape strings for JavaScript, JSON, HTML, XML, CSV, SQL, Python, and Java. Prevent injection attacks and ensure data integrity. Free, no signup.">
+  <link rel="canonical" href="https://toolrip.com/escape">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="String Escape &amp; Unescape Tool — Toolrip">
+  <meta property="og:description" content="Escape and unescape strings for JavaScript, JSON, HTML, XML, CSV, SQL, Python, and Java. Prevent injection attacks and ensure data integrity. Free, no signup.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/escape">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="String Escape &amp; Unescape Tool — Toolrip">
+  <meta name="twitter:description" content="Escape and unescape strings for JavaScript, JSON, HTML, XML, CSV, SQL, Python, and Java. Prevent injection attacks and ensure data integrity. Free, no signup.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root{--accent:var(--developer)}
+
+    .toolbar{display:flex;flex-wrap:wrap;gap:var(--sp-2);align-items:center;margin-bottom:var(--sp-3)}
+    .toolbar-right{margin-left:auto;display:flex;gap:var(--sp-2);align-items:center;flex-wrap:wrap}
+    @media(max-width:639px){.toolbar-right{margin-left:0;width:100%}}
+
+    .btn-sm{padding:var(--sp-1) var(--sp-2);font-size:.8125rem;border-radius:var(--radius-sm)}
+
+    .escape-input{width:100%;min-height:200px;resize:vertical;background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);color:var(--text);font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.875rem;padding:var(--sp-3);line-height:1.6;tab-size:2}
+    .escape-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent)}
+
+    .output-panel{position:relative;width:100%;min-height:120px;background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);padding:var(--sp-3);overflow:auto;font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.875rem;line-height:1.6;white-space:pre-wrap;word-break:break-all}
+
+    .stat-bar{display:flex;flex-wrap:wrap;gap:var(--sp-3);font-size:.8125rem;color:var(--text-muted);margin-top:var(--sp-2)}
+    .stat-bar span{display:inline-flex;align-items:center;gap:4px}
+
+    .option-row{display:flex;flex-wrap:wrap;gap:var(--sp-3);align-items:center;margin-bottom:var(--sp-3);
+      padding:var(--sp-2) var(--sp-3);background:var(--bg);border:1px solid var(--border);border-radius:var(--radius)}
+    .option-row label{font-size:.8125rem;color:var(--text-muted);display:flex;align-items:center;gap:var(--sp-2)}
+
+    .format-select{padding:var(--sp-1) var(--sp-2);background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius-sm);color:var(--text);font-size:.8125rem;cursor:pointer;
+      appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%239ca3af'%3E%3Cpath d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat:no-repeat;background-position:right .5rem center;padding-right:1.5rem}
+
+    .error-bar{background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);border-radius:var(--radius-sm);
+      padding:var(--sp-2) var(--sp-3);color:#fca5a5;font-size:.8125rem;margin-bottom:var(--sp-2);display:none;
+      font-family:'Consolas','Monaco','Courier New',monospace;line-height:1.5}
+    .error-bar.visible{display:block}
+
+    .success-bar{background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);border-radius:var(--radius-sm);
+      padding:var(--sp-2) var(--sp-3);color:#6ee7b7;font-size:.8125rem;margin-bottom:var(--sp-2);display:none}
+    .success-bar.visible{display:block}
+
+    .escape-table{width:100%;border-collapse:collapse;margin:var(--sp-3) 0;font-size:.875rem}
+    .escape-table th,.escape-table td{padding:var(--sp-2) var(--sp-3);border:1px solid var(--border);text-align:left}
+    .escape-table th{background:var(--bg-surface);color:var(--text);font-weight:600}
+    .escape-table td{color:var(--text-muted)}
+    .escape-table code{background:var(--bg-elevated);padding:2px 6px;border-radius:var(--radius-sm);font-size:.8125rem;color:var(--accent)}
+
+    .realtime-label{font-size:.75rem;color:var(--accent);font-weight:500;display:inline-flex;align-items:center;gap:4px}
+    .realtime-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 1.5s infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "String Escape & Unescape",
+    "url": "https://toolrip.com/escape",
+    "description": "Escape and unescape strings for JavaScript, JSON, HTML, XML, CSV, SQL, Python, and Java. Prevent injection attacks and ensure data integrity.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#developer">Developer Tools</a>
+        <span>/</span>
+        <span>String Escape &amp; Unescape</span>
+      </nav>
+
+      <h1>String Escape &amp; Unescape Online</h1>
+      <p class="text-muted mt-1 mb-3">Escape or unescape strings for JavaScript, JSON, HTML, XML, CSV, SQL, Python, and Java. Convert special characters to their safe escape sequences or decode escaped strings back to readable text. Real-time processing, entirely in your browser.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <!-- Tabs -->
+        <div class="tab-group">
+          <button class="tab active" data-tab="panel-escape">Escape</button>
+          <button class="tab" data-tab="panel-unescape">Unescape</button>
+        </div>
+
+        <!-- Options row -->
+        <div class="option-row">
+          <label>
+            Format:
+            <select id="format-select" class="format-select">
+              <option value="javascript" selected>JavaScript</option>
+              <option value="json">JSON</option>
+              <option value="html">HTML</option>
+              <option value="xml">XML</option>
+              <option value="csv">CSV</option>
+              <option value="sql">SQL</option>
+              <option value="python">Python</option>
+              <option value="java">Java</option>
+            </select>
+          </label>
+          <label>
+            <span class="toggle"><input type="checkbox" id="realtime-toggle" checked><span></span></span>
+            Real-time
+          </label>
+          <span class="realtime-label" id="realtime-indicator"><span class="realtime-dot"></span> Live</span>
+        </div>
+
+        <!-- Error / Success bars -->
+        <div class="error-bar" id="error-bar"></div>
+        <div class="success-bar" id="success-bar"></div>
+
+        <!-- Escape panel -->
+        <div id="panel-escape" class="tab-panel">
+          <div class="input-group">
+            <label for="escape-input">Input String</label>
+            <textarea id="escape-input" class="escape-input" placeholder="Enter the string you want to escape..." spellcheck="false" rows="8"></textarea>
+            <div class="stat-bar">
+              <span>Characters: <strong id="escape-input-chars">0</strong></span>
+              <span>Bytes: <strong id="escape-input-bytes">0</strong></span>
+            </div>
+          </div>
+
+          <div class="toolbar">
+            <button class="btn-primary btn-sm" onclick="handleEscape()">Escape</button>
+            <button class="btn-secondary btn-sm" onclick="handleClear('escape')">Clear</button>
+            <div class="toolbar-right">
+              <button class="btn-secondary btn-sm" onclick="handleCopyOutput('escape')">Copy Output</button>
+              <button class="btn-secondary btn-sm" onclick="handleSwap('escape')">Swap Input/Output</button>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label>Escaped Output</label>
+            <div class="output-panel" id="escape-output">
+              <button class="copy-btn" onclick="handleCopyOutput('escape')">Copy</button>
+              <span class="text-muted" style="font-size:.8125rem">Escaped output will appear here...</span>
+            </div>
+            <div class="stat-bar">
+              <span>Characters: <strong id="escape-output-chars">0</strong></span>
+              <span>Bytes: <strong id="escape-output-bytes">0</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Unescape panel -->
+        <div id="panel-unescape" class="tab-panel hidden">
+          <div class="input-group">
+            <label for="unescape-input">Escaped String</label>
+            <textarea id="unescape-input" class="escape-input" placeholder="Enter the escaped string to unescape..." spellcheck="false" rows="8"></textarea>
+            <div class="stat-bar">
+              <span>Characters: <strong id="unescape-input-chars">0</strong></span>
+              <span>Bytes: <strong id="unescape-input-bytes">0</strong></span>
+            </div>
+          </div>
+
+          <div class="toolbar">
+            <button class="btn-primary btn-sm" onclick="handleUnescape()">Unescape</button>
+            <button class="btn-secondary btn-sm" onclick="handleClear('unescape')">Clear</button>
+            <div class="toolbar-right">
+              <button class="btn-secondary btn-sm" onclick="handleCopyOutput('unescape')">Copy Output</button>
+              <button class="btn-secondary btn-sm" onclick="handleSwap('unescape')">Swap Input/Output</button>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label>Unescaped Output</label>
+            <div class="output-panel" id="unescape-output">
+              <button class="copy-btn" onclick="handleCopyOutput('unescape')">Copy</button>
+              <span class="text-muted" style="font-size:.8125rem">Unescaped output will appear here...</span>
+            </div>
+            <div class="stat-bar">
+              <span>Characters: <strong id="unescape-output-chars">0</strong></span>
+              <span>Bytes: <strong id="unescape-output-bytes">0</strong></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Eight Language Formats</h3>
+            <p>Switch seamlessly between JavaScript, JSON, HTML, XML, CSV, SQL, Python, and Java escape formats. Each format applies the correct escape rules defined by that language's specification. JavaScript strings use backslash sequences such as <code>\n</code>, <code>\t</code>, and <code>\"</code>. HTML replaces angle brackets and ampersands with character entity references. SQL doubles single quotes to prevent syntax errors. CSV wraps fields in double quotes and escapes internal quotes by doubling them. Every conversion follows the established standard for that format, so you can trust the output to work correctly when pasted into your source code, database query, or markup document.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Real-Time Conversion</h3>
+            <p>Enable the real-time toggle and see your escaped or unescaped output update instantly as you type. There is no need to click a button after every keystroke. The converter processes input on every change event, providing immediate visual feedback that helps you verify your escape sequences character by character. This is especially useful when constructing complex strings that include multiple special characters, nested quotes, or multi-line content. You can also disable real-time mode and use the manual Escape or Unescape button if you prefer to process large blocks of text in a single operation to avoid unnecessary intermediate updates.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Complete Privacy</h3>
+            <p>All string escaping and unescaping is performed locally inside your web browser using pure JavaScript. No data is transmitted to any server, stored in any database, or logged anywhere. This means you can safely process sensitive strings such as API keys embedded in configuration files, SQL queries containing personal data, HTML templates with user-generated content, and source code with confidential business logic. You can verify the client-side nature of this tool by disconnecting from the internet after the page loads — it continues to work perfectly because every transformation happens in your browser's JavaScript engine.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Injection Prevention</h3>
+            <p>Proper string escaping is the first line of defense against injection attacks. This tool helps you verify that user-supplied strings are correctly escaped before they are inserted into SQL queries, HTML pages, or JavaScript code. By visually inspecting the escaped output, you can confirm that special characters such as single quotes, angle brackets, ampersands, and backslashes are properly neutralized. Use this tool during development to test your escaping logic, during code review to validate string handling, and during debugging to identify escaping issues that could lead to cross-site scripting (XSS) or SQL injection vulnerabilities.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Swap and Iterate</h3>
+            <p>The swap button lets you instantly move the output back into the input field, making it easy to chain multiple escape or unescape operations. This is useful when you need to double-escape a string (for example, escaping a JSON string that will be embedded inside another JSON string), or when you want to verify round-trip fidelity by escaping and then unescaping the same content. The swap feature works in both Escape and Unescape modes and preserves the current format selection, so your workflow stays uninterrupted.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Copy with One Click</h3>
+            <p>Click the Copy Output button or the Copy badge in the output panel to send the result directly to your clipboard, ready to paste into your editor, terminal, or application. The tool uses the modern Clipboard API with a fallback for older browsers, ensuring reliable copying across all platforms and devices. A toast notification confirms that the copy was successful, and the clipboard contents match the output exactly, including all escape sequences, line breaks, and special characters. You can also use the Clear button to reset both fields and start fresh with a new string.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the String Escape &amp; Unescape Tool</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Choose your mode and format.</strong> Click the <em>Escape</em> tab to convert a raw string into its escaped form, or click the <em>Unescape</em> tab to decode an escaped string back to readable text. Select the target language format from the dropdown: JavaScript, JSON, HTML, XML, CSV, SQL, Python, or Java. Each format applies escape rules specific to that language.</li>
+          <li><strong>Enter your string.</strong> Type or paste the text you want to process into the input textarea. If the real-time toggle is enabled, the output will update automatically with every keystroke. If real-time mode is off, click the <em>Escape</em> or <em>Unescape</em> button to process the input manually. The character and byte counts update in real time to help you track string length.</li>
+          <li><strong>Copy or swap the result.</strong> Click <em>Copy Output</em> to send the processed string to your clipboard. Use the <em>Swap Input/Output</em> button to move the result back into the input for chained operations such as double-escaping. Click <em>Clear</em> to reset both fields and start a new conversion.</li>
+        </ol>
+      </section>
+
+      <!-- Escape Sequences Reference -->
+      <section class="mt-4">
+        <h2>Understanding String Escaping</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">String escaping is the process of replacing special characters within a string with designated escape sequences so that the string can be safely included in source code, queries, markup, or data formats without causing syntax errors or security vulnerabilities. Every programming language and data format defines its own set of characters that carry special meaning and therefore need to be escaped when they appear as literal content. Failing to escape these characters can lead to broken code at best and severe security breaches at worst, including cross-site scripting (XSS) attacks in web applications and SQL injection attacks in database-driven systems.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">The concept of escaping dates back to the earliest days of computing, when control characters needed to be distinguished from printable text in terminal communication. The backslash character was adopted as the universal escape prefix in languages descended from C, and HTML introduced ampersand-based character entity references to handle reserved markup characters. Today, proper string escaping remains one of the most important practices in software development, forming the foundation of secure data handling, correct serialization, and reliable inter-system communication.</p>
+
+        <h3 style="margin-top:var(--sp-4);margin-bottom:var(--sp-2)">Common Escape Sequences by Language</h3>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Different languages handle escaping in different ways. In JavaScript and Java, the backslash serves as the escape character, and common sequences include <code>\n</code> for newline, <code>\t</code> for tab, <code>\\</code> for a literal backslash, <code>\"</code> for a double quote, and <code>\'</code> for a single quote. JSON follows the same backslash conventions as JavaScript but also requires Unicode code points outside the Basic Latin range to be represented using <code>\uXXXX</code> notation. Python supports the same backslash sequences and adds raw string literals prefixed with <code>r</code> to disable escape processing altogether.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">HTML and XML use a fundamentally different escaping mechanism based on character entity references. The ampersand character is escaped as <code>&amp;amp;</code>, the less-than sign as <code>&amp;lt;</code>, the greater-than sign as <code>&amp;gt;</code>, the double quote as <code>&amp;quot;</code>, and the apostrophe as <code>&amp;apos;</code>. Any Unicode character can also be referenced by its numeric code point, such as <code>&amp;#169;</code> for the copyright symbol. These entities prevent the browser from interpreting user-supplied text as HTML tags or attributes, which is essential for preventing XSS attacks in web applications.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">SQL escaping focuses primarily on the single quote character, which delimits string literals in most SQL dialects. The standard escaping method is to double the single quote, so the value <code>O'Brien</code> becomes <code>O''Brien</code> in a SQL string. While parameterized queries are the preferred defense against SQL injection, understanding manual escaping is still important for debugging queries, writing migration scripts, and working with legacy systems that do not support prepared statements. CSV escaping wraps field values in double quotes whenever the field contains a comma, a double quote, or a newline character, and any embedded double quotes are doubled.</p>
+
+        <h3 style="margin-top:var(--sp-4);margin-bottom:var(--sp-2)">Why String Escaping Matters for Security</h3>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Improper string escaping is the root cause of some of the most common and dangerous security vulnerabilities in software. Cross-site scripting occurs when an attacker injects malicious JavaScript into a web page by exploiting unescaped user input that is rendered as HTML. If a web application displays a username without escaping angle brackets, an attacker can set their username to include a script tag that executes arbitrary code in every visitor's browser. Similarly, SQL injection occurs when unescaped input is concatenated directly into a SQL query string, allowing an attacker to modify the query's logic, extract unauthorized data, or even delete entire tables. Proper escaping transforms potentially dangerous characters into harmless literal text, ensuring that user input is always treated as data rather than executable code.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Beyond security, correct escaping is essential for data integrity. A JSON document that contains unescaped control characters will fail to parse. A CSV file with unescaped commas inside field values will produce the wrong number of columns. An XML document with unescaped ampersands will trigger a well-formedness error. By using this tool to inspect and verify your escape sequences, you can catch these issues before they reach production and cause data corruption, parsing failures, or broken user interfaces.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is string escaping and why do I need it?</summary>
+          <p>String escaping is the practice of converting special characters within a string into alternate representations called escape sequences so that those characters are treated as literal data rather than syntax elements. You need escaping whenever you embed a string inside a context that assigns special meaning to certain characters. For example, a double quote inside a JavaScript string literal would prematurely terminate the string unless it is escaped as <code>\"</code>. Similarly, an angle bracket inside HTML content would be interpreted as the start of a tag unless it is escaped as <code>&amp;lt;</code>. Without proper escaping, your code can produce syntax errors, your data formats can become malformed, and your applications can become vulnerable to injection attacks. This tool makes it easy to see exactly how a string should look after escaping for any of eight common formats.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How does escaping prevent cross-site scripting (XSS) attacks?</summary>
+          <p>XSS attacks exploit the failure to escape user-supplied content before inserting it into an HTML page. When a web application renders untrusted input without escaping, an attacker can inject malicious markup such as script elements that execute arbitrary JavaScript in other users' browsers. Escaping prevents this by converting characters that have special meaning in HTML into their entity-encoded equivalents. The less-than sign becomes <code>&amp;lt;</code>, the greater-than sign becomes <code>&amp;gt;</code>, the ampersand becomes <code>&amp;amp;</code>, and quotes become <code>&amp;quot;</code> or <code>&amp;apos;</code>. After escaping, the browser renders these characters as visible text rather than interpreting them as HTML syntax, which completely neutralizes the injected payload. Modern web frameworks typically apply output escaping by default, but developers still need to understand the underlying mechanism to handle edge cases and raw rendering contexts correctly.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is SQL injection and how does string escaping help prevent it?</summary>
+          <p>SQL injection is an attack technique in which malicious SQL code is inserted into a query through unvalidated user input. If an application constructs SQL queries by concatenating strings directly from user input without escaping, an attacker can insert characters such as single quotes to break out of a string literal and modify the query's behavior. For example, entering <code>' OR '1'='1</code> into a login field could bypass authentication if the input is not escaped. Escaping the single quote by doubling it (<code>''</code>) prevents the attacker's input from terminating the SQL string literal. While parameterized queries (also known as prepared statements) are the gold-standard defense against SQL injection, proper string escaping provides an additional layer of safety and is essential when working with dynamic SQL, stored procedures, or legacy systems that do not support parameterized queries.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How does backslash escaping work in JavaScript and JSON?</summary>
+          <p>In JavaScript and JSON, the backslash character (<code>\</code>) serves as the escape prefix. When the parser encounters a backslash, it treats the following character as part of an escape sequence rather than as a literal character. The most common sequences are <code>\n</code> for a newline (line feed), <code>\t</code> for a horizontal tab, <code>\r</code> for a carriage return, <code>\\</code> for a literal backslash, <code>\"</code> for a double quote inside a double-quoted string, and <code>\'</code> for a single quote inside a single-quoted string. JSON additionally uses <code>\uXXXX</code> notation (where XXXX is a four-digit hexadecimal code point) to represent any Unicode character, and it requires all control characters (code points below U+0020) to be escaped. JavaScript supports the same <code>\uXXXX</code> syntax and also provides <code>\xHH</code> for two-digit hexadecimal escapes and <code>\0</code> for the null character.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What are Unicode escape sequences and when should I use them?</summary>
+          <p>Unicode escape sequences represent characters using their numeric code points rather than their literal glyphs. In JavaScript and JSON, the syntax is <code>\uXXXX</code>, where XXXX is a four-digit hexadecimal number corresponding to the Unicode code point. For example, <code>\u00A9</code> represents the copyright symbol and <code>\u2603</code> represents the snowman character. In Python, the same <code>\uXXXX</code> syntax is used within regular strings, and <code>\UXXXXXXXX</code> (eight hex digits) handles characters outside the Basic Multilingual Plane. Unicode escapes are useful when your source file encoding might not support certain characters, when you need to embed invisible or non-printable characters in a human-readable way, or when a data format specification requires that non-ASCII characters be escaped. JSON, for instance, technically allows non-ASCII characters in strings, but many JSON producers escape them for maximum interoperability with systems that might not handle UTF-8 correctly.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between escaping and encoding?</summary>
+          <p>Escaping and encoding are related but distinct concepts. Escaping replaces specific characters that have special meaning in a given context with alternative representations that are safe within that context, such as replacing <code>"</code> with <code>\"</code> in JavaScript or <code>&lt;</code> with <code>&amp;lt;</code> in HTML. The goal of escaping is to preserve the literal meaning of those characters while preventing them from being interpreted as syntax. Encoding, on the other hand, transforms data from one representation to another, typically changing the format of every byte in the input. Base64 encoding, for example, converts binary data into a sequence of ASCII characters so that it can be transmitted through text-only channels. URL encoding (percent-encoding) replaces unsafe characters with percent signs followed by hexadecimal values. The key distinction is that escaping is context-specific and targets only special characters, while encoding is a systematic transformation of the entire data.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How does CSV escaping work?</summary>
+          <p>CSV (Comma-Separated Values) escaping follows the rules defined in RFC 4180. A field value must be enclosed in double quotes if it contains any of three special characters: a comma (the field separator), a double quote, or a newline character (either carriage return or line feed). When a field is quoted, any double quote character within the field is escaped by doubling it — so a single <code>"</code> becomes <code>""</code>. For example, the value <code>She said "hello"</code> becomes <code>"She said ""hello"""</code> in a CSV file. Fields that do not contain any special characters can optionally be left unquoted for brevity. This escaping mechanism ensures that CSV parsers can correctly identify field boundaries regardless of the content within each field. When using this tool, the CSV escape mode automatically wraps the input in double quotes and doubles any internal double quote characters.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+          <a href="https://toolrip.com/word-count">Word Counter</a>
+          <a href="https://toolrip.com/case">Case Converter</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+  (function(){
+    'use strict';
+
+    /* ========== State ========== */
+    var lastEscapeOutput = '';
+    var lastUnescapeOutput = '';
+
+    /* ========== DOM References ========== */
+    var formatSelect = document.getElementById('format-select');
+    var realtimeToggle = document.getElementById('realtime-toggle');
+    var realtimeIndicator = document.getElementById('realtime-indicator');
+    var errorBar = document.getElementById('error-bar');
+    var successBar = document.getElementById('success-bar');
+
+    var escapeInput = document.getElementById('escape-input');
+    var escapeOutput = document.getElementById('escape-output');
+    var unescapeInput = document.getElementById('unescape-input');
+    var unescapeOutput = document.getElementById('unescape-output');
+
+    /* ========== Helpers ========== */
+    function clearMessages() {
+      errorBar.classList.remove('visible');
+      successBar.classList.remove('visible');
+    }
+
+    function showError(msg) {
+      clearMessages();
+      errorBar.textContent = msg;
+      errorBar.classList.add('visible');
+    }
+
+    function showSuccess(msg) {
+      clearMessages();
+      successBar.textContent = msg;
+      successBar.classList.add('visible');
+    }
+
+    function htmlEscape(str) {
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function updateStats(prefix, text) {
+      var chars = text.length;
+      var bytes = new TextEncoder().encode(text).length;
+      document.getElementById(prefix + '-chars').textContent = chars.toLocaleString();
+      document.getElementById(prefix + '-bytes').textContent = bytes.toLocaleString();
+    }
+
+    function getFormat() {
+      return formatSelect.value;
+    }
+
+    function isRealtime() {
+      return realtimeToggle.checked;
+    }
+
+    /* ========== Escape Functions ========== */
+    function escapeJavaScript(str) {
+      return str
+        .replace(/\\/g, '\\\\')
+        .replace(/'/g, "\\'")
+        .replace(/"/g, '\\"')
+        .replace(/\n/g, '\\n')
+        .replace(/\r/g, '\\r')
+        .replace(/\t/g, '\\t')
+        .replace(/\f/g, '\\f')
+        .replace(/\v/g, '\\v')
+        .replace(/\0/g, '\\0');
+    }
+
+    function unescapeJavaScript(str) {
+      var result = '';
+      var i = 0;
+      while (i < str.length) {
+        if (str[i] === '\\' && i + 1 < str.length) {
+          var next = str[i + 1];
+          switch (next) {
+            case '\\': result += '\\'; i += 2; break;
+            case "'":  result += "'";  i += 2; break;
+            case '"':  result += '"';  i += 2; break;
+            case 'n':  result += '\n'; i += 2; break;
+            case 'r':  result += '\r'; i += 2; break;
+            case 't':  result += '\t'; i += 2; break;
+            case 'f':  result += '\f'; i += 2; break;
+            case 'v':  result += '\v'; i += 2; break;
+            case '0':  result += '\0'; i += 2; break;
+            case 'x':
+              if (i + 3 < str.length) {
+                var hex2 = str.substring(i + 2, i + 4);
+                if (/^[0-9a-fA-F]{2}$/.test(hex2)) {
+                  result += String.fromCharCode(parseInt(hex2, 16));
+                  i += 4; break;
+                }
+              }
+              result += '\\'; i += 1; break;
+            case 'u':
+              if (i + 5 < str.length) {
+                var hex4 = str.substring(i + 2, i + 6);
+                if (/^[0-9a-fA-F]{4}$/.test(hex4)) {
+                  result += String.fromCharCode(parseInt(hex4, 16));
+                  i += 6; break;
+                }
+              }
+              result += '\\'; i += 1; break;
+            default:
+              result += '\\' + next; i += 2; break;
+          }
+        } else {
+          result += str[i];
+          i++;
+        }
+      }
+      return result;
+    }
+
+    function escapeJSON(str) {
+      var escaped = str
+        .replace(/\\/g, '\\\\')
+        .replace(/"/g, '\\"')
+        .replace(/\n/g, '\\n')
+        .replace(/\r/g, '\\r')
+        .replace(/\t/g, '\\t')
+        .replace(/\f/g, '\\f')
+        .replace(/[\b]/g, '\\b');
+      // Escape control characters and non-ASCII to \uXXXX
+      escaped = escaped.replace(/[\u0000-\u001f\u007f-\uffff]/g, function(c) {
+        return '\\u' + ('0000' + c.charCodeAt(0).toString(16)).slice(-4);
+      });
+      return escaped;
+    }
+
+    function unescapeJSON(str) {
+      try {
+        return JSON.parse('"' + str + '"');
+      } catch (e) {
+        // Fallback: try wrapping differently
+        try {
+          return JSON.parse(str);
+        } catch (e2) {
+          return unescapeJavaScript(str);
+        }
+      }
+    }
+
+    function escapeHTML(str) {
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function unescapeHTML(str) {
+      var el = document.createElement('textarea');
+      el.innerHTML = str;
+      return el.value;
+    }
+
+    function escapeXML(str) {
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&apos;');
+    }
+
+    function unescapeXML(str) {
+      return str
+        .replace(/&apos;/g, "'")
+        .replace(/&quot;/g, '"')
+        .replace(/&gt;/g, '>')
+        .replace(/&lt;/g, '<')
+        .replace(/&amp;/g, '&');
+    }
+
+    function escapeCSV(str) {
+      if (/[",\n\r]/.test(str)) {
+        return '"' + str.replace(/"/g, '""') + '"';
+      }
+      return str;
+    }
+
+    function unescapeCSV(str) {
+      if (str.length >= 2 && str[0] === '"' && str[str.length - 1] === '"') {
+        return str.substring(1, str.length - 1).replace(/""/g, '"');
+      }
+      return str;
+    }
+
+    function escapeSQL(str) {
+      return str.replace(/'/g, "''");
+    }
+
+    function unescapeSQL(str) {
+      return str.replace(/''/g, "'");
+    }
+
+    function escapePython(str) {
+      return str
+        .replace(/\\/g, '\\\\')
+        .replace(/'/g, "\\'")
+        .replace(/"/g, '\\"')
+        .replace(/\n/g, '\\n')
+        .replace(/\r/g, '\\r')
+        .replace(/\t/g, '\\t')
+        .replace(/\f/g, '\\f')
+        .replace(/[\b]/g, '\\b')
+        .replace(/\0/g, '\\0');
+    }
+
+    function unescapePython(str) {
+      return unescapeJavaScript(str);
+    }
+
+    function escapeJava(str) {
+      return str
+        .replace(/\\/g, '\\\\')
+        .replace(/"/g, '\\"')
+        .replace(/'/g, "\\'")
+        .replace(/\n/g, '\\n')
+        .replace(/\r/g, '\\r')
+        .replace(/\t/g, '\\t')
+        .replace(/\f/g, '\\f')
+        .replace(/[\b]/g, '\\b');
+    }
+
+    function unescapeJava(str) {
+      return unescapeJavaScript(str);
+    }
+
+    /* ========== Dispatch ========== */
+    function escapeString(str, format) {
+      switch (format) {
+        case 'javascript': return escapeJavaScript(str);
+        case 'json':       return escapeJSON(str);
+        case 'html':       return escapeHTML(str);
+        case 'xml':        return escapeXML(str);
+        case 'csv':        return escapeCSV(str);
+        case 'sql':        return escapeSQL(str);
+        case 'python':     return escapePython(str);
+        case 'java':       return escapeJava(str);
+        default:           return escapeJavaScript(str);
+      }
+    }
+
+    function unescapeString(str, format) {
+      switch (format) {
+        case 'javascript': return unescapeJavaScript(str);
+        case 'json':       return unescapeJSON(str);
+        case 'html':       return unescapeHTML(str);
+        case 'xml':        return unescapeXML(str);
+        case 'csv':        return unescapeCSV(str);
+        case 'sql':        return unescapeSQL(str);
+        case 'python':     return unescapePython(str);
+        case 'java':       return unescapeJava(str);
+        default:           return unescapeJavaScript(str);
+      }
+    }
+
+    /* ========== Action Handlers ========== */
+    function handleEscape() {
+      clearMessages();
+      var input = escapeInput.value;
+      if (!input) {
+        showError('Please enter a string to escape.');
+        return;
+      }
+      try {
+        var format = getFormat();
+        var result = escapeString(input, format);
+        lastEscapeOutput = result;
+        escapeOutput.innerHTML = '<button class="copy-btn" onclick="handleCopyOutput(\'escape\')">Copy</button>' + htmlEscape(result);
+        updateStats('escape-output', result);
+        showSuccess('Escaped successfully (' + format.charAt(0).toUpperCase() + format.slice(1) + ')');
+        showToast('Escaped successfully!', 'success');
+      } catch (e) {
+        showError('Escape error: ' + (e.message || 'Unknown error'));
+      }
+    }
+
+    function handleUnescape() {
+      clearMessages();
+      var input = unescapeInput.value;
+      if (!input) {
+        showError('Please enter an escaped string to unescape.');
+        return;
+      }
+      try {
+        var format = getFormat();
+        var result = unescapeString(input, format);
+        lastUnescapeOutput = result;
+        unescapeOutput.innerHTML = '<button class="copy-btn" onclick="handleCopyOutput(\'unescape\')">Copy</button>' + htmlEscape(result);
+        updateStats('unescape-output', result);
+        showSuccess('Unescaped successfully (' + format.charAt(0).toUpperCase() + format.slice(1) + ')');
+        showToast('Unescaped successfully!', 'success');
+      } catch (e) {
+        showError('Unescape error: ' + (e.message || 'Unknown error'));
+      }
+    }
+
+    function handleCopyOutput(mode) {
+      var text = mode === 'escape' ? lastEscapeOutput : lastUnescapeOutput;
+      if (!text) {
+        showToast('Nothing to copy', 'error');
+        return;
+      }
+      copyToClipboard(text);
+      showToast('Copied to clipboard!', 'success');
+    }
+
+    function handleClear(mode) {
+      clearMessages();
+      if (mode === 'escape') {
+        escapeInput.value = '';
+        lastEscapeOutput = '';
+        escapeOutput.innerHTML = '<button class="copy-btn" onclick="handleCopyOutput(\'escape\')">Copy</button><span class="text-muted" style="font-size:.8125rem">Escaped output will appear here...</span>';
+        updateStats('escape-input', '');
+        updateStats('escape-output', '');
+      } else {
+        unescapeInput.value = '';
+        lastUnescapeOutput = '';
+        unescapeOutput.innerHTML = '<button class="copy-btn" onclick="handleCopyOutput(\'unescape\')">Copy</button><span class="text-muted" style="font-size:.8125rem">Unescaped output will appear here...</span>';
+        updateStats('unescape-input', '');
+        updateStats('unescape-output', '');
+      }
+      showToast('Cleared', 'info');
+    }
+
+    function handleSwap(mode) {
+      if (mode === 'escape') {
+        if (!lastEscapeOutput) {
+          showToast('Nothing to swap', 'error');
+          return;
+        }
+        escapeInput.value = lastEscapeOutput;
+        updateStats('escape-input', lastEscapeOutput);
+        lastEscapeOutput = '';
+        escapeOutput.innerHTML = '<button class="copy-btn" onclick="handleCopyOutput(\'escape\')">Copy</button><span class="text-muted" style="font-size:.8125rem">Escaped output will appear here...</span>';
+        updateStats('escape-output', '');
+        if (isRealtime()) handleEscape();
+      } else {
+        if (!lastUnescapeOutput) {
+          showToast('Nothing to swap', 'error');
+          return;
+        }
+        unescapeInput.value = lastUnescapeOutput;
+        updateStats('unescape-input', lastUnescapeOutput);
+        lastUnescapeOutput = '';
+        unescapeOutput.innerHTML = '<button class="copy-btn" onclick="handleCopyOutput(\'unescape\')">Copy</button><span class="text-muted" style="font-size:.8125rem">Unescaped output will appear here...</span>';
+        updateStats('unescape-output', '');
+        if (isRealtime()) handleUnescape();
+      }
+      showToast('Swapped', 'info');
+    }
+
+    /* ========== Real-time Input Listeners ========== */
+    var escapeDebounce = null;
+    escapeInput.addEventListener('input', function() {
+      updateStats('escape-input', escapeInput.value);
+      if (!isRealtime()) return;
+      clearTimeout(escapeDebounce);
+      escapeDebounce = setTimeout(function() {
+        if (escapeInput.value) handleEscape();
+      }, 150);
+    });
+
+    var unescapeDebounce = null;
+    unescapeInput.addEventListener('input', function() {
+      updateStats('unescape-input', unescapeInput.value);
+      if (!isRealtime()) return;
+      clearTimeout(unescapeDebounce);
+      unescapeDebounce = setTimeout(function() {
+        if (unescapeInput.value) handleUnescape();
+      }, 150);
+    });
+
+    /* ========== Format Change: Re-process ========== */
+    formatSelect.addEventListener('change', function() {
+      if (escapeInput.value && isRealtime()) handleEscape();
+      if (unescapeInput.value && isRealtime()) handleUnescape();
+    });
+
+    /* ========== Realtime Toggle ========== */
+    realtimeToggle.addEventListener('change', function() {
+      realtimeIndicator.style.display = isRealtime() ? '' : 'none';
+      if (isRealtime()) {
+        if (escapeInput.value) handleEscape();
+        if (unescapeInput.value) handleUnescape();
+      }
+    });
+
+    /* ========== Keyboard Shortcuts ========== */
+    escapeInput.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        handleEscape();
+      }
+    });
+
+    unescapeInput.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        handleUnescape();
+      }
+    });
+
+    /* ========== Expose to global for onclick handlers ========== */
+    window.handleEscape = handleEscape;
+    window.handleUnescape = handleUnescape;
+    window.handleCopyOutput = handleCopyOutput;
+    window.handleClear = handleClear;
+    window.handleSwap = handleSwap;
+
+  })();
+  </script>
+</body>
+</html>

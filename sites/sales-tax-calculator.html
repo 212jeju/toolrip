@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sales Tax Calculator — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Calculate sales tax instantly for any purchase. Find tax amount, total with tax, or reverse-calculate pre-tax price. Includes US state tax rate reference table.">
+  <link rel="canonical" href="https://toolrip.com/sales-tax">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Sales Tax Calculator — Toolrip">
+  <meta property="og:description" content="Calculate sales tax instantly for any purchase. Find tax amount, total with tax, or reverse-calculate pre-tax price. Free online sales tax calculator.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/sales-tax">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Sales Tax Calculator — Toolrip">
+  <meta name="twitter:description" content="Calculate sales tax instantly for any purchase. Find tax amount, total with tax, or reverse-calculate pre-tax price. Free online sales tax calculator.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--finance)}</style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Sales Tax Calculator",
+    "url": "https://toolrip.com/sales-tax",
+    "description": "Calculate sales tax instantly for any purchase. Find tax amount, total with tax, or reverse-calculate pre-tax price. Includes US state tax rate reference table.",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Finance Tools", "item": "https://toolrip.com/#finance" },
+      { "@type": "ListItem", "position": 3, "name": "Sales Tax Calculator", "item": "https://toolrip.com/sales-tax" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is sales tax?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Sales tax is a consumption tax imposed by state and local governments on the sale of goods and certain services. It is collected by the retailer at the point of purchase and remitted to the government. The rate varies by jurisdiction." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I calculate sales tax on a purchase?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Multiply the item price by the tax rate expressed as a decimal. For example, a $100 item at 8.25% tax: $100 x 0.0825 = $8.25 in tax. The total cost would be $108.25." }
+      },
+      {
+        "@type": "Question",
+        "name": "Which US state has the highest sales tax?",
+        "acceptedAnswer": { "@type": "Answer", "text": "California has the highest state-level sales tax rate at 7.25%. However, when combined with local taxes, rates in some areas of Louisiana, Tennessee, and Arkansas can exceed 11%." }
+      },
+      {
+        "@type": "Question",
+        "name": "Which US states have no sales tax?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Five US states have no state-level sales tax: Alaska, Delaware, Montana, New Hampshire, and Oregon. Alaska does allow local jurisdictions to charge sales tax." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between sales tax and VAT?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Sales tax is applied once at the final point of sale. VAT (Value Added Tax) is collected at every stage of production and distribution. VAT is common in Europe and most countries outside the US." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I find the pre-tax price from a total?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Divide the total amount by (1 + tax rate as decimal). For example, if the total is $108.25 and the tax rate is 8.25%, divide $108.25 by 1.0825 to get $100.00 as the pre-tax price." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is this sales tax calculator free to use?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes, this calculator is completely free with no signup required. All calculations run in your browser so your data stays private. There are no usage limits or hidden fees." }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    /* Tool-specific styles */
+
+    /* Price input with $ prefix */
+    .price-input-wrap {
+      position: relative;
+    }
+    .price-input-wrap .currency-prefix {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 1.125rem;
+      font-weight: 600;
+      pointer-events: none;
+    }
+    .price-input-wrap .input-field {
+      padding-left: 28px;
+      font-size: 1.125rem;
+    }
+
+    /* Tax rate input with % suffix */
+    .rate-input-wrap {
+      position: relative;
+      max-width: 200px;
+    }
+    .rate-input-wrap .percent-suffix {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 1.125rem;
+      font-weight: 600;
+      pointer-events: none;
+    }
+    .rate-input-wrap .input-field {
+      padding-right: 28px;
+      font-size: 1.125rem;
+    }
+
+    /* Mode toggle */
+    .mode-toggle {
+      display: flex;
+      gap: 2px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 3px;
+      margin-bottom: var(--sp-3);
+    }
+    .mode-btn {
+      flex: 1;
+      padding: var(--sp-2) var(--sp-3);
+      background: transparent;
+      border: none;
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      font: inherit;
+      font-size: .875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .15s, color .15s;
+      text-align: center;
+    }
+    .mode-btn:hover {
+      color: var(--text);
+    }
+    .mode-btn.active {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* Results display */
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-3);
+      margin-top: var(--sp-4);
+    }
+    @media (max-width: 639px) {
+      .results-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .result-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-4);
+      text-align: center;
+    }
+    .result-card.primary {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 5%, var(--bg));
+    }
+    .result-label {
+      font-size: .8rem;
+      color: var(--text-muted);
+      margin-bottom: var(--sp-1);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .result-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .result-value.accent {
+      color: var(--accent);
+      font-size: 2rem;
+    }
+
+    /* State tax table */
+    .state-table-wrap {
+      overflow-x: auto;
+      margin-top: var(--sp-3);
+    }
+    .state-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .8125rem;
+    }
+    .state-table th {
+      text-align: left;
+      padding: var(--sp-2);
+      border-bottom: 2px solid var(--border);
+      font-size: .75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .03em;
+      white-space: nowrap;
+      position: sticky;
+      top: 0;
+      background: var(--bg-surface);
+    }
+    .state-table td {
+      padding: var(--sp-2);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .state-table tr:hover td {
+      background: var(--bg-elevated);
+    }
+    .state-table .no-tax {
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .state-table-container {
+      max-height: 400px;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .state-search {
+      margin-bottom: var(--sp-2);
+    }
+
+    /* Section divider */
+    .section-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: var(--sp-4) 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="top">Ad</div>
+
+    <!-- Breadcrumb -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#finance">Finance</a>
+        <span>/</span>
+        <span>Sales Tax Calculator</span>
+      </nav>
+
+      <h1>Sales Tax Calculator</h1>
+      <p class="text-muted mt-1 mb-3">Calculate sales tax on any purchase, find the total cost after tax, or reverse-calculate the pre-tax price from a receipt total. Fast, free, and works entirely in your browser with no signup required.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+
+        <!-- Mode Toggle -->
+        <div class="mode-toggle" id="modeToggle">
+          <button type="button" class="mode-btn active" data-mode="forward">Calculate Tax</button>
+          <button type="button" class="mode-btn" data-mode="reverse">Reverse: Find Pre-Tax Price</button>
+        </div>
+
+        <!-- Price Input -->
+        <div class="input-group">
+          <label for="priceInput" id="priceLabel">Price Before Tax</label>
+          <div class="price-input-wrap">
+            <span class="currency-prefix">$</span>
+            <input type="text" id="priceInput" class="input-field" placeholder="0.00" inputmode="decimal" autocomplete="off">
+          </div>
+        </div>
+
+        <!-- Tax Rate Input -->
+        <div class="input-group">
+          <label for="taxRate">Tax Rate</label>
+          <div class="rate-input-wrap">
+            <input type="text" id="taxRate" class="input-field" placeholder="8.25" value="8.25" inputmode="decimal" autocomplete="off">
+            <span class="percent-suffix">%</span>
+          </div>
+        </div>
+
+        <!-- Calculate Button -->
+        <button type="button" class="btn-primary" id="calcBtn" style="width:100%;margin-top:var(--sp-2)">Calculate</button>
+
+        <!-- Results -->
+        <div class="results-grid" id="resultsGrid">
+          <div class="result-card">
+            <div class="result-label" id="resultLabel1">Tax Amount</div>
+            <div class="result-value" id="taxAmount">$0.00</div>
+          </div>
+          <div class="result-card primary">
+            <div class="result-label" id="resultLabel2">Total with Tax</div>
+            <div class="result-value accent" id="totalAmount">$0.00</div>
+          </div>
+          <div class="result-card">
+            <div class="result-label" id="resultLabel3">Pre-Tax Price</div>
+            <div class="result-value" id="preTaxPrice">$0.00</div>
+          </div>
+        </div>
+
+        <!-- US State Tax Reference -->
+        <hr class="section-divider">
+        <h2 style="font-size:1.125rem;margin-bottom:var(--sp-1)">US State Sales Tax Rates</h2>
+        <p class="text-muted" style="font-size:.8125rem;margin-bottom:var(--sp-2)">Click any state to use its base rate. Rates shown are state-level only; local taxes may apply in addition.</p>
+        <div class="state-search">
+          <input type="text" id="stateSearch" class="input-field" placeholder="Search states..." autocomplete="off">
+        </div>
+        <div class="state-table-container">
+          <table class="state-table" id="stateTable">
+            <thead>
+              <tr>
+                <th>State</th>
+                <th>Rate</th>
+                <th>State</th>
+                <th>Rate</th>
+              </tr>
+            </thead>
+            <tbody id="stateBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="in-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Forward and Reverse Calculation</h3>
+            <p>Most sales tax calculators only work one way, giving you the total when you know the pre-tax price. This tool also works in reverse. If you have a receipt total and need to find out how much of that amount was tax versus the base price, switch to reverse mode and enter the total. The calculator divides by the tax factor to extract the original price and the exact tax portion. This is useful for expense reports, bookkeeping, and understanding how much of your purchase actually went to tax. Both modes update instantly and display all three figures: tax amount, total with tax, and the pre-tax price.</p>
+          </div>
+          <div class="feature-card">
+            <h3>US State Tax Rate Reference</h3>
+            <p>No need to look up your state's sales tax rate separately. The built-in reference table lists the base sales tax rate for all 50 US states plus the District of Columbia. Click any state row to automatically fill the tax rate into the calculator. The table is searchable so you can type a state name to quickly filter the list. Keep in mind that the rates shown are state-level base rates only. Many cities and counties add local taxes on top of the state rate, so your actual rate at checkout may be higher. The five states with no state sales tax are clearly marked in the table for quick reference.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Instant Results with No Signup</h3>
+            <p>Enter a price and tax rate, press calculate, and see results immediately. There are no accounts to create, no email addresses to provide, and no premium features hidden behind a paywall. Every calculation runs in JavaScript inside your browser, which means your purchase amounts are never sent to a server and your financial information stays completely private. The tool works on any device with a web browser, including smartphones, tablets, and desktop computers. You can bookmark this page for instant access the next time you need to figure out sales tax at the register, on a quote, or when filing expenses.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Sales Tax Calculator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li>Choose your calculation mode at the top of the tool. Use "Calculate Tax" when you know the item price before tax and want to find the tax amount and total. Use "Reverse: Find Pre-Tax Price" when you have the total amount paid and want to determine the original price and tax breakdown.</li>
+          <li>Enter the dollar amount in the price field. In forward mode this is the price before tax. In reverse mode this is the total amount including tax that you want to break down.</li>
+          <li>Enter the applicable sales tax rate as a percentage. You can type the rate manually or click a state in the reference table below to auto-fill the state base rate. Remember to add any applicable local taxes to the state rate for an accurate result.</li>
+          <li>Click the Calculate button or simply review the results that appear below the inputs. The calculator displays three values: the dollar amount of tax, the total after tax, and the pre-tax price. All three figures update based on your selected mode and inputs.</li>
+        </ol>
+      </section>
+
+      <!-- Understanding Sales Tax -->
+      <section class="mt-4">
+        <h2>Understanding Sales Tax</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Sales tax is a government-imposed levy on the sale of goods and services collected at the point of purchase. Unlike income tax, which is based on what you earn, sales tax is based on what you spend. In the United States, sales tax is not set at the federal level. Instead, each state determines its own rate, and many cities and counties impose additional local taxes on top of the state rate. This layered approach means the total sales tax you pay can vary significantly depending on where you are shopping. Some states have no sales tax at all, while combined rates in certain jurisdictions can exceed ten percent.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">The mechanics of sales tax are straightforward. When you purchase a taxable item, the retailer calculates the tax by multiplying the item price by the applicable rate, adds that amount to your bill, and then remits the collected tax to the state and local government. For consumers, this means the sticker price on a shelf is typically not the final amount you pay at the register. The actual total depends on the combined state and local tax rate in your area. This is different from many other countries where the advertised price already includes all applicable taxes.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Not all purchases are subject to sales tax. Most states exempt essential categories such as unprepared groceries, prescription medications, and sometimes clothing. The specific exemptions vary widely from state to state. Some states offer periodic sales tax holidays, typically before the back-to-school season, during which certain categories of purchases are temporarily exempt from tax. Understanding what is and is not taxable in your state can help you budget more accurately and take advantage of any available exemptions.</p>
+
+        <h3 style="margin-top:var(--sp-4);margin-bottom:var(--sp-2)">Sales Tax vs. VAT: A Global Perspective</h3>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Outside the United States, the most common form of consumption tax is the Value Added Tax, or VAT. While both sales tax and VAT are ultimately paid by the end consumer, they differ in how they are collected. Sales tax is a single-stage tax applied only at the final point of sale to the consumer. VAT, on the other hand, is a multi-stage tax collected at every step of the production and distribution chain. Each business in the supply chain pays VAT on its purchases and charges VAT on its sales, remitting only the difference to the government. This self-policing mechanism is one reason VAT is favored by over 160 countries worldwide. The United States remains one of the few developed nations that relies on a retail sales tax model rather than a VAT system.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is sales tax?</summary>
+          <p>Sales tax is a consumption tax charged by state and local governments on the retail sale of goods and certain services. The seller collects the tax at the point of purchase and forwards it to the appropriate tax authority. In the United States, sales tax rates are set individually by each state, and many cities and counties add their own local surcharges. This means the total rate you pay depends on both the state and the specific municipality where the transaction takes place. Sales tax is generally applied to tangible goods, though an increasing number of states also tax digital products and selected services. Essential items like groceries and prescription drugs are often exempt, though the rules differ by state.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do I calculate sales tax on a purchase?</summary>
+          <p>To calculate sales tax manually, multiply the item price by the tax rate expressed as a decimal. If an item costs $85.00 and the sales tax rate is 7.5%, convert the percentage to a decimal by dividing by 100 to get 0.075. Then multiply $85.00 by 0.075 to get a tax amount of $6.38. Add the tax to the original price to get the total cost of $91.38. This calculator handles that arithmetic automatically. Enter the price, type or select the tax rate, and the tool displays the tax amount, the total with tax, and the pre-tax price all at once. You can also use reverse mode to work backward from a receipt total to find the base price.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Which US state has the highest sales tax?</summary>
+          <p>At the state level, California has the highest base sales tax rate at 7.25%. However, state rates alone do not tell the full story because local taxes can add several percentage points. When state and local rates are combined, some areas in Tennessee, Louisiana, and Arkansas see total rates exceeding 11%. On the other end of the spectrum, five states impose no state-level sales tax at all: Alaska, Delaware, Montana, New Hampshire, and Oregon. It is worth noting that Alaska allows local jurisdictions to levy their own sales taxes, so some boroughs and cities in Alaska do charge a local sales tax despite the absence of a state tax.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Which US states have no sales tax?</summary>
+          <p>Five states do not impose a state-level sales tax: Alaska, Delaware, Montana, New Hampshire, and Oregon. Residents and shoppers in these states will not see a state sales tax added to their purchases. However, the situation in Alaska is unique because while the state itself charges no sales tax, it permits local governments to impose their own. As a result, some Alaskan cities and boroughs charge local sales taxes that can range up to around 7.5%. Delaware, Montana, New Hampshire, and Oregon have no sales tax at either the state or local level, making them truly tax-free for retail purchases.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between sales tax and VAT?</summary>
+          <p>Sales tax and VAT are both consumption taxes paid by the end consumer, but they differ in collection method. Sales tax is a single-stage tax collected only at the final retail sale. The retailer charges the tax to the buyer and remits it to the government. VAT, or Value Added Tax, is a multi-stage tax collected at each step of the production and distribution process. Every business in the supply chain charges VAT on its sales and claims credit for the VAT it paid on its own purchases, remitting only the net difference. VAT is used in over 160 countries including most of Europe, Canada (GST/HST), Australia (GST), and much of Asia. The United States is notable for using a retail sales tax instead of a VAT. From the consumer's perspective, the end result is similar: both add a percentage to the final price. The key structural difference is transparency and collection efficiency at the government level.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do I find the pre-tax price from a total that includes tax?</summary>
+          <p>To reverse-calculate the pre-tax price, divide the total amount by one plus the tax rate expressed as a decimal. For example, if your receipt total is $54.13 and the tax rate is 8.25%, first convert 8.25% to a decimal by dividing by 100 to get 0.0825. Add 1 to get 1.0825. Then divide $54.13 by 1.0825 to arrive at a pre-tax price of $50.00 and a tax amount of $4.13. This reverse calculation is built into this tool. Switch to reverse mode, enter the total amount, set the tax rate, and the calculator will show you the exact pre-tax price and the tax portion. This is particularly useful for expense tracking, reimbursement forms, and accounting where you need to separate tax from the base cost.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is this sales tax calculator free to use?</summary>
+          <p>Yes, this sales tax calculator is completely free with no signup, no account creation, and no hidden charges. All calculations are performed locally in your web browser using JavaScript, which means your financial data is never sent to any server and remains entirely private on your device. You can use the calculator as often as you need, on any device with a modern web browser, including smartphones, tablets, and desktop computers. There are no usage limits and no premium tier. Bookmark this page for quick access whenever you need to calculate sales tax on a purchase, verify a receipt, or determine the pre-tax price from a total. The tool works offline after the initial page load since all the logic runs client-side.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/tip">Tip Calculator</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+          <a href="https://toolrip.com/mortgage">Mortgage Calculator</a>
+          <a href="https://toolrip.com/salary">Salary Calculator</a>
+          <a href="https://toolrip.com/compound-interest">Compound Interest Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Sales Tax Calculator JS -->
+  <script>
+    (function() {
+      'use strict';
+
+      /* --- US State Tax Rates (state-level base rates) --- */
+      var STATE_RATES = [
+        ['Alabama', 4], ['Alaska', 0], ['Arizona', 5.6], ['Arkansas', 6.5],
+        ['California', 7.25], ['Colorado', 2.9], ['Connecticut', 6.35], ['Delaware', 0],
+        ['District of Columbia', 6], ['Florida', 6], ['Georgia', 4], ['Hawaii', 4],
+        ['Idaho', 6], ['Illinois', 6.25], ['Indiana', 7], ['Iowa', 6],
+        ['Kansas', 6.5], ['Kentucky', 6], ['Louisiana', 4.45], ['Maine', 5.5],
+        ['Maryland', 6], ['Massachusetts', 6.25], ['Michigan', 6], ['Minnesota', 6.875],
+        ['Mississippi', 7], ['Missouri', 4.225], ['Montana', 0], ['Nebraska', 5.5],
+        ['Nevada', 6.85], ['New Hampshire', 0], ['New Jersey', 6.625],
+        ['New Mexico', 5.125], ['New York', 4], ['North Carolina', 4.75],
+        ['North Dakota', 5], ['Ohio', 5.75], ['Oklahoma', 4.5], ['Oregon', 0],
+        ['Pennsylvania', 6], ['Rhode Island', 7], ['South Carolina', 6],
+        ['South Dakota', 4.5], ['Tennessee', 7], ['Texas', 6.25], ['Utah', 6.1],
+        ['Vermont', 6], ['Virginia', 5.3], ['Washington', 6.5],
+        ['West Virginia', 6], ['Wisconsin', 5], ['Wyoming', 4]
+      ];
+
+      /* --- State --- */
+      var mode = 'forward'; // 'forward' | 'reverse'
+
+      /* --- DOM References --- */
+      var els = {
+        modeToggle:  document.getElementById('modeToggle'),
+        priceInput:  document.getElementById('priceInput'),
+        priceLabel:  document.getElementById('priceLabel'),
+        taxRate:     document.getElementById('taxRate'),
+        calcBtn:     document.getElementById('calcBtn'),
+        taxAmount:   document.getElementById('taxAmount'),
+        totalAmount: document.getElementById('totalAmount'),
+        preTaxPrice: document.getElementById('preTaxPrice'),
+        resultLabel1:document.getElementById('resultLabel1'),
+        resultLabel2:document.getElementById('resultLabel2'),
+        resultLabel3:document.getElementById('resultLabel3'),
+        stateBody:   document.getElementById('stateBody'),
+        stateSearch: document.getElementById('stateSearch')
+      };
+
+      /* --- Helpers --- */
+      function parseNum(str) {
+        if (!str) return 0;
+        return parseFloat(str.replace(/[^0-9.\-]/g, '')) || 0;
+      }
+
+      function fmt(val) {
+        return typeof formatCurrency === 'function' ? formatCurrency(val) : '$' + val.toFixed(2);
+      }
+
+      /* --- Mode Toggle --- */
+      function setMode(newMode) {
+        mode = newMode;
+        var btns = els.modeToggle.querySelectorAll('.mode-btn');
+        for (var i = 0; i < btns.length; i++) {
+          btns[i].classList.toggle('active', btns[i].getAttribute('data-mode') === mode);
+        }
+        if (mode === 'forward') {
+          els.priceLabel.textContent = 'Price Before Tax';
+          els.priceInput.placeholder = '0.00';
+          els.resultLabel1.textContent = 'Tax Amount';
+          els.resultLabel2.textContent = 'Total with Tax';
+          els.resultLabel3.textContent = 'Pre-Tax Price';
+        } else {
+          els.priceLabel.textContent = 'Total Amount (incl. Tax)';
+          els.priceInput.placeholder = '0.00';
+          els.resultLabel1.textContent = 'Tax Amount';
+          els.resultLabel2.textContent = 'Total with Tax';
+          els.resultLabel3.textContent = 'Pre-Tax Price';
+        }
+        calculate();
+      }
+
+      els.modeToggle.addEventListener('click', function(e) {
+        var btn = e.target.closest('.mode-btn');
+        if (!btn) return;
+        setMode(btn.getAttribute('data-mode'));
+      });
+
+      /* --- Calculation --- */
+      function calculate() {
+        var amount = parseNum(els.priceInput.value);
+        var rate = parseNum(els.taxRate.value);
+
+        if (amount <= 0 || rate < 0) {
+          els.taxAmount.textContent = '$0.00';
+          els.totalAmount.textContent = '$0.00';
+          els.preTaxPrice.textContent = '$0.00';
+          return;
+        }
+
+        var taxAmt, total, preTax;
+
+        if (mode === 'forward') {
+          preTax = amount;
+          taxAmt = preTax * (rate / 100);
+          total = preTax + taxAmt;
+        } else {
+          total = amount;
+          preTax = total / (1 + rate / 100);
+          taxAmt = total - preTax;
+        }
+
+        els.taxAmount.textContent = fmt(taxAmt);
+        els.totalAmount.textContent = fmt(total);
+        els.preTaxPrice.textContent = fmt(preTax);
+      }
+
+      els.calcBtn.addEventListener('click', calculate);
+
+      els.priceInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') calculate();
+      });
+
+      els.taxRate.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') calculate();
+      });
+
+      els.priceInput.addEventListener('input', calculate);
+      els.taxRate.addEventListener('input', calculate);
+
+      els.priceInput.addEventListener('blur', function() {
+        var val = parseNum(this.value);
+        if (val > 0) {
+          this.value = val.toFixed(2);
+        }
+      });
+
+      /* --- Build State Table --- */
+      function buildStateTable(filter) {
+        filter = (filter || '').toLowerCase();
+        var filtered = STATE_RATES.filter(function(s) {
+          return !filter || s[0].toLowerCase().indexOf(filter) !== -1;
+        });
+
+        var html = '';
+        var half = Math.ceil(filtered.length / 2);
+
+        for (var i = 0; i < half; i++) {
+          var left = filtered[i];
+          var right = i + half < filtered.length ? filtered[i + half] : null;
+
+          html += '<tr>';
+          html += '<td>' + left[0] + '</td>';
+          if (left[1] === 0) {
+            html += '<td class="no-tax">No Tax</td>';
+          } else {
+            html += '<td>' + left[1] + '%</td>';
+          }
+          if (right) {
+            html += '<td>' + right[0] + '</td>';
+            if (right[1] === 0) {
+              html += '<td class="no-tax">No Tax</td>';
+            } else {
+              html += '<td>' + right[1] + '%</td>';
+            }
+          } else {
+            html += '<td></td><td></td>';
+          }
+          html += '</tr>';
+        }
+
+        els.stateBody.innerHTML = html;
+      }
+
+      /* --- State Table Click → Fill Rate --- */
+      els.stateBody.parentElement.addEventListener('click', function(e) {
+        var tr = e.target.closest('tr');
+        if (!tr) return;
+        var tds = tr.querySelectorAll('td');
+        if (tds.length < 2) return;
+
+        // Determine which column was clicked
+        var clickedTd = e.target.closest('td');
+        if (!clickedTd) return;
+        var idx = Array.prototype.indexOf.call(tds, clickedTd);
+
+        var rateText;
+        if (idx < 2) {
+          rateText = tds[1].textContent;
+        } else {
+          rateText = tds[3] ? tds[3].textContent : '';
+        }
+
+        if (rateText === 'No Tax') {
+          els.taxRate.value = '0';
+        } else {
+          var val = parseFloat(rateText);
+          if (!isNaN(val)) {
+            els.taxRate.value = val;
+          }
+        }
+        calculate();
+      });
+
+      /* --- State Search --- */
+      els.stateSearch.addEventListener('input', function() {
+        buildStateTable(this.value);
+      });
+
+      /* --- Init --- */
+      buildStateTable();
+      els.priceInput.focus();
+      calculate();
+
+    })();
+  </script>
+</body>
+</html>

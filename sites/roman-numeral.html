@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roman Numeral Converter Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Convert numbers to Roman numerals and Roman numerals to numbers instantly. Batch converter, reference table, and year converter. Free online Roman numeral tool with no signup required.">
+  <link rel="canonical" href="https://toolrip.com/roman">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Roman Numeral Converter — Toolrip">
+  <meta property="og:description" content="Convert numbers to Roman numerals and Roman numerals to numbers instantly. Batch converter, reference table, and year converter. Free online tool.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/roman">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Roman Numeral Converter — Toolrip">
+  <meta name="twitter:description" content="Convert numbers to Roman numerals and Roman numerals to numbers instantly. Batch converter, reference table, and year converter. Free online tool.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--conversion)}</style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Roman Numeral Converter",
+    "url": "https://toolrip.com/roman",
+    "description": "Convert numbers to Roman numerals and Roman numerals to numbers instantly. Batch converter, reference table, and year converter. Free online Roman numeral tool with no signup required.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Conversion Tools", "item": "https://toolrip.com/#conversion" },
+      { "@type": "ListItem", "position": 3, "name": "Roman Numeral Converter", "item": "https://toolrip.com/roman" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What are the basic rules of Roman numerals?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Roman numerals use seven symbols: I (1), V (5), X (10), L (50), C (100), D (500), and M (1000). Symbols are generally written from largest to smallest, left to right, and their values are added together. When a smaller symbol appears before a larger one, it is subtracted. A symbol can be repeated up to three times in succession, but V, L, and D are never repeated."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why is there no zero in Roman numerals?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Roman numeral system was developed before the concept of zero was widely adopted in Western mathematics. Romans used numerals primarily for counting, commerce, and record-keeping, where the absence of a quantity simply meant nothing was recorded. The concept of zero as a number originated in ancient India and was transmitted to Europe through Arabic mathematicians centuries after the Roman system was established."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the largest number you can write in Roman numerals?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Using standard Roman numeral notation without special extensions, the largest number is 3999 (MMMCMXCIX). Since M is the largest symbol at 1000 and a symbol may be repeated at most three times, the maximum is three M's (3000) plus the largest value below 1000 (CMXCIX = 999). Historically, Romans used a bar notation (vinculum) above a numeral to multiply its value by 1000, allowing much larger numbers."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is subtractive notation in Roman numerals?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Subtractive notation is a rule where placing a smaller-value symbol before a larger-value symbol means you subtract the smaller from the larger. Only I, X, and C can be used subtractively. I can precede V and X (IV=4, IX=9), X can precede L and C (XL=40, XC=90), and C can precede D and M (CD=400, CM=900). This avoids writing four identical symbols in a row, keeping numerals compact."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Where are Roman numerals still used today?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Roman numerals remain widely used in modern contexts. Clock and watch faces often use Roman numerals. Movie and television production credits use them for copyright years. The Super Bowl uses Roman numerals for game numbering. Outlines and lists use Roman numerals for hierarchical numbering. Monarchs and popes are distinguished by Roman numerals (e.g., King Charles III). Book chapters, volume numbers, and academic citations also frequently employ Roman numerals."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you convert a year to Roman numerals?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To convert a year to Roman numerals, break the number into thousands, hundreds, tens, and ones, then represent each part using the appropriate symbols. For example, 2026 breaks into 2000 (MM) + 0 + 20 (XX) + 6 (VI), giving MMXXVI. This converter handles years from 1 to 3999 automatically."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can Roman numerals represent fractions or decimals?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Standard Roman numerals do not support fractions or decimals. The system is designed exclusively for positive whole numbers from 1 to 3999 in its conventional form. The ancient Romans did have a separate system for fractions based on twelfths (called uncia, the origin of the word ounce), but this fractional system is not part of the Roman numeral notation used today. For fractional values, modern decimal or fraction notation is used instead."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    .mode-switch {
+      display: flex;
+      gap: 2px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 3px;
+      margin-bottom: var(--sp-3);
+    }
+    .mode-btn {
+      flex: 1;
+      padding: var(--sp-2) var(--sp-3);
+      background: none;
+      border: none;
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      font: inherit;
+      font-size: .9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .15s;
+      text-align: center;
+    }
+    .mode-btn:hover {
+      color: var(--text);
+    }
+    .mode-btn.active {
+      background: var(--accent);
+      color: #fff;
+    }
+    .convert-row {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--sp-3);
+      flex-wrap: wrap;
+    }
+    .convert-input-col {
+      flex: 1;
+      min-width: 200px;
+    }
+    .convert-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 28px;
+      font-size: 1.5rem;
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .convert-output {
+      flex: 1;
+      min-width: 200px;
+    }
+    .result-display {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-3) var(--sp-4);
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--accent);
+      word-break: break-word;
+      position: relative;
+      transition: border-color .15s, background .15s;
+    }
+    .result-display.has-value {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 4%, var(--bg));
+    }
+    .result-display .empty-text {
+      color: var(--text-muted);
+      font-weight: 400;
+      font-size: 1rem;
+    }
+    .ref-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .ref-table th,
+    .ref-table td {
+      padding: var(--sp-2) var(--sp-3);
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      font-size: .9375rem;
+    }
+    .ref-table th {
+      color: var(--text-muted);
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      font-weight: 600;
+    }
+    .ref-table td:first-child {
+      font-weight: 700;
+      color: var(--accent);
+      font-size: 1.1rem;
+    }
+    .batch-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-3);
+    }
+    .batch-row .textarea-field {
+      min-height: 140px;
+      font-family: var(--font);
+    }
+    .year-display {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+      flex-wrap: wrap;
+    }
+    .year-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-3) var(--sp-4);
+      text-align: center;
+      flex: 1;
+      min-width: 140px;
+    }
+    .year-card .label {
+      font-size: .75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-bottom: 4px;
+    }
+    .year-card .value {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .error-msg {
+      color: var(--security);
+      font-size: .85rem;
+      margin-top: var(--sp-1);
+      min-height: 1.2em;
+    }
+    @media (max-width: 480px) {
+      .convert-arrow { padding-top: 0; font-size: 1.2rem; }
+      .batch-row { grid-template-columns: 1fr; }
+      .result-display { font-size: 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="top">Ad</div>
+
+    <!-- Breadcrumb -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#conversion">Conversion Tools</a>
+        <span>/</span>
+        <span>Roman Numeral Converter</span>
+      </nav>
+
+      <h1>Roman Numeral Converter</h1>
+      <p class="text-muted mt-1 mb-3">Convert numbers to Roman numerals and Roman numerals back to numbers instantly. Supports values from 1 to 3999 with real-time validation, batch conversion, and a built-in year converter.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+
+      <!-- Main Converter -->
+      <div class="tool-card">
+        <div class="mode-switch" role="tablist" aria-label="Conversion mode">
+          <button class="mode-btn active" data-mode="num2roman" role="tab" aria-selected="true">Number &rarr; Roman</button>
+          <button class="mode-btn" data-mode="roman2num" role="tab" aria-selected="false">Roman &rarr; Number</button>
+        </div>
+
+        <!-- Number to Roman -->
+        <div id="panel-num2roman">
+          <div class="convert-row">
+            <div class="convert-input-col">
+              <div class="input-group">
+                <label for="numInput">Enter a number (1–3999)</label>
+                <input type="text" id="numInput" class="input-field" inputmode="numeric" placeholder="2026" autocomplete="off" aria-label="Number to convert">
+                <div class="error-msg" id="numError"></div>
+              </div>
+            </div>
+            <div class="convert-arrow">&rarr;</div>
+            <div class="convert-output">
+              <div class="input-group">
+                <label>Roman Numeral</label>
+                <div class="result-display" id="numResult">
+                  <span class="empty-text">Result appears here</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex gap-2 mt-2" style="flex-wrap:wrap">
+            <button class="btn-primary" id="numConvertBtn" type="button">Convert</button>
+            <button class="btn-secondary" id="numCopyBtn" type="button">Copy Result</button>
+            <button class="btn-secondary" id="numClearBtn" type="button">Clear</button>
+          </div>
+        </div>
+
+        <!-- Roman to Number -->
+        <div id="panel-roman2num" class="hidden">
+          <div class="convert-row">
+            <div class="convert-input-col">
+              <div class="input-group">
+                <label for="romanInput">Enter a Roman numeral</label>
+                <input type="text" id="romanInput" class="input-field" placeholder="MMXXVI" autocomplete="off" style="text-transform:uppercase" aria-label="Roman numeral to convert">
+                <div class="error-msg" id="romanError"></div>
+              </div>
+            </div>
+            <div class="convert-arrow">&rarr;</div>
+            <div class="convert-output">
+              <div class="input-group">
+                <label>Number</label>
+                <div class="result-display" id="romanResult">
+                  <span class="empty-text">Result appears here</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex gap-2 mt-2" style="flex-wrap:wrap">
+            <button class="btn-primary" id="romanConvertBtn" type="button">Convert</button>
+            <button class="btn-secondary" id="romanCopyBtn" type="button">Copy Result</button>
+            <button class="btn-secondary" id="romanClearBtn" type="button">Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Tools -->
+      <div class="tool-card">
+        <div class="tab-group">
+          <button class="tab active" data-tab="tab-batch">Batch Converter</button>
+          <button class="tab" data-tab="tab-year">Year Converter</button>
+          <button class="tab" data-tab="tab-ref">Reference Table</button>
+        </div>
+
+        <!-- Batch Converter -->
+        <div class="tab-panel" id="tab-batch">
+          <p class="text-muted mb-2" style="font-size:.85rem">Enter multiple numbers or Roman numerals, one per line. The converter auto-detects the input type.</p>
+          <div class="batch-row">
+            <div class="input-group">
+              <label for="batchInput">Input (one per line)</label>
+              <textarea id="batchInput" class="textarea-field" placeholder="42&#10;XVI&#10;2026&#10;MCMLXXXIV&#10;100" aria-label="Batch input"></textarea>
+            </div>
+            <div class="input-group">
+              <label>Output</label>
+              <textarea id="batchOutput" class="textarea-field" readonly aria-label="Batch output" style="background:var(--bg);color:var(--accent);font-weight:600"></textarea>
+            </div>
+          </div>
+          <div class="flex gap-2 mt-2" style="flex-wrap:wrap">
+            <button class="btn-primary" id="batchConvertBtn" type="button">Convert All</button>
+            <button class="btn-secondary" id="batchCopyBtn" type="button">Copy Output</button>
+            <button class="btn-secondary" id="batchClearBtn" type="button">Clear</button>
+          </div>
+        </div>
+
+        <!-- Year Converter -->
+        <div class="tab-panel hidden" id="tab-year">
+          <p class="text-muted mb-2" style="font-size:.85rem">See the current year in Roman numerals, or enter any year to convert.</p>
+          <div class="year-display mb-3">
+            <div class="year-card">
+              <div class="label">Current Year</div>
+              <div class="value" id="currentYear"></div>
+            </div>
+            <div class="year-card">
+              <div class="label">In Roman Numerals</div>
+              <div class="value" id="currentYearRoman"></div>
+            </div>
+          </div>
+          <div class="convert-row">
+            <div class="convert-input-col">
+              <div class="input-group">
+                <label for="yearInput">Enter a year (1–3999)</label>
+                <input type="text" id="yearInput" class="input-field" inputmode="numeric" placeholder="1984" autocomplete="off" aria-label="Year to convert">
+              </div>
+            </div>
+            <div class="convert-arrow">&rarr;</div>
+            <div class="convert-output">
+              <div class="input-group">
+                <label>Roman Numeral</label>
+                <div class="result-display" id="yearResult">
+                  <span class="empty-text">Enter a year</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="btn-primary mt-2" id="yearConvertBtn" type="button">Convert Year</button>
+        </div>
+
+        <!-- Reference Table -->
+        <div class="tab-panel hidden" id="tab-ref">
+          <p class="text-muted mb-2" style="font-size:.85rem">Standard Roman numeral symbols and their values, including common subtractive combinations.</p>
+          <table class="ref-table">
+            <thead>
+              <tr><th>Roman</th><th>Value</th><th>Roman</th><th>Value</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>I</td><td>1</td><td>IV</td><td>4</td></tr>
+              <tr><td>V</td><td>5</td><td>IX</td><td>9</td></tr>
+              <tr><td>X</td><td>10</td><td>XL</td><td>40</td></tr>
+              <tr><td>L</td><td>50</td><td>XC</td><td>90</td></tr>
+              <tr><td>C</td><td>100</td><td>CD</td><td>400</td></tr>
+              <tr><td>D</td><td>500</td><td>CM</td><td>900</td></tr>
+              <tr><td>M</td><td>1000</td><td></td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="in-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Bidirectional Conversion</h3>
+            <p>Convert in both directions with a single tool. Enter any whole number between 1 and 3999 and get the correct Roman numeral representation instantly, or type a Roman numeral string and receive the corresponding Arabic number. The converter applies all standard rules including subtractive notation for compact representations like IV, IX, XL, XC, CD, and CM. Input validation runs in real time, alerting you to invalid characters or out-of-range values before you even press a button, so you always get accurate results without guessing.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Batch Conversion</h3>
+            <p>Process multiple values at once by entering a list of numbers, Roman numerals, or a mix of both, separated by line breaks. The batch converter automatically detects whether each line is a number or a Roman numeral and converts it accordingly. This is especially useful for teachers preparing worksheets, students checking homework answers, designers working with numbered lists, or anyone who needs to convert a large set of values quickly without repetitive manual entry.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Year Converter and Reference Table</h3>
+            <p>The built-in year converter instantly shows the current year in Roman numerals and lets you look up any year from 1 to 3999. This is ideal for film credits, event programs, cornerstone inscriptions, and formal documents that traditionally use Roman year notation. A complete reference table is always available, listing all seven base symbols and the six standard subtractive combinations so you can quickly verify or learn the notation without leaving the page.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Roman Numeral Converter</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li>Select the conversion direction by clicking "Number &rarr; Roman" or "Roman &rarr; Number" at the top of the converter.</li>
+          <li>Type your value into the input field. For numbers, enter a whole number between 1 and 3999. For Roman numerals, type using standard characters (I, V, X, L, C, D, M).</li>
+          <li>The result appears in real time as you type, or click the Convert button to trigger conversion manually.</li>
+          <li>Use the Copy Result button to copy the output to your clipboard for pasting into documents, spreadsheets, or messages.</li>
+          <li>Switch to the Batch Converter tab to convert multiple values at once, the Year Converter tab to see any year in Roman form, or the Reference Table tab to review all standard symbols and subtractive combinations.</li>
+        </ol>
+      </section>
+
+      <!-- Understanding Roman Numerals -->
+      <section class="mt-4">
+        <h2>Understanding Roman Numerals: History, Rules, and Modern Usage</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">Roman numerals originated in ancient Rome and remained the dominant numeral system across Europe for more than a thousand years. The system uses combinations of seven Latin letters to represent numeric values: I for 1, V for 5, X for 10, L for 50, C for 100, D for 500, and M for 1000. Unlike the positional decimal system we use daily, Roman numerals are additive and subtractive. When symbols are written from largest to smallest, left to right, their values are added together. For example, VIII equals 5 + 1 + 1 + 1, which is 8. When a smaller symbol appears directly before a larger one, the smaller value is subtracted from the larger, creating a compact notation for numbers like 4 (IV instead of IIII) and 9 (IX instead of VIIII).</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">Subtractive notation follows strict rules to maintain clarity. Only the symbols I, X, and C can be used subtractively. I can appear before V and X to form 4 (IV) and 9 (IX). X can appear before L and C to form 40 (XL) and 90 (XC). C can appear before D and M to form 400 (CD) and 900 (CM). No symbol is repeated more than three times consecutively in standard notation. These constraints ensure that every number between 1 and 3999 has exactly one canonical Roman numeral representation, which is the form this converter produces.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">Despite being thousands of years old, Roman numerals are far from obsolete. Clock faces on buildings, watches, and mantel clocks frequently display hours in Roman numerals, with IIII traditionally used instead of IV for aesthetic balance. Major sporting events like the Super Bowl use Roman numerals to number each edition, a tradition that began with Super Bowl V in 1971. The film and television industry uses Roman numerals in end-credit copyright notices to indicate the production year. Monarchs and popes carry ordinal Roman numerals to distinguish rulers who share the same name, such as Queen Elizabeth II or Pope Benedict XVI. Outlines, book chapters, volume numbers, academic papers, and legal documents also rely on Roman numerals for hierarchical and formal numbering.</p>
+        <p style="color:var(--text-muted);line-height:1.8">The system has no representation for zero, negative numbers, or fractions, which is one reason the Hindu-Arabic decimal system eventually replaced it for mathematical computation. Nevertheless, the cultural and ceremonial significance of Roman numerals endures across the globe. Whether you are converting a year for a wedding invitation, numbering sections in a formal report, deciphering a date etched into a historical building, or simply satisfying your curiosity about how ancient Romans expressed quantity, this converter handles the translation instantly with full input validation and real-time feedback.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What are the basic rules of Roman numerals?</summary>
+          <p>Roman numerals are built from seven symbols: I (1), V (5), X (10), L (50), C (100), D (500), and M (1000). Symbols are written from largest to smallest, left to right, and their values are added. When a smaller symbol appears immediately before a larger one, it is subtracted rather than added. This is called subtractive notation and applies to specific pairs: IV (4), IX (9), XL (40), XC (90), CD (400), and CM (900). A single symbol can repeat up to three times consecutively, but the symbols V, L, and D are never repeated because doubling them would equal the next tier symbol. These rules guarantee a unique canonical representation for every number from 1 through 3999.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Why is there no zero in Roman numerals?</summary>
+          <p>The Roman numeral system was created for practical counting and record-keeping, where zero as a standalone number was not needed. The concept of zero as a placeholder and a number in its own right was developed independently in ancient India and later transmitted to the Western world through Arabic scholars. By the time zero became a standard part of European mathematics, the Hindu-Arabic numeral system had already begun replacing Roman numerals for computation. Since Roman numerals are additive and subtractive, there is no combination of symbols that logically represents the absence of value. The word "nulla" (meaning "nothing") was sometimes used by Roman scholars to denote an empty quantity, but it was never assigned a symbol within the numeral system.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the largest number you can write in standard Roman numerals?</summary>
+          <p>In standard notation, the largest representable number is 3999, written as MMMCMXCIX. The symbol M (1000) is the largest single character, and no symbol may be repeated more than three times consecutively, so the maximum from M alone is 3000 (MMM). Adding the largest sub-thousand value, 999 (CMXCIX), yields 3999. Historically, Romans extended the system using a vinculum, a horizontal bar placed over a numeral to multiply its value by 1000. Under that convention, a barred V represents 5000 and a barred X represents 10000, enabling much larger numbers. However, the vinculum notation is rarely used in modern contexts. This converter uses the standard system covering 1 through 3999.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is subtractive notation in Roman numerals?</summary>
+          <p>Subtractive notation is the convention of placing a smaller-value symbol before a larger-value symbol to indicate subtraction. It exists to avoid writing four identical symbols in a row, making numerals shorter and easier to read. Only three symbols can be used subtractively: I (before V and X), X (before L and C), and C (before D and M). This produces exactly six subtractive pairs: IV (4), IX (9), XL (40), XC (90), CD (400), and CM (900). Symbols V, L, and D are never placed before a larger symbol because the resulting subtraction would duplicate an existing numeral. For example, writing VX for 5 is invalid because 10 minus 5 equals 5, which is already represented by V alone.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Where are Roman numerals still used in modern life?</summary>
+          <p>Roman numerals appear in many everyday and ceremonial contexts. Traditional clock and watch dials use Roman numerals for the hours, often with IIII for four instead of IV. The Super Bowl has used Roman numeral numbering for every edition since the fifth game in 1971, making it one of the most visible modern uses. Film and TV production credits display the copyright year in Roman numerals at the end of the credits. Monarchs, popes, and other titled figures use Roman numerals to differentiate individuals sharing the same name. Academic outlines, legal statutes, chapter headings in books, and volume numbers in multi-part publications all use Roman numerals for structured numbering. Architectural cornerstones and dedication plaques frequently display dates in Roman form to convey a sense of permanence and tradition.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do you convert a year to Roman numerals?</summary>
+          <p>Converting a year to Roman numerals follows the same process as any other number. Break the year into its component place values, then translate each segment into Roman symbols. For example, the year 2026 breaks down as 2000 (MM) + 20 (XX) + 6 (VI), yielding MMXXVI. The year 1984 becomes 1000 (M) + 900 (CM) + 80 (LXXX) + 4 (IV), resulting in MCMLXXXIV. This converter's Year Converter tab automatically displays the current year in Roman numerals and lets you enter any year from 1 to 3999 for instant conversion. This is particularly useful for film credits, formal invitations, commemorative engravings, and any context that calls for a Roman numeral date.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can Roman numerals represent fractions or decimals?</summary>
+          <p>Standard Roman numerals cannot represent fractions, decimals, or zero. The system is limited to positive whole numbers between 1 and 3999 in its conventional form. In antiquity, the Romans used a separate fractional system based on twelfths, called "uncia" (the origin of the English word "ounce"). Each twelfth had its own symbol, and combinations of these symbols represented common fractions like one-half, one-quarter, and one-third. However, this twelfths-based system fell out of use centuries ago and is not part of what people mean today when they refer to Roman numerals. For any fractional or decimal work, modern notation is the appropriate system to use.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/fraction">Fraction Calculator</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+          <a href="https://toolrip.com/hex-rgb">Hex to RGB Converter</a>
+          <a href="https://toolrip.com/length">Length Converter</a>
+          <a href="https://toolrip.com/temperature">Temperature Converter</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Roman Numeral Converter JS -->
+  <script>
+  (function() {
+    'use strict';
+
+    /* ========== Conversion Logic ========== */
+
+    var romanMap = [
+      [1000, 'M'], [900, 'CM'], [500, 'D'], [400, 'CD'],
+      [100, 'C'], [90, 'XC'], [50, 'L'], [40, 'XL'],
+      [10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I']
+    ];
+
+    var romanValues = { I: 1, V: 5, X: 10, L: 50, C: 100, D: 500, M: 1000 };
+
+    // Regex for valid Roman numeral (strict canonical form)
+    var romanRegex = /^M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/;
+
+    function numberToRoman(num) {
+      if (num < 1 || num > 3999 || !Number.isInteger(num)) return null;
+      var result = '';
+      for (var i = 0; i < romanMap.length; i++) {
+        while (num >= romanMap[i][0]) {
+          result += romanMap[i][1];
+          num -= romanMap[i][0];
+        }
+      }
+      return result;
+    }
+
+    function romanToNumber(str) {
+      str = str.trim().toUpperCase();
+      if (!str || !romanRegex.test(str)) return null;
+      var total = 0;
+      for (var i = 0; i < str.length; i++) {
+        var current = romanValues[str[i]];
+        var next = romanValues[str[i + 1]];
+        if (next && current < next) {
+          total -= current;
+        } else {
+          total += current;
+        }
+      }
+      return total;
+    }
+
+    function isRomanString(str) {
+      return /^[IVXLCDM]+$/i.test(str.trim());
+    }
+
+    /* ========== DOM References ========== */
+
+    var modeButtons = document.querySelectorAll('.mode-btn');
+    var panelNum = document.getElementById('panel-num2roman');
+    var panelRoman = document.getElementById('panel-roman2num');
+
+    // Number to Roman
+    var numInput = document.getElementById('numInput');
+    var numResult = document.getElementById('numResult');
+    var numError = document.getElementById('numError');
+    var numConvertBtn = document.getElementById('numConvertBtn');
+    var numCopyBtn = document.getElementById('numCopyBtn');
+    var numClearBtn = document.getElementById('numClearBtn');
+
+    // Roman to Number
+    var romanInput = document.getElementById('romanInput');
+    var romanResult = document.getElementById('romanResult');
+    var romanError = document.getElementById('romanError');
+    var romanConvertBtn = document.getElementById('romanConvertBtn');
+    var romanCopyBtn = document.getElementById('romanCopyBtn');
+    var romanClearBtn = document.getElementById('romanClearBtn');
+
+    // Batch
+    var batchInput = document.getElementById('batchInput');
+    var batchOutput = document.getElementById('batchOutput');
+    var batchConvertBtn = document.getElementById('batchConvertBtn');
+    var batchCopyBtn = document.getElementById('batchCopyBtn');
+    var batchClearBtn = document.getElementById('batchClearBtn');
+
+    // Year
+    var currentYearEl = document.getElementById('currentYear');
+    var currentYearRomanEl = document.getElementById('currentYearRoman');
+    var yearInput = document.getElementById('yearInput');
+    var yearResult = document.getElementById('yearResult');
+    var yearConvertBtn = document.getElementById('yearConvertBtn');
+
+    /* ========== Mode Switching ========== */
+
+    modeButtons.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        modeButtons.forEach(function(b) {
+          b.classList.remove('active');
+          b.setAttribute('aria-selected', 'false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+        var mode = btn.dataset.mode;
+        panelNum.classList.toggle('hidden', mode !== 'num2roman');
+        panelRoman.classList.toggle('hidden', mode !== 'roman2num');
+        if (mode === 'num2roman') {
+          numInput.focus();
+        } else {
+          romanInput.focus();
+        }
+      });
+    });
+
+    /* ========== Number to Roman ========== */
+
+    function setResult(el, text, hasValue) {
+      if (hasValue) {
+        el.textContent = text;
+        el.classList.add('has-value');
+      } else {
+        el.innerHTML = '<span class="empty-text">' + text + '</span>';
+        el.classList.remove('has-value');
+      }
+    }
+
+    function convertNumToRoman() {
+      var raw = numInput.value.trim().replace(/,/g, '');
+      numError.textContent = '';
+      if (!raw) {
+        setResult(numResult, 'Result appears here', false);
+        return;
+      }
+      if (!/^\d+$/.test(raw)) {
+        numError.textContent = 'Please enter a valid whole number.';
+        setResult(numResult, 'Result appears here', false);
+        return;
+      }
+      var n = parseInt(raw, 10);
+      if (n < 1 || n > 3999) {
+        numError.textContent = 'Number must be between 1 and 3999.';
+        setResult(numResult, 'Result appears here', false);
+        return;
+      }
+      var roman = numberToRoman(n);
+      setResult(numResult, roman, true);
+    }
+
+    numInput.addEventListener('input', convertNumToRoman);
+    numConvertBtn.addEventListener('click', convertNumToRoman);
+    numInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') { e.preventDefault(); convertNumToRoman(); }
+    });
+
+    numCopyBtn.addEventListener('click', function() {
+      var text = numResult.textContent;
+      if (!text || numResult.querySelector('.empty-text')) return;
+      copyToClipboard(text, numCopyBtn);
+    });
+
+    numClearBtn.addEventListener('click', function() {
+      numInput.value = '';
+      numError.textContent = '';
+      setResult(numResult, 'Result appears here', false);
+      numInput.focus();
+    });
+
+    /* ========== Roman to Number ========== */
+
+    function convertRomanToNum() {
+      var raw = romanInput.value.trim().toUpperCase();
+      romanError.textContent = '';
+      if (!raw) {
+        setResult(romanResult, 'Result appears here', false);
+        return;
+      }
+      if (!/^[IVXLCDM]+$/.test(raw)) {
+        romanError.textContent = 'Invalid characters. Use only I, V, X, L, C, D, M.';
+        setResult(romanResult, 'Result appears here', false);
+        return;
+      }
+      var num = romanToNumber(raw);
+      if (num === null) {
+        romanError.textContent = 'Invalid Roman numeral. Check notation rules.';
+        setResult(romanResult, 'Result appears here', false);
+        return;
+      }
+      setResult(romanResult, formatNumber(num, 0), true);
+    }
+
+    romanInput.addEventListener('input', convertRomanToNum);
+    romanConvertBtn.addEventListener('click', convertRomanToNum);
+    romanInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') { e.preventDefault(); convertRomanToNum(); }
+    });
+
+    romanCopyBtn.addEventListener('click', function() {
+      var text = romanResult.textContent;
+      if (!text || romanResult.querySelector('.empty-text')) return;
+      copyToClipboard(text, romanCopyBtn);
+    });
+
+    romanClearBtn.addEventListener('click', function() {
+      romanInput.value = '';
+      romanError.textContent = '';
+      setResult(romanResult, 'Result appears here', false);
+      romanInput.focus();
+    });
+
+    /* ========== Batch Converter ========== */
+
+    function convertBatch() {
+      var lines = batchInput.value.split('\n');
+      var results = [];
+      for (var i = 0; i < lines.length; i++) {
+        var line = lines[i].trim();
+        if (!line) {
+          results.push('');
+          continue;
+        }
+        // Detect if it's a number or a Roman numeral
+        var cleaned = line.replace(/,/g, '');
+        if (/^\d+$/.test(cleaned)) {
+          var n = parseInt(cleaned, 10);
+          var r = numberToRoman(n);
+          results.push(r ? r : 'Invalid (1-3999)');
+        } else if (/^[IVXLCDM]+$/i.test(line)) {
+          var val = romanToNumber(line.toUpperCase());
+          results.push(val !== null ? formatNumber(val, 0) : 'Invalid Roman');
+        } else {
+          results.push('Invalid input');
+        }
+      }
+      batchOutput.value = results.join('\n');
+    }
+
+    batchConvertBtn.addEventListener('click', convertBatch);
+    batchCopyBtn.addEventListener('click', function() {
+      if (!batchOutput.value) return;
+      copyToClipboard(batchOutput.value, batchCopyBtn);
+    });
+    batchClearBtn.addEventListener('click', function() {
+      batchInput.value = '';
+      batchOutput.value = '';
+      batchInput.focus();
+    });
+
+    /* ========== Year Converter ========== */
+
+    var now = new Date();
+    var thisYear = now.getFullYear();
+    currentYearEl.textContent = thisYear;
+    var thisYearRoman = numberToRoman(thisYear);
+    currentYearRomanEl.textContent = thisYearRoman || 'N/A';
+
+    function convertYear() {
+      var raw = yearInput.value.trim().replace(/,/g, '');
+      if (!raw) {
+        setResult(yearResult, 'Enter a year', false);
+        return;
+      }
+      if (!/^\d+$/.test(raw)) {
+        setResult(yearResult, 'Enter a valid year', false);
+        return;
+      }
+      var y = parseInt(raw, 10);
+      if (y < 1 || y > 3999) {
+        setResult(yearResult, 'Year must be 1–3999', false);
+        return;
+      }
+      var r = numberToRoman(y);
+      setResult(yearResult, r, true);
+    }
+
+    yearInput.addEventListener('input', convertYear);
+    yearConvertBtn.addEventListener('click', convertYear);
+    yearInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') { e.preventDefault(); convertYear(); }
+    });
+
+    /* ========== Focus first input ========== */
+    numInput.focus();
+
+  })();
+  </script>
+</body>
+</html>

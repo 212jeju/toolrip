@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image to Base64 Converter Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Convert images to Base64 strings, data URIs, CSS background snippets, and HTML img tags. Supports PNG, JPG, GIF, SVG, WebP. 100% client-side — no upload required.">
+  <link rel="canonical" href="https://toolrip.com/img-base64">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Image to Base64 Converter — Toolrip">
+  <meta property="og:description" content="Convert images to Base64 strings, data URIs, CSS background snippets, and HTML img tags. Supports PNG, JPG, GIF, SVG, WebP. 100% client-side — no upload required.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/img-base64">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Image to Base64 Converter — Toolrip">
+  <meta name="twitter:description" content="Convert images to Base64 strings, data URIs, CSS background snippets, and HTML img tags. Supports PNG, JPG, GIF, SVG, WebP. 100% client-side — no upload required.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root{--accent:var(--developer)}
+
+    /* Tool-specific styles */
+    .drop-zone{border:2px dashed var(--border);border-radius:var(--radius-lg);padding:var(--sp-6);
+      text-align:center;color:var(--text-muted);font-size:.875rem;cursor:pointer;transition:border-color .2s,background .2s;
+      margin-bottom:var(--sp-3);position:relative}
+    .drop-zone:hover,.drop-zone.dragover{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 5%,transparent)}
+    .drop-zone input[type="file"]{display:none}
+    .drop-zone-icon{font-size:2.5rem;margin-bottom:var(--sp-2);opacity:.6}
+    .drop-zone-text{margin-bottom:var(--sp-1)}
+    .drop-zone-hint{font-size:.75rem;color:var(--text-muted);opacity:.7}
+
+    .file-btn{display:inline-flex;align-items:center;gap:var(--sp-2);padding:var(--sp-2) var(--sp-4);
+      background:var(--accent);color:#fff;border:none;border-radius:var(--radius);font:inherit;font-size:.875rem;
+      font-weight:600;cursor:pointer;margin-top:var(--sp-3);transition:opacity .15s}
+    .file-btn:hover{opacity:.88}
+
+    .preview-area{display:none;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+      padding:var(--sp-3);margin-bottom:var(--sp-3);text-align:center}
+    .preview-area.visible{display:block}
+    .preview-area img{max-width:100%;max-height:300px;border-radius:var(--radius-sm);margin:0 auto var(--sp-3)}
+
+    .file-meta{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--sp-2);margin-bottom:var(--sp-3);
+      font-size:.8125rem;color:var(--text-muted)}
+    .file-meta dt{font-weight:500;color:var(--text)}
+    .file-meta dd{text-align:right}
+    @media(min-width:640px){.file-meta{grid-template-columns:repeat(4,1fr)}}
+
+    .output-section{margin-bottom:var(--sp-3)}
+    .output-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--sp-1)}
+    .output-header label{font-size:.875rem;font-weight:500;color:var(--text-muted)}
+    .output-panel{position:relative;width:100%;min-height:80px;max-height:200px;background:var(--bg);
+      border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3);padding-right:4.5rem;overflow:auto;
+      font-family:'Consolas','Monaco','Courier New',monospace;font-size:.8125rem;line-height:1.6;
+      white-space:pre-wrap;word-break:break-all;color:var(--text)}
+    .output-panel .placeholder{color:var(--text-muted)}
+
+    .copy-output-btn{position:absolute;top:var(--sp-2);right:var(--sp-2);padding:var(--sp-1) var(--sp-2);
+      background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-sm);
+      color:var(--text-muted);font-size:.75rem;cursor:pointer;z-index:1}
+    .copy-output-btn:hover{color:var(--text);border-color:var(--accent)}
+
+    .btn-sm{padding:var(--sp-1) var(--sp-2);font-size:.8125rem;border-radius:var(--radius-sm)}
+
+    .privacy-note{display:flex;align-items:center;gap:var(--sp-2);padding:var(--sp-2) var(--sp-3);
+      background:color-mix(in srgb,var(--accent) 8%,transparent);border:1px solid color-mix(in srgb,var(--accent) 20%,transparent);
+      border-radius:var(--radius);font-size:.8125rem;color:var(--text-muted);margin-bottom:var(--sp-3)}
+    .privacy-note svg{flex-shrink:0}
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Image to Base64 Converter",
+    "url": "https://toolrip.com/img-base64",
+    "description": "Convert images to Base64 strings, data URIs, CSS background snippets, and HTML img tags. Supports PNG, JPG, GIF, SVG, WebP. 100% client-side — no upload required.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#developer">Developer Tools</a>
+        <span>/</span>
+        <span>Image to Base64 Converter</span>
+      </nav>
+
+      <h1>Image to Base64 Converter Online</h1>
+      <p class="text-muted mt-1 mb-3">Convert any image file into a Base64-encoded string, data URI, CSS background snippet, or HTML img tag. Supports PNG, JPG, GIF, SVG, and WebP formats. Everything runs locally in your browser — your images are never uploaded to any server.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+
+        <!-- Privacy Note -->
+        <div class="privacy-note">
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          Your images never leave your device. All conversion happens 100% client-side in your browser.
+        </div>
+
+        <!-- Drop Zone -->
+        <div class="drop-zone" id="drop-zone">
+          <div class="drop-zone-icon">
+            <svg width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          </div>
+          <div class="drop-zone-text">Drag &amp; drop an image here</div>
+          <div class="drop-zone-hint">or click to browse — PNG, JPG, GIF, SVG, WebP</div>
+          <input type="file" id="file-input" accept="image/png,image/jpeg,image/gif,image/svg+xml,image/webp">
+          <button class="file-btn" type="button" id="browse-btn">Choose Image</button>
+        </div>
+
+        <!-- Image Preview -->
+        <div class="preview-area" id="preview-area">
+          <img id="preview-img" alt="Image preview">
+          <dl class="file-meta" id="file-meta">
+            <dt>File Name</dt><dd id="meta-name">—</dd>
+            <dt>File Size</dt><dd id="meta-size">—</dd>
+            <dt>Dimensions</dt><dd id="meta-dims">—</dd>
+            <dt>MIME Type</dt><dd id="meta-mime">—</dd>
+          </dl>
+          <button class="btn-secondary btn-sm" id="clear-btn" type="button">Clear &amp; Upload New</button>
+        </div>
+
+        <!-- Output: Base64 String -->
+        <div class="output-section" id="output-section" style="display:none">
+          <div class="output-header">
+            <label>Raw Base64 String</label>
+          </div>
+          <div class="output-panel" id="out-base64">
+            <button class="copy-output-btn" data-target="base64" type="button">Copy</button>
+            <span class="placeholder">Base64 string will appear here...</span>
+          </div>
+
+          <div class="output-header mt-2">
+            <label>Data URI</label>
+          </div>
+          <div class="output-panel" id="out-datauri">
+            <button class="copy-output-btn" data-target="datauri" type="button">Copy</button>
+            <span class="placeholder">data:image/...;base64,... will appear here...</span>
+          </div>
+
+          <div class="output-header mt-2">
+            <label>CSS background-image</label>
+          </div>
+          <div class="output-panel" id="out-css">
+            <button class="copy-output-btn" data-target="css" type="button">Copy</button>
+            <span class="placeholder">CSS snippet will appear here...</span>
+          </div>
+
+          <div class="output-header mt-2">
+            <label>HTML &lt;img&gt; Tag</label>
+          </div>
+          <div class="output-panel" id="out-html">
+            <button class="copy-output-btn" data-target="html" type="button">Copy</button>
+            <span class="placeholder">HTML img tag will appear here...</span>
+          </div>
+        </div>
+
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Instant Client-Side Conversion</h3>
+            <p>This Image to Base64 converter processes your images entirely within your browser using the native JavaScript FileReader API. There is no server upload, no waiting for a response, and no file size limit imposed by a remote backend. The moment you drop or select an image, the tool reads the binary data and encodes it to a Base64 string in milliseconds. Because the conversion runs locally, it works even when you are offline after the page has loaded. This approach provides the fastest possible turnaround time and guarantees that your image data stays on your own machine from start to finish.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Multiple Output Formats</h3>
+            <p>A single image upload produces four ready-to-use outputs. The raw Base64 string is ideal for storing in databases, configuration files, or passing through text-only APIs. The complete data URI includes the MIME type prefix and can be pasted directly into browser address bars or used in JavaScript code. The CSS background-image snippet gives you a copy-paste declaration for your stylesheets. The HTML img tag output provides a self-contained image element that requires no external file reference. Each output includes a dedicated copy button so you can grab exactly the format you need without manual editing.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Full Image Format Support</h3>
+            <p>The converter accepts all major web image formats including PNG, JPEG, GIF, SVG, and WebP. It automatically detects the correct MIME type from the file and includes it in the data URI output. After loading your image, the tool displays a visual preview along with detailed metadata including the original file name, file size in human-readable units, pixel dimensions (width and height), and the detected MIME type. This metadata helps you make informed decisions about whether to inline the image as Base64 or keep it as a separate file based on its size and type.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Complete Privacy Guarantee</h3>
+            <p>Your images never leave your device. Every step of the conversion process, from reading the file bytes to generating the Base64 output, executes inside your browser's JavaScript engine. No image data is transmitted over the network, stored on any server, or logged anywhere. This makes the tool safe for converting sensitive screenshots, proprietary design assets, confidential documents, and personal photos. You can verify this claim by opening your browser's developer tools and monitoring the Network tab during conversion. You will see zero outbound requests containing your image data.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Convert Images to Base64</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Upload your image.</strong> Drag and drop an image file onto the upload zone, or click the <em>Choose Image</em> button to open your file browser. The tool accepts PNG, JPEG, GIF, SVG, and WebP files. Once selected, a preview of the image appears along with its file name, size, dimensions, and MIME type.</li>
+          <li><strong>Review the outputs.</strong> Four output panels appear automatically: the raw Base64 string, the complete data URI with MIME prefix, a CSS <code>background-image</code> declaration, and a full HTML <code>&lt;img&gt;</code> tag. Each panel shows the encoded content ready for use in your project.</li>
+          <li><strong>Copy what you need.</strong> Click the <em>Copy</em> button on any output panel to send that specific format to your clipboard. Paste it into your code editor, email template, CSS file, or any application that accepts text input. To convert another image, click <em>Clear &amp; Upload New</em> and repeat the process.</li>
+        </ol>
+      </section>
+
+      <!-- Understanding Base64 Image Encoding -->
+      <section class="mt-4">
+        <h2>Understanding Base64 Image Encoding</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Base64 encoding transforms binary image data into a string of printable ASCII characters. Every three bytes of the original file become four characters in the Base64 output, using an alphabet of 64 characters that includes uppercase and lowercase Latin letters, digits zero through nine, and the plus and slash symbols. This text-based representation allows images to be embedded directly inside HTML documents, CSS stylesheets, JSON payloads, email messages, and any other context that only supports text content.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">A data URI combines the Base64 string with metadata about the file type. The format follows the pattern <code>data:[MIME type];base64,[encoded data]</code>. When a browser encounters a data URI in an image source attribute or a CSS background property, it decodes the Base64 content and renders the image without making an additional HTTP request. This technique is especially valuable for small icons, UI elements, and decorative graphics where the overhead of a network request would outweigh the cost of a slightly larger HTML or CSS file.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Embedding images as Base64 is common in email HTML templates because many email clients block external image loading by default. By inlining the image data, your graphics display immediately without requiring the recipient to click a button to load remote content. It is also useful in single-file applications, offline documentation, data export features, and situations where you want to minimize the number of files in a deployment package. However, keep in mind that Base64 encoding increases the data size by roughly 33 percent, so this approach works best for smaller images typically under 20 to 30 kilobytes.</p>
+        <p style="color:var(--text-muted);line-height:1.7">For larger images, the size overhead and the impact on initial page load times make it more practical to serve them as external files and let the browser cache them efficiently. Striking the right balance between inline Base64 images and external file references is a key part of web performance optimization. As a general guideline, inline images smaller than 10 kilobytes and serve anything larger as a standard file with proper cache headers.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>Why would I convert an image to Base64?</summary>
+          <p>Converting an image to Base64 allows you to embed it directly inside HTML, CSS, or JavaScript files without needing a separate image file. This is particularly useful for reducing the number of HTTP requests your page makes, which can improve load times for pages with many small images such as icons and logos. Base64 images are also essential in HTML email templates because most email clients block external images by default but will render inline data URIs. Developers frequently use Base64-encoded images in single-page applications, offline documentation generators, browser extensions, and data export tools where bundling everything into a single file simplifies distribution and deployment.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How much larger does a Base64-encoded image become?</summary>
+          <p>Base64 encoding increases the size of any binary data by approximately 33 percent. This happens because the encoding represents every three bytes of input as four characters of output, using only 64 characters from the printable ASCII range. For example, a 10 kilobyte PNG image becomes roughly 13.3 kilobytes when encoded to Base64. If you include the data URI prefix (the MIME type declaration), the total string is a few bytes longer still. When this Base64 string is placed inside an HTML or CSS file, the browser must decode it before rendering, but modern browsers handle this decoding step in microseconds. The size overhead is the primary reason Base64 embedding is recommended only for small images, typically those under 20 kilobytes.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does Base64 encoding affect image quality?</summary>
+          <p>No. Base64 is a lossless encoding scheme that preserves every single byte of the original file exactly as it was. The encoded Base64 string, when decoded, produces a bit-for-bit identical copy of the original image file. There is no compression, resampling, or format conversion involved in the Base64 encoding process. A JPEG image encoded to Base64 and then decoded back will have the exact same pixel data, metadata, and file size as the original JPEG. The same is true for PNG, GIF, SVG, WebP, and any other format. Base64 only changes the representation of the data from binary to text; it does not alter the data itself in any way.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the performance impact of using Base64 images?</summary>
+          <p>The performance impact depends on the size and number of images you embed. For small images under 10 kilobytes, Base64 embedding typically improves performance by eliminating an HTTP request. Each avoided request saves the browser from performing DNS lookup, TCP connection, TLS handshake, and data transfer steps. However, Base64 images cannot be cached independently by the browser. If the same image appears on multiple pages, the browser must download the Base64 data as part of each HTML or CSS file instead of caching the image file once and reusing it. Large Base64 strings also increase the overall size of your HTML or CSS document, which can slow down initial parsing. The general best practice is to inline only small, frequently used images like icons and UI sprites, while serving larger photos and graphics as external files with appropriate cache headers.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Which image formats work with Base64 encoding?</summary>
+          <p>Every image format works with Base64 encoding because Base64 operates on raw bytes regardless of the file format. This tool specifically supports the five most common web image formats: PNG for lossless graphics with transparency, JPEG for photographs and complex images, GIF for simple animations and graphics with limited colors, SVG for scalable vector graphics, and WebP for modern compressed images with both lossy and lossless modes. The browser determines how to render the decoded image based on the MIME type specified in the data URI prefix. As long as the browser supports the underlying image format, it will correctly display the Base64-encoded version.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is there a maximum image size for Base64 conversion?</summary>
+          <p>There is no hard technical limit on the size of an image that can be Base64 encoded, but practical limits exist. This tool processes images entirely in your browser's memory, so very large files (above 50 megabytes) may cause the browser tab to slow down or run out of memory on devices with limited RAM. More importantly, embedding very large Base64 strings in HTML or CSS files defeats the purpose of the technique. A 5-megabyte image would produce a Base64 string of approximately 6.7 megabytes, which would make your HTML file enormous and slow to parse. For web performance, the consensus among developers is to limit Base64 embedding to images under 20 to 30 kilobytes. Anything larger should be served as a separate file and loaded with a standard image tag or CSS url reference.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Do all browsers support Base64 data URIs?</summary>
+          <p>Yes, data URIs with Base64-encoded images are supported by all modern browsers including Chrome, Firefox, Safari, Edge, and Opera, as well as mobile browsers on iOS and Android. Support for data URIs has been universal across major browsers for well over a decade. The data URI scheme is defined in RFC 2397 and is part of the HTML and CSS specifications. Internet Explorer had partial support starting from version 8, with a 32-kilobyte size limit that was removed in later versions. In current browsers, there are no meaningful size restrictions on data URIs, although extremely large ones may impact rendering performance. Email client support varies more widely, but most modern email clients including Gmail, Outlook, and Apple Mail render inline Base64 images correctly.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+          <a href="https://toolrip.com/hex-rgb">Hex-RGB Converter</a>
+          <a href="https://toolrip.com/qr">QR Code Generator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+  (function() {
+    'use strict';
+
+    /* ========== State ========== */
+    var outputs = { base64: '', datauri: '', css: '', html: '' };
+
+    /* ========== DOM refs ========== */
+    var dropZone = document.getElementById('drop-zone');
+    var fileInput = document.getElementById('file-input');
+    var browseBtn = document.getElementById('browse-btn');
+    var previewArea = document.getElementById('preview-area');
+    var previewImg = document.getElementById('preview-img');
+    var clearBtn = document.getElementById('clear-btn');
+    var outputSection = document.getElementById('output-section');
+
+    /* ========== Helpers ========== */
+    function formatBytes(bytes) {
+      if (bytes === 0) return '0 bytes';
+      if (bytes === 1) return '1 byte';
+      var units = ['bytes', 'KB', 'MB', 'GB'];
+      var i = Math.floor(Math.log(bytes) / Math.log(1024));
+      if (i === 0) return bytes + ' bytes';
+      return (bytes / Math.pow(1024, i)).toFixed(2) + ' ' + units[i];
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function setOutputPanel(id, text) {
+      var panel = document.getElementById('out-' + id);
+      var btn = panel.querySelector('.copy-output-btn');
+      var escaped = escapeHtml(text);
+      panel.innerHTML = '';
+      panel.appendChild(btn);
+      var code = document.createTextNode(text);
+      panel.appendChild(code);
+    }
+
+    /* ========== File Processing ========== */
+    function processFile(file) {
+      /* Validate type */
+      var validTypes = ['image/png', 'image/jpeg', 'image/gif', 'image/svg+xml', 'image/webp'];
+      if (validTypes.indexOf(file.type) === -1) {
+        showToast('Unsupported format. Please use PNG, JPG, GIF, SVG, or WebP.', 'error');
+        return;
+      }
+
+      /* Validate size (50 MB max) */
+      if (file.size > 50 * 1024 * 1024) {
+        showToast('File too large. Maximum size is 50 MB.', 'error');
+        return;
+      }
+
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var dataUri = e.target.result;
+
+        /* Show preview */
+        previewImg.src = dataUri;
+        previewImg.alt = file.name;
+        previewArea.classList.add('visible');
+
+        /* Get dimensions from image */
+        var img = new Image();
+        img.onload = function() {
+          document.getElementById('meta-dims').textContent = img.naturalWidth + ' x ' + img.naturalHeight + ' px';
+        };
+        img.src = dataUri;
+
+        /* File metadata */
+        document.getElementById('meta-name').textContent = file.name;
+        document.getElementById('meta-size').textContent = formatBytes(file.size);
+        document.getElementById('meta-mime').textContent = file.type;
+
+        /* Extract raw Base64 (strip data URI prefix) */
+        var commaIndex = dataUri.indexOf(',');
+        var rawBase64 = commaIndex !== -1 ? dataUri.substring(commaIndex + 1) : dataUri;
+
+        /* Build outputs */
+        outputs.base64 = rawBase64;
+        outputs.datauri = dataUri;
+        outputs.css = 'background-image: url(' + dataUri + ');';
+        outputs.html = '<img src="' + dataUri + '" alt="' + file.name.replace(/"/g, '&quot;') + '" />';
+
+        /* Render outputs */
+        setOutputPanel('base64', outputs.base64);
+        setOutputPanel('datauri', outputs.datauri);
+        setOutputPanel('css', outputs.css);
+        setOutputPanel('html', outputs.html);
+
+        outputSection.style.display = 'block';
+
+        showToast('Image converted to Base64 (' + formatBytes(file.size) + ')', 'success');
+      };
+
+      reader.onerror = function() {
+        showToast('Failed to read image file.', 'error');
+      };
+
+      reader.readAsDataURL(file);
+    }
+
+    /* ========== Drag & Drop ========== */
+    dropZone.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      dropZone.classList.add('dragover');
+    });
+
+    dropZone.addEventListener('dragleave', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      dropZone.classList.remove('dragover');
+    });
+
+    dropZone.addEventListener('drop', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      dropZone.classList.remove('dragover');
+      var files = e.dataTransfer.files;
+      if (files.length > 0) {
+        processFile(files[0]);
+      }
+    });
+
+    /* ========== File Input ========== */
+    browseBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      fileInput.click();
+    });
+
+    dropZone.addEventListener('click', function(e) {
+      if (e.target === browseBtn || browseBtn.contains(e.target)) return;
+      fileInput.click();
+    });
+
+    fileInput.addEventListener('change', function() {
+      if (fileInput.files.length > 0) {
+        processFile(fileInput.files[0]);
+        fileInput.value = '';
+      }
+    });
+
+    /* ========== Clear ========== */
+    clearBtn.addEventListener('click', function() {
+      previewArea.classList.remove('visible');
+      previewImg.src = '';
+      outputSection.style.display = 'none';
+      outputs = { base64: '', datauri: '', css: '', html: '' };
+
+      document.getElementById('meta-name').textContent = '\u2014';
+      document.getElementById('meta-size').textContent = '\u2014';
+      document.getElementById('meta-dims').textContent = '\u2014';
+      document.getElementById('meta-mime').textContent = '\u2014';
+
+      /* Reset output panels */
+      ['base64', 'datauri', 'css', 'html'].forEach(function(id) {
+        var panel = document.getElementById('out-' + id);
+        var btn = panel.querySelector('.copy-output-btn');
+        panel.innerHTML = '';
+        panel.appendChild(btn);
+        var placeholder = document.createElement('span');
+        placeholder.className = 'placeholder';
+        placeholder.textContent = id === 'base64' ? 'Base64 string will appear here...'
+          : id === 'datauri' ? 'data:image/...;base64,... will appear here...'
+          : id === 'css' ? 'CSS snippet will appear here...'
+          : 'HTML img tag will appear here...';
+        panel.appendChild(placeholder);
+      });
+
+      showToast('Cleared', 'info');
+    });
+
+    /* ========== Copy Buttons ========== */
+    document.addEventListener('click', function(e) {
+      var btn = e.target.closest('.copy-output-btn');
+      if (!btn) return;
+      var target = btn.getAttribute('data-target');
+      if (!target || !outputs[target]) {
+        showToast('Nothing to copy', 'error');
+        return;
+      }
+      copyToClipboard(outputs[target], btn);
+      showToast('Copied to clipboard!', 'success');
+    });
+
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JWT Decoder Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Decode and inspect JSON Web Tokens (JWT) instantly. View header, payload, claims, and expiration status. Free, client-side only — your tokens never leave your browser.">
+  <link rel="canonical" href="https://toolrip.com/jwt">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="JWT Decoder — Toolrip">
+  <meta property="og:description" content="Decode and inspect JSON Web Tokens (JWT) instantly. View header, payload, claims, and expiration status. Free, client-side only — your tokens never leave your browser.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/jwt">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="JWT Decoder — Toolrip">
+  <meta name="twitter:description" content="Decode and inspect JSON Web Tokens (JWT) instantly. View header, payload, claims, and expiration status. Free, client-side only — your tokens never leave your browser.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root{--accent:var(--developer)}
+
+    .jwt-input{width:100%;min-height:120px;resize:vertical;background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);color:var(--text);font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.875rem;padding:var(--sp-3);line-height:1.6;tab-size:2;word-break:break-all}
+    .jwt-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent)}
+    .jwt-input::placeholder{color:var(--text-muted);opacity:.6}
+
+    .jwt-visual{display:flex;flex-wrap:wrap;word-break:break-all;font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.875rem;line-height:1.8;padding:var(--sp-3);background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);margin-bottom:var(--sp-3);min-height:48px}
+    .jwt-visual .part-header{color:#f87171}
+    .jwt-visual .part-dot{color:var(--text-muted)}
+    .jwt-visual .part-payload{color:#a78bfa}
+    .jwt-visual .part-signature{color:#22d3ee}
+
+    .decoded-sections{display:flex;flex-direction:column;gap:var(--sp-3)}
+    .decoded-section{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+    .decoded-section-header{display:flex;align-items:center;justify-content:space-between;padding:var(--sp-2) var(--sp-3);
+      border-bottom:1px solid var(--border);font-size:.8125rem;font-weight:600}
+    .decoded-section-header .label{display:flex;align-items:center;gap:var(--sp-2)}
+    .decoded-section-header .dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+    .dot-header{background:#f87171}
+    .dot-payload{background:#a78bfa}
+    .dot-signature{background:#22d3ee}
+    .decoded-section-body{padding:var(--sp-3);font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.8125rem;line-height:1.7;white-space:pre-wrap;word-break:break-word;color:var(--text-muted)}
+
+    .copy-section-btn{padding:var(--sp-1) var(--sp-2);background:var(--bg-elevated);border:1px solid var(--border);
+      border-radius:var(--radius-sm);color:var(--text-muted);font-size:.75rem;cursor:pointer;font-family:inherit}
+    .copy-section-btn:hover{color:var(--text);border-color:var(--accent)}
+
+    .exp-status{display:inline-flex;align-items:center;gap:6px;padding:var(--sp-1) var(--sp-2);
+      border-radius:var(--radius-sm);font-size:.8125rem;font-weight:600;margin-top:var(--sp-2)}
+    .exp-expired{background:rgba(239,68,68,0.15);color:#fca5a5;border:1px solid rgba(239,68,68,0.3)}
+    .exp-valid{background:rgba(16,185,129,0.15);color:#6ee7b7;border:1px solid rgba(16,185,129,0.3)}
+    .exp-none{background:rgba(156,163,175,0.15);color:var(--text-muted);border:1px solid var(--border)}
+
+    .claims-table{width:100%;border-collapse:collapse;font-size:.8125rem;margin-top:var(--sp-2)}
+    .claims-table th,.claims-table td{text-align:left;padding:var(--sp-1) var(--sp-2);border-bottom:1px solid var(--border)}
+    .claims-table th{color:var(--text-muted);font-weight:600;white-space:nowrap}
+    .claims-table td{color:var(--text);word-break:break-word;font-family:'Consolas','Monaco','Courier New',monospace}
+    .claims-table tr:last-child th,.claims-table tr:last-child td{border-bottom:none}
+    .claim-name{color:var(--accent)}
+
+    .error-bar{background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);border-radius:var(--radius-sm);
+      padding:var(--sp-2) var(--sp-3);color:#fca5a5;font-size:.8125rem;margin-bottom:var(--sp-2);display:none;
+      font-family:'Consolas','Monaco','Courier New',monospace;line-height:1.5}
+    .error-bar.visible{display:block}
+
+    .toolbar{display:flex;flex-wrap:wrap;gap:var(--sp-2);align-items:center;margin-bottom:var(--sp-3)}
+    .btn-sm{padding:var(--sp-1) var(--sp-2);font-size:.8125rem;border-radius:var(--radius-sm)}
+
+    .placeholder-text{color:var(--text-muted);font-size:.8125rem;font-style:italic}
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "JWT Decoder",
+    "url": "https://toolrip.com/jwt",
+    "description": "Decode and inspect JSON Web Tokens (JWT) instantly. View header, payload, claims, and expiration status. Free, client-side only — your tokens never leave your browser.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#developer">Developer Tools</a>
+        <span>/</span>
+        <span>JWT Decoder</span>
+      </nav>
+
+      <h1>JWT Decoder Online</h1>
+      <p class="text-muted mt-1 mb-3">Paste a JSON Web Token to instantly decode and inspect its header, payload, and signature. View all claims, check expiration status, and copy decoded data. Everything runs locally in your browser — your tokens are never sent to any server.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <div class="input-group">
+          <label for="jwt-input">Paste your JWT</label>
+          <textarea id="jwt-input" class="jwt-input" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c" spellcheck="false" rows="4"></textarea>
+        </div>
+
+        <div class="toolbar">
+          <button class="btn-primary btn-sm" id="btn-decode" onclick="jwtApp.decode()">Decode</button>
+          <button class="btn-secondary btn-sm" onclick="jwtApp.loadSample()">Load Sample</button>
+          <button class="btn-secondary btn-sm" onclick="jwtApp.clear()">Clear</button>
+        </div>
+
+        <!-- Error bar -->
+        <div class="error-bar" id="error-bar"></div>
+
+        <!-- Color-coded JWT visual -->
+        <div id="jwt-visual" class="jwt-visual">
+          <span class="placeholder-text">Color-coded token will appear here...</span>
+        </div>
+
+        <!-- Expiration status -->
+        <div id="exp-status-container" style="margin-bottom:var(--sp-3);display:none">
+          <div id="exp-status"></div>
+        </div>
+
+        <!-- Decoded sections -->
+        <div class="decoded-sections" id="decoded-sections">
+          <!-- Header -->
+          <div class="decoded-section">
+            <div class="decoded-section-header">
+              <span class="label"><span class="dot dot-header"></span> Header (JOSE)</span>
+              <button class="copy-section-btn" onclick="jwtApp.copyHeader()">Copy</button>
+            </div>
+            <div class="decoded-section-body" id="decoded-header">
+              <span class="placeholder-text">Decoded header will appear here...</span>
+            </div>
+          </div>
+          <!-- Payload -->
+          <div class="decoded-section">
+            <div class="decoded-section-header">
+              <span class="label"><span class="dot dot-payload"></span> Payload (Claims)</span>
+              <button class="copy-section-btn" onclick="jwtApp.copyPayload()">Copy</button>
+            </div>
+            <div class="decoded-section-body" id="decoded-payload">
+              <span class="placeholder-text">Decoded payload will appear here...</span>
+            </div>
+          </div>
+          <!-- Signature -->
+          <div class="decoded-section">
+            <div class="decoded-section-header">
+              <span class="label"><span class="dot dot-signature"></span> Signature</span>
+            </div>
+            <div class="decoded-section-body" id="decoded-signature">
+              <span class="placeholder-text">Signature data will appear here...</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Claims table -->
+        <div id="claims-container" style="margin-top:var(--sp-3);display:none">
+          <h3 style="font-size:.9375rem;margin-bottom:var(--sp-2)">Registered Claims</h3>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);overflow:auto">
+            <table class="claims-table" id="claims-table">
+              <thead><tr><th>Claim</th><th>Name</th><th>Value</th></tr></thead>
+              <tbody id="claims-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Instant Decoding</h3>
+            <p>Paste any JSON Web Token and see its decoded header, payload, and signature immediately. The decoder processes your token in real time as you type or paste, with no need to click a button. Each of the three JWT segments is displayed in a distinct color — red for the header, purple for the payload, and cyan for the signature — so you can quickly identify each part. The pretty-printed JSON output uses proper indentation for easy reading, and you can copy any section to your clipboard with a single click. The tool handles tokens of any length and complexity, including those with nested JSON objects and arrays in their claims.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Expiration Checking</h3>
+            <p>Automatically detects the <code>exp</code> (expiration time) claim in the payload and calculates whether the token is still valid or has expired. If the token is valid, you will see a green badge showing exactly how much time remains before expiration, displayed in a human-readable format with days, hours, and minutes. Expired tokens display a red badge with the exact time since expiration. This feature saves you from manually converting Unix timestamps and performing date arithmetic. The <code>iat</code> (issued at) and <code>nbf</code> (not before) timestamps are also converted to readable dates in the claims table for quick reference.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Complete Privacy</h3>
+            <p>Your JSON Web Tokens never leave your device. Every decoding operation happens entirely in your browser using client-side JavaScript. No data is transmitted to any server, stored in any database, or logged anywhere. This is critical for JWT security because tokens often contain sensitive user information, session identifiers, permissions, and authentication data. Unlike server-side JWT decoders that could potentially log or store your tokens, this tool guarantees complete confidentiality. You can verify this by opening your browser's developer tools and monitoring the network tab while decoding tokens — you will see zero outbound requests.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the JWT Decoder</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Paste your token.</strong> Copy a JSON Web Token from your application, API response, browser cookies, local storage, or authorization header and paste it into the input field. The token should be in the standard format with three Base64URL-encoded segments separated by dots. You can also click the <em>Load Sample</em> button to see how the decoder works with an example token.</li>
+          <li><strong>Review the decoded output.</strong> The tool automatically splits the token into its three parts and displays them with color coding. The header section shows the signing algorithm and token type, the payload section reveals all claims and user data, and the signature section displays the raw signature bytes. Check the expiration badge to see if the token is still valid.</li>
+          <li><strong>Copy and use the data.</strong> Click the <em>Copy</em> button on any decoded section to copy the formatted JSON to your clipboard. Use the claims table to quickly reference registered claims like <code>iss</code>, <code>sub</code>, <code>aud</code>, and <code>exp</code> with their human-readable descriptions and converted timestamp values.</li>
+        </ol>
+      </section>
+
+      <!-- Understanding JWT Section -->
+      <section class="mt-4">
+        <h2>Understanding JSON Web Tokens</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">A JSON Web Token (JWT) is a compact, URL-safe means of representing claims to be transferred between two parties. Defined by RFC 7519, JWTs have become the industry standard for stateless authentication and information exchange in modern web applications and APIs. A JWT consists of three parts separated by dots: the header, the payload, and the signature. Each part is Base64URL-encoded, making the entire token safe for transmission in HTTP headers, URL parameters, and HTML form data.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">The <strong>header</strong> typically contains two fields: <code>alg</code>, which specifies the signing algorithm such as HMAC SHA-256 (HS256) or RSA SHA-256 (RS256), and <code>typ</code>, which is set to "JWT". The header tells the receiving party how the token was signed so it knows which algorithm to use for verification. Some headers also include a <code>kid</code> (key ID) field that identifies which cryptographic key was used, which is useful in systems that rotate signing keys periodically.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">The <strong>payload</strong> contains claims, which are statements about the user and additional metadata. Claims are divided into three categories. Registered claims are predefined and recommended by the JWT specification: <code>iss</code> (issuer) identifies who created the token, <code>sub</code> (subject) identifies the user, <code>aud</code> (audience) identifies the intended recipient, <code>exp</code> (expiration) sets the token's lifetime, <code>iat</code> (issued at) records when the token was created, and <code>nbf</code> (not before) defines the earliest time the token can be used. Public claims are registered in the IANA JSON Web Token Claims registry to prevent naming collisions. Private claims are custom fields agreed upon by the parties exchanging the token, such as user roles, permissions, or profile data.</p>
+        <p style="color:var(--text-muted);line-height:1.7">The <strong>signature</strong> ensures that the token has not been tampered with in transit. It is created by taking the encoded header, a dot, the encoded payload, and signing the concatenation with a secret key (for HMAC algorithms) or a private key (for RSA or ECDSA algorithms). The receiving server verifies the signature using the shared secret or the corresponding public key. Note that this client-side decoder does not verify signatures because it does not have access to the signing key — it only decodes and displays the token contents.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is a JSON Web Token (JWT)?</summary>
+          <p>A JSON Web Token is an open standard (RFC 7519) that defines a compact and self-contained way to securely transmit information between parties as a JSON object. A JWT is composed of three parts separated by dots: a header that specifies the algorithm and token type, a payload that contains the claims (data), and a signature that ensures the token has not been altered. JWTs are widely used for authentication and authorization in web applications. When a user logs in, the server issues a JWT that the client stores (usually in local storage or a cookie) and sends with each subsequent request. The server verifies the token's signature to confirm the user's identity without needing to query a session database. This stateless approach makes JWTs particularly well-suited for distributed systems, microservices, and single-page applications where server-side session management is impractical or undesirable.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is it safe to decode my JWT here?</summary>
+          <p>Yes, this JWT decoder is completely safe to use with real tokens. All decoding happens locally in your web browser using client-side JavaScript. Your token is never transmitted to any external server, stored in any database, or logged in any way. The tool simply splits the token at the dot separators, decodes each Base64URL-encoded segment, and parses the resulting JSON. You can verify this by disconnecting from the internet after loading the page — the decoder continues to work perfectly because it requires no server communication. That said, you should always be cautious about where you paste your tokens in general. Avoid sharing JWTs in public forums, chat messages, or unencrypted channels because anyone who obtains a valid token can use it to impersonate the token holder until it expires. This decoder is designed with security in mind, making it a safe alternative to server-based tools.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between JWT and session-based authentication?</summary>
+          <p>Session-based authentication stores user session data on the server, typically in a database or in-memory store like Redis. The server issues a session ID cookie that the client sends with each request. The server looks up the session ID to retrieve user data. JWT authentication, by contrast, is stateless. The server encodes user data directly into the token and sends it to the client. On subsequent requests, the server verifies the token's signature and reads the claims without querying any database. JWTs are particularly advantageous for distributed architectures because any server that has the signing key can validate the token independently. Session-based authentication requires a shared session store when running multiple server instances. However, JWTs have trade-offs: they cannot be individually revoked before expiration (without a blacklist), they increase request size compared to a small session cookie, and sensitive data in the payload is only encoded, not encrypted, so it should not contain secrets.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What are the most common JWT claims?</summary>
+          <p>The JWT specification defines seven registered claims that are commonly used. The <code>iss</code> (issuer) claim identifies the party that issued the token, such as your authentication server's URL. The <code>sub</code> (subject) claim identifies the principal (usually the user ID) that the token represents. The <code>aud</code> (audience) claim identifies the intended recipients of the token, often the API server's URL. The <code>exp</code> (expiration time) claim sets a Unix timestamp after which the token must be rejected. The <code>iat</code> (issued at) claim records when the token was created. The <code>nbf</code> (not before) claim specifies the earliest time the token should be accepted. The <code>jti</code> (JWT ID) claim provides a unique identifier for the token, useful for preventing replay attacks. In addition to these standard claims, applications commonly include custom claims such as <code>name</code>, <code>email</code>, <code>role</code>, or <code>permissions</code> to carry user-specific data that the application needs on each request.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How large can a JWT be?</summary>
+          <p>There is no hard size limit defined in the JWT specification itself, but practical limits are imposed by the transport mechanisms. Most web servers and CDNs limit HTTP header sizes to between 4 KB and 16 KB. Since JWTs are typically sent in the Authorization header, a token larger than 8 KB may cause issues with certain servers, proxies, or load balancers. In practice, most JWTs range from 300 bytes to 2 KB depending on the number of claims. Each claim you add increases the token size, and the Base64URL encoding adds approximately 33 percent overhead compared to the raw JSON. To keep tokens small, include only the claims your application actually needs on each request, avoid storing large data structures or lists in claims, and consider using token references (opaque tokens) alongside JWTs when you need to associate large amounts of session data. Cookies have a strict 4 KB limit per cookie, so if you store JWTs in cookies, that becomes the effective maximum size.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can a JWT be decoded without the secret key?</summary>
+          <p>Yes, the header and payload of a JWT can always be decoded without the secret key because they are simply Base64URL-encoded, not encrypted. Anyone who possesses a JWT can read its contents by decoding the Base64URL segments — that is exactly what this tool does. The secret key (or private key) is only needed to create or verify the signature, not to read the token contents. This is an important security consideration: you should never store sensitive secrets, passwords, or confidential data directly in a JWT payload because they would be readable by anyone who intercepts the token. If you need to transmit sensitive data, use JSON Web Encryption (JWE) instead of a plain JWT, or encrypt specific claim values before placing them in the payload. The signature's purpose is to guarantee integrity (the token was not modified) and authenticity (the token was issued by a trusted party), not to provide confidentiality.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What signing algorithms do JWTs support?</summary>
+          <p>JWTs support a wide range of signing algorithms defined in the JSON Web Algorithms (JWA) specification (RFC 7518). The most commonly used algorithms are HS256, HS384, and HS512, which use HMAC with SHA-256, SHA-384, or SHA-512 respectively. These are symmetric algorithms, meaning the same secret key is used for both signing and verification. RS256, RS384, and RS512 use RSA with the corresponding SHA hash functions. These are asymmetric algorithms where a private key signs the token and a public key verifies it, making them ideal for distributed systems where verification parties should not have signing capability. ES256, ES384, and ES512 use ECDSA (Elliptic Curve Digital Signature Algorithm) and produce shorter signatures than RSA for equivalent security levels. PS256, PS384, and PS512 use RSASSA-PSS, a probabilistic RSA padding scheme considered more secure than PKCS#1 v1.5. The <code>none</code> algorithm creates unsigned tokens and should only be used in trusted development environments, never in production.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+          <a href="https://toolrip.com/password">Password Generator</a>
+          <a href="https://toolrip.com/qr">QR Code Generator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+  var jwtApp = (function() {
+    'use strict';
+
+    /* ========== Known claims registry ========== */
+    var REGISTERED_CLAIMS = {
+      iss: 'Issuer',
+      sub: 'Subject',
+      aud: 'Audience',
+      exp: 'Expiration Time',
+      nbf: 'Not Before',
+      iat: 'Issued At',
+      jti: 'JWT ID'
+    };
+
+    var TIME_CLAIMS = { exp: true, nbf: true, iat: true };
+
+    /* ========== State ========== */
+    var decodedHeaderJSON = '';
+    var decodedPayloadJSON = '';
+
+    /* ========== DOM refs ========== */
+    function $(id) { return document.getElementById(id); }
+
+    /* ========== Base64URL decode ========== */
+    function base64UrlDecode(str) {
+      // Replace URL-safe chars
+      var base64 = str.replace(/-/g, '+').replace(/_/g, '/');
+      // Pad with '='
+      var pad = base64.length % 4;
+      if (pad === 2) base64 += '==';
+      else if (pad === 3) base64 += '=';
+
+      try {
+        var binary = atob(base64);
+        var bytes = new Uint8Array(binary.length);
+        for (var i = 0; i < binary.length; i++) {
+          bytes[i] = binary.charCodeAt(i);
+        }
+        return new TextDecoder('utf-8').decode(bytes);
+      } catch (e) {
+        throw new Error('Invalid Base64URL encoding');
+      }
+    }
+
+    /* ========== Escape HTML ========== */
+    function esc(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    /* ========== Pretty-print JSON with syntax highlighting ========== */
+    function prettyJSON(obj) {
+      return JSON.stringify(obj, null, 2);
+    }
+
+    function syntaxHighlight(json) {
+      var escaped = esc(json);
+      return escaped.replace(/"([^"]+)"(?=\s*:)/g, '<span style="color:#22d3ee">"$1"</span>')
+        .replace(/:\s*"([^"]*)"/g, ': <span style="color:#a78bfa">"$1"</span>')
+        .replace(/:\s*(\d+\.?\d*)/g, ': <span style="color:#f59e0b">$1</span>')
+        .replace(/:\s*(true|false)/g, ': <span style="color:#10b981">$1</span>')
+        .replace(/:\s*(null)/g, ': <span style="color:#ef4444">$1</span>');
+    }
+
+    /* ========== Time formatting ========== */
+    function formatTimestamp(unix) {
+      try {
+        var d = new Date(unix * 1000);
+        return d.toUTCString();
+      } catch (e) {
+        return String(unix);
+      }
+    }
+
+    function formatDuration(ms) {
+      var abs = Math.abs(ms);
+      var days = Math.floor(abs / 86400000);
+      var hours = Math.floor((abs % 86400000) / 3600000);
+      var minutes = Math.floor((abs % 3600000) / 60000);
+      var parts = [];
+      if (days > 0) parts.push(days + (days === 1 ? ' day' : ' days'));
+      if (hours > 0) parts.push(hours + (hours === 1 ? ' hour' : ' hours'));
+      if (minutes > 0) parts.push(minutes + (minutes === 1 ? ' minute' : ' minutes'));
+      return parts.length > 0 ? parts.join(', ') : 'less than a minute';
+    }
+
+    /* ========== Show / hide error ========== */
+    function showError(msg) {
+      var bar = $('error-bar');
+      bar.textContent = msg;
+      bar.classList.add('visible');
+    }
+
+    function clearError() {
+      $('error-bar').classList.remove('visible');
+    }
+
+    /* ========== Reset UI ========== */
+    function resetOutput() {
+      $('jwt-visual').innerHTML = '<span class="placeholder-text">Color-coded token will appear here...</span>';
+      $('decoded-header').innerHTML = '<span class="placeholder-text">Decoded header will appear here...</span>';
+      $('decoded-payload').innerHTML = '<span class="placeholder-text">Decoded payload will appear here...</span>';
+      $('decoded-signature').innerHTML = '<span class="placeholder-text">Signature data will appear here...</span>';
+      $('exp-status-container').style.display = 'none';
+      $('claims-container').style.display = 'none';
+      $('claims-tbody').innerHTML = '';
+      decodedHeaderJSON = '';
+      decodedPayloadJSON = '';
+    }
+
+    /* ========== Decode ========== */
+    function decode() {
+      clearError();
+      var raw = $('jwt-input').value.trim();
+
+      if (!raw) {
+        showError('Please paste a JWT to decode.');
+        resetOutput();
+        return;
+      }
+
+      // Strip "Bearer " prefix if present
+      if (raw.indexOf('Bearer ') === 0 || raw.indexOf('bearer ') === 0) {
+        raw = raw.substring(7).trim();
+      }
+
+      var parts = raw.split('.');
+      if (parts.length !== 3) {
+        showError('Invalid JWT format. A JWT must have exactly three parts separated by dots (header.payload.signature). Found ' + parts.length + ' part' + (parts.length === 1 ? '' : 's') + '.');
+        resetOutput();
+        return;
+      }
+
+      var headerB64 = parts[0];
+      var payloadB64 = parts[1];
+      var signatureB64 = parts[2];
+
+      // Decode header
+      var headerObj;
+      try {
+        var headerStr = base64UrlDecode(headerB64);
+        headerObj = JSON.parse(headerStr);
+        decodedHeaderJSON = prettyJSON(headerObj);
+      } catch (e) {
+        showError('Failed to decode the JWT header. The header segment is not valid Base64URL-encoded JSON.');
+        resetOutput();
+        return;
+      }
+
+      // Decode payload
+      var payloadObj;
+      try {
+        var payloadStr = base64UrlDecode(payloadB64);
+        payloadObj = JSON.parse(payloadStr);
+        decodedPayloadJSON = prettyJSON(payloadObj);
+      } catch (e) {
+        showError('Failed to decode the JWT payload. The payload segment is not valid Base64URL-encoded JSON.');
+        resetOutput();
+        return;
+      }
+
+      // Render color-coded visual
+      $('jwt-visual').innerHTML =
+        '<span class="part-header">' + esc(headerB64) + '</span>' +
+        '<span class="part-dot">.</span>' +
+        '<span class="part-payload">' + esc(payloadB64) + '</span>' +
+        '<span class="part-dot">.</span>' +
+        '<span class="part-signature">' + esc(signatureB64) + '</span>';
+
+      // Render decoded header
+      $('decoded-header').innerHTML = syntaxHighlight(decodedHeaderJSON);
+
+      // Render decoded payload
+      $('decoded-payload').innerHTML = syntaxHighlight(decodedPayloadJSON);
+
+      // Render signature info
+      var alg = headerObj.alg || 'Unknown';
+      $('decoded-signature').innerHTML =
+        '<span style="color:var(--text)">Algorithm:</span> ' + esc(alg) + '\n' +
+        '<span style="color:var(--text)">Signature (Base64URL):</span> ' + esc(signatureB64) + '\n\n' +
+        '<span style="color:var(--text-muted);font-style:italic">Signature verification is not available client-side without the signing key.</span>';
+
+      // Expiration status
+      renderExpiration(payloadObj);
+
+      // Claims table
+      renderClaims(payloadObj);
+
+      showToast('JWT decoded successfully!', 'success');
+    }
+
+    /* ========== Render expiration ========== */
+    function renderExpiration(payload) {
+      var container = $('exp-status-container');
+      var statusEl = $('exp-status');
+
+      if (typeof payload.exp !== 'number') {
+        container.style.display = 'block';
+        statusEl.innerHTML = '<span class="exp-status exp-none">No expiration claim (exp) found</span>';
+        return;
+      }
+
+      var now = Math.floor(Date.now() / 1000);
+      var diff = payload.exp - now;
+      container.style.display = 'block';
+
+      if (diff <= 0) {
+        var agoMs = Math.abs(diff) * 1000;
+        statusEl.innerHTML = '<span class="exp-status exp-expired">&#x2718; Expired ' + formatDuration(agoMs) + ' ago (' + formatTimestamp(payload.exp) + ')</span>';
+      } else {
+        var remainMs = diff * 1000;
+        statusEl.innerHTML = '<span class="exp-status exp-valid">&#x2714; Valid for ' + formatDuration(remainMs) + ' (expires ' + formatTimestamp(payload.exp) + ')</span>';
+      }
+    }
+
+    /* ========== Render claims table ========== */
+    function renderClaims(payload) {
+      var tbody = $('claims-tbody');
+      tbody.innerHTML = '';
+      var hasRegistered = false;
+
+      var keys = Object.keys(payload);
+      for (var i = 0; i < keys.length; i++) {
+        var key = keys[i];
+        var label = REGISTERED_CLAIMS[key];
+        if (!label) continue;
+        hasRegistered = true;
+
+        var value = payload[key];
+        var displayValue;
+
+        if (TIME_CLAIMS[key] && typeof value === 'number') {
+          displayValue = esc(String(value)) + ' (' + esc(formatTimestamp(value)) + ')';
+        } else if (typeof value === 'object') {
+          displayValue = esc(JSON.stringify(value));
+        } else {
+          displayValue = esc(String(value));
+        }
+
+        var row = document.createElement('tr');
+        row.innerHTML =
+          '<th><span class="claim-name">' + esc(key) + '</span></th>' +
+          '<td style="color:var(--text-muted)">' + esc(label) + '</td>' +
+          '<td>' + displayValue + '</td>';
+        tbody.appendChild(row);
+      }
+
+      $('claims-container').style.display = hasRegistered ? 'block' : 'none';
+    }
+
+    /* ========== Copy helpers ========== */
+    function copyHeader() {
+      if (!decodedHeaderJSON) {
+        showToast('Nothing to copy', 'error');
+        return;
+      }
+      copyToClipboard(decodedHeaderJSON);
+      showToast('Header copied to clipboard!', 'success');
+    }
+
+    function copyPayload() {
+      if (!decodedPayloadJSON) {
+        showToast('Nothing to copy', 'error');
+        return;
+      }
+      copyToClipboard(decodedPayloadJSON);
+      showToast('Payload copied to clipboard!', 'success');
+    }
+
+    /* ========== Load sample ========== */
+    function loadSample() {
+      // Build a sample JWT with an exp in the future
+      var header = { alg: 'HS256', typ: 'JWT' };
+      var now = Math.floor(Date.now() / 1000);
+      var payload = {
+        iss: 'https://auth.example.com',
+        sub: '1234567890',
+        aud: 'https://api.example.com',
+        name: 'Jane Doe',
+        email: 'jane@example.com',
+        role: 'admin',
+        iat: now - 3600,
+        exp: now + 7200,
+        jti: 'a1b2c3d4-e5f6-7890-abcd-ef1234567890'
+      };
+
+      function b64url(obj) {
+        var json = JSON.stringify(obj);
+        var bytes = new TextEncoder().encode(json);
+        var binary = '';
+        for (var i = 0; i < bytes.length; i++) {
+          binary += String.fromCharCode(bytes[i]);
+        }
+        return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+      }
+
+      var headerEnc = b64url(header);
+      var payloadEnc = b64url(payload);
+      // Fake signature for demonstration
+      var fakeSig = 'SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+
+      $('jwt-input').value = headerEnc + '.' + payloadEnc + '.' + fakeSig;
+      decode();
+    }
+
+    /* ========== Clear ========== */
+    function clear() {
+      $('jwt-input').value = '';
+      clearError();
+      resetOutput();
+      showToast('Cleared', 'info');
+    }
+
+    /* ========== Auto-decode on paste ========== */
+    $('jwt-input').addEventListener('paste', function() {
+      setTimeout(function() { decode(); }, 0);
+    });
+
+    /* ========== Auto-decode on input (debounced) ========== */
+    var debounceTimer;
+    $('jwt-input').addEventListener('input', function() {
+      clearTimeout(debounceTimer);
+      var val = $('jwt-input').value.trim();
+      if (!val) {
+        clearError();
+        resetOutput();
+        return;
+      }
+      debounceTimer = setTimeout(function() {
+        decode();
+      }, 400);
+    });
+
+    /* ========== Keyboard shortcut ========== */
+    $('jwt-input').addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        decode();
+      }
+    });
+
+    /* ========== Public API ========== */
+    return {
+      decode: decode,
+      clear: clear,
+      loadSample: loadSample,
+      copyHeader: copyHeader,
+      copyPayload: copyPayload
+    };
+  })();
+  </script>
+</body>
+</html>

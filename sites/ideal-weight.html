@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ideal Weight Calculator Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Calculate your ideal body weight using Devine, Robinson, Miller, Hamwi formulas and BMI-based range. Compare results side by side. Free, instant, no signup required.">
+  <meta name="keywords" content="ideal weight calculator, ideal body weight, Devine formula, Robinson formula, Miller formula, Hamwi formula, healthy weight range">
+  <link rel="canonical" href="https://toolrip.com/ideal-weight">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Ideal Weight Calculator Online — Free, Fast, No Signup | Toolrip">
+  <meta property="og:description" content="Calculate your ideal body weight using five proven medical formulas. Compare Devine, Robinson, Miller, Hamwi, and BMI-based results side by side.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/ideal-weight">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Ideal Weight Calculator Online — Free, Fast, No Signup | Toolrip">
+  <meta name="twitter:description" content="Calculate your ideal body weight using five proven medical formulas. Compare Devine, Robinson, Miller, Hamwi, and BMI-based results side by side.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root { --accent: var(--health); }
+
+    /* Unit Toggle */
+    .unit-toggle-group {
+      display: flex;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .unit-toggle-group button {
+      flex: 1;
+      padding: var(--sp-2) var(--sp-3);
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font: inherit;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .unit-toggle-group button.active {
+      background: var(--accent);
+      color: #fff;
+    }
+    .unit-toggle-group button:hover:not(.active) {
+      background: var(--bg-elevated);
+      color: var(--text);
+    }
+
+    /* Input Row */
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-3);
+    }
+    @media (max-width: 639px) {
+      .input-row { grid-template-columns: 1fr; }
+    }
+
+    /* Imperial height sub-fields */
+    .height-imperial {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-2);
+    }
+
+    /* Result card */
+    .result-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-5);
+      margin-top: var(--sp-4);
+    }
+    .result-card.hidden { display: none; }
+
+    /* Summary row */
+    .result-summary {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-3);
+      margin-bottom: var(--sp-4);
+    }
+    @media (max-width: 639px) {
+      .result-summary { grid-template-columns: 1fr; }
+    }
+    .summary-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-3);
+      text-align: center;
+    }
+    .summary-box h4 {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: var(--sp-1);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .summary-box p {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    /* Formula comparison table */
+    .formula-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    .formula-table th,
+    .formula-table td {
+      padding: var(--sp-2) var(--sp-3);
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .formula-table th {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: var(--bg-surface);
+    }
+    .formula-table tr:last-child td { border-bottom: none; }
+    .formula-table td:nth-child(2),
+    .formula-table td:nth-child(3) {
+      font-weight: 600;
+    }
+    .formula-table .highlight-row {
+      background: color-mix(in srgb, var(--accent) 8%, transparent);
+    }
+
+    /* Weight range bar */
+    .range-bar-wrapper {
+      margin: var(--sp-4) 0 var(--sp-2);
+    }
+    .range-bar-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: var(--sp-2);
+      color: var(--text);
+    }
+    .range-bar {
+      position: relative;
+      height: 28px;
+      border-radius: 14px;
+      background: linear-gradient(to right,
+        #3b82f6 0%, #3b82f6 20%,
+        #22c55e 20%, #22c55e 60%,
+        #f59e0b 60%, #f59e0b 80%,
+        #ef4444 80%, #ef4444 100%
+      );
+      overflow: visible;
+    }
+    .range-marker {
+      position: absolute;
+      top: -6px;
+      width: 4px;
+      height: 40px;
+      background: #fff;
+      border-radius: 2px;
+      transform: translateX(-50%);
+      box-shadow: 0 0 6px rgba(0,0,0,0.5);
+      transition: left 0.4s ease;
+      z-index: 2;
+    }
+    .range-marker::after {
+      content: attr(data-label);
+      position: absolute;
+      bottom: calc(100% + 4px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 2px 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+    }
+    .range-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: var(--sp-1);
+      padding: 0 2px;
+    }
+
+    /* Ideal range bracket markers */
+    .ideal-bracket {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      border: 2px solid #fff;
+      border-radius: 14px;
+      pointer-events: none;
+      box-shadow: 0 0 8px rgba(255,255,255,0.3);
+      transition: left 0.4s ease, width 0.4s ease;
+    }
+
+    /* Weight status message */
+    .weight-status {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-3) var(--sp-4);
+      margin-top: var(--sp-3);
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+    }
+    .weight-status strong {
+      color: var(--text);
+    }
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Ideal Weight Calculator",
+    "url": "https://toolrip.com/ideal-weight",
+    "description": "Calculate your ideal body weight using Devine, Robinson, Miller, Hamwi formulas and BMI-based healthy weight range. Compare multiple formulas side by side.",
+    "applicationCategory": "HealthApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="ideal-weight-top">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#health">Health &amp; Fitness</a>
+        <span>/</span>
+        <span>Ideal Weight Calculator</span>
+      </nav>
+
+      <h1>Ideal Weight Calculator</h1>
+      <p class="text-muted mt-1 mb-3">Calculate your ideal body weight using five proven medical formulas. Compare Devine, Robinson, Miller, Hamwi, and BMI-based results side by side.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+
+        <!-- Gender -->
+        <div class="input-group">
+          <label for="gender">Gender</label>
+          <select id="gender" class="select-field">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+
+        <!-- Unit Toggle -->
+        <div class="input-group">
+          <label>Height Unit</label>
+          <div class="unit-toggle-group">
+            <button id="btn-cm" class="active" onclick="IW.setUnit('cm')">Centimeters (cm)</button>
+            <button id="btn-ftin" onclick="IW.setUnit('ftin')">Feet &amp; Inches</button>
+          </div>
+        </div>
+
+        <!-- Height -->
+        <div class="input-row">
+          <div class="input-group" id="height-cm-group">
+            <label for="height-cm">Height (cm)</label>
+            <input type="number" id="height-cm" class="input-field" placeholder="175" min="100" max="250" step="0.1">
+          </div>
+          <div class="input-group hidden" id="height-ftin-group">
+            <label>Height (ft / in)</label>
+            <div class="height-imperial">
+              <input type="number" id="height-ft" class="input-field" placeholder="5" min="3" max="8" step="1">
+              <input type="number" id="height-in" class="input-field" placeholder="9" min="0" max="11" step="0.1">
+            </div>
+          </div>
+
+          <!-- Frame Size (optional) -->
+          <div class="input-group">
+            <label for="frame-size">Frame Size (optional)</label>
+            <select id="frame-size" class="select-field">
+              <option value="medium">Medium (default)</option>
+              <option value="small">Small</option>
+              <option value="large">Large</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Current Weight (optional) -->
+        <div class="input-row">
+          <div class="input-group">
+            <label for="current-weight" id="weight-label">Current Weight (optional, kg)</label>
+            <input type="number" id="current-weight" class="input-field" placeholder="70" min="20" max="500" step="0.1">
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex gap-2 mt-2">
+          <button class="btn-primary" onclick="IW.calculate()">Calculate Ideal Weight</button>
+          <button class="btn-secondary" onclick="IW.reset()">Clear</button>
+        </div>
+
+        <!-- Result Section -->
+        <div class="result-card hidden" id="result-card">
+
+          <!-- Summary Boxes -->
+          <div class="result-summary">
+            <div class="summary-box">
+              <h4>Average Ideal Weight</h4>
+              <p id="avg-weight">--</p>
+            </div>
+            <div class="summary-box">
+              <h4>Healthy BMI Range</h4>
+              <p id="bmi-range">--</p>
+            </div>
+          </div>
+
+          <!-- Formula Comparison Table -->
+          <div class="tool-card" style="padding:0;overflow:hidden;margin-bottom:0">
+            <table class="formula-table" id="formula-table">
+              <thead>
+                <tr>
+                  <th>Formula</th>
+                  <th>Ideal Weight</th>
+                  <th>Range (&plusmn;10%)</th>
+                </tr>
+              </thead>
+              <tbody id="formula-tbody"></tbody>
+            </table>
+          </div>
+
+          <!-- Visual Range Bar (shown when current weight is entered) -->
+          <div class="range-bar-wrapper hidden" id="range-bar-wrapper">
+            <div class="range-bar-label">Your Weight vs. Healthy Range</div>
+            <div class="range-bar" id="range-bar">
+              <div class="ideal-bracket" id="ideal-bracket"></div>
+              <div class="range-marker" id="weight-marker" data-label="--"></div>
+            </div>
+            <div class="range-labels" id="range-labels">
+              <span>--</span>
+              <span>--</span>
+              <span>--</span>
+            </div>
+          </div>
+
+          <!-- Weight Status -->
+          <div class="weight-status hidden" id="weight-status"></div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="ideal-weight-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Five Medical Formulas</h3>
+            <p>Compare your ideal weight results across five widely recognized formulas used by doctors and nutritionists. The Devine, Robinson, Miller, and Hamwi equations each use a different coefficient, and the BMI-based range gives you the full healthy spectrum for your height.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Side-by-Side Comparison</h3>
+            <p>View all formula results in a single comparison table so you can see the full range of ideal weight estimates. Each formula has its own strengths and background, and comparing them gives you a more realistic target than relying on any single number.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Frame Size Adjustment</h3>
+            <p>Optionally account for your body frame size. People with larger skeletal frames naturally weigh more than those with smaller frames at the same height, so the calculator applies a standard ten percent adjustment for small and large frames.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Visual Weight Indicator</h3>
+            <p>Enter your current weight to see a visual bar showing exactly where you stand relative to the healthy range. The color-coded gradient makes it easy to understand whether you are within, below, or above the recommended zone at a glance.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Dual Unit Support</h3>
+            <p>Switch between centimeters and feet-inches for height input. Results are displayed in both kilograms and pounds simultaneously, so you never have to convert units manually regardless of which measurement system you prefer.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Private and Instant</h3>
+            <p>All calculations run entirely in your browser with no data sent to any server. Your height, weight, and gender information remain completely private. Results appear instantly with no page reloads and no account required.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Ideal Weight Calculator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Select your gender</strong> &mdash; Choose Male or Female. All five formulas use gender-specific coefficients because men and women have different body compositions, bone densities, and muscle mass distributions that affect healthy weight ranges.</li>
+          <li><strong>Enter your height</strong> &mdash; Toggle between centimeters or feet and inches at the top. Accurate height input is essential because all ideal weight formulas calculate a target based on how many inches of height you have above five feet.</li>
+          <li><strong>Choose your frame size</strong> &mdash; This is optional and defaults to medium. If you have a noticeably small or large bone structure, selecting the appropriate frame size adjusts all results by ten percent downward or upward respectively.</li>
+          <li><strong>Optionally enter your current weight</strong> &mdash; Adding your actual weight activates the visual comparison bar and tells you how many kilograms or pounds you need to gain or lose to reach the average ideal weight from all formulas.</li>
+          <li><strong>Review your results</strong> &mdash; Click Calculate Ideal Weight to see the comparison table, average ideal weight, healthy BMI range, and visual indicator. Use the range of values across formulas rather than fixating on a single number.</li>
+        </ol>
+      </section>
+
+      <!-- Understanding Ideal Weight -->
+      <section class="mt-4">
+        <h2>Understanding Ideal Body Weight</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">The concept of ideal body weight has been studied extensively in clinical medicine and nutrition science for more than half a century. Ideal body weight is an estimated weight that is associated with the lowest risk of weight-related health complications for a given height and gender. It is important to understand that ideal body weight is not a single magic number but rather a range that varies depending on which formula or method you use. Several mathematically derived equations exist, each developed by different researchers using different study populations and assumptions. The most widely referenced are the Devine (1974), Robinson (1983), Miller (1983), and Hamwi (1964) formulas. Additionally, the Body Mass Index approach defines healthy weight as the range corresponding to a BMI between 18.5 and 24.9, which is endorsed by the World Health Organization.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">Each formula was originally designed for a specific clinical purpose. The Devine formula, for instance, was developed to calculate drug dosage requirements based on a patient's ideal body weight rather than actual weight, particularly for medications like gentamicin where dosing relative to lean body mass is critical. Over time, these clinical formulas were adopted for general health and fitness guidance. The Robinson and Miller formulas were published as refinements to the original Devine equation, using updated regression data from insurance mortality studies. The Hamwi formula is the oldest of the four and uses a straightforward rule of thumb that is still taught in dietetics programs today. Despite their differences, all four formulas share the same structural approach: they start with a base weight for a person who is exactly five feet tall and then add a fixed number of kilograms per additional inch of height. This linear model is simple and easy to compute but does not capture the full complexity of human body composition.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">One of the most important limitations of ideal body weight formulas is that they do not account for individual variations in muscle mass, bone density, body fat distribution, or ethnic background. A highly muscular person may have an actual weight well above the calculated ideal weight while being perfectly healthy. Similarly, someone with a sedentary lifestyle might fall within the ideal range yet carry excess visceral fat that poses significant health risks. For this reason, medical professionals generally recommend using ideal weight calculations as one piece of a broader health assessment that also includes waist circumference, body fat percentage, blood pressure, cholesterol levels, and blood glucose markers. The BMI-based healthy range is somewhat more flexible because it provides a full span of acceptable weights rather than a single point estimate, but it still relies solely on height and weight without considering body composition.</p>
+        <p style="color:var(--text-muted);line-height:1.8">Body frame size is another factor that ideal weight formulas do not inherently address. People with larger bone structures naturally carry more skeletal weight, which means a larger-framed individual may have a healthy weight that is ten percent or more above the formula output. Conversely, smaller-framed individuals may find that their optimal weight sits below the calculated ideal. Our calculator includes a frame size adjustment to approximate this effect. If you are uncertain about your frame size, a common method is to measure your wrist circumference: for men, a wrist circumference under 6.5 inches generally indicates a small frame, 6.5 to 7.5 inches indicates a medium frame, and over 7.5 inches indicates a large frame. For women, the corresponding thresholds are typically 5.5 inches and 6.5 inches. Ultimately, the best use of an ideal weight calculator is to identify a reasonable target range and discuss your goals with a healthcare provider who can evaluate your full health profile.</p>
+      </section>
+
+      <!-- Formula Details Table -->
+      <section class="mt-4">
+        <h2>Formula Details</h2>
+        <p class="text-muted mb-2">All four traditional formulas calculate ideal weight in kilograms based on height in inches above five feet (60 inches). The BMI-based range uses the standard healthy BMI bracket of 18.5 to 24.9 applied to your height in meters.</p>
+        <div class="tool-card" style="padding:0;overflow:hidden">
+          <table class="formula-table">
+            <thead>
+              <tr>
+                <th>Formula</th>
+                <th>Male</th>
+                <th>Female</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Devine (1974)</td>
+                <td>50.0 + 2.3 &times; (H&minus;60)</td>
+                <td>45.5 + 2.3 &times; (H&minus;60)</td>
+              </tr>
+              <tr>
+                <td>Robinson (1983)</td>
+                <td>52.0 + 1.9 &times; (H&minus;60)</td>
+                <td>49.0 + 1.7 &times; (H&minus;60)</td>
+              </tr>
+              <tr>
+                <td>Miller (1983)</td>
+                <td>56.2 + 1.41 &times; (H&minus;60)</td>
+                <td>53.1 + 1.36 &times; (H&minus;60)</td>
+              </tr>
+              <tr>
+                <td>Hamwi (1964)</td>
+                <td>48.0 + 2.7 &times; (H&minus;60)</td>
+                <td>45.5 + 2.2 &times; (H&minus;60)</td>
+              </tr>
+              <tr>
+                <td>BMI-Based</td>
+                <td colspan="2">18.5 &times; H(m)&sup2; &mdash; 24.9 &times; H(m)&sup2;</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text-muted mt-2" style="font-size:.85rem">H = height in total inches. H(m) = height in meters. Frame size adjustments: small frame &minus;10%, large frame +10%.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is ideal body weight?</summary>
+          <p>Ideal body weight is an estimated target weight that research and clinical experience associate with the lowest risk of weight-related health problems for a given height and gender. It is not a single precise number but rather a range derived from statistical analyses of population health data. Several formulas exist to calculate it, including the Devine, Robinson, Miller, and Hamwi equations, each developed by different medical researchers at different times. The concept serves as a useful reference point for healthcare providers when assessing nutritional status, prescribing medications, or setting weight management goals. However, ideal weight should always be considered alongside other health markers such as body fat percentage, waist circumference, and metabolic indicators rather than as a standalone target.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Which ideal weight formula is the most accurate?</summary>
+          <p>No single formula is universally considered the most accurate because each was derived from different study populations and methodologies. The Devine formula is the most widely used in clinical practice, particularly for drug dosing calculations, and has become the de facto standard in many medical settings. The Robinson and Miller formulas were developed as refinements using larger datasets and tend to produce slightly higher estimates, especially for women. The Hamwi formula is the oldest and simplest, often used as a quick approximation in dietetics. For the most reliable assessment, comparing results across all formulas gives you a realistic range. The BMI-based approach is endorsed by the World Health Organization and provides the broadest healthy weight window. Consult a healthcare professional for a personalized recommendation that accounts for your unique body composition.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What are the limitations of ideal weight formulas?</summary>
+          <p>Ideal weight formulas have several significant limitations. First, they rely solely on height and gender, ignoring critical factors like body composition, muscle mass, bone density, age, and ethnicity. A muscular athlete may weigh well above the calculated ideal while being extremely healthy, and a sedentary person within the ideal range might have excessive body fat. Second, all four traditional formulas were developed primarily from data on Caucasian populations in North America and Europe, so they may not accurately reflect healthy weights for people of other ethnic backgrounds. Third, the linear model used by these formulas (base weight plus a fixed increment per inch) oversimplifies the complex relationship between height and healthy weight. Fourth, none of the formulas account for age-related changes in body composition. For these reasons, ideal weight values should be used as rough guidelines rather than absolute targets.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does muscle mass affect ideal weight calculations?</summary>
+          <p>Yes, muscle mass significantly affects the relevance of ideal weight calculations. Muscle tissue is denser than fat tissue, meaning that a person with significant muscle development will weigh more than someone of the same height with less muscle. None of the traditional ideal weight formulas distinguish between lean mass and fat mass. Athletes, bodybuilders, and people who engage in regular strength training frequently exceed their calculated ideal weight while maintaining low body fat percentages and excellent cardiovascular health. If you have above-average muscle mass, your actual healthy weight may be considerably higher than what these formulas suggest. In such cases, body fat percentage measurement using methods like skinfold calipers, bioelectrical impedance analysis, or DEXA scanning provides a much more meaningful assessment of whether your weight is healthy.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How does body frame size affect ideal weight?</summary>
+          <p>Body frame size refers to the skeletal structure of your body, including bone thickness and width. People with larger frames naturally carry more bone and connective tissue weight, which means their healthy weight is higher than that of someone with the same height but a smaller frame. Clinical guidelines typically apply a ten percent adjustment: subtract ten percent for small-framed individuals and add ten percent for large-framed individuals. You can estimate your frame size by measuring wrist circumference. For men, a wrist under 6.5 inches suggests a small frame, 6.5 to 7.5 inches a medium frame, and over 7.5 inches a large frame. For women, the thresholds are approximately 5.5 and 6.5 inches. While this adjustment is approximate, it helps produce a more personalized ideal weight estimate that accounts for structural differences between individuals.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between ideal weight and BMI?</summary>
+          <p>Ideal body weight and Body Mass Index are related but distinct concepts. Ideal weight formulas (Devine, Robinson, Miller, Hamwi) output a single target weight in kilograms based on your height and gender. They were originally developed for clinical purposes such as medication dosing. BMI, on the other hand, is a ratio calculated by dividing your weight in kilograms by the square of your height in meters. It produces a dimensionless number that is then categorized into brackets: underweight (below 18.5), normal weight (18.5 to 24.9), overweight (25 to 29.9), and obese (30 and above). The BMI-based ideal weight range in this calculator converts the healthy BMI bracket into actual weight values for your height, giving you a range rather than a single number. Both approaches have limitations and neither measures body fat directly, but using them together provides a more complete picture than either alone.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Should I use my ideal weight as a strict target?</summary>
+          <p>No, you should not treat your ideal weight as a strict or absolute target. The values produced by these formulas are statistical estimates based on population averages and do not account for your individual body composition, fitness level, age, medical history, or personal health goals. A healthy weight is best defined as one where your metabolic markers (blood pressure, cholesterol, blood sugar, inflammatory markers) are within normal ranges, you have adequate energy for daily activities, and you feel physically and mentally well. Instead of fixating on a specific number, use the range of ideal weight estimates from multiple formulas as a general reference zone. Discuss your weight goals with a physician or registered dietitian who can evaluate your complete health profile and help you set a realistic, sustainable target that considers your unique circumstances.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/bmi">BMI Calculator</a>
+          <a href="https://toolrip.com/calorie">Calorie Calculator</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+          <a href="https://toolrip.com/age">Age Calculator</a>
+          <a href="https://toolrip.com/fraction">Fraction Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="ideal-weight-sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="ideal-weight-bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Ideal Weight Calculator JS -->
+  <script>
+    var IW = (function() {
+      'use strict';
+
+      var unit = 'cm';
+
+      /* --- Unit Switching --- */
+      function setUnit(u) {
+        unit = u;
+        document.getElementById('btn-cm').classList.toggle('active', u === 'cm');
+        document.getElementById('btn-ftin').classList.toggle('active', u === 'ftin');
+        document.getElementById('height-cm-group').classList.toggle('hidden', u !== 'cm');
+        document.getElementById('height-ftin-group').classList.toggle('hidden', u !== 'ftin');
+
+        var wLabel = document.getElementById('weight-label');
+        if (u === 'ftin') {
+          wLabel.textContent = 'Current Weight (optional, lbs)';
+          document.getElementById('current-weight').placeholder = '154';
+        } else {
+          wLabel.textContent = 'Current Weight (optional, kg)';
+          document.getElementById('current-weight').placeholder = '70';
+        }
+      }
+
+      /* --- Get height in total inches --- */
+      function getHeightInches() {
+        if (unit === 'cm') {
+          var cm = parseFloat(document.getElementById('height-cm').value);
+          if (isNaN(cm) || cm < 100 || cm > 250) return NaN;
+          return cm / 2.54;
+        } else {
+          var ft = parseFloat(document.getElementById('height-ft').value) || 0;
+          var inches = parseFloat(document.getElementById('height-in').value) || 0;
+          var total = ft * 12 + inches;
+          if (total < 36 || total > 100) return NaN;
+          return total;
+        }
+      }
+
+      /* --- Get height in meters --- */
+      function getHeightMeters() {
+        var inches = getHeightInches();
+        if (isNaN(inches)) return NaN;
+        return inches * 0.0254;
+      }
+
+      /* --- Get current weight in kg (or NaN if empty) --- */
+      function getCurrentWeightKg() {
+        var w = parseFloat(document.getElementById('current-weight').value);
+        if (isNaN(w) || w <= 0) return NaN;
+        return unit === 'ftin' ? w * 0.453592 : w;
+      }
+
+      /* --- Frame size multiplier --- */
+      function getFrameMultiplier() {
+        var frame = document.getElementById('frame-size').value;
+        if (frame === 'small') return 0.9;
+        if (frame === 'large') return 1.1;
+        return 1.0;
+      }
+
+      /* --- Ideal weight formulas (return kg) --- */
+      function devine(heightIn, gender) {
+        if (gender === 'male') return 50 + 2.3 * (heightIn - 60);
+        return 45.5 + 2.3 * (heightIn - 60);
+      }
+
+      function robinson(heightIn, gender) {
+        if (gender === 'male') return 52 + 1.9 * (heightIn - 60);
+        return 49 + 1.7 * (heightIn - 60);
+      }
+
+      function miller(heightIn, gender) {
+        if (gender === 'male') return 56.2 + 1.41 * (heightIn - 60);
+        return 53.1 + 1.36 * (heightIn - 60);
+      }
+
+      function hamwi(heightIn, gender) {
+        if (gender === 'male') return 48 + 2.7 * (heightIn - 60);
+        return 45.5 + 2.2 * (heightIn - 60);
+      }
+
+      function bmiRange(heightM) {
+        return {
+          low: 18.5 * heightM * heightM,
+          high: 24.9 * heightM * heightM
+        };
+      }
+
+      /* --- Format weight display --- */
+      function fmtKg(kg) {
+        return kg.toFixed(1) + ' kg';
+      }
+
+      function fmtLbs(kg) {
+        return (kg / 0.453592).toFixed(1) + ' lbs';
+      }
+
+      function fmtBoth(kg) {
+        return fmtKg(kg) + ' (' + fmtLbs(kg) + ')';
+      }
+
+      /* --- Main Calculation --- */
+      function calculate() {
+        var heightIn = getHeightInches();
+        var heightM = getHeightMeters();
+
+        if (isNaN(heightIn) || isNaN(heightM)) {
+          showToast('Please enter a valid height.', 'error');
+          return;
+        }
+
+        if (heightIn < 48) {
+          showToast('These formulas are designed for adults 4 feet (122 cm) and taller.', 'error');
+          return;
+        }
+
+        var gender = document.getElementById('gender').value;
+        var frameMult = getFrameMultiplier();
+
+        // Calculate all formula results
+        var results = [
+          { name: 'Devine', kg: devine(heightIn, gender) * frameMult },
+          { name: 'Robinson', kg: robinson(heightIn, gender) * frameMult },
+          { name: 'Miller', kg: miller(heightIn, gender) * frameMult },
+          { name: 'Hamwi', kg: hamwi(heightIn, gender) * frameMult }
+        ];
+
+        var bmi = bmiRange(heightM);
+        var bmiLow = bmi.low * frameMult;
+        var bmiHigh = bmi.high * frameMult;
+
+        // Average of four formulas
+        var sum = 0;
+        for (var i = 0; i < results.length; i++) { sum += results[i].kg; }
+        var avg = sum / results.length;
+
+        // Show result card
+        var card = document.getElementById('result-card');
+        card.classList.remove('hidden');
+
+        // Summary boxes
+        document.getElementById('avg-weight').textContent = fmtBoth(avg);
+        document.getElementById('bmi-range').textContent = fmtKg(bmiLow) + ' \u2014 ' + fmtKg(bmiHigh);
+
+        // Build comparison table
+        var tbody = document.getElementById('formula-tbody');
+        tbody.innerHTML = '';
+
+        for (var j = 0; j < results.length; j++) {
+          var r = results[j];
+          var low10 = r.kg * 0.9;
+          var high10 = r.kg * 1.1;
+          var tr = document.createElement('tr');
+          tr.innerHTML =
+            '<td>' + r.name + '</td>' +
+            '<td>' + fmtBoth(r.kg) + '</td>' +
+            '<td>' + fmtKg(low10) + ' \u2014 ' + fmtKg(high10) + '</td>';
+          tbody.appendChild(tr);
+        }
+
+        // BMI-based row
+        var bmiTr = document.createElement('tr');
+        bmiTr.className = 'highlight-row';
+        var bmiMid = (bmiLow + bmiHigh) / 2;
+        bmiTr.innerHTML =
+          '<td>BMI-Based</td>' +
+          '<td>' + fmtBoth(bmiMid) + '</td>' +
+          '<td>' + fmtKg(bmiLow) + ' \u2014 ' + fmtKg(bmiHigh) + '</td>';
+        tbody.appendChild(bmiTr);
+
+        // Current weight visual indicator
+        var currentKg = getCurrentWeightKg();
+        var barWrapper = document.getElementById('range-bar-wrapper');
+        var statusDiv = document.getElementById('weight-status');
+
+        if (!isNaN(currentKg)) {
+          barWrapper.classList.remove('hidden');
+          statusDiv.classList.remove('hidden');
+
+          // Define scale range based on BMI range with padding
+          var scaleMin = bmiLow * 0.65;
+          var scaleMax = bmiHigh * 1.45;
+          if (currentKg < scaleMin) scaleMin = currentKg * 0.9;
+          if (currentKg > scaleMax) scaleMax = currentKg * 1.1;
+
+          // Position the ideal bracket
+          var bracket = document.getElementById('ideal-bracket');
+          var bracketLeft = ((bmiLow - scaleMin) / (scaleMax - scaleMin)) * 100;
+          var bracketRight = ((bmiHigh - scaleMin) / (scaleMax - scaleMin)) * 100;
+          bracket.style.left = Math.max(0, bracketLeft) + '%';
+          bracket.style.width = Math.max(1, bracketRight - bracketLeft) + '%';
+
+          // Position the weight marker
+          var marker = document.getElementById('weight-marker');
+          var markerPos = ((currentKg - scaleMin) / (scaleMax - scaleMin)) * 100;
+          markerPos = Math.max(1, Math.min(99, markerPos));
+          marker.style.left = markerPos + '%';
+          marker.setAttribute('data-label', fmtBoth(currentKg));
+
+          // Range labels
+          var labels = document.getElementById('range-labels');
+          labels.innerHTML =
+            '<span>' + fmtKg(scaleMin) + '</span>' +
+            '<span>' + fmtKg((scaleMin + scaleMax) / 2) + '</span>' +
+            '<span>' + fmtKg(scaleMax) + '</span>';
+
+          // Weight status message
+          var diff = currentKg - avg;
+          var html = '';
+          if (currentKg < bmiLow) {
+            var toGain = bmiLow - currentKg;
+            html = '<strong>Below healthy range.</strong> Your current weight of ' + fmtBoth(currentKg) +
+              ' is <strong>' + fmtBoth(toGain) + '</strong> below the lower end of the healthy BMI range.' +
+              ' The average ideal weight across all formulas is ' + fmtBoth(avg) + '.' +
+              ' Consider consulting a healthcare provider about reaching a healthier weight.';
+          } else if (currentKg > bmiHigh) {
+            var toLose = currentKg - bmiHigh;
+            html = '<strong>Above healthy range.</strong> Your current weight of ' + fmtBoth(currentKg) +
+              ' is <strong>' + fmtBoth(toLose) + '</strong> above the upper end of the healthy BMI range.' +
+              ' The average ideal weight across all formulas is ' + fmtBoth(avg) + '.' +
+              ' A gradual reduction toward the healthy range can lower health risks.';
+          } else {
+            html = '<strong>Within healthy range!</strong> Your current weight of ' + fmtBoth(currentKg) +
+              ' falls within the healthy BMI-based range of ' + fmtBoth(bmiLow) + ' to ' + fmtBoth(bmiHigh) + '.' +
+              ' The average ideal weight across all formulas is ' + fmtBoth(avg) + '.' +
+              ' Keep up the good work maintaining a healthy lifestyle.';
+          }
+          statusDiv.innerHTML = html;
+        } else {
+          barWrapper.classList.add('hidden');
+          statusDiv.classList.add('hidden');
+        }
+
+        // Scroll to results
+        card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      /* --- Reset Form --- */
+      function reset() {
+        document.getElementById('gender').value = 'male';
+        document.getElementById('height-cm').value = '';
+        document.getElementById('height-ft').value = '';
+        document.getElementById('height-in').value = '';
+        document.getElementById('frame-size').value = 'medium';
+        document.getElementById('current-weight').value = '';
+        document.getElementById('result-card').classList.add('hidden');
+        setUnit('cm');
+      }
+
+      /* --- Auto-calculate on input --- */
+      function initListeners() {
+        var inputs = ['height-cm', 'height-ft', 'height-in', 'current-weight'];
+        for (var i = 0; i < inputs.length; i++) {
+          var el = document.getElementById(inputs[i]);
+          if (el) {
+            el.addEventListener('input', function() {
+              var h = getHeightInches();
+              if (!isNaN(h) && h >= 48) { calculate(); }
+            });
+          }
+        }
+        document.getElementById('gender').addEventListener('change', function() {
+          var h = getHeightInches();
+          if (!isNaN(h) && h >= 48) { calculate(); }
+        });
+        document.getElementById('frame-size').addEventListener('change', function() {
+          var h = getHeightInches();
+          if (!isNaN(h) && h >= 48) { calculate(); }
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', initListeners);
+
+      return {
+        setUnit: setUnit,
+        calculate: calculate,
+        reset: reset
+      };
+    })();
+  </script>
+</body>
+</html>

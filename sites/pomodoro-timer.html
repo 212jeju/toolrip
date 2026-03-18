@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pomodoro Timer Online — Free, Fast, No Signup</title>
+  <meta name="description" content="Free Pomodoro Timer with customizable work, short break, and long break durations. Circular progress, audio alerts, session tracking, and daily stats. No signup.">
+  <meta name="keywords" content="pomodoro timer, pomodoro technique, focus timer, productivity timer, work timer, study timer, time management, pomodoro clock">
+  <link rel="canonical" href="https://toolrip.com/pomodoro">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Pomodoro Timer Online — Free, Fast, No Signup">
+  <meta property="og:description" content="Boost productivity with a free Pomodoro Timer. Customizable durations, circular progress, audio alerts, session tracking, and daily stats. No signup required.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/pomodoro">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Pomodoro Timer Online — Free, Fast, No Signup">
+  <meta name="twitter:description" content="Boost productivity with a free Pomodoro Timer. Customizable durations, circular progress, audio alerts, session tracking, and daily stats. No signup required.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root { --accent: var(--datetime); }
+
+    /* Circular progress */
+    .circle-wrap {
+      position: relative;
+      width: 260px;
+      height: 260px;
+      margin: 0 auto var(--sp-3);
+    }
+    @media (min-width: 640px) {
+      .circle-wrap { width: 300px; height: 300px; }
+    }
+    .circle-wrap svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+    .circle-bg {
+      fill: none;
+      stroke: var(--border);
+      stroke-width: 8;
+    }
+    .circle-fg {
+      fill: none;
+      stroke: var(--accent);
+      stroke-width: 8;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 0.3s linear, stroke 0.3s;
+    }
+    .circle-fg.break-mode {
+      stroke: #10b981;
+    }
+    .circle-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .pomo-time {
+      font-size: 3.25rem;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      color: var(--text);
+      line-height: 1.2;
+      letter-spacing: 0.02em;
+    }
+    @media (min-width: 640px) {
+      .pomo-time { font-size: 4rem; }
+    }
+    .pomo-time.finished {
+      color: var(--accent);
+      animation: pulse 1s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .pomo-phase {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-top: var(--sp-1);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Session dots */
+    .session-dots {
+      display: flex;
+      justify-content: center;
+      gap: var(--sp-2);
+      margin-bottom: var(--sp-3);
+    }
+    .session-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: transparent;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .session-dot.completed {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .session-dot.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(249,115,22,0.25);
+    }
+
+    /* Controls */
+    .control-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-2);
+      justify-content: center;
+      margin-bottom: var(--sp-3);
+    }
+
+    /* Settings panel */
+    .settings-panel {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-3);
+      margin-bottom: var(--sp-3);
+      background: var(--bg);
+    }
+    .settings-panel summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--text);
+      font-size: 0.9rem;
+      user-select: none;
+    }
+    .settings-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: var(--sp-2);
+      margin-top: var(--sp-3);
+    }
+    @media (max-width: 480px) {
+      .settings-grid { grid-template-columns: 1fr; }
+    }
+    .auto-start-row {
+      margin-top: var(--sp-3);
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+    }
+    .auto-start-row label {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    /* Daily stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: var(--sp-2);
+      margin-top: var(--sp-2);
+    }
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr; }
+    }
+    .stat-card {
+      text-align: center;
+      padding: var(--sp-3);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: var(--sp-1);
+    }
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Pomodoro Timer",
+    "url": "https://toolrip.com/pomodoro",
+    "description": "Free online Pomodoro Timer with customizable work and break durations, circular progress indicator, audio notifications, session tracking, and daily productivity stats. No signup required.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the Pomodoro Technique?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Pomodoro Technique is a time management method developed by Francesco Cirillo in the late 1980s. It breaks work into focused intervals, traditionally 25 minutes long, called pomodoros. After each pomodoro, you take a short 5-minute break. After completing four consecutive pomodoros, you take a longer break of 15 to 30 minutes. This structured cycle helps maintain focus, prevent burnout, and improve productivity throughout the day."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I use this Pomodoro Timer?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Click the Start button to begin a 25-minute work session. The circular progress indicator and countdown display show your remaining time. When the timer ends, an audio alert plays and the timer automatically moves to a short break. After four work sessions, a long break begins. You can pause, resume, reset, or skip to the next session at any time. Customize durations in the Settings panel to match your preferred workflow."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I customize the timer durations?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Open the Settings panel below the timer controls to adjust the work duration, short break duration, and long break duration. Changes take effect on the next session. The default values follow the traditional Pomodoro Technique: 25 minutes for work, 5 minutes for short breaks, and 15 minutes for long breaks. You can set any duration between 1 and 120 minutes for each interval."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What happens when a session ends?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "When a session ends, the timer plays three audio beeps using the Web Audio API directly in your browser. If the auto-start option is enabled, the next session begins automatically after a brief pause. If auto-start is disabled, the timer waits for you to manually start the next session. The browser tab title updates in real time to show the remaining time, so you can monitor progress from another tab."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does the timer work in background tabs?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The timer uses a time-comparison approach that checks the actual system clock on every tick rather than relying solely on setInterval accuracy. Even if your browser throttles background tab timers, the countdown remains accurate. The browser tab title shows the remaining time so you can monitor the timer without switching back to the tab."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How are daily stats calculated?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The daily stats section tracks three metrics for the current browser session: total focus time (the cumulative minutes spent in work sessions), completed sessions (the number of full pomodoros finished), and total break time (the cumulative minutes spent in short and long breaks). These stats reset when you refresh the page or close the tab. No data is sent to any server."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is my data private when using this tool?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Absolutely. The Pomodoro Timer runs entirely in your web browser using client-side JavaScript. No timer data, session counts, settings, or personal information are transmitted to our servers or any third party. The audio alert is generated locally with the Web Audio API. Your productivity data stays on your device at all times. There are no accounts, cookies tracking personal data, or server-side processing."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Date & Time Tools", "item": "https://toolrip.com/#datetime" },
+      { "@type": "ListItem", "position": 3, "name": "Pomodoro Timer", "item": "https://toolrip.com/pomodoro" }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="pomodoro-top">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#datetime">Date &amp; Time Tools</a>
+        <span>/</span>
+        <span>Pomodoro Timer</span>
+      </nav>
+
+      <h1>Pomodoro Timer</h1>
+      <p class="text-muted mt-1 mb-3">Boost your productivity with the Pomodoro Technique. Work in focused 25-minute sessions with timed breaks. Customizable durations, circular progress, audio alerts, session tracking, and daily stats. Free, private, and no signup required.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+
+        <!-- Circular Progress -->
+        <div class="circle-wrap" id="circle-wrap">
+          <svg viewBox="0 0 200 200">
+            <circle class="circle-bg" cx="100" cy="100" r="90"></circle>
+            <circle class="circle-fg" id="circle-fg" cx="100" cy="100" r="90" stroke-dasharray="565.49" stroke-dashoffset="0"></circle>
+          </svg>
+          <div class="circle-center">
+            <div class="pomo-time" id="pomo-time">25:00</div>
+            <div class="pomo-phase" id="pomo-phase">Work</div>
+          </div>
+        </div>
+
+        <!-- Session Dots -->
+        <div class="session-dots" id="session-dots">
+          <div class="session-dot active" data-idx="0"></div>
+          <div class="session-dot" data-idx="1"></div>
+          <div class="session-dot" data-idx="2"></div>
+          <div class="session-dot" data-idx="3"></div>
+        </div>
+
+        <!-- Controls -->
+        <div class="control-row">
+          <button class="btn-primary" id="btn-start">Start</button>
+          <button class="btn-secondary" id="btn-pause" style="display:none">Pause</button>
+          <button class="btn-primary" id="btn-resume" style="display:none">Resume</button>
+          <button class="btn-secondary" id="btn-reset">Reset</button>
+          <button class="btn-secondary" id="btn-skip">Skip</button>
+        </div>
+
+        <!-- Settings -->
+        <details class="settings-panel" id="settings-panel">
+          <summary>Settings</summary>
+          <div class="settings-grid">
+            <div class="input-group" style="margin-bottom:0">
+              <label for="set-work">Work (min)</label>
+              <input type="number" id="set-work" class="input-field" min="1" max="120" value="25">
+            </div>
+            <div class="input-group" style="margin-bottom:0">
+              <label for="set-short">Short Break (min)</label>
+              <input type="number" id="set-short" class="input-field" min="1" max="60" value="5">
+            </div>
+            <div class="input-group" style="margin-bottom:0">
+              <label for="set-long">Long Break (min)</label>
+              <input type="number" id="set-long" class="input-field" min="1" max="60" value="15">
+            </div>
+          </div>
+          <div class="auto-start-row">
+            <input type="checkbox" id="chk-auto" checked>
+            <label for="chk-auto">Auto-start next session</label>
+          </div>
+        </details>
+
+        <!-- Daily Stats -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-value" id="stat-focus">0 min</div>
+            <div class="stat-label">Total Focus Time</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="stat-sessions">0</div>
+            <div class="stat-label">Completed Sessions</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="stat-breaks">0 min</div>
+            <div class="stat-label">Total Break Time</div>
+          </div>
+        </div>
+
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="pomodoro-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Circular Progress Indicator</h3>
+            <p>A smooth SVG circle visually tracks your remaining time at a glance. The ring depletes as the session progresses, giving you an intuitive sense of how much time is left without reading the numbers. The color shifts between orange for work sessions and green for break sessions, so you always know which phase you are in.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Customizable Durations</h3>
+            <p>Tailor the timer to your personal workflow. Adjust the work interval anywhere from 1 to 120 minutes, set short breaks between 1 and 60 minutes, and configure long breaks up to 60 minutes. Whether you prefer the classic 25/5/15 pattern or a modified schedule like 50/10/30, this timer adapts to how you work best.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Session Tracking &amp; Daily Stats</h3>
+            <p>Keep track of your productivity with session dots that show your progress through each four-pomodoro cycle. The daily stats panel displays your total focus time, completed sessions, and total break time for the current session. This feedback helps you understand your work patterns and stay motivated throughout the day.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Audio Alerts &amp; Auto-Start</h3>
+            <p>Three clear beeps generated by the Web Audio API notify you when each session ends, with no external files or downloads needed. Enable auto-start to seamlessly transition between work and break sessions without lifting a finger. The browser tab title updates in real time, so you can monitor your timer from any tab.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Pomodoro Timer</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Configure your durations (optional)</strong> — Open the Settings panel to adjust work, short break, and long break durations. The defaults follow the standard Pomodoro Technique: 25 minutes of work, 5-minute short breaks, and 15-minute long breaks after every four sessions.</li>
+          <li><strong>Start a work session</strong> — Click the Start button to begin your first pomodoro. The circular progress ring begins depleting, the countdown display shows the remaining time, and the browser tab title updates live so you can track progress from another tab.</li>
+          <li><strong>Focus until the alert sounds</strong> — Concentrate entirely on your task. When the timer reaches zero, three audio beeps notify you that the session is complete. The session dot fills in to mark the completed pomodoro, and your daily stats update automatically.</li>
+          <li><strong>Take your break</strong> — If auto-start is enabled, the break timer begins automatically. Otherwise, click Start to begin your break. After four completed work sessions, the timer automatically schedules a long break instead of a short one.</li>
+          <li><strong>Use Pause, Skip, or Reset as needed</strong> — Click Pause to freeze the timer if you are interrupted. Click Skip to jump to the next session. Click Reset to return everything to the initial state and start fresh.</li>
+        </ol>
+      </section>
+
+      <!-- SEO Content -->
+      <section class="mt-4">
+        <h2>The Pomodoro Technique: A Complete Guide to Focused Productivity</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          The Pomodoro Technique is one of the most widely adopted time management methods in the world. Developed by Francesco Cirillo in the late 1980s while he was a university student, the method takes its name from the tomato-shaped kitchen timer he used to track his study sessions. The core idea is elegantly simple: break your work into focused intervals of approximately 25 minutes, separated by short breaks, and take a longer rest after completing four intervals. This rhythmic cycle of concentrated effort and deliberate recovery has helped millions of students, professionals, writers, developers, and creatives accomplish more while feeling less mentally drained at the end of the day.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          The psychology behind the Pomodoro Technique is rooted in several well-established principles of cognitive science. First, it leverages the concept of time-boxing, which involves committing to a fixed period of focused work. Knowing that a break is coming in 25 minutes reduces the resistance many people feel when starting difficult tasks. It is far easier to convince yourself to focus for 25 minutes than to face an undefined stretch of hours. Second, the mandatory breaks prevent the cognitive fatigue that accumulates during extended periods of uninterrupted concentration. Research in attention science has consistently shown that brief diversions from a task can dramatically improve the ability to sustain focus over long periods. Third, the act of tracking completed sessions creates a tangible record of productivity, which reinforces motivation and helps identify patterns in your work habits.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          While the traditional Pomodoro Technique prescribes 25-minute work sessions, many practitioners adjust the durations to suit their individual needs. Some people find that 50-minute work blocks followed by 10-minute breaks better match their attention spans, particularly for tasks that require deep immersion such as coding, writing, or design work. Others prefer shorter 15-minute intervals when working on administrative tasks that require frequent context switching. The flexibility to customize durations is one of the reasons the technique has remained popular for over three decades. The important principle is not the specific number of minutes but the discipline of alternating focused work with intentional rest.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          A browser-based Pomodoro Timer offers several practical advantages over physical timers or mobile apps. There is nothing to install, no account to create, and no subscription to manage. The timer runs directly in your web browser alongside the work you are already doing, whether that is writing documents, reading research, coding, or managing projects. The Web Audio API generates alert sounds locally in your browser, so no audio files need to be downloaded and the notifications work even when your device is in silent mode for music but not system sounds. Because all processing happens on your device with client-side JavaScript, the timer remains responsive and accurate even without an active internet connection after the initial page load. Your timer data, session history, and settings stay entirely on your device, making this a private and secure productivity tool.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          Effective time management is fundamentally about protecting your attention. In a world filled with notifications, messages, and digital distractions, the simple act of setting a timer and committing to a defined period of focused work is a powerful countermeasure. The Pomodoro Technique gives you permission to ignore everything else for 25 minutes at a time. During a pomodoro, your only job is to work on the task at hand. Emails, messages, and social media can wait for the break. This deliberate boundary between work and rest creates a sustainable rhythm that supports both high performance and well-being over the long term. Whether you are studying for an exam, writing a report, building software, preparing a presentation, or tackling a creative project, this timer provides the structure you need to do your best work without burning out.
+        </p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is the Pomodoro Technique?</summary>
+          <p>The Pomodoro Technique is a time management method created by Francesco Cirillo in the late 1980s. It structures work into focused intervals called pomodoros, traditionally 25 minutes long, followed by short 5-minute breaks. After completing four consecutive pomodoros, you take a longer break of 15 to 30 minutes. This cycle of concentrated work and deliberate rest helps sustain focus, prevent mental fatigue, and improve productivity throughout the day. The method is used by students, developers, writers, and professionals worldwide.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do I use this Pomodoro Timer?</summary>
+          <p>Click the Start button to begin a 25-minute work session. The circular progress ring and countdown display show your remaining time. When the session ends, three audio beeps notify you and the timer transitions to a break. After four work sessions, a long break is scheduled automatically. You can pause, resume, skip, or reset the timer at any time using the control buttons. Open the Settings panel to customize work and break durations to match your preferred workflow.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can I customize the timer durations?</summary>
+          <p>Yes. Open the Settings panel below the timer controls to adjust the work duration (1 to 120 minutes), short break duration (1 to 60 minutes), and long break duration (1 to 60 minutes). Changes take effect on the next session. The default values follow the traditional Pomodoro Technique: 25 minutes for work, 5 minutes for short breaks, and 15 minutes for long breaks. You can experiment with different intervals to find the rhythm that works best for your tasks and attention span.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What happens when a session ends?</summary>
+          <p>When a session ends, the timer plays three audio beeps generated by the Web Audio API directly in your browser. No external sound files are needed. If the auto-start option is enabled in Settings, the next session begins automatically after a brief visual notification. If auto-start is disabled, the timer waits for you to manually click Start. The display flashes to catch your attention, the session dot updates to show your progress, and the daily stats are recalculated with the completed session data.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does the timer work in background browser tabs?</summary>
+          <p>Yes. The timer uses a time-comparison approach that checks the actual system clock on every tick rather than relying solely on setInterval precision. Even when browsers throttle JavaScript timers in background tabs to conserve resources, the countdown remains accurate because it compares the current time against the target end time. The browser tab title also updates with the remaining time in real time, so you can monitor the countdown without switching back to this tab.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How are daily stats calculated?</summary>
+          <p>The daily stats section tracks three metrics for the current browser session: total focus time measures the cumulative minutes spent in completed work sessions, completed sessions counts the number of full pomodoros finished, and total break time sums the minutes spent in completed short and long breaks. These statistics reset when you refresh the page or close the tab. All data stays in your browser and is never sent to any server or third party.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is my data private when using this tool?</summary>
+          <p>Absolutely. The Pomodoro Timer runs entirely in your web browser using client-side JavaScript. No timer data, session counts, duration settings, or personal information are transmitted to our servers or any third party. The audio alerts are generated locally using the Web Audio API. There are no accounts, no cookies storing personal data, and no server-side processing of any kind. You can verify this by monitoring network requests in your browser developer tools while using the timer. Your productivity data stays on your device at all times.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/date-diff">Date Difference Calculator</a>
+          <a href="https://toolrip.com/age">Age Calculator</a>
+          <a href="https://toolrip.com/timer">Countdown Timer</a>
+          <a href="https://toolrip.com/week-number">Week Number Calculator</a>
+          <a href="https://toolrip.com/business-days">Business Days Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="pomodoro-sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="pomodoro-bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Pomodoro Timer JS -->
+  <script>
+  (function() {
+    'use strict';
+
+    /* ========== CONSTANTS ========== */
+    var CIRCLE_CIRCUMFERENCE = 2 * Math.PI * 90; // ~565.49
+    var PHASE_WORK = 'work';
+    var PHASE_SHORT = 'short';
+    var PHASE_LONG = 'long';
+    var POMODOROS_BEFORE_LONG = 4;
+    var AUTO_START_DELAY = 1500;
+
+    /* ========== STATE ========== */
+    var state = {
+      phase: PHASE_WORK,        // 'work', 'short', 'long'
+      totalMs: 25 * 60 * 1000,
+      remainingMs: 25 * 60 * 1000,
+      endTime: 0,
+      interval: null,
+      running: false,
+      finished: false,
+      pomodoroCount: 0,         // completed in current cycle (0-3)
+      totalCompleted: 0         // total completed sessions
+    };
+
+    var stats = {
+      focusMs: 0,
+      breakMs: 0,
+      sessions: 0
+    };
+
+    var originalTitle = document.title;
+
+    /* ========== DOM REFS ========== */
+    var elTime = document.getElementById('pomo-time');
+    var elPhase = document.getElementById('pomo-phase');
+    var elCircle = document.getElementById('circle-fg');
+    var elDots = document.getElementById('session-dots');
+    var btnStart = document.getElementById('btn-start');
+    var btnPause = document.getElementById('btn-pause');
+    var btnResume = document.getElementById('btn-resume');
+    var btnReset = document.getElementById('btn-reset');
+    var btnSkip = document.getElementById('btn-skip');
+    var setWork = document.getElementById('set-work');
+    var setShort = document.getElementById('set-short');
+    var setLong = document.getElementById('set-long');
+    var chkAuto = document.getElementById('chk-auto');
+    var statFocus = document.getElementById('stat-focus');
+    var statSessions = document.getElementById('stat-sessions');
+    var statBreaks = document.getElementById('stat-breaks');
+
+    /* ========== HELPERS ========== */
+    function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+    function formatMs(ms) {
+      if (ms < 0) ms = 0;
+      var totalSec = Math.ceil(ms / 1000);
+      var m = Math.floor(totalSec / 60);
+      var s = totalSec % 60;
+      return pad(m) + ':' + pad(s);
+    }
+
+    function formatMinutes(ms) {
+      var mins = Math.floor(ms / 60000);
+      return mins + ' min';
+    }
+
+    function getDurationMs(phase) {
+      var val;
+      if (phase === PHASE_WORK) {
+        val = clamp(parseInt(setWork.value) || 25, 1, 120);
+      } else if (phase === PHASE_SHORT) {
+        val = clamp(parseInt(setShort.value) || 5, 1, 60);
+      } else {
+        val = clamp(parseInt(setLong.value) || 15, 1, 60);
+      }
+      return val * 60 * 1000;
+    }
+
+    function getPhaseLabel(phase) {
+      if (phase === PHASE_WORK) return 'Work';
+      if (phase === PHASE_SHORT) return 'Short Break';
+      return 'Long Break';
+    }
+
+    /* ========== DISPLAY ========== */
+    function updateDisplay() {
+      var display = formatMs(state.remainingMs);
+      elTime.textContent = display;
+
+      // Phase label
+      elPhase.textContent = getPhaseLabel(state.phase);
+
+      // Circle progress
+      var pct = state.totalMs > 0 ? state.remainingMs / state.totalMs : 0;
+      if (pct < 0) pct = 0;
+      var offset = CIRCLE_CIRCUMFERENCE * (1 - pct);
+      elCircle.setAttribute('stroke-dashoffset', offset);
+
+      // Circle color
+      if (state.phase === PHASE_WORK) {
+        elCircle.classList.remove('break-mode');
+      } else {
+        elCircle.classList.add('break-mode');
+      }
+
+      // Tab title
+      if (state.running) {
+        document.title = display + ' ' + getPhaseLabel(state.phase) + ' \u2014 Pomodoro Timer | Toolrip';
+      } else if (state.finished) {
+        document.title = '\u23F0 Session Complete \u2014 Pomodoro Timer | Toolrip';
+      } else {
+        document.title = originalTitle;
+      }
+    }
+
+    function updateDots() {
+      var dots = elDots.querySelectorAll('.session-dot');
+      for (var i = 0; i < dots.length; i++) {
+        dots[i].classList.remove('completed', 'active');
+        if (i < state.pomodoroCount) {
+          dots[i].classList.add('completed');
+        }
+        if (i === state.pomodoroCount && state.phase === PHASE_WORK) {
+          dots[i].classList.add('active');
+        }
+      }
+    }
+
+    function updateStats() {
+      statFocus.textContent = formatMinutes(stats.focusMs);
+      statSessions.textContent = stats.sessions;
+      statBreaks.textContent = formatMinutes(stats.breakMs);
+    }
+
+    function showButtons(mode) {
+      btnStart.style.display = mode === 'start' ? '' : 'none';
+      btnPause.style.display = mode === 'pause' ? '' : 'none';
+      btnResume.style.display = mode === 'resume' ? '' : 'none';
+    }
+
+    /* ========== AUDIO ========== */
+    function playBeep() {
+      try {
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return;
+        var ctx = new AC();
+        var times = [0, 0.25, 0.5];
+        for (var i = 0; i < times.length; i++) {
+          (function(offset) {
+            var osc = ctx.createOscillator();
+            var gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.type = 'sine';
+            osc.frequency.value = 880;
+            gain.gain.setValueAtTime(0.3, ctx.currentTime + offset);
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + offset + 0.15);
+            osc.start(ctx.currentTime + offset);
+            osc.stop(ctx.currentTime + offset + 0.15);
+          })(times[i]);
+        }
+        setTimeout(function() { ctx.close(); }, 1500);
+      } catch (e) { /* Web Audio API not supported */ }
+    }
+
+    /* ========== SESSION LOGIC ========== */
+    function getNextPhase() {
+      if (state.phase === PHASE_WORK) {
+        state.pomodoroCount++;
+        stats.sessions++;
+        stats.focusMs += state.totalMs;
+        state.totalCompleted++;
+        if (state.pomodoroCount >= POMODOROS_BEFORE_LONG) {
+          state.pomodoroCount = 0;
+          return PHASE_LONG;
+        }
+        return PHASE_SHORT;
+      }
+      // After a break, always go to work
+      if (state.phase === PHASE_SHORT || state.phase === PHASE_LONG) {
+        stats.breakMs += state.totalMs;
+      }
+      return PHASE_WORK;
+    }
+
+    function setupPhase(phase) {
+      state.phase = phase;
+      state.totalMs = getDurationMs(phase);
+      state.remainingMs = state.totalMs;
+      state.finished = false;
+      state.running = false;
+      elTime.classList.remove('finished');
+      updateDisplay();
+      updateDots();
+      updateStats();
+      showButtons('start');
+    }
+
+    function onSessionEnd() {
+      state.running = false;
+      state.finished = true;
+      state.remainingMs = 0;
+      clearInterval(state.interval);
+      state.interval = null;
+
+      elTime.classList.add('finished');
+      updateDisplay();
+      playBeep();
+
+      var nextPhase = getNextPhase();
+      updateDots();
+      updateStats();
+
+      if (chkAuto.checked) {
+        showButtons('start');
+        setTimeout(function() {
+          setupPhase(nextPhase);
+          startTimer();
+        }, AUTO_START_DELAY);
+      } else {
+        // Prepare next phase but wait for manual start
+        setTimeout(function() {
+          setupPhase(nextPhase);
+        }, AUTO_START_DELAY);
+      }
+    }
+
+    /* ========== TICK ========== */
+    function tick() {
+      if (!state.running) return;
+      state.remainingMs = state.endTime - Date.now();
+      if (state.remainingMs <= 0) {
+        onSessionEnd();
+        return;
+      }
+      updateDisplay();
+    }
+
+    /* ========== CONTROLS ========== */
+    function startTimer() {
+      if (state.running) return;
+
+      state.totalMs = getDurationMs(state.phase);
+      if (!state.finished && state.remainingMs === state.totalMs) {
+        // Fresh start for this phase
+        state.remainingMs = state.totalMs;
+      }
+      state.endTime = Date.now() + state.remainingMs;
+      state.running = true;
+      state.finished = false;
+
+      elTime.classList.remove('finished');
+      updateDisplay();
+      state.interval = setInterval(tick, 100);
+      showButtons('pause');
+    }
+
+    function pauseTimer() {
+      if (!state.running) return;
+      state.running = false;
+      state.remainingMs = state.endTime - Date.now();
+      if (state.remainingMs < 0) state.remainingMs = 0;
+      clearInterval(state.interval);
+      state.interval = null;
+
+      document.title = formatMs(state.remainingMs) + ' (Paused) \u2014 Pomodoro Timer | Toolrip';
+      showButtons('resume');
+    }
+
+    function resumeTimer() {
+      if (state.running || state.remainingMs <= 0) return;
+      state.endTime = Date.now() + state.remainingMs;
+      state.running = true;
+      state.interval = setInterval(tick, 100);
+      showButtons('pause');
+      updateDisplay();
+    }
+
+    function resetTimer() {
+      state.running = false;
+      state.finished = false;
+      clearInterval(state.interval);
+      state.interval = null;
+
+      state.phase = PHASE_WORK;
+      state.pomodoroCount = 0;
+      state.totalCompleted = 0;
+      stats.focusMs = 0;
+      stats.breakMs = 0;
+      stats.sessions = 0;
+
+      state.totalMs = getDurationMs(PHASE_WORK);
+      state.remainingMs = state.totalMs;
+
+      elTime.classList.remove('finished');
+      document.title = originalTitle;
+
+      updateDisplay();
+      updateDots();
+      updateStats();
+      showButtons('start');
+    }
+
+    function skipSession() {
+      state.running = false;
+      clearInterval(state.interval);
+      state.interval = null;
+
+      // Record partial time if was a work session that was running
+      var nextPhase = getNextPhase();
+      updateDots();
+      updateStats();
+      setupPhase(nextPhase);
+    }
+
+    /* ========== EVENT LISTENERS ========== */
+    btnStart.addEventListener('click', startTimer);
+    btnPause.addEventListener('click', pauseTimer);
+    btnResume.addEventListener('click', resumeTimer);
+    btnReset.addEventListener('click', resetTimer);
+    btnSkip.addEventListener('click', skipSession);
+
+    // Settings change — update if not running
+    function onSettingChange() {
+      if (state.running) return;
+      state.totalMs = getDurationMs(state.phase);
+      state.remainingMs = state.totalMs;
+      state.finished = false;
+      elTime.classList.remove('finished');
+      document.title = originalTitle;
+      updateDisplay();
+      showButtons('start');
+    }
+
+    setWork.addEventListener('input', onSettingChange);
+    setShort.addEventListener('input', onSettingChange);
+    setLong.addEventListener('input', onSettingChange);
+
+    /* ========== INIT ========== */
+    elCircle.setAttribute('stroke-dasharray', CIRCLE_CIRCUMFERENCE);
+    setupPhase(PHASE_WORK);
+
+  })();
+  </script>
+</body>
+</html>

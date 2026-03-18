@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript Minifier Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Minify and beautify JavaScript online for free. Removes comments, whitespace, and newlines to reduce file size. No signup required — 100% client-side.">
+  <link rel="canonical" href="https://toolrip.com/js-minify">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="JavaScript Minifier — Toolrip">
+  <meta property="og:description" content="Minify and beautify JavaScript online for free. Removes comments, whitespace, and newlines to reduce file size. No signup required — 100% client-side.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/js-minify">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="JavaScript Minifier — Toolrip">
+  <meta name="twitter:description" content="Minify and beautify JavaScript online for free. Removes comments, whitespace, and newlines to reduce file size. No signup required — 100% client-side.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root{--accent:var(--developer)}
+
+    /* Tool-specific styles */
+    .code-area{width:100%;min-height:320px;resize:vertical;background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);color:var(--text);font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.875rem;padding:var(--sp-3);line-height:1.6;tab-size:2}
+    .code-area:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent)}
+
+    .toolbar{display:flex;flex-wrap:wrap;gap:var(--sp-2);align-items:center;margin-bottom:var(--sp-3)}
+
+    .stats-bar{display:flex;flex-wrap:wrap;gap:var(--sp-3);padding:var(--sp-2) var(--sp-3);
+      background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);
+      font-size:.8125rem;color:var(--text-muted);margin-bottom:var(--sp-3)}
+    .stats-bar .stat{display:flex;align-items:center;gap:var(--sp-1)}
+    .stats-bar .stat-value{color:var(--text);font-weight:600}
+    .stats-bar .stat-savings{color:var(--accent);font-weight:700}
+
+    .btn-sm{padding:var(--sp-1) var(--sp-2);font-size:.8125rem;border-radius:var(--radius-sm)}
+
+    .success-bar{background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);border-radius:var(--radius-sm);
+      padding:var(--sp-2) var(--sp-3);color:#6ee7b7;font-size:.8125rem;margin-bottom:var(--sp-2);display:none}
+    .success-bar.visible{display:block}
+
+    .error-bar{background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);border-radius:var(--radius-sm);
+      padding:var(--sp-2) var(--sp-3);color:#fca5a5;font-size:.8125rem;margin-bottom:var(--sp-2);display:none;
+      font-family:'Consolas','Monaco','Courier New',monospace;line-height:1.5}
+    .error-bar.visible{display:block}
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "JavaScript Minifier",
+    "url": "https://toolrip.com/js-minify",
+    "description": "Minify and beautify JavaScript online for free. Removes comments, whitespace, and newlines to reduce file size. No signup required — 100% client-side.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Developer Tools", "item": "https://toolrip.com/#developer" },
+      { "@type": "ListItem", "position": 3, "name": "JavaScript Minifier", "item": "https://toolrip.com/js-minify" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the difference between minification and uglification?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Minification removes unnecessary characters such as whitespace, comments, and newlines without changing the code's behavior. Uglification goes a step further by renaming variables and functions to shorter names, rewriting expressions, and applying other transformations that make the code harder to read. Minification is safe and reversible with a beautifier, while uglification is a one-way process that produces code which cannot be meaningfully restored to its original form."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Will minifying JavaScript break my code?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Basic minification that removes comments and whitespace should never break your code because it only removes characters that the JavaScript engine already ignores during execution. However, issues can arise if your code relies on specific formatting, such as parsing its own source via Function.toString(), or if there are pre-existing syntax errors that happen to be masked by certain whitespace patterns. Always test your minified code before deploying to production."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is tree shaking and how does it relate to minification?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Tree shaking is a technique used by modern bundlers like webpack and Rollup to eliminate unused code from your final bundle. While minification reduces the size of the code you ship, tree shaking removes entire modules or exports that are never imported or referenced. The two techniques are complementary: tree shaking removes dead code first, then minification compresses what remains."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are source maps and why do I need them?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Source maps are files that map minified or transpiled code back to the original source code. When you minify JavaScript for production, debugging becomes difficult because error stack traces reference line numbers in the minified file. Source maps solve this by letting browser developer tools display the original code with correct line numbers, variable names, and file references. Most build tools can generate source maps automatically during the minification step."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much file size reduction can I expect from minification?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Typical minification reduces JavaScript file sizes by 20 to 60 percent, depending on the coding style and amount of comments. Code with heavy inline documentation, verbose variable names, and generous whitespace will see the largest reductions. When combined with gzip or Brotli compression on the server, total transfer size reductions can exceed 80 percent compared to the original uncompressed source."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Should I minify JavaScript manually or use a build tool?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "For production workflows, you should use a build tool like webpack, Rollup, Vite, or esbuild that integrates minification into your automated build pipeline. Manual minification with an online tool is best suited for quick one-off tasks, testing, learning, or when you need to compress a single script without setting up an entire build system. Online tools are also useful for inspecting what a minifier does to your code before adding it to your build configuration."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between minification and obfuscation?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Minification is a size-reduction technique that removes whitespace, comments, and unnecessary characters while preserving code behavior. Obfuscation is a security measure that intentionally makes code difficult to understand by renaming identifiers to meaningless strings, inserting dead code, encoding string literals, and restructuring control flow. Minification improves performance; obfuscation aims to protect intellectual property. They serve different purposes but are sometimes used together in production builds."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#developer">Developer Tools</a>
+        <span>/</span>
+        <span>JS Minifier</span>
+      </nav>
+
+      <h1>JavaScript Minifier Online</h1>
+      <p class="text-muted mt-1 mb-3">Paste your JavaScript code to instantly minify or beautify it. Strips comments and unnecessary whitespace to reduce file size. Completely free and runs entirely in your browser.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <!-- Toolbar -->
+        <div class="toolbar">
+          <button class="btn-primary btn-sm" id="btn-minify">Minify</button>
+          <button class="btn-secondary btn-sm" id="btn-beautify">Beautify</button>
+          <button class="btn-secondary btn-sm" id="btn-copy">Copy</button>
+          <button class="btn-secondary btn-sm" id="btn-clear">Clear</button>
+        </div>
+
+        <!-- Status bars -->
+        <div class="error-bar" id="error-bar"></div>
+        <div class="success-bar" id="success-bar"></div>
+
+        <!-- Stats -->
+        <div class="stats-bar" id="stats-bar" style="display:none">
+          <div class="stat">Original: <span class="stat-value" id="stat-original">0 B</span></div>
+          <div class="stat">Minified: <span class="stat-value" id="stat-minified">0 B</span></div>
+          <div class="stat">Savings: <span class="stat-savings" id="stat-savings">0%</span></div>
+        </div>
+
+        <!-- Input -->
+        <textarea id="js-input" class="code-area" placeholder="Paste your JavaScript code here..." spellcheck="false"></textarea>
+
+        <!-- Output -->
+        <div style="margin-top:var(--sp-3);position:relative">
+          <label style="font-size:.8125rem;color:var(--text-muted);display:block;margin-bottom:var(--sp-1)">Output</label>
+          <textarea id="js-output" class="code-area" placeholder="Minified or beautified output will appear here..." spellcheck="false" readonly></textarea>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="">Ad</div>
+
+      <!-- Content Section: Understanding JS Minification -->
+      <section class="mt-4">
+        <h2>Understanding JavaScript Minification</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          JavaScript minification is the process of removing all unnecessary characters from source code without altering its functionality. This includes stripping whitespace, line breaks, comments, and redundant syntax to produce a smaller file that executes identically to the original. Every byte saved translates directly into faster downloads for your users, lower bandwidth costs for your infrastructure, and improved Core Web Vitals scores that search engines use to rank your pages. In a world where mobile connections and emerging markets still contend with limited bandwidth, minification is one of the simplest and highest-impact performance optimizations available to web developers.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          The concept of minification dates back to the early days of the web when developers manually removed whitespace to speed up page loads over dial-up connections. Today, the process is fully automated and integrated into build pipelines through tools like webpack, Rollup, Vite, and esbuild. These bundlers not only minify code but also perform tree shaking to eliminate dead code paths, scope hoisting to reduce function overhead, and code splitting to load only what each page needs. The result is a production bundle that can be dramatically smaller than the sum of its source files.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          Modern minifiers go beyond simple whitespace removal. Tools such as Terser, the default minifier in webpack 5, apply a wide range of transformations: shortening variable names within safe scopes, removing unreachable code after conditional checks, folding constant expressions at compile time, and converting property access patterns into more compact equivalents. esbuild, written in Go, can minify entire projects in milliseconds by leveraging parallel processing. SWC, written in Rust, offers similar speed and is commonly paired with Next.js for both transpilation and minification.
+        </p>
+      </section>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(2,1fr)">
+          <div class="feature-card">
+            <h3>Comment Removal</h3>
+            <p>Strips single-line comments that start with double slashes and multi-line comments wrapped in slash-star delimiters. The parser is careful to preserve comments that appear inside string literals so that your code behaves identically after minification. This alone can save significant space in heavily documented codebases where inline explanations and JSDoc annotations account for a large portion of the file size.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Whitespace Compression</h3>
+            <p>Collapses consecutive spaces, tabs, and newlines into the minimum whitespace required for valid JavaScript. Blank lines, trailing spaces, and excessive indentation are all eliminated. The result is a compact single-line output that retains every semicolon, bracket, and operator the JavaScript engine needs to execute the code correctly. This reduction typically accounts for the largest share of file size savings during basic minification.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Instant Beautification</h3>
+            <p>Reverse the minification process with a single click. The beautifier inserts line breaks after opening braces, closing braces, and semicolons, then applies consistent indentation to produce a human-readable layout. This is invaluable when you need to inspect minified third-party code, debug a production bundle, or understand the output of a build tool. Beautification does not alter any logic or add comments — it only adjusts formatting.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Real-Time Size Statistics</h3>
+            <p>Every minification operation displays the original size, minified size, and percentage savings in a clear statistics bar. Knowing exactly how much space you saved helps you evaluate whether additional optimizations like gzip compression or code splitting are worthwhile. The statistics update instantly so you can experiment with different code styles and immediately see how they affect the final output size.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the JavaScript Minifier</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Paste your JavaScript.</strong> Copy your source code and paste it into the input textarea above. The tool accepts any valid JavaScript, from a few lines of utility functions to thousands of lines of application logic.</li>
+          <li><strong>Click Minify.</strong> Press the Minify button to strip comments and whitespace. The compressed output appears in the output textarea below, and the statistics bar shows the original size, minified size, and percentage reduction.</li>
+          <li><strong>Or click Beautify.</strong> If you have minified code and want to make it readable again, paste it into the input and click Beautify. The tool adds line breaks and indentation to restore a clean, structured layout.</li>
+          <li><strong>Copy the result.</strong> Click the Copy button to send the output to your clipboard. You can then paste the minified code into your project, a build configuration, or a content delivery network.</li>
+        </ol>
+      </section>
+
+      <!-- Build Tools & Performance Section -->
+      <section class="mt-4">
+        <h2>Build Tools and Performance Impact</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          While an online minifier is perfect for quick tasks and learning, production applications benefit from integrating minification into an automated build pipeline. Webpack remains the most widely adopted bundler in the JavaScript ecosystem, and its built-in TerserPlugin handles minification during the production build step. Rollup takes a different approach by focusing on ES module output and tree shaking, making it the preferred choice for library authors who want the smallest possible distributed package. Vite, which uses Rollup under the hood for production builds and esbuild for development, offers an exceptionally fast developer experience without sacrificing output quality.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          esbuild has reshaped expectations around build speed. Where traditional JavaScript-based minifiers might take tens of seconds to process a large codebase, esbuild completes the same work in under a second by running natively compiled code across all available CPU cores. SWC provides a similar performance profile and is increasingly used as a drop-in replacement for Babel in frameworks like Next.js, handling both transpilation and minification in a single pass. For projects that need maximum speed during continuous integration, these tools can shave minutes off every deployment cycle.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          The performance impact of minification extends beyond file size. Smaller scripts mean shorter parse times in the browser, which directly reduces Time to Interactive and First Input Delay metrics. On low-powered mobile devices, parsing and compiling JavaScript can take several times longer than on a desktop machine, so every kilobyte matters. Combining minification with server-side compression using Brotli or gzip can reduce transfer sizes by over eighty percent compared to uncompressed source files. This combination is considered a baseline requirement for modern web performance.
+        </p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is the difference between minification and uglification?</summary>
+          <p>Minification removes unnecessary characters such as whitespace, comments, and newlines without changing the code's behavior. Uglification goes a step further by renaming variables and functions to shorter names, rewriting expressions, and applying other transformations that make the code harder to read. Minification is safe and reversible with a beautifier, while uglification is a one-way process that produces code which cannot be meaningfully restored to its original form. Both techniques reduce file size, but uglification achieves greater compression at the cost of readability.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Will minifying JavaScript break my code?</summary>
+          <p>Basic minification that removes comments and whitespace should never break your code because it only removes characters that the JavaScript engine already ignores during execution. However, issues can arise if your code relies on specific formatting, such as parsing its own source via Function.toString(), or if there are pre-existing syntax errors that happen to be masked by certain whitespace patterns. Advanced minifiers that rename variables can cause problems if your code uses eval, relies on specific function names, or accesses properties dynamically using string concatenation. Always test your minified code before deploying it to production.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is tree shaking and how does it relate to minification?</summary>
+          <p>Tree shaking is a technique used by modern bundlers like webpack and Rollup to eliminate unused code from your final bundle. It works by analyzing the dependency graph of ES module imports and exports to determine which functions, classes, and variables are actually referenced. While minification reduces the size of the code you ship, tree shaking removes entire modules or exports that are never imported or referenced. The two techniques are complementary: tree shaking removes dead code first, then minification compresses what remains into the smallest possible output.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What are source maps and why do I need them?</summary>
+          <p>Source maps are JSON files that map minified or transpiled code back to the original source code. When you minify JavaScript for production, debugging becomes difficult because error stack traces reference line numbers and column positions in the minified file, which are meaningless in the context of your original source. Source maps solve this by letting browser developer tools display the original code with correct line numbers, variable names, and file references. Most build tools generate source maps automatically during the minification step, and you can choose whether to deploy them alongside your production code or keep them private for internal debugging.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How much file size reduction can I expect from minification?</summary>
+          <p>Typical minification reduces JavaScript file sizes by twenty to sixty percent, depending on the coding style and amount of comments in the original source. Code with heavy inline documentation, verbose variable names, and generous whitespace will see the largest reductions. Terse code with minimal comments may only shrink by fifteen to twenty percent. When combined with gzip or Brotli compression on the server, total transfer size reductions can exceed eighty percent compared to the original uncompressed source. The exact savings depend on your code, but minification is consistently one of the most effective single optimizations available.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Should I minify JavaScript manually or use a build tool?</summary>
+          <p>For production workflows, you should use a build tool like webpack, Rollup, Vite, or esbuild that integrates minification into your automated build pipeline. This ensures that every deployment produces consistent, optimized output without manual intervention. Manual minification with an online tool is best suited for quick one-off tasks, testing, learning, or when you need to compress a single script without setting up an entire build system. Online tools are also useful for inspecting what a minifier does to your code before adding it to your build configuration, or for compressing small snippets to embed in HTML pages.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between minification and obfuscation?</summary>
+          <p>Minification is a size-reduction technique that removes whitespace, comments, and unnecessary characters while preserving code behavior. Obfuscation is a security measure that intentionally makes code difficult to understand by renaming identifiers to meaningless strings, inserting dead code, encoding string literals, and restructuring control flow. Minification improves performance and is standard practice for all production JavaScript. Obfuscation aims to protect intellectual property and deter reverse engineering but can increase file size and hurt performance. They serve different purposes but are sometimes used together in production builds that prioritize both speed and code protection.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+          <a href="https://toolrip.com/word-count">Word Counter</a>
+          <a href="https://toolrip.com/case">Case Converter</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+  (function() {
+    'use strict';
+
+    /* ========== DOM References ========== */
+    var inputEl = document.getElementById('js-input');
+    var outputEl = document.getElementById('js-output');
+    var errorBar = document.getElementById('error-bar');
+    var successBar = document.getElementById('success-bar');
+    var statsBar = document.getElementById('stats-bar');
+    var statOriginal = document.getElementById('stat-original');
+    var statMinified = document.getElementById('stat-minified');
+    var statSavings = document.getElementById('stat-savings');
+
+    /* ========== Utility: Format Bytes ========== */
+    function formatBytes(bytes) {
+      if (bytes === 0) return '0 B';
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / 1048576).toFixed(2) + ' MB';
+    }
+
+    /* ========== Utility: Show/Hide Bars ========== */
+    function showError(msg) {
+      errorBar.textContent = msg;
+      errorBar.classList.add('visible');
+      successBar.classList.remove('visible');
+    }
+
+    function showSuccess(msg) {
+      successBar.textContent = msg;
+      successBar.classList.add('visible');
+      errorBar.classList.remove('visible');
+    }
+
+    function hideBars() {
+      errorBar.classList.remove('visible');
+      successBar.classList.remove('visible');
+    }
+
+    function updateStats(originalSize, minifiedSize) {
+      statsBar.style.display = 'flex';
+      statOriginal.textContent = formatBytes(originalSize);
+      statMinified.textContent = formatBytes(minifiedSize);
+      var pct = originalSize > 0 ? ((1 - minifiedSize / originalSize) * 100).toFixed(1) : 0;
+      statSavings.textContent = pct + '%';
+    }
+
+    /* ========== Core: Minify JavaScript ========== */
+    function minifyJS(code) {
+      var result = '';
+      var i = 0;
+      var len = code.length;
+
+      while (i < len) {
+        var ch = code[i];
+
+        // Handle string literals (single quote)
+        if (ch === "'") {
+          var str = ch;
+          i++;
+          while (i < len) {
+            var sc = code[i];
+            str += sc;
+            if (sc === '\\') {
+              i++;
+              if (i < len) {
+                str += code[i];
+              }
+            } else if (sc === "'") {
+              break;
+            }
+            i++;
+          }
+          result += str;
+          i++;
+          continue;
+        }
+
+        // Handle string literals (double quote)
+        if (ch === '"') {
+          var str2 = ch;
+          i++;
+          while (i < len) {
+            var dc = code[i];
+            str2 += dc;
+            if (dc === '\\') {
+              i++;
+              if (i < len) {
+                str2 += code[i];
+              }
+            } else if (dc === '"') {
+              break;
+            }
+            i++;
+          }
+          result += str2;
+          i++;
+          continue;
+        }
+
+        // Handle template literals (backtick)
+        if (ch === '`') {
+          var tpl = ch;
+          i++;
+          var depth = 0;
+          while (i < len) {
+            var tc = code[i];
+            tpl += tc;
+            if (tc === '\\') {
+              i++;
+              if (i < len) {
+                tpl += code[i];
+              }
+            } else if (tc === '$' && i + 1 < len && code[i + 1] === '{') {
+              tpl += '{';
+              i++;
+              depth++;
+            } else if (tc === '{' && depth > 0) {
+              depth++;
+            } else if (tc === '}' && depth > 0) {
+              depth--;
+            } else if (tc === '`' && depth === 0) {
+              break;
+            }
+            i++;
+          }
+          result += tpl;
+          i++;
+          continue;
+        }
+
+        // Handle regex literals
+        if (ch === '/') {
+          // Check if this is a regex (not division)
+          var prevNonWS = result.replace(/\s+$/, '');
+          var lastChar = prevNonWS.length > 0 ? prevNonWS[prevNonWS.length - 1] : '';
+          var isRegex = false;
+
+          // Single-line comment
+          if (i + 1 < len && code[i + 1] === '/') {
+            // Skip to end of line
+            i += 2;
+            while (i < len && code[i] !== '\n') {
+              i++;
+            }
+            // Add a space to prevent token merging
+            if (result.length > 0 && !/\s$/.test(result)) {
+              result += ' ';
+            }
+            continue;
+          }
+
+          // Multi-line comment
+          if (i + 1 < len && code[i + 1] === '*') {
+            i += 2;
+            while (i < len) {
+              if (code[i] === '*' && i + 1 < len && code[i + 1] === '/') {
+                i += 2;
+                break;
+              }
+              i++;
+            }
+            // Add a space to prevent token merging
+            if (result.length > 0 && !/\s$/.test(result)) {
+              result += ' ';
+            }
+            continue;
+          }
+
+          // Determine if this slash starts a regex
+          if (lastChar === '' || /[(\[{,;:!&|?+\-~^%=<>]/.test(lastChar) || /\breturn$/.test(prevNonWS) || /\btypeof$/.test(prevNonWS) || /\bvoid$/.test(prevNonWS) || /\bdelete$/.test(prevNonWS) || /\bthrow$/.test(prevNonWS) || /\bnew$/.test(prevNonWS) || /\bin$/.test(prevNonWS) || /\binstanceof$/.test(prevNonWS)) {
+            isRegex = true;
+          }
+
+          if (isRegex) {
+            var regex = ch;
+            i++;
+            var inCharClass = false;
+            while (i < len) {
+              var rc = code[i];
+              regex += rc;
+              if (rc === '\\') {
+                i++;
+                if (i < len) {
+                  regex += code[i];
+                }
+              } else if (rc === '[') {
+                inCharClass = true;
+              } else if (rc === ']') {
+                inCharClass = false;
+              } else if (rc === '/' && !inCharClass) {
+                break;
+              }
+              i++;
+            }
+            i++;
+            // Capture flags
+            while (i < len && /[gimsuy]/.test(code[i])) {
+              regex += code[i];
+              i++;
+            }
+            result += regex;
+            continue;
+          }
+
+          // It's a division operator
+          result += ch;
+          i++;
+          continue;
+        }
+
+        // Handle whitespace
+        if (/\s/.test(ch)) {
+          i++;
+          // Skip all contiguous whitespace
+          while (i < len && /\s/.test(code[i])) {
+            i++;
+          }
+          // Insert a single space only if needed to separate tokens
+          if (result.length > 0 && i < len) {
+            var last = result[result.length - 1];
+            var next = code[i];
+            // Check if both sides are identifier/keyword characters or numbers
+            var needsSpace = /[a-zA-Z0-9_$]/.test(last) && /[a-zA-Z0-9_$]/.test(next);
+            if (needsSpace) {
+              result += ' ';
+            }
+          }
+          continue;
+        }
+
+        // Default: copy character
+        result += ch;
+        i++;
+      }
+
+      return result.trim();
+    }
+
+    /* ========== Core: Beautify JavaScript ========== */
+    function beautifyJS(code) {
+      var result = '';
+      var indent = 0;
+      var i = 0;
+      var len = code.length;
+      var indentStr = '  ';
+      var newlinePending = false;
+
+      function addNewline() {
+        result += '\n';
+        for (var j = 0; j < indent; j++) {
+          result += indentStr;
+        }
+        newlinePending = false;
+      }
+
+      while (i < len) {
+        var ch = code[i];
+
+        // Handle string literals (single quote)
+        if (ch === "'") {
+          var s1 = ch;
+          i++;
+          while (i < len) {
+            s1 += code[i];
+            if (code[i] === '\\') {
+              i++;
+              if (i < len) s1 += code[i];
+            } else if (code[i] === "'") {
+              break;
+            }
+            i++;
+          }
+          result += s1;
+          i++;
+          continue;
+        }
+
+        // Handle string literals (double quote)
+        if (ch === '"') {
+          var s2 = ch;
+          i++;
+          while (i < len) {
+            s2 += code[i];
+            if (code[i] === '\\') {
+              i++;
+              if (i < len) s2 += code[i];
+            } else if (code[i] === '"') {
+              break;
+            }
+            i++;
+          }
+          result += s2;
+          i++;
+          continue;
+        }
+
+        // Handle template literals
+        if (ch === '`') {
+          var s3 = ch;
+          i++;
+          var td = 0;
+          while (i < len) {
+            s3 += code[i];
+            if (code[i] === '\\') {
+              i++;
+              if (i < len) s3 += code[i];
+            } else if (code[i] === '$' && i + 1 < len && code[i + 1] === '{') {
+              s3 += '{';
+              i++;
+              td++;
+            } else if (code[i] === '{' && td > 0) {
+              td++;
+            } else if (code[i] === '}' && td > 0) {
+              td--;
+            } else if (code[i] === '`' && td === 0) {
+              break;
+            }
+            i++;
+          }
+          result += s3;
+          i++;
+          continue;
+        }
+
+        // Handle single-line comments
+        if (ch === '/' && i + 1 < len && code[i + 1] === '/') {
+          var cmt = '';
+          while (i < len && code[i] !== '\n') {
+            cmt += code[i];
+            i++;
+          }
+          result += cmt;
+          addNewline();
+          continue;
+        }
+
+        // Handle multi-line comments
+        if (ch === '/' && i + 1 < len && code[i + 1] === '*') {
+          var mcmt = '';
+          while (i < len) {
+            mcmt += code[i];
+            if (code[i] === '*' && i + 1 < len && code[i + 1] === '/') {
+              mcmt += '/';
+              i += 2;
+              break;
+            }
+            i++;
+          }
+          result += mcmt;
+          result += ' ';
+          continue;
+        }
+
+        // Opening brace
+        if (ch === '{') {
+          // Add space before brace if preceded by )
+          if (result.length > 0 && result[result.length - 1] === ')') {
+            result += ' ';
+          }
+          result += ch;
+          indent++;
+          i++;
+          addNewline();
+          continue;
+        }
+
+        // Closing brace
+        if (ch === '}') {
+          indent = Math.max(0, indent - 1);
+          // Trim trailing whitespace on current line
+          result = result.replace(/[ \t]+$/, '');
+          addNewline();
+          result += ch;
+          i++;
+          // Check if next non-whitespace is else, catch, finally, etc.
+          var peek = i;
+          while (peek < len && /\s/.test(code[peek])) peek++;
+          var rest = code.substring(peek);
+          if (/^(else|catch|finally)/.test(rest)) {
+            result += ' ';
+          } else if (peek < len && code[peek] === ',') {
+            // do nothing special
+          } else if (peek < len && code[peek] !== ';' && code[peek] !== ')' && code[peek] !== '}') {
+            addNewline();
+          }
+          continue;
+        }
+
+        // Semicolons
+        if (ch === ';') {
+          result += ch;
+          i++;
+          // Check if inside a for statement
+          var parenDepth = 0;
+          var inFor = false;
+          // Look backwards for unclosed parenthesis indicating a for loop
+          for (var b = result.length - 2; b >= 0; b--) {
+            if (result[b] === ')') parenDepth++;
+            if (result[b] === '(') {
+              parenDepth--;
+              if (parenDepth < 0) {
+                // Check if preceded by 'for'
+                var before = result.substring(0, b).replace(/\s+$/, '');
+                if (/for$/.test(before)) {
+                  inFor = true;
+                }
+                break;
+              }
+            }
+          }
+          if (!inFor) {
+            addNewline();
+          } else {
+            result += ' ';
+          }
+          continue;
+        }
+
+        // Skip extra whitespace
+        if (/\s/.test(ch)) {
+          i++;
+          while (i < len && /\s/.test(code[i])) i++;
+          // Add single space if not at start of line
+          if (result.length > 0 && !/\n\s*$/.test(result) && i < len) {
+            result += ' ';
+          }
+          continue;
+        }
+
+        result += ch;
+        i++;
+      }
+
+      return result.trim();
+    }
+
+    /* ========== Button Handlers ========== */
+    document.getElementById('btn-minify').addEventListener('click', function() {
+      hideBars();
+      var code = inputEl.value;
+      if (!code.trim()) {
+        showError('Please enter some JavaScript code to minify.');
+        return;
+      }
+
+      var minified = minifyJS(code);
+      outputEl.value = minified;
+
+      var originalBytes = new Blob([code]).size;
+      var minifiedBytes = new Blob([minified]).size;
+      updateStats(originalBytes, minifiedBytes);
+
+      var pct = originalBytes > 0 ? ((1 - minifiedBytes / originalBytes) * 100).toFixed(1) : 0;
+      showSuccess('Minified successfully — saved ' + pct + '% (' + formatBytes(originalBytes - minifiedBytes) + ')');
+      showToast('JavaScript minified!', 'success');
+    });
+
+    document.getElementById('btn-beautify').addEventListener('click', function() {
+      hideBars();
+      var code = inputEl.value;
+      if (!code.trim()) {
+        showError('Please enter some JavaScript code to beautify.');
+        return;
+      }
+
+      var beautified = beautifyJS(code);
+      outputEl.value = beautified;
+      statsBar.style.display = 'none';
+      showSuccess('Code beautified successfully');
+      showToast('JavaScript beautified!', 'success');
+    });
+
+    document.getElementById('btn-copy').addEventListener('click', function() {
+      var text = outputEl.value;
+      if (!text) {
+        showToast('Nothing to copy', 'error');
+        return;
+      }
+      copyToClipboard(text);
+      showToast('Copied to clipboard!', 'success');
+    });
+
+    document.getElementById('btn-clear').addEventListener('click', function() {
+      inputEl.value = '';
+      outputEl.value = '';
+      hideBars();
+      statsBar.style.display = 'none';
+      showToast('Cleared', 'info');
+    });
+
+    /* ========== Keyboard Shortcut ========== */
+    inputEl.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        document.getElementById('btn-minify').click();
+      }
+    });
+  })();
+  </script>
+</body>
+</html>

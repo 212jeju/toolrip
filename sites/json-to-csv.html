@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON to CSV Converter Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Convert JSON arrays to CSV format online for free. Flatten nested objects with dot notation, customize delimiters, preview data in a table, and download .csv files. No signup required.">
+  <link rel="canonical" href="https://toolrip.com/json-csv">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="JSON to CSV Converter — Toolrip">
+  <meta property="og:description" content="Convert JSON arrays to CSV format online for free. Flatten nested objects with dot notation, customize delimiters, preview data in a table, and download .csv files. No signup required.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/json-csv">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="JSON to CSV Converter — Toolrip">
+  <meta name="twitter:description" content="Convert JSON arrays to CSV format online for free. Flatten nested objects with dot notation, customize delimiters, preview data in a table, and download .csv files. No signup required.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root{--accent:var(--developer)}
+
+    /* Tool-specific styles */
+    .options-bar{display:flex;flex-wrap:wrap;gap:var(--sp-2);align-items:center;margin-bottom:var(--sp-3)}
+    .options-bar label{font-size:.8125rem;color:var(--text-muted);display:flex;align-items:center;gap:var(--sp-1)}
+    .opt-select{padding:var(--sp-1) var(--sp-2);background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius-sm);color:var(--text);font-size:.8125rem;cursor:pointer}
+    .opt-checkbox{width:16px;height:16px;accent-color:var(--accent);cursor:pointer}
+
+    .toolbar{display:flex;flex-wrap:wrap;gap:var(--sp-2);align-items:center;margin-bottom:var(--sp-3)}
+    .btn-sm{padding:var(--sp-1) var(--sp-2);font-size:.8125rem;border-radius:var(--radius-sm)}
+
+    .json-input{width:100%;min-height:260px;resize:vertical;background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);color:var(--text);font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.875rem;padding:var(--sp-3);line-height:1.6;tab-size:2}
+    .json-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent)}
+
+    .output-panel{position:relative;width:100%;min-height:200px;background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);padding:var(--sp-3);overflow:auto;font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.8125rem;line-height:1.6;white-space:pre-wrap;word-break:break-word}
+
+    .error-bar{background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);border-radius:var(--radius-sm);
+      padding:var(--sp-2) var(--sp-3);color:#fca5a5;font-size:.8125rem;margin-bottom:var(--sp-2);display:none;
+      font-family:'Consolas','Monaco','Courier New',monospace;line-height:1.5}
+    .error-bar.visible{display:block}
+
+    .success-bar{background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);border-radius:var(--radius-sm);
+      padding:var(--sp-2) var(--sp-3);color:#6ee7b7;font-size:.8125rem;margin-bottom:var(--sp-2);display:none}
+    .success-bar.visible{display:block}
+
+    /* Preview table */
+    .preview-wrap{overflow-x:auto;margin-top:var(--sp-3);border:1px solid var(--border);border-radius:var(--radius)}
+    .preview-table{width:100%;border-collapse:collapse;font-size:.8125rem}
+    .preview-table th{background:var(--bg-elevated);color:var(--accent);font-weight:600;text-align:left;
+      padding:var(--sp-2) var(--sp-3);border-bottom:1px solid var(--border);white-space:nowrap;position:sticky;top:0}
+    .preview-table td{padding:var(--sp-2) var(--sp-3);border-bottom:1px solid var(--border);color:var(--text-muted);
+      white-space:nowrap;max-width:280px;overflow:hidden;text-overflow:ellipsis}
+    .preview-table tr:hover td{background:var(--bg-elevated)}
+    .preview-label{font-size:.8125rem;color:var(--text-muted);margin-bottom:var(--sp-2);display:flex;align-items:center;gap:var(--sp-2)}
+    .row-count{font-size:.75rem;padding:2px 8px;background:var(--bg-elevated);border-radius:var(--radius-sm);color:var(--accent)}
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "JSON to CSV Converter",
+    "url": "https://toolrip.com/json-csv",
+    "description": "Convert JSON arrays to CSV format online for free. Flatten nested objects with dot notation, customize delimiters, preview data in a table, and download .csv files. No signup required.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#developer">Developer Tools</a>
+        <span>/</span>
+        <span>JSON to CSV Converter</span>
+      </nav>
+
+      <h1>JSON to CSV Converter Online</h1>
+      <p class="text-muted mt-1 mb-3">Paste a JSON array to instantly convert it into CSV format. Flatten nested objects, customize delimiters, preview in a table, and download the result as a .csv file. Free, private, and runs entirely in your browser.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <!-- Options -->
+        <div class="options-bar">
+          <label>
+            Delimiter:
+            <select id="delimiter-select" class="opt-select">
+              <option value="," selected>Comma (,)</option>
+              <option value=";">Semicolon (;)</option>
+              <option value="&#9;">Tab</option>
+              <option value="|">Pipe (|)</option>
+            </select>
+          </label>
+          <label>
+            <input type="checkbox" id="include-headers" class="opt-checkbox" checked>
+            Include Headers
+          </label>
+          <label>
+            <input type="checkbox" id="flatten-nested" class="opt-checkbox" checked>
+            Flatten Nested Objects
+          </label>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+          <button class="btn-primary btn-sm" id="btn-convert">Convert</button>
+          <button class="btn-secondary btn-sm" id="btn-copy">Copy CSV</button>
+          <button class="btn-secondary btn-sm" id="btn-download">Download .csv</button>
+          <button class="btn-secondary btn-sm" id="btn-clear">Clear</button>
+          <button class="btn-secondary btn-sm" id="btn-sample">Sample</button>
+        </div>
+
+        <!-- Error / Success bars -->
+        <div class="error-bar" id="error-bar"></div>
+        <div class="success-bar" id="success-bar"></div>
+
+        <!-- Input -->
+        <div class="input-group">
+          <label for="json-input">JSON Input (array of objects)</label>
+          <textarea id="json-input" class="json-input" placeholder='[&#10;  { "name": "Alice", "age": 30 },&#10;  { "name": "Bob", "age": 25 }&#10;]' spellcheck="false"></textarea>
+        </div>
+
+        <!-- CSV Output -->
+        <div class="input-group">
+          <label for="csv-output">CSV Output</label>
+          <div class="output-panel" id="csv-output">
+            <button class="copy-btn" id="btn-copy-inline">Copy</button>
+            <span class="text-muted" style="font-size:.8125rem">CSV output will appear here...</span>
+          </div>
+        </div>
+
+        <!-- Preview Table -->
+        <div id="preview-section" style="display:none">
+          <div class="preview-label">
+            <span>Data Preview</span>
+            <span class="row-count" id="row-count"></span>
+          </div>
+          <div class="preview-wrap" style="max-height:320px;overflow-y:auto">
+            <table class="preview-table" id="preview-table"></table>
+          </div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(2,1fr)">
+          <div class="feature-card">
+            <h3>Instant JSON to CSV Conversion</h3>
+            <p>Paste any valid JSON array and get well-formatted CSV output in a single click. The converter analyzes every object in your array, collects all unique keys across every row, and produces a complete CSV document with consistent columns. Whether your input contains ten records or ten thousand, the conversion happens entirely in your browser with no server round-trip and no file-size upload limit. This makes the tool ideal for quick data exports, one-off migrations, and ad-hoc reporting where you need spreadsheet-compatible output from raw API data.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Nested Object Flattening</h3>
+            <p>Real-world JSON rarely comes in flat key-value pairs. APIs return deeply nested objects with sub-objects and arrays embedded inside each record. Our converter handles this by recursively flattening every nested structure using dot notation. A field like <code>address.city</code> becomes its own CSV column, preserving the hierarchical relationship in the header name while keeping the cell values simple and readable. Array values within objects are serialized as JSON strings so that no data is lost during the conversion process, giving you a lossless transformation from tree-structured data to tabular format.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Customizable Delimiters</h3>
+            <p>Not every application expects the same CSV dialect. European spreadsheet software often defaults to semicolons because commas are used as decimal separators. Database import tools sometimes prefer tab-separated values, and Unix pipeline workflows may use pipes. This converter lets you choose between comma, semicolon, tab, and pipe delimiters so your output file works correctly the first time you open it in Excel, Google Sheets, LibreOffice Calc, or any data processing pipeline. The delimiter setting applies to both the text output and the downloaded file.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Live Data Preview Table</h3>
+            <p>Before downloading your CSV file, review the parsed data in a scrollable, sortable preview table rendered directly on the page. Column headers are highlighted for quick identification, and each cell truncates long values with an ellipsis so the table remains readable even with wide datasets. The preview shows the exact same row and column structure that will appear in your downloaded file, so you can verify the flattening logic and delimiter settings are correct before committing to a download. This eliminates the trial-and-error loop of converting, downloading, opening, and reconverting.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Convert JSON to CSV</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Paste your JSON array.</strong> Copy a JSON array of objects from your API response, database export, or text editor and paste it into the input area. You can also click the <em>Sample</em> button to load example data and explore the tool immediately. The input must be a valid JSON array where each element is an object.</li>
+          <li><strong>Configure options.</strong> Select your preferred delimiter (comma, semicolon, tab, or pipe). Check or uncheck <em>Include Headers</em> to control whether the first row contains column names. Enable <em>Flatten Nested Objects</em> to expand sub-objects into dot-notation columns automatically.</li>
+          <li><strong>Click Convert.</strong> The tool parses your JSON, collects all unique keys, flattens nested structures if enabled, and generates CSV text. The output appears in the CSV panel below the input, and a preview table renders the data in a visual grid.</li>
+          <li><strong>Copy or download.</strong> Click <em>Copy CSV</em> to send the result to your clipboard, or click <em>Download .csv</em> to save a ready-to-use CSV file to your computer. The file uses UTF-8 encoding with a BOM for maximum Excel compatibility.</li>
+        </ol>
+      </section>
+
+      <!-- Long-form content for SEO / AdSense -->
+      <section class="mt-4">
+        <h2>Understanding JSON to CSV Conversion</h2>
+        <p style="color:var(--text-muted);line-height:1.8">JSON and CSV are two of the most common data interchange formats in modern software development, yet they serve fundamentally different purposes. JSON excels at representing hierarchical, nested data structures that map naturally to objects in programming languages. CSV, on the other hand, represents flat, tabular data where every record has the same columns — making it the universal format for spreadsheets, relational databases, and data analysis tools. Converting from JSON to CSV is a routine task for developers, data analysts, and system administrators who need to bridge these two worlds.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-3)">The core challenge in JSON-to-CSV conversion is structural: JSON supports arbitrary nesting depth, mixed types within arrays, and optional fields that may appear in some records but not others. A naive conversion that ignores nested objects would lose critical data. This tool addresses that challenge by recursively walking every object in your array and building a complete, flat key set using dot notation. For instance, an object like <code>{"user": {"name": "Alice", "address": {"city": "Seoul"}}}</code> becomes three columns: <code>user.name</code> and <code>user.address.city</code>. Array values that cannot be further flattened are serialized as JSON strings within the CSV cell, ensuring no information is discarded.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-3)">Encoding is another important consideration. CSV files destined for Microsoft Excel should include a UTF-8 Byte Order Mark at the beginning of the file so that Excel correctly interprets special characters, accented letters, and non-Latin scripts. Without the BOM, Excel may default to a locale-specific encoding and corrupt international characters. Our download feature automatically prepends the BOM so your files open correctly in Excel on any operating system without additional configuration steps.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-3)">Delimiter choice matters more than many users realize. While commas are the default in English-speaking regions, many European countries use semicolons in their CSV conventions because the comma is reserved as a decimal separator. Tab-separated values are preferred in scientific computing and bioinformatics because they avoid conflicts with commas embedded in text fields. Pipe-delimited files are common in legacy mainframe systems and EDI data exchanges. By offering all four delimiters, this tool ensures your output is compatible with your target system on the first try.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>Why would I convert JSON to CSV?</summary>
+          <p>JSON is the standard format for API responses and application data storage, but many business tools operate on tabular data. Spreadsheet applications like Excel and Google Sheets, relational database import utilities, and data visualization platforms all expect CSV or TSV input. Converting JSON to CSV allows you to take structured data from an API endpoint, a NoSQL database export, or a log file and immediately use it in these tools for analysis, reporting, and sharing with non-technical team members who are more comfortable working with rows and columns than nested brackets.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How are nested objects handled during conversion?</summary>
+          <p>When the Flatten Nested Objects option is enabled, the converter recursively traverses every sub-object and creates columns using dot-notation paths. For example, a JSON field at <code>user.profile.email</code> becomes a CSV column header named <code>user.profile.email</code> with the corresponding value in each row. If a nested field is itself an array or a complex structure that cannot be further flattened into simple values, it is serialized as a JSON string within the CSV cell. This approach ensures that no data is lost while still producing a flat tabular structure suitable for spreadsheet applications.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What happens to array values inside JSON objects?</summary>
+          <p>Arrays that contain primitive values (strings, numbers, booleans) are converted to a JSON-encoded string and placed in a single CSV cell. For example, <code>{"tags": ["dev", "tool"]}</code> produces a cell containing <code>["dev","tool"]</code>. If an array contains objects and the flatten option is on, the entire array is serialized as a JSON string because there is no universal way to map a variable-length array of objects to a fixed set of columns. If you need each array element in its own row, you would need to preprocess the JSON to unnest the arrays before conversion.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Will the CSV file open correctly in Excel?</summary>
+          <p>Yes. The downloaded file uses UTF-8 encoding with a Byte Order Mark (BOM), which is the recommended encoding for CSV files opened in Microsoft Excel. The BOM tells Excel to interpret the file as UTF-8, ensuring that accented characters, Asian scripts, emoji, and other non-ASCII content display correctly. If you are using the comma delimiter and your system's regional settings use semicolons, you can switch the delimiter to semicolons in the options bar so that Excel parses the columns correctly without requiring manual import configuration.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is there a size limit for the JSON input?</summary>
+          <p>There is no hard limit enforced by this tool because all processing happens in your browser using JavaScript. The practical limit depends on your device's available memory and processing power. Modern browsers can handle JSON documents of several megabytes without issues. For extremely large datasets in the tens of megabytes, you may experience a brief delay during parsing and flattening. If you are working with files larger than about 50 MB, a command-line tool or a server-side script would be more appropriate for the conversion.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What encoding does the downloaded CSV file use?</summary>
+          <p>The downloaded file is encoded as UTF-8 with a Byte Order Mark (BOM) prepended at the beginning of the file. UTF-8 is the universal character encoding that supports every writing system and symbol. The BOM (three bytes: EF BB BF) serves as a signal to applications like Excel that the file is UTF-8 encoded. Without the BOM, some spreadsheet programs might misinterpret the file using a legacy encoding such as Windows-1252, which would corrupt any characters outside the basic ASCII range. Google Sheets and LibreOffice always interpret CSV as UTF-8 regardless of the BOM.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is my data safe when using this tool?</summary>
+          <p>Yes, your data stays completely private. All JSON parsing, flattening, and CSV generation happen entirely in your browser using client-side JavaScript. Nothing is uploaded to any server, stored in any database, or transmitted over the network. You can verify this by opening your browser's developer tools and monitoring the Network tab while using the tool — no data requests are made when you convert, copy, or download. This makes the tool safe for sensitive datasets including internal business data, personal information, and proprietary API responses.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+          <a href="https://toolrip.com/word-count">Word Counter</a>
+          <a href="https://toolrip.com/case">Case Converter</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+  (function() {
+    'use strict';
+
+    /* ========== DOM References ========== */
+    var inputEl     = document.getElementById('json-input');
+    var outputEl    = document.getElementById('csv-output');
+    var errorBar    = document.getElementById('error-bar');
+    var successBar  = document.getElementById('success-bar');
+    var previewSec  = document.getElementById('preview-section');
+    var previewTbl  = document.getElementById('preview-table');
+    var rowCountEl  = document.getElementById('row-count');
+    var delimiterEl = document.getElementById('delimiter-select');
+    var headersEl   = document.getElementById('include-headers');
+    var flattenEl   = document.getElementById('flatten-nested');
+
+    var lastCsv = '';
+
+    /* ========== Flatten Object ========== */
+    function flattenObject(obj, prefix, result) {
+      result = result || {};
+      prefix = prefix || '';
+      if (obj === null || obj === undefined) {
+        result[prefix] = '';
+        return result;
+      }
+      if (Array.isArray(obj)) {
+        result[prefix] = JSON.stringify(obj);
+        return result;
+      }
+      if (typeof obj === 'object') {
+        var keys = Object.keys(obj);
+        for (var i = 0; i < keys.length; i++) {
+          var key = keys[i];
+          var path = prefix ? prefix + '.' + key : key;
+          var val = obj[key];
+          if (val !== null && typeof val === 'object' && !Array.isArray(val)) {
+            flattenObject(val, path, result);
+          } else if (Array.isArray(val)) {
+            result[path] = JSON.stringify(val);
+          } else {
+            result[path] = val;
+          }
+        }
+        return result;
+      }
+      result[prefix] = obj;
+      return result;
+    }
+
+    /* ========== Collect All Keys ========== */
+    function collectKeys(rows, shouldFlatten) {
+      var keySet = {};
+      var keyOrder = [];
+      for (var i = 0; i < rows.length; i++) {
+        var row = shouldFlatten ? flattenObject(rows[i]) : rows[i];
+        var keys = Object.keys(row);
+        for (var j = 0; j < keys.length; j++) {
+          if (!keySet[keys[j]]) {
+            keySet[keys[j]] = true;
+            keyOrder.push(keys[j]);
+          }
+        }
+      }
+      return keyOrder;
+    }
+
+    /* ========== Escape CSV Cell ========== */
+    function escapeCell(value, delimiter) {
+      if (value === null || value === undefined) return '';
+      var str = String(value);
+      if (str.indexOf(delimiter) !== -1 || str.indexOf('"') !== -1 || str.indexOf('\n') !== -1 || str.indexOf('\r') !== -1) {
+        return '"' + str.replace(/"/g, '""') + '"';
+      }
+      return str;
+    }
+
+    /* ========== Convert JSON to CSV ========== */
+    function convert() {
+      clearStatus();
+      var raw = inputEl.value.trim();
+      if (!raw) {
+        showError('Please paste a JSON array into the input field.');
+        return;
+      }
+
+      var data;
+      try {
+        data = JSON.parse(raw);
+      } catch (e) {
+        showError('Invalid JSON: ' + (e.message || 'parse error'));
+        return;
+      }
+
+      if (!Array.isArray(data)) {
+        // If it's a single object, wrap it in an array
+        if (typeof data === 'object' && data !== null) {
+          data = [data];
+        } else {
+          showError('Input must be a JSON array of objects, e.g. [{"key":"value"}, ...]');
+          return;
+        }
+      }
+
+      if (data.length === 0) {
+        showError('The JSON array is empty. Please provide at least one object.');
+        return;
+      }
+
+      var delimiter = delimiterEl.value;
+      var includeHeaders = headersEl.checked;
+      var shouldFlatten = flattenEl.checked;
+
+      // Collect all unique keys
+      var headers = collectKeys(data, shouldFlatten);
+
+      if (headers.length === 0) {
+        showError('No keys found in the JSON objects.');
+        return;
+      }
+
+      // Build CSV lines
+      var lines = [];
+      if (includeHeaders) {
+        lines.push(headers.map(function(h) { return escapeCell(h, delimiter); }).join(delimiter));
+      }
+
+      for (var i = 0; i < data.length; i++) {
+        var row = shouldFlatten ? flattenObject(data[i]) : data[i];
+        var cells = [];
+        for (var j = 0; j < headers.length; j++) {
+          var val = row[headers[j]];
+          if (val === undefined) val = '';
+          // For non-flattened mode, serialize objects/arrays
+          if (!shouldFlatten && val !== null && typeof val === 'object') {
+            val = JSON.stringify(val);
+          }
+          cells.push(escapeCell(val, delimiter));
+        }
+        lines.push(cells.join(delimiter));
+      }
+
+      lastCsv = lines.join('\n');
+
+      // Display CSV output
+      var escaped = lastCsv.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      outputEl.innerHTML = '<button class="copy-btn" id="btn-copy-inline">Copy</button>' + escaped;
+
+      // Re-bind inline copy
+      document.getElementById('btn-copy-inline').addEventListener('click', function() {
+        doCopy(this);
+      });
+
+      showSuccess('Converted ' + data.length + ' row' + (data.length === 1 ? '' : 's') + ' with ' + headers.length + ' column' + (headers.length === 1 ? '' : 's'));
+
+      // Build preview table
+      buildPreview(data, headers, shouldFlatten);
+    }
+
+    /* ========== Build Preview Table ========== */
+    function buildPreview(data, headers, shouldFlatten) {
+      var maxPreviewRows = 100;
+      var showCount = Math.min(data.length, maxPreviewRows);
+
+      var html = '<thead><tr>';
+      for (var h = 0; h < headers.length; h++) {
+        html += '<th>' + escapeHtml(headers[h]) + '</th>';
+      }
+      html += '</tr></thead><tbody>';
+
+      for (var i = 0; i < showCount; i++) {
+        var row = shouldFlatten ? flattenObject(data[i]) : data[i];
+        html += '<tr>';
+        for (var j = 0; j < headers.length; j++) {
+          var val = row[headers[j]];
+          if (val === undefined || val === null) val = '';
+          if (typeof val === 'object') val = JSON.stringify(val);
+          html += '<td title="' + escapeAttr(String(val)) + '">' + escapeHtml(String(val)) + '</td>';
+        }
+        html += '</tr>';
+      }
+      html += '</tbody>';
+
+      previewTbl.innerHTML = html;
+      rowCountEl.textContent = data.length + ' row' + (data.length === 1 ? '' : 's') + (data.length > maxPreviewRows ? ' (showing first ' + maxPreviewRows + ')' : '');
+      previewSec.style.display = '';
+    }
+
+    /* ========== Download CSV ========== */
+    function downloadCsv() {
+      if (!lastCsv) {
+        showToast('Nothing to download. Convert first.', 'error');
+        return;
+      }
+      // UTF-8 BOM for Excel compatibility
+      var bom = '\uFEFF';
+      var blob = new Blob([bom + lastCsv], { type: 'text/csv;charset=utf-8;' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'data.csv';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('CSV file downloaded', 'success');
+    }
+
+    /* ========== Copy CSV ========== */
+    function doCopy(btn) {
+      if (!lastCsv) {
+        showToast('Nothing to copy. Convert first.', 'error');
+        return;
+      }
+      copyToClipboard(lastCsv, btn);
+      showToast('CSV copied to clipboard!', 'success');
+    }
+
+    /* ========== Clear ========== */
+    function handleClear() {
+      inputEl.value = '';
+      lastCsv = '';
+      clearStatus();
+      outputEl.innerHTML = '<button class="copy-btn" id="btn-copy-inline">Copy</button><span class="text-muted" style="font-size:.8125rem">CSV output will appear here...</span>';
+      document.getElementById('btn-copy-inline').addEventListener('click', function() { doCopy(this); });
+      previewSec.style.display = 'none';
+      previewTbl.innerHTML = '';
+      showToast('Cleared', 'info');
+    }
+
+    /* ========== Sample Data ========== */
+    function loadSample() {
+      var sample = [
+        {
+          "id": 1,
+          "name": "Alice Johnson",
+          "email": "alice@example.com",
+          "age": 32,
+          "active": true,
+          "address": {
+            "street": "123 Main St",
+            "city": "San Francisco",
+            "state": "CA",
+            "zip": "94102"
+          },
+          "tags": ["developer", "team-lead"],
+          "scores": { "math": 95, "science": 88 }
+        },
+        {
+          "id": 2,
+          "name": "Bob Smith",
+          "email": "bob@example.com",
+          "age": 28,
+          "active": true,
+          "address": {
+            "street": "456 Oak Ave",
+            "city": "New York",
+            "state": "NY",
+            "zip": "10001"
+          },
+          "tags": ["designer"],
+          "scores": { "math": 78, "science": 92 }
+        },
+        {
+          "id": 3,
+          "name": "Carol Lee",
+          "email": "carol@example.com",
+          "age": 45,
+          "active": false,
+          "address": {
+            "street": "789 Pine Rd",
+            "city": "Chicago",
+            "state": "IL",
+            "zip": "60601"
+          },
+          "tags": ["manager", "analyst", "mentor"],
+          "scores": { "math": 88, "science": 91 }
+        },
+        {
+          "id": 4,
+          "name": "David Kim",
+          "email": "david@example.com",
+          "age": 36,
+          "active": true,
+          "address": {
+            "street": "321 Elm Blvd",
+            "city": "Seattle",
+            "state": "WA",
+            "zip": "98101"
+          },
+          "tags": ["developer", "devops"],
+          "scores": { "math": 92, "science": 85 }
+        },
+        {
+          "id": 5,
+          "name": "Eva Martinez",
+          "email": "eva@example.com",
+          "age": 29,
+          "active": true,
+          "address": {
+            "street": "654 Birch Ln",
+            "city": "Austin",
+            "state": "TX",
+            "zip": "73301"
+          },
+          "tags": ["data-scientist"],
+          "scores": { "math": 97, "science": 94 }
+        }
+      ];
+      inputEl.value = JSON.stringify(sample, null, 2);
+      convert();
+      showToast('Sample JSON loaded', 'info');
+    }
+
+    /* ========== Status Helpers ========== */
+    function showError(msg) {
+      errorBar.textContent = msg;
+      errorBar.classList.add('visible');
+      successBar.classList.remove('visible');
+    }
+
+    function showSuccess(msg) {
+      successBar.textContent = msg;
+      successBar.classList.add('visible');
+      errorBar.classList.remove('visible');
+    }
+
+    function clearStatus() {
+      errorBar.classList.remove('visible');
+      successBar.classList.remove('visible');
+    }
+
+    /* ========== HTML Escape Helpers ========== */
+    function escapeHtml(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function escapeAttr(str) {
+      return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    /* ========== Event Bindings ========== */
+    document.getElementById('btn-convert').addEventListener('click', convert);
+    document.getElementById('btn-copy').addEventListener('click', function() { doCopy(this); });
+    document.getElementById('btn-download').addEventListener('click', downloadCsv);
+    document.getElementById('btn-clear').addEventListener('click', handleClear);
+    document.getElementById('btn-sample').addEventListener('click', loadSample);
+    document.getElementById('btn-copy-inline').addEventListener('click', function() { doCopy(this); });
+
+    /* Keyboard shortcut: Ctrl/Cmd + Enter to convert */
+    inputEl.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        convert();
+      }
+    });
+
+  })();
+  </script>
+</body>
+</html>

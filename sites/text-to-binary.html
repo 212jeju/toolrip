@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text to Binary Converter Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Convert text to binary and binary to text online for free. Supports ASCII, Unicode, decimal, octal, and hex output with real-time conversion. No signup — 100% client-side.">
+  <link rel="canonical" href="https://toolrip.com/binary">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Text to Binary Converter — Toolrip">
+  <meta property="og:description" content="Convert text to binary and binary to text online for free. Supports ASCII, Unicode, decimal, octal, and hex output with real-time conversion. No signup — 100% client-side.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/binary">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Text to Binary Converter — Toolrip">
+  <meta name="twitter:description" content="Convert text to binary and binary to text online for free. Supports ASCII, Unicode, decimal, octal, and hex output with real-time conversion. No signup — 100% client-side.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root{--accent:var(--text-cat)}
+
+    .toolbar{display:flex;flex-wrap:wrap;gap:var(--sp-2);align-items:center;margin-bottom:var(--sp-3)}
+    .toolbar-right{margin-left:auto;display:flex;gap:var(--sp-2);align-items:center;flex-wrap:wrap}
+    @media(max-width:639px){.toolbar-right{margin-left:0;width:100%}}
+
+    .btn-sm{padding:var(--sp-1) var(--sp-2);font-size:.8125rem;border-radius:var(--radius-sm)}
+
+    .binary-input{width:100%;min-height:160px;resize:vertical;background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);color:var(--text);font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.875rem;padding:var(--sp-3);line-height:1.6;tab-size:2}
+    .binary-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent)}
+
+    .output-panel{position:relative;width:100%;min-height:100px;background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);padding:var(--sp-3);overflow:auto;font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.875rem;line-height:1.6;white-space:pre-wrap;word-break:break-all}
+
+    .stat-bar{display:flex;flex-wrap:wrap;gap:var(--sp-3);font-size:.8125rem;color:var(--text-muted);margin-top:var(--sp-2)}
+    .stat-bar span{display:inline-flex;align-items:center;gap:4px}
+
+    .option-row{display:flex;flex-wrap:wrap;gap:var(--sp-3);align-items:center;margin-bottom:var(--sp-3);
+      padding:var(--sp-2) var(--sp-3);background:var(--bg);border:1px solid var(--border);border-radius:var(--radius)}
+    .option-row label{font-size:.8125rem;color:var(--text-muted);display:flex;align-items:center;gap:var(--sp-2)}
+
+    .opt-select{padding:var(--sp-1) var(--sp-2);background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius-sm);color:var(--text);font-size:.8125rem;cursor:pointer;
+      appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%239ca3af'%3E%3Cpath d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat:no-repeat;background-position:right .5rem center;padding-right:1.5rem}
+
+    .repr-grid{display:grid;grid-template-columns:1fr;gap:var(--sp-2);margin-top:var(--sp-3)}
+    .repr-item{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-2) var(--sp-3)}
+    .repr-item .repr-label{font-size:.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:var(--sp-1)}
+    .repr-item .repr-value{font-family:'Consolas','Monaco','Courier New',monospace;font-size:.8125rem;
+      word-break:break-all;white-space:pre-wrap;color:var(--text);min-height:1.2em}
+    @media(min-width:640px){.repr-grid{grid-template-columns:repeat(3,1fr)}}
+
+    .error-bar{background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);border-radius:var(--radius-sm);
+      padding:var(--sp-2) var(--sp-3);color:#fca5a5;font-size:.8125rem;margin-bottom:var(--sp-2);display:none;
+      font-family:'Consolas','Monaco','Courier New',monospace;line-height:1.5}
+    .error-bar.visible{display:block}
+
+    .success-bar{background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);border-radius:var(--radius-sm);
+      padding:var(--sp-2) var(--sp-3);color:#6ee7b7;font-size:.8125rem;margin-bottom:var(--sp-2);display:none}
+    .success-bar.visible{display:block}
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Text to Binary Converter",
+    "url": "https://toolrip.com/binary",
+    "description": "Convert text to binary and binary to text online for free. Supports ASCII, Unicode, decimal, octal, and hex output with real-time conversion. No signup — 100% client-side.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#text">Text Tools</a>
+        <span>/</span>
+        <span>Text to Binary Converter</span>
+      </nav>
+
+      <h1>Text to Binary Converter Online</h1>
+      <p class="text-muted mt-1 mb-3">Convert any text to binary code and decode binary strings back to readable text. View results in binary, decimal, octal, and hexadecimal formats simultaneously. All processing happens locally in your browser with zero data sent to any server.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <!-- Tabs -->
+        <div class="tab-group">
+          <button class="tab active" data-tab="panel-text2bin">Text &rarr; Binary</button>
+          <button class="tab" data-tab="panel-bin2text">Binary &rarr; Text</button>
+        </div>
+
+        <!-- Options row -->
+        <div class="option-row">
+          <label>
+            Separator:
+            <select id="separator-select" class="opt-select">
+              <option value="space" selected>Space</option>
+              <option value="none">None</option>
+              <option value="comma">Comma</option>
+            </select>
+          </label>
+          <label>
+            <span class="toggle"><input type="checkbox" id="padding-toggle" checked><span></span></span>
+            8-bit padding
+          </label>
+        </div>
+
+        <!-- Error / Success bars -->
+        <div class="error-bar" id="error-bar"></div>
+        <div class="success-bar" id="success-bar"></div>
+
+        <!-- Text to Binary panel -->
+        <div id="panel-text2bin" class="tab-panel">
+          <div class="input-group">
+            <label for="text-input">Enter Text</label>
+            <textarea id="text-input" class="binary-input" placeholder="Type or paste your text here..." spellcheck="false" rows="6"></textarea>
+            <div class="stat-bar">
+              <span>Characters: <strong id="text-char-count">0</strong></span>
+              <span>Bytes (UTF-8): <strong id="text-byte-count">0</strong></span>
+            </div>
+          </div>
+
+          <div class="toolbar">
+            <button class="btn-primary btn-sm" onclick="window._BIN.convertTextToBinary()">Convert</button>
+            <button class="btn-secondary btn-sm" onclick="window._BIN.clearText()">Clear</button>
+            <button class="btn-secondary btn-sm" onclick="window._BIN.copyOutput('bin-output')">Copy Binary</button>
+          </div>
+
+          <div class="input-group">
+            <label>Binary Output</label>
+            <div class="output-panel" id="bin-output">
+              <button class="copy-btn" onclick="window._BIN.copyOutput('bin-output')">Copy</button>
+              <span class="text-muted" style="font-size:.8125rem">Binary output will appear here...</span>
+            </div>
+          </div>
+
+          <!-- Additional representations -->
+          <div class="repr-grid">
+            <div class="repr-item">
+              <div class="repr-label">Decimal</div>
+              <div class="repr-value" id="dec-output">—</div>
+            </div>
+            <div class="repr-item">
+              <div class="repr-label">Octal</div>
+              <div class="repr-value" id="oct-output">—</div>
+            </div>
+            <div class="repr-item">
+              <div class="repr-label">Hexadecimal</div>
+              <div class="repr-value" id="hex-output">—</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Binary to Text panel -->
+        <div id="panel-bin2text" class="tab-panel hidden">
+          <div class="input-group">
+            <label for="bin-input">Enter Binary</label>
+            <textarea id="bin-input" class="binary-input" placeholder="Enter binary string (e.g., 01001000 01100101 01101100 01101100 01101111)..." spellcheck="false" rows="6"></textarea>
+            <div class="stat-bar">
+              <span>Bits: <strong id="bin-bit-count">0</strong></span>
+            </div>
+          </div>
+
+          <div class="toolbar">
+            <button class="btn-primary btn-sm" onclick="window._BIN.convertBinaryToText()">Convert</button>
+            <button class="btn-secondary btn-sm" onclick="window._BIN.clearBinary()">Clear</button>
+            <button class="btn-secondary btn-sm" onclick="window._BIN.copyOutput('text-output')">Copy Text</button>
+          </div>
+
+          <div class="input-group">
+            <label>Text Output</label>
+            <div class="output-panel" id="text-output">
+              <button class="copy-btn" onclick="window._BIN.copyOutput('text-output')">Copy</button>
+              <span class="text-muted" style="font-size:.8125rem">Decoded text will appear here...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Real-Time Multi-Format Conversion</h3>
+            <p>Convert text to binary instantly and see the result in four number systems at once: binary, decimal, octal, and hexadecimal. Each character in your input is translated to its numeric code point and displayed in every base simultaneously. This is invaluable for developers debugging character encoding issues, students studying computer science fundamentals, and anyone who needs to inspect how a computer internally represents text. The conversion happens as you type, with no need to press a submit button or wait for a server response. Switching between separator styles and padding options updates the output in real time.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Full Unicode Support</h3>
+            <p>This converter handles the entire Unicode character set, not just basic ASCII. Type in emojis, Chinese characters, Arabic script, Cyrillic, mathematical symbols, or any other Unicode text, and the tool will correctly encode each code point into its binary representation. For characters outside the Basic Multilingual Plane — including most emojis and historic scripts — the tool uses UTF-8 byte encoding to produce an accurate binary sequence. This ensures that the binary output you see matches exactly what a computer stores in memory when it processes your text through the UTF-8 encoding standard.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Flexible Output Formatting</h3>
+            <p>Customize the binary output to match your exact requirements. Choose between space-separated groups for easy reading, no separator for compact storage, or comma-separated values for pasting into arrays and data structures. Enable or disable 8-bit padding to control whether each byte is zero-padded to a full eight digits. When padding is enabled, the letter A appears as 01000001 instead of 1000001, which is the standard representation used in networking, file formats, and low-level programming. These options make the tool equally useful for learning, debugging, and generating production data.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Text to Binary Converter</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Choose your conversion direction.</strong> Click the <em>Text &rarr; Binary</em> tab to convert readable text into binary code, or click the <em>Binary &rarr; Text</em> tab to decode a binary string back into human-readable characters. Each tab provides a dedicated input area and output display optimized for that direction of conversion.</li>
+          <li><strong>Configure output options.</strong> Select your preferred separator — space, none, or comma — to control how binary groups are delimited in the output. Toggle the 8-bit padding switch to determine whether each byte is zero-padded to exactly eight binary digits. These options affect both the conversion output and the additional decimal, octal, and hex representations shown below the binary result.</li>
+          <li><strong>Enter your data and convert.</strong> Type or paste your content into the input area. Click <em>Convert</em> to process the input, or simply start typing for real-time conversion. The binary output appears instantly along with the decimal, octal, and hexadecimal representations. Use the <em>Copy</em> buttons to transfer any output to your clipboard for use in your code, homework, documentation, or any other application.</li>
+        </ol>
+      </section>
+
+      <!-- Understanding Binary Section -->
+      <section class="mt-4">
+        <h2>Understanding the Binary Number System</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">The binary number system is the foundation upon which all modern digital computing is built. Unlike the decimal system that humans use in everyday life, which is based on ten digits from zero through nine, binary uses only two digits: zero and one. Every piece of data that a computer processes — whether it is a text document, an image, a video, a software program, or an operating system — is ultimately stored and manipulated as sequences of these two digits. Each individual binary digit is called a bit, which is the smallest unit of data in computing. Eight bits grouped together form a byte, which can represent 256 different values ranging from 0 to 255.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">When a computer stores a piece of text, it does not record the visual shape of each letter. Instead, it assigns a numeric code to every character using a standardized encoding scheme. The most foundational of these schemes is ASCII, the American Standard Code for Information Interchange, which was developed in the 1960s and assigns numeric codes to 128 characters including English letters, digits, punctuation marks, and control characters. In ASCII, the uppercase letter A is represented by the decimal number 65, which translates to the binary sequence 01000001. The lowercase letter a is decimal 97, or 01100001 in binary. The digit character 0 is decimal 48, represented as 00110000 in binary. Each of these mappings uses exactly seven bits of data, with the eighth bit traditionally reserved for error checking.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">As computing expanded globally, ASCII proved insufficient for representing the thousands of characters used in languages such as Chinese, Japanese, Korean, Arabic, Hindi, and many others. Unicode was created to solve this problem by providing a unique numeric code point for every character in every writing system on Earth, along with mathematical symbols, emoji, historic scripts, and technical notation. The Unicode standard currently defines over 149,000 characters across 161 scripts. UTF-8 is the dominant encoding format used on the web to represent Unicode characters. It is a variable-width encoding that uses one byte for standard ASCII characters, two bytes for Latin-extended and many other scripts, three bytes for most Chinese, Japanese, and Korean characters, and four bytes for emoji and supplementary characters. This variable-width design ensures backward compatibility with ASCII while efficiently supporting the full range of human writing systems.</p>
+        <p style="color:var(--text-muted);line-height:1.7">Understanding how text maps to binary is essential knowledge for software developers, network engineers, cybersecurity professionals, and computer science students. When you debug a network protocol, inspect a file at the byte level, analyze a character encoding bug, or study how encryption algorithms transform data, you are working directly with binary representations of information. This text-to-binary converter gives you an immediate, visual connection between the characters you type and the binary sequences that computers use to store and transmit them, bridging the gap between human-readable text and machine-level data representation.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is binary code and how does it work?</summary>
+          <p>Binary code is a numeral system that uses only two symbols — zero and one — to represent all possible values. It is the language that digital computers use internally because electronic circuits can easily distinguish between two states: on (represented by 1) and off (represented by 0). Each position in a binary number represents a power of two, starting from the rightmost position. The rightmost digit represents 2 to the power of 0, which equals 1. Moving left, the next position represents 2 to the power of 1 (which is 2), then 2 to the power of 2 (which is 4), then 8, 16, 32, and so on. To convert the binary number 01001000 to decimal, you add up the values of each position where a 1 appears: 64 plus 8 equals 72, which is the ASCII code for the uppercase letter H. This positional value system allows binary to represent any number, and by extension any character, color, sound, or instruction that a computer needs to process.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the ASCII table and how does it map characters to binary?</summary>
+          <p>The ASCII table is a character encoding standard that maps 128 characters to numeric codes ranging from 0 to 127. It was published as a standard in 1963 and remains the foundation of virtually all modern character encoding systems. The first 32 codes (0 through 31) and code 127 are control characters that represent non-printable instructions such as newline, tab, carriage return, and backspace. Codes 32 through 126 represent printable characters: code 32 is the space character, codes 48 through 57 represent the digits 0 through 9, codes 65 through 90 represent uppercase letters A through Z, and codes 97 through 122 represent lowercase letters a through z. The remaining printable codes map to punctuation marks and special symbols. Since 128 values require seven bits to represent, each ASCII character fits within a single byte with one bit to spare. For example, the exclamation mark is code 33 (binary 00100001) and the at symbol is code 64 (binary 01000000). ASCII encoding is identical in UTF-8 for these first 128 characters, which is why ASCII text files are automatically valid UTF-8 files.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is Unicode and how does it differ from ASCII?</summary>
+          <p>Unicode is a universal character encoding standard designed to represent every character from every writing system in the world, plus thousands of symbols, emoji, and technical notation. While ASCII covers only 128 characters and is limited to basic English text, Unicode currently defines over 149,000 characters across 161 scripts including Latin, Greek, Cyrillic, Arabic, Hebrew, Devanagari, Chinese, Japanese, Korean, Thai, and many more. Each character in Unicode is assigned a unique code point, written in the format U+XXXX where XXXX is a hexadecimal number. Unicode itself is an abstract mapping from code points to characters. The actual binary representation depends on the encoding form used. UTF-8 is the most widely used encoding on the internet. It is variable-width, using one to four bytes per character. Standard ASCII characters use one byte, making UTF-8 fully backward-compatible with ASCII. Characters from Latin-extended, Greek, Cyrillic, Arabic, and Hebrew typically require two bytes. Chinese, Japanese, and Korean ideographs use three bytes. Emoji and supplementary characters require four bytes. This variable-width design balances storage efficiency with universal character coverage.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Why do computers use 8 bits (one byte) as a standard unit?</summary>
+          <p>The eight-bit byte became the standard unit of digital information through a combination of practical engineering decisions and historical precedent. Early computers used various word sizes — five, six, seven, or twelve bits — but eight bits emerged as the optimal choice for several reasons. An eight-bit byte can represent exactly 256 distinct values (2 to the power of 8), which is sufficient to encode the entire ASCII character set with room for extended characters, all possible values of a single color channel in digital images, and a useful range of signed integers from negative 128 to positive 127. The eight-bit size also divides evenly into larger power-of-two word sizes used by modern processors (16, 32, and 64 bits), which simplifies hardware design and memory addressing. The IBM System/360, introduced in 1964, was one of the first commercially successful computer families to standardize on the eight-bit byte, and its enormous market influence established the convention that persists to this day. Modern computers process data in multiples of bytes — kilobytes, megabytes, gigabytes — and virtually all file formats, network protocols, and programming languages treat the byte as their fundamental unit of data.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How are emoji represented in binary?</summary>
+          <p>Emoji are represented in binary through the Unicode standard and its UTF-8 encoding, just like any other character. Each emoji is assigned a unique Unicode code point. For example, the grinning face emoji has code point U+1F600, and the red heart emoji has code point U+2764. Because emoji code points are large numbers that fall outside the Basic Multilingual Plane, most emoji require four bytes when encoded in UTF-8. The grinning face U+1F600 encodes to the four bytes F0 9F 98 80 in hexadecimal, which is 11110000 10011111 10011000 10000000 in binary. Some emoji are even more complex. Skin tone modifiers, gender variations, and family emoji are composed of multiple code points joined by a special invisible character called a Zero Width Joiner (U+200D). For instance, a family emoji might consist of four separate Unicode characters joined together, totaling twelve or more bytes in UTF-8 encoding. Flag emoji use pairs of Regional Indicator Symbol Letters to represent country codes. This composability allows the emoji system to grow and represent new combinations without requiring new code points for every possible variation, though it means a single visible emoji can produce a surprisingly long binary sequence.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between binary, octal, decimal, and hexadecimal?</summary>
+          <p>Binary, octal, decimal, and hexadecimal are four different numeral systems (also called bases) that represent the same underlying values using different sets of symbols. Decimal (base 10) uses digits 0 through 9 and is the system humans learn in school. Binary (base 2) uses only 0 and 1 and is the system computers use internally. Octal (base 8) uses digits 0 through 7 and was historically popular in computing because each octal digit maps to exactly three binary digits, making mental conversion straightforward. Hexadecimal (base 16) uses digits 0 through 9 plus letters A through F and is the most common shorthand for binary in modern programming because each hex digit maps to exactly four binary digits — one nibble. For example, the decimal number 255 is 11111111 in binary, 377 in octal, and FF in hexadecimal. Developers use hexadecimal extensively to express memory addresses, color codes in CSS, byte values in network packet analysis, and cryptographic hashes. Octal still appears in Unix file permission notation (like 755 or 644). This tool displays all four representations simultaneously so you can see how the same text character maps to each numeral system and build intuition for converting between them.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is my text data safe when using this converter?</summary>
+          <p>Your data is completely safe. This text-to-binary converter runs entirely in your web browser using client-side JavaScript. No data is sent to any server, stored in any database, or logged anywhere. Every conversion operation is performed locally on your device by your browser's JavaScript engine. The tool does not make any network requests during conversion, does not use cookies to track your input, and does not store any history of what you have typed. This makes it safe for converting sensitive text such as passwords, API keys, confidential messages, personal information, or proprietary data. You can verify this by opening your browser's developer tools and monitoring the Network tab while using the tool — you will see zero outgoing requests related to your input data. If you disconnect from the internet after loading the page, the converter continues to function normally because it has no server dependency. Your privacy is fully protected by design.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/word-count">Word Counter</a>
+          <a href="https://toolrip.com/case">Case Converter</a>
+          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+          <a href="https://toolrip.com/hex-rgb">Hex-RGB Converter</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+  (function() {
+    'use strict';
+
+    /* ========== State ========== */
+    var lastBinOutput = '';
+    var lastTextOutput = '';
+
+    /* ========== DOM References ========== */
+    var textInput = document.getElementById('text-input');
+    var binInput = document.getElementById('bin-input');
+    var binOutputEl = document.getElementById('bin-output');
+    var textOutputEl = document.getElementById('text-output');
+    var decOutput = document.getElementById('dec-output');
+    var octOutput = document.getElementById('oct-output');
+    var hexOutput = document.getElementById('hex-output');
+    var separatorSelect = document.getElementById('separator-select');
+    var paddingToggle = document.getElementById('padding-toggle');
+    var errorBar = document.getElementById('error-bar');
+    var successBar = document.getElementById('success-bar');
+
+    /* ========== Helpers ========== */
+    function getSeparator() {
+      var val = separatorSelect.value;
+      if (val === 'space') return ' ';
+      if (val === 'comma') return ', ';
+      return '';
+    }
+
+    function isPadded() {
+      return paddingToggle.checked;
+    }
+
+    function clearMessages() {
+      errorBar.classList.remove('visible');
+      successBar.classList.remove('visible');
+    }
+
+    function showError(msg) {
+      clearMessages();
+      errorBar.textContent = msg;
+      errorBar.classList.add('visible');
+    }
+
+    function showSuccess(msg) {
+      clearMessages();
+      successBar.textContent = msg;
+      successBar.classList.add('visible');
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    /* ========== Text to Binary Conversion ========== */
+    function textToBytes(text) {
+      var encoder = new TextEncoder();
+      return encoder.encode(text);
+    }
+
+    function convertTextToBinary() {
+      clearMessages();
+      var text = textInput.value;
+
+      if (!text) {
+        showError('Please enter some text to convert.');
+        binOutputEl.innerHTML = '<button class="copy-btn" onclick="window._BIN.copyOutput(\'bin-output\')">Copy</button>' +
+          '<span class="text-muted" style="font-size:.8125rem">Binary output will appear here...</span>';
+        decOutput.textContent = '\u2014';
+        octOutput.textContent = '\u2014';
+        hexOutput.textContent = '\u2014';
+        lastBinOutput = '';
+        return;
+      }
+
+      var bytes = textToBytes(text);
+      var sep = getSeparator();
+      var pad = isPadded();
+
+      var binParts = [];
+      var decParts = [];
+      var octParts = [];
+      var hexParts = [];
+
+      for (var i = 0; i < bytes.length; i++) {
+        var b = bytes[i];
+        var binStr = b.toString(2);
+        if (pad) {
+          binStr = ('00000000' + binStr).slice(-8);
+        }
+        binParts.push(binStr);
+        decParts.push(b.toString(10));
+        octParts.push(pad ? ('000' + b.toString(8)).slice(-3) : b.toString(8));
+        hexParts.push(pad ? ('00' + b.toString(16).toUpperCase()).slice(-2) : b.toString(16).toUpperCase());
+      }
+
+      var binResult = binParts.join(sep);
+      lastBinOutput = binResult;
+
+      binOutputEl.innerHTML = '<button class="copy-btn" onclick="window._BIN.copyOutput(\'bin-output\')">Copy</button>' + escapeHtml(binResult);
+      decOutput.textContent = decParts.join(sep || ' ');
+      octOutput.textContent = octParts.join(sep || ' ');
+      hexOutput.textContent = hexParts.join(sep || ' ');
+
+      showSuccess('Converted ' + text.length + ' character' + (text.length !== 1 ? 's' : '') + ' to ' + bytes.length + ' byte' + (bytes.length !== 1 ? 's' : ''));
+      showToast('Converted to binary!', 'success');
+    }
+
+    /* ========== Binary to Text Conversion ========== */
+    function convertBinaryToText() {
+      clearMessages();
+      var raw = binInput.value.trim();
+
+      if (!raw) {
+        showError('Please enter a binary string to convert.');
+        textOutputEl.innerHTML = '<button class="copy-btn" onclick="window._BIN.copyOutput(\'text-output\')">Copy</button>' +
+          '<span class="text-muted" style="font-size:.8125rem">Decoded text will appear here...</span>';
+        lastTextOutput = '';
+        return;
+      }
+
+      /* Normalize: strip all non-0/1 characters, then split into 8-bit groups */
+      var cleaned = raw.replace(/[^01]/g, '');
+
+      if (cleaned.length === 0) {
+        showError('No valid binary digits found. Please enter a string containing only 0s and 1s.');
+        return;
+      }
+
+      if (cleaned.length % 8 !== 0) {
+        /* Pad the last group with leading zeros to make it 8 bits */
+        var remainder = cleaned.length % 8;
+        cleaned = ('00000000'.slice(0, 8 - remainder)) + cleaned.slice(0, remainder) + cleaned.slice(remainder);
+      }
+
+      var byteArray = [];
+      for (var i = 0; i < cleaned.length; i += 8) {
+        var chunk = cleaned.slice(i, i + 8);
+        var val = parseInt(chunk, 2);
+        if (isNaN(val)) {
+          showError('Invalid binary sequence at position ' + i + '.');
+          return;
+        }
+        byteArray.push(val);
+      }
+
+      /* Decode UTF-8 bytes back to text */
+      var uint8 = new Uint8Array(byteArray);
+      var result;
+      try {
+        var decoder = new TextDecoder('utf-8', { fatal: true });
+        result = decoder.decode(uint8);
+      } catch (e) {
+        /* Fallback: try non-fatal decoding */
+        try {
+          var decoder2 = new TextDecoder('utf-8', { fatal: false });
+          result = decoder2.decode(uint8);
+        } catch (e2) {
+          showError('Unable to decode the binary sequence as valid UTF-8 text.');
+          return;
+        }
+      }
+
+      lastTextOutput = result;
+
+      textOutputEl.innerHTML = '<button class="copy-btn" onclick="window._BIN.copyOutput(\'text-output\')">Copy</button>' + escapeHtml(result);
+
+      var byteCount = byteArray.length;
+      showSuccess('Decoded ' + byteCount + ' byte' + (byteCount !== 1 ? 's' : '') + ' to ' + result.length + ' character' + (result.length !== 1 ? 's' : ''));
+      showToast('Decoded to text!', 'success');
+    }
+
+    /* ========== Copy ========== */
+    function copyOutput(panelId) {
+      var text = '';
+      if (panelId === 'bin-output') {
+        text = lastBinOutput;
+      } else if (panelId === 'text-output') {
+        text = lastTextOutput;
+      }
+
+      if (!text) {
+        showToast('Nothing to copy', 'error');
+        return;
+      }
+
+      copyToClipboard(text);
+      showToast('Copied to clipboard!', 'success');
+    }
+
+    /* ========== Clear ========== */
+    function clearText() {
+      textInput.value = '';
+      lastBinOutput = '';
+      clearMessages();
+      binOutputEl.innerHTML = '<button class="copy-btn" onclick="window._BIN.copyOutput(\'bin-output\')">Copy</button>' +
+        '<span class="text-muted" style="font-size:.8125rem">Binary output will appear here...</span>';
+      decOutput.textContent = '\u2014';
+      octOutput.textContent = '\u2014';
+      hexOutput.textContent = '\u2014';
+      document.getElementById('text-char-count').textContent = '0';
+      document.getElementById('text-byte-count').textContent = '0';
+      showToast('Cleared', 'info');
+    }
+
+    function clearBinary() {
+      binInput.value = '';
+      lastTextOutput = '';
+      clearMessages();
+      textOutputEl.innerHTML = '<button class="copy-btn" onclick="window._BIN.copyOutput(\'text-output\')">Copy</button>' +
+        '<span class="text-muted" style="font-size:.8125rem">Decoded text will appear here...</span>';
+      document.getElementById('bin-bit-count').textContent = '0';
+      showToast('Cleared', 'info');
+    }
+
+    /* ========== Real-time counters and conversion ========== */
+    var debounceTimer = null;
+
+    textInput.addEventListener('input', function() {
+      var val = textInput.value;
+      document.getElementById('text-char-count').textContent = val.length;
+      document.getElementById('text-byte-count').textContent = new TextEncoder().encode(val).length;
+
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(function() {
+        if (val.length > 0) {
+          convertTextToBinary();
+        }
+      }, 150);
+    });
+
+    binInput.addEventListener('input', function() {
+      var val = binInput.value;
+      var bits = val.replace(/[^01]/g, '').length;
+      document.getElementById('bin-bit-count').textContent = bits;
+
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(function() {
+        if (val.trim().length > 0) {
+          convertBinaryToText();
+        }
+      }, 150);
+    });
+
+    /* ========== Option change triggers re-conversion ========== */
+    separatorSelect.addEventListener('change', function() {
+      if (textInput.value) {
+        convertTextToBinary();
+      }
+    });
+
+    paddingToggle.addEventListener('change', function() {
+      if (textInput.value) {
+        convertTextToBinary();
+      }
+    });
+
+    /* ========== Keyboard shortcuts ========== */
+    textInput.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        convertTextToBinary();
+      }
+    });
+
+    binInput.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        convertBinaryToText();
+      }
+    });
+
+    /* ========== Expose public API ========== */
+    window._BIN = {
+      convertTextToBinary: convertTextToBinary,
+      convertBinaryToText: convertBinaryToText,
+      copyOutput: copyOutput,
+      clearText: clearText,
+      clearBinary: clearBinary
+    };
+  })();
+  </script>
+</body>
+</html>

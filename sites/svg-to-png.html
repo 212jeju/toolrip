@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SVG to PNG Converter Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Convert SVG vector graphics to PNG raster images instantly in your browser. Choose custom scale (1x-4x), background color, and transparency. Free, no upload, 100% client-side.">
+  <link rel="canonical" href="https://toolrip.com/svg-png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="SVG to PNG Converter — Toolrip">
+  <meta property="og:description" content="Convert SVG vector graphics to PNG raster images instantly in your browser. Choose custom scale, background color, and transparency. Free, no upload, 100% client-side.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/svg-png">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="SVG to PNG Converter — Toolrip">
+  <meta name="twitter:description" content="Convert SVG vector graphics to PNG raster images instantly in your browser. Choose custom scale, background color, and transparency. Free, no upload, 100% client-side.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root{--accent:var(--design)}
+
+    .svg-input{width:100%;min-height:200px;font-family:'Consolas','Monaco','Courier New',monospace;font-size:.8125rem;
+      line-height:1.5;resize:vertical;tab-size:2}
+
+    .preview-container{position:relative;border:1px solid var(--border);border-radius:var(--radius);
+      min-height:200px;display:flex;align-items:center;justify-content:center;overflow:hidden;
+      background-image:repeating-conic-gradient(var(--bg-elevated) 0% 25%,var(--bg) 0% 50%);
+      background-size:16px 16px}
+    .preview-container.bg-white{background:var(--bg);background-image:none}
+    .preview-container.bg-custom{background-image:none}
+    .preview-container svg{max-width:100%;max-height:400px}
+    .preview-placeholder{color:var(--text-muted);font-size:.875rem;text-align:center;padding:var(--sp-4)}
+
+    .controls-row{display:flex;flex-wrap:wrap;gap:var(--sp-3);align-items:flex-end;margin:var(--sp-3) 0}
+    .control-group{display:flex;flex-direction:column;gap:var(--sp-1)}
+    .control-group label{font-size:.8125rem;font-weight:500;color:var(--text-muted)}
+    .control-group select,.control-group input[type="color"]{padding:var(--sp-2) var(--sp-3);
+      background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);
+      color:var(--text);font:inherit;font-size:.875rem}
+    .control-group input[type="color"]{width:48px;height:38px;padding:2px;cursor:pointer}
+
+    .btn-row{display:flex;flex-wrap:wrap;gap:var(--sp-2);margin:var(--sp-3) 0}
+
+    .dimensions{font-size:.8125rem;color:var(--text-muted);margin:var(--sp-2) 0;min-height:1.2em}
+    .dimensions strong{color:var(--accent)}
+
+    .result-area{display:none;margin-top:var(--sp-3);text-align:center}
+    .result-area img{max-width:100%;border:1px solid var(--border);border-radius:var(--radius);
+      background-image:repeating-conic-gradient(var(--bg-elevated) 0% 25%,var(--bg) 0% 50%);background-size:16px 16px}
+
+    .file-drop{border:2px dashed var(--border);border-radius:var(--radius);padding:var(--sp-4);
+      text-align:center;color:var(--text-muted);font-size:.875rem;cursor:pointer;transition:border-color .15s;
+      margin-bottom:var(--sp-3)}
+    .file-drop:hover,.file-drop.dragover{border-color:var(--accent);color:var(--text)}
+    .file-drop input{display:none}
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "SVG to PNG Converter",
+    "url": "https://toolrip.com/svg-png",
+    "description": "Convert SVG vector graphics to PNG raster images instantly in your browser. Choose custom scale, background color, and transparency. Free, no upload, 100% client-side.",
+    "applicationCategory": "DesignApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript and HTML5 Canvas"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com"},
+      {"@type": "ListItem", "position": 2, "name": "Design Tools", "item": "https://toolrip.com/#design"},
+      {"@type": "ListItem", "position": 3, "name": "SVG to PNG Converter", "item": "https://toolrip.com/svg-png"}
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the difference between SVG and PNG?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "SVG (Scalable Vector Graphics) is a vector format that uses mathematical paths to describe shapes, meaning it scales to any size without losing quality. PNG (Portable Network Graphics) is a raster format made of a fixed grid of pixels. SVG files are ideal for logos, icons, and illustrations that need to display at multiple sizes, while PNG is better for sharing images across platforms that don't support vector rendering."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why would I convert SVG to PNG?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Converting SVG to PNG is useful when you need to share images on platforms that don't support SVG, such as certain social media sites, email clients, or messaging apps. PNG is universally supported and preserves transparency, making it a safe format for cross-platform compatibility. Converting also lets you lock in a specific resolution for print or pixel-perfect display."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does converting SVG to PNG lose quality?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Converting from SVG to PNG is a one-way rasterization process. The resulting PNG will look sharp at the resolution you choose, but it cannot be scaled up further without becoming blurry. To preserve maximum quality, export at a higher scale factor such as 2x or 4x. The original SVG retains its infinite scalability and can always be re-exported at a different size."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I keep a transparent background in the PNG?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. PNG supports full alpha transparency. When you select the transparent background option in this converter, the resulting PNG will have no background fill, allowing whatever is behind the image to show through. This is essential for logos, icons, and overlays that need to sit on top of varying backgrounds without a visible bounding box."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What scale factor should I use?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Use 1x for standard screen resolution (96 DPI), 2x for Retina and high-DPI displays, 3x for extra-high-density mobile screens, and 4x for print-quality output or very large displays. A higher scale factor produces a larger file but sharper results when the image is displayed at sizes larger than its original SVG viewport dimensions."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is my SVG data sent to a server?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. The entire conversion process runs locally in your browser using the HTML5 Canvas API. Your SVG code never leaves your device. There are no server uploads, no API calls, and no data stored. This makes the tool safe for converting proprietary designs, confidential logos, or any SVG content you want to keep private."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What SVG features are supported?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The converter supports the full range of SVG features that your browser's rendering engine handles, including paths, shapes, gradients, filters, clipping masks, text elements, and embedded images. Complex features like CSS animations or external stylesheet references may not render correctly because the SVG is rasterized as a static snapshot. For best results, use self-contained SVG files with inline styles."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#design">Design Tools</a>
+        <span>/</span>
+        <span>SVG to PNG Converter</span>
+      </nav>
+
+      <h1>SVG to PNG Converter</h1>
+      <p class="text-muted mt-1 mb-3">Convert SVG vector graphics to high-quality PNG raster images directly in your browser. Paste SVG code or upload a file, choose your scale factor and background, then download the result. No server upload, no signup, completely free and private.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <!-- File Drop Zone -->
+        <div class="file-drop" id="file-drop">
+          <p>Drag &amp; drop an SVG file here, or <strong>click to browse</strong></p>
+          <input type="file" id="file-input" accept=".svg,image/svg+xml">
+        </div>
+
+        <!-- SVG Code Input -->
+        <div class="input-group">
+          <label for="svg-input">SVG Code</label>
+          <textarea id="svg-input" class="textarea-field svg-input" placeholder="Paste your SVG code here, e.g.&#10;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 100 100&quot;&gt;&#10;  &lt;circle cx=&quot;50&quot; cy=&quot;50&quot; r=&quot;45&quot; fill=&quot;#a855f7&quot;/&gt;&#10;&lt;/svg&gt;" spellcheck="false"></textarea>
+        </div>
+
+        <!-- Preview -->
+        <div class="input-group">
+          <label>SVG Preview</label>
+          <div class="preview-container" id="preview-container">
+            <div class="preview-placeholder" id="preview-placeholder">Your SVG preview will appear here</div>
+          </div>
+          <div class="dimensions" id="dimensions"></div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls-row">
+          <div class="control-group">
+            <label for="scale-select">Scale Factor</label>
+            <select id="scale-select" class="select-field">
+              <option value="1">1x</option>
+              <option value="2" selected>2x</option>
+              <option value="3">3x</option>
+              <option value="4">4x</option>
+            </select>
+          </div>
+          <div class="control-group">
+            <label for="bg-select">Background</label>
+            <select id="bg-select" class="select-field">
+              <option value="transparent">Transparent</option>
+              <option value="white">White</option>
+              <option value="custom">Custom Color</option>
+            </select>
+          </div>
+          <div class="control-group" id="custom-color-group" style="display:none">
+            <label for="bg-color">Color</label>
+            <input type="color" id="bg-color" value="#ffffff">
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="btn-row">
+          <button class="btn-primary" id="convert-btn" disabled>Convert to PNG</button>
+          <button class="btn-secondary" id="download-btn" disabled>Download PNG</button>
+          <button class="btn-secondary" id="clear-btn">Clear</button>
+        </div>
+
+        <!-- Result -->
+        <div class="result-area" id="result-area">
+          <p class="text-muted mb-2" id="output-info"></p>
+          <img id="result-img" alt="Converted PNG output">
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Client-Side Conversion with Zero Uploads</h3>
+            <p>Every step of the conversion process happens entirely within your web browser using the native HTML5 Canvas API. When you paste SVG code or drop a file, the tool renders the vector graphic into a hidden canvas element and extracts the pixel data as a PNG image. No data is transmitted to any external server at any point. This architecture means the converter works offline after the page loads, keeps your proprietary designs completely private, and eliminates the latency and file-size limits that server-based converters impose. Whether you are converting a confidential corporate logo or a complex illustration with embedded fonts, your source material never leaves your machine.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Configurable Scale and Background</h3>
+            <p>SVG graphics are resolution-independent by nature, but PNG images are fixed grids of pixels. This tool lets you choose a scale factor of 1x, 2x, 3x, or 4x relative to the SVG viewport dimensions, so you can produce crisp output for any target display. A 100-by-100 SVG at 2x scale yields a 200-by-200 pixel PNG, perfect for Retina screens. The background control lets you preserve transparency for overlay use cases, fill with solid white for documents and presentations, or pick any custom color to match your project palette. The output dimensions are displayed before conversion so you can verify the exact pixel size you need.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Drag-and-Drop and Instant Preview</h3>
+            <p>Getting SVG content into the converter is effortless. You can paste raw SVG markup directly into the code editor, or drag an SVG file from your desktop onto the drop zone. The tool automatically reads the file, populates the editor, and renders a live preview of your graphic. As you edit the SVG code, the preview updates in real time, making it easy to tweak paths, colors, or dimensions before exporting. The preview area uses a checkerboard pattern to clearly indicate transparent regions, so you always know what the final PNG will look like before you click convert.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Convert SVG to PNG</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Provide your SVG.</strong> Paste SVG markup into the code editor, or drag and drop an SVG file onto the upload zone. You can also click the drop zone to open a file browser. The SVG preview updates automatically so you can confirm the graphic looks correct before converting.</li>
+          <li><strong>Choose your settings.</strong> Select a scale factor from 1x to 4x depending on your resolution needs. Pick a background option: transparent preserves the alpha channel, white fills the canvas with a solid background, and custom lets you choose any color using the color picker. The output dimensions are displayed below the preview so you know the exact pixel size of the resulting PNG.</li>
+          <li><strong>Convert and download.</strong> Click the Convert to PNG button to rasterize the SVG onto a canvas and generate the PNG. The result appears below the tool with its file size and dimensions. Click Download PNG to save the image to your device. You can adjust the settings and re-convert as many times as you like without reloading the page.</li>
+        </ol>
+      </section>
+
+      <!-- Understanding SVG and PNG -->
+      <section class="mt-4">
+        <h2>Understanding SVG and PNG: Vector vs. Raster Graphics</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">Digital images fall into two fundamental categories: vector graphics and raster graphics. Understanding the distinction is essential for choosing the right format for any given project, whether you are designing a website, preparing assets for a mobile application, or creating materials for print.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">SVG, or Scalable Vector Graphics, is an XML-based vector image format standardized by the World Wide Web Consortium. Instead of storing individual pixel values, SVG files describe shapes, paths, and text using mathematical coordinates and instructions. A circle in SVG is defined by a center point and a radius, not by thousands of colored pixels. This mathematical representation is what gives SVG its defining advantage: resolution independence. An SVG graphic can be displayed at any size, from a tiny favicon to a billboard, without any degradation in quality. The rendering engine recalculates the shapes at the target resolution every time, producing perfectly sharp edges regardless of zoom level. SVG files also tend to be small because they store compact instructions rather than raw pixel data, and they can be compressed further with gzip. Developers and designers favor SVG for logos, icons, charts, diagrams, and any graphic element that needs to look crisp on the wide variety of screen densities found in modern devices.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">PNG, or Portable Network Graphics, is a raster image format that stores images as a rectangular grid of pixels, each assigned a specific color value. PNG was created as a patent-free replacement for GIF and has become one of the most widely used image formats on the web. Its key strengths include lossless compression, which means no image data is discarded during encoding, and full alpha channel support, which allows for smooth, per-pixel transparency. These properties make PNG the preferred format for screenshots, UI elements, photographs with transparent backgrounds, and any image where visual fidelity must be preserved exactly. However, because PNG images are raster, they have a fixed resolution. Scaling a PNG up beyond its native pixel dimensions causes the image to become blurry or pixelated, as the software must interpolate new pixel values between the existing ones.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">The conversion from SVG to PNG is a process called rasterization. The rendering engine interprets the vector instructions in the SVG file and paints the result onto a pixel grid at a specific resolution. Once rasterized, the image becomes a fixed snapshot. You lose the ability to scale without quality degradation, but you gain universal compatibility. Nearly every application, operating system, and web platform can display a PNG image, whereas SVG support, while widespread in browsers, is inconsistent in email clients, older software, social media platforms, and many mobile applications. Converting to PNG at a high scale factor, such as 2x or 4x, gives you a large, detailed image that retains the visual quality of the original vector at sizes up to its exported resolution.</p>
+        <p style="color:var(--text-muted);line-height:1.8">When deciding whether to keep your graphic in SVG or convert it to PNG, consider the context. If the image will only be used on the web in environments that support SVG, keeping it in vector form gives you the best performance and flexibility. If you need to share the image across platforms, embed it in documents, upload it to services that only accept raster formats, or lock in a specific pixel dimension for a particular use case, converting to PNG is the practical choice. This tool lets you do that conversion instantly and privately, entirely within your browser, so you never have to compromise on privacy or convenience.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is the difference between SVG and PNG?</summary>
+          <p>SVG is a vector graphics format that uses mathematical paths and shapes to describe an image, allowing it to scale to any size without quality loss. PNG is a raster format that stores images as a fixed grid of pixels, making it resolution-dependent. SVG is ideal for graphics that need to appear at multiple sizes, such as logos and icons, because the rendering engine redraws them at the target resolution every time. PNG is better suited for photographs, screenshots, and sharing images across platforms that do not support vector rendering. SVG files are typically smaller for simple graphics, while PNG files can be large at high resolutions but offer universal compatibility across virtually every application and operating system.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Why would I convert SVG to PNG?</summary>
+          <p>The most common reason to convert SVG to PNG is compatibility. Many platforms, including certain social media sites, email clients, messaging applications, and document editors, do not render SVG files correctly or do not accept them at all. Converting to PNG ensures your graphic displays consistently everywhere. Other reasons include locking in a specific resolution for print production, creating static image assets for presentations or slide decks, generating thumbnails at a predetermined pixel size, and producing image files for platforms that require raster uploads. Converting at a higher scale factor allows you to maintain visual crispness even though the output is no longer resolution-independent.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does converting SVG to PNG cause quality loss?</summary>
+          <p>Rasterization is a one-way process that converts infinite-resolution vector paths into a finite pixel grid, so the concept of quality depends on the resolution you choose. At the exported size, the PNG will look identical to the SVG because every vector edge is rendered with full antialiasing onto the pixel grid. However, if you later try to enlarge the PNG beyond its native resolution, it will become blurry because there are no vector instructions to recalculate. To avoid this, export at the largest scale factor you anticipate needing. PNG uses lossless compression, so no color information is discarded during encoding. The original SVG is never modified and can always be re-exported at a different size.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can I preserve transparency when converting to PNG?</summary>
+          <p>Yes. PNG fully supports alpha transparency, meaning each pixel can have its own opacity level from fully transparent to fully opaque. When you select the transparent background option in this converter, the canvas is left clear before the SVG is drawn, and all transparent regions in the original SVG carry through to the PNG output. This is essential for logos, icons, stickers, and overlay graphics that need to sit on top of other content without a visible bounding rectangle. If your SVG includes semi-transparent elements such as blurred shadows or gradient fades, those will also be preserved accurately in the PNG alpha channel.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What scale factor should I choose for my PNG?</summary>
+          <p>The scale factor multiplies the SVG viewport dimensions to determine the output pixel size. At 1x, a 200-by-200 SVG produces a 200-by-200 PNG, which is appropriate for standard 96 DPI screens. At 2x, the same SVG yields a 400-by-400 PNG, ideal for Retina and high-DPI displays that pack twice as many pixels into the same physical area. Use 3x for extra-high-density mobile screens commonly found on flagship smartphones. Choose 4x when you need print-quality output or anticipate the image being displayed at very large sizes. Higher scale factors produce larger files, so balance resolution needs against file size for your specific use case.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is my SVG data sent to a server during conversion?</summary>
+          <p>No. The entire conversion process runs locally in your web browser using the HTML5 Canvas API and JavaScript. When you paste SVG code or upload a file, the data stays on your device. The tool creates an in-memory image from the SVG markup, draws it onto a hidden canvas element, and extracts the result as a PNG data URL. No network requests are made, no files are uploaded, and no data is stored anywhere outside your browser session. This makes the tool safe for converting confidential, proprietary, or sensitive designs without any privacy concerns.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What SVG features does this converter support?</summary>
+          <p>The converter leverages your browser's native SVG rendering engine, so it supports the same SVG features your browser does. This includes all standard SVG elements such as paths, rectangles, circles, ellipses, lines, polylines, polygons, text, and groups. Advanced features like linear and radial gradients, clipping paths, masks, filters including blur and drop shadow, patterns, and embedded raster images are all rendered correctly. CSS animations and SMIL animations will be captured at their initial frame since the PNG is a static image. External resources referenced by the SVG, such as linked stylesheets or fonts loaded from URLs, may not resolve during conversion. For best results, use self-contained SVG files with inline styles and embedded fonts.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/hex-rgb">Hex to RGB Converter</a>
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+          <a href="https://toolrip.com/qr">QR Code Generator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+  (function() {
+    'use strict';
+
+    /* ========== DOM References ========== */
+    var svgInput = document.getElementById('svg-input');
+    var previewContainer = document.getElementById('preview-container');
+    var previewPlaceholder = document.getElementById('preview-placeholder');
+    var dimensionsEl = document.getElementById('dimensions');
+    var scaleSelect = document.getElementById('scale-select');
+    var bgSelect = document.getElementById('bg-select');
+    var bgColor = document.getElementById('bg-color');
+    var customColorGroup = document.getElementById('custom-color-group');
+    var convertBtn = document.getElementById('convert-btn');
+    var downloadBtn = document.getElementById('download-btn');
+    var clearBtn = document.getElementById('clear-btn');
+    var resultArea = document.getElementById('result-area');
+    var resultImg = document.getElementById('result-img');
+    var outputInfo = document.getElementById('output-info');
+    var fileDrop = document.getElementById('file-drop');
+    var fileInput = document.getElementById('file-input');
+
+    var currentPngDataUrl = null;
+    var svgWidth = 0;
+    var svgHeight = 0;
+
+    /* ========== SVG Parsing & Preview ========== */
+    function parseSvgDimensions(svgStr) {
+      var parser = new DOMParser();
+      var doc = parser.parseFromString(svgStr, 'image/svg+xml');
+      var svgEl = doc.querySelector('svg');
+      if (!svgEl) return null;
+
+      var w = 0, h = 0;
+
+      /* Try width/height attributes first */
+      var attrW = svgEl.getAttribute('width');
+      var attrH = svgEl.getAttribute('height');
+      if (attrW && attrH) {
+        w = parseFloat(attrW);
+        h = parseFloat(attrH);
+      }
+
+      /* Fall back to viewBox */
+      if ((!w || !h) && svgEl.getAttribute('viewBox')) {
+        var vb = svgEl.getAttribute('viewBox').trim().split(/[\s,]+/);
+        if (vb.length === 4) {
+          w = parseFloat(vb[2]);
+          h = parseFloat(vb[3]);
+        }
+      }
+
+      /* Default fallback */
+      if (!w) w = 300;
+      if (!h) h = 150;
+
+      return { width: w, height: h, element: svgEl };
+    }
+
+    function updatePreview() {
+      var code = svgInput.value.trim();
+      if (!code) {
+        previewContainer.innerHTML = '';
+        previewContainer.appendChild(previewPlaceholder);
+        previewPlaceholder.style.display = '';
+        dimensionsEl.textContent = '';
+        convertBtn.disabled = true;
+        svgWidth = 0;
+        svgHeight = 0;
+        return;
+      }
+
+      var parsed = parseSvgDimensions(code);
+      if (!parsed) {
+        previewContainer.innerHTML = '';
+        previewPlaceholder.textContent = 'Invalid SVG markup';
+        previewPlaceholder.style.display = '';
+        previewContainer.appendChild(previewPlaceholder);
+        dimensionsEl.textContent = '';
+        convertBtn.disabled = true;
+        return;
+      }
+
+      svgWidth = parsed.width;
+      svgHeight = parsed.height;
+
+      /* Render preview safely */
+      previewPlaceholder.style.display = 'none';
+      previewContainer.innerHTML = '';
+
+      var wrapper = document.createElement('div');
+      wrapper.innerHTML = code;
+      var svgEl = wrapper.querySelector('svg');
+      if (svgEl) {
+        svgEl.style.maxWidth = '100%';
+        svgEl.style.maxHeight = '400px';
+        svgEl.removeAttribute('width');
+        svgEl.removeAttribute('height');
+        if (!svgEl.getAttribute('viewBox') && parsed.width && parsed.height) {
+          svgEl.setAttribute('viewBox', '0 0 ' + parsed.width + ' ' + parsed.height);
+        }
+        previewContainer.appendChild(svgEl);
+      }
+
+      updateDimensions();
+      convertBtn.disabled = false;
+    }
+
+    function updateDimensions() {
+      if (!svgWidth || !svgHeight) {
+        dimensionsEl.textContent = '';
+        return;
+      }
+      var scale = parseInt(scaleSelect.value);
+      var outW = Math.round(svgWidth * scale);
+      var outH = Math.round(svgHeight * scale);
+      dimensionsEl.innerHTML = 'SVG: ' + Math.round(svgWidth) + ' &times; ' + Math.round(svgHeight) +
+        ' px &rarr; PNG: <strong>' + outW + ' &times; ' + outH + '</strong> px at ' + scale + 'x';
+    }
+
+    /* ========== Conversion ========== */
+    function convertToPng() {
+      var code = svgInput.value.trim();
+      if (!code) return;
+
+      var parsed = parseSvgDimensions(code);
+      if (!parsed) {
+        showToast('Invalid SVG markup', 'error');
+        return;
+      }
+
+      var scale = parseInt(scaleSelect.value);
+      var canvasW = Math.round(parsed.width * scale);
+      var canvasH = Math.round(parsed.height * scale);
+
+      /* Ensure the SVG has explicit dimensions and xmlns for the Image loader */
+      var svgEl = parsed.element;
+      if (!svgEl.getAttribute('xmlns')) {
+        svgEl.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+      }
+      svgEl.setAttribute('width', parsed.width);
+      svgEl.setAttribute('height', parsed.height);
+
+      var svgStr = new XMLSerializer().serializeToString(svgEl);
+      var blob = new Blob([svgStr], { type: 'image/svg+xml;charset=utf-8' });
+      var url = URL.createObjectURL(blob);
+
+      var img = new Image();
+      img.onload = function() {
+        var canvas = document.createElement('canvas');
+        canvas.width = canvasW;
+        canvas.height = canvasH;
+        var ctx = canvas.getContext('2d');
+
+        /* Background */
+        var bgMode = bgSelect.value;
+        if (bgMode === 'white') {
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, canvasW, canvasH);
+        } else if (bgMode === 'custom') {
+          ctx.fillStyle = bgColor.value;
+          ctx.fillRect(0, 0, canvasW, canvasH);
+        }
+        /* transparent: leave canvas clear */
+
+        ctx.drawImage(img, 0, 0, canvasW, canvasH);
+        URL.revokeObjectURL(url);
+
+        try {
+          currentPngDataUrl = canvas.toDataURL('image/png');
+        } catch (e) {
+          showToast('Conversion failed. The SVG may contain cross-origin resources.', 'error');
+          return;
+        }
+
+        /* Display result */
+        resultImg.src = currentPngDataUrl;
+        resultArea.style.display = 'block';
+        downloadBtn.disabled = false;
+
+        /* Compute approximate file size */
+        var base64Len = currentPngDataUrl.length - 'data:image/png;base64,'.length;
+        var bytes = Math.round(base64Len * 3 / 4);
+        var sizeStr = bytes < 1024 ? bytes + ' B' : (bytes / 1024).toFixed(1) + ' KB';
+        outputInfo.textContent = 'Output: ' + canvasW + ' x ' + canvasH + ' px | Size: ~' + sizeStr;
+
+        showToast('PNG generated successfully', 'success');
+      };
+
+      img.onerror = function() {
+        URL.revokeObjectURL(url);
+        showToast('Failed to render SVG. Check your markup for errors.', 'error');
+      };
+
+      img.src = url;
+    }
+
+    /* ========== Download ========== */
+    function downloadPng() {
+      if (!currentPngDataUrl) return;
+      var a = document.createElement('a');
+      a.href = currentPngDataUrl;
+      a.download = 'converted-' + scaleSelect.value + 'x.png';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    /* ========== File Drop / Upload ========== */
+    function handleFile(file) {
+      if (!file || !file.type.match(/svg/)) {
+        showToast('Please select an SVG file', 'error');
+        return;
+      }
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        svgInput.value = e.target.result;
+        updatePreview();
+      };
+      reader.readAsText(file);
+    }
+
+    fileDrop.addEventListener('click', function() {
+      fileInput.click();
+    });
+
+    fileInput.addEventListener('change', function() {
+      if (this.files && this.files[0]) {
+        handleFile(this.files[0]);
+      }
+    });
+
+    fileDrop.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      fileDrop.classList.add('dragover');
+    });
+
+    fileDrop.addEventListener('dragleave', function() {
+      fileDrop.classList.remove('dragover');
+    });
+
+    fileDrop.addEventListener('drop', function(e) {
+      e.preventDefault();
+      fileDrop.classList.remove('dragover');
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        handleFile(e.dataTransfer.files[0]);
+      }
+    });
+
+    /* ========== Event Listeners ========== */
+    var debounceTimer;
+    svgInput.addEventListener('input', function() {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(updatePreview, 300);
+    });
+
+    scaleSelect.addEventListener('change', updateDimensions);
+
+    bgSelect.addEventListener('change', function() {
+      customColorGroup.style.display = bgSelect.value === 'custom' ? '' : 'none';
+      /* Update preview container background */
+      previewContainer.classList.remove('bg-white', 'bg-custom');
+      if (bgSelect.value === 'white') {
+        previewContainer.classList.add('bg-white');
+      } else if (bgSelect.value === 'custom') {
+        previewContainer.classList.add('bg-custom');
+        previewContainer.style.backgroundColor = bgColor.value;
+      } else {
+        previewContainer.style.backgroundColor = '';
+      }
+    });
+
+    bgColor.addEventListener('input', function() {
+      if (bgSelect.value === 'custom') {
+        previewContainer.style.backgroundColor = bgColor.value;
+      }
+    });
+
+    convertBtn.addEventListener('click', convertToPng);
+    downloadBtn.addEventListener('click', downloadPng);
+
+    clearBtn.addEventListener('click', function() {
+      svgInput.value = '';
+      currentPngDataUrl = null;
+      resultArea.style.display = 'none';
+      downloadBtn.disabled = true;
+      convertBtn.disabled = true;
+      updatePreview();
+      showToast('Cleared', 'info');
+    });
+
+    /* ========== Init ========== */
+    updatePreview();
+
+  })();
+  </script>
+</body>
+</html>

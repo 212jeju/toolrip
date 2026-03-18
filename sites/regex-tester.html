@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Regex Tester Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Test, debug, and learn regular expressions online for free. Real-time match highlighting, capture groups, replace mode, and a common patterns reference. No signup required.">
+  <link rel="canonical" href="https://toolrip.com/regex">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Regex Tester &amp; Debugger — Toolrip">
+  <meta property="og:description" content="Test, debug, and learn regular expressions online for free. Real-time match highlighting, capture groups, replace mode, and a common patterns reference. No signup required.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/regex">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Regex Tester &amp; Debugger — Toolrip">
+  <meta name="twitter:description" content="Test, debug, and learn regular expressions online for free. Real-time match highlighting, capture groups, replace mode, and a common patterns reference. No signup required.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root{--accent:var(--developer)}
+
+    /* Tool-specific styles */
+    .regex-input-row{display:flex;gap:var(--sp-2);align-items:center;flex-wrap:wrap}
+    .regex-input-row .input-field{flex:1;min-width:200px;font-family:'Consolas','Monaco','Courier New',monospace;font-size:.9375rem}
+    .regex-delim{color:var(--accent);font-size:1.25rem;font-weight:700;font-family:'Consolas',monospace;user-select:none;line-height:1}
+
+    .flags-row{display:flex;gap:var(--sp-2);flex-wrap:wrap;align-items:center}
+    .flag-btn{padding:var(--sp-1) var(--sp-2);font-size:.8125rem;font-family:'Consolas',monospace;font-weight:600;
+      background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-muted);
+      cursor:pointer;transition:border-color .15s,color .15s,background .15s;min-width:32px;text-align:center}
+    .flag-btn:hover{border-color:var(--text-muted)}
+    .flag-btn.active{border-color:var(--accent);color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,transparent)}
+
+    .test-string{width:100%;min-height:160px;resize:vertical;background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);color:var(--text);font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.875rem;padding:var(--sp-3);line-height:1.7;tab-size:2}
+    .test-string:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent)}
+
+    .result-panel{position:relative;width:100%;min-height:120px;background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);padding:var(--sp-3);overflow:auto;font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.875rem;line-height:1.7;white-space:pre-wrap;word-break:break-word}
+
+    .match-hl{background:color-mix(in srgb,var(--accent) 30%,transparent);border-radius:2px;padding:1px 0;
+      border-bottom:2px solid var(--accent)}
+    .match-hl-alt{background:color-mix(in srgb,#10b981 30%,transparent);border-radius:2px;padding:1px 0;
+      border-bottom:2px solid #10b981}
+
+    .stats-row{display:flex;gap:var(--sp-4);flex-wrap:wrap;margin:var(--sp-2) 0;font-size:.8125rem;color:var(--text-muted)}
+    .stats-row strong{color:var(--text)}
+
+    .error-bar{background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);border-radius:var(--radius-sm);
+      padding:var(--sp-2) var(--sp-3);color:#fca5a5;font-size:.8125rem;margin-bottom:var(--sp-2);display:none;
+      font-family:'Consolas','Monaco','Courier New',monospace;line-height:1.5}
+    .error-bar.visible{display:block}
+
+    .groups-table{width:100%;border-collapse:collapse;font-size:.8125rem;margin-top:var(--sp-2)}
+    .groups-table th,.groups-table td{padding:var(--sp-1) var(--sp-2);text-align:left;border-bottom:1px solid var(--border)}
+    .groups-table th{color:var(--text-muted);font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.04em}
+    .groups-table td{font-family:'Consolas',monospace;color:var(--text)}
+    .groups-table tr:last-child td{border-bottom:none}
+
+    .replace-row{display:flex;gap:var(--sp-2);align-items:center;flex-wrap:wrap}
+    .replace-row .input-field{flex:1;min-width:200px;font-family:'Consolas','Monaco','Courier New',monospace;font-size:.9375rem}
+
+    .ref-table{width:100%;border-collapse:collapse;font-size:.8125rem;margin-top:var(--sp-2)}
+    .ref-table th,.ref-table td{padding:var(--sp-2);text-align:left;border-bottom:1px solid var(--border)}
+    .ref-table th{color:var(--text-muted);font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.04em}
+    .ref-table td:first-child{font-family:'Consolas',monospace;color:var(--accent);white-space:nowrap}
+    .ref-table td:nth-child(2){font-family:'Consolas',monospace;color:var(--text);white-space:nowrap;max-width:220px;overflow:hidden;text-overflow:ellipsis}
+    .ref-table td:last-child{color:var(--text-muted)}
+    .ref-table .copy-pattern{cursor:pointer;opacity:.5;transition:opacity .15s;font-size:.75rem;margin-left:var(--sp-1)}
+    .ref-table .copy-pattern:hover{opacity:1}
+
+    .section-label{font-size:.8125rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:var(--sp-1)}
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Regex Tester & Debugger",
+    "url": "https://toolrip.com/regex",
+    "description": "Test, debug, and learn regular expressions online for free. Real-time match highlighting, capture groups, replace mode, and a common patterns reference.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Developer Tools", "item": "https://toolrip.com/#developer" },
+      { "@type": "ListItem", "position": 3, "name": "Regex Tester" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is a regular expression (regex)?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A regular expression is a sequence of characters that defines a search pattern. Regular expressions are used for string matching, searching, and text manipulation in virtually every programming language. They provide a concise and flexible way to identify strings of text such as particular characters, words, or patterns of characters."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What do regex flags like g, i, m, s, and u mean?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The g (global) flag finds all matches rather than stopping after the first. The i (case-insensitive) flag ignores letter casing. The m (multiline) flag makes ^ and $ match the start and end of each line. The s (dotAll) flag makes the dot (.) match newline characters. The u (unicode) flag enables full Unicode matching including surrogate pairs."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I match an email address with regex?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A commonly used pattern for basic email validation is [a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}. This matches a local part containing alphanumeric characters and certain symbols, followed by an @ sign, a domain name, and a top-level domain of at least two characters. Note that fully RFC-compliant email validation is extremely complex."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are capture groups in regex?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Capture groups are portions of a regex pattern enclosed in parentheses (). When the pattern matches, the text matched by each group is captured separately and can be referenced by its index number. Named capture groups use the syntax (?<name>...) and can be referenced by name. Capture groups are essential for extracting specific parts of a match and for use in replacement patterns."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between PCRE and JavaScript regex?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "PCRE (Perl Compatible Regular Expressions) supports features like lookbehind with variable length, recursive patterns, atomic groups, and possessive quantifiers. JavaScript regex historically had fewer features but has been adding support for lookbehind assertions, named capture groups, and Unicode property escapes. This tool uses the JavaScript RegExp engine built into your browser."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are lookahead and lookbehind assertions?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Lookahead and lookbehind are zero-width assertions that match a position rather than characters. Positive lookahead (?=...) asserts that what follows matches the pattern. Negative lookahead (?!...) asserts that what follows does not match. Positive lookbehind (?<=...) asserts that what precedes matches. Negative lookbehind (?<!...) asserts that what precedes does not match. They are useful for matching patterns that depend on surrounding context without including that context in the match."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I use backreferences and replacement patterns?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Backreferences let you refer to previously captured groups within the same pattern using \\1, \\2, etc. In replacement strings, you use $1, $2 to insert captured group values. Named groups can be referenced with $<name>. The special token $& inserts the entire match, $` inserts text before the match, and $' inserts text after the match. These features are powerful for text transformation tasks like reformatting dates or swapping word order."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#developer">Developer Tools</a>
+        <span>/</span>
+        <span>Regex Tester</span>
+      </nav>
+
+      <h1>Regex Tester &amp; Debugger Online</h1>
+      <p class="text-muted mt-1 mb-3">Enter a regular expression and test string to instantly see highlighted matches, capture groups, and replacement results. Completely free and runs entirely in your browser.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <!-- Regex pattern input -->
+        <div class="input-group">
+          <label for="regex-input">Regular Expression</label>
+          <div class="regex-input-row">
+            <span class="regex-delim">/</span>
+            <input type="text" id="regex-input" class="input-field" placeholder="Enter regex pattern, e.g. (\w+)@(\w+)\.(\w+)" spellcheck="false" autocomplete="off">
+            <span class="regex-delim">/</span>
+            <div class="flags-row" id="flags-row">
+              <button class="flag-btn active" data-flag="g" title="Global: find all matches">g</button>
+              <button class="flag-btn" data-flag="i" title="Case-insensitive matching">i</button>
+              <button class="flag-btn" data-flag="m" title="Multiline: ^ and $ match line boundaries">m</button>
+              <button class="flag-btn" data-flag="s" title="DotAll: . matches newline characters">s</button>
+              <button class="flag-btn" data-flag="u" title="Unicode: full Unicode matching">u</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Error bar -->
+        <div class="error-bar" id="error-bar"></div>
+
+        <!-- Test string -->
+        <div class="input-group">
+          <label for="test-string">Test String</label>
+          <textarea id="test-string" class="test-string" placeholder="Enter or paste your test string here..." spellcheck="false"></textarea>
+        </div>
+
+        <!-- Match stats -->
+        <div class="stats-row" id="stats-row">
+          <span>Matches: <strong id="match-count">0</strong></span>
+          <span>Groups: <strong id="group-count">0</strong></span>
+          <span>Steps: <strong id="exec-time">&lt;1ms</strong></span>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tab-group">
+          <button class="tab active" data-tab="panel-matches">Matches</button>
+          <button class="tab" data-tab="panel-groups">Capture Groups</button>
+          <button class="tab" data-tab="panel-replace">Replace</button>
+        </div>
+
+        <!-- Panel: Highlighted matches -->
+        <div id="panel-matches" class="tab-panel">
+          <div class="section-label">Highlighted Matches</div>
+          <div class="result-panel" id="match-output">
+            <span class="text-muted" style="font-size:.8125rem">Matches will be highlighted here...</span>
+          </div>
+        </div>
+
+        <!-- Panel: Capture groups -->
+        <div id="panel-groups" class="tab-panel hidden">
+          <div class="section-label">Capture Groups</div>
+          <div id="groups-output" style="overflow-x:auto">
+            <p class="text-muted" style="font-size:.8125rem">Capture group details will appear here...</p>
+          </div>
+        </div>
+
+        <!-- Panel: Replace -->
+        <div id="panel-replace" class="tab-panel hidden">
+          <div class="input-group">
+            <label for="replace-input">Replacement Pattern</label>
+            <div class="replace-row">
+              <input type="text" id="replace-input" class="input-field" placeholder="e.g. $1 or $$, $&amp;" spellcheck="false" autocomplete="off">
+              <button class="btn-secondary btn-sm" onclick="copyReplaceResult()">Copy Result</button>
+            </div>
+          </div>
+          <div class="section-label">Replace Result</div>
+          <div class="result-panel" id="replace-output">
+            <span class="text-muted" style="font-size:.8125rem">Replacement result will appear here...</span>
+          </div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="">Ad</div>
+
+      <!-- Common Patterns Reference -->
+      <section class="mt-4">
+        <h2>Common Regex Patterns Reference</h2>
+        <div style="overflow-x:auto">
+          <table class="ref-table">
+            <thead>
+              <tr><th>Name</th><th>Pattern</th><th>Description</th></tr>
+            </thead>
+            <tbody id="ref-table-body">
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(2,1fr)">
+          <div class="feature-card">
+            <h3>Real-Time Match Highlighting</h3>
+            <p>See your matches highlighted instantly as you type your regular expression and test string. Every match is color-coded directly within the test string so you can visually verify that your pattern is capturing exactly the right content. The highlighting updates in real time with no button clicks required, making it effortless to iterate on your pattern until it is correct. Alternating highlight colors help distinguish adjacent matches that would otherwise blend together.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Capture Group Inspector</h3>
+            <p>When your regex contains capturing groups defined by parentheses, this tool displays every group for every match in a structured table. You can see the full match alongside each numbered or named group, making it simple to verify that your groups are extracting the intended substrings. This is invaluable when building patterns for data extraction tasks where you need to pull specific fields out of a larger string, such as parsing log files or extracting components from URLs.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Find and Replace Mode</h3>
+            <p>Go beyond matching by using the replace tab to apply substitution patterns to your test string. Enter a replacement pattern using standard JavaScript replacement tokens like $1 for the first capture group, $&amp; for the entire match, or $` and $' for text before and after the match. The replaced text appears instantly so you can experiment with different replacement strategies. This is perfect for prototyping text transformations before integrating them into your code.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Flag Controls and Error Handling</h3>
+            <p>Toggle regex flags with a single click to change matching behavior without rewriting your pattern. The global flag finds all occurrences, case-insensitive mode ignores letter casing, multiline mode changes how anchors work, dotAll mode lets the dot match newlines, and Unicode mode enables full Unicode support. If your regex contains a syntax error, a clear message tells you exactly what went wrong so you can fix it immediately. Invalid patterns never crash the tool — they are caught and reported gracefully.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Regex Tester</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Enter your regular expression.</strong> Type or paste your pattern into the regex input field at the top. The field uses a monospace font and displays your pattern between forward-slash delimiters for clarity. You do not need to include the delimiters yourself — just enter the raw pattern.</li>
+          <li><strong>Set your flags.</strong> Click the flag buttons to toggle options. The <code>g</code> flag is enabled by default so all matches are found. Toggle <code>i</code> for case-insensitive matching, <code>m</code> for multiline mode, <code>s</code> to make the dot match newlines, or <code>u</code> for Unicode mode.</li>
+          <li><strong>Enter your test string.</strong> Paste or type the text you want to test against. The tool immediately highlights all matches within the test string and updates the match count and capture group details.</li>
+          <li><strong>Review matches and groups.</strong> The Matches tab shows your test string with all matches highlighted. Switch to the Capture Groups tab to see a detailed breakdown of each match and its groups. Use the Replace tab to experiment with substitution patterns.</li>
+        </ol>
+      </section>
+
+      <!-- About Regex Section -->
+      <section class="mt-4">
+        <h2>Understanding Regular Expressions</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Regular expressions, often abbreviated as regex or regexp, are one of the most powerful tools available to software developers, data analysts, and system administrators for working with text. A regular expression defines a search pattern using a specialized syntax that can match, locate, and manipulate strings with remarkable precision. The concept originated in the 1950s when mathematician Stephen Cole Kleene formalized the description of regular languages using his mathematical notation. The practical application of these theoretical concepts began in the 1960s when Ken Thompson built regex support into the QED and ed text editors on Unix systems, establishing a tradition of regex integration in command-line tools that continues to this day.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">The power of regular expressions lies in their ability to describe complex text patterns concisely. A single regex can express what would otherwise require dozens of lines of procedural string-manipulation code. At the most basic level, a regex is a sequence of literal characters that matches itself — the pattern <code>cat</code> matches the string "cat" wherever it appears. The true power emerges when you combine literals with metacharacters: the dot <code>.</code> matches any single character, square brackets <code>[ ]</code> define a character class, quantifiers like <code>*</code>, <code>+</code>, and <code>?</code> control repetition, and anchors like <code>^</code> and <code>$</code> pin matches to positions within the string. Parentheses <code>( )</code> create capture groups that extract substrings, and the pipe character <code>|</code> provides alternation between choices.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Modern regex engines come in several flavors. PCRE (Perl Compatible Regular Expressions) is one of the most feature-rich and is used by languages like PHP, Python (via its <code>re</code> module, which is PCRE-inspired), and many text editors. JavaScript has its own regex engine that has historically been more limited than PCRE but has been steadily gaining features. Recent ECMAScript specifications added lookbehind assertions, named capture groups, Unicode property escapes, and the dotAll flag, bringing JavaScript much closer to PCRE capability. This tool uses the JavaScript RegExp engine built into your browser, which means the patterns you test here will work identically in your JavaScript code. Other notable flavors include .NET regex, which supports balancing groups, and RE2 from Google, which guarantees linear-time matching by disallowing backreferences.</p>
+        <p style="color:var(--text-muted);line-height:1.7">Common use cases for regular expressions include input validation (verifying that user input matches an expected format such as an email address, phone number, or date), search and replace operations (transforming text by substituting matched patterns with replacement strings), data extraction (pulling structured information out of unstructured text such as log files or web pages), syntax highlighting (identifying keywords, strings, and comments in source code), and web scraping (isolating relevant content from HTML). Whether you are writing a one-line grep command in your terminal or building a complex text processing pipeline, regular expressions are an indispensable skill for anyone who works with text data.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is a regular expression (regex)?</summary>
+          <p>A regular expression is a sequence of characters that defines a search pattern. Regular expressions are used for string matching, searching, and text manipulation in virtually every programming language. They provide a concise and flexible way to identify strings of text such as particular characters, words, or patterns of characters. At their simplest, they match literal text, but they become powerful when combined with metacharacters that represent classes of characters, repetition, positioning, and grouping. Learning regex is a worthwhile investment because the same syntax applies across dozens of languages and tools.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What do regex flags like g, i, m, s, and u mean?</summary>
+          <p>The <code>g</code> (global) flag finds all matches in the string rather than stopping after the first one. The <code>i</code> (case-insensitive) flag causes the engine to ignore the difference between uppercase and lowercase letters during matching. The <code>m</code> (multiline) flag changes the behavior of the <code>^</code> and <code>$</code> anchors so they match the start and end of each line rather than the entire string. The <code>s</code> (dotAll) flag allows the dot metacharacter <code>.</code> to match newline characters, which it does not do by default. The <code>u</code> (unicode) flag enables full Unicode matching so that surrogate pairs and Unicode property escapes work correctly.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do I match an email address with regex?</summary>
+          <p>A commonly used pattern for basic email validation is <code>[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}</code>. This pattern matches a local part containing alphanumeric characters and certain special symbols, followed by an at sign, a domain name with dots and hyphens, and a top-level domain of at least two characters. Keep in mind that the official specification for email addresses (RFC 5322) is extremely complex and allows many unusual formats that simple patterns will not cover. For most practical purposes, a basic pattern combined with a confirmation email is the best validation strategy.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What are capture groups and how do they work?</summary>
+          <p>Capture groups are portions of a regex pattern enclosed in parentheses <code>()</code>. When the pattern matches, the text matched by each group is captured separately and can be referenced by its index number starting from 1. For example, the pattern <code>(\d{4})-(\d{2})-(\d{2})</code> matching against "2026-03-17" captures "2026" as group 1, "03" as group 2, and "17" as group 3. Named capture groups use the syntax <code>(?&lt;name&gt;...)</code> and let you refer to groups by meaningful names. Non-capturing groups <code>(?:...)</code> group patterns for quantifiers without capturing the matched text.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between PCRE and JavaScript regex?</summary>
+          <p>PCRE (Perl Compatible Regular Expressions) is a widely used regex library that supports advanced features like variable-length lookbehind, recursive patterns, atomic groups, possessive quantifiers, conditional patterns, and subroutine calls. JavaScript regex historically lacked many of these features but has been catching up in recent years. Modern JavaScript supports fixed-length and variable-length lookbehind, named capture groups, Unicode property escapes with the <code>u</code> flag, and the dotAll <code>s</code> flag. However, JavaScript still does not support recursive patterns, atomic groups, or possessive quantifiers. This tool uses your browser's built-in JavaScript RegExp engine.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What are lookahead and lookbehind assertions?</summary>
+          <p>Lookahead and lookbehind are zero-width assertions that match a position in the string rather than consuming characters. Positive lookahead <code>(?=...)</code> asserts that the text immediately following the current position matches the given pattern. Negative lookahead <code>(?!...)</code> asserts the opposite — that the following text does not match. Positive lookbehind <code>(?&lt;=...)</code> asserts that the text immediately before the current position matches, and negative lookbehind <code>(?&lt;!...)</code> asserts it does not. These assertions are powerful for matching patterns based on their surrounding context without including that context in the match result.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do I use backreferences and replacement patterns?</summary>
+          <p>Backreferences allow you to refer to previously captured groups within the same regex using <code>\1</code>, <code>\2</code>, and so on. This is useful for matching repeated content, such as <code>(\w+)\s+\1</code> to find duplicated words. In replacement strings, you use <code>$1</code>, <code>$2</code> to insert the value of the corresponding capture group. Named groups can be referenced with <code>$&lt;name&gt;</code>. The token <code>$&amp;</code> inserts the entire match, <code>$`</code> inserts the text before the match, and <code>$'</code> inserts the text after the match. A literal dollar sign is written as <code>$$</code>. These replacement tokens make regex a powerful text transformation tool.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+          <a href="https://toolrip.com/word-count">Word Counter</a>
+          <a href="https://toolrip.com/case">Case Converter</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+  (function() {
+    'use strict';
+
+    /* ========== DOM Refs ========== */
+    var regexInput = document.getElementById('regex-input');
+    var testString = document.getElementById('test-string');
+    var replaceInput = document.getElementById('replace-input');
+    var errorBar = document.getElementById('error-bar');
+    var matchOutput = document.getElementById('match-output');
+    var groupsOutput = document.getElementById('groups-output');
+    var replaceOutput = document.getElementById('replace-output');
+    var matchCountEl = document.getElementById('match-count');
+    var groupCountEl = document.getElementById('group-count');
+    var execTimeEl = document.getElementById('exec-time');
+    var flagsRow = document.getElementById('flags-row');
+
+    /* ========== State ========== */
+    var activeFlags = { g: true, i: false, m: false, s: false, u: false };
+
+    /* ========== Common Patterns ========== */
+    var commonPatterns = [
+      { name: 'Email', pattern: '[a-zA-Z0-9._%+\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,}', desc: 'Basic email address' },
+      { name: 'URL', pattern: 'https?:\\/\\/[\\w\\-]+(\\.[\\w\\-]+)+[\\/\\w\\-.~:?#\\[\\]@!$&\'()*+,;=%]*', desc: 'HTTP/HTTPS URL' },
+      { name: 'IPv4', pattern: '\\b(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\b', desc: 'IPv4 address (0.0.0.0 - 255.255.255.255)' },
+      { name: 'IPv6', pattern: '(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}', desc: 'Full IPv6 address' },
+      { name: 'Phone (US)', pattern: '\\+?1?[\\s.-]?\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}', desc: 'US phone number' },
+      { name: 'Date (YYYY-MM-DD)', pattern: '\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])', desc: 'ISO 8601 date format' },
+      { name: 'Time (HH:MM:SS)', pattern: '([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d', desc: '24-hour time format' },
+      { name: 'Hex Color', pattern: '#(?:[0-9a-fA-F]{3}){1,2}\\b', desc: 'CSS hex color (#fff or #ffffff)' },
+      { name: 'HTML Tag', pattern: '<\\/?[a-zA-Z][a-zA-Z0-9]*(?:\\s[^>]*)?\\/?>',  desc: 'Opening or closing HTML tag' },
+      { name: 'Integer', pattern: '-?\\d+', desc: 'Positive or negative integer' },
+      { name: 'Decimal', pattern: '-?\\d+\\.\\d+', desc: 'Decimal number' },
+      { name: 'UUID', pattern: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}', desc: 'Standard UUID v4 format' },
+      { name: 'Username', pattern: '[a-zA-Z][a-zA-Z0-9_]{2,15}', desc: '3-16 chars, starts with letter' },
+      { name: 'Strong Password', pattern: '(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}', desc: 'Min 8 chars, upper+lower+digit+special' }
+    ];
+
+    /* ========== Build Reference Table ========== */
+    function buildRefTable() {
+      var tbody = document.getElementById('ref-table-body');
+      var html = '';
+      for (var i = 0; i < commonPatterns.length; i++) {
+        var p = commonPatterns[i];
+        var escaped = escapeHtml(p.pattern);
+        html += '<tr>' +
+          '<td>' + escapeHtml(p.name) + '</td>' +
+          '<td>' + escaped + ' <span class="copy-pattern" title="Use this pattern" data-idx="' + i + '">&#x2197;</span></td>' +
+          '<td>' + escapeHtml(p.desc) + '</td>' +
+          '</tr>';
+      }
+      tbody.innerHTML = html;
+
+      tbody.addEventListener('click', function(e) {
+        var btn = e.target.closest('.copy-pattern');
+        if (!btn) return;
+        var idx = parseInt(btn.getAttribute('data-idx'), 10);
+        regexInput.value = commonPatterns[idx].pattern;
+        regexInput.focus();
+        runMatch();
+        showToast('Pattern loaded: ' + commonPatterns[idx].name, 'info');
+      });
+    }
+
+    /* ========== Flag Toggle ========== */
+    flagsRow.addEventListener('click', function(e) {
+      var btn = e.target.closest('.flag-btn');
+      if (!btn) return;
+      var flag = btn.getAttribute('data-flag');
+      activeFlags[flag] = !activeFlags[flag];
+      btn.classList.toggle('active', activeFlags[flag]);
+      runMatch();
+    });
+
+    /* ========== Build Flags String ========== */
+    function getFlagsString() {
+      var s = '';
+      if (activeFlags.g) s += 'g';
+      if (activeFlags.i) s += 'i';
+      if (activeFlags.m) s += 'm';
+      if (activeFlags.s) s += 's';
+      if (activeFlags.u) s += 'u';
+      return s;
+    }
+
+    /* ========== Escape HTML ========== */
+    function escapeHtml(str) {
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    /* ========== Core Match Engine ========== */
+    function runMatch() {
+      var pattern = regexInput.value;
+      var text = testString.value;
+
+      // Clear error
+      errorBar.classList.remove('visible');
+
+      // Empty state
+      if (!pattern) {
+        matchCountEl.textContent = '0';
+        groupCountEl.textContent = '0';
+        execTimeEl.textContent = '<1ms';
+        matchOutput.innerHTML = text ? escapeHtml(text) : '<span class="text-muted" style="font-size:.8125rem">Matches will be highlighted here...</span>';
+        groupsOutput.innerHTML = '<p class="text-muted" style="font-size:.8125rem">Capture group details will appear here...</p>';
+        updateReplace();
+        return;
+      }
+
+      // Try to create regex
+      var regex;
+      var flags = getFlagsString();
+      try {
+        regex = new RegExp(pattern, flags);
+      } catch (e) {
+        errorBar.textContent = 'Invalid regex: ' + (e.message || 'Unknown error');
+        errorBar.classList.add('visible');
+        matchCountEl.textContent = '0';
+        groupCountEl.textContent = '0';
+        execTimeEl.textContent = '-';
+        matchOutput.innerHTML = text ? escapeHtml(text) : '<span class="text-muted" style="font-size:.8125rem">Matches will be highlighted here...</span>';
+        groupsOutput.innerHTML = '<p class="text-muted" style="font-size:.8125rem">Fix the regex error to see groups...</p>';
+        replaceOutput.innerHTML = '<span class="text-muted" style="font-size:.8125rem">Fix the regex error to see result...</span>';
+        return;
+      }
+
+      if (!text) {
+        matchCountEl.textContent = '0';
+        groupCountEl.textContent = '0';
+        execTimeEl.textContent = '<1ms';
+        matchOutput.innerHTML = '<span class="text-muted" style="font-size:.8125rem">Enter a test string to see matches...</span>';
+        groupsOutput.innerHTML = '<p class="text-muted" style="font-size:.8125rem">Enter a test string to see groups...</p>';
+        updateReplace();
+        return;
+      }
+
+      // Run matching
+      var t0 = performance.now();
+      var matches = [];
+      var maxMatches = 10000; // Safety limit
+
+      if (activeFlags.g) {
+        var m;
+        var lastIndex = -1;
+        while ((m = regex.exec(text)) !== null && matches.length < maxMatches) {
+          // Prevent infinite loop on zero-length matches
+          if (regex.lastIndex === lastIndex) {
+            regex.lastIndex++;
+            continue;
+          }
+          lastIndex = regex.lastIndex;
+          matches.push({
+            match: m[0],
+            index: m.index,
+            end: m.index + m[0].length,
+            groups: Array.prototype.slice.call(m, 1),
+            namedGroups: m.groups || null
+          });
+        }
+      } else {
+        var m = regex.exec(text);
+        if (m) {
+          matches.push({
+            match: m[0],
+            index: m.index,
+            end: m.index + m[0].length,
+            groups: Array.prototype.slice.call(m, 1),
+            namedGroups: m.groups || null
+          });
+        }
+      }
+      var t1 = performance.now();
+      var elapsed = t1 - t0;
+
+      // Update stats
+      matchCountEl.textContent = matches.length;
+      var totalGroups = 0;
+      for (var i = 0; i < matches.length; i++) {
+        totalGroups += matches[i].groups.length;
+      }
+      groupCountEl.textContent = totalGroups;
+      execTimeEl.textContent = elapsed < 1 ? '<1ms' : Math.round(elapsed) + 'ms';
+
+      // Build highlighted output
+      buildHighlightedOutput(text, matches);
+
+      // Build groups table
+      buildGroupsTable(matches);
+
+      // Update replace
+      updateReplace(regex);
+    }
+
+    /* ========== Highlighted Output ========== */
+    function buildHighlightedOutput(text, matches) {
+      if (matches.length === 0) {
+        matchOutput.innerHTML = escapeHtml(text);
+        return;
+      }
+
+      var html = '';
+      var lastEnd = 0;
+
+      for (var i = 0; i < matches.length; i++) {
+        var m = matches[i];
+        // Text before match
+        if (m.index > lastEnd) {
+          html += escapeHtml(text.substring(lastEnd, m.index));
+        }
+        // The match itself (alternate colors)
+        var cls = (i % 2 === 0) ? 'match-hl' : 'match-hl-alt';
+        html += '<span class="' + cls + '">' + escapeHtml(m.match) + '</span>';
+        lastEnd = m.end;
+      }
+      // Text after last match
+      if (lastEnd < text.length) {
+        html += escapeHtml(text.substring(lastEnd));
+      }
+
+      matchOutput.innerHTML = html;
+    }
+
+    /* ========== Groups Table ========== */
+    function buildGroupsTable(matches) {
+      if (matches.length === 0 || (matches.length > 0 && matches[0].groups.length === 0)) {
+        var msg = matches.length === 0
+          ? 'No matches found.'
+          : 'No capture groups in this pattern. Use parentheses () to create groups.';
+        groupsOutput.innerHTML = '<p class="text-muted" style="font-size:.8125rem">' + msg + '</p>';
+        return;
+      }
+
+      var html = '<table class="groups-table"><thead><tr><th>Match #</th><th>Full Match</th>';
+
+      // Determine max groups
+      var maxGroups = 0;
+      for (var i = 0; i < matches.length; i++) {
+        if (matches[i].groups.length > maxGroups) maxGroups = matches[i].groups.length;
+      }
+
+      // Check for named groups
+      var namedKeys = [];
+      if (matches[0].namedGroups) {
+        namedKeys = Object.keys(matches[0].namedGroups);
+      }
+
+      for (var g = 0; g < maxGroups; g++) {
+        var label = namedKeys.length > g && namedKeys[g] ? namedKeys[g] : 'Group ' + (g + 1);
+        html += '<th>' + escapeHtml(label) + '</th>';
+      }
+      html += '</tr></thead><tbody>';
+
+      // Limit display to first 100 matches for performance
+      var displayCount = Math.min(matches.length, 100);
+      for (var i = 0; i < displayCount; i++) {
+        html += '<tr><td>' + (i + 1) + '</td>';
+        html += '<td>' + escapeHtml(matches[i].match) + '</td>';
+        for (var g = 0; g < maxGroups; g++) {
+          var val = matches[i].groups[g];
+          html += '<td>' + (val !== undefined ? escapeHtml(val) : '<span style="color:var(--text-muted);opacity:.5">undefined</span>') + '</td>';
+        }
+        html += '</tr>';
+      }
+
+      if (matches.length > 100) {
+        html += '<tr><td colspan="' + (maxGroups + 2) + '" style="text-align:center;color:var(--text-muted)">... and ' + (matches.length - 100) + ' more matches</td></tr>';
+      }
+
+      html += '</tbody></table>';
+      groupsOutput.innerHTML = html;
+    }
+
+    /* ========== Replace ========== */
+    function updateReplace(regex) {
+      var text = testString.value;
+      var replacePattern = replaceInput.value;
+
+      if (!regex) {
+        // Try to build regex from current input
+        var pattern = regexInput.value;
+        if (!pattern || !text) {
+          replaceOutput.innerHTML = '<span class="text-muted" style="font-size:.8125rem">Replacement result will appear here...</span>';
+          return;
+        }
+        try {
+          regex = new RegExp(pattern, getFlagsString());
+        } catch (e) {
+          replaceOutput.innerHTML = '<span class="text-muted" style="font-size:.8125rem">Fix the regex error to see result...</span>';
+          return;
+        }
+      }
+
+      if (!text) {
+        replaceOutput.innerHTML = '<span class="text-muted" style="font-size:.8125rem">Enter a test string to see result...</span>';
+        return;
+      }
+
+      try {
+        var result = text.replace(regex, replacePattern);
+        replaceOutput.textContent = result;
+      } catch (e) {
+        replaceOutput.innerHTML = '<span class="text-muted" style="font-size:.8125rem">Error: ' + escapeHtml(e.message) + '</span>';
+      }
+    }
+
+    /* ========== Copy Replace Result ========== */
+    window.copyReplaceResult = function() {
+      var text = replaceOutput.textContent;
+      if (!text) {
+        showToast('Nothing to copy', 'error');
+        return;
+      }
+      copyToClipboard(text);
+      showToast('Copied to clipboard!', 'success');
+    };
+
+    /* ========== Event Listeners ========== */
+    var debounceTimer = null;
+    function debouncedRun() {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(runMatch, 80);
+    }
+
+    regexInput.addEventListener('input', debouncedRun);
+    testString.addEventListener('input', debouncedRun);
+    replaceInput.addEventListener('input', function() {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(function() { updateReplace(); }, 80);
+    });
+
+    /* ========== Keyboard Shortcut ========== */
+    regexInput.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        runMatch();
+      }
+    });
+
+    /* ========== Init ========== */
+    buildRefTable();
+
+  })();
+  </script>
+</body>
+</html>

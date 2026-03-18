@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Box Shadow Generator Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Generate CSS box-shadow code visually with a live preview. Add multiple shadow layers, adjust offset, blur, spread, color, and opacity. Copy production-ready CSS instantly. Free, no signup.">
+  <link rel="canonical" href="https://toolrip.com/box-shadow">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="CSS Box Shadow Generator — Toolrip">
+  <meta property="og:description" content="Generate CSS box-shadow code visually with a live preview. Add multiple shadow layers, adjust offset, blur, spread, color, and opacity. Copy production-ready CSS instantly.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/box-shadow">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="CSS Box Shadow Generator — Toolrip">
+  <meta name="twitter:description" content="Generate CSS box-shadow code visually with a live preview. Add multiple shadow layers, adjust offset, blur, spread, color, and opacity. Copy production-ready CSS instantly.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root{--accent:var(--design)}
+
+    .preview-area{display:flex;align-items:center;justify-content:center;min-height:280px;
+      background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg);
+      margin-bottom:var(--sp-3);padding:var(--sp-5)}
+    .preview-box{width:200px;height:200px;border-radius:var(--radius-lg);background:var(--bg-elevated);
+      transition:box-shadow .15s ease}
+
+    .shadow-layers{margin-bottom:var(--sp-3)}
+    .shadow-layer{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+      padding:var(--sp-3);margin-bottom:var(--sp-2);position:relative}
+    .shadow-layer.active{border-color:var(--accent)}
+    .layer-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--sp-2);
+      cursor:pointer;user-select:none}
+    .layer-title{font-size:.875rem;font-weight:600;color:var(--text)}
+    .layer-actions{display:flex;gap:var(--sp-2);align-items:center}
+    .layer-btn{background:none;border:1px solid var(--border);border-radius:var(--radius-sm);
+      color:var(--text-muted);font-size:.75rem;padding:2px 8px;cursor:pointer}
+    .layer-btn:hover{color:var(--text);border-color:var(--accent)}
+    .layer-btn.remove{color:#ef4444;border-color:#ef4444}
+    .layer-btn.remove:hover{background:#ef4444;color:#fff}
+
+    .controls-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-2) var(--sp-3)}
+    @media(max-width:500px){.controls-grid{grid-template-columns:1fr}}
+
+    .control-group{display:flex;flex-direction:column;gap:2px}
+    .control-label{display:flex;justify-content:space-between;font-size:.8125rem;color:var(--text-muted)}
+    .control-label strong{color:var(--text);font-variant-numeric:tabular-nums}
+    .control-group input[type="range"]{width:100%;height:6px;-webkit-appearance:none;appearance:none;
+      background:var(--border);border-radius:3px;outline:none;cursor:pointer}
+    .control-group input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;
+      border-radius:50%;background:var(--accent);border:2px solid var(--bg-surface);cursor:pointer}
+    .control-group input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;
+      background:var(--accent);border:2px solid var(--bg-surface);cursor:pointer}
+
+    .color-row{display:flex;align-items:center;gap:var(--sp-2)}
+    .color-row input[type="color"]{width:40px;height:32px;border:1px solid var(--border);
+      border-radius:var(--radius-sm);background:var(--bg);cursor:pointer;padding:2px}
+    .color-hex{font-family:'Consolas','Monaco','Courier New',monospace;font-size:.8125rem;color:var(--text-muted)}
+
+    .inset-toggle{display:flex;align-items:center;gap:var(--sp-2);margin-top:var(--sp-2)}
+    .inset-toggle label{font-size:.8125rem;color:var(--text-muted);cursor:pointer}
+
+    .btn-row{display:flex;gap:var(--sp-2);flex-wrap:wrap;margin-bottom:var(--sp-3)}
+
+    .presets-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:var(--sp-2);margin:var(--sp-3) 0}
+    .preset-card{display:flex;flex-direction:column;align-items:center;gap:var(--sp-1);padding:var(--sp-2);
+      background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:border-color .15s}
+    .preset-card:hover{border-color:var(--accent)}
+    .preset-thumb{width:60px;height:60px;border-radius:var(--radius);background:var(--bg-elevated)}
+    .preset-name{font-size:.75rem;color:var(--text-muted);text-align:center}
+
+    .css-output{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+      padding:var(--sp-3);font-family:'Consolas','Monaco','Courier New',monospace;font-size:.8125rem;
+      line-height:1.8;position:relative;white-space:pre-wrap;word-break:break-all}
+
+    .section-label{font-size:.9375rem;font-weight:600;margin:var(--sp-3) 0 var(--sp-2);padding-bottom:var(--sp-1);
+      border-bottom:1px solid var(--border)}
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "CSS Box Shadow Generator",
+    "url": "https://toolrip.com/box-shadow",
+    "description": "Generate CSS box-shadow code visually with a live preview. Add multiple shadow layers, adjust offset, blur, spread, color, and opacity. Copy production-ready CSS instantly.",
+    "applicationCategory": "DesignApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com"},
+      {"@type": "ListItem", "position": 2, "name": "Design Tools", "item": "https://toolrip.com/#design"},
+      {"@type": "ListItem", "position": 3, "name": "Box Shadow Generator", "item": "https://toolrip.com/box-shadow"}
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the CSS box-shadow syntax?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The CSS box-shadow property accepts values in the order: horizontal offset, vertical offset, blur radius, spread radius, color, and an optional inset keyword. For example, box-shadow: 10px 10px 20px 0px rgba(0,0,0,0.25) creates a shadow offset 10 pixels right and down with a 20-pixel blur. The inset keyword placed at the beginning creates an inner shadow instead of an outer one."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I add multiple box shadows in CSS?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can apply multiple shadows to a single element by separating each shadow value with a comma in the box-shadow property. For example, box-shadow: 2px 2px 5px rgba(0,0,0,0.2), -2px -2px 5px rgba(255,255,255,0.1) applies two shadows at once. Browsers render the first shadow on top and subsequent shadows behind it, so ordering matters when shadows overlap."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does box-shadow affect page performance?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Box shadows are rendered by the browser's compositor and generally have minimal performance impact for static elements. However, animating box-shadow directly forces the browser to repaint on every frame, which can cause jank on lower-powered devices. For smooth shadow animations, consider transitioning opacity on a pseudo-element that already has the target shadow applied, or use filter: drop-shadow() which can be GPU-accelerated in some browsers."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is an inset box shadow and when should I use it?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "An inset shadow is drawn inside the element's border box rather than outside it. Add the inset keyword at the start of your shadow value to create this effect. Inset shadows are commonly used to create pressed button states, recessed input fields, and neumorphic design patterns. They give the visual impression that an element is carved into or sunken below the surrounding surface."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between box-shadow and text-shadow?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The box-shadow property applies a shadow to the rectangular bounding box of an element, while text-shadow applies a shadow to the individual glyphs of text content. Box-shadow supports spread radius and the inset keyword, neither of which is available in text-shadow. Text-shadow only accepts horizontal offset, vertical offset, blur radius, and color. Use box-shadow for cards, buttons, and containers. Use text-shadow for decorative or legibility effects on headings and labels."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I create a neumorphism effect with box-shadow?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Neumorphism uses two opposing shadows on the same element: a light shadow offset toward the upper-left and a dark shadow offset toward the lower-right, both applied to a background color that closely matches the page background. A typical neumorphic shadow looks like box-shadow: 8px 8px 16px rgba(0,0,0,0.2), -8px -8px 16px rgba(255,255,255,0.05). The key is keeping the element background similar to its surroundings so the dual shadows create a soft, extruded appearance."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I use CSS variables with box-shadow?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. CSS custom properties work inside box-shadow declarations, making it easy to create themeable and reusable shadow systems. You can define variables like --shadow-color, --shadow-offset, and --shadow-blur on the root or on individual components, then reference them in your box-shadow value. This approach is widely used in design systems to maintain consistent shadow tokens across light and dark themes."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#design">Design Tools</a>
+        <span>/</span>
+        <span>Box Shadow Generator</span>
+      </nav>
+
+      <h1>CSS Box Shadow Generator</h1>
+      <p class="text-muted mt-1 mb-3">Design beautiful CSS box shadows visually with real-time preview. Add multiple shadow layers, fine-tune every parameter with intuitive range sliders, choose from ready-made presets, and copy production-ready CSS code with one click. Everything runs in your browser with zero dependencies.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <!-- Live Preview -->
+        <div class="section-label">Live Preview</div>
+        <div class="preview-area" id="preview-area">
+          <div class="preview-box" id="preview-box"></div>
+        </div>
+
+        <!-- Presets -->
+        <div class="section-label">Presets</div>
+        <div class="presets-grid" id="presets-grid"></div>
+
+        <!-- Shadow Layers -->
+        <div class="section-label">Shadow Layers</div>
+        <div class="btn-row">
+          <button class="btn-primary" id="btn-add-layer">+ Add Shadow Layer</button>
+          <button class="btn-secondary" id="btn-reset">Reset All</button>
+        </div>
+        <div class="shadow-layers" id="shadow-layers"></div>
+
+        <!-- CSS Output -->
+        <div class="section-label">CSS Output</div>
+        <div class="css-output" id="css-output"></div>
+        <button class="btn-primary" style="margin-top:var(--sp-2)" id="btn-copy-css">Copy CSS</button>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Multi-Layer Shadow Editor</h3>
+            <p>Build sophisticated shadow effects by stacking multiple shadow layers on a single element. Each layer has independent controls for horizontal and vertical offset, blur radius, spread radius, color, opacity, and inset mode. Add as many layers as you need and reorder or remove them freely. The live preview updates instantly as you adjust any parameter, giving you immediate visual feedback without switching between a code editor and a browser. This layered approach lets you create complex effects like neumorphic buttons, floating cards, and glowing highlights that would be tedious to code by hand.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Real-Time Visual Preview</h3>
+            <p>Every slider adjustment is reflected immediately on the preview element. The generator renders the combined box-shadow declaration in real time so you can see exactly how your shadow will look before copying the code. The preview area uses a neutral background that mimics typical card and container contexts, ensuring the shadow appearance translates accurately to your production designs. Range inputs provide precise control over each value, while the color picker and opacity slider let you dial in the exact tone and transparency for each layer. No more guessing pixel values in a text editor.</p>
+          </div>
+          <div class="feature-card">
+            <h3>One-Click Presets and CSS Export</h3>
+            <p>Start from one of the built-in presets for common shadow styles including subtle elevation, medium depth, heavy drop shadow, soft glow, neumorphism, sharp outline, and layered float effects. Each preset loads a complete set of shadow layers that you can further customize to match your design system. When you are satisfied, copy the full CSS declaration to your clipboard with a single click. The output includes properly formatted box-shadow syntax ready to paste directly into your stylesheet, inline style attribute, or design token file. No manual formatting or syntax lookup required.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Box Shadow Generator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Start with a preset or blank layer.</strong> Click any preset card to load a pre-configured shadow, or click the Add Shadow Layer button to start from scratch. Each layer appears as an expandable panel with its own controls for offset, blur, spread, color, opacity, and inset mode.</li>
+          <li><strong>Adjust the shadow parameters.</strong> Drag the horizontal and vertical offset sliders to position the shadow relative to the element. Increase the blur radius for a softer edge, or increase the spread to make the shadow larger than the element. Pick a shadow color and adjust the opacity slider for transparency. Toggle the inset switch to create an inner shadow effect.</li>
+          <li><strong>Stack multiple layers.</strong> Click Add Shadow Layer to create additional shadows on the same element. Each layer is rendered in order, with the first layer on top. Combine outer and inset shadows, or blend different colors and offsets to achieve depth, glow, or neumorphic effects.</li>
+          <li><strong>Copy the CSS.</strong> The CSS output panel at the bottom shows the complete box-shadow declaration in real time. Click the Copy CSS button to send it to your clipboard, ready to paste into your stylesheet or component code.</li>
+        </ol>
+      </section>
+
+      <!-- Understanding Box Shadow -->
+      <section class="mt-4">
+        <h2>Understanding CSS Box Shadow</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">The CSS box-shadow property is one of the most versatile visual tools available to front-end developers. It adds one or more shadow effects to the bounding box of an element, creating depth and dimension that transform flat interfaces into layered, tactile experiences. The property accepts a comma-separated list of shadow values, each defined by up to six components: an optional inset keyword, horizontal offset, vertical offset, blur radius, spread radius, and color. When no inset keyword is present the shadow falls outside the element, which is the default behavior most developers encounter first. Positive horizontal offset values push the shadow to the right, while negative values move it left. Similarly, positive vertical offset pushes the shadow downward and negative values raise it upward. The blur radius determines how gradually the shadow fades from its solid center to transparent edges, and the spread radius expands or contracts the shadow relative to the size of the element itself.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">Layered shadows are where the property truly shines. By combining multiple shadow definitions separated by commas, you can simulate realistic lighting scenarios, create glowing outlines, or build the increasingly popular neumorphism aesthetic. Neumorphic designs rely on pairing a light shadow directed toward the light source with a dark shadow on the opposite side, both applied to an element whose background color closely matches its parent. The result is a soft, extruded appearance that suggests physical depth without hard edges. Performance considerations are minimal for static shadows because modern browsers handle them efficiently at the compositor level. However, animating box-shadow values directly triggers repaints, which can cause frame drops on complex pages. A common optimization technique is to place the desired end-state shadow on a pseudo-element, then transition only the opacity of that pseudo-element, avoiding the costly per-frame shadow recalculation.</p>
+        <p style="color:var(--text-muted);line-height:1.8">Design systems benefit from defining shadow tokens as CSS custom properties. Variables such as --shadow-sm, --shadow-md, and --shadow-lg establish a consistent elevation scale that all components can reference. This approach simplifies dark mode adaptation because you only need to adjust the shadow color variables rather than rewriting every box-shadow declaration. When choosing shadow colors, avoid pure black shadows in light themes. Instead, use a slightly tinted, semi-transparent color that complements your palette. A blue-tinted shadow on a cool-toned interface or a warm brownish shadow on a cream background produces a more natural and polished result than rgba(0,0,0,0.3) ever will. The tool on this page lets you experiment with all of these techniques visually, generating copy-ready CSS so you can spend less time on syntax and more time on design.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is the CSS box-shadow syntax?</summary>
+          <p>The CSS box-shadow property accepts values in the following order: an optional inset keyword, horizontal offset, vertical offset, blur radius, spread radius, and color. All length values are specified in pixels or other CSS units. The horizontal and vertical offsets are required; blur, spread, and color are optional but nearly always included. For example, box-shadow: 10px 10px 20px 0px rgba(0,0,0,0.25) creates a shadow displaced 10 pixels right and 10 pixels down with a 20-pixel Gaussian blur and no spread. Adding the inset keyword at the beginning switches the shadow from outside to inside the element. You can also omit the spread value entirely, in which case it defaults to zero, meaning the shadow is the same size as the element before blur is applied.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do I create multiple box shadows on one element?</summary>
+          <p>Separate each shadow definition with a comma inside a single box-shadow declaration. The browser draws them in order, with the first shadow on top and subsequent shadows layered behind it. This layering behavior lets you combine different offsets, colors, and blur values to simulate complex lighting. A common pattern is pairing a tight, dark shadow for grounding with a larger, lighter shadow for ambient depth. There is no hard limit on the number of shadows you can stack, though readability and rendering performance suggest keeping the count practical. Design systems typically define two to four shadow layers for their elevation scale.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does box-shadow affect rendering performance?</summary>
+          <p>For static elements, box-shadow has a negligible performance cost because the browser caches the rendered shadow at the compositor level. Problems arise when you animate the box-shadow property directly, which forces the browser to recalculate and repaint the shadow every frame. On lower-powered devices or pages with many animated shadows, this can cause noticeable jank. The recommended optimization is to apply the target shadow to a pseudo-element and animate its opacity instead. This way the shadow itself never changes, only its visibility, which the browser can accelerate via the GPU compositor without repainting. Another approach is using the filter: drop-shadow() function, which is GPU-composited in most modern browsers and supports transitions more efficiently than box-shadow.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is an inset shadow and when should I use it?</summary>
+          <p>An inset shadow is rendered inside the element rather than outside it. You activate it by placing the inset keyword at the start of your shadow value. Visually, inset shadows create the appearance of a pressed or recessed surface, making them ideal for toggle buttons in their active state, text input fields that appear carved into the page, and neumorphic design patterns where concave and convex surfaces coexist. You can combine inset and outset shadows on the same element by listing them together in a comma-separated box-shadow declaration. For example, applying an outer shadow for elevation and an inner shadow for surface texture produces a rich, layered appearance.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between box-shadow and text-shadow?</summary>
+          <p>Box-shadow applies to the rectangular bounding box of an HTML element, while text-shadow applies directly to the rendered glyphs of text content. The syntax differs in two important ways: text-shadow does not support the spread radius parameter and does not accept the inset keyword. Text-shadow takes only a horizontal offset, vertical offset, optional blur radius, and color. Use box-shadow for structural elements like cards, buttons, modals, and navigation bars. Reserve text-shadow for decorative effects on headings, hover states on labels, or improving text legibility over complex backgrounds by adding a subtle halo.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do I create a neumorphism effect with box-shadow?</summary>
+          <p>Neumorphism relies on two opposing shadows applied to an element whose background closely matches its parent. Set a lighter shadow offset toward the upper-left and a darker shadow offset toward the lower-right. Both should use moderate blur values and the element background should be nearly identical to the page background. A typical implementation looks like box-shadow: 8px 8px 16px rgba(0,0,0,0.2), -8px -8px 16px rgba(255,255,255,0.05). The contrast between the two shadows creates a soft extrusion effect. To create a pressed or concave neumorphic element, use the same two shadows but add the inset keyword to both. Keep in mind that neumorphic designs can reduce visual contrast and may present accessibility challenges, so always verify your interface meets WCAG contrast guidelines.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can I use CSS variables with the box-shadow property?</summary>
+          <p>Yes, CSS custom properties work inside box-shadow declarations and are widely used in modern design systems to create consistent elevation scales. Define variables like --shadow-color: rgba(0,0,0,0.15) and --shadow-blur: 20px at the root level, then reference them in your box-shadow values throughout the stylesheet. When switching between light and dark themes, you only need to update the shadow color variable rather than rewriting every individual declaration. This approach also makes it straightforward to adjust shadow intensity across breakpoints or component variants. All modern browsers support custom properties in box-shadow without any fallback requirements.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/hex-rgb">Hex to RGB Converter</a>
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+  (function(){
+    'use strict';
+
+    /* ========== Presets ========== */
+    var PRESETS = [
+      {
+        name: 'Subtle',
+        layers: [
+          { x: 0, y: 1, blur: 3, spread: 0, color: '#000000', opacity: 15, inset: false }
+        ]
+      },
+      {
+        name: 'Medium',
+        layers: [
+          { x: 0, y: 4, blur: 6, spread: -1, color: '#000000', opacity: 20, inset: false },
+          { x: 0, y: 2, blur: 4, spread: -2, color: '#000000', opacity: 10, inset: false }
+        ]
+      },
+      {
+        name: 'Heavy',
+        layers: [
+          { x: 0, y: 10, blur: 25, spread: -3, color: '#000000', opacity: 30, inset: false },
+          { x: 0, y: 4, blur: 10, spread: 0, color: '#000000', opacity: 10, inset: false }
+        ]
+      },
+      {
+        name: 'Glow',
+        layers: [
+          { x: 0, y: 0, blur: 20, spread: 4, color: '#a855f7', opacity: 40, inset: false }
+        ]
+      },
+      {
+        name: 'Neumorphism',
+        layers: [
+          { x: 8, y: 8, blur: 16, spread: 0, color: '#000000', opacity: 25, inset: false },
+          { x: -8, y: -8, blur: 16, spread: 0, color: '#ffffff', opacity: 5, inset: false }
+        ]
+      },
+      {
+        name: 'Sharp',
+        layers: [
+          { x: 4, y: 4, blur: 0, spread: 0, color: '#000000', opacity: 50, inset: false }
+        ]
+      },
+      {
+        name: 'Float',
+        layers: [
+          { x: 0, y: 20, blur: 40, spread: -8, color: '#000000', opacity: 25, inset: false }
+        ]
+      },
+      {
+        name: 'Inset',
+        layers: [
+          { x: 0, y: 2, blur: 8, spread: 0, color: '#000000', opacity: 35, inset: true }
+        ]
+      }
+    ];
+
+    /* ========== State ========== */
+    var shadows = [];
+    var activeIndex = 0;
+    var layerIdCounter = 0;
+
+    function createLayer(opts) {
+      opts = opts || {};
+      return {
+        id: layerIdCounter++,
+        x: opts.x !== undefined ? opts.x : 5,
+        y: opts.y !== undefined ? opts.y : 5,
+        blur: opts.blur !== undefined ? opts.blur : 10,
+        spread: opts.spread !== undefined ? opts.spread : 0,
+        color: opts.color || '#000000',
+        opacity: opts.opacity !== undefined ? opts.opacity : 25,
+        inset: !!opts.inset
+      };
+    }
+
+    /* ========== Helpers ========== */
+    function hexToRgb(hex) {
+      hex = hex.replace(/^#/, '');
+      if (hex.length === 3) hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+      var n = parseInt(hex, 16);
+      return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
+    }
+
+    function shadowToCSS(s) {
+      var rgb = hexToRgb(s.color);
+      var alpha = (s.opacity / 100).toFixed(2);
+      var parts = [];
+      if (s.inset) parts.push('inset');
+      parts.push(s.x + 'px');
+      parts.push(s.y + 'px');
+      parts.push(s.blur + 'px');
+      parts.push(s.spread + 'px');
+      parts.push('rgba(' + rgb.r + ', ' + rgb.g + ', ' + rgb.b + ', ' + alpha + ')');
+      return parts.join(' ');
+    }
+
+    function allShadowsCSS() {
+      if (shadows.length === 0) return 'none';
+      return shadows.map(shadowToCSS).join(',\n    ');
+    }
+
+    /* ========== Render Preview ========== */
+    function updatePreview() {
+      var box = document.getElementById('preview-box');
+      var output = document.getElementById('css-output');
+      var cssVal = allShadowsCSS();
+      box.style.boxShadow = shadows.length === 0 ? 'none' : shadows.map(shadowToCSS).join(', ');
+      output.textContent = 'box-shadow: ' + cssVal + ';';
+    }
+
+    /* ========== Render Layers ========== */
+    function renderLayers() {
+      var container = document.getElementById('shadow-layers');
+      container.innerHTML = '';
+
+      shadows.forEach(function(s, i) {
+        var div = document.createElement('div');
+        div.className = 'shadow-layer' + (i === activeIndex ? ' active' : '');
+
+        var header = document.createElement('div');
+        header.className = 'layer-header';
+        header.innerHTML = '<span class="layer-title">Shadow ' + (i + 1) + (s.inset ? ' (inset)' : '') + '</span>';
+
+        var actions = document.createElement('div');
+        actions.className = 'layer-actions';
+
+        if (shadows.length > 1) {
+          var removeBtn = document.createElement('button');
+          removeBtn.className = 'layer-btn remove';
+          removeBtn.textContent = 'Remove';
+          removeBtn.setAttribute('data-idx', i);
+          removeBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            var idx = parseInt(this.getAttribute('data-idx'));
+            shadows.splice(idx, 1);
+            if (activeIndex >= shadows.length) activeIndex = shadows.length - 1;
+            renderLayers();
+            updatePreview();
+          });
+          actions.appendChild(removeBtn);
+        }
+
+        header.appendChild(actions);
+        header.setAttribute('data-idx', i);
+        header.addEventListener('click', function() {
+          activeIndex = parseInt(this.getAttribute('data-idx'));
+          renderLayers();
+        });
+
+        div.appendChild(header);
+
+        // Controls (only for active layer)
+        if (i === activeIndex) {
+          var controls = document.createElement('div');
+          controls.className = 'controls-grid';
+
+          controls.appendChild(makeRangeControl('H-Offset', 'x', s.x, -50, 50, 'px'));
+          controls.appendChild(makeRangeControl('V-Offset', 'y', s.y, -50, 50, 'px'));
+          controls.appendChild(makeRangeControl('Blur', 'blur', s.blur, 0, 100, 'px'));
+          controls.appendChild(makeRangeControl('Spread', 'spread', s.spread, -50, 100, 'px'));
+
+          div.appendChild(controls);
+
+          // Color row
+          var colorRow = document.createElement('div');
+          colorRow.className = 'color-row';
+          colorRow.style.marginTop = 'var(--sp-2)';
+
+          var colorLabel = document.createElement('span');
+          colorLabel.className = 'control-label';
+          colorLabel.style.marginRight = 'var(--sp-2)';
+          colorLabel.textContent = 'Color';
+
+          var colorInput = document.createElement('input');
+          colorInput.type = 'color';
+          colorInput.value = s.color;
+          colorInput.setAttribute('aria-label', 'Shadow color');
+          colorInput.addEventListener('input', function() {
+            shadows[activeIndex].color = this.value;
+            this.nextElementSibling.textContent = this.value.toUpperCase();
+            updatePreview();
+          });
+
+          var colorHex = document.createElement('span');
+          colorHex.className = 'color-hex';
+          colorHex.textContent = s.color.toUpperCase();
+
+          colorRow.appendChild(colorLabel);
+          colorRow.appendChild(colorInput);
+          colorRow.appendChild(colorHex);
+          div.appendChild(colorRow);
+
+          // Opacity slider
+          var opacityGroup = document.createElement('div');
+          opacityGroup.style.marginTop = 'var(--sp-2)';
+          opacityGroup.appendChild(makeRangeControl('Opacity', 'opacity', s.opacity, 0, 100, '%'));
+          div.appendChild(opacityGroup);
+
+          // Inset toggle
+          var insetWrap = document.createElement('div');
+          insetWrap.className = 'inset-toggle';
+
+          var toggleLabel = document.createElement('label');
+          toggleLabel.className = 'toggle';
+          var toggleInput = document.createElement('input');
+          toggleInput.type = 'checkbox';
+          toggleInput.checked = s.inset;
+          toggleInput.addEventListener('change', function() {
+            shadows[activeIndex].inset = this.checked;
+            renderLayers();
+            updatePreview();
+          });
+          var toggleSpan = document.createElement('span');
+          toggleLabel.appendChild(toggleInput);
+          toggleLabel.appendChild(toggleSpan);
+
+          var insetText = document.createElement('label');
+          insetText.textContent = 'Inset Shadow';
+          insetText.style.fontSize = '.8125rem';
+          insetText.style.color = 'var(--text-muted)';
+          insetText.style.cursor = 'pointer';
+          insetText.addEventListener('click', function() { toggleInput.click(); });
+
+          insetWrap.appendChild(toggleLabel);
+          insetWrap.appendChild(insetText);
+          div.appendChild(insetWrap);
+        }
+
+        container.appendChild(div);
+      });
+
+      updatePreview();
+    }
+
+    function makeRangeControl(label, prop, value, min, max, unit) {
+      var group = document.createElement('div');
+      group.className = 'control-group';
+
+      var labelRow = document.createElement('div');
+      labelRow.className = 'control-label';
+      labelRow.innerHTML = '<span>' + label + '</span><strong>' + value + unit + '</strong>';
+
+      var input = document.createElement('input');
+      input.type = 'range';
+      input.min = min;
+      input.max = max;
+      input.value = value;
+      input.setAttribute('aria-label', label);
+      input.addEventListener('input', function() {
+        var val = parseInt(this.value);
+        shadows[activeIndex][prop] = val;
+        this.previousElementSibling.querySelector('strong').textContent = val + unit;
+        updatePreview();
+      });
+
+      group.appendChild(labelRow);
+      group.appendChild(input);
+      return group;
+    }
+
+    /* ========== Render Presets ========== */
+    function renderPresets() {
+      var grid = document.getElementById('presets-grid');
+      grid.innerHTML = '';
+
+      PRESETS.forEach(function(preset, i) {
+        var card = document.createElement('div');
+        card.className = 'preset-card';
+        card.setAttribute('data-idx', i);
+        card.setAttribute('title', 'Apply ' + preset.name + ' preset');
+
+        var thumb = document.createElement('div');
+        thumb.className = 'preset-thumb';
+        var shadowStr = preset.layers.map(function(l) {
+          return shadowToCSS(createLayer(l));
+        }).join(', ');
+        thumb.style.boxShadow = shadowStr;
+
+        var name = document.createElement('div');
+        name.className = 'preset-name';
+        name.textContent = preset.name;
+
+        card.appendChild(thumb);
+        card.appendChild(name);
+
+        card.addEventListener('click', function() {
+          var idx = parseInt(this.getAttribute('data-idx'));
+          loadPreset(idx);
+        });
+
+        grid.appendChild(card);
+      });
+    }
+
+    function loadPreset(idx) {
+      var preset = PRESETS[idx];
+      shadows = preset.layers.map(function(l) { return createLayer(l); });
+      activeIndex = 0;
+      renderLayers();
+      showToast(preset.name + ' preset applied', 'success');
+    }
+
+    /* ========== Event Listeners ========== */
+    document.getElementById('btn-add-layer').addEventListener('click', function() {
+      shadows.push(createLayer());
+      activeIndex = shadows.length - 1;
+      renderLayers();
+      showToast('Shadow layer added', 'success');
+    });
+
+    document.getElementById('btn-reset').addEventListener('click', function() {
+      shadows = [createLayer({ x: 5, y: 5, blur: 10, spread: 0, color: '#000000', opacity: 25, inset: false })];
+      activeIndex = 0;
+      renderLayers();
+      showToast('Reset to default', 'success');
+    });
+
+    document.getElementById('btn-copy-css').addEventListener('click', function() {
+      var text = document.getElementById('css-output').textContent;
+      copyToClipboard(text, this);
+    });
+
+    /* ========== Init ========== */
+    shadows.push(createLayer({ x: 0, y: 4, blur: 6, spread: -1, color: '#000000', opacity: 20, inset: false }));
+    shadows.push(createLayer({ x: 0, y: 2, blur: 4, spread: -2, color: '#000000', opacity: 10, inset: false }));
+    renderPresets();
+    renderLayers();
+  })();
+  </script>
+</body>
+</html>

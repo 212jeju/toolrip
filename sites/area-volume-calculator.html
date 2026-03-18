@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Area &amp; Volume Calculator Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Calculate area, volume, and surface area for 2D and 3D shapes online. Circle, rectangle, triangle, sphere, cylinder, cone, and more. Free geometry calculator with formulas and SVG illustrations.">
+  <link rel="canonical" href="https://toolrip.com/area-volume">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Area & Volume Calculator — Toolrip">
+  <meta property="og:description" content="Calculate area, volume, and surface area for 2D and 3D shapes online. Circle, rectangle, triangle, sphere, cylinder, cone, and more. Free geometry calculator with formulas.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/area-volume">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Area & Volume Calculator — Toolrip">
+  <meta name="twitter:description" content="Calculate area, volume, and surface area for 2D and 3D shapes online. Circle, rectangle, triangle, sphere, cylinder, cone, and more. Free geometry calculator with formulas.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--math)}</style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Area & Volume Calculator",
+    "url": "https://toolrip.com/area-volume",
+    "description": "Calculate area, volume, and surface area for 2D and 3D shapes online. Supports circle, rectangle, triangle, trapezoid, ellipse, parallelogram, sphere, cube, cylinder, cone, and pyramid with formulas and SVG illustrations.",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Math & Science", "item": "https://toolrip.com/#math" },
+      { "@type": "ListItem", "position": 3, "name": "Area & Volume Calculator", "item": "https://toolrip.com/area-volume" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the difference between area and perimeter?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Area measures the two-dimensional space enclosed within a shape, expressed in square units such as square meters or square feet. Perimeter measures the total length of the boundary around a shape, expressed in linear units such as meters or feet. For example, a rectangle with sides 5 m and 3 m has an area of 15 square meters and a perimeter of 16 meters."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are the most common area formulas?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The most common area formulas are: Circle = pi times radius squared, Rectangle = length times width, Triangle = one half times base times height, Trapezoid = one half times the sum of the two parallel sides times the height, Ellipse = pi times semi-major axis times semi-minor axis, and Parallelogram = base times height."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the history of pi and why is it important in geometry?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Pi is the ratio of a circle's circumference to its diameter, approximately 3.14159. Ancient civilizations including the Babylonians and Egyptians approximated pi over 4,000 years ago. Archimedes was among the first to rigorously estimate pi using polygons. Pi is irrational, meaning its decimal representation never terminates or repeats. It appears in virtually every formula involving circles, spheres, cylinders, and cones, making it one of the most fundamental constants in mathematics and physics."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you calculate the area of an irregular shape?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Irregular shapes can be measured by breaking them into simpler shapes like rectangles, triangles, and circles, then summing the individual areas. Another common method is the grid method, where you overlay a grid of known square size onto the shape and count the full and partial squares. For highly irregular boundaries, calculus-based integration or coordinate geometry methods such as the Shoelace formula can provide exact results when you have vertex coordinates."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you convert between area units or volume units?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "For area conversions, square the linear conversion factor. Since 1 meter equals 100 centimeters, 1 square meter equals 10,000 square centimeters. For volume, cube the linear factor, so 1 cubic meter equals 1,000,000 cubic centimeters. Common conversions include 1 square foot equals 144 square inches, 1 acre equals 43,560 square feet, 1 cubic foot equals 1,728 cubic inches, and 1 liter equals 1,000 cubic centimeters."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between volume and surface area?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Volume measures the three-dimensional space enclosed inside a solid object, expressed in cubic units such as cubic meters or liters. Surface area measures the total area of all exterior faces of the object, expressed in square units. For practical purposes, volume tells you how much a container can hold (capacity), while surface area tells you how much material is needed to cover or wrap the object."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is this area and volume calculator free to use?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, this calculator is completely free with no signup, no account, and no usage limits. All calculations run entirely in your browser using JavaScript, so your data stays private on your device. The tool works on desktops, laptops, tablets, and smartphones and can even be used offline after the initial page load."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    /* Shape category tabs */
+    .shape-category-tabs {
+      display: flex;
+      gap: 2px;
+      margin-bottom: var(--sp-2);
+    }
+    .shape-cat-tab {
+      padding: var(--sp-2) var(--sp-3);
+      font-size: .9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      border: 1px solid var(--border);
+      border-bottom: none;
+      border-radius: var(--radius) var(--radius) 0 0;
+      background: var(--bg);
+      font-family: inherit;
+      transition: all .15s;
+    }
+    .shape-cat-tab:hover { color: var(--text); }
+    .shape-cat-tab.active {
+      background: var(--bg-surface);
+      color: var(--accent);
+      border-color: var(--border);
+      border-bottom: 1px solid var(--bg-surface);
+      margin-bottom: -1px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Shape selector */
+    .shape-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: var(--sp-3);
+    }
+    .shape-btn {
+      padding: var(--sp-1) var(--sp-3);
+      font-size: .8rem;
+      color: var(--text-muted);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all .15s;
+    }
+    .shape-btn:hover { border-color: var(--accent); color: var(--text); }
+    .shape-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    /* Shape workspace */
+    .shape-workspace {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--sp-4);
+    }
+    @media (min-width: 640px) {
+      .shape-workspace { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* SVG illustration */
+    .shape-svg-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-3);
+      min-height: 180px;
+    }
+    .shape-svg-box svg {
+      max-width: 200px;
+      max-height: 160px;
+    }
+
+    /* Input panel */
+    .shape-inputs {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-2);
+    }
+    .dim-row {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+    }
+    .dim-row label {
+      min-width: 80px;
+      font-size: .85rem;
+      color: var(--text-muted);
+    }
+    .dim-row input {
+      flex: 1;
+      max-width: 160px;
+      padding: var(--sp-2);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font: inherit;
+      font-size: 1rem;
+      transition: border-color .15s;
+    }
+    .dim-row input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 25%, transparent);
+    }
+
+    /* Result display */
+    .shape-results {
+      margin-top: var(--sp-3);
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-2);
+    }
+    .result-item {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-2) var(--sp-3);
+      text-align: center;
+      flex: 1;
+      min-width: 140px;
+    }
+    .result-item.has-value {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 4%, var(--bg));
+    }
+    .result-item .r-label {
+      font-size: .7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-bottom: 4px;
+    }
+    .result-item .r-value {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--accent);
+      word-break: break-word;
+    }
+    .result-item .r-value.empty {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    /* Formula display */
+    .formula-box {
+      margin-top: var(--sp-2);
+      padding: var(--sp-2) var(--sp-3);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: .85rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .formula-box strong {
+      color: var(--text);
+    }
+
+    @media (max-width: 480px) {
+      .shape-cat-tab { padding: var(--sp-1) var(--sp-2); font-size: .8rem; }
+      .dim-row label { min-width: 70px; font-size: .8rem; }
+      .dim-row input { max-width: 120px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="top">Ad</div>
+
+    <!-- Breadcrumb -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#math">Math &amp; Science</a>
+        <span>/</span>
+        <span>Area &amp; Volume Calculator</span>
+      </nav>
+
+      <h1>Area &amp; Volume Calculator</h1>
+      <p class="text-muted mt-1 mb-3">Calculate area, perimeter, volume, and surface area for common 2D and 3D geometric shapes. Select a shape, enter dimensions, and get instant results with the formula used. All calculations run in your browser with no data sent to any server.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+
+        <!-- 2D / 3D category tabs -->
+        <div class="shape-category-tabs">
+          <button type="button" class="shape-cat-tab active" data-cat="2d">2D Shapes (Area)</button>
+          <button type="button" class="shape-cat-tab" data-cat="3d">3D Shapes (Volume)</button>
+        </div>
+
+        <!-- 2D shape selector -->
+        <div class="shape-selector" id="sel-2d">
+          <button type="button" class="shape-btn active" data-shape="circle">Circle</button>
+          <button type="button" class="shape-btn" data-shape="rectangle">Rectangle</button>
+          <button type="button" class="shape-btn" data-shape="triangle">Triangle</button>
+          <button type="button" class="shape-btn" data-shape="trapezoid">Trapezoid</button>
+          <button type="button" class="shape-btn" data-shape="ellipse">Ellipse</button>
+          <button type="button" class="shape-btn" data-shape="parallelogram">Parallelogram</button>
+        </div>
+
+        <!-- 3D shape selector -->
+        <div class="shape-selector hidden" id="sel-3d">
+          <button type="button" class="shape-btn active" data-shape="sphere">Sphere</button>
+          <button type="button" class="shape-btn" data-shape="cube">Cube</button>
+          <button type="button" class="shape-btn" data-shape="cylinder">Cylinder</button>
+          <button type="button" class="shape-btn" data-shape="cone">Cone</button>
+          <button type="button" class="shape-btn" data-shape="pyramid">Pyramid</button>
+        </div>
+
+        <!-- Workspace: SVG + inputs -->
+        <div class="shape-workspace">
+          <div class="shape-svg-box" id="shapeSvg"></div>
+          <div>
+            <div class="shape-inputs" id="shapeInputs"></div>
+            <div class="flex gap-2 mt-2" style="flex-wrap:wrap">
+              <button class="btn-primary" id="calcShapeBtn" type="button">Calculate</button>
+              <button class="btn-secondary" id="clearShapeBtn" type="button">Clear</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div class="shape-results" id="shapeResults"></div>
+
+        <!-- Formula -->
+        <div class="formula-box" id="formulaBox"></div>
+      </div>
+
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="in-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Comprehensive 2D Shape Coverage</h3>
+            <p>This calculator supports six of the most common two-dimensional shapes used in everyday geometry: circles, rectangles, triangles, trapezoids, ellipses, and parallelograms. For each shape you enter the required dimensions and the calculator instantly returns the area along with the exact formula used. Whether you are figuring out how much paint is needed for a wall, calculating the square footage of a room, estimating the fabric required for a pattern, or solving geometry homework, the 2D calculator provides quick and accurate answers. Every result is displayed to high precision so you can round to whichever unit your project demands.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Full 3D Volume and Surface Area</h3>
+            <p>The 3D section covers spheres, cubes, cylinders, cones, and pyramids. Each shape returns both volume and surface area, two measurements that serve different practical purposes. Volume tells you the internal capacity of an object, critical for tasks like sizing a storage container, determining how much water a tank holds, or calculating concrete for a foundation pour. Surface area tells you the total exterior covering, essential for estimating packaging material, coating area for paint or adhesive, or heat transfer calculations in engineering. The formulas are displayed alongside results so you can verify the math or use them in your own work.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Visual SVG Illustrations and Formulas</h3>
+            <p>Every shape is accompanied by a clean inline SVG illustration that labels the key dimensions, making it easy to identify which measurement goes where. Below the results, the formula panel shows the exact mathematical expression used in the calculation with your values substituted in, so you can follow the computation step by step. This combination of visual diagram and transparent formula makes the tool equally useful as a quick answer engine and as a study aid for students learning geometry concepts for the first time. No external images are loaded, keeping the page fast and fully functional offline after initial load.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Area &amp; Volume Calculator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li>Choose between the 2D Shapes tab (for area calculations) or the 3D Shapes tab (for volume and surface area calculations) at the top of the tool.</li>
+          <li>Select the specific shape you want to calculate by clicking its name in the shape selector row. The SVG illustration and input fields will update automatically.</li>
+          <li>Enter the required dimensions into the input fields. Use any consistent unit of measurement; the result will be in the corresponding square or cubic units.</li>
+          <li>Click the Calculate button to see the results. For 2D shapes, the area is displayed. For 3D shapes, both volume and surface area are shown.</li>
+          <li>Review the formula panel below the results to see the exact mathematical expression and your substituted values for verification or learning purposes.</li>
+        </ol>
+      </section>
+
+      <!-- Understanding Geometry -->
+      <section class="mt-4">
+        <h2>Understanding Area, Perimeter, Volume, and Surface Area</h2>
+        <p style="color:var(--text-muted);line-height:1.7">Geometry is one of the oldest branches of mathematics, with roots stretching back to ancient Egypt where land surveyors needed to recalculate field boundaries after the annual Nile floods. Today, geometric calculations are woven into nearly every aspect of modern life, from architecture and engineering to manufacturing, interior design, and even cooking.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-top:var(--sp-2)"><strong style="color:var(--text)">Area</strong> quantifies the two-dimensional space inside a closed boundary. It is measured in square units: square meters, square feet, square centimeters, and so on. Knowing the area of a surface is essential when you need to buy the right amount of flooring, sod for a lawn, tiles for a bathroom, or fabric for upholstery. In construction, accurate area calculations directly affect material costs and project timelines.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-top:var(--sp-2)"><strong style="color:var(--text)">Perimeter</strong> is the total distance around the outside edge of a shape. While this calculator focuses on area and volume, understanding perimeter is important when you need to fence a yard, frame a picture, add trim to a room, or run wiring along a wall. The perimeter of a rectangle is twice the sum of its length and width, while the perimeter (circumference) of a circle is two times pi times the radius.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-top:var(--sp-2)"><strong style="color:var(--text)">Volume</strong> measures the three-dimensional space enclosed within a solid object. It is expressed in cubic units or, for liquids, in liters and gallons. Volume calculations are indispensable in packaging design, shipping logistics, civil engineering (concrete pours, earthwork), and food production (mixing tanks, storage silos).</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-top:var(--sp-2)"><strong style="color:var(--text)">Surface area</strong> is the total area of all outer surfaces of a three-dimensional object. It matters when you need to paint a water tank, wrap a gift box, insulate a pipe, or calculate heat dissipation from a machine part. For shapes like cylinders and cones, surface area is the sum of the curved lateral surface and the flat base surfaces.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is the difference between area and perimeter?</summary>
+          <p>Area measures the amount of two-dimensional space enclosed within a boundary and is expressed in square units such as square meters, square feet, or square centimeters. Perimeter measures the total length of the boundary itself and is expressed in linear units like meters or feet. For a practical example, consider a rectangular garden that is 10 meters long and 4 meters wide. Its area is 40 square meters, which tells you how much soil or sod you need to cover the ground. Its perimeter is 28 meters, which tells you how much fencing you need to enclose the garden. The two measurements serve fundamentally different purposes: area is about coverage, while perimeter is about edging.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What are the most common area and volume formulas?</summary>
+          <p>For two-dimensional shapes, the most frequently used formulas are: Circle area equals pi times the radius squared. Rectangle area equals length times width. Triangle area equals one half times the base times the height. Trapezoid area equals one half times the sum of the two parallel sides times the height. For three-dimensional shapes: Sphere volume equals four-thirds times pi times the radius cubed. Cube volume equals the side length cubed. Cylinder volume equals pi times the radius squared times the height. Cone volume equals one-third times pi times the radius squared times the height. Rectangular pyramid volume equals one-third times base area times the height. Each formula can be derived from fundamental geometric principles and is widely used in education, engineering, architecture, and everyday problem solving.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the history of pi and why is it important in geometry?</summary>
+          <p>Pi is the ratio of any circle's circumference to its diameter, approximately 3.14159265. The earliest known approximations date back over 4,000 years to the Babylonians, who used 3.125, and the Egyptians, who used roughly 3.16. The Greek mathematician Archimedes developed a rigorous method using inscribed and circumscribed polygons to bound pi between 3.1408 and 3.1429. In the modern era, computers have calculated pi to trillions of digits, though for practical engineering and construction work, a handful of decimal places provides more than enough precision. Pi is central to any formula involving circles, spheres, cylinders, cones, and ellipses, making it arguably the most important constant in geometry and one of the most recognized numbers in all of mathematics.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do you calculate the area of an irregular shape?</summary>
+          <p>Irregular shapes do not have a single standard formula, but several practical methods exist. The decomposition method involves breaking the shape into simpler figures such as rectangles, triangles, and semicircles, calculating each area individually, and summing them. The grid or counting-squares method overlays a grid of known square size on the shape and counts the fully enclosed squares plus estimates for partial squares. For shapes defined by coordinate vertices, the Shoelace formula (also called the surveyor's formula) provides an exact area by summing cross-products of consecutive vertex coordinates. In calculus, integration is used to find the area under a curve or between curves. For real-world irregular surfaces like land plots, digital mapping tools use GPS coordinates combined with the Shoelace formula to compute accurate areas.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do you convert between area units or volume units?</summary>
+          <p>Area and volume unit conversions require squaring or cubing the linear conversion factor. For area: since 1 foot equals 12 inches, 1 square foot equals 144 square inches. Since 1 meter equals 100 centimeters, 1 square meter equals 10,000 square centimeters. One acre equals 43,560 square feet, and one hectare equals 10,000 square meters. For volume: since 1 foot equals 12 inches, 1 cubic foot equals 1,728 cubic inches. One cubic meter equals 1,000 liters, and 1 liter equals 1,000 cubic centimeters. One US gallon is approximately 3.785 liters, and one cubic foot holds about 7.48 US gallons. Always ensure you square or cube the conversion factor rather than simply multiplying by it, which is a common mistake when converting between measurement systems.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between volume and surface area?</summary>
+          <p>Volume measures the interior capacity of a three-dimensional object, expressed in cubic units such as cubic meters, cubic centimeters, or liters. It tells you how much space is inside or how much a container can hold. Surface area measures the total area of all exterior faces, expressed in square units. It tells you how much material is needed to cover or enclose the object. For example, a cylindrical water tank with a radius of 1 meter and a height of 2 meters has a volume of about 6.28 cubic meters (approximately 6,280 liters of water capacity) and a surface area of about 18.85 square meters (the amount of sheet metal or paint needed for the exterior). In engineering, volume drives capacity and weight calculations while surface area drives material, coating, and heat-transfer calculations.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is this area and volume calculator free to use?</summary>
+          <p>Yes, this calculator is completely free. There is no signup, no account creation, and no usage limits. All calculations are performed entirely in your browser using JavaScript, which means no data is transmitted to any server and your inputs remain private on your device. The tool works on any modern browser across desktops, laptops, tablets, and smartphones. After the initial page load, the calculator functions fully offline since all computation is local. You can bookmark this page for instant access whenever you need to solve geometry problems for school, work, construction planning, DIY projects, or any other purpose.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/fraction">Fraction Calculator</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+          <a href="https://toolrip.com/length">Length Converter</a>
+          <a href="https://toolrip.com/temperature">Temperature Converter</a>
+          <a href="https://toolrip.com/bmi">BMI Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Area & Volume Calculator JS -->
+  <script>
+  (function() {
+    'use strict';
+
+    var PI = Math.PI;
+
+    /* ========== Shape Definitions ========== */
+    var shapes2d = {
+      circle: {
+        name: 'Circle',
+        dims: [{ id: 'radius', label: 'Radius', ph: '5' }],
+        calc: function(v) {
+          var r = v.radius;
+          var area = PI * r * r;
+          return {
+            results: [{ label: 'Area', value: area, unit: 'sq units' }],
+            formula: 'A = \u03c0 \u00d7 r\u00b2 = \u03c0 \u00d7 ' + r + '\u00b2 = ' + fmt(area)
+          };
+        },
+        svg: function() {
+          return '<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">'
+            + '<circle cx="100" cy="100" r="75" fill="none" stroke="' + getAccent() + '" stroke-width="2.5"/>'
+            + '<line x1="100" y1="100" x2="175" y2="100" stroke="' + getAccent() + '" stroke-width="1.5" stroke-dasharray="5,3"/>'
+            + '<circle cx="100" cy="100" r="3" fill="' + getAccent() + '"/>'
+            + '<text x="138" y="95" fill="#9ca3af" font-size="13" text-anchor="middle">r</text>'
+            + '</svg>';
+        }
+      },
+      rectangle: {
+        name: 'Rectangle',
+        dims: [{ id: 'length', label: 'Length', ph: '8' }, { id: 'width', label: 'Width', ph: '5' }],
+        calc: function(v) {
+          var area = v.length * v.width;
+          return {
+            results: [{ label: 'Area', value: area, unit: 'sq units' }],
+            formula: 'A = l \u00d7 w = ' + v.length + ' \u00d7 ' + v.width + ' = ' + fmt(area)
+          };
+        },
+        svg: function() {
+          return '<svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">'
+            + '<rect x="25" y="25" width="150" height="110" fill="none" stroke="' + getAccent() + '" stroke-width="2.5" rx="2"/>'
+            + '<text x="100" y="150" fill="#9ca3af" font-size="13" text-anchor="middle">l</text>'
+            + '<text x="12" y="82" fill="#9ca3af" font-size="13" text-anchor="middle">w</text>'
+            + '</svg>';
+        }
+      },
+      triangle: {
+        name: 'Triangle',
+        dims: [{ id: 'base', label: 'Base', ph: '10' }, { id: 'height', label: 'Height', ph: '6' }],
+        calc: function(v) {
+          var area = 0.5 * v.base * v.height;
+          return {
+            results: [{ label: 'Area', value: area, unit: 'sq units' }],
+            formula: 'A = \u00bd \u00d7 b \u00d7 h = \u00bd \u00d7 ' + v.base + ' \u00d7 ' + v.height + ' = ' + fmt(area)
+          };
+        },
+        svg: function() {
+          return '<svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">'
+            + '<polygon points="100,20 25,160 175,160" fill="none" stroke="' + getAccent() + '" stroke-width="2.5"/>'
+            + '<line x1="100" y1="20" x2="100" y2="160" stroke="' + getAccent() + '" stroke-width="1.5" stroke-dasharray="5,3"/>'
+            + '<text x="100" y="175" fill="#9ca3af" font-size="13" text-anchor="middle">b</text>'
+            + '<text x="108" y="95" fill="#9ca3af" font-size="13">h</text>'
+            + '</svg>';
+        }
+      },
+      trapezoid: {
+        name: 'Trapezoid',
+        dims: [{ id: 'a', label: 'Side a (top)', ph: '6' }, { id: 'b', label: 'Side b (bottom)', ph: '10' }, { id: 'height', label: 'Height', ph: '5' }],
+        calc: function(v) {
+          var area = 0.5 * (v.a + v.b) * v.height;
+          return {
+            results: [{ label: 'Area', value: area, unit: 'sq units' }],
+            formula: 'A = \u00bd \u00d7 (a + b) \u00d7 h = \u00bd \u00d7 (' + v.a + ' + ' + v.b + ') \u00d7 ' + v.height + ' = ' + fmt(area)
+          };
+        },
+        svg: function() {
+          return '<svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">'
+            + '<polygon points="55,30 145,30 175,130 25,130" fill="none" stroke="' + getAccent() + '" stroke-width="2.5"/>'
+            + '<line x1="55" y1="30" x2="55" y2="130" stroke="' + getAccent() + '" stroke-width="1.5" stroke-dasharray="5,3"/>'
+            + '<text x="100" y="25" fill="#9ca3af" font-size="13" text-anchor="middle">a</text>'
+            + '<text x="100" y="148" fill="#9ca3af" font-size="13" text-anchor="middle">b</text>'
+            + '<text x="46" y="85" fill="#9ca3af" font-size="13" text-anchor="end">h</text>'
+            + '</svg>';
+        }
+      },
+      ellipse: {
+        name: 'Ellipse',
+        dims: [{ id: 'a', label: 'Semi-axis a', ph: '7' }, { id: 'b', label: 'Semi-axis b', ph: '4' }],
+        calc: function(v) {
+          var area = PI * v.a * v.b;
+          return {
+            results: [{ label: 'Area', value: area, unit: 'sq units' }],
+            formula: 'A = \u03c0 \u00d7 a \u00d7 b = \u03c0 \u00d7 ' + v.a + ' \u00d7 ' + v.b + ' = ' + fmt(area)
+          };
+        },
+        svg: function() {
+          return '<svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">'
+            + '<ellipse cx="100" cy="80" rx="80" ry="50" fill="none" stroke="' + getAccent() + '" stroke-width="2.5"/>'
+            + '<line x1="100" y1="80" x2="180" y2="80" stroke="' + getAccent() + '" stroke-width="1.5" stroke-dasharray="5,3"/>'
+            + '<line x1="100" y1="80" x2="100" y2="30" stroke="' + getAccent() + '" stroke-width="1.5" stroke-dasharray="5,3"/>'
+            + '<circle cx="100" cy="80" r="3" fill="' + getAccent() + '"/>'
+            + '<text x="142" y="75" fill="#9ca3af" font-size="13" text-anchor="middle">a</text>'
+            + '<text x="108" y="58" fill="#9ca3af" font-size="13">b</text>'
+            + '</svg>';
+        }
+      },
+      parallelogram: {
+        name: 'Parallelogram',
+        dims: [{ id: 'base', label: 'Base', ph: '10' }, { id: 'height', label: 'Height', ph: '6' }],
+        calc: function(v) {
+          var area = v.base * v.height;
+          return {
+            results: [{ label: 'Area', value: area, unit: 'sq units' }],
+            formula: 'A = b \u00d7 h = ' + v.base + ' \u00d7 ' + v.height + ' = ' + fmt(area)
+          };
+        },
+        svg: function() {
+          return '<svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">'
+            + '<polygon points="50,30 175,30 150,130 25,130" fill="none" stroke="' + getAccent() + '" stroke-width="2.5"/>'
+            + '<line x1="50" y1="30" x2="50" y2="130" stroke="' + getAccent() + '" stroke-width="1.5" stroke-dasharray="5,3"/>'
+            + '<text x="88" y="148" fill="#9ca3af" font-size="13" text-anchor="middle">b</text>'
+            + '<text x="42" y="85" fill="#9ca3af" font-size="13" text-anchor="end">h</text>'
+            + '</svg>';
+        }
+      }
+    };
+
+    var shapes3d = {
+      sphere: {
+        name: 'Sphere',
+        dims: [{ id: 'radius', label: 'Radius', ph: '5' }],
+        calc: function(v) {
+          var r = v.radius;
+          var vol = (4 / 3) * PI * r * r * r;
+          var sa = 4 * PI * r * r;
+          return {
+            results: [
+              { label: 'Volume', value: vol, unit: 'cu units' },
+              { label: 'Surface Area', value: sa, unit: 'sq units' }
+            ],
+            formula: 'V = \u2074\u2044\u2083 \u00d7 \u03c0 \u00d7 r\u00b3 = \u2074\u2044\u2083 \u00d7 \u03c0 \u00d7 ' + r + '\u00b3 = ' + fmt(vol)
+              + '\nSA = 4 \u00d7 \u03c0 \u00d7 r\u00b2 = 4 \u00d7 \u03c0 \u00d7 ' + r + '\u00b2 = ' + fmt(sa)
+          };
+        },
+        svg: function() {
+          return '<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">'
+            + '<circle cx="100" cy="100" r="80" fill="none" stroke="' + getAccent() + '" stroke-width="2.5"/>'
+            + '<ellipse cx="100" cy="100" rx="80" ry="25" fill="none" stroke="' + getAccent() + '" stroke-width="1" stroke-dasharray="5,3"/>'
+            + '<line x1="100" y1="100" x2="180" y2="100" stroke="' + getAccent() + '" stroke-width="1.5" stroke-dasharray="5,3"/>'
+            + '<circle cx="100" cy="100" r="3" fill="' + getAccent() + '"/>'
+            + '<text x="142" y="95" fill="#9ca3af" font-size="13" text-anchor="middle">r</text>'
+            + '</svg>';
+        }
+      },
+      cube: {
+        name: 'Cube',
+        dims: [{ id: 'side', label: 'Side', ph: '5' }],
+        calc: function(v) {
+          var s = v.side;
+          var vol = s * s * s;
+          var sa = 6 * s * s;
+          return {
+            results: [
+              { label: 'Volume', value: vol, unit: 'cu units' },
+              { label: 'Surface Area', value: sa, unit: 'sq units' }
+            ],
+            formula: 'V = s\u00b3 = ' + s + '\u00b3 = ' + fmt(vol)
+              + '\nSA = 6 \u00d7 s\u00b2 = 6 \u00d7 ' + s + '\u00b2 = ' + fmt(sa)
+          };
+        },
+        svg: function() {
+          return '<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">'
+            + '<polygon points="40,60 120,60 120,160 40,160" fill="none" stroke="' + getAccent() + '" stroke-width="2.5"/>'
+            + '<polygon points="40,60 80,30 160,30 120,60" fill="none" stroke="' + getAccent() + '" stroke-width="2.5"/>'
+            + '<polygon points="120,60 160,30 160,130 120,160" fill="none" stroke="' + getAccent() + '" stroke-width="2.5"/>'
+            + '<text x="80" y="175" fill="#9ca3af" font-size="13" text-anchor="middle">s</text>'
+            + '</svg>';
+        }
+      },
+      cylinder: {
+        name: 'Cylinder',
+        dims: [{ id: 'radius', label: 'Radius', ph: '4' }, { id: 'height', label: 'Height', ph: '10' }],
+        calc: function(v) {
+          var r = v.radius, h = v.height;
+          var vol = PI * r * r * h;
+          var sa = 2 * PI * r * (r + h);
+          return {
+            results: [
+              { label: 'Volume', value: vol, unit: 'cu units' },
+              { label: 'Surface Area', value: sa, unit: 'sq units' }
+            ],
+            formula: 'V = \u03c0 \u00d7 r\u00b2 \u00d7 h = \u03c0 \u00d7 ' + r + '\u00b2 \u00d7 ' + h + ' = ' + fmt(vol)
+              + '\nSA = 2\u03c0r(r + h) = 2\u03c0 \u00d7 ' + r + ' \u00d7 (' + r + ' + ' + h + ') = ' + fmt(sa)
+          };
+        },
+        svg: function() {
+          return '<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">'
+            + '<ellipse cx="100" cy="40" rx="60" ry="18" fill="none" stroke="' + getAccent() + '" stroke-width="2.5"/>'
+            + '<line x1="40" y1="40" x2="40" y2="160" stroke="' + getAccent() + '" stroke-width="2.5"/>'
+            + '<line x1="160" y1="40" x2="160" y2="160" stroke="' + getAccent() + '" stroke-width="2.5"/>'
+            + '<ellipse cx="100" cy="160" rx="60" ry="18" fill="none" stroke="' + getAccent() + '" stroke-width="2.5"/>'
+            + '<line x1="100" y1="40" x2="160" y2="40" stroke="' + getAccent() + '" stroke-width="1.5" stroke-dasharray="5,3"/>'
+            + '<text x="132" y="35" fill="#9ca3af" font-size="13" text-anchor="middle">r</text>'
+            + '<text x="170" y="105" fill="#9ca3af" font-size="13">h</text>'
+            + '</svg>';
+        }
+      },
+      cone: {
+        name: 'Cone',
+        dims: [{ id: 'radius', label: 'Radius', ph: '4' }, { id: 'height', label: 'Height', ph: '9' }],
+        calc: function(v) {
+          var r = v.radius, h = v.height;
+          var vol = (1 / 3) * PI * r * r * h;
+          var slant = Math.sqrt(r * r + h * h);
+          var sa = PI * r * (r + slant);
+          return {
+            results: [
+              { label: 'Volume', value: vol, unit: 'cu units' },
+              { label: 'Surface Area', value: sa, unit: 'sq units' }
+            ],
+            formula: 'V = \u2153 \u00d7 \u03c0 \u00d7 r\u00b2 \u00d7 h = \u2153 \u00d7 \u03c0 \u00d7 ' + r + '\u00b2 \u00d7 ' + h + ' = ' + fmt(vol)
+              + '\nSA = \u03c0r(r + l), l = \u221a(r\u00b2 + h\u00b2) = ' + fmt(slant) + ', SA = ' + fmt(sa)
+          };
+        },
+        svg: function() {
+          return '<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">'
+            + '<line x1="100" y1="20" x2="40" y2="165" stroke="' + getAccent() + '" stroke-width="2.5"/>'
+            + '<line x1="100" y1="20" x2="160" y2="165" stroke="' + getAccent() + '" stroke-width="2.5"/>'
+            + '<ellipse cx="100" cy="165" rx="60" ry="18" fill="none" stroke="' + getAccent() + '" stroke-width="2.5"/>'
+            + '<line x1="100" y1="20" x2="100" y2="165" stroke="' + getAccent() + '" stroke-width="1.5" stroke-dasharray="5,3"/>'
+            + '<line x1="100" y1="165" x2="160" y2="165" stroke="' + getAccent() + '" stroke-width="1.5" stroke-dasharray="5,3"/>'
+            + '<text x="132" y="180" fill="#9ca3af" font-size="13" text-anchor="middle">r</text>'
+            + '<text x="108" y="100" fill="#9ca3af" font-size="13">h</text>'
+            + '</svg>';
+        }
+      },
+      pyramid: {
+        name: 'Pyramid',
+        dims: [{ id: 'base', label: 'Base side', ph: '6' }, { id: 'height', label: 'Height', ph: '8' }],
+        calc: function(v) {
+          var b = v.base, h = v.height;
+          var baseArea = b * b;
+          var vol = (1 / 3) * baseArea * h;
+          var slantH = Math.sqrt(h * h + (b / 2) * (b / 2));
+          var sa = baseArea + 2 * b * slantH;
+          return {
+            results: [
+              { label: 'Volume', value: vol, unit: 'cu units' },
+              { label: 'Surface Area', value: sa, unit: 'sq units' }
+            ],
+            formula: 'V = \u2153 \u00d7 b\u00b2 \u00d7 h = \u2153 \u00d7 ' + b + '\u00b2 \u00d7 ' + h + ' = ' + fmt(vol)
+              + '\nSA = b\u00b2 + 2bl, l = \u221a(h\u00b2 + (b/2)\u00b2) = ' + fmt(slantH) + ', SA = ' + fmt(sa)
+          };
+        },
+        svg: function() {
+          return '<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">'
+            + '<line x1="100" y1="20" x2="35" y2="145" stroke="' + getAccent() + '" stroke-width="2.5"/>'
+            + '<line x1="100" y1="20" x2="165" y2="145" stroke="' + getAccent() + '" stroke-width="2.5"/>'
+            + '<line x1="100" y1="20" x2="60" y2="175" stroke="' + getAccent() + '" stroke-width="2.5"/>'
+            + '<line x1="100" y1="20" x2="140" y2="175" stroke="' + getAccent() + '" stroke-width="2" stroke-dasharray="5,3"/>'
+            + '<polygon points="35,145 165,145 140,175 60,175" fill="none" stroke="' + getAccent() + '" stroke-width="2.5"/>'
+            + '<line x1="100" y1="20" x2="100" y2="160" stroke="' + getAccent() + '" stroke-width="1.5" stroke-dasharray="5,3"/>'
+            + '<text x="108" y="100" fill="#9ca3af" font-size="13">h</text>'
+            + '<text x="100" y="192" fill="#9ca3af" font-size="13" text-anchor="middle">b</text>'
+            + '</svg>';
+        }
+      }
+    };
+
+    /* ========== Helpers ========== */
+
+    function fmt(n) {
+      if (isNaN(n) || !isFinite(n)) return '\u2014';
+      return Number(n).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 6 });
+    }
+
+    function getAccent() {
+      return '#ec4899';
+    }
+
+    /* ========== DOM References ========== */
+
+    var shapeSvg = document.getElementById('shapeSvg');
+    var shapeInputs = document.getElementById('shapeInputs');
+    var shapeResults = document.getElementById('shapeResults');
+    var formulaBox = document.getElementById('formulaBox');
+    var calcBtn = document.getElementById('calcShapeBtn');
+    var clearBtn = document.getElementById('clearShapeBtn');
+
+    var currentCat = '2d';
+    var currentShape = 'circle';
+
+    /* ========== Category Tab Switching ========== */
+
+    var catTabs = document.querySelectorAll('.shape-cat-tab');
+    catTabs.forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        catTabs.forEach(function(t) { t.classList.remove('active'); });
+        tab.classList.add('active');
+        currentCat = tab.dataset.cat;
+
+        var sel2d = document.getElementById('sel-2d');
+        var sel3d = document.getElementById('sel-3d');
+        if (currentCat === '2d') {
+          sel2d.classList.remove('hidden');
+          sel3d.classList.add('hidden');
+          currentShape = sel2d.querySelector('.shape-btn.active').dataset.shape;
+        } else {
+          sel2d.classList.add('hidden');
+          sel3d.classList.remove('hidden');
+          currentShape = sel3d.querySelector('.shape-btn.active').dataset.shape;
+        }
+        renderShape();
+      });
+    });
+
+    /* ========== Shape Button Switching ========== */
+
+    document.querySelectorAll('.shape-selector').forEach(function(sel) {
+      sel.querySelectorAll('.shape-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          sel.querySelectorAll('.shape-btn').forEach(function(b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          currentShape = btn.dataset.shape;
+          renderShape();
+        });
+      });
+    });
+
+    /* ========== Render Shape UI ========== */
+
+    function getShapeDef() {
+      return currentCat === '2d' ? shapes2d[currentShape] : shapes3d[currentShape];
+    }
+
+    function renderShape() {
+      var def = getShapeDef();
+      if (!def) return;
+
+      // SVG
+      shapeSvg.innerHTML = def.svg();
+
+      // Inputs
+      var html = '';
+      def.dims.forEach(function(d) {
+        html += '<div class="dim-row">'
+          + '<label for="dim-' + d.id + '">' + d.label + '</label>'
+          + '<input type="number" id="dim-' + d.id + '" placeholder="' + d.ph + '" min="0" step="any" autocomplete="off">'
+          + '</div>';
+      });
+      shapeInputs.innerHTML = html;
+
+      // Clear results
+      shapeResults.innerHTML = '';
+      formulaBox.textContent = 'Enter dimensions and click Calculate to see the formula and result.';
+    }
+
+    /* ========== Calculate ========== */
+
+    calcBtn.addEventListener('click', function() {
+      var def = getShapeDef();
+      if (!def) return;
+
+      var vals = {};
+      var valid = true;
+      def.dims.forEach(function(d) {
+        var el = document.getElementById('dim-' + d.id);
+        var v = parseFloat(el.value);
+        if (isNaN(v) || v <= 0) {
+          valid = false;
+        }
+        vals[d.id] = v;
+      });
+
+      if (!valid) {
+        showToast('Please enter positive numbers for all dimensions.', 'error');
+        return;
+      }
+
+      var result = def.calc(vals);
+
+      // Render results
+      var rhtml = '';
+      result.results.forEach(function(r) {
+        rhtml += '<div class="result-item has-value">'
+          + '<div class="r-label">' + r.label + '</div>'
+          + '<div class="r-value">' + fmt(r.value) + ' <span style="font-size:.7rem;font-weight:400;color:var(--text-muted)">' + r.unit + '</span></div>'
+          + '</div>';
+      });
+      shapeResults.innerHTML = rhtml;
+
+      // Render formula
+      formulaBox.innerHTML = '<strong>Formula:</strong><br>' + result.formula.replace(/\n/g, '<br>');
+    });
+
+    /* ========== Clear ========== */
+
+    clearBtn.addEventListener('click', function() {
+      var def = getShapeDef();
+      if (!def) return;
+      def.dims.forEach(function(d) {
+        var el = document.getElementById('dim-' + d.id);
+        if (el) el.value = '';
+      });
+      shapeResults.innerHTML = '';
+      formulaBox.textContent = 'Enter dimensions and click Calculate to see the formula and result.';
+    });
+
+    /* ========== Init ========== */
+    renderShape();
+
+  })();
+  </script>
+</body>
+</html>

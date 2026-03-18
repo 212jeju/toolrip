@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heart Rate Zone Calculator Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Calculate your heart rate training zones instantly. Uses both standard (220-age) and Karvonen formulas. Find your max HR, fat burn, aerobic, and anaerobic zones for free.">
+  <meta name="keywords" content="heart rate zone calculator, max heart rate, training zones, karvonen formula, fat burning zone, aerobic zone, target heart rate">
+  <link rel="canonical" href="https://toolrip.com/heart-rate">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Heart Rate Zone Calculator Online — Free, Fast, No Signup | Toolrip">
+  <meta property="og:description" content="Calculate your heart rate training zones instantly. Uses both standard and Karvonen formulas. Find your max HR, fat burn, aerobic, and anaerobic zones.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/heart-rate">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Heart Rate Zone Calculator Online — Free, Fast, No Signup | Toolrip">
+  <meta name="twitter:description" content="Calculate your heart rate training zones instantly. Uses both standard and Karvonen formulas. Find your max HR, fat burn, aerobic, and anaerobic zones.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root { --accent: var(--health); }
+
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-3);
+    }
+    @media (max-width: 639px) {
+      .input-row { grid-template-columns: 1fr; }
+    }
+
+    /* Method toggle */
+    .method-toggle {
+      display: flex;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .method-toggle button {
+      flex: 1;
+      padding: var(--sp-2) var(--sp-3);
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font: inherit;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .method-toggle button.active {
+      background: var(--accent);
+      color: #fff;
+    }
+    .method-toggle button:hover:not(.active) {
+      background: var(--bg-elevated);
+      color: var(--text);
+    }
+
+    /* Result card */
+    .result-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-5);
+      margin-top: var(--sp-4);
+    }
+    .result-card.hidden { display: none; }
+
+    .max-hr-display {
+      text-align: center;
+      margin-bottom: var(--sp-4);
+    }
+    .max-hr-value {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1.1;
+    }
+    .max-hr-label {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: var(--sp-1);
+    }
+
+    /* Zone rows */
+    .zone-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-3);
+    }
+    .zone-row {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-3) var(--sp-4);
+    }
+    .zone-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--sp-2);
+    }
+    .zone-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .zone-bpm {
+      font-weight: 700;
+      font-size: 0.95rem;
+      white-space: nowrap;
+    }
+    .zone-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: var(--sp-2);
+    }
+    .zone-bar-bg {
+      width: 100%;
+      height: 10px;
+      background: var(--bg);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    .zone-bar-fill {
+      height: 100%;
+      border-radius: 5px;
+      transition: width 0.5s ease;
+    }
+
+    /* Method info */
+    .method-info {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-3) var(--sp-4);
+      margin-top: var(--sp-3);
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    .method-info strong {
+      color: var(--text);
+    }
+
+    /* Comparison table */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: var(--sp-3);
+      font-size: 0.875rem;
+    }
+    .compare-table th,
+    .compare-table td {
+      padding: var(--sp-2) var(--sp-3);
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .compare-table th {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .compare-table tr:last-child td { border-bottom: none; }
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Heart Rate Zone Calculator",
+    "url": "https://toolrip.com/heart-rate",
+    "description": "Calculate your heart rate training zones using standard (220-age) and Karvonen formulas. Get max HR, five color-coded training zones, and personalized BPM ranges for free.",
+    "applicationCategory": "HealthApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="heart-rate-top">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#health">Health &amp; Fitness</a>
+        <span>/</span>
+        <span>Heart Rate Zones</span>
+      </nav>
+
+      <h1>Heart Rate Zone Calculator</h1>
+      <p class="text-muted mt-1 mb-3">Find your maximum heart rate and five personalized training zones using proven formulas. Free, instant, and private — no signup required.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+
+        <!-- Method Toggle -->
+        <div class="input-group">
+          <label>Calculation Method</label>
+          <div class="method-toggle">
+            <button id="btn-standard" class="active" onclick="HRZ.setMethod('standard')">Standard (220 &minus; Age)</button>
+            <button id="btn-karvonen" onclick="HRZ.setMethod('karvonen')">Karvonen (HRR)</button>
+          </div>
+        </div>
+
+        <!-- Age & Resting HR -->
+        <div class="input-row">
+          <div class="input-group">
+            <label for="age">Age (years)</label>
+            <input type="number" id="age" class="input-field" placeholder="30" min="1" max="120" step="1">
+          </div>
+          <div class="input-group" id="rhr-group">
+            <label for="rhr">Resting Heart Rate (bpm) <span class="text-muted" style="font-weight:400">— optional</span></label>
+            <input type="number" id="rhr" class="input-field" placeholder="60" min="20" max="120" step="1">
+          </div>
+        </div>
+
+        <!-- Custom Max HR (optional) -->
+        <div class="input-group">
+          <label for="custom-max">Known Max HR (bpm) <span class="text-muted" style="font-weight:400">— optional, overrides formula</span></label>
+          <input type="number" id="custom-max" class="input-field" placeholder="Leave blank to calculate" min="100" max="250" step="1">
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex gap-2 mt-2">
+          <button class="btn-primary" onclick="HRZ.calculate()">Calculate Zones</button>
+          <button class="btn-secondary" onclick="HRZ.reset()">Reset</button>
+        </div>
+
+        <!-- Result Section -->
+        <div class="result-card hidden" id="result-card">
+          <div class="max-hr-display">
+            <div class="max-hr-value" id="max-hr-value">--</div>
+            <div class="max-hr-label" id="max-hr-label">Maximum Heart Rate (bpm)</div>
+          </div>
+
+          <!-- Zone List -->
+          <div class="zone-list" id="zone-list"></div>
+
+          <!-- Method Info -->
+          <div class="method-info" id="method-info"></div>
+
+          <!-- Comparison Table (shown when Karvonen active and RHR provided) -->
+          <div id="compare-section" class="hidden" style="margin-top:var(--sp-4)">
+            <h3 style="font-size:1rem;margin-bottom:var(--sp-2)">Standard vs. Karvonen Comparison</h3>
+            <div class="tool-card" style="padding:0;overflow:hidden;margin-bottom:0">
+              <table class="compare-table" id="compare-table">
+                <thead>
+                  <tr>
+                    <th>Zone</th>
+                    <th>Standard (bpm)</th>
+                    <th>Karvonen (bpm)</th>
+                  </tr>
+                </thead>
+                <tbody id="compare-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="heart-rate-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Two Proven Formulas</h3>
+            <p>Choose between the standard 220-minus-age formula for a quick estimate or the Karvonen method that factors in your resting heart rate for a more personalized and accurate set of training zones tailored to your current fitness level.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Five Color-Coded Zones</h3>
+            <p>Instantly see all five heart rate training zones with clear BPM ranges and visual progress bars. Each zone is color-coded so you can quickly identify your warm-up, fat-burning, aerobic, anaerobic, and maximum effort ranges at a glance.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Side-by-Side Comparison</h3>
+            <p>When you provide a resting heart rate, the calculator automatically generates a comparison table showing both standard and Karvonen zone ranges. This helps you understand how resting fitness affects your target zones.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Custom Max HR Override</h3>
+            <p>If you already know your true maximum heart rate from a lab test or field test, enter it directly to override the formula-based estimate. This gives you the most accurate training zones possible for your individual physiology.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Heart Rate Zone Calculator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Enter your age</strong> — Type your current age in years. The calculator uses this to estimate your maximum heart rate with the standard 220-minus-age formula.</li>
+          <li><strong>Add your resting heart rate (optional)</strong> — For more accurate zones using the Karvonen method, measure your resting heart rate first thing in the morning and enter it here. Switch to the Karvonen tab to activate this formula.</li>
+          <li><strong>Choose your method</strong> — Select Standard for a quick estimate or Karvonen for personalized zones that account for your fitness level through heart rate reserve calculations.</li>
+          <li><strong>Review your zones</strong> — Click "Calculate Zones" to see your maximum heart rate and all five training zones with BPM ranges, visual bars, and descriptions of the physiological benefits of each zone.</li>
+        </ol>
+      </section>
+
+      <!-- Understanding Heart Rate Training Zones -->
+      <section class="mt-4">
+        <h2>Understanding Heart Rate Training Zones</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">Heart rate training zones divide the intensity spectrum between rest and maximum effort into five distinct ranges. Each zone triggers different physiological responses in your body and is used for specific training purposes. By monitoring which zone you are exercising in, you can structure your workouts to target particular fitness goals such as building endurance, improving speed, or burning fat efficiently. Below is a detailed breakdown of what each zone means for your body and training.</p>
+
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)"><strong style="color:var(--text)">Zone 1: Warm-Up (50-60% of Max HR)</strong> — This is the lightest intensity zone and corresponds to very easy activity such as a gentle walk or slow stretching. Your body primarily uses fat as fuel at this low intensity, but the total calorie burn is minimal. Zone 1 is ideal for warm-up and cool-down periods, active recovery days, and for beginners who are just starting an exercise program. Spending time in this zone improves general health and helps your body recover from harder sessions without additional stress.</p>
+
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)"><strong style="color:var(--text)">Zone 2: Fat Burn (60-70% of Max HR)</strong> — Often called the fat-burning zone, Zone 2 is a comfortable, conversational pace where your body draws a high percentage of energy from fat stores. While the percentage of calories from fat is higher here than in more intense zones, the total calorie expenditure is lower than vigorous exercise. Zone 2 training builds your aerobic base, improves mitochondrial density, and teaches your body to metabolize fat more efficiently. Long, steady runs and easy cycling sessions typically fall in this zone. For endurance athletes, Zone 2 work forms the foundation of training volume.</p>
+
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)"><strong style="color:var(--text)">Zone 3: Aerobic (70-80% of Max HR)</strong> — Zone 3 is a moderate-to-hard effort where you can still speak in short sentences but not hold a full conversation. Your cardiovascular system is working significantly harder, and your body uses a mix of fat and carbohydrates for fuel. Training in this zone improves blood circulation, strengthens the heart muscle, and increases your overall aerobic capacity (VO2 max). Tempo runs, steady-state cycling, and group fitness classes often fall within Zone 3 intensity.</p>
+
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)"><strong style="color:var(--text)">Zone 4: Anaerobic (80-90% of Max HR)</strong> — At this intensity, your body crosses the anaerobic threshold and begins producing energy faster than oxygen can be delivered. Lactate accumulates in the muscles, creating that familiar burning sensation. Zone 4 training improves your lactate threshold, allowing you to sustain harder efforts for longer periods. Interval training, hill repeats, and race-pace efforts typically push you into this zone. Sessions here should be shorter and followed by adequate recovery.</p>
+
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)"><strong style="color:var(--text)">Zone 5: Maximum Effort (90-100% of Max HR)</strong> — This is an all-out effort that can only be sustained for very short bursts, typically 30 seconds to two minutes. Zone 5 training develops raw speed, explosive power, and neuromuscular coordination. Sprint intervals and short, maximal-effort hill sprints are examples of Zone 5 work. Because of the extreme stress it places on the body, this zone should be used sparingly and only by well-conditioned athletes with a solid aerobic base.</p>
+      </section>
+
+      <!-- Fat Burning Zone Myth -->
+      <section class="mt-4">
+        <h2>The Fat Burning Zone Myth</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">One of the most persistent misconceptions in fitness is that you must exercise in a specific low-intensity heart rate zone to burn fat effectively. While it is true that a higher percentage of calories come from fat at lower intensities, the total number of calories burned during higher-intensity exercise is substantially greater. A 30-minute run in Zone 3 or Zone 4 burns far more total calories and total fat calories than a 30-minute walk in Zone 2. Additionally, vigorous exercise elevates your metabolic rate for hours after the workout through a phenomenon known as excess post-exercise oxygen consumption (EPOC). For fat loss, total caloric expenditure matters more than the percentage of calories derived from fat during the workout itself.</p>
+      </section>
+
+      <!-- Max HR Formulas -->
+      <section class="mt-4">
+        <h2>Maximum Heart Rate Formulas Explained</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">The most widely known formula for estimating maximum heart rate is 220 minus your age. This formula provides a simple, quick estimate and works reasonably well for population averages. However, individual maximum heart rates can vary by 10 to 20 beats per minute from this estimate due to genetics, fitness level, and other factors. Alternative formulas include the Tanaka formula (208 minus 0.7 times age) and the Gulati formula for women (206 minus 0.88 times age). The Karvonen method does not change the max HR estimate but instead calculates target zones using heart rate reserve, which is the difference between maximum and resting heart rate. This approach accounts for individual fitness levels because a fitter person typically has a lower resting heart rate and therefore a larger heart rate reserve. For the most accurate maximum heart rate, a graded exercise test supervised by a medical professional is recommended.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>How accurate is the 220 minus age formula?</summary>
+          <p>The 220-minus-age formula provides a population average estimate with a standard deviation of about 10 to 12 beats per minute. This means your actual maximum heart rate could be significantly higher or lower than the formula predicts. The formula was derived from observational data and works best as a general guideline. Factors such as genetics, training history, medication use, and overall cardiovascular health can all influence your true max HR. If you notice that your perceived effort does not match the zones calculated from this formula, consider getting a professional exercise test or performing a supervised field test to determine your actual maximum heart rate. Alternative formulas like the Tanaka formula (208 minus 0.7 times age) may be slightly more accurate for older adults.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do I measure my resting heart rate?</summary>
+          <p>The most accurate way to measure your resting heart rate is to take it first thing in the morning before getting out of bed. Place your index and middle fingers on the inside of your wrist just below the thumb (radial pulse) or on the side of your neck (carotid pulse). Count the number of beats for 60 seconds, or count for 30 seconds and multiply by two. For the most reliable reading, measure on three consecutive mornings and take the average. Avoid measuring after caffeine, alcohol, stress, or physical activity, as these can temporarily elevate your heart rate. A typical resting heart rate for adults ranges from 60 to 100 bpm, while well-trained endurance athletes may have resting rates as low as 40 to 50 bpm. A lower resting heart rate generally indicates better cardiovascular fitness.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is the fat burning zone really the best for losing fat?</summary>
+          <p>The fat burning zone concept is misleading. While lower-intensity exercise does use a higher percentage of fat for fuel compared to carbohydrates, higher-intensity exercise burns more total calories and more total fat calories per unit of time. For example, running at Zone 3 or Zone 4 intensity for 30 minutes burns significantly more overall calories than walking at Zone 2 for the same duration. Higher intensity also creates a greater afterburn effect (EPOC), meaning your metabolism stays elevated for hours after the workout. For optimal fat loss, the most effective approach combines both moderate-intensity steady-state cardio for building endurance and higher-intensity interval training for maximizing caloric burn. Ultimately, a caloric deficit through a combination of exercise and nutrition is what drives fat loss, not exercising in a specific heart rate zone.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the Karvonen method and why is it more accurate?</summary>
+          <p>The Karvonen method, also called the heart rate reserve (HRR) method, calculates target training zones by factoring in your resting heart rate. The formula is: Target HR equals Resting HR plus (percentage times (Max HR minus Resting HR)). By accounting for resting heart rate, the Karvonen method personalizes zones to your current fitness level. A person with a resting heart rate of 50 bpm (very fit) will get different zone ranges than someone with a resting heart rate of 80 bpm (less fit), even if both are the same age. This is because heart rate reserve reflects your cardiovascular capacity more accurately than simply taking a percentage of your maximum heart rate. The trade-off is that you need an accurate resting heart rate measurement, which requires some care to obtain properly.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How accurate are wearable heart rate monitors?</summary>
+          <p>Wrist-based optical heart rate monitors found in smartwatches and fitness trackers have improved significantly but still have limitations. They tend to be accurate at rest and during steady-state exercise but can lag or provide erratic readings during high-intensity intervals, activities with significant wrist movement, or when the device fits loosely. Chest strap heart rate monitors using electrical signals (ECG-based) are generally more accurate and are considered the gold standard for real-time heart rate monitoring during exercise. For zone-based training, a chest strap provides more reliable data, especially during interval workouts where heart rate changes rapidly. If you rely on a wrist-based device, ensure a snug fit, position the sensor slightly above the wrist bone, and be aware that readings may be less reliable during fast transitions between intensities.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Should beginners train in all five zones?</summary>
+          <p>Beginners should focus primarily on Zones 1 and 2 during the first several weeks of a new exercise program. These lower-intensity zones build a solid aerobic foundation, strengthen connective tissues, and reduce the risk of overuse injuries. As fitness improves over weeks and months, gradually introduce Zone 3 efforts for moderate-intensity cardiovascular conditioning. Zone 4 and Zone 5 training should only be incorporated once a strong aerobic base is established, typically after at least eight to twelve weeks of consistent lower-intensity training. Jumping into high-intensity zones too early increases the risk of injury, burnout, and overtraining. A common guideline is the 80/20 rule: approximately 80 percent of training time should be spent in Zones 1 and 2, while only 20 percent should be in Zones 3 through 5.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Do medications affect heart rate zones?</summary>
+          <p>Yes, certain medications can significantly affect your heart rate and therefore your calculated training zones. Beta-blockers, commonly prescribed for high blood pressure and heart conditions, lower both resting and maximum heart rate, making standard formulas unreliable. Stimulant medications, decongestants, and some thyroid medications can elevate heart rate. If you take any medication that affects heart rate, consult your healthcare provider before using formula-based heart rate zones for exercise. Your doctor may recommend a supervised exercise test to determine safe and effective training intensities. In some cases, using the Rate of Perceived Exertion (RPE) scale alongside or instead of heart rate monitoring may be a more practical approach to regulating exercise intensity when medications alter your heart rate response.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/bmi">BMI Calculator</a>
+          <a href="https://toolrip.com/calorie">Calorie Calculator</a>
+          <a href="https://toolrip.com/age">Age Calculator</a>
+          <a href="https://toolrip.com/running-pace">Running Pace Calculator</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="heart-rate-sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="heart-rate-bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Heart Rate Zone Calculator JS -->
+  <script>
+  var HRZ = (function() {
+    'use strict';
+
+    var method = 'standard';
+
+    var zones = [
+      { name: 'Zone 1 — Warm-Up',       low: 0.50, high: 0.60, color: '#22c55e', desc: 'Very light activity. Recovery, warm-up, and cool-down.' },
+      { name: 'Zone 2 — Fat Burn',       low: 0.60, high: 0.70, color: '#84cc16', desc: 'Light effort. Builds aerobic base and fat metabolism.' },
+      { name: 'Zone 3 — Aerobic',        low: 0.70, high: 0.80, color: '#f59e0b', desc: 'Moderate effort. Improves cardiovascular fitness and endurance.' },
+      { name: 'Zone 4 — Anaerobic',      low: 0.80, high: 0.90, color: '#f97316', desc: 'Hard effort. Increases lactate threshold and speed.' },
+      { name: 'Zone 5 — Maximum Effort', low: 0.90, high: 1.00, color: '#ef4444', desc: 'All-out effort. Develops explosive power and max capacity.' }
+    ];
+
+    function setMethod(m) {
+      method = m;
+      document.getElementById('btn-standard').classList.toggle('active', m === 'standard');
+      document.getElementById('btn-karvonen').classList.toggle('active', m === 'karvonen');
+
+      var rhrHint = document.querySelector('#rhr-group label span');
+      if (rhrHint) {
+        rhrHint.textContent = m === 'karvonen' ? '— required for Karvonen' : '— optional';
+      }
+    }
+
+    function getMaxHR(age) {
+      var custom = parseFloat(document.getElementById('custom-max').value);
+      if (!isNaN(custom) && custom >= 100 && custom <= 250) return custom;
+      return 220 - age;
+    }
+
+    function calcStandardZone(maxHR, pctLow, pctHigh) {
+      return {
+        low: Math.round(maxHR * pctLow),
+        high: Math.round(maxHR * pctHigh)
+      };
+    }
+
+    function calcKarvonenZone(maxHR, rhr, pctLow, pctHigh) {
+      var hrr = maxHR - rhr;
+      return {
+        low: Math.round(rhr + hrr * pctLow),
+        high: Math.round(rhr + hrr * pctHigh)
+      };
+    }
+
+    function buildZoneHTML(zone, range) {
+      var pct = ((range.high - range.low) / range.high * 100 + 40);
+      pct = Math.min(100, Math.max(20, pct));
+      return '<div class="zone-row">'
+        + '<div class="zone-header">'
+        + '<span class="zone-name" style="color:' + zone.color + '">' + zone.name + '</span>'
+        + '<span class="zone-bpm">' + range.low + ' &ndash; ' + range.high + ' bpm</span>'
+        + '</div>'
+        + '<div class="zone-desc">' + zone.desc + '</div>'
+        + '<div class="zone-bar-bg"><div class="zone-bar-fill" style="width:' + pct + '%;background:' + zone.color + '"></div></div>'
+        + '</div>';
+    }
+
+    function calculate() {
+      var ageVal = parseInt(document.getElementById('age').value, 10);
+      var rhrVal = parseInt(document.getElementById('rhr').value, 10);
+
+      if (isNaN(ageVal) || ageVal < 1 || ageVal > 120) {
+        showToast('Please enter a valid age between 1 and 120.', 'error');
+        return;
+      }
+
+      if (method === 'karvonen' && (isNaN(rhrVal) || rhrVal < 20 || rhrVal > 120)) {
+        showToast('Karvonen method requires a valid resting heart rate (20-120 bpm).', 'error');
+        return;
+      }
+
+      var maxHR = getMaxHR(ageVal);
+      var useKarvonen = method === 'karvonen' && !isNaN(rhrVal) && rhrVal >= 20;
+
+      // Display max HR
+      document.getElementById('max-hr-value').textContent = maxHR;
+      var customUsed = !isNaN(parseFloat(document.getElementById('custom-max').value));
+      document.getElementById('max-hr-label').textContent = customUsed
+        ? 'Maximum Heart Rate (custom)'
+        : 'Maximum Heart Rate (220 \u2212 ' + ageVal + ')';
+
+      // Build zone rows
+      var html = '';
+      for (var i = 0; i < zones.length; i++) {
+        var z = zones[i];
+        var range = useKarvonen
+          ? calcKarvonenZone(maxHR, rhrVal, z.low, z.high)
+          : calcStandardZone(maxHR, z.low, z.high);
+        html += buildZoneHTML(z, range);
+      }
+      document.getElementById('zone-list').innerHTML = html;
+
+      // Method info
+      var infoHTML = '';
+      if (useKarvonen) {
+        var hrr = maxHR - rhrVal;
+        infoHTML = '<strong>Karvonen Method</strong><br>'
+          + 'Max HR: ' + maxHR + ' bpm &nbsp;|&nbsp; Resting HR: ' + rhrVal + ' bpm &nbsp;|&nbsp; Heart Rate Reserve: ' + hrr + ' bpm<br>'
+          + 'Formula: Target HR = Resting HR + (% &times; Heart Rate Reserve)';
+      } else {
+        infoHTML = '<strong>Standard Method</strong><br>'
+          + 'Max HR: ' + maxHR + ' bpm<br>'
+          + 'Formula: Target HR = Max HR &times; Zone Percentage';
+      }
+      document.getElementById('method-info').innerHTML = infoHTML;
+
+      // Comparison table (show if we have RHR regardless of method)
+      var compareSection = document.getElementById('compare-section');
+      if (!isNaN(rhrVal) && rhrVal >= 20) {
+        var tbody = '';
+        for (var j = 0; j < zones.length; j++) {
+          var std = calcStandardZone(maxHR, zones[j].low, zones[j].high);
+          var karv = calcKarvonenZone(maxHR, rhrVal, zones[j].low, zones[j].high);
+          tbody += '<tr>'
+            + '<td style="color:' + zones[j].color + ';font-weight:600">' + zones[j].name.split(' — ')[0] + '</td>'
+            + '<td>' + std.low + ' &ndash; ' + std.high + '</td>'
+            + '<td>' + karv.low + ' &ndash; ' + karv.high + '</td>'
+            + '</tr>';
+        }
+        document.getElementById('compare-body').innerHTML = tbody;
+        compareSection.classList.remove('hidden');
+      } else {
+        compareSection.classList.add('hidden');
+      }
+
+      // Show results
+      var card = document.getElementById('result-card');
+      card.classList.remove('hidden');
+      card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function reset() {
+      document.getElementById('age').value = '';
+      document.getElementById('rhr').value = '';
+      document.getElementById('custom-max').value = '';
+      document.getElementById('result-card').classList.add('hidden');
+      setMethod('standard');
+    }
+
+    // Auto-calculate on input
+    document.addEventListener('DOMContentLoaded', function() {
+      var inputs = ['age', 'rhr', 'custom-max'];
+      inputs.forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) {
+          el.addEventListener('input', function() {
+            var ageVal = parseInt(document.getElementById('age').value, 10);
+            if (!isNaN(ageVal) && ageVal >= 1 && ageVal <= 120) {
+              if (method === 'karvonen') {
+                var rhrVal = parseInt(document.getElementById('rhr').value, 10);
+                if (!isNaN(rhrVal) && rhrVal >= 20) calculate();
+              } else {
+                calculate();
+              }
+            }
+          });
+        }
+      });
+    });
+
+    return {
+      setMethod: setMethod,
+      calculate: calculate,
+      reset: reset
+    };
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BMR Calculator Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Calculate your Basal Metabolic Rate (BMR) with Mifflin-St Jeor, Harris-Benedict, or Katch-McArdle formulas. Get daily calorie needs by activity level instantly.">
+  <meta name="keywords" content="bmr calculator, basal metabolic rate, calorie calculator, tdee calculator, mifflin st jeor, harris benedict, metabolism calculator">
+  <link rel="canonical" href="https://toolrip.com/bmr">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="BMR Calculator Online — Free, Fast, No Signup | Toolrip">
+  <meta property="og:description" content="Calculate your Basal Metabolic Rate (BMR) with three proven formulas. Get daily calorie needs by activity level instantly. Free, private, no signup required.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/bmr">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="BMR Calculator Online — Free, Fast, No Signup | Toolrip">
+  <meta name="twitter:description" content="Calculate your Basal Metabolic Rate (BMR) with three proven formulas. Get daily calorie needs by activity level instantly.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root { --accent: var(--health); }
+
+    /* Unit Toggle */
+    .unit-toggle-group {
+      display: flex;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .unit-toggle-group button {
+      flex: 1;
+      padding: var(--sp-2) var(--sp-3);
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font: inherit;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .unit-toggle-group button.active {
+      background: var(--accent);
+      color: #fff;
+    }
+    .unit-toggle-group button:hover:not(.active) {
+      background: var(--bg-elevated);
+      color: var(--text);
+    }
+
+    /* Input Row */
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-3);
+    }
+    @media (max-width: 639px) {
+      .input-row { grid-template-columns: 1fr; }
+    }
+
+    /* Imperial height sub-fields */
+    .height-imperial {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-2);
+    }
+
+    /* Gender radio buttons */
+    .gender-group {
+      display: flex;
+      gap: var(--sp-3);
+    }
+    .gender-option {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+      cursor: pointer;
+      font-size: 0.9375rem;
+      color: var(--text);
+    }
+    .gender-option input[type="radio"] {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--border);
+      border-radius: 50%;
+      background: var(--bg);
+      cursor: pointer;
+      transition: border-color 0.2s;
+      position: relative;
+    }
+    .gender-option input[type="radio"]:checked {
+      border-color: var(--accent);
+    }
+    .gender-option input[type="radio"]:checked::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    /* Formula radio buttons */
+    .formula-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-2);
+    }
+    .formula-option {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+      cursor: pointer;
+      font-size: 0.9375rem;
+      color: var(--text);
+    }
+    .formula-option input[type="radio"] {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--border);
+      border-radius: 50%;
+      background: var(--bg);
+      cursor: pointer;
+      transition: border-color 0.2s;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .formula-option input[type="radio"]:checked {
+      border-color: var(--accent);
+    }
+    .formula-option input[type="radio"]:checked::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .formula-tag {
+      font-size: 0.7rem;
+      background: var(--accent);
+      color: #fff;
+      padding: 1px 6px;
+      border-radius: var(--radius-sm);
+      margin-left: var(--sp-1);
+      font-weight: 600;
+    }
+
+    /* Result card */
+    .result-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-5);
+      text-align: center;
+      margin-top: var(--sp-4);
+    }
+    .result-card.hidden { display: none; }
+    .bmr-value {
+      font-size: 3.5rem;
+      font-weight: 800;
+      line-height: 1.1;
+      color: var(--accent);
+      margin-bottom: var(--sp-1);
+    }
+    .bmr-unit {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: var(--sp-3);
+    }
+    .bmr-formula-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: var(--sp-4);
+    }
+
+    /* Activity table */
+    .activity-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: var(--sp-3) 0;
+      font-size: 0.9rem;
+      text-align: left;
+    }
+    .activity-table th,
+    .activity-table td {
+      padding: var(--sp-2) var(--sp-3);
+      border-bottom: 1px solid var(--border);
+    }
+    .activity-table th {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .activity-table tr:last-child td { border-bottom: none; }
+    .activity-table td:last-child {
+      font-weight: 700;
+      color: var(--accent);
+      text-align: right;
+    }
+    .activity-table th:last-child {
+      text-align: right;
+    }
+    .activity-desc {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: block;
+      margin-top: 2px;
+    }
+
+    /* Info grid */
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-3);
+      margin-top: var(--sp-4);
+      text-align: left;
+    }
+    @media (max-width: 639px) {
+      .info-grid { grid-template-columns: 1fr; }
+    }
+    .info-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-3);
+    }
+    .info-box h4 {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: var(--sp-1);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .info-box p {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* Body fat field */
+    #bodyfat-group {
+      transition: opacity 0.2s;
+    }
+    #bodyfat-group.disabled-field {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "BMR Calculator",
+    "url": "https://toolrip.com/bmr",
+    "description": "Calculate your Basal Metabolic Rate (BMR) with Mifflin-St Jeor, Harris-Benedict, or Katch-McArdle formulas. Get daily calorie needs by activity level.",
+    "applicationCategory": "HealthApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Health & Fitness", "item": "https://toolrip.com/#health" },
+      { "@type": "ListItem", "position": 3, "name": "BMR Calculator", "item": "https://toolrip.com/bmr" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is Basal Metabolic Rate (BMR)?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Basal Metabolic Rate (BMR) is the number of calories your body burns at complete rest to maintain basic life-sustaining functions such as breathing, circulation, cell production, and nutrient processing. It represents the minimum energy expenditure needed to keep your body alive and functioning while at rest in a temperate environment."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between BMR and TDEE?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "BMR measures calories burned at complete rest, while TDEE (Total Daily Energy Expenditure) accounts for all calories burned throughout the day including physical activity, exercise, and the thermic effect of food. TDEE is calculated by multiplying your BMR by an activity factor ranging from 1.2 for sedentary lifestyles to 1.9 for extremely active individuals."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which BMR formula is the most accurate?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Mifflin-St Jeor equation is considered the most accurate for most people and is recommended by the Academy of Nutrition and Dietetics. The Katch-McArdle formula can be more accurate for lean and athletic individuals if body fat percentage is known. The Harris-Benedict equation, while historically popular, tends to overestimate BMR slightly."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I increase my BMR?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can increase your BMR by building lean muscle mass through strength training, staying physically active, eating adequate protein, getting enough sleep, and staying hydrated. Muscle tissue burns more calories at rest than fat tissue, so increasing your muscle mass is the most effective long-term strategy."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How many calories should I eat to lose weight?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To lose weight safely, create a moderate calorie deficit of 500 to 750 calories below your TDEE, which typically results in about 1 to 1.5 pounds of weight loss per week. It is generally not recommended to eat below your BMR for extended periods, as this can slow your metabolism and lead to nutrient deficiencies."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does age affect BMR?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, BMR generally decreases with age. After the age of 20, BMR typically declines by about 1-2% per decade due to natural loss of muscle mass and hormonal changes. This is why maintaining muscle through regular exercise becomes increasingly important as you age."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why is BMR different for men and women?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Men typically have a higher BMR than women because they tend to have more lean muscle mass, larger body frames, and higher levels of testosterone which promotes muscle growth. Women generally have a higher percentage of body fat and lower muscle mass relative to their total body weight, resulting in a lower resting metabolic rate."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="bmr-top">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#health">Health &amp; Fitness</a>
+        <span>/</span>
+        <span>BMR Calculator</span>
+      </nav>
+
+      <h1>BMR Calculator</h1>
+      <p class="text-muted mt-1 mb-3">Calculate your Basal Metabolic Rate and daily calorie needs based on your activity level. Free, instant, and private.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+
+        <!-- Gender Selection -->
+        <div class="input-group">
+          <label>Gender</label>
+          <div class="gender-group">
+            <label class="gender-option">
+              <input type="radio" name="gender" value="male" checked>
+              Male
+            </label>
+            <label class="gender-option">
+              <input type="radio" name="gender" value="female">
+              Female
+            </label>
+          </div>
+        </div>
+
+        <!-- Age -->
+        <div class="input-group">
+          <label for="age">Age (years)</label>
+          <input type="number" id="age" class="input-field" placeholder="25" min="15" max="120" step="1">
+        </div>
+
+        <!-- Height Unit Toggle -->
+        <div class="input-group">
+          <label>Height</label>
+          <div class="unit-toggle-group" style="max-width:280px;margin-bottom:var(--sp-2)">
+            <button id="btn-height-cm" class="active" onclick="setHeightUnit('cm')">cm</button>
+            <button id="btn-height-ft" onclick="setHeightUnit('ft')">ft / in</button>
+          </div>
+          <div id="height-cm-group">
+            <input type="number" id="height-cm" class="input-field" placeholder="175" min="50" max="300" step="0.1">
+          </div>
+          <div id="height-ft-group" class="hidden">
+            <div class="height-imperial">
+              <input type="number" id="height-ft" class="input-field" placeholder="5 ft" min="1" max="9" step="1">
+              <input type="number" id="height-in" class="input-field" placeholder="9 in" min="0" max="11" step="0.1">
+            </div>
+          </div>
+        </div>
+
+        <!-- Weight Unit Toggle -->
+        <div class="input-group">
+          <label id="weight-label">Weight</label>
+          <div class="unit-toggle-group" style="max-width:280px;margin-bottom:var(--sp-2)">
+            <button id="btn-weight-kg" class="active" onclick="setWeightUnit('kg')">kg</button>
+            <button id="btn-weight-lbs" onclick="setWeightUnit('lbs')">lbs</button>
+          </div>
+          <input type="number" id="weight" class="input-field" placeholder="70" min="1" max="700" step="0.1">
+        </div>
+
+        <!-- Formula Selection -->
+        <div class="input-group">
+          <label>Formula</label>
+          <div class="formula-group">
+            <label class="formula-option">
+              <input type="radio" name="formula" value="mifflin" checked onchange="onFormulaChange()">
+              Mifflin-St Jeor<span class="formula-tag">Recommended</span>
+            </label>
+            <label class="formula-option">
+              <input type="radio" name="formula" value="harris" onchange="onFormulaChange()">
+              Harris-Benedict (Revised)
+            </label>
+            <label class="formula-option">
+              <input type="radio" name="formula" value="katch" onchange="onFormulaChange()">
+              Katch-McArdle (requires body fat %)
+            </label>
+          </div>
+        </div>
+
+        <!-- Body Fat Percentage (for Katch-McArdle) -->
+        <div class="input-group disabled-field" id="bodyfat-group">
+          <label for="bodyfat">Body Fat Percentage (%)</label>
+          <input type="number" id="bodyfat" class="input-field" placeholder="15" min="2" max="70" step="0.1">
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex gap-2 mt-2">
+          <button class="btn-primary" onclick="calculateBMR()">Calculate BMR</button>
+          <button class="btn-secondary" onclick="resetForm()">Clear</button>
+        </div>
+
+        <!-- Result Section -->
+        <div class="result-card hidden" id="result-card">
+          <div class="bmr-value" id="bmr-value">--</div>
+          <div class="bmr-unit">calories / day</div>
+          <div class="bmr-formula-label" id="bmr-formula-label">Mifflin-St Jeor Equation</div>
+
+          <!-- Daily Calorie Needs Table -->
+          <div style="text-align:left;margin-top:var(--sp-3)">
+            <h3 style="font-size:1rem;margin-bottom:var(--sp-2)">Daily Calorie Needs by Activity Level</h3>
+            <table class="activity-table">
+              <thead>
+                <tr>
+                  <th>Activity Level</th>
+                  <th>Calories / Day</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Sedentary<span class="activity-desc">Little or no exercise, desk job</span></td>
+                  <td id="cal-sedentary">--</td>
+                </tr>
+                <tr>
+                  <td>Lightly Active<span class="activity-desc">Light exercise 1-3 days/week</span></td>
+                  <td id="cal-light">--</td>
+                </tr>
+                <tr>
+                  <td>Moderately Active<span class="activity-desc">Moderate exercise 3-5 days/week</span></td>
+                  <td id="cal-moderate">--</td>
+                </tr>
+                <tr>
+                  <td>Very Active<span class="activity-desc">Hard exercise 6-7 days/week</span></td>
+                  <td id="cal-very">--</td>
+                </tr>
+                <tr>
+                  <td>Extra Active<span class="activity-desc">Very hard exercise, physical job, or training twice/day</span></td>
+                  <td id="cal-extra">--</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Info Grid -->
+          <div class="info-grid">
+            <div class="info-box">
+              <h4>BMR per Hour</h4>
+              <p id="bmr-hourly">--</p>
+            </div>
+            <div class="info-box">
+              <h4>BMR per Minute</h4>
+              <p id="bmr-minute">--</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="bmr-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Three Proven Formulas</h3>
+            <p>Choose from Mifflin-St Jeor, Harris-Benedict, or Katch-McArdle equations. Each formula serves a different use case, from general estimates to body-composition-aware calculations for athletes and fitness enthusiasts.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Activity-Level TDEE</h3>
+            <p>Go beyond your resting rate. See your estimated Total Daily Energy Expenditure across five activity levels, from sedentary desk workers to elite athletes training multiple times per day.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Metric &amp; Imperial Units</h3>
+            <p>Enter your height in centimeters or feet and inches, and your weight in kilograms or pounds. Toggle freely between unit systems without losing your data. All conversions happen automatically in the background.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Instant &amp; Private</h3>
+            <p>All calculations run entirely in your browser. No data is sent to any server, no account is required, and there is nothing to install. Get your results in milliseconds with complete privacy.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the BMR Calculator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Select your gender</strong> — Choose Male or Female. This matters because men and women have different metabolic rates due to differences in body composition and hormonal profiles.</li>
+          <li><strong>Enter your age, height, and weight</strong> — Provide your current age in years, height in centimeters or feet and inches, and weight in kilograms or pounds. You can toggle between metric and imperial units at any time.</li>
+          <li><strong>Choose a formula</strong> — Mifflin-St Jeor is recommended for most people. If you know your body fat percentage, Katch-McArdle may give a more accurate result for lean or athletic builds.</li>
+          <li><strong>Click Calculate BMR</strong> — Your basal metabolic rate will appear along with a full table showing estimated daily calorie needs for five different activity levels, from sedentary to extra active.</li>
+        </ol>
+      </section>
+
+      <!-- SEO Content Section: Understanding BMR -->
+      <section class="mt-4">
+        <h2>Understanding Basal Metabolic Rate (BMR)</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          Basal Metabolic Rate, commonly known as BMR, is the total number of calories your body requires to perform its most fundamental biological functions while at complete rest. These functions include breathing, blood circulation, cell repair and growth, brain and nerve function, and maintaining body temperature. Your BMR accounts for the largest portion of your total daily calorie expenditure, typically representing 60 to 75 percent of the calories you burn every single day. Understanding your BMR is the foundation of any effective weight management or nutrition strategy because it tells you the absolute minimum number of calories your body needs to survive and function properly.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          Several factors influence your BMR. Body size and composition play the most significant role: larger bodies and those with greater muscle mass burn more calories at rest. Age is another critical factor, as metabolic rate naturally decreases by approximately one to two percent per decade after the age of twenty, primarily due to the gradual loss of lean muscle tissue. Gender also matters because men generally have higher BMR than women due to having more muscle mass and less body fat. Genetics, hormonal levels, and even environmental temperature can affect your resting metabolic rate to varying degrees.
+        </p>
+
+        <h3 style="margin-bottom:var(--sp-2)">BMR vs. TDEE: What Is the Difference?</h3>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          While BMR measures the calories your body burns at complete rest, Total Daily Energy Expenditure (TDEE) represents the total number of calories you burn throughout an entire day including all physical activities. TDEE is calculated by multiplying your BMR by an activity factor that corresponds to your lifestyle and exercise habits. A sedentary person who works a desk job and does little exercise would multiply their BMR by 1.2, while an extremely active athlete might use a multiplier of 1.9. Your TDEE is the number that truly matters when setting calorie intake goals for weight loss, maintenance, or muscle gain. To lose weight, you need to consume fewer calories than your TDEE. To gain weight or build muscle, you need to eat more than your TDEE.
+        </p>
+
+        <h3 style="margin-bottom:var(--sp-2)">Comparing the BMR Formulas</h3>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          The Mifflin-St Jeor equation, published in 1990, is considered the most reliable formula for estimating BMR in the general population and is recommended by the Academy of Nutrition and Dietetics. It uses weight, height, age, and gender as inputs and has been shown to predict resting metabolic rate within ten percent of measured values for most individuals. The Harris-Benedict equation is older, originally published in 1919 and later revised in 1984 by Roza and Shizgal. While it is still widely used and reasonably accurate, studies have found that it tends to overestimate BMR by about five percent compared to indirect calorimetry measurements. The Katch-McArdle formula takes a fundamentally different approach by using lean body mass instead of total weight, making it potentially more accurate for athletes and individuals who know their body fat percentage. Because it factors out body fat, it provides a single equation used for both men and women.
+        </p>
+
+        <h3 style="margin-bottom:var(--sp-2)">Why BMR Matters for Weight Management</h3>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          Knowing your BMR is essential for creating an effective and sustainable nutrition plan. If you are trying to lose weight, eating below your TDEE but above your BMR ensures that your body gets enough fuel to function properly while still creating a calorie deficit. Eating significantly below your BMR for extended periods can trigger metabolic adaptation, where your body slows its metabolism to conserve energy, making further weight loss increasingly difficult. For those looking to build muscle, understanding your BMR helps you determine how many additional calories you need to support muscle protein synthesis without excessive fat gain. Even for weight maintenance, knowing your BMR helps you make informed decisions about portion sizes, meal frequency, and how to adjust your intake when your activity levels change. Whether your goal is losing fat, building lean muscle, or simply maintaining a healthy body composition, your BMR serves as the starting point for all calorie calculations.
+        </p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is Basal Metabolic Rate (BMR)?</summary>
+          <p>Basal Metabolic Rate is the number of calories your body needs to carry out essential life-sustaining processes while completely at rest. These processes include breathing, pumping blood through your circulatory system, regulating body temperature, producing hormones, repairing cells, and maintaining brain function. Your BMR is measured under very restrictive conditions: a subject must be fully rested, in a fasting state of at least twelve hours, lying down in a thermally neutral environment. For most adults, BMR typically ranges between 1,200 and 2,400 calories per day, depending on body size, age, gender, and body composition.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How is BMR different from TDEE?</summary>
+          <p>BMR measures only the calories your body burns at complete rest to keep you alive, while TDEE (Total Daily Energy Expenditure) includes all the calories you burn throughout the day from every source: your BMR, physical activity, exercise, the thermic effect of food (calories burned during digestion), and non-exercise activity thermogenesis (NEAT, such as fidgeting, walking, and household tasks). TDEE is always higher than BMR. To calculate TDEE, your BMR is multiplied by an activity factor ranging from 1.2 for sedentary lifestyles to 1.9 for people with very demanding physical routines. TDEE is the more practical number for planning your daily caloric intake.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Which BMR formula is the most accurate?</summary>
+          <p>The Mifflin-St Jeor equation is widely regarded as the most accurate BMR formula for the general adult population. A study published in the Journal of the American Dietetic Association compared several predictive equations against indirect calorimetry and found Mifflin-St Jeor to be the best predictor across normal weight, overweight, and obese groups. However, the Katch-McArdle formula may be more accurate for individuals who have a reliable measurement of their body fat percentage, especially lean athletes. The Harris-Benedict equation, while historically significant and still commonly used, has been shown to slightly overestimate BMR in several studies.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How can I increase my BMR?</summary>
+          <p>The most effective way to increase your BMR is to build lean muscle mass through resistance and strength training. Muscle tissue is metabolically more active than fat tissue, burning roughly six to seven calories per pound per day at rest compared to about two calories per pound for fat. Other strategies include staying well-hydrated, eating adequate protein to support muscle maintenance and the thermic effect of food, getting seven to nine hours of quality sleep each night, and avoiding prolonged very-low-calorie diets that can trigger metabolic adaptation. High-intensity interval training (HIIT) has also been shown to temporarily elevate metabolic rate for hours after exercise, a phenomenon known as excess post-exercise oxygen consumption (EPOC).</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does age affect BMR?</summary>
+          <p>Yes, BMR decreases naturally with age. After around age twenty, most people experience a decline in BMR of approximately one to two percent per decade. This is primarily caused by the gradual loss of lean muscle mass, a process known as sarcopenia, as well as hormonal changes including decreasing levels of growth hormone and testosterone. By age seventy, an individual's BMR may be ten to twenty percent lower than it was at age twenty-five. This age-related metabolic decline is one of the main reasons why many people find it easier to gain weight as they get older, even without significant changes in eating habits.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Why is BMR different for men and women?</summary>
+          <p>Men typically have a higher BMR than women of similar age and body size. This difference is primarily due to body composition: men generally carry more lean muscle mass and have a lower body fat percentage than women. Hormonal differences also play a role, as testosterone promotes the development and maintenance of muscle tissue. On average, a man's BMR is about five to ten percent higher than that of a woman with comparable height, weight, and age. This is why the Mifflin-St Jeor and Harris-Benedict equations include separate formulas for men and women, while the Katch-McArdle equation uses a single formula based on lean body mass, which inherently accounts for gender differences in body composition.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Should I eat below my BMR to lose weight?</summary>
+          <p>While eating below your BMR will create a calorie deficit that leads to weight loss, most nutrition experts do not recommend sustained calorie intake below your BMR. Consuming fewer calories than your body needs for its most basic functions can lead to muscle loss, nutritional deficiencies, fatigue, hormonal disruption, and metabolic adaptation where your body lowers its metabolic rate to conserve energy. Instead, the recommended approach is to eat between your BMR and TDEE, creating a moderate deficit of about 500 to 750 calories below your TDEE. This approach promotes gradual, sustainable weight loss of one to one-and-a-half pounds per week while preserving muscle mass and supporting essential body functions.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/bmi">BMI Calculator</a>
+          <a href="https://toolrip.com/calorie">Calorie Calculator</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+          <a href="https://toolrip.com/age">Age Calculator</a>
+          <a href="https://toolrip.com/tip">Tip Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="bmr-sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="bmr-bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- BMR Calculator JS -->
+  <script>
+    var heightUnit = 'cm';
+    var weightUnit = 'kg';
+
+    /* --- Height Unit Switching --- */
+    function setHeightUnit(unit) {
+      heightUnit = unit;
+      document.getElementById('btn-height-cm').classList.toggle('active', unit === 'cm');
+      document.getElementById('btn-height-ft').classList.toggle('active', unit === 'ft');
+      document.getElementById('height-cm-group').classList.toggle('hidden', unit !== 'cm');
+      document.getElementById('height-ft-group').classList.toggle('hidden', unit !== 'ft');
+    }
+
+    /* --- Weight Unit Switching --- */
+    function setWeightUnit(unit) {
+      weightUnit = unit;
+      document.getElementById('btn-weight-kg').classList.toggle('active', unit === 'kg');
+      document.getElementById('btn-weight-lbs').classList.toggle('active', unit === 'lbs');
+      var weightInput = document.getElementById('weight');
+      if (unit === 'kg') {
+        weightInput.placeholder = '70';
+      } else {
+        weightInput.placeholder = '154';
+      }
+    }
+
+    /* --- Formula Change --- */
+    function onFormulaChange() {
+      var formula = document.querySelector('input[name="formula"]:checked').value;
+      var bfGroup = document.getElementById('bodyfat-group');
+      if (formula === 'katch') {
+        bfGroup.classList.remove('disabled-field');
+      } else {
+        bfGroup.classList.add('disabled-field');
+      }
+    }
+
+    /* --- Get weight in kg --- */
+    function getWeightKg() {
+      var w = parseFloat(document.getElementById('weight').value);
+      if (isNaN(w) || w <= 0) return NaN;
+      return weightUnit === 'lbs' ? w * 0.453592 : w;
+    }
+
+    /* --- Get height in cm --- */
+    function getHeightCm() {
+      if (heightUnit === 'cm') {
+        var cm = parseFloat(document.getElementById('height-cm').value);
+        if (isNaN(cm) || cm <= 0) return NaN;
+        return cm;
+      } else {
+        var ft = parseFloat(document.getElementById('height-ft').value) || 0;
+        var inches = parseFloat(document.getElementById('height-in').value) || 0;
+        var totalInches = ft * 12 + inches;
+        if (totalInches <= 0) return NaN;
+        return totalInches * 2.54;
+      }
+    }
+
+    /* --- Main Calculation --- */
+    function calculateBMR() {
+      var gender = document.querySelector('input[name="gender"]:checked').value;
+      var age = parseInt(document.getElementById('age').value);
+      var weightKg = getWeightKg();
+      var heightCm = getHeightCm();
+      var formula = document.querySelector('input[name="formula"]:checked').value;
+
+      if (formula !== 'katch' && (isNaN(age) || age <= 0)) {
+        showToast('Please enter a valid age.', 'error');
+        return;
+      }
+      if (isNaN(weightKg)) {
+        showToast('Please enter a valid weight.', 'error');
+        return;
+      }
+      if (formula !== 'katch' && isNaN(heightCm)) {
+        showToast('Please enter a valid height.', 'error');
+        return;
+      }
+
+      var bmr = 0;
+      var formulaLabel = '';
+
+      if (formula === 'mifflin') {
+        /* Mifflin-St Jeor */
+        if (gender === 'male') {
+          bmr = (10 * weightKg) + (6.25 * heightCm) - (5 * age) + 5;
+        } else {
+          bmr = (10 * weightKg) + (6.25 * heightCm) - (5 * age) - 161;
+        }
+        formulaLabel = 'Mifflin-St Jeor Equation';
+      } else if (formula === 'harris') {
+        /* Harris-Benedict (Revised) */
+        if (gender === 'male') {
+          bmr = 88.362 + (13.397 * weightKg) + (4.799 * heightCm) - (5.677 * age);
+        } else {
+          bmr = 447.593 + (9.247 * weightKg) + (3.098 * heightCm) - (4.330 * age);
+        }
+        formulaLabel = 'Harris-Benedict Equation (Revised)';
+      } else if (formula === 'katch') {
+        /* Katch-McArdle */
+        var bf = parseFloat(document.getElementById('bodyfat').value);
+        if (isNaN(bf) || bf <= 0 || bf >= 100) {
+          showToast('Please enter a valid body fat percentage (1-99%).', 'error');
+          return;
+        }
+        var lbm = weightKg * (1 - bf / 100);
+        bmr = 370 + (21.6 * lbm);
+        formulaLabel = 'Katch-McArdle Formula';
+      }
+
+      if (bmr <= 0) {
+        showToast('Could not calculate BMR. Please check your inputs.', 'error');
+        return;
+      }
+
+      /* Activity multipliers */
+      var sedentary = bmr * 1.2;
+      var light = bmr * 1.375;
+      var moderate = bmr * 1.55;
+      var very = bmr * 1.725;
+      var extra = bmr * 1.9;
+
+      /* Update DOM */
+      var resultCard = document.getElementById('result-card');
+      resultCard.classList.remove('hidden');
+
+      document.getElementById('bmr-value').textContent = Math.round(bmr).toLocaleString('en-US');
+      document.getElementById('bmr-formula-label').textContent = formulaLabel;
+
+      document.getElementById('cal-sedentary').textContent = Math.round(sedentary).toLocaleString('en-US');
+      document.getElementById('cal-light').textContent = Math.round(light).toLocaleString('en-US');
+      document.getElementById('cal-moderate').textContent = Math.round(moderate).toLocaleString('en-US');
+      document.getElementById('cal-very').textContent = Math.round(very).toLocaleString('en-US');
+      document.getElementById('cal-extra').textContent = Math.round(extra).toLocaleString('en-US');
+
+      document.getElementById('bmr-hourly').textContent = (bmr / 24).toFixed(1) + ' cal';
+      document.getElementById('bmr-minute').textContent = (bmr / 1440).toFixed(2) + ' cal';
+
+      /* Scroll to results */
+      resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    /* --- Reset Form --- */
+    function resetForm() {
+      document.getElementById('age').value = '';
+      document.getElementById('weight').value = '';
+      document.getElementById('height-cm').value = '';
+      document.getElementById('height-ft').value = '';
+      document.getElementById('height-in').value = '';
+      document.getElementById('bodyfat').value = '';
+      document.querySelector('input[name="gender"][value="male"]').checked = true;
+      document.querySelector('input[name="formula"][value="mifflin"]').checked = true;
+      document.getElementById('result-card').classList.add('hidden');
+      setHeightUnit('cm');
+      setWeightUnit('kg');
+      onFormulaChange();
+    }
+  </script>
+</body>
+</html>

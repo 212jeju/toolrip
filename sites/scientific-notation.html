@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scientific Notation Converter Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Convert numbers to and from scientific notation, E-notation, and engineering notation. Calculate arithmetic with scientific notation. Free online converter with significant figures.">
+  <link rel="canonical" href="https://toolrip.com/scientific">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Scientific Notation Converter — Toolrip">
+  <meta property="og:description" content="Convert numbers to and from scientific notation, E-notation, and engineering notation. Perform arithmetic operations on scientific notation numbers.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/scientific">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Scientific Notation Converter — Toolrip">
+  <meta name="twitter:description" content="Convert numbers to and from scientific notation, E-notation, and engineering notation. Perform arithmetic operations on scientific notation numbers.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--math)}</style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Scientific Notation Converter",
+    "url": "https://toolrip.com/scientific",
+    "description": "Convert numbers to and from scientific notation, E-notation, and engineering notation. Calculate arithmetic with scientific notation. Free online converter with significant figures.",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Math & Science", "item": "https://toolrip.com/#math" },
+      { "@type": "ListItem", "position": 3, "name": "Scientific Notation Converter", "item": "https://toolrip.com/scientific" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is scientific notation?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Scientific notation is a way of expressing very large or very small numbers in the form a × 10^n, where a (the coefficient) is a number between 1 and 10, and n (the exponent) is an integer. For example, 300,000,000 becomes 3 × 10^8 and 0.00045 becomes 4.5 × 10^-4."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is E-notation?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "E-notation is a shorthand for scientific notation commonly used in calculators, programming languages, and spreadsheets. The letter E replaces the '× 10^' part. For example, 3 × 10^8 is written as 3E8, and 4.5 × 10^-4 is written as 4.5E-4. It is functionally identical to scientific notation."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are significant figures?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Significant figures (sig figs) are the meaningful digits in a number that contribute to its precision. All non-zero digits are significant, zeros between non-zero digits are significant, and trailing zeros after a decimal point are significant. For example, 0.00340 has 3 significant figures (3, 4, and the trailing 0), while 1500 has 2 significant figures unless written as 1.500 × 10^3 (4 sig figs)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "When should I use scientific notation?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Scientific notation is essential when working with extremely large numbers like the speed of light (3 × 10^8 m/s) or extremely small numbers like the mass of an electron (9.109 × 10^-31 kg). It is standard in physics, chemistry, astronomy, engineering, and any field where values span many orders of magnitude. It also makes arithmetic with such numbers much simpler and reduces the risk of miscounting zeros."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is engineering notation?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Engineering notation is a variant of scientific notation where the exponent is always a multiple of 3 (such as 10^3, 10^6, 10^9, 10^-3, 10^-6). This aligns with standard SI metric prefixes like kilo (10^3), mega (10^6), giga (10^9), milli (10^-3), and micro (10^-6). For example, 47,000 in engineering notation is 47 × 10^3 rather than 4.7 × 10^4."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you multiply and divide numbers in scientific notation?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To multiply, multiply the coefficients together and add the exponents: (a × 10^m) × (b × 10^n) = (a×b) × 10^(m+n). To divide, divide the coefficients and subtract the exponents: (a × 10^m) ÷ (b × 10^n) = (a÷b) × 10^(m-n). Then normalize the result so the coefficient is between 1 and 10."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you add and subtract numbers in scientific notation?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To add or subtract numbers in scientific notation, first adjust both numbers so they share the same exponent. Then add or subtract the coefficients while keeping the shared exponent. Finally, normalize the result so the coefficient falls between 1 and 10. For example, 3.2 × 10^4 + 1.5 × 10^3 becomes 3.2 × 10^4 + 0.15 × 10^4 = 3.35 × 10^4."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    .result-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-4);
+      margin-top: var(--sp-3);
+    }
+    .result-card.has-value {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 4%, var(--bg));
+    }
+    .result-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--sp-3);
+    }
+    .result-header h3 {
+      font-size: .9rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .result-formats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--sp-2);
+    }
+    .result-format-item {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-2) var(--sp-3);
+      text-align: center;
+    }
+    .result-format-item .label {
+      font-size: .7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-bottom: 4px;
+    }
+    .result-format-item .value {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent);
+      word-break: break-all;
+    }
+    .result-format-item .value.empty {
+      color: var(--text-muted);
+    }
+    .result-format-item.full-width {
+      grid-column: 1 / -1;
+    }
+
+    /* Arithmetic section */
+    .arith-row {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+      flex-wrap: wrap;
+      margin-bottom: var(--sp-3);
+    }
+    .arith-group {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-1);
+    }
+    .arith-group input {
+      width: 100px;
+      text-align: center;
+      padding: var(--sp-2);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font: inherit;
+      font-size: 1rem;
+      transition: border-color .15s;
+    }
+    .arith-group input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 25%, transparent);
+    }
+    .arith-label {
+      font-size: .8rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    .op-selector {
+      display: flex;
+      gap: 4px;
+    }
+    .op-btn {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all .15s;
+      font-family: inherit;
+    }
+    .op-btn:hover {
+      border-color: var(--accent);
+      color: var(--text);
+    }
+    .op-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .arith-result {
+      margin-top: var(--sp-2);
+      padding: var(--sp-3);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      min-height: 48px;
+    }
+    .arith-result.has-value {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 4%, var(--bg));
+    }
+    .arith-result .value {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent);
+      word-break: break-all;
+    }
+    .arith-result .value.empty {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    @media (max-width: 480px) {
+      .result-formats { grid-template-columns: 1fr; }
+      .arith-group input { width: 80px; }
+      .op-btn { width: 36px; height: 36px; font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="top">Ad</div>
+
+    <!-- Breadcrumb -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#math">Math &amp; Science</a>
+        <span>/</span>
+        <span>Scientific Notation Converter</span>
+      </nav>
+
+      <h1>Scientific Notation Converter</h1>
+      <p class="text-muted mt-1 mb-3">Convert any number to scientific notation, E-notation, and engineering notation. See significant figures and perform arithmetic operations on numbers in scientific notation. All calculations run instantly in your browser.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+
+      <!-- Main Converter -->
+      <div class="tool-card">
+        <div class="input-group">
+          <label for="numInput">Enter a Number</label>
+          <input type="text" id="numInput" class="input-field" placeholder="e.g. 602200000000000000000000 or 6.022e23 or 3.5 x 10^4" autocomplete="off" aria-label="Number to convert">
+        </div>
+        <div class="flex gap-2 mb-2" style="flex-wrap:wrap">
+          <button class="btn-primary" id="convertBtn" type="button">Convert</button>
+          <button class="btn-secondary" id="clearBtn" type="button">Clear</button>
+        </div>
+
+        <!-- Result -->
+        <div class="result-card" id="resultCard">
+          <div class="result-header">
+            <h3>Conversion Results</h3>
+            <button type="button" class="copy-btn" id="copyBtn">Copy</button>
+          </div>
+          <div class="result-formats">
+            <div class="result-format-item">
+              <div class="label">Scientific Notation</div>
+              <div class="value empty" id="resSci">&mdash;</div>
+            </div>
+            <div class="result-format-item">
+              <div class="label">E-Notation</div>
+              <div class="value empty" id="resE">&mdash;</div>
+            </div>
+            <div class="result-format-item">
+              <div class="label">Engineering Notation</div>
+              <div class="value empty" id="resEng">&mdash;</div>
+            </div>
+            <div class="result-format-item">
+              <div class="label">Significant Figures</div>
+              <div class="value empty" id="resSigFig">&mdash;</div>
+            </div>
+            <div class="result-format-item full-width">
+              <div class="label">Standard Decimal Form</div>
+              <div class="value empty" id="resDecimal">&mdash;</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Arithmetic Operations -->
+      <div class="tool-card">
+        <h2 style="font-size:1.1rem;margin-bottom:var(--sp-3)">Arithmetic with Scientific Notation</h2>
+        <p class="text-muted mb-3" style="font-size:.85rem">Enter two numbers in scientific notation (coefficient and exponent) to add, subtract, multiply, or divide them.</p>
+
+        <div class="arith-row">
+          <div>
+            <div class="arith-label mb-1">First Number</div>
+            <div class="arith-group">
+              <input type="text" id="coefA" inputmode="decimal" placeholder="6.022" autocomplete="off" aria-label="Coefficient A">
+              <span class="arith-label">&times; 10</span>
+              <input type="text" id="expA" inputmode="numeric" placeholder="23" autocomplete="off" aria-label="Exponent A" style="width:60px">
+            </div>
+          </div>
+        </div>
+
+        <div class="arith-row">
+          <div class="op-selector" role="radiogroup" aria-label="Arithmetic operation">
+            <button type="button" class="op-btn active" data-op="+" aria-label="Add" title="Add">+</button>
+            <button type="button" class="op-btn" data-op="-" aria-label="Subtract" title="Subtract">&minus;</button>
+            <button type="button" class="op-btn" data-op="*" aria-label="Multiply" title="Multiply">&times;</button>
+            <button type="button" class="op-btn" data-op="/" aria-label="Divide" title="Divide">&divide;</button>
+          </div>
+        </div>
+
+        <div class="arith-row">
+          <div>
+            <div class="arith-label mb-1">Second Number</div>
+            <div class="arith-group">
+              <input type="text" id="coefB" inputmode="decimal" placeholder="1.602" autocomplete="off" aria-label="Coefficient B">
+              <span class="arith-label">&times; 10</span>
+              <input type="text" id="expB" inputmode="numeric" placeholder="-19" autocomplete="off" aria-label="Exponent B" style="width:60px">
+            </div>
+          </div>
+        </div>
+
+        <div class="flex gap-2 mt-2" style="flex-wrap:wrap">
+          <button class="btn-primary" id="arithBtn" type="button">Calculate</button>
+          <button class="btn-secondary" id="arithClearBtn" type="button">Clear</button>
+        </div>
+
+        <div class="arith-result" id="arithResult">
+          <div class="value empty" id="arithValue">&mdash;</div>
+        </div>
+      </div>
+
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="in-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Multi-Format Conversion</h3>
+            <p>Enter any number in standard decimal form, scientific notation, or E-notation and instantly see the result in every format. The converter outputs proper scientific notation with the coefficient between 1 and 10, compact E-notation used in programming and spreadsheets, engineering notation aligned to powers of three for metric prefix compatibility, and the full standard decimal expansion. Whether you are converting a measurement from a lab report, a value from a physics textbook, or a constant from an engineering datasheet, the tool handles the formatting automatically so you never have to count zeros manually again.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Significant Figures Analysis</h3>
+            <p>Every conversion includes an automatic count of significant figures in your input number. Understanding significant figures is critical for scientific accuracy because they indicate the precision of a measurement. The tool correctly identifies significant zeros between non-zero digits, trailing zeros after a decimal point, and leading zeros that are not significant. This helps students verify their sig fig counting for chemistry and physics homework, and assists researchers in maintaining proper precision when reporting experimental data or performing unit conversions across different measurement scales.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Scientific Notation Arithmetic</h3>
+            <p>Beyond simple conversion, the arithmetic section lets you add, subtract, multiply, and divide two numbers expressed in scientific notation. Enter each number as a coefficient and exponent pair, choose the operation, and get the result in normalized scientific notation. The calculator handles exponent alignment for addition and subtraction, exponent arithmetic for multiplication and division, and automatic renormalization of the result. This is invaluable for physics problem sets, chemistry stoichiometry calculations, astronomy distance comparisons, and any computation involving numbers that span many orders of magnitude.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Very Large and Very Small Numbers</h3>
+            <p>The converter handles numbers across an enormous range, from subatomic scales like the Planck length (1.616 times ten to the negative thirty-five meters) to cosmological scales like the observable universe diameter (8.8 times ten to the twenty-six meters). Unlike basic calculators that overflow or underflow at extreme values, this tool uses string-based parsing and careful floating-point handling to process numbers with exponents spanning hundreds of orders of magnitude. Enter values in any format and the tool will correctly parse and convert them without losing precision on the coefficient.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Engineering Notation for Metric Prefixes</h3>
+            <p>Engineering notation restricts the exponent to multiples of three, making it directly compatible with SI metric prefixes. A result of 4.7 times ten to the third instantly maps to 4.7 kilo, 2.2 times ten to the negative sixth maps to 2.2 micro, and 8.1 times ten to the ninth maps to 8.1 giga. Electrical engineers, mechanical engineers, and technicians routinely use engineering notation when working with component values, signal frequencies, power ratings, and dimensional tolerances. This converter bridges the gap between pure scientific notation and practical engineering communication.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Completely Free and Private</h3>
+            <p>This scientific notation converter runs entirely in your browser with no server-side processing. Your numbers are never uploaded or stored anywhere. There is no account required, no usage limit, and no advertisements blocking your workflow. After the page loads, conversions work even offline. The tool is designed for students, teachers, scientists, engineers, and anyone who works with very large or very small numbers on a daily basis. Bookmark this page and use it as your go-to reference whenever you need to convert between notation formats or perform scientific notation arithmetic.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Scientific Notation Converter</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li>Type or paste any number into the input field. You can enter a plain number like 186000, scientific notation like 1.86 x 10^5, or E-notation like 1.86e5. The converter accepts all common formats.</li>
+          <li>Click the Convert button to see the result in scientific notation, E-notation, engineering notation, and standard decimal form, along with the number of significant figures.</li>
+          <li>Use the Copy button to copy the scientific notation result to your clipboard for pasting into documents, spreadsheets, or code editors.</li>
+          <li>For arithmetic, scroll to the second card and enter two numbers as coefficient-exponent pairs. Select the operation (add, subtract, multiply, or divide) and click Calculate.</li>
+          <li>Click Clear at any time to reset the inputs and start a new conversion or calculation from scratch.</li>
+        </ol>
+      </section>
+
+      <!-- Understanding Scientific Notation -->
+      <section class="mt-4">
+        <h2>Understanding Scientific Notation</h2>
+        <p style="color:var(--text-muted);line-height:1.8">Scientific notation is a standardized way of writing numbers that are either very large or very small. The format consists of a coefficient (a number between 1 and 10) multiplied by ten raised to an integer power. This notation was developed to make calculations with extreme values more manageable and less error-prone. In astronomy, the distance from Earth to the nearest star beyond the Sun, Proxima Centauri, is approximately 4.014 times ten to the sixteenth meters. Writing that as 40,140,000,000,000,000 meters is unwieldy and invites mistakes when counting digits. Scientific notation solves this by compressing the number into a compact, standardized form that clearly communicates both the magnitude and the precision of the value.</p>
+
+        <h3 class="mt-3" style="font-size:1rem">Significant Figures in Scientific Notation</h3>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-2)">One of the key advantages of scientific notation is that it unambiguously communicates the number of significant figures in a measurement. In standard form, trailing zeros create ambiguity: does 1500 have two, three, or four significant figures? Writing the value as 1.5 times ten to the third clearly indicates two significant figures, while 1.500 times ten to the third indicates four. This precision is essential in laboratory science, where the number of significant figures reflects the accuracy of the measuring instrument. When performing calculations, the result should be rounded to match the least precise input, ensuring that reported values do not imply greater accuracy than the underlying measurements support.</p>
+
+        <h3 class="mt-3" style="font-size:1rem">Real-World Applications</h3>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-2)">Scientific notation appears across virtually every quantitative discipline. In chemistry, Avogadro's number (approximately 6.022 times ten to the twenty-third) defines the number of particles in a mole. In physics, the charge of an electron is approximately 1.602 times ten to the negative nineteenth coulombs. In biology, the diameter of a typical human cell is about 1 times ten to the negative fifth meters. In computer science, data storage capacities are measured in bytes that reach into the tens of powers of ten: a terabyte is ten to the twelfth bytes, a petabyte is ten to the fifteenth. In finance, national GDPs and global market capitalizations reach into the tens of trillions, numbers that are far more readable in scientific notation than in their fully expanded decimal form.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is scientific notation?</summary>
+          <p>Scientific notation expresses any number in the form a times ten raised to the power n, where the coefficient a is a value between 1 (inclusive) and 10 (exclusive), and n is an integer called the exponent. Positive exponents indicate large numbers: 5.97 times ten to the twenty-fourth represents the mass of Earth in kilograms. Negative exponents indicate small numbers: 1.6 times ten to the negative thirty-five represents the Planck length in meters. The notation standardizes how numbers are written so that the magnitude is immediately apparent from the exponent, while the coefficient preserves the significant digits of the measurement. This system has been universally adopted in science, engineering, and mathematics because it eliminates ambiguity, reduces transcription errors, and simplifies arithmetic with extreme values.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is E-notation and how does it relate to scientific notation?</summary>
+          <p>E-notation is a compact text representation of scientific notation designed for environments that cannot render superscripts or special characters. The letter E (or e) replaces the multiplication sign and base-ten symbol, so 3.0 times ten to the eighth becomes 3.0E8 or 3.0e8. This format originated in early computing when display capabilities were limited to ASCII characters and has persisted as the standard way to express scientific notation in programming languages such as Python, JavaScript, C, and Java, in spreadsheet software like Excel and Google Sheets, and on scientific calculators. The E is not a variable or a mathematical constant; it is purely a formatting convention meaning "times ten to the power of." When you encounter 6.674E-11 in a physics textbook or a data file, it means exactly 6.674 times ten to the negative eleventh.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What are significant figures and why do they matter?</summary>
+          <p>Significant figures are the digits in a number that carry meaning about its precision. The rules for identifying them are straightforward: all non-zero digits are significant, zeros between non-zero digits are significant, trailing zeros after a decimal point are significant, and leading zeros are never significant. For example, the number 0.004050 has four significant figures (4, 0, 5, and the trailing 0). Significant figures matter because they communicate measurement precision. If a scale reads 5.00 grams, the two trailing zeros tell you the instrument measures to the hundredths place. In calculations, the result should be rounded so it has no more significant figures than the least precise input, preventing the false appearance of greater accuracy than the data actually supports.</p>
+        </details>
+        <details class="faq-item">
+          <summary>When should I use scientific notation instead of regular numbers?</summary>
+          <p>Scientific notation becomes essential whenever numbers are very large (above a million or so) or very small (below a thousandth). Writing out all the digits of the speed of light as 299,792,458 meters per second is manageable, but the mass of a proton at 0.00000000000000000000000000167 kilograms is not. Beyond readability, scientific notation prevents errors in data entry, makes it easier to compare magnitudes at a glance, and simplifies multiplication and division by turning them into addition and subtraction of exponents. It is the standard in scientific papers, technical reports, engineering specifications, and any context where precision and clarity are paramount. Even in everyday life, understanding scientific notation helps you interpret news reports about national debt figures, astronomical distances, or microscopic biological measurements.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is engineering notation and how is it different?</summary>
+          <p>Engineering notation is a variant of scientific notation that restricts the exponent to multiples of three. Instead of writing 47,000 as 4.7 times ten to the fourth, engineering notation expresses it as 47 times ten to the third. This constraint means the coefficient can range from 1 to 999 rather than being limited to between 1 and 10. The advantage is that exponents in multiples of three correspond directly to SI metric prefixes: ten to the third is kilo, ten to the sixth is mega, ten to the ninth is giga, ten to the negative third is milli, ten to the negative sixth is micro, and so on. Electrical engineers use engineering notation almost exclusively because component values, signal frequencies, and power levels naturally align with these prefixes. A 4.7 kilohm resistor is written as 4.7 times ten to the third ohms, which is immediately recognizable.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do you multiply and divide numbers in scientific notation?</summary>
+          <p>Multiplication and division in scientific notation are straightforward because the coefficient and exponent can be handled separately. To multiply, multiply the coefficients and add the exponents: (2.5 times ten to the third) times (4.0 times ten to the fifth) equals 10.0 times ten to the eighth. Then normalize by shifting the decimal to get 1.0 times ten to the ninth. To divide, divide the coefficients and subtract the exponents: (9.0 times ten to the sixth) divided by (3.0 times ten to the second) equals 3.0 times ten to the fourth. This property makes scientific notation especially convenient for physics and chemistry calculations where you frequently multiply and divide measurements that span many orders of magnitude.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do you add and subtract numbers in scientific notation?</summary>
+          <p>Addition and subtraction require an extra step compared to multiplication and division. Both numbers must share the same exponent before you can combine the coefficients. Choose one exponent (typically the larger one) and adjust the other number's coefficient accordingly. For example, to add 5.4 times ten to the sixth and 3.2 times ten to the fifth, rewrite the second as 0.32 times ten to the sixth. Then add the coefficients: 5.4 plus 0.32 equals 5.72, giving a result of 5.72 times ten to the sixth. This alignment step is necessary because the exponent represents a scaling factor, and you cannot meaningfully add numbers at different scales without first converting them to the same scale. The arithmetic calculator on this page handles this alignment automatically.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/fraction">Fraction Calculator</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+          <a href="https://toolrip.com/bmi">BMI Calculator</a>
+          <a href="https://toolrip.com/age">Age Calculator</a>
+          <a href="https://toolrip.com/compound-interest">Compound Interest Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Scientific Notation Converter JS -->
+  <script>
+  (function() {
+    'use strict';
+
+    /* ========== Parsing Utilities ========== */
+
+    /**
+     * Parse a user input string into a { coefficient, exponent } object.
+     * Accepts formats:
+     *   - Plain numbers: 123456, 0.00045, -300000
+     *   - E-notation: 3.5e8, 3.5E-4, -2.1e+12
+     *   - Scientific: 3.5 x 10^8, 3.5 × 10^-4, 3.5*10^8
+     * Returns null if unparseable.
+     */
+    function parseInput(str) {
+      str = str.trim();
+      if (str === '') return null;
+
+      // Remove commas and spaces around signs
+      str = str.replace(/,/g, '');
+
+      // Try scientific notation: a x 10^n or a × 10^n or a*10^n
+      var sciMatch = str.match(/^([+-]?\d+\.?\d*)\s*[x\u00d7\*]\s*10\s*\^\s*([+-]?\d+)$/i);
+      if (sciMatch) {
+        var coef = parseFloat(sciMatch[1]);
+        var exp = parseInt(sciMatch[2], 10);
+        if (isNaN(coef) || isNaN(exp)) return null;
+        return normalizeToSci(coef, exp);
+      }
+
+      // Try E-notation: aEn or aen
+      var eMatch = str.match(/^([+-]?\d+\.?\d*)\s*[eE]\s*([+-]?\d+)$/);
+      if (eMatch) {
+        var coef2 = parseFloat(eMatch[1]);
+        var exp2 = parseInt(eMatch[2], 10);
+        if (isNaN(coef2) || isNaN(exp2)) return null;
+        return normalizeToSci(coef2, exp2);
+      }
+
+      // Try plain number
+      if (/^[+-]?\d+\.?\d*$/.test(str) || /^[+-]?\.\d+$/.test(str)) {
+        var num = parseFloat(str);
+        if (isNaN(num) || !isFinite(num)) return null;
+        return numberToSci(num, str);
+      }
+
+      return null;
+    }
+
+    /**
+     * Convert a coefficient and exponent into normalized scientific notation.
+     * Coefficient must be in [1, 10) for normalized form.
+     */
+    function normalizeToSci(coef, exp) {
+      if (coef === 0) return { coef: 0, exp: 0, negative: false };
+      var negative = coef < 0;
+      coef = Math.abs(coef);
+
+      // Normalize: shift coefficient to [1, 10)
+      while (coef >= 10) {
+        coef /= 10;
+        exp += 1;
+      }
+      while (coef < 1) {
+        coef *= 10;
+        exp -= 1;
+      }
+
+      // Round to 15 significant digits to avoid floating point noise
+      coef = parseFloat(coef.toPrecision(15));
+
+      return { coef: coef, exp: exp, negative: negative };
+    }
+
+    /**
+     * Convert a plain number to scientific notation, preserving sig figs from string.
+     */
+    function numberToSci(num, originalStr) {
+      if (num === 0) return { coef: 0, exp: 0, negative: false };
+      var negative = num < 0;
+      var absNum = Math.abs(num);
+
+      var exp = Math.floor(Math.log10(absNum));
+      var coef = absNum / Math.pow(10, exp);
+
+      // Fix floating point precision issues
+      coef = parseFloat(coef.toPrecision(15));
+
+      // Ensure coefficient is in [1, 10)
+      if (coef >= 10) { coef /= 10; exp += 1; }
+      if (coef < 1 && coef > 0) { coef *= 10; exp -= 1; }
+
+      return { coef: coef, exp: exp, negative: negative };
+    }
+
+    /**
+     * Count significant figures from the original input string.
+     */
+    function countSigFigs(str) {
+      str = str.trim().replace(/,/g, '');
+
+      // Extract just the number part (remove exponent notation)
+      var numPart = str;
+      // Remove scientific notation part
+      numPart = numPart.replace(/\s*[x\u00d7\*]\s*10\s*\^\s*[+-]?\d+$/i, '');
+      numPart = numPart.replace(/\s*[eE]\s*[+-]?\d+$/, '');
+
+      // Remove sign
+      numPart = numPart.replace(/^[+-]/, '');
+
+      if (numPart === '' || numPart === '0') return 1;
+
+      var hasDecimal = numPart.indexOf('.') !== -1;
+
+      // Remove leading zeros (including those before decimal)
+      if (hasDecimal) {
+        // For numbers like 0.00340
+        var parts = numPart.split('.');
+        var intPart = parts[0].replace(/^0+/, '') || '';
+        var decPart = parts[1] || '';
+
+        if (intPart === '' || intPart === '0') {
+          // Pure decimal: 0.00340 -> sig figs start at first non-zero
+          var stripped = decPart.replace(/^0+/, '');
+          return stripped.length;
+        } else {
+          // Has integer part: 12.340
+          return intPart.length + decPart.length;
+        }
+      } else {
+        // No decimal point: 1500 -> trailing zeros are ambiguous, count non-trailing
+        var stripped2 = numPart.replace(/^0+/, '');
+        if (stripped2 === '') return 1;
+        // Remove trailing zeros for ambiguous case
+        var withoutTrailing = stripped2.replace(/0+$/, '');
+        return withoutTrailing.length || 1;
+      }
+    }
+
+    /**
+     * Format coefficient to a clean string (remove trailing zeros after decimal unless meaningful).
+     */
+    function formatCoef(coef, sigFigs) {
+      if (coef === 0) return '0';
+      // Show reasonable precision
+      var digits = Math.max(sigFigs || 4, 1);
+      var s = coef.toPrecision(Math.min(digits, 15));
+      // Remove unnecessary trailing zeros only if there are many
+      if (s.indexOf('.') !== -1) {
+        s = s.replace(/0{3,}$/, '');
+        s = s.replace(/\.$/, '');
+      }
+      return s;
+    }
+
+    /**
+     * Convert to engineering notation (exponent is multiple of 3).
+     */
+    function toEngineering(coef, exp, negative) {
+      if (coef === 0) return { coef: 0, exp: 0 };
+
+      var fullCoef = coef;
+      var fullExp = exp;
+
+      // Adjust exponent to nearest lower multiple of 3
+      var remainder = ((fullExp % 3) + 3) % 3; // always positive
+      var engExp = fullExp - remainder;
+      var engCoef = fullCoef * Math.pow(10, remainder);
+
+      // Clean up floating point
+      engCoef = parseFloat(engCoef.toPrecision(15));
+
+      return { coef: engCoef, exp: engExp, negative: negative };
+    }
+
+    /**
+     * Convert scientific notation back to a decimal string.
+     * Handles very large and very small numbers by string manipulation.
+     */
+    function toDecimalString(coef, exp, negative) {
+      if (coef === 0) return '0';
+
+      var coefStr = String(coef);
+      var sign = negative ? '-' : '';
+
+      // Remove decimal point from coefficient to work with digits
+      var dotIdx = coefStr.indexOf('.');
+      var digits;
+      var decPlaces;
+
+      if (dotIdx === -1) {
+        digits = coefStr;
+        decPlaces = 0;
+      } else {
+        digits = coefStr.replace('.', '');
+        decPlaces = coefStr.length - dotIdx - 1;
+      }
+
+      // Effective position: exponent shifts the decimal
+      // The coefficient has the decimal after the first digit (since normalized)
+      // So the actual number is digits * 10^(exp - decPlaces)
+      var shift = exp - decPlaces;
+
+      if (shift >= 0) {
+        // Need to add zeros to the right
+        var result = digits;
+        for (var i = 0; i < shift; i++) result += '0';
+        return sign + result;
+      } else {
+        // Need to place decimal point within or before digits
+        var totalDigits = digits.length;
+        var decimalPos = totalDigits + shift; // position from left
+
+        if (decimalPos > 0) {
+          // Decimal goes within the digits
+          return sign + digits.substring(0, decimalPos) + '.' + digits.substring(decimalPos);
+        } else {
+          // Decimal goes before all digits, need leading zeros
+          var leadingZeros = '';
+          for (var j = 0; j < -decimalPos; j++) leadingZeros += '0';
+          return sign + '0.' + leadingZeros + digits;
+        }
+      }
+    }
+
+    /* ========== Main Converter ========== */
+
+    var numInput = document.getElementById('numInput');
+    var convertBtn = document.getElementById('convertBtn');
+    var clearBtn = document.getElementById('clearBtn');
+    var copyBtn = document.getElementById('copyBtn');
+    var resultCard = document.getElementById('resultCard');
+    var resSci = document.getElementById('resSci');
+    var resE = document.getElementById('resE');
+    var resEng = document.getElementById('resEng');
+    var resSigFig = document.getElementById('resSigFig');
+    var resDecimal = document.getElementById('resDecimal');
+
+    function setEmpty() {
+      var ids = [resSci, resE, resEng, resSigFig, resDecimal];
+      ids.forEach(function(el) {
+        el.textContent = '\u2014';
+        el.classList.add('empty');
+      });
+      resultCard.classList.remove('has-value');
+    }
+
+    function convert() {
+      var raw = numInput.value;
+      var parsed = parseInput(raw);
+
+      if (!parsed) {
+        setEmpty();
+        showToast('Please enter a valid number', 'error');
+        return;
+      }
+
+      var sign = parsed.negative ? '-' : '';
+      var sigFigs = countSigFigs(raw);
+      var coefStr = formatCoef(parsed.coef, sigFigs);
+
+      // Scientific notation: a × 10^n
+      if (parsed.coef === 0) {
+        resSci.textContent = '0';
+      } else {
+        resSci.textContent = sign + coefStr + ' \u00d7 10^' + parsed.exp;
+      }
+      resSci.classList.remove('empty');
+
+      // E-notation: aEn
+      if (parsed.coef === 0) {
+        resE.textContent = '0';
+      } else {
+        resE.textContent = sign + coefStr + 'E' + parsed.exp;
+      }
+      resE.classList.remove('empty');
+
+      // Engineering notation
+      var eng = toEngineering(parsed.coef, parsed.exp, parsed.negative);
+      var engSign = eng.negative ? '-' : '';
+      if (eng.coef === 0) {
+        resEng.textContent = '0';
+      } else {
+        var engCoefStr = formatCoef(eng.coef, sigFigs);
+        if (eng.exp === 0) {
+          resEng.textContent = engSign + engCoefStr;
+        } else {
+          resEng.textContent = engSign + engCoefStr + ' \u00d7 10^' + eng.exp;
+        }
+      }
+      resEng.classList.remove('empty');
+
+      // Significant figures
+      resSigFig.textContent = sigFigs;
+      resSigFig.classList.remove('empty');
+
+      // Standard decimal form
+      var decStr = toDecimalString(parsed.coef, parsed.exp, parsed.negative);
+      // Truncate display if too long
+      if (decStr.length > 60) {
+        resDecimal.textContent = decStr.substring(0, 57) + '...';
+      } else {
+        resDecimal.textContent = decStr;
+      }
+      resDecimal.classList.remove('empty');
+
+      resultCard.classList.add('has-value');
+    }
+
+    convertBtn.addEventListener('click', convert);
+
+    numInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') { e.preventDefault(); convert(); }
+    });
+
+    clearBtn.addEventListener('click', function() {
+      numInput.value = '';
+      setEmpty();
+      numInput.focus();
+    });
+
+    copyBtn.addEventListener('click', function() {
+      var text = resSci.textContent;
+      if (text === '\u2014') return;
+      copyToClipboard(text, copyBtn);
+    });
+
+    /* ========== Arithmetic Section ========== */
+
+    var coefA = document.getElementById('coefA');
+    var expA = document.getElementById('expA');
+    var coefB = document.getElementById('coefB');
+    var expB = document.getElementById('expB');
+    var arithBtn = document.getElementById('arithBtn');
+    var arithClearBtn = document.getElementById('arithClearBtn');
+    var arithResult = document.getElementById('arithResult');
+    var arithValue = document.getElementById('arithValue');
+
+    var currentOp = '+';
+
+    document.querySelectorAll('.op-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.op-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        currentOp = btn.dataset.op;
+      });
+    });
+
+    function arithCalc() {
+      var cA = parseFloat(coefA.value);
+      var eA = parseInt(expA.value, 10);
+      var cB = parseFloat(coefB.value);
+      var eB = parseInt(expB.value, 10);
+
+      if (isNaN(cA) || isNaN(eA) || isNaN(cB) || isNaN(eB)) {
+        arithValue.textContent = '\u2014';
+        arithValue.classList.add('empty');
+        arithResult.classList.remove('has-value');
+        showToast('Enter valid coefficients and exponents', 'error');
+        return;
+      }
+
+      var valA = cA * Math.pow(10, eA);
+      var valB = cB * Math.pow(10, eB);
+      var result;
+
+      switch (currentOp) {
+        case '+':
+          result = valA + valB;
+          break;
+        case '-':
+          result = valA - valB;
+          break;
+        case '*':
+          result = valA * valB;
+          break;
+        case '/':
+          if (valB === 0) {
+            arithValue.textContent = '\u2014';
+            arithValue.classList.add('empty');
+            arithResult.classList.remove('has-value');
+            showToast('Cannot divide by zero', 'error');
+            return;
+          }
+          result = valA / valB;
+          break;
+      }
+
+      if (!isFinite(result)) {
+        arithValue.textContent = 'Overflow';
+        arithValue.classList.remove('empty');
+        arithResult.classList.add('has-value');
+        showToast('Result too large to represent', 'error');
+        return;
+      }
+
+      if (result === 0) {
+        arithValue.textContent = '0';
+        arithValue.classList.remove('empty');
+        arithResult.classList.add('has-value');
+        return;
+      }
+
+      var negative = result < 0;
+      var absResult = Math.abs(result);
+      var rExp = Math.floor(Math.log10(absResult));
+      var rCoef = absResult / Math.pow(10, rExp);
+
+      // Fix floating point issues
+      rCoef = parseFloat(rCoef.toPrecision(10));
+      if (rCoef >= 10) { rCoef /= 10; rExp += 1; }
+      if (rCoef < 1 && rCoef > 0) { rCoef *= 10; rExp -= 1; }
+
+      var sign = negative ? '-' : '';
+      var rCoefStr = rCoef.toPrecision(6).replace(/0{2,}$/, '').replace(/\.$/, '');
+
+      arithValue.textContent = sign + rCoefStr + ' \u00d7 10^' + rExp + '  (' + sign + rCoefStr + 'E' + rExp + ')';
+      arithValue.classList.remove('empty');
+      arithResult.classList.add('has-value');
+    }
+
+    arithBtn.addEventListener('click', arithCalc);
+
+    [coefA, expA, coefB, expB].forEach(function(el) {
+      el.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') { e.preventDefault(); arithCalc(); }
+      });
+    });
+
+    arithClearBtn.addEventListener('click', function() {
+      coefA.value = ''; expA.value = '';
+      coefB.value = ''; expB.value = '';
+      arithValue.textContent = '\u2014';
+      arithValue.classList.add('empty');
+      arithResult.classList.remove('has-value');
+      coefA.focus();
+    });
+
+    /* ========== Focus first input ========== */
+    numInput.focus();
+
+  })();
+  </script>
+</body>
+</html>

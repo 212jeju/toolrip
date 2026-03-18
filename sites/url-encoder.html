@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URL Encoder &amp; Decoder Online — Free, No Signup | Toolrip</title>
+  <meta name="description" content="Encode and decode URLs online for free. Supports encodeURI and encodeURIComponent modes, percent-encoding per RFC 3986. No signup — 100% client-side.">
+  <link rel="canonical" href="https://toolrip.com/url-encode">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="URL Encoder &amp; Decoder — Toolrip">
+  <meta property="og:description" content="Encode and decode URLs online for free. Supports encodeURI and encodeURIComponent modes, percent-encoding per RFC 3986. No signup — 100% client-side.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/url-encode">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="URL Encoder &amp; Decoder — Toolrip">
+  <meta name="twitter:description" content="Encode and decode URLs online for free. Supports encodeURI and encodeURIComponent modes, percent-encoding per RFC 3986. No signup — 100% client-side.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root{--accent:var(--developer)}
+
+    /* Tool-specific styles */
+    .toolbar{display:flex;flex-wrap:wrap;gap:var(--sp-2);align-items:center;margin-bottom:var(--sp-3)}
+    .toolbar-right{margin-left:auto;display:flex;gap:var(--sp-2);align-items:center;flex-wrap:wrap}
+    @media(max-width:639px){.toolbar-right{margin-left:0;width:100%}}
+
+    .btn-sm{padding:var(--sp-1) var(--sp-2);font-size:.8125rem;border-radius:var(--radius-sm)}
+
+    .url-input{width:100%;min-height:200px;resize:vertical;background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);color:var(--text);font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.875rem;padding:var(--sp-3);line-height:1.6;tab-size:2}
+    .url-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent)}
+
+    .output-panel{position:relative;width:100%;min-height:120px;background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);padding:var(--sp-3);overflow:auto;font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.875rem;line-height:1.6;white-space:pre-wrap;word-break:break-all}
+
+    .stat-bar{display:flex;flex-wrap:wrap;gap:var(--sp-3);font-size:.8125rem;color:var(--text-muted);margin-top:var(--sp-2)}
+    .stat-bar span{display:inline-flex;align-items:center;gap:4px}
+
+    .option-row{display:flex;flex-wrap:wrap;gap:var(--sp-3);align-items:center;margin-bottom:var(--sp-3);
+      padding:var(--sp-2) var(--sp-3);background:var(--bg);border:1px solid var(--border);border-radius:var(--radius)}
+    .option-row label{font-size:.8125rem;color:var(--text-muted);display:flex;align-items:center;gap:var(--sp-2)}
+
+    .error-bar{background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);border-radius:var(--radius-sm);
+      padding:var(--sp-2) var(--sp-3);color:#fca5a5;font-size:.8125rem;margin-bottom:var(--sp-2);display:none;
+      font-family:'Consolas','Monaco','Courier New',monospace;line-height:1.5}
+    .error-bar.visible{display:block}
+
+    .success-bar{background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);border-radius:var(--radius-sm);
+      padding:var(--sp-2) var(--sp-3);color:#6ee7b7;font-size:.8125rem;margin-bottom:var(--sp-2);display:none}
+    .success-bar.visible{display:block}
+
+    /* Reference table */
+    .ref-table{width:100%;border-collapse:collapse;margin:var(--sp-3) 0;font-size:.875rem}
+    .ref-table th,.ref-table td{padding:var(--sp-2) var(--sp-3);border:1px solid var(--border);text-align:left}
+    .ref-table th{background:var(--bg-elevated);color:var(--text);font-weight:600;font-size:.8125rem;text-transform:uppercase;letter-spacing:.03em}
+    .ref-table td{color:var(--text-muted);font-family:'Consolas','Monaco','Courier New',monospace}
+    .ref-table tr:nth-child(even) td{background:var(--bg-surface)}
+
+    /* Radio group for encode mode */
+    .radio-group{display:flex;gap:var(--sp-3);align-items:center}
+    .radio-group label{font-size:.8125rem;color:var(--text-muted);display:flex;align-items:center;gap:6px;cursor:pointer}
+    .radio-group input[type="radio"]{accent-color:var(--accent);cursor:pointer}
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "URL Encoder & Decoder",
+    "url": "https://toolrip.com/url-encode",
+    "description": "Encode and decode URLs online for free. Supports encodeURI and encodeURIComponent modes, percent-encoding per RFC 3986, and special character handling. No signup required.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Developer Tools", "item": "https://toolrip.com/#developer" },
+      { "@type": "ListItem", "position": 3, "name": "URL Encoder & Decoder", "item": "https://toolrip.com/url-encode" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is URL encoding?",
+        "acceptedAnswer": { "@type": "Answer", "text": "URL encoding, also called percent-encoding, is a mechanism for converting characters into a format that can be safely transmitted within a URL. Characters that have special meaning in URLs or that fall outside the allowed ASCII set are replaced with a percent sign followed by two hexadecimal digits representing the character's byte value." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between encodeURI and encodeURIComponent?",
+        "acceptedAnswer": { "@type": "Answer", "text": "encodeURI encodes a full URI while preserving characters that have structural meaning such as colons, slashes, question marks, and hash signs. encodeURIComponent encodes every special character including those structural delimiters, making it suitable for encoding individual query parameter values or path segments." }
+      },
+      {
+        "@type": "Question",
+        "name": "Why is a space encoded as %20 instead of a plus sign?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The %20 representation is defined by RFC 3986 as the standard percent-encoding for a space character. The plus sign as a space substitute originated from the HTML form encoding specification (application/x-www-form-urlencoded) and is only valid within form data. In general URL contexts, %20 is the correct encoding." }
+      },
+      {
+        "@type": "Question",
+        "name": "Which characters need to be URL-encoded?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Characters outside the unreserved set defined in RFC 3986 should be percent-encoded. Unreserved characters include uppercase and lowercase letters, digits 0 through 9, hyphens, periods, underscores, and tildes. All other characters, including spaces, ampersands, equals signs, and non-ASCII characters, must be encoded." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is URL encoding the same as HTML encoding?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. URL encoding (percent-encoding) converts characters to percent-hex format for safe transmission in URLs. HTML encoding converts characters to HTML entity references like &amp; and &lt; to prevent them from being interpreted as markup. They serve different purposes and are not interchangeable." }
+      },
+      {
+        "@type": "Question",
+        "name": "How does URL encoding handle Unicode and non-ASCII characters?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Non-ASCII characters are first converted to their UTF-8 byte sequence, then each byte is individually percent-encoded. For example, the Euro sign is encoded as %E2%82%AC because its UTF-8 representation consists of three bytes: E2, 82, and AC." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is my data safe when using this URL encoder?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. This tool runs entirely in your browser using JavaScript. No data is sent to any server, stored in any database, or logged anywhere. All encoding and decoding operations happen locally on your device, making it safe for sensitive URLs containing API keys, tokens, or private parameters." }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#developer">Developer Tools</a>
+        <span>/</span>
+        <span>URL Encoder &amp; Decoder</span>
+      </nav>
+
+      <h1>URL Encoder &amp; Decoder Online</h1>
+      <p class="text-muted mt-1 mb-3">Encode or decode URLs and query strings using percent-encoding. Choose between full URL encoding and component encoding to handle special characters correctly. All processing runs locally in your browser with zero server communication.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <!-- Tabs -->
+        <div class="tab-group">
+          <button class="tab active" data-tab="panel-encode">Encode</button>
+          <button class="tab" data-tab="panel-decode">Decode</button>
+        </div>
+
+        <!-- Options row -->
+        <div class="option-row">
+          <span style="font-size:.8125rem;color:var(--text-muted);font-weight:500">Encoding mode:</span>
+          <div class="radio-group">
+            <label>
+              <input type="radio" name="encode-mode" value="component" checked>
+              encodeURIComponent
+            </label>
+            <label>
+              <input type="radio" name="encode-mode" value="uri">
+              encodeURI
+            </label>
+          </div>
+        </div>
+
+        <!-- Error / Success bars -->
+        <div class="error-bar" id="error-bar"></div>
+        <div class="success-bar" id="success-bar"></div>
+
+        <!-- Encode panel -->
+        <div id="panel-encode" class="tab-panel">
+          <div class="input-group">
+            <label for="encode-input">Text or URL to Encode</label>
+            <textarea id="encode-input" class="url-input" placeholder="Enter text or URL to encode...&#10;&#10;Example: https://example.com/search?q=hello world&lang=en" spellcheck="false" rows="8"></textarea>
+            <div class="stat-bar">
+              <span>Characters: <strong id="encode-input-chars">0</strong></span>
+              <span>Bytes (UTF-8): <strong id="encode-input-bytes">0</strong></span>
+            </div>
+          </div>
+
+          <div class="toolbar">
+            <button class="btn-primary btn-sm" onclick="handleEncode()">Encode</button>
+            <button class="btn-secondary btn-sm" onclick="handleClear('encode')">Clear</button>
+            <button class="btn-secondary btn-sm" onclick="handleCopyOutput('encode')">Copy Output</button>
+          </div>
+
+          <div class="input-group">
+            <label>Encoded Output</label>
+            <div class="output-panel" id="encode-output">
+              <button class="copy-btn" onclick="handleCopyOutput('encode')">Copy</button>
+              <span class="text-muted" style="font-size:.8125rem">Encoded output will appear here...</span>
+            </div>
+            <div class="stat-bar">
+              <span>Characters: <strong id="encode-output-chars">0</strong></span>
+              <span>Increase: <strong id="encode-ratio">&mdash;</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Decode panel -->
+        <div id="panel-decode" class="tab-panel hidden">
+          <div class="input-group">
+            <label for="decode-input">Encoded URL or Text to Decode</label>
+            <textarea id="decode-input" class="url-input" placeholder="Enter percent-encoded text to decode...&#10;&#10;Example: https%3A%2F%2Fexample.com%2Fsearch%3Fq%3Dhello%20world" spellcheck="false" rows="8"></textarea>
+            <div class="stat-bar">
+              <span>Characters: <strong id="decode-input-chars">0</strong></span>
+            </div>
+          </div>
+
+          <div class="toolbar">
+            <button class="btn-primary btn-sm" onclick="handleDecode()">Decode</button>
+            <button class="btn-secondary btn-sm" onclick="handleClear('decode')">Clear</button>
+            <button class="btn-secondary btn-sm" onclick="handleCopyOutput('decode')">Copy Output</button>
+          </div>
+
+          <div class="input-group">
+            <label>Decoded Output</label>
+            <div class="output-panel" id="decode-output">
+              <button class="copy-btn" onclick="handleCopyOutput('decode')">Copy</button>
+              <span class="text-muted" style="font-size:.8125rem">Decoded output will appear here...</span>
+            </div>
+            <div class="stat-bar">
+              <span>Characters: <strong id="decode-output-chars">0</strong></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Real-Time Encoding</h3>
+            <p>Convert text and URLs to their percent-encoded form instantly as you type. The tool uses the browser's native <code>encodeURI</code> and <code>encodeURIComponent</code> functions for accurate and standards-compliant encoding. There is no server round-trip, no upload delay, and no character limit. Results appear immediately in the output panel, making it easy to iterate on complex query strings or multi-parameter URLs. The real-time feedback loop helps you understand exactly which characters are being encoded and why, which is especially valuable when debugging URL construction issues in web applications.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Dual Encoding Modes</h3>
+            <p>Choose between two encoding strategies depending on your use case. The <code>encodeURIComponent</code> mode encodes every special character including slashes, colons, and question marks, making it ideal for encoding individual query parameter values, path segments, or any string that will be embedded inside a larger URL. The <code>encodeURI</code> mode preserves URL structural characters like the protocol separator, path delimiters, and query string markers, making it suitable for encoding a complete URL while keeping its structure intact. Switching between modes is instant and the output updates automatically.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Complete Privacy</h3>
+            <p>Your data never leaves your device. Every encoding and decoding operation is executed entirely on the client side, inside your web browser's JavaScript engine. No information is transmitted to any server, stored in any database, or logged anywhere. This makes the tool safe for encoding sensitive URLs that contain API keys, authentication tokens, session identifiers, or private query parameters. You can verify this by inspecting your browser's network tab while using the tool. The page works fully offline after initial load because it does not depend on any server-side component for its core functionality.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the URL Encoder &amp; Decoder</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Select your mode.</strong> Click the <em>Encode</em> tab to convert text into a percent-encoded URL string, or click the <em>Decode</em> tab to convert an encoded string back into readable text. Choose between <em>encodeURIComponent</em> (encodes all special characters) and <em>encodeURI</em> (preserves URL structural characters) depending on whether you are encoding a query parameter value or a full URL.</li>
+          <li><strong>Enter your data.</strong> Type or paste your text, URL, or query string into the input textarea. The character and byte counts update in real time as you type. For encoding, enter the raw unencoded text. For decoding, paste the percent-encoded string you want to convert back to human-readable form.</li>
+          <li><strong>Process and copy.</strong> Click the <em>Encode</em> or <em>Decode</em> button to transform your data. The result appears instantly in the output panel along with character count statistics and the size increase ratio. Click <em>Copy Output</em> or the <em>Copy</em> button in the output panel to send the result to your clipboard for use in your code, API calls, or browser address bar.</li>
+        </ol>
+      </section>
+
+      <!-- Reference Table -->
+      <section class="mt-4">
+        <h2>Common URL Encoded Characters</h2>
+        <p class="text-muted mb-2">The following table lists frequently encountered characters and their percent-encoded representations. These encodings are defined by RFC 3986 and are used whenever a character cannot appear literally in a URL.</p>
+        <div style="overflow-x:auto">
+          <table class="ref-table">
+            <thead>
+              <tr><th>Character</th><th>Encoded</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>(space)</td><td>%20</td><td>Space character</td></tr>
+              <tr><td>!</td><td>%21</td><td>Exclamation mark</td></tr>
+              <tr><td>#</td><td>%23</td><td>Hash / fragment identifier</td></tr>
+              <tr><td>$</td><td>%24</td><td>Dollar sign</td></tr>
+              <tr><td>&amp;</td><td>%26</td><td>Ampersand / query separator</td></tr>
+              <tr><td>'</td><td>%27</td><td>Apostrophe / single quote</td></tr>
+              <tr><td>(</td><td>%28</td><td>Opening parenthesis</td></tr>
+              <tr><td>)</td><td>%29</td><td>Closing parenthesis</td></tr>
+              <tr><td>+</td><td>%2B</td><td>Plus sign</td></tr>
+              <tr><td>,</td><td>%2C</td><td>Comma</td></tr>
+              <tr><td>/</td><td>%2F</td><td>Forward slash / path separator</td></tr>
+              <tr><td>:</td><td>%3A</td><td>Colon</td></tr>
+              <tr><td>;</td><td>%3B</td><td>Semicolon</td></tr>
+              <tr><td>=</td><td>%3D</td><td>Equals sign</td></tr>
+              <tr><td>?</td><td>%3F</td><td>Question mark / query start</td></tr>
+              <tr><td>@</td><td>%40</td><td>At sign</td></tr>
+              <tr><td>[</td><td>%5B</td><td>Opening bracket</td></tr>
+              <tr><td>]</td><td>%5D</td><td>Closing bracket</td></tr>
+              <tr><td>{</td><td>%7B</td><td>Opening brace</td></tr>
+              <tr><td>}</td><td>%7D</td><td>Closing brace</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- SEO Content Section -->
+      <section class="mt-4">
+        <h2>Understanding URL Encoding and Percent-Encoding</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">URL encoding is a fundamental mechanism of the World Wide Web that ensures data can be safely transmitted within Uniform Resource Locators. Every URL is composed of a specific set of allowed characters defined by RFC 3986, the standard that governs URI syntax. When a URL needs to contain characters outside this permitted set, those characters must be converted into a special format known as percent-encoding. In percent-encoding, each unsafe character is replaced by a percent sign followed by two hexadecimal digits that represent the character's byte value in UTF-8 encoding. For instance, a space character becomes <code>%20</code>, an ampersand becomes <code>%26</code>, and an equals sign becomes <code>%3D</code>.</p>
+
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">The need for URL encoding arises because URLs serve a dual purpose: they are both human-readable addresses and machine-parseable identifiers. Certain characters carry structural meaning within a URL. The colon and double slash separate the protocol from the host, the question mark marks the beginning of the query string, the ampersand separates key-value pairs in query parameters, and the hash sign introduces the fragment identifier. If these characters appear in the data portion of a URL without being encoded, they would be misinterpreted as structural delimiters, breaking the URL's intended meaning. URL encoding eliminates this ambiguity by converting data characters into an unambiguous percent-encoded representation.</p>
+
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">RFC 3986 defines two categories of characters in URIs: unreserved characters and reserved characters. Unreserved characters include all uppercase and lowercase ASCII letters (A through Z, a through z), the ten digits (0 through 9), and four special symbols: the hyphen, period, underscore, and tilde. These characters can appear anywhere in a URL without encoding. Reserved characters include the colon, slash, question mark, hash, brackets, at sign, exclamation mark, dollar sign, ampersand, apostrophe, parentheses, asterisk, plus, comma, semicolon, and equals sign. These characters have special syntactic meaning and must be percent-encoded when they appear in a data context rather than a structural context.</p>
+
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">JavaScript provides two built-in functions for URL encoding, and understanding the difference between them is essential for web developers. The <code>encodeURIComponent</code> function encodes all characters except unreserved characters as defined in RFC 3986. This makes it the correct choice for encoding individual components of a URL, such as query parameter values, path segments, and fragment identifiers. For example, if a search query contains an ampersand or an equals sign, using <code>encodeURIComponent</code> ensures those characters are percent-encoded and not mistaken for query string delimiters. The <code>encodeURI</code> function, on the other hand, is designed to encode a complete URI while preserving characters that form the structural skeleton of the URL, such as the protocol separator, path slashes, and query markers. Using <code>encodeURI</code> on a full URL keeps it structurally valid while encoding only the characters within each component that require it.</p>
+
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Non-ASCII characters, including accented letters, Chinese characters, Arabic script, emoji, and other Unicode code points, receive special treatment during URL encoding. These characters are first converted into their UTF-8 byte representation, and then each byte is individually percent-encoded. A single Unicode character can produce multiple percent-encoded triplets. For example, the Japanese character for mountain is represented as three bytes in UTF-8, resulting in three consecutive percent-encoded triplets in the URL. This multi-byte encoding ensures that URLs remain compatible with the ASCII-based infrastructure of the internet while supporting the full range of Unicode characters used in modern web content.</p>
+
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">A common source of confusion is the difference between the space encodings <code>%20</code> and <code>+</code>. The <code>%20</code> format is the standard percent-encoding for a space as defined by RFC 3986 and is correct in all URL contexts. The plus sign as a space replacement is a convention from the <code>application/x-www-form-urlencoded</code> content type used by HTML forms. When a browser submits a form using the GET method, spaces in form field values are encoded as plus signs in the resulting query string. While most servers and URL parsers accept both formats in query strings, <code>%20</code> is the universally safe choice for all parts of a URL. This tool uses the standard JavaScript encoding functions which produce <code>%20</code> for spaces, ensuring maximum compatibility across all URL contexts.</p>
+
+        <p style="color:var(--text-muted);line-height:1.7">URL encoding plays a critical role in web security as well. Improper encoding of user-supplied data in URLs can lead to injection attacks, broken links, and data corruption. Cross-site scripting attacks can exploit URLs that contain unencoded angle brackets or script tags. Open redirect vulnerabilities can arise when URL parameters contain unencoded redirect targets. SQL injection can occur through unencoded query parameters that reach a database layer. By consistently encoding all user-supplied values before inserting them into URLs, developers can prevent an entire class of security vulnerabilities. This tool helps developers verify their encoding logic by providing instant visual feedback on how special characters are transformed, making it easier to identify and fix encoding errors before they reach production systems.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is URL encoding?</summary>
+          <p>URL encoding, also called percent-encoding, is a mechanism for converting characters into a format that can be safely transmitted within a Uniform Resource Locator. URLs are restricted to a specific set of ASCII characters defined by RFC 3986. Any character outside this allowed set must be represented using a percent sign followed by two hexadecimal digits corresponding to the character's byte value in UTF-8 encoding. For example, a space becomes <code>%20</code>, an ampersand becomes <code>%26</code>, and a question mark becomes <code>%3F</code>. This encoding ensures that special characters in data values are not confused with the structural delimiters that define the parts of a URL, such as the protocol, host, path, query string, and fragment.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between encodeURI and encodeURIComponent?</summary>
+          <p>These two JavaScript functions serve different purposes. <code>encodeURI</code> is designed to encode a complete URL while preserving characters that serve as structural delimiters: the colon and slashes in the protocol, the slashes in the path, the question mark before the query string, the ampersand between query parameters, and the hash before the fragment. It only encodes characters that are not valid anywhere in a URL. <code>encodeURIComponent</code> encodes all characters except the unreserved set (letters, digits, hyphen, underscore, period, and tilde), including the structural delimiters. Use <code>encodeURIComponent</code> when encoding individual values like query parameter values or path segments. Use <code>encodeURI</code> when you have a complete URL that already has the correct structure and you only need to encode characters within its components.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Why is a space encoded as %20 instead of a plus sign (+)?</summary>
+          <p>The <code>%20</code> encoding is the standard percent-encoding for a space character as defined by RFC 3986, and it is valid in all parts of a URL. The plus sign as a space substitute comes from the <code>application/x-www-form-urlencoded</code> format, which is used when HTML forms are submitted via the GET or POST method. In this form encoding format, spaces are replaced with plus signs to produce shorter query strings. While most web servers and URL parsers treat both <code>%20</code> and <code>+</code> as spaces when they appear in a query string, the plus sign is not a valid space representation in other parts of a URL such as the path or fragment. For this reason, <code>%20</code> is the universally safe and recommended encoding for spaces in URLs.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Which characters must be URL-encoded?</summary>
+          <p>According to RFC 3986, characters outside the unreserved set should be percent-encoded when they appear in the data portions of a URL. The unreserved characters are the 26 uppercase ASCII letters (A-Z), the 26 lowercase ASCII letters (a-z), the 10 digits (0-9), and four symbols: hyphen (-), period (.), underscore (_), and tilde (~). All other characters, including spaces, reserved characters like <code>&amp; = ? / # : @ ! $ ' ( ) * + , ;</code>, and all non-ASCII characters such as accented letters, Chinese characters, or emoji, must be percent-encoded. Reserved characters can appear unencoded only when they serve their designated structural role in the URL syntax.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is URL encoding the same as HTML encoding?</summary>
+          <p>No, URL encoding and HTML encoding are completely different mechanisms that serve different purposes. URL encoding (percent-encoding) converts characters into a <code>%XX</code> hexadecimal format for safe transmission within URLs. HTML encoding converts characters into HTML entity references such as <code>&amp;amp;</code> for ampersand, <code>&amp;lt;</code> for less-than, and <code>&amp;gt;</code> for greater-than to prevent them from being interpreted as HTML markup. Applying the wrong type of encoding leads to broken output. Using HTML encoding in a URL produces invalid percent sequences, and using URL encoding in HTML does not protect against markup injection. Each encoding must be applied in its correct context.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How does URL encoding handle Unicode characters?</summary>
+          <p>Non-ASCII Unicode characters undergo a two-step encoding process. First, the character is converted to its UTF-8 byte representation, which may consist of one to four bytes depending on the code point. Then each byte is individually percent-encoded by prefixing it with a percent sign and expressing its value as two hexadecimal digits. For example, the copyright symbol has the UTF-8 byte sequence C2 A9, so it is encoded as <code>%C2%A9</code>. A Chinese character that requires three bytes in UTF-8 produces three percent-encoded triplets. Emoji and other characters from supplementary Unicode planes require four UTF-8 bytes and therefore produce four percent-encoded triplets. This multi-byte approach ensures that URLs remain composed entirely of ASCII characters while faithfully representing the full range of Unicode text.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is my data safe when using this URL encoder?</summary>
+          <p>Yes, your data is completely safe. This URL encoder and decoder runs entirely in your web browser using native JavaScript functions. All processing happens locally on your device, and no data is ever sent to any external server. Your input text, URLs, and encoded output are not stored, logged, or transmitted over any network. This makes the tool safe for encoding sensitive information such as API keys, authentication tokens, session identifiers, private URLs, and confidential query parameters. Unlike online tools that send your data to a server for processing, this implementation is genuinely client-side. You can verify this by disconnecting from the internet after loading the page and confirming that the tool continues to function normally.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+          <a href="https://toolrip.com/password">Password Generator</a>
+          <a href="https://toolrip.com/case">Case Converter</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+  (function() {
+    'use strict';
+
+    /* ========== State ========== */
+    var lastEncodedOutput = '';
+    var lastDecodedOutput = '';
+
+    /* ========== Helpers ========== */
+    function getEncodeMode() {
+      var radios = document.querySelectorAll('input[name="encode-mode"]');
+      for (var i = 0; i < radios.length; i++) {
+        if (radios[i].checked) return radios[i].value;
+      }
+      return 'component';
+    }
+
+    function clearMessages() {
+      document.getElementById('error-bar').classList.remove('visible');
+      document.getElementById('success-bar').classList.remove('visible');
+    }
+
+    function showError(msg) {
+      clearMessages();
+      var bar = document.getElementById('error-bar');
+      bar.textContent = msg;
+      bar.classList.add('visible');
+    }
+
+    function showSuccess(msg) {
+      clearMessages();
+      var bar = document.getElementById('success-bar');
+      bar.textContent = msg;
+      bar.classList.add('visible');
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    /* ========== Encode ========== */
+    function doEncode(input) {
+      var mode = getEncodeMode();
+      if (mode === 'uri') {
+        return encodeURI(input);
+      }
+      return encodeURIComponent(input);
+    }
+
+    window.handleEncode = function() {
+      clearMessages();
+      var input = document.getElementById('encode-input').value;
+
+      if (!input) {
+        showError('Please enter some text or URL to encode.');
+        return;
+      }
+
+      try {
+        var result = doEncode(input);
+        lastEncodedOutput = result;
+
+        var outputEl = document.getElementById('encode-output');
+        outputEl.innerHTML = '<button class="copy-btn" onclick="handleCopyOutput(\'encode\')">Copy</button>' + escapeHtml(result);
+
+        var inputLen = input.length;
+        var outputLen = result.length;
+        document.getElementById('encode-output-chars').textContent = outputLen.toLocaleString();
+
+        if (inputLen > 0) {
+          var increase = outputLen - inputLen;
+          if (increase > 0) {
+            document.getElementById('encode-ratio').textContent = '+' + increase + ' chars (' + ((outputLen / inputLen) * 100 - 100).toFixed(1) + '%)';
+          } else {
+            document.getElementById('encode-ratio').textContent = 'No change';
+          }
+        }
+
+        showSuccess('Encoded successfully (' + outputLen.toLocaleString() + ' characters)');
+        showToast('Encoded successfully!', 'success');
+      } catch (e) {
+        showError('Encoding error: ' + (e.message || 'Unknown error'));
+      }
+    };
+
+    /* ========== Decode ========== */
+    window.handleDecode = function() {
+      clearMessages();
+      var input = document.getElementById('decode-input').value.trim();
+
+      if (!input) {
+        showError('Please enter an encoded string to decode.');
+        return;
+      }
+
+      try {
+        var mode = getEncodeMode();
+        var result;
+        if (mode === 'uri') {
+          result = decodeURI(input);
+        } else {
+          result = decodeURIComponent(input);
+        }
+
+        lastDecodedOutput = result;
+
+        var outputEl = document.getElementById('decode-output');
+        outputEl.innerHTML = '<button class="copy-btn" onclick="handleCopyOutput(\'decode\')">Copy</button>' + escapeHtml(result);
+
+        document.getElementById('decode-output-chars').textContent = result.length.toLocaleString();
+
+        showSuccess('Decoded successfully (' + result.length.toLocaleString() + ' characters)');
+        showToast('Decoded successfully!', 'success');
+      } catch (e) {
+        var msg = e.message || 'Unknown error';
+        if (msg.indexOf('URI') !== -1 || msg.indexOf('decode') !== -1 || msg.indexOf('malformed') !== -1) {
+          showError('Invalid encoded string. The input contains malformed percent-encoded sequences. Please check for incomplete or incorrect %XX patterns.');
+        } else {
+          showError('Decoding error: ' + msg);
+        }
+      }
+    };
+
+    /* ========== Copy ========== */
+    window.handleCopyOutput = function(panel) {
+      var text = panel === 'encode' ? lastEncodedOutput : lastDecodedOutput;
+      if (!text) {
+        showToast('Nothing to copy', 'error');
+        return;
+      }
+      copyToClipboard(text);
+      showToast('Copied to clipboard!', 'success');
+    };
+
+    /* ========== Clear ========== */
+    window.handleClear = function(panel) {
+      clearMessages();
+      if (panel === 'encode') {
+        document.getElementById('encode-input').value = '';
+        lastEncodedOutput = '';
+        document.getElementById('encode-output').innerHTML =
+          '<button class="copy-btn" onclick="handleCopyOutput(\'encode\')">Copy</button>' +
+          '<span class="text-muted" style="font-size:.8125rem">Encoded output will appear here...</span>';
+        document.getElementById('encode-input-chars').textContent = '0';
+        document.getElementById('encode-input-bytes').textContent = '0';
+        document.getElementById('encode-output-chars').textContent = '0';
+        document.getElementById('encode-ratio').textContent = '\u2014';
+      } else {
+        document.getElementById('decode-input').value = '';
+        lastDecodedOutput = '';
+        document.getElementById('decode-output').innerHTML =
+          '<button class="copy-btn" onclick="handleCopyOutput(\'decode\')">Copy</button>' +
+          '<span class="text-muted" style="font-size:.8125rem">Decoded output will appear here...</span>';
+        document.getElementById('decode-input-chars').textContent = '0';
+        document.getElementById('decode-output-chars').textContent = '0';
+      }
+      showToast('Cleared', 'info');
+    };
+
+    /* ========== Real-time input counters ========== */
+    document.getElementById('encode-input').addEventListener('input', function() {
+      var val = this.value;
+      document.getElementById('encode-input-chars').textContent = val.length.toLocaleString();
+      document.getElementById('encode-input-bytes').textContent = new TextEncoder().encode(val).length.toLocaleString();
+    });
+
+    document.getElementById('decode-input').addEventListener('input', function() {
+      document.getElementById('decode-input-chars').textContent = this.value.length.toLocaleString();
+    });
+
+    /* ========== Keyboard shortcuts (Ctrl+Enter) ========== */
+    document.getElementById('encode-input').addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        window.handleEncode();
+      }
+    });
+
+    document.getElementById('decode-input').addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        window.handleDecode();
+      }
+    });
+
+    /* ========== Clear messages on tab switch ========== */
+    document.addEventListener('DOMContentLoaded', function() {
+      var tabs = document.querySelectorAll('.tab-group .tab');
+      tabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          clearMessages();
+        });
+      });
+    });
+
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business Days Calculator — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Calculate business days between two dates or add/subtract working days from any date. Exclude weekends and US federal holidays. Free, instant, no signup required.">
+  <meta name="keywords" content="business days calculator, working days calculator, business day counter, add business days, subtract business days, exclude holidays, weekday calculator, SLA calculator">
+  <link rel="canonical" href="https://toolrip.com/business-days">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Business Days Calculator — Free, Fast, No Signup | Toolrip">
+  <meta property="og:description" content="Calculate business days between two dates or add/subtract working days. Exclude weekends and US federal holidays. Free and instant.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/business-days">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Business Days Calculator — Free, Fast, No Signup | Toolrip">
+  <meta name="twitter:description" content="Calculate business days between two dates or add/subtract working days. Exclude weekends and US federal holidays. Free and instant.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root { --accent: var(--datetime); }
+
+    .mode-tabs {
+      display: flex;
+      gap: 2px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: var(--sp-4);
+    }
+    .mode-tab {
+      padding: var(--sp-2) var(--sp-3);
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      background: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      font: inherit;
+      font-weight: 500;
+    }
+    .mode-tab:hover { color: var(--text); }
+    .mode-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .mode-panel { display: none; }
+    .mode-panel.active { display: block; }
+
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: var(--sp-3);
+      align-items: end;
+    }
+    @media (max-width: 639px) {
+      .input-row { grid-template-columns: 1fr; }
+    }
+
+    .swap-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: border-color 0.15s, color 0.15s;
+      flex-shrink: 0;
+    }
+    .swap-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .addsub-row {
+      display: grid;
+      grid-template-columns: 1fr 100px 1fr;
+      gap: var(--sp-3);
+      align-items: end;
+    }
+    @media (max-width: 639px) {
+      .addsub-row { grid-template-columns: 1fr; }
+    }
+
+    .direction-select {
+      width: 100%;
+    }
+
+    .option-row {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-top: var(--sp-2);
+    }
+
+    /* Results */
+    .results-area { display: none; margin-top: var(--sp-4); }
+    .results-area.visible { display: block; }
+
+    .result-headline {
+      text-align: center;
+      padding: var(--sp-5);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--sp-4);
+    }
+    .result-headline .rh-big {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1.3;
+    }
+    @media (min-width: 640px) {
+      .result-headline .rh-big { font-size: 2.5rem; }
+    }
+    .result-headline .rh-sub {
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      margin-top: var(--sp-1);
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--sp-3);
+    }
+    @media (min-width: 640px) {
+      .result-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .result-item {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-3);
+      text-align: center;
+    }
+    .result-item .ri-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+      word-break: break-word;
+    }
+    .result-item .ri-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: var(--sp-1);
+    }
+
+    /* Add/Sub result */
+    .addsub-result {
+      margin-top: var(--sp-3);
+      padding: var(--sp-4);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      text-align: center;
+      display: none;
+    }
+    .addsub-result.visible { display: block; }
+    .addsub-result .asr-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .addsub-result .asr-label {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-top: var(--sp-1);
+    }
+
+    /* Holiday list */
+    .holiday-list {
+      margin-top: var(--sp-3);
+      padding: var(--sp-3);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      display: none;
+    }
+    .holiday-list.visible { display: block; }
+    .holiday-list h4 {
+      font-size: 0.875rem;
+      margin-bottom: var(--sp-2);
+      color: var(--text);
+    }
+    .holiday-list ul {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-1);
+    }
+    @media (max-width: 639px) {
+      .holiday-list ul { grid-template-columns: 1fr; }
+    }
+    .holiday-list li {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      padding: var(--sp-1) 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .holiday-list li:last-child { border-bottom: none; }
+    .hl-date { color: var(--accent); font-weight: 500; margin-right: var(--sp-2); }
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Business Days Calculator",
+    "url": "https://toolrip.com/business-days",
+    "description": "Calculate business days between two dates or add/subtract working days from any date. Exclude weekends and optionally US federal holidays.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What counts as a business day?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A business day is any weekday from Monday through Friday that is not a recognized public holiday. In most countries, weekends (Saturday and Sunday) are excluded from business day counts. When the US federal holidays option is enabled, the calculator also excludes ten federally recognized holidays such as New Year's Day, Independence Day, and Christmas Day. Businesses, banks, government agencies, and courts use business days as the standard unit for deadlines, processing times, and service-level agreements."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which US federal holidays does the calculator exclude?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "When the exclude holidays option is enabled, the calculator removes ten US federal holidays: New Year's Day (January 1), Martin Luther King Jr. Day (third Monday of January), Presidents' Day (third Monday of February), Memorial Day (last Monday of May), Juneteenth (June 19), Independence Day (July 4), Labor Day (first Monday of September), Columbus Day (second Monday of October), Veterans Day (November 11), Thanksgiving (fourth Thursday of November), and Christmas Day (December 25). Holidays that fall on a weekend are observed on the nearest weekday."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do business days differ across countries?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Business days vary significantly around the world. While most Western countries use Monday through Friday, some Middle Eastern nations designate Sunday through Thursday as working days, with Friday and Saturday forming the weekend. Countries like Brunei and Malaysia use Monday through Friday but with Friday afternoon off. Public holidays also differ by nation and region, so a day that is a working day in one country may be a holiday in another. This calculator defaults to the Monday-through-Friday convention used in the Americas, Europe, and much of Asia."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How are business days used in SLA calculations?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Service-level agreements often specify response and resolution times in business days rather than calendar days. For example, a 5-business-day SLA means the provider has five working days (excluding weekends and holidays) to resolve an issue. This calculator helps you determine exact SLA deadlines by counting only business days forward from a start date. If you need to factor in specific holidays, enable the US holidays option or manually adjust the result for your region's holidays."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I add or subtract business days from a specific date?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Switch to the Add/Subtract Business Days tab, enter your starting date, specify the number of business days, and choose whether to add or subtract. The calculator skips weekends and, if enabled, US federal holidays to give you the exact target date. This is especially useful for determining delivery dates, payment due dates, contract deadlines, and project milestones that are defined in business days."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does the calculator count the start date or end date?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "By default, the calculator counts from the day after the start date up to and including the end date. This is the standard convention used in most legal and financial contexts. For example, if you select Monday as the start date and Friday as the end date of the same week, the result is four business days (Tuesday, Wednesday, Thursday, Friday). This approach matches how most shipping companies, banks, and courts count business days."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is my data private when using this calculator?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The Business Days Calculator runs entirely in your web browser using client-side JavaScript. No dates or personal information are sent to any server. There are no accounts, no cookies storing your inputs, and no server-side processing. Your data stays on your device at all times, and the tool works offline once the page has loaded."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Date & Time Tools", "item": "https://toolrip.com/#datetime" },
+      { "@type": "ListItem", "position": 3, "name": "Business Days Calculator", "item": "https://toolrip.com/business-days" }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="business-days-top">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#datetime">Date &amp; Time Tools</a>
+        <span>/</span>
+        <span>Business Days Calculator</span>
+      </nav>
+
+      <h1>Business Days Calculator</h1>
+      <p class="text-muted mt-1 mb-3">Count business days between two dates or add and subtract working days from any date. Optionally exclude US federal holidays. Free, instant, and completely private.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+
+        <!-- Mode Tabs -->
+        <div class="mode-tabs">
+          <button class="mode-tab active" data-mode="count">Count Business Days</button>
+          <button class="mode-tab" data-mode="addsub">Add / Subtract Business Days</button>
+        </div>
+
+        <!-- Mode 1: Count Business Days -->
+        <div class="mode-panel active" id="panel-count">
+          <div class="input-row">
+            <div class="input-group">
+              <label for="count-start">Start Date</label>
+              <input type="date" id="count-start" class="input-field" aria-label="Start date">
+            </div>
+            <button class="swap-btn" id="swap-btn" title="Swap dates" aria-label="Swap start and end dates">&#8646;</button>
+            <div class="input-group">
+              <label for="count-end">End Date</label>
+              <input type="date" id="count-end" class="input-field" aria-label="End date">
+            </div>
+          </div>
+
+          <div class="option-row">
+            <label class="toggle">
+              <input type="checkbox" id="count-holidays">
+              <span></span>
+            </label>
+            <label for="count-holidays">Exclude US federal holidays</label>
+          </div>
+
+          <div class="flex gap-2 mt-2">
+            <button class="btn-primary" id="count-calc-btn">Calculate</button>
+            <button class="btn-secondary" id="count-clear-btn">Clear</button>
+          </div>
+
+          <!-- Count Results -->
+          <div class="results-area" id="count-results">
+            <div class="result-headline">
+              <div class="rh-big" id="count-rh-big"></div>
+              <div class="rh-sub" id="count-rh-sub"></div>
+            </div>
+            <div class="result-grid" id="count-grid"></div>
+            <div class="holiday-list" id="count-holidays-list">
+              <h4>Excluded Holidays in Range</h4>
+              <ul id="count-holidays-ul"></ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mode 2: Add / Subtract Business Days -->
+        <div class="mode-panel" id="panel-addsub">
+          <div class="addsub-row">
+            <div class="input-group">
+              <label for="as-date">Start Date</label>
+              <input type="date" id="as-date" class="input-field" aria-label="Start date for add/subtract">
+            </div>
+            <div class="input-group">
+              <label for="as-days">Business Days</label>
+              <input type="number" id="as-days" class="input-field" min="0" value="10" aria-label="Number of business days">
+            </div>
+            <div class="input-group">
+              <label for="as-direction">Direction</label>
+              <select id="as-direction" class="select-field direction-select">
+                <option value="add">Add (future)</option>
+                <option value="sub">Subtract (past)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="option-row">
+            <label class="toggle">
+              <input type="checkbox" id="as-holidays">
+              <span></span>
+            </label>
+            <label for="as-holidays">Exclude US federal holidays</label>
+          </div>
+
+          <div class="flex gap-2 mt-2">
+            <button class="btn-primary" id="as-calc-btn">Calculate</button>
+            <button class="btn-secondary" id="as-clear-btn">Clear</button>
+          </div>
+
+          <!-- Add/Sub Results -->
+          <div class="addsub-result" id="as-result">
+            <div class="asr-value" id="asr-value"></div>
+            <div class="asr-label" id="asr-label"></div>
+          </div>
+          <div class="holiday-list" id="as-holidays-list">
+            <h4>Holidays Skipped</h4>
+            <ul id="as-holidays-ul"></ul>
+          </div>
+        </div>
+
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="business-days-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Count Business Days Between Dates</h3>
+            <p>Enter any two dates and instantly see the number of business days (Monday through Friday) between them. The calculator also shows total calendar days, weekend days skipped, and weeks spanned, giving you a complete picture of the time period for planning, payroll, or legal deadlines.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Add or Subtract Working Days</h3>
+            <p>Need to find a deadline that is a certain number of business days away? Enter a start date and the number of working days to add or subtract. The calculator automatically skips weekends and, when enabled, US federal holidays to land on the correct target date every time.</p>
+          </div>
+          <div class="feature-card">
+            <h3>US Federal Holiday Exclusion</h3>
+            <p>Toggle the holiday exclusion option to automatically remove all ten US federal holidays from the count. The calculator handles observed holidays correctly, shifting Saturday holidays to Friday and Sunday holidays to Monday, just as government offices and banks do in practice.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Instant Results with Zero Setup</h3>
+            <p>No accounts, no downloads, no server-side processing. The entire calculation runs in your browser using JavaScript. Results appear the moment you click Calculate, and your data never leaves your device. Use it on desktop, tablet, or phone with any modern browser.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Business Days Calculator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Choose your mode</strong> — Select "Count Business Days" to find the number of working days between two dates, or "Add / Subtract Business Days" to determine a target date a certain number of business days away from a starting point.</li>
+          <li><strong>Enter your dates</strong> — In count mode, pick a start date and an end date. In add/subtract mode, pick a start date, enter the number of business days, and select whether to move forward or backward in time.</li>
+          <li><strong>Toggle holiday exclusion</strong> — If you want to exclude US federal holidays from the calculation, enable the toggle. The calculator will skip New Year's Day, MLK Day, Presidents' Day, Memorial Day, Juneteenth, Independence Day, Labor Day, Columbus Day, Veterans Day, Thanksgiving, and Christmas Day.</li>
+          <li><strong>View your results</strong> — Click Calculate to see the business days count, total calendar days, weekend days skipped, and any holidays excluded. In add/subtract mode, you will see the exact target date and day of the week.</li>
+        </ol>
+      </section>
+
+      <!-- Long-Form Content -->
+      <section class="mt-4">
+        <h2>Understanding Business Days and Working Day Calculations</h2>
+        <p style="color:var(--text-muted);line-height:1.8">Business days, also referred to as working days or workdays, represent the standard days of commercial activity in a given country or region. In the United States, Canada, the United Kingdom, Australia, and most of Europe, business days span Monday through Friday, excluding weekends and officially recognized public holidays. Financial institutions, government agencies, shipping carriers, and legal systems all rely on business day counting to set deadlines, estimate delivery windows, and calculate interest accrual periods.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-3)">The distinction between calendar days and business days is critical in many professional contexts. A contract that allows "five business days" for review gives the parties a full working week, while "five calendar days" could include a weekend and result in far less actual working time. Shipping companies often quote delivery times in business days, meaning a package sent on Thursday with a two-business-day delivery estimate would arrive on the following Monday, not Saturday. Courts set filing deadlines in business days, and failure to meet them can have serious legal consequences. Payroll departments calculate pay periods using business days, and project managers use working day counts to build realistic timelines for milestones and deliverables.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-3)">Internationally, the concept of a business day varies considerably. Most nations in the Americas, Europe, East Asia, and Oceania follow the Monday-through-Friday pattern, but several countries in the Middle East and North Africa operate on a Sunday-through-Thursday schedule, with Friday and Saturday serving as the weekend. Some nations observe a half-day Friday or a six-day work week. Public holidays add another layer of complexity. A day that is a regular working day in the United States might be a national holiday in Japan or India. Global businesses often maintain holiday calendars for every country in which they operate, and service-level agreements for multinational clients must specify which country's holiday schedule governs the calculation.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-3)">In project management, accurate business day counting directly affects scheduling, resource allocation, and stakeholder communication. When a project plan says a deliverable is due in 20 business days, the actual calendar duration depends on intervening weekends and holidays. A 20-business-day window starting on a Monday in early November in the US, for example, will extend well past four calendar weeks because Thanksgiving and the day after (often observed as a company holiday) fall within that period. Project managers who fail to account for these non-working days risk setting unrealistic deadlines and eroding team morale. This calculator simplifies that task by letting you toggle US federal holidays on or off, instantly showing the impact on your timeline.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-3)">Service-level agreements in the technology and customer service industries are almost universally defined in business days or business hours. A standard SLA might promise initial response within one business day and resolution within five business days. Support teams and operations managers use business day calculators to verify compliance, forecast workloads, and identify potential breaches before they occur. Understanding how to count business days accurately is a fundamental skill for anyone involved in vendor management, procurement, or customer success, and this tool makes it effortless.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What counts as a business day?</summary>
+          <p>A business day is any weekday from Monday through Friday that is not a recognized public holiday. In the United States and most Western countries, Saturday and Sunday are considered non-business days. When you enable the US federal holidays option in this calculator, ten nationally recognized holidays are also excluded. These include New Year's Day, Martin Luther King Jr. Day, Presidents' Day, Memorial Day, Juneteenth, Independence Day, Labor Day, Columbus Day, Veterans Day, Thanksgiving, and Christmas Day. Banks, courts, government offices, and most corporate businesses follow this convention when counting deadlines, processing times, and delivery windows.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Which US federal holidays does the calculator exclude?</summary>
+          <p>When the holiday exclusion toggle is enabled, the calculator skips the following ten US federal holidays: New Year's Day (January 1), Martin Luther King Jr. Day (third Monday of January), Presidents' Day (third Monday of February), Memorial Day (last Monday of May), Juneteenth National Independence Day (June 19), Independence Day (July 4), Labor Day (first Monday of September), Columbus Day (second Monday of October), Veterans Day (November 11), Thanksgiving Day (fourth Thursday of November), and Christmas Day (December 25). For holidays that fall on a Saturday, the preceding Friday is used as the observed date. For holidays that fall on a Sunday, the following Monday is used. This matches how federal offices and most financial institutions handle weekend holidays.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do business days differ across countries?</summary>
+          <p>Business day conventions vary around the world. Most countries in North America, South America, Europe, and East Asia treat Monday through Friday as working days. However, several Middle Eastern nations use Sunday through Thursday, with Friday and Saturday as the weekend. Some countries observe a half-day on Friday or Saturday. Public holidays differ drastically by country, and even within a country, regional holidays can apply in certain states or provinces but not others. If you are calculating business days for an international context, this calculator provides the Monday-through-Friday baseline. You may need to manually adjust for region-specific holidays that are not included in the US federal holiday list.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How are business days used in SLA calculations?</summary>
+          <p>Service-level agreements in technology, logistics, and customer service industries frequently specify response and resolution times in business days. For instance, a vendor might commit to resolving a support ticket within three business days of receiving it. This means weekends and public holidays do not count toward the deadline. If a ticket is filed on Friday afternoon, the three-business-day clock does not start until Monday. This calculator allows you to add a specific number of business days to any start date to determine the exact SLA deadline. Enabling the holiday exclusion option ensures that federal holidays do not eat into the available working time, giving you an accurate compliance date.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can I add or subtract business days from a specific date?</summary>
+          <p>Yes. Switch to the "Add / Subtract Business Days" tab, enter your starting date, type the number of business days, and select whether you want to move forward (add) or backward (subtract). The calculator automatically skips Saturdays and Sundays, and if you enable the holiday toggle, it also skips US federal holidays. The result shows the exact target date and the day of the week it falls on. This feature is invaluable for determining shipment arrival dates, payment due dates, legal filing deadlines, and project milestones that are expressed in business days rather than calendar days.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does the calculator count the start date or end date?</summary>
+          <p>In count mode, the calculator counts from the day after the start date through and including the end date. This is the standard convention used by banks, courts, and shipping companies. For example, if you set Monday as the start date and Friday of the same week as the end date, the calculator returns four business days (Tuesday, Wednesday, Thursday, and Friday). In add/subtract mode, the starting date is not counted as one of the business days. If you add one business day to a Monday, the result is Tuesday. This behavior matches common expectations for deadlines like "payment due within 5 business days of invoice date."</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is my data private when using this calculator?</summary>
+          <p>Absolutely. The Business Days Calculator runs entirely in your web browser using client-side JavaScript. No dates, inputs, or results are transmitted to any server or third-party service. There are no accounts to create, no cookies storing your data, and no analytics capturing the specific dates you enter. You can verify this by checking your browser's developer tools for network activity while using the tool. All Toolrip utilities follow this privacy-first approach, ensuring your information never leaves your device.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/date-diff">Date Difference Calculator</a>
+          <a href="https://toolrip.com/age">Age Calculator</a>
+          <a href="https://toolrip.com/salary">Salary Calculator</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+          <a href="https://toolrip.com/tip">Tip Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="business-days-sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="business-days-bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Business Days Calculator JS -->
+  <script>
+  (function () {
+    'use strict';
+
+    /* --- Helpers --- */
+    function toISO(d) {
+      var y = d.getFullYear();
+      var m = String(d.getMonth() + 1).padStart(2, '0');
+      var day = String(d.getDate()).padStart(2, '0');
+      return y + '-' + m + '-' + day;
+    }
+
+    function parseDate(id) {
+      var val = document.getElementById(id).value;
+      if (!val) return null;
+      var parts = val.split('-');
+      return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+    }
+
+    function fmtNum(n) {
+      return Math.floor(n).toLocaleString('en-US');
+    }
+
+    function formatDateLong(d) {
+      return d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    function formatDateShort(d) {
+      return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    function sameDay(a, b) {
+      return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+    }
+
+    /* --- US Federal Holidays --- */
+    function nthDayOfMonth(year, month, dayOfWeek, n) {
+      var d = new Date(year, month, 1);
+      var count = 0;
+      while (d.getMonth() === month) {
+        if (d.getDay() === dayOfWeek) {
+          count++;
+          if (count === n) return new Date(year, month, d.getDate());
+        }
+        d.setDate(d.getDate() + 1);
+      }
+      return null;
+    }
+
+    function lastDayOfMonth(year, month, dayOfWeek) {
+      var d = new Date(year, month + 1, 0);
+      while (d.getDay() !== dayOfWeek) {
+        d.setDate(d.getDate() - 1);
+      }
+      return d;
+    }
+
+    function observedDate(year, month, day) {
+      var d = new Date(year, month, day);
+      var dow = d.getDay();
+      if (dow === 6) { d.setDate(d.getDate() - 1); }
+      else if (dow === 0) { d.setDate(d.getDate() + 1); }
+      return d;
+    }
+
+    function getUSFederalHolidays(year) {
+      var holidays = [];
+
+      // New Year's Day - Jan 1
+      holidays.push({ date: observedDate(year, 0, 1), name: "New Year's Day" });
+
+      // MLK Day - 3rd Monday of January
+      holidays.push({ date: nthDayOfMonth(year, 0, 1, 3), name: 'Martin Luther King Jr. Day' });
+
+      // Presidents' Day - 3rd Monday of February
+      holidays.push({ date: nthDayOfMonth(year, 1, 1, 3), name: "Presidents' Day" });
+
+      // Memorial Day - Last Monday of May
+      holidays.push({ date: lastDayOfMonth(year, 4, 1), name: 'Memorial Day' });
+
+      // Juneteenth - June 19
+      holidays.push({ date: observedDate(year, 5, 19), name: 'Juneteenth' });
+
+      // Independence Day - July 4
+      holidays.push({ date: observedDate(year, 6, 4), name: 'Independence Day' });
+
+      // Labor Day - 1st Monday of September
+      holidays.push({ date: nthDayOfMonth(year, 8, 1, 1), name: 'Labor Day' });
+
+      // Columbus Day - 2nd Monday of October
+      holidays.push({ date: nthDayOfMonth(year, 9, 1, 2), name: 'Columbus Day' });
+
+      // Veterans Day - Nov 11
+      holidays.push({ date: observedDate(year, 10, 11), name: 'Veterans Day' });
+
+      // Thanksgiving - 4th Thursday of November
+      holidays.push({ date: nthDayOfMonth(year, 10, 4, 4), name: 'Thanksgiving Day' });
+
+      // Christmas Day - Dec 25
+      holidays.push({ date: observedDate(year, 11, 25), name: 'Christmas Day' });
+
+      return holidays;
+    }
+
+    function getHolidaysInRange(start, end) {
+      var holidays = [];
+      var startYear = start.getFullYear();
+      var endYear = end.getFullYear();
+      for (var y = startYear; y <= endYear; y++) {
+        var yearHolidays = getUSFederalHolidays(y);
+        for (var i = 0; i < yearHolidays.length; i++) {
+          var h = yearHolidays[i];
+          if (h.date >= start && h.date <= end) {
+            // Only count if it falls on a weekday
+            var dow = h.date.getDay();
+            if (dow !== 0 && dow !== 6) {
+              holidays.push(h);
+            }
+          }
+        }
+      }
+      return holidays;
+    }
+
+    function isHoliday(d, holidayList) {
+      for (var i = 0; i < holidayList.length; i++) {
+        if (sameDay(d, holidayList[i].date)) return true;
+      }
+      return false;
+    }
+
+    /* --- Count Business Days Between Two Dates --- */
+    function countBusinessDays(start, end, excludeHolidays) {
+      var businessDays = 0;
+      var calendarDays = 0;
+      var weekendDays = 0;
+      var holidaysSkipped = [];
+      var holidays = excludeHolidays ? getHolidaysInRange(start, end) : [];
+
+      var cur = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+      cur.setDate(cur.getDate() + 1); // start counting from day after start
+
+      var endTime = end.getTime();
+
+      while (cur.getTime() <= endTime) {
+        calendarDays++;
+        var dow = cur.getDay();
+        if (dow === 0 || dow === 6) {
+          weekendDays++;
+        } else if (excludeHolidays && isHoliday(cur, holidays)) {
+          // It's a weekday holiday
+          for (var h = 0; h < holidays.length; h++) {
+            if (sameDay(cur, holidays[h].date)) {
+              holidaysSkipped.push(holidays[h]);
+              break;
+            }
+          }
+        } else {
+          businessDays++;
+        }
+        cur.setDate(cur.getDate() + 1);
+      }
+
+      return {
+        businessDays: businessDays,
+        calendarDays: calendarDays,
+        weekendDays: weekendDays,
+        holidaysSkipped: holidaysSkipped,
+        weeks: Math.floor(calendarDays / 7),
+        remainDays: calendarDays % 7
+      };
+    }
+
+    /* --- Add/Subtract Business Days --- */
+    function addBusinessDays(start, days, direction, excludeHolidays) {
+      var step = direction === 'add' ? 1 : -1;
+      var cur = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+      var counted = 0;
+      var holidaysSkipped = [];
+
+      // Gather holidays for a wide range
+      var rangeStart, rangeEnd;
+      if (direction === 'add') {
+        rangeStart = new Date(cur);
+        rangeEnd = new Date(cur);
+        rangeEnd.setDate(rangeEnd.getDate() + days * 3);
+      } else {
+        rangeEnd = new Date(cur);
+        rangeStart = new Date(cur);
+        rangeStart.setDate(rangeStart.getDate() - days * 3);
+      }
+      var holidays = excludeHolidays ? getHolidaysInRange(rangeStart, rangeEnd) : [];
+
+      while (counted < days) {
+        cur.setDate(cur.getDate() + step);
+        var dow = cur.getDay();
+        if (dow === 0 || dow === 6) continue;
+        if (excludeHolidays && isHoliday(cur, holidays)) {
+          for (var h = 0; h < holidays.length; h++) {
+            if (sameDay(cur, holidays[h].date)) {
+              holidaysSkipped.push(holidays[h]);
+              break;
+            }
+          }
+          continue;
+        }
+        counted++;
+      }
+
+      return {
+        date: cur,
+        holidaysSkipped: holidaysSkipped
+      };
+    }
+
+    /* --- Render Holiday List --- */
+    function renderHolidayList(containerId, ulId, holidays) {
+      var container = document.getElementById(containerId);
+      var ul = document.getElementById(ulId);
+      if (holidays.length === 0) {
+        container.classList.remove('visible');
+        return;
+      }
+      container.classList.add('visible');
+      var html = '';
+      for (var i = 0; i < holidays.length; i++) {
+        html += '<li><span class="hl-date">' + formatDateShort(holidays[i].date) + '</span>' + holidays[i].name + '</li>';
+      }
+      ul.innerHTML = html;
+    }
+
+    /* --- Mode Tab Switching --- */
+    var modeTabs = document.querySelectorAll('.mode-tab');
+    modeTabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        modeTabs.forEach(function (t) { t.classList.remove('active'); });
+        tab.classList.add('active');
+        var mode = tab.dataset.mode;
+        document.querySelectorAll('.mode-panel').forEach(function (p) {
+          p.classList.remove('active');
+        });
+        document.getElementById('panel-' + mode).classList.add('active');
+      });
+    });
+
+    /* --- Swap Dates --- */
+    document.getElementById('swap-btn').addEventListener('click', function () {
+      var s = document.getElementById('count-start');
+      var e = document.getElementById('count-end');
+      var tmp = s.value;
+      s.value = e.value;
+      e.value = tmp;
+    });
+
+    /* --- Count Mode: Calculate --- */
+    function calculateCount() {
+      var start = parseDate('count-start');
+      var end = parseDate('count-end');
+
+      if (!start || !end) {
+        showToast('Please select both a start date and an end date.', 'error');
+        return;
+      }
+
+      // Ensure start <= end
+      if (start > end) {
+        var tmp = start;
+        start = end;
+        end = tmp;
+        document.getElementById('count-start').value = toISO(start);
+        document.getElementById('count-end').value = toISO(end);
+      }
+
+      var excludeHolidays = document.getElementById('count-holidays').checked;
+      var result = countBusinessDays(start, end, excludeHolidays);
+
+      // Show results
+      var area = document.getElementById('count-results');
+      area.classList.add('visible');
+
+      // Headline
+      document.getElementById('count-rh-big').textContent = fmtNum(result.businessDays) + ' Business Day' + (result.businessDays !== 1 ? 's' : '');
+      document.getElementById('count-rh-sub').textContent = formatDateLong(start) + '  \u2192  ' + formatDateLong(end);
+
+      // Grid
+      var gridItems = [
+        { value: fmtNum(result.calendarDays), label: 'Calendar Days' },
+        { value: fmtNum(result.businessDays), label: 'Business Days' },
+        { value: fmtNum(result.weekendDays), label: 'Weekend Days' },
+        { value: result.weeks + (result.remainDays > 0 ? 'w ' + result.remainDays + 'd' : ' weeks'), label: 'Weeks & Days' },
+        { value: fmtNum(result.holidaysSkipped.length), label: 'Holidays Excluded' },
+        { value: fmtNum(result.calendarDays - result.businessDays), label: 'Non-Working Days' }
+      ];
+
+      var gridHTML = '';
+      for (var i = 0; i < gridItems.length; i++) {
+        gridHTML += '<div class="result-item"><div class="ri-value">' +
+          gridItems[i].value + '</div><div class="ri-label">' +
+          gridItems[i].label + '</div></div>';
+      }
+      document.getElementById('count-grid').innerHTML = gridHTML;
+
+      // Holiday list
+      renderHolidayList('count-holidays-list', 'count-holidays-ul', result.holidaysSkipped);
+
+      area.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    document.getElementById('count-calc-btn').addEventListener('click', calculateCount);
+
+    /* --- Count Mode: Clear --- */
+    document.getElementById('count-clear-btn').addEventListener('click', function () {
+      var today = new Date();
+      document.getElementById('count-start').value = '';
+      document.getElementById('count-end').value = toISO(today);
+      document.getElementById('count-holidays').checked = false;
+      document.getElementById('count-results').classList.remove('visible');
+      document.getElementById('count-holidays-list').classList.remove('visible');
+    });
+
+    /* --- Add/Sub Mode: Calculate --- */
+    function calculateAddSub() {
+      var start = parseDate('as-date');
+      var daysVal = parseInt(document.getElementById('as-days').value);
+      var direction = document.getElementById('as-direction').value;
+
+      if (!start) {
+        showToast('Please select a start date.', 'error');
+        return;
+      }
+      if (isNaN(daysVal) || daysVal < 0) {
+        showToast('Please enter a valid number of business days.', 'error');
+        return;
+      }
+      if (daysVal === 0) {
+        showToast('Please enter at least 1 business day.', 'error');
+        return;
+      }
+
+      var excludeHolidays = document.getElementById('as-holidays').checked;
+      var result = addBusinessDays(start, daysVal, direction, excludeHolidays);
+
+      var resEl = document.getElementById('as-result');
+      resEl.classList.add('visible');
+
+      document.getElementById('asr-value').textContent = formatDateLong(result.date);
+
+      var verb = direction === 'add' ? 'after' : 'before';
+      document.getElementById('asr-label').textContent =
+        fmtNum(daysVal) + ' business day' + (daysVal !== 1 ? 's' : '') + ' ' + verb + ' ' +
+        start.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+      renderHolidayList('as-holidays-list', 'as-holidays-ul', result.holidaysSkipped);
+    }
+
+    document.getElementById('as-calc-btn').addEventListener('click', calculateAddSub);
+
+    /* --- Add/Sub Mode: Clear --- */
+    document.getElementById('as-clear-btn').addEventListener('click', function () {
+      var today = new Date();
+      document.getElementById('as-date').value = toISO(today);
+      document.getElementById('as-days').value = '10';
+      document.getElementById('as-direction').value = 'add';
+      document.getElementById('as-holidays').checked = false;
+      document.getElementById('as-result').classList.remove('visible');
+      document.getElementById('as-holidays-list').classList.remove('visible');
+    });
+
+    /* --- Init --- */
+    document.addEventListener('DOMContentLoaded', function () {
+      var today = new Date();
+      document.getElementById('count-end').value = toISO(today);
+      document.getElementById('as-date').value = toISO(today);
+    });
+
+  })();
+  </script>
+</body>
+</html>

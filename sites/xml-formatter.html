@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XML Formatter &amp; Validator Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Format, validate, and minify XML online for free. Instant syntax highlighting, indentation options, well-formedness checking with error location. No signup required — 100% client-side.">
+  <link rel="canonical" href="https://toolrip.com/xml">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="XML Formatter &amp; Validator — Toolrip">
+  <meta property="og:description" content="Format, validate, and minify XML online for free. Instant syntax highlighting, indentation options, well-formedness checking with error location. No signup required — 100% client-side.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/xml">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="XML Formatter &amp; Validator — Toolrip">
+  <meta name="twitter:description" content="Format, validate, and minify XML online for free. Instant syntax highlighting, indentation options, well-formedness checking with error location. No signup required — 100% client-side.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root{--accent:var(--developer)}
+
+    /* Tool-specific styles */
+    .tool-grid{display:grid;grid-template-columns:1fr;gap:var(--sp-3)}
+    @media(min-width:768px){.tool-grid{grid-template-columns:1fr 1fr}}
+
+    .toolbar{display:flex;flex-wrap:wrap;gap:var(--sp-2);align-items:center;margin-bottom:var(--sp-3)}
+    .toolbar-right{margin-left:auto;display:flex;gap:var(--sp-2);align-items:center}
+    @media(max-width:639px){.toolbar-right{margin-left:0;width:100%}}
+
+    .indent-select{padding:var(--sp-1) var(--sp-2);background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius-sm);color:var(--text);font-size:.8125rem;cursor:pointer}
+
+    .xml-input{width:100%;min-height:320px;resize:vertical;background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);color:var(--text);font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.875rem;padding:var(--sp-3);line-height:1.6;tab-size:2}
+    .xml-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent)}
+
+    .output-panel{position:relative;width:100%;min-height:320px;background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);padding:var(--sp-3);overflow:auto;font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.875rem;line-height:1.6;white-space:pre-wrap;word-break:break-word}
+
+    /* Syntax highlighting */
+    .xml-tag{color:#93c5fd}
+    .xml-attr-name{color:#fbbf24}
+    .xml-attr-value{color:#86efac}
+    .xml-comment{color:#6b7280;font-style:italic}
+    .xml-cdata{color:#a78bfa}
+    .xml-prolog{color:#f472b6}
+    .xml-text{color:var(--text)}
+    .xml-bracket{color:#9ca3af}
+
+    /* Error display */
+    .error-bar{background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);border-radius:var(--radius-sm);
+      padding:var(--sp-2) var(--sp-3);color:#fca5a5;font-size:.8125rem;margin-bottom:var(--sp-2);display:none;
+      font-family:'Consolas','Monaco','Courier New',monospace;line-height:1.5}
+    .error-bar.visible{display:block}
+
+    .success-bar{background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);border-radius:var(--radius-sm);
+      padding:var(--sp-2) var(--sp-3);color:#6ee7b7;font-size:.8125rem;margin-bottom:var(--sp-2);display:none}
+    .success-bar.visible{display:block}
+
+    /* Drop zone */
+    .drop-zone{border:2px dashed var(--border);border-radius:var(--radius);padding:var(--sp-4);
+      text-align:center;color:var(--text-muted);font-size:.8125rem;cursor:pointer;transition:border-color .2s,background .2s;
+      margin-bottom:var(--sp-2)}
+    .drop-zone:hover,.drop-zone.dragover{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 5%,transparent)}
+    .drop-zone input[type="file"]{display:none}
+
+    /* Btn-small */
+    .btn-sm{padding:var(--sp-1) var(--sp-2);font-size:.8125rem;border-radius:var(--radius-sm)}
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "XML Formatter & Validator",
+    "url": "https://toolrip.com/xml",
+    "description": "Format, validate, and minify XML online for free. Instant syntax highlighting, indentation options, well-formedness checking with error location. No signup required — 100% client-side.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#developer">Developer Tools</a>
+        <span>/</span>
+        <span>XML Formatter &amp; Validator</span>
+      </nav>
+
+      <h1>XML Formatter &amp; Validator Online</h1>
+      <p class="text-muted mt-1 mb-3">Paste or upload your XML to instantly format, validate, or minify it. Check well-formedness, view syntax highlighting, and adjust indentation. Completely free and runs entirely in your browser.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <!-- Toolbar -->
+        <div class="toolbar">
+          <button class="btn-primary btn-sm" onclick="handleFormat()">Format</button>
+          <button class="btn-secondary btn-sm" onclick="handleMinify()">Minify</button>
+          <button class="btn-secondary btn-sm" onclick="handleValidate()">Validate</button>
+          <button class="btn-secondary btn-sm" onclick="handleCopy()">Copy</button>
+          <button class="btn-secondary btn-sm" onclick="handleClear()">Clear</button>
+          <button class="btn-secondary btn-sm" onclick="loadSample()">Sample</button>
+          <div class="toolbar-right">
+            <label for="indent-select" style="font-size:.8125rem;color:var(--text-muted)">Indent:</label>
+            <select id="indent-select" class="indent-select" onchange="handleFormat()">
+              <option value="2" selected>2 spaces</option>
+              <option value="4">4 spaces</option>
+              <option value="tab">Tab</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Error / Success bars -->
+        <div class="error-bar" id="error-bar"></div>
+        <div class="success-bar" id="success-bar"></div>
+
+        <!-- File upload drop zone -->
+        <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
+          <input type="file" id="file-input" accept=".xml,.xsl,.xslt,.svg,.xhtml,.rss,.atom,.txt">
+          Drag &amp; drop an XML file here, or click to upload
+        </div>
+
+        <!-- Two-column layout -->
+        <div class="tool-grid">
+          <!-- Input -->
+          <div>
+            <textarea id="xml-input" class="xml-input" placeholder="Paste your XML here..." spellcheck="false"></textarea>
+          </div>
+
+          <!-- Output -->
+          <div>
+            <div class="output-panel" id="xml-output">
+              <button class="copy-btn" onclick="copyToClipboard(lastOutput, this)">Copy</button>
+              <span class="text-muted" style="font-size:.8125rem">Formatted output will appear here...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(2,1fr)">
+          <div class="feature-card">
+            <h3>Pretty-Print Formatting</h3>
+            <p>Convert compressed or poorly indented XML into a clean, human-readable document with consistent indentation in a single click. Choose between two-space, four-space, or tab indentation to match your team's coding standards. The formatter preserves all your data, attributes, namespaces, and processing instructions while restructuring whitespace for maximum readability. Whether you are reviewing a SOAP response, editing a Maven POM file, or inspecting an SVG graphic, properly indented XML makes the hierarchical structure immediately clear and dramatically reduces the time needed to locate specific elements.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Well-Formedness Validation</h3>
+            <p>Instantly verify that your XML document follows all the syntactic rules required by the XML specification. The validator uses the browser's native DOMParser to detect unclosed tags, mismatched element names, missing quotes around attribute values, illegal characters, and other structural problems. When an error is found the tool reports the line number and column position so you can jump directly to the problem in your editor. Catching these issues early prevents cryptic runtime exceptions in your applications and ensures that downstream parsers, XSLT transformations, and API consumers can process your document without failures.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Minification</h3>
+            <p>Strip all unnecessary whitespace including indentation, line breaks, and trailing spaces to produce the most compact XML representation possible. Minified XML transmits faster over the network, consumes less storage, and reduces bandwidth costs for high-traffic APIs and data feeds. This is particularly valuable for SOAP web services, RSS and Atom feeds, configuration payloads sent to microservices, and any scenario where document size directly affects performance. The minifier preserves significant whitespace inside text nodes and CDATA sections so your data remains intact even after compression.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Syntax Highlighting</h3>
+            <p>Read your XML with color-coded output that visually distinguishes element tags, attribute names, attribute values, text content, comments, CDATA sections, and processing instructions. Syntax highlighting makes it far easier to scan large documents and spot structural patterns or anomalies. Tags are displayed in blue, attribute names in gold, attribute values in green, comments in gray, and CDATA blocks in purple. The color scheme is designed for the dark-mode interface and optimized for readability during long editing sessions, reducing eye strain while keeping all parts of the document easy to differentiate at a glance.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the XML Formatter</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Paste or upload your XML.</strong> Type directly into the input area, paste from your clipboard, or drag and drop an <code>.xml</code> file onto the upload zone. You can also click the <em>Sample</em> button to load example data and explore the tool immediately.</li>
+          <li><strong>Choose an action.</strong> Click <em>Format</em> to pretty-print with syntax highlighting, <em>Minify</em> to compress into a single line with no extra whitespace, or <em>Validate</em> to check for well-formedness errors. Use the indent selector to switch between 2-space, 4-space, or tab indentation.</li>
+          <li><strong>Review the output.</strong> The formatted or minified result appears in the right panel (or below on mobile) with full syntax highlighting. If validation finds errors, the error bar shows the exact location and description of the problem so you can correct it quickly.</li>
+          <li><strong>Copy or continue editing.</strong> Click the <em>Copy</em> button to send the result to your clipboard instantly. If you spot an issue, fix it in the input area and re-format — the tool responds in real time with no page reload required.</li>
+        </ol>
+      </section>
+
+      <!-- Understanding XML -->
+      <section class="mt-4">
+        <h2>Understanding XML: The Extensible Markup Language</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">XML, or Extensible Markup Language, is a flexible text-based format designed to store and transport structured data in a way that is both human-readable and machine-parseable. Defined by the World Wide Web Consortium (W3C), XML uses a hierarchical tree structure composed of elements, attributes, and text content enclosed in user-defined tags. Unlike HTML, which has a fixed set of tags oriented toward document presentation, XML allows authors to create their own tag vocabularies, making it suitable for an enormous variety of applications ranging from data serialization to document markup to configuration management.</p>
+
+        <h3 style="margin-bottom:var(--sp-2)">Well-Formedness and Validity</h3>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Every XML document must be well-formed, meaning it follows the basic syntactic rules of the XML specification. A well-formed document has a single root element, all tags are properly nested and closed, attribute values are enclosed in quotes, and special characters are escaped using entity references such as <code>&amp;amp;</code> and <code>&amp;lt;</code>. Beyond well-formedness, a document can optionally be validated against a schema — either a Document Type Definition (DTD) or an XML Schema Definition (XSD) — which defines the allowed elements, attributes, data types, and structural constraints. Our tool focuses on well-formedness checking, which is the fundamental requirement every XML processor enforces.</p>
+
+        <h3 style="margin-bottom:var(--sp-2)">XML vs JSON vs HTML</h3>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">JSON has become the dominant format for web APIs because of its lightweight syntax and native compatibility with JavaScript, but XML remains essential in many enterprise systems, government data exchanges, and industries where strict schema validation and document-centric features such as namespaces and mixed content are required. HTML is a specific markup language for web documents and, in its XHTML variant, follows XML syntax rules. While JSON excels at simple key-value data, XML provides richer metadata support through attributes and namespaces, built-in support for comments and processing instructions, and the ability to represent document-oriented data where text content is interspersed with structural markup. Choosing between them depends on your use case: JSON for lightweight API payloads, XML for complex document structures and enterprise integration.</p>
+
+        <h3 style="margin-bottom:var(--sp-2)">Namespaces, XSLT, and Advanced Features</h3>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">XML namespaces allow multiple vocabularies to coexist within a single document by prefixing element and attribute names with a unique URI-based identifier. This is critical in environments like SOAP web services, where the envelope, header, and body elements come from different specifications. XSLT (Extensible Stylesheet Language Transformations) is a powerful language for transforming XML documents into other formats such as HTML, plain text, or different XML structures. Together with XPath for querying and XQuery for database-style operations, the XML technology family provides a comprehensive ecosystem for processing structured data at scale.</p>
+
+        <h3 style="margin-bottom:var(--sp-2)">Common Use Cases</h3>
+        <p style="color:var(--text-muted);line-height:1.7">XML is used extensively in SOAP-based web services for enterprise application integration, RSS and Atom feeds for content syndication, SVG for vector graphics, XHTML for structured web documents, Maven and Ant build files in Java ecosystems, Android layout definitions, Microsoft Office Open XML formats (DOCX, XLSX), configuration files for application servers like Tomcat and Spring, and data interchange in healthcare (HL7), finance (FIX/FIXML), and government (NIEM). Despite the rise of JSON, XML's self-describing nature, schema support, and rich tooling ecosystem ensure it remains indispensable in scenarios that demand strict data contracts and document-level expressiveness.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is the difference between XML and JSON?</summary>
+          <p>XML and JSON are both text-based data interchange formats, but they differ significantly in syntax and capabilities. JSON uses a compact notation of curly braces, square brackets, and key-value pairs derived from JavaScript, making it lightweight and easy to parse in web applications. XML uses a verbose tag-based syntax with opening and closing elements, which is more human-readable for document-oriented data but results in larger file sizes. XML supports namespaces, attributes, comments, processing instructions, CDATA sections, and schema validation through DTD or XSD, whereas JSON has a simpler data model limited to objects, arrays, strings, numbers, booleans, and null. JSON is the standard for modern REST APIs, while XML dominates enterprise integrations, SOAP services, and industries that require strict contract-based data validation.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What does well-formed XML mean?</summary>
+          <p>A well-formed XML document satisfies all the syntactic rules defined in the XML specification. These rules include having exactly one root element that encloses all other content, every opening tag must have a corresponding closing tag (or use self-closing syntax), tags must be properly nested without overlapping, attribute values must be enclosed in matching single or double quotes, element and attribute names are case-sensitive and must start with a letter or underscore, and special characters like ampersands and angle brackets must be represented using predefined entity references. Well-formedness is the minimum requirement for any XML parser to process a document. A document that is not well-formed will cause a parsing error and cannot be used until the structural problems are corrected.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What are XML namespaces and why do they matter?</summary>
+          <p>XML namespaces are a mechanism for avoiding name collisions when elements from different XML vocabularies appear in the same document. A namespace is declared using the xmlns attribute and associates a prefix with a unique URI identifier. For example, a SOAP message might use the prefix <code>soap:</code> for envelope elements and a custom prefix for the application payload. Without namespaces, two different schemas that both define an element called "header" would conflict when combined. Namespaces are essential in web services, syndication formats, and any integration scenario where multiple standards intersect. They do not require the URI to resolve to an actual web resource — the URI simply serves as a globally unique identifier string.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is a CDATA section in XML?</summary>
+          <p>A CDATA (Character Data) section is a block of text within an XML document that the parser treats as literal character data rather than markup. It begins with <code>&lt;![CDATA[</code> and ends with <code>]]&gt;</code>. Any characters between these delimiters, including angle brackets, ampersands, and other characters that would normally need escaping, are passed through as plain text. CDATA sections are commonly used to embed code snippets, HTML fragments, mathematical expressions, or any content that contains many special characters. The only sequence not allowed inside a CDATA block is the closing delimiter itself. While CDATA makes authoring convenient, many modern workflows prefer explicit entity escaping because CDATA sections can be surprising for developers unfamiliar with XML conventions.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How does XML handle character encoding?</summary>
+          <p>XML documents declare their character encoding in the XML declaration at the top of the file, such as <code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;</code>. The XML specification requires parsers to support UTF-8 and UTF-16 at a minimum, and UTF-8 is the overwhelmingly dominant encoding used in practice. If no encoding declaration is present, parsers default to UTF-8 (or UTF-16 if a byte order mark is detected). Characters outside the basic ASCII range can be included directly when using a Unicode encoding, or represented as numeric character references like <code>&amp;#x20AC;</code> for the euro sign. Ensuring correct encoding is critical because a mismatch between the declared and actual encoding will cause parsing failures or corrupted text, particularly for documents containing non-Latin scripts.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is XML dead or outdated?</summary>
+          <p>XML is far from dead, though its role has evolved. In the world of web APIs and front-end development, JSON has largely replaced XML as the preferred data format because of its lighter syntax and native JavaScript support. However, XML continues to thrive in enterprise software, government data systems, healthcare information exchange, financial messaging protocols, publishing workflows, and configuration management. Technologies like SOAP, XSLT, XPath, and XML Schema remain actively used and maintained. Many file formats including SVG, XHTML, EPUB, and the Office Open XML standard (DOCX, XLSX, PPTX) are XML-based. Rather than becoming obsolete, XML has settled into the niches where its strengths in strict validation, namespace support, and document-centric modeling provide irreplaceable value.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is my data safe when using this tool?</summary>
+          <p>Yes, your data never leaves your browser. All formatting, validation, and minification are performed entirely on the client side using JavaScript that runs locally in your web browser. The tool uses the native DOMParser and XMLSerializer APIs built into your browser to process XML. Nothing is sent to any server, stored in any database, or logged anywhere. This means you can safely paste sensitive configuration files, internal API responses, and private data without worrying about third-party access. You can verify this by opening your browser's developer tools and checking the Network tab while using the tool — no data requests are made when you format or validate.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+          <a href="https://toolrip.com/word-count">Word Counter</a>
+          <a href="https://toolrip.com/case">Case Converter</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+  (function() {
+    'use strict';
+
+    /* ========== State ========== */
+    var lastOutput = '';
+    window.lastOutput = '';
+
+    /* ========== Indent Helper ========== */
+    function getIndent() {
+      var val = document.getElementById('indent-select').value;
+      if (val === 'tab') return '\t';
+      return Number(val);
+    }
+
+    function getIndentStr() {
+      var val = document.getElementById('indent-select').value;
+      if (val === 'tab') return '\t';
+      return ' '.repeat(Number(val));
+    }
+
+    /* ========== XML Parsing ========== */
+    function parseXML(raw) {
+      var errBar = document.getElementById('error-bar');
+      var sucBar = document.getElementById('success-bar');
+      errBar.classList.remove('visible');
+      sucBar.classList.remove('visible');
+
+      if (!raw.trim()) return null;
+
+      var parser = new DOMParser();
+      var doc = parser.parseFromString(raw, 'application/xml');
+      var parseError = doc.querySelector('parsererror');
+
+      if (parseError) {
+        var errorText = parseError.textContent || parseError.innerText || 'Unknown XML parsing error';
+        // Try to extract line/column info
+        var lineMatch = errorText.match(/line\s+(\d+)/i);
+        var colMatch = errorText.match(/column\s+(\d+)/i);
+        var msg = 'XML Parsing Error: ';
+        if (lineMatch) {
+          msg += 'Line ' + lineMatch[1];
+          if (colMatch) msg += ', Column ' + colMatch[1];
+          msg += ' — ';
+        }
+        // Clean up the error message
+        var cleanError = errorText.replace(/^[\s\S]*?:/, '').trim();
+        if (cleanError.length > 200) cleanError = cleanError.substring(0, 200) + '...';
+        msg += cleanError || errorText;
+        errBar.textContent = msg;
+        errBar.classList.add('visible');
+        return null;
+      }
+
+      return doc;
+    }
+
+    /* ========== Pretty Print ========== */
+    function prettyPrintXML(raw) {
+      var doc = parseXML(raw);
+      if (!doc) return null;
+
+      var indent = getIndentStr();
+      var result = '';
+      var xmlDecMatch = raw.match(/^(\s*<\?xml[^?]*\?>\s*)/i);
+
+      if (xmlDecMatch) {
+        result = xmlDecMatch[1].trim() + '\n';
+      }
+
+      result += serializeNode(doc.documentElement, 0, indent);
+      return result;
+    }
+
+    function serializeNode(node, depth, indent) {
+      var padding = indent.repeat(depth);
+      var result = '';
+
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        result += padding + '<' + node.nodeName;
+
+        // Attributes
+        for (var i = 0; i < node.attributes.length; i++) {
+          var attr = node.attributes[i];
+          result += ' ' + attr.name + '="' + escapeXML(attr.value) + '"';
+        }
+
+        // Check children
+        var children = [];
+        for (var j = 0; j < node.childNodes.length; j++) {
+          children.push(node.childNodes[j]);
+        }
+
+        if (children.length === 0) {
+          result += '/>\n';
+        } else if (children.length === 1 && children[0].nodeType === Node.TEXT_NODE) {
+          var textVal = children[0].nodeValue;
+          if (textVal.trim().length === 0) {
+            result += '/>\n';
+          } else {
+            result += '>' + escapeXML(textVal.trim()) + '</' + node.nodeName + '>\n';
+          }
+        } else {
+          result += '>\n';
+          for (var k = 0; k < children.length; k++) {
+            var child = children[k];
+            if (child.nodeType === Node.ELEMENT_NODE) {
+              result += serializeNode(child, depth + 1, indent);
+            } else if (child.nodeType === Node.TEXT_NODE) {
+              var txt = child.nodeValue.trim();
+              if (txt) {
+                result += indent.repeat(depth + 1) + escapeXML(txt) + '\n';
+              }
+            } else if (child.nodeType === Node.COMMENT_NODE) {
+              result += indent.repeat(depth + 1) + '<!--' + child.nodeValue + '-->\n';
+            } else if (child.nodeType === Node.CDATA_SECTION_NODE) {
+              result += indent.repeat(depth + 1) + '<![CDATA[' + child.nodeValue + ']]>\n';
+            } else if (child.nodeType === Node.PROCESSING_INSTRUCTION_NODE) {
+              result += indent.repeat(depth + 1) + '<?' + child.target + ' ' + child.data + '?>\n';
+            }
+          }
+          result += padding + '</' + node.nodeName + '>\n';
+        }
+      } else if (node.nodeType === Node.COMMENT_NODE) {
+        result += padding + '<!--' + node.nodeValue + '-->\n';
+      } else if (node.nodeType === Node.CDATA_SECTION_NODE) {
+        result += padding + '<![CDATA[' + node.nodeValue + ']]>\n';
+      } else if (node.nodeType === Node.PROCESSING_INSTRUCTION_NODE) {
+        result += padding + '<?' + node.target + ' ' + node.data + '?>\n';
+      }
+
+      return result;
+    }
+
+    function escapeXML(str) {
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&apos;');
+    }
+
+    /* ========== Minify ========== */
+    function minifyXML(raw) {
+      var doc = parseXML(raw);
+      if (!doc) return null;
+
+      var serializer = new XMLSerializer();
+      var serialized = serializer.serializeToString(doc);
+
+      // Preserve xml declaration if present
+      var xmlDecMatch = raw.match(/^(\s*<\?xml[^?]*\?>\s*)/i);
+      var prefix = xmlDecMatch ? xmlDecMatch[1].trim() : '';
+
+      // Remove extra whitespace between tags
+      var minified = serialized.replace(/>\s+</g, '><').trim();
+
+      if (prefix && !minified.startsWith('<?xml')) {
+        minified = prefix + minified;
+      }
+
+      return minified;
+    }
+
+    /* ========== Syntax Highlighting ========== */
+    function highlightXML(xmlStr) {
+      // Escape HTML first
+      var html = xmlStr
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+
+      // XML declaration / processing instructions
+      html = html.replace(
+        /(&lt;\?[\s\S]*?\?&gt;)/g,
+        '<span class="xml-prolog">$1</span>'
+      );
+
+      // Comments
+      html = html.replace(
+        /(&lt;!--[\s\S]*?--&gt;)/g,
+        '<span class="xml-comment">$1</span>'
+      );
+
+      // CDATA sections
+      html = html.replace(
+        /(&lt;!\[CDATA\[[\s\S]*?\]\]&gt;)/g,
+        '<span class="xml-cdata">$1</span>'
+      );
+
+      // Self-closing tags: <tag attr="val"/>
+      html = html.replace(
+        /(&lt;)([\w:.-]+)((?:\s+[\w:.-]+\s*=\s*&quot;[^&]*?&quot;)*)\s*(\/&gt;)/g,
+        function(match, open, tag, attrs, close) {
+          var highlighted = '<span class="xml-bracket">' + open + '</span>';
+          highlighted += '<span class="xml-tag">' + tag + '</span>';
+          highlighted += highlightAttrs(attrs);
+          highlighted += '<span class="xml-bracket">' + close + '</span>';
+          return highlighted;
+        }
+      );
+
+      // Opening tags: <tag attr="val">
+      html = html.replace(
+        /(&lt;)([\w:.-]+)((?:\s+[\w:.-]+\s*=\s*&quot;[^&]*?&quot;)*)\s*(&gt;)/g,
+        function(match, open, tag, attrs, close) {
+          var highlighted = '<span class="xml-bracket">' + open + '</span>';
+          highlighted += '<span class="xml-tag">' + tag + '</span>';
+          highlighted += highlightAttrs(attrs);
+          highlighted += '<span class="xml-bracket">' + close + '</span>';
+          return highlighted;
+        }
+      );
+
+      // Closing tags: </tag>
+      html = html.replace(
+        /(&lt;\/)([\w:.-]+)(&gt;)/g,
+        '<span class="xml-bracket">$1</span><span class="xml-tag">$2</span><span class="xml-bracket">$3</span>'
+      );
+
+      return html;
+    }
+
+    function highlightAttrs(attrsStr) {
+      if (!attrsStr) return '';
+      return attrsStr.replace(
+        /([\w:.-]+)\s*=\s*(&quot;)([^&]*?)(&quot;)/g,
+        ' <span class="xml-attr-name">$1</span>=<span class="xml-attr-value">$2$3$4</span>'
+      );
+    }
+
+    /* ========== Format Handler ========== */
+    window.handleFormat = function() {
+      var raw = document.getElementById('xml-input').value;
+      if (!raw.trim()) {
+        resetOutput();
+        return;
+      }
+
+      var formatted = prettyPrintXML(raw);
+      if (formatted === null) return;
+
+      lastOutput = formatted;
+      window.lastOutput = formatted;
+
+      var sucBar = document.getElementById('success-bar');
+      sucBar.textContent = 'Valid XML — formatted successfully';
+      sucBar.classList.add('visible');
+
+      var output = document.getElementById('xml-output');
+      output.innerHTML =
+        '<button class="copy-btn" onclick="copyToClipboard(lastOutput, this)">Copy</button>' +
+        highlightXML(formatted);
+    };
+
+    /* ========== Minify Handler ========== */
+    window.handleMinify = function() {
+      var raw = document.getElementById('xml-input').value;
+      if (!raw.trim()) {
+        resetOutput();
+        return;
+      }
+
+      var minified = minifyXML(raw);
+      if (minified === null) return;
+
+      lastOutput = minified;
+      window.lastOutput = minified;
+
+      var sucBar = document.getElementById('success-bar');
+      sucBar.textContent = 'Valid XML — minified successfully';
+      sucBar.classList.add('visible');
+
+      var output = document.getElementById('xml-output');
+      var escaped = minified
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+      output.innerHTML =
+        '<button class="copy-btn" onclick="copyToClipboard(lastOutput, this)">Copy</button>' +
+        escaped;
+    };
+
+    /* ========== Validate Handler ========== */
+    window.handleValidate = function() {
+      var raw = document.getElementById('xml-input').value;
+      var errBar = document.getElementById('error-bar');
+      var sucBar = document.getElementById('success-bar');
+      errBar.classList.remove('visible');
+      sucBar.classList.remove('visible');
+
+      if (!raw.trim()) {
+        errBar.textContent = 'Please enter some XML to validate.';
+        errBar.classList.add('visible');
+        return;
+      }
+
+      var doc = parseXML(raw);
+      if (doc !== null) {
+        var root = doc.documentElement;
+        var elemCount = root.getElementsByTagName('*').length + 1;
+        sucBar.textContent = 'Well-formed XML — root element: <' + root.nodeName + '>, ' + elemCount + ' element' + (elemCount !== 1 ? 's' : '') + ' total';
+        sucBar.classList.add('visible');
+        showToast('XML is well-formed!', 'success');
+      }
+    };
+
+    /* ========== Copy Handler ========== */
+    window.handleCopy = function() {
+      if (!lastOutput) {
+        // Try to copy input if no output yet
+        var inputVal = document.getElementById('xml-input').value.trim();
+        if (!inputVal) {
+          showToast('Nothing to copy', 'error');
+          return;
+        }
+        copyToClipboard(inputVal);
+        showToast('Copied input to clipboard!', 'success');
+        return;
+      }
+      copyToClipboard(lastOutput);
+      showToast('Copied to clipboard!', 'success');
+    };
+
+    /* ========== Clear Handler ========== */
+    window.handleClear = function() {
+      document.getElementById('xml-input').value = '';
+      document.getElementById('error-bar').classList.remove('visible');
+      document.getElementById('success-bar').classList.remove('visible');
+      lastOutput = '';
+      window.lastOutput = '';
+      resetOutput();
+      showToast('Cleared', 'info');
+    };
+
+    function resetOutput() {
+      document.getElementById('xml-output').innerHTML =
+        '<button class="copy-btn" onclick="copyToClipboard(lastOutput, this)">Copy</button>' +
+        '<span class="text-muted" style="font-size:.8125rem">Formatted output will appear here...</span>';
+    }
+
+    /* ========== Sample Data ========== */
+    window.loadSample = function() {
+      var sample = '<?xml version="1.0" encoding="UTF-8"?>\n' +
+        '<catalog xmlns:dc="http://purl.org/dc/elements/1.1/">\n' +
+        '  <book id="bk101" category="fiction">\n' +
+        '    <dc:title>The Great Adventure</dc:title>\n' +
+        '    <dc:creator>Jane Smith</dc:creator>\n' +
+        '    <price currency="USD">29.99</price>\n' +
+        '    <publish_date>2025-08-15</publish_date>\n' +
+        '    <description><![CDATA[An <exciting> tale of discovery & wonder.]]></description>\n' +
+        '    <reviews>\n' +
+        '      <review rating="5">Absolutely captivating from start to finish.</review>\n' +
+        '      <review rating="4">Well-written with rich character development.</review>\n' +
+        '    </reviews>\n' +
+        '  </book>\n' +
+        '  <book id="bk102" category="science">\n' +
+        '    <dc:title>Quantum Horizons</dc:title>\n' +
+        '    <dc:creator>Dr. Alan Park</dc:creator>\n' +
+        '    <price currency="USD">45.00</price>\n' +
+        '    <publish_date>2026-01-20</publish_date>\n' +
+        '    <description>A comprehensive guide to modern quantum mechanics.</description>\n' +
+        '    <reviews>\n' +
+        '      <review rating="5">Essential reading for physics enthusiasts.</review>\n' +
+        '    </reviews>\n' +
+        '  </book>\n' +
+        '  <!-- More books can be added here -->\n' +
+        '</catalog>';
+      document.getElementById('xml-input').value = sample;
+      handleFormat();
+      showToast('Sample XML loaded', 'info');
+    };
+
+    /* ========== File Upload ========== */
+    var dropZone = document.getElementById('drop-zone');
+    var fileInput = document.getElementById('file-input');
+
+    dropZone.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      dropZone.classList.add('dragover');
+    });
+
+    dropZone.addEventListener('dragleave', function() {
+      dropZone.classList.remove('dragover');
+    });
+
+    dropZone.addEventListener('drop', function(e) {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
+      var files = e.dataTransfer.files;
+      if (files.length > 0) readFile(files[0]);
+    });
+
+    fileInput.addEventListener('change', function() {
+      if (fileInput.files.length > 0) {
+        readFile(fileInput.files[0]);
+        fileInput.value = '';
+      }
+    });
+
+    function readFile(file) {
+      if (file.size > 10 * 1024 * 1024) {
+        showToast('File too large (max 10 MB)', 'error');
+        return;
+      }
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('xml-input').value = e.target.result;
+        handleFormat();
+        showToast('File loaded: ' + file.name, 'success');
+      };
+      reader.onerror = function() {
+        showToast('Failed to read file', 'error');
+      };
+      reader.readAsText(file);
+    }
+
+    /* ========== Keyboard Shortcut ========== */
+    document.getElementById('xml-input').addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        handleFormat();
+      }
+    });
+
+  })();
+  </script>
+</body>
+</html>

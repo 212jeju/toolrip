@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Angle Converter — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Convert angles between degrees, radians, gradians, turns, arcminutes, arcseconds, and milliradians instantly. Visual arc display, reference table, and all conversions at once. Free online tool.">
+  <link rel="canonical" href="https://toolrip.com/angle">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Angle Converter — Free, Fast, No Signup | Toolrip">
+  <meta property="og:description" content="Convert angles between degrees, radians, gradians, turns, arcminutes, arcseconds, and milliradians instantly. Visual arc display and reference table included. Free online tool.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/angle">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Angle Converter — Free, Fast, No Signup | Toolrip">
+  <meta name="twitter:description" content="Convert angles between degrees, radians, gradians, turns, arcminutes, arcseconds, and milliradians instantly. Visual arc display and reference table included. Free online tool.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--conversion)}</style>
+
+  <style>
+    /* Converter layout */
+    .converter-row{display:flex;gap:var(--sp-3);align-items:flex-end;flex-wrap:wrap}
+    .converter-row .input-group{flex:1;min-width:140px}
+    .swap-btn{width:44px;height:44px;border-radius:50%;background:var(--bg);border:1px solid var(--border);
+      color:var(--accent);font-size:1.25rem;cursor:pointer;transition:background .15s,transform .3s;
+      display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-bottom:var(--sp-3)}
+    .swap-btn:hover{background:color-mix(in srgb,var(--accent) 12%,transparent);transform:rotate(180deg)}
+
+    /* Results display */
+    .result-chain{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+      padding:var(--sp-4);margin-top:var(--sp-3);font-size:1rem;font-weight:600;
+      color:var(--text);position:relative;word-break:break-word}
+    .result-chain .copy-btn{position:absolute;top:var(--sp-2);right:var(--sp-2)}
+    .result-chain .empty-state{color:var(--text-muted);font-weight:400;font-size:.9375rem;text-align:center;display:block}
+    .result-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:var(--sp-2)}
+    .result-item{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-sm);
+      padding:var(--sp-2) var(--sp-3);display:flex;flex-direction:column;gap:2px}
+    .result-item .unit-label{font-size:.75rem;color:var(--text-muted);font-weight:400;text-transform:uppercase;letter-spacing:.03em}
+    .result-item .unit-value{font-size:1rem;font-weight:600;color:var(--text)}
+    .result-item.highlighted{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,transparent)}
+
+    /* Formula display */
+    .formula-box{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+      padding:var(--sp-3);margin-top:var(--sp-3);font-family:'Fira Code','Consolas',monospace;
+      font-size:.875rem;color:var(--text-muted);line-height:1.8}
+    .formula-box strong{color:var(--text);font-weight:600}
+
+    /* Reference table */
+    .ref-table{width:100%;border-collapse:collapse;font-size:.875rem;margin-top:var(--sp-3)}
+    .ref-table th,.ref-table td{padding:var(--sp-2) var(--sp-3);text-align:left;border-bottom:1px solid var(--border)}
+    .ref-table th{color:var(--text-muted);font-weight:600;font-size:.8125rem;text-transform:uppercase;letter-spacing:.03em;
+      background:var(--bg);position:sticky;top:0}
+    .ref-table td{color:var(--text)}
+    .ref-table tr:hover td{background:color-mix(in srgb,var(--accent) 5%,transparent)}
+    .ref-table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius)}
+
+    /* Angle visual arc */
+    .arc-container{display:flex;justify-content:center;align-items:center;padding:var(--sp-4);min-height:240px}
+    .arc-svg{width:200px;height:200px}
+    .arc-label{font-size:.875rem;color:var(--text-muted);text-align:center;margin-top:var(--sp-2)}
+    .arc-degree-text{font-size:1.125rem;font-weight:700;color:var(--accent);text-align:center}
+
+    /* Action buttons row */
+    .action-bar{display:flex;gap:var(--sp-2);flex-wrap:wrap;margin-top:var(--sp-3)}
+
+    @media(max-width:639px){
+      .converter-row{flex-direction:column;align-items:stretch}
+      .swap-btn{align-self:center;margin-bottom:0}
+      .result-grid{grid-template-columns:1fr}
+      .arc-svg{width:160px;height:160px}
+    }
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Angle Converter",
+    "url": "https://toolrip.com/angle",
+    "description": "Convert angles between degrees, radians, gradians, turns, arcminutes, arcseconds, and milliradians instantly. Visual arc display, reference table, and all conversions at once.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Conversion Tools", "item": "https://toolrip.com/#conversion" },
+      { "@type": "ListItem", "position": 3, "name": "Angle Converter", "item": "https://toolrip.com/angle" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Why do mathematicians prefer radians over degrees?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Radians are the natural unit for angle measurement in mathematics because they simplify calculus and trigonometric identities. When angles are in radians, derivatives like d/dx sin(x) = cos(x) hold without extra conversion factors. Radians also define arc length directly: an angle of theta radians in a circle of radius r subtends an arc of length r times theta." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between degrees and gradians?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Degrees divide a full circle into 360 equal parts, while gradians (also called gons) divide it into 400 parts. A right angle is 90 degrees but 100 gradians. Gradians were designed for easier decimal arithmetic and are used primarily in surveying and some European engineering contexts." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I read a protractor to measure angles?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Place the protractor's center point at the vertex of the angle. Align one ray of the angle with the 0-degree baseline. Read the number where the other ray crosses the protractor's scale. Most protractors have two scales (inner and outer) running in opposite directions — use the one that starts from 0 on your baseline ray." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is DMS format for angles?",
+        "acceptedAnswer": { "@type": "Answer", "text": "DMS stands for Degrees, Minutes, Seconds. One degree equals 60 minutes of arc, and one minute equals 60 seconds of arc. For example, 45.5 degrees is written as 45 degrees 30 minutes 0 seconds (45° 30' 0\"). DMS is widely used in navigation, cartography, and astronomy for precise angular measurements." }
+      },
+      {
+        "@type": "Question",
+        "name": "What are the full circle values in each angle unit?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A full circle (complete rotation) equals 360 degrees, 2 times pi radians (approximately 6.2832 rad), 400 gradians, 1 turn, 21600 arcminutes, 1296000 arcseconds, or approximately 6283.19 milliradians." }
+      },
+      {
+        "@type": "Question",
+        "name": "What are milliradians and where are they used?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A milliradian (mrad) is one-thousandth of a radian, equal to approximately 0.0573 degrees. Milliradians are widely used in military applications, ballistics, and precision optics. At 1000 meters distance, 1 mrad subtends approximately 1 meter, making it practical for range estimation and scope adjustments." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I convert between degrees and radians quickly?",
+        "acceptedAnswer": { "@type": "Answer", "text": "To convert degrees to radians, multiply by pi/180. To convert radians to degrees, multiply by 180/pi. Useful shortcuts: 180 degrees = pi radians, 90 degrees = pi/2 radians, 60 degrees = pi/3 radians, 45 degrees = pi/4 radians, and 30 degrees = pi/6 radians." }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" id="ad-top" data-ad-slot="top">Ad</div>
+
+    <main class="main">
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#conversion">Conversion Tools</a>
+        <span>/</span>
+        <span>Angle Converter</span>
+      </nav>
+
+      <h1>Angle Converter</h1>
+      <p class="text-muted mt-1 mb-3">Convert between degrees, radians, gradians, turns, arcminutes, arcseconds, and milliradians instantly. See all results at once with a visual arc display and reference tables.</p>
+
+      <!-- ===== TOOL UI ===== -->
+      <div class="tool-card">
+        <div class="converter-row">
+          <div class="input-group">
+            <label for="angle-value">Angle Value</label>
+            <input type="number" id="angle-value" class="input-field" placeholder="Enter value..." step="any" autocomplete="off">
+          </div>
+          <div class="input-group">
+            <label for="from-unit">From</label>
+            <select id="from-unit" class="select-field">
+              <option value="deg">Degrees (&deg;)</option>
+              <option value="rad">Radians (rad)</option>
+              <option value="grad">Gradians (grad)</option>
+              <option value="turn">Turns</option>
+              <option value="arcmin">Minutes of arc (&prime;)</option>
+              <option value="arcsec">Seconds of arc (&Prime;)</option>
+              <option value="mrad">Milliradians (mrad)</option>
+            </select>
+          </div>
+          <button class="swap-btn" id="swap-btn" title="Swap units" aria-label="Swap from and to units">&#8596;</button>
+          <div class="input-group">
+            <label for="to-unit">To</label>
+            <select id="to-unit" class="select-field">
+              <option value="rad">Radians (rad)</option>
+              <option value="deg">Degrees (&deg;)</option>
+              <option value="grad">Gradians (grad)</option>
+              <option value="turn">Turns</option>
+              <option value="arcmin">Minutes of arc (&prime;)</option>
+              <option value="arcsec">Seconds of arc (&Prime;)</option>
+              <option value="mrad">Milliradians (mrad)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn-primary" id="convert-btn">Convert</button>
+          <button class="btn-secondary" id="clear-btn">Clear</button>
+        </div>
+
+        <!-- All-at-once results -->
+        <div class="result-chain" id="result-chain">
+          <button class="copy-btn" id="copy-result-btn" style="display:none">Copy</button>
+          <span class="empty-state">Enter an angle value above to see all conversions</span>
+        </div>
+
+        <!-- Formula used -->
+        <div class="formula-box" id="formula-box" style="display:none">
+          <strong>Conversion path:</strong><br>
+          <span id="formula-text"></span>
+        </div>
+      </div>
+
+      <!-- Visual Angle Arc Display -->
+      <div class="tool-card">
+        <h2 style="font-size:1.1rem;margin-bottom:var(--sp-2)">Visual Angle Display</h2>
+        <p class="text-muted" style="font-size:.875rem;margin-bottom:var(--sp-3)">See the current angle rendered as an arc. The shaded region represents the angle magnitude (displayed modulo 360&deg;).</p>
+        <div class="arc-container">
+          <div>
+            <svg class="arc-svg" id="arc-svg" viewBox="0 0 200 200">
+              <!-- Grid circle -->
+              <circle cx="100" cy="100" r="80" fill="none" stroke="var(--border)" stroke-width="1"/>
+              <circle cx="100" cy="100" r="40" fill="none" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="3,3"/>
+              <!-- Axis lines -->
+              <line x1="20" y1="100" x2="180" y2="100" stroke="var(--border)" stroke-width="0.5"/>
+              <line x1="100" y1="20" x2="100" y2="180" stroke="var(--border)" stroke-width="0.5"/>
+              <!-- Angle arc wedge -->
+              <path id="arc-wedge" d="" fill="color-mix(in srgb,var(--accent) 25%,transparent)" stroke="var(--accent)" stroke-width="2"/>
+              <!-- Reference ray (0 deg) -->
+              <line x1="100" y1="100" x2="180" y2="100" stroke="var(--text-muted)" stroke-width="1" stroke-dasharray="4,3"/>
+              <!-- Angle ray -->
+              <line id="arc-ray" x1="100" y1="100" x2="180" y2="100" stroke="var(--accent)" stroke-width="2"/>
+              <!-- Center dot -->
+              <circle cx="100" cy="100" r="3" fill="var(--accent)"/>
+              <!-- Degree labels -->
+              <text x="185" y="104" fill="var(--text-muted)" font-size="10" text-anchor="start">0&deg;</text>
+              <text x="100" y="16" fill="var(--text-muted)" font-size="10" text-anchor="middle">90&deg;</text>
+              <text x="12" y="104" fill="var(--text-muted)" font-size="10" text-anchor="end">180&deg;</text>
+              <text x="100" y="196" fill="var(--text-muted)" font-size="10" text-anchor="middle">270&deg;</text>
+            </svg>
+            <div class="arc-degree-text" id="arc-degree-text">0&deg;</div>
+            <div class="arc-label" id="arc-label">Enter a value to visualize</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Angle Reference Table -->
+      <div class="tool-card">
+        <h2 style="font-size:1.1rem;margin-bottom:var(--sp-2)">Common Angle Reference Table</h2>
+        <div class="ref-table-wrap">
+          <table class="ref-table">
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>Degrees</th>
+                <th>Radians</th>
+                <th>Gradians</th>
+                <th>Turns</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Zero angle</td><td>0&deg;</td><td>0</td><td>0 grad</td><td>0</td></tr>
+              <tr><td>Common trig (30&deg;)</td><td>30&deg;</td><td>&pi;/6 &asymp; 0.5236</td><td>33.333 grad</td><td>1/12</td></tr>
+              <tr><td>Common trig (45&deg;)</td><td>45&deg;</td><td>&pi;/4 &asymp; 0.7854</td><td>50 grad</td><td>1/8</td></tr>
+              <tr><td>Common trig (60&deg;)</td><td>60&deg;</td><td>&pi;/3 &asymp; 1.0472</td><td>66.667 grad</td><td>1/6</td></tr>
+              <tr><td>Right angle</td><td>90&deg;</td><td>&pi;/2 &asymp; 1.5708</td><td>100 grad</td><td>1/4</td></tr>
+              <tr><td>Straight angle</td><td>180&deg;</td><td>&pi; &asymp; 3.1416</td><td>200 grad</td><td>1/2</td></tr>
+              <tr><td>Three-quarter turn</td><td>270&deg;</td><td>3&pi;/2 &asymp; 4.7124</td><td>300 grad</td><td>3/4</td></tr>
+              <tr><td>Full circle</td><td>360&deg;</td><td>2&pi; &asymp; 6.2832</td><td>400 grad</td><td>1</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" id="ad-in-content" data-ad-slot="in-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Seven Units at Once</h3>
+            <p>See your angle converted to degrees, radians, gradians, turns, arcminutes, arcseconds, and milliradians simultaneously. No need for multiple conversions.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Visual Arc Display</h3>
+            <p>An interactive SVG arc renders the current angle in real time so you can visually understand the magnitude of the value you entered.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Reference Table</h3>
+            <p>Built-in table covering right angles, straight angles, full circles, and common trigonometric angles like 30, 45, and 60 degrees for quick lookup.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Instant Results</h3>
+            <p>Conversions update as you type, providing real-time feedback without page reloads or button clicks. Swap units with a single tap.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Angle Converter</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li>Enter the angle value you want to convert in the input field.</li>
+          <li>Select the source unit (degrees, radians, gradians, turns, arcminutes, arcseconds, or milliradians) from the "From" dropdown.</li>
+          <li>All seven unit conversions appear simultaneously in the result area below.</li>
+          <li>Use the swap button (&#8596;) to quickly reverse the from and to units.</li>
+          <li>Check the visual arc display to see a graphical representation of your angle.</li>
+          <li>Click "Copy" to copy all conversion results to your clipboard.</li>
+        </ol>
+      </section>
+
+      <!-- SEO Content Section -->
+      <section class="mt-4">
+        <h2>Understanding Angle Measurement</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          Angles are fundamental geometric quantities that describe the rotation between two rays sharing a common endpoint, called the vertex. From the earliest days of astronomy and navigation to modern engineering, computer graphics, and robotics, accurate angle measurement is essential. Different fields have adopted different units for measuring angles, each optimized for particular applications. This converter supports the seven most widely used angle units, letting you move between them instantly.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          <strong style="color:var(--text)">Degrees</strong> are the most familiar angle unit in everyday life. The system divides a full circle into 360 equal parts, a convention that dates back to ancient Babylonian astronomers who used a base-60 number system. The choice of 360 is particularly convenient because it has many divisors (1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 15, 18, 20, 24, 30, 36, 40, 45, 60, 72, 90, 120, 180, and 360), making it easy to subdivide a circle into equal parts. Degrees remain the standard unit for navigation, architecture, everyday geometry, and most educational settings around the world.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          <strong style="color:var(--text)">Radians</strong> are the preferred unit in mathematics and the physical sciences. One radian is the angle subtended at the center of a circle by an arc whose length equals the circle's radius. Since the circumference of a circle is two times pi times the radius, a full circle contains exactly 2&pi; radians, approximately 6.2832. Radians make many mathematical formulas simpler and more elegant. In calculus, the derivative of the sine function is the cosine function only when the argument is measured in radians. This natural connection to the circle's geometry is why radians are the SI unit for plane angles and the default in most programming languages and scientific calculators.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          <strong style="color:var(--text)">Gradians</strong>, also known as gons or grades, divide a full circle into 400 parts. This means a right angle equals exactly 100 gradians, which aligns neatly with the decimal system. Gradians were introduced during the French Revolution as part of the broader push to decimalize measurement. They are still used today in surveying, land measurement, and some European engineering applications. Surveying instruments often include a gradian mode alongside degrees because the round numbers simplify fieldwork calculations involving perpendicular and parallel lines.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          <strong style="color:var(--text)">Turns</strong> represent the most intuitive angle unit: one turn equals one complete rotation, or 360 degrees. While less common in formal scientific work, turns appear in engineering contexts, frequency analysis (cycles per second), and everyday language ("half turn," "quarter turn"). Some programming frameworks and game engines use turns for rotation because the values stay between 0 and 1 for a single revolution, making interpolation straightforward.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          <strong style="color:var(--text)">Minutes and seconds of arc</strong> provide finer subdivisions of degrees, following the same 60-based system used for time. One degree contains 60 arcminutes, and one arcminute contains 60 arcseconds. This DMS (degrees, minutes, seconds) notation is the standard in navigation, astronomy, and cartography. Geographic coordinates (latitude and longitude) are traditionally expressed in DMS format. In astronomy, arcseconds measure the angular diameter of celestial objects and the resolving power of telescopes.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8">
+          <strong style="color:var(--text)">Milliradians</strong> are one-thousandth of a radian and are widely used in military, ballistics, and precision optics applications. The practical appeal of milliradians comes from a useful approximation: at a distance of 1000 meters, one milliradian subtends approximately one meter. This makes range estimation and scope adjustment calculations intuitive. NATO and most modern military forces use milliradians for artillery fire control, and rifle scopes frequently feature milliradian-based adjustment turrets for long-range shooting.
+        </p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>Why do mathematicians prefer radians over degrees?</summary>
+          <p>Radians are the natural unit for angles in mathematics because they emerge directly from the geometry of a circle. When angles are measured in radians, key calculus results hold in their simplest form. For instance, the derivative of sin(x) is cos(x) without any additional conversion factor. The Taylor series expansions for trigonometric functions also assume radian input. Beyond calculus, radians simplify the relationship between arc length (s), radius (r), and angle (&theta;): s = r&theta;. This elegance is why radians are the SI derived unit for angles and the default in virtually every scientific computing environment.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between degrees and gradians?</summary>
+          <p>Both degrees and gradians divide a full circle into equal parts, but they differ in how many parts. Degrees split the circle into 360 parts, while gradians divide it into 400 parts. This means a right angle is 90 degrees but 100 gradians. Gradians were designed to align with the decimal system, making mental arithmetic easier in certain contexts. They are primarily used in surveying, civil engineering, and some European countries. For most other purposes, including education, navigation, and general science, degrees remain the dominant choice.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do I read a protractor to measure angles?</summary>
+          <p>To measure an angle with a protractor, place the center mark of the protractor precisely on the angle's vertex (the point where the two rays meet). Align one ray with the 0-degree baseline along the bottom edge of the protractor. Then read the value where the second ray crosses the protractor's curved scale. Most protractors have two sets of numbers (an inner scale and an outer scale) running in opposite directions. Use the scale that starts from 0 on the ray you aligned with the baseline. If the angle opens to the left, use the outer scale, and if it opens to the right, use the inner scale.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is DMS format for angles?</summary>
+          <p>DMS stands for Degrees, Minutes, Seconds, which is a way to express angles using subdivisions of a degree. One degree equals 60 minutes of arc, and one minute of arc equals 60 seconds of arc. For example, an angle of 45.7625 degrees converts to 45&deg; 45&prime; 45&Prime; in DMS. This format is standard in navigation (GPS coordinates), cartography, and astronomy because it provides precision without resorting to long decimal strings. To convert from DMS to decimal degrees, add the degrees to the minutes divided by 60 and the seconds divided by 3600.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What are the full circle values in each angle unit?</summary>
+          <p>A complete rotation around a circle has different numerical values depending on the unit used. In degrees it is 360, in radians it is 2&pi; (approximately 6.2832), in gradians it is 400, in turns it is 1, in arcminutes it is 21,600, in arcseconds it is 1,296,000, and in milliradians it is approximately 6,283.19. Knowing these full-circle values is useful for quick mental conversions and for verifying that your converter results are correct.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What are milliradians and where are they used?</summary>
+          <p>A milliradian (mrad) is one-thousandth of a radian, equal to approximately 0.0573 degrees. Milliradians are heavily used in military and tactical applications because of a practical property: at a distance of 1,000 units (meters, yards, etc.), one milliradian subtends approximately one unit of length. This makes it easy to estimate distances and adjust aim without complex calculations. Rifle scopes, artillery fire-control systems, and NATO standard targeting all use milliradians. They are also found in some precision engineering and optics applications where small angular adjustments need to be specified clearly.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do I convert between degrees and radians quickly?</summary>
+          <p>The key relationship is that 180 degrees equals &pi; radians. To convert degrees to radians, multiply by &pi;/180. To go from radians to degrees, multiply by 180/&pi;. For mental math, memorize a few anchor points: 30&deg; = &pi;/6, 45&deg; = &pi;/4, 60&deg; = &pi;/3, 90&deg; = &pi;/2, 180&deg; = &pi;, and 360&deg; = 2&pi;. You can also use the rough approximation that 1 radian is about 57.3 degrees, so multiplying a radian value by 57.3 gives a quick degree estimate.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/length">Length Converter</a>
+          <a href="https://toolrip.com/temperature">Temperature Converter</a>
+          <a href="https://toolrip.com/hex-rgb">Hex-RGB Converter</a>
+          <a href="https://toolrip.com/fraction">Fraction Calculator</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" id="ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" id="ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+  (function() {
+    'use strict';
+
+    var valueInput  = document.getElementById('angle-value');
+    var fromSelect  = document.getElementById('from-unit');
+    var toSelect    = document.getElementById('to-unit');
+    var swapBtn     = document.getElementById('swap-btn');
+    var convertBtn  = document.getElementById('convert-btn');
+    var clearBtn    = document.getElementById('clear-btn');
+    var resultChain = document.getElementById('result-chain');
+    var formulaBox  = document.getElementById('formula-box');
+    var formulaText = document.getElementById('formula-text');
+
+    /* --- Unit metadata --- */
+    var units = [
+      { key: 'deg',    label: 'Degrees',         symbol: '\u00b0',    toDeg: 1 },
+      { key: 'rad',    label: 'Radians',          symbol: ' rad',     toDeg: 180 / Math.PI },
+      { key: 'grad',   label: 'Gradians',         symbol: ' grad',    toDeg: 0.9 },
+      { key: 'turn',   label: 'Turns',            symbol: ' turn',    toDeg: 360 },
+      { key: 'arcmin', label: 'Minutes of arc',   symbol: '\u2032',   toDeg: 1 / 60 },
+      { key: 'arcsec', label: 'Seconds of arc',   symbol: '\u2033',   toDeg: 1 / 3600 },
+      { key: 'mrad',   label: 'Milliradians',     symbol: ' mrad',    toDeg: 180 / (Math.PI * 1000) }
+    ];
+
+    var unitMap = {};
+    units.forEach(function(u) { unitMap[u.key] = u; });
+
+    /* --- Conversion core: everything goes through degrees --- */
+    function toDegrees(value, fromKey) {
+      return value * unitMap[fromKey].toDeg;
+    }
+
+    function fromDegrees(deg, toKey) {
+      return deg / unitMap[toKey].toDeg;
+    }
+
+    function formatVal(val) {
+      if (!isFinite(val)) return '\u2014';
+      /* For very large or very small, use exponential */
+      var abs = Math.abs(val);
+      if (abs !== 0 && (abs >= 1e9 || abs < 1e-6)) {
+        return val.toExponential(4);
+      }
+      return parseFloat(val.toPrecision(10)).toString();
+    }
+
+    /* --- Build formula text --- */
+    function buildFormula(fromKey) {
+      var lines = [];
+      var from = unitMap[fromKey];
+      lines.push('Base unit: Degrees (\u00b0)');
+      if (fromKey !== 'deg') {
+        lines.push(from.label + ' \u2192 Degrees: multiply by ' + formatVal(from.toDeg));
+      }
+      units.forEach(function(u) {
+        if (u.key === fromKey || u.key === 'deg') return;
+        lines.push('Degrees \u2192 ' + u.label + ': divide by ' + formatVal(u.toDeg));
+      });
+      return lines.join('<br>');
+    }
+
+    /* --- Update SVG arc visual --- */
+    function updateArc(degrees) {
+      var svg = document.getElementById('arc-svg');
+      var wedge = document.getElementById('arc-wedge');
+      var ray = document.getElementById('arc-ray');
+      var degText = document.getElementById('arc-degree-text');
+      var arcLabel = document.getElementById('arc-label');
+
+      if (degrees === null || !isFinite(degrees)) {
+        wedge.setAttribute('d', '');
+        ray.setAttribute('x2', '180');
+        ray.setAttribute('y2', '100');
+        degText.textContent = '0\u00b0';
+        arcLabel.textContent = 'Enter a value to visualize';
+        return;
+      }
+
+      /* Normalize to 0-360 for display */
+      var displayDeg = ((degrees % 360) + 360) % 360;
+      var radAngle = displayDeg * Math.PI / 180;
+
+      /* SVG uses clockwise from right = 0, but we want counterclockwise from right (math convention).
+         SVG Y is inverted, so we negate the angle for correct counterclockwise rendering. */
+      var endX = 100 + 80 * Math.cos(-radAngle);
+      var endY = 100 + 80 * Math.sin(-radAngle);
+
+      /* Draw arc wedge */
+      var largeArc = displayDeg > 180 ? 1 : 0;
+      var d;
+      if (displayDeg === 0) {
+        d = '';
+      } else if (displayDeg >= 359.99) {
+        /* Full circle — draw two semicircles */
+        d = 'M 100 100 L 180 100 A 80 80 0 1 0 20 100 A 80 80 0 1 0 180 100 Z';
+      } else {
+        /* Sweep counterclockwise (SVG sweep=0) */
+        d = 'M 100 100 L 180 100 A 80 80 0 ' + largeArc + ' 0 ' + endX.toFixed(2) + ' ' + endY.toFixed(2) + ' Z';
+      }
+      wedge.setAttribute('d', d);
+
+      /* Update ray */
+      ray.setAttribute('x2', endX.toFixed(2));
+      ray.setAttribute('y2', endY.toFixed(2));
+
+      /* Update text */
+      degText.textContent = formatVal(degrees) + '\u00b0';
+      if (Math.abs(degrees) > 360) {
+        arcLabel.textContent = 'Showing ' + formatVal(displayDeg) + '\u00b0 (modulo 360\u00b0)';
+      } else {
+        arcLabel.textContent = formatVal(displayDeg) + '\u00b0 arc displayed';
+      }
+    }
+
+    /* --- Main convert logic --- */
+    function doConvert() {
+      var raw = valueInput.value.trim();
+      if (raw === '') {
+        resultChain.innerHTML = '<button class="copy-btn" id="copy-result-btn" style="display:none">Copy</button><span class="empty-state">Enter an angle value above to see all conversions</span>';
+        formulaBox.style.display = 'none';
+        updateArc(null);
+        return;
+      }
+
+      var value = parseFloat(raw);
+      if (isNaN(value)) {
+        resultChain.innerHTML = '<button class="copy-btn" id="copy-result-btn" style="display:none">Copy</button><span class="empty-state" style="color:#ef4444">Please enter a valid number</span>';
+        formulaBox.style.display = 'none';
+        updateArc(null);
+        return;
+      }
+
+      var fromKey = fromSelect.value;
+      var toKey = toSelect.value;
+      var degrees = toDegrees(value, fromKey);
+
+      /* Build all results */
+      var results = {};
+      var copyLines = [];
+      units.forEach(function(u) {
+        results[u.key] = fromDegrees(degrees, u.key);
+        copyLines.push(formatVal(results[u.key]) + u.symbol);
+      });
+
+      /* Build grid display */
+      var html = '<button class="copy-btn" id="copy-result-btn">Copy</button>';
+      html += '<div class="result-grid">';
+      units.forEach(function(u) {
+        var highlighted = (u.key === toKey) ? ' highlighted' : '';
+        html += '<div class="result-item' + highlighted + '">';
+        html += '<span class="unit-label">' + u.label + '</span>';
+        html += '<span class="unit-value">' + formatVal(results[u.key]) + u.symbol + '</span>';
+        html += '</div>';
+      });
+      html += '</div>';
+      resultChain.innerHTML = html;
+
+      /* Re-bind copy button */
+      var copyText = copyLines.join(' = ');
+      document.getElementById('copy-result-btn').addEventListener('click', function() {
+        copyToClipboard(copyText, this);
+      });
+
+      /* Show formula */
+      formulaText.innerHTML = buildFormula(fromKey);
+      formulaBox.style.display = '';
+
+      /* Update arc visual */
+      updateArc(degrees);
+    }
+
+    /* --- Swap units --- */
+    swapBtn.addEventListener('click', function() {
+      var tmp = fromSelect.value;
+      fromSelect.value = toSelect.value;
+      toSelect.value = tmp;
+      doConvert();
+    });
+
+    /* --- Convert button --- */
+    convertBtn.addEventListener('click', doConvert);
+
+    /* --- Clear --- */
+    clearBtn.addEventListener('click', function() {
+      valueInput.value = '';
+      fromSelect.value = 'deg';
+      toSelect.value = 'rad';
+      resultChain.innerHTML = '<button class="copy-btn" id="copy-result-btn" style="display:none">Copy</button><span class="empty-state">Enter an angle value above to see all conversions</span>';
+      formulaBox.style.display = 'none';
+      updateArc(null);
+      valueInput.focus();
+    });
+
+    /* --- Real-time conversion as user types --- */
+    valueInput.addEventListener('input', doConvert);
+    fromSelect.addEventListener('change', doConvert);
+    toSelect.addEventListener('change', doConvert);
+
+    /* --- Keyboard: Enter to convert --- */
+    valueInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        doConvert();
+      }
+    });
+
+  })();
+  </script>
+</body>
+</html>

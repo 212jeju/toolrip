@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random String Generator Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Generate random strings instantly with customizable length, character sets, prefix/suffix, and batch mode. Uses cryptographic randomness (CSPRNG). Free, no signup required.">
+  <link rel="canonical" href="https://toolrip.com/random-string">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Random String Generator — Toolrip">
+  <meta property="og:description" content="Generate random strings instantly with customizable length, character sets, prefix/suffix, and batch mode. Uses cryptographic randomness (CSPRNG). Free, no signup required.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/random-string">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Random String Generator — Toolrip">
+  <meta name="twitter:description" content="Generate random strings instantly with customizable length, character sets, prefix/suffix, and batch mode. Uses cryptographic randomness (CSPRNG). Free, no signup required.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--text-cat)}</style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Random String Generator",
+    "url": "https://toolrip.com/random-string",
+    "description": "Generate random strings instantly with customizable length, character sets, prefix/suffix, and batch mode. Uses cryptographic randomness (CSPRNG). Free, no signup required.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <style>
+    /* --- Output Display --- */
+    .string-display{display:flex;align-items:center;gap:var(--sp-2);background:var(--bg);
+      border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3);min-height:60px;position:relative}
+    .string-text{flex:1;font-family:'Courier New',Consolas,monospace;font-size:1.125rem;word-break:break-all;
+      line-height:1.5;color:var(--text);user-select:all}
+    .string-actions{display:flex;gap:var(--sp-1);flex-shrink:0}
+    .icon-btn{width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;
+      background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-sm);
+      color:var(--text-muted);cursor:pointer;transition:border-color .15s,color .15s;font-size:1rem}
+    .icon-btn:hover{color:var(--text);border-color:var(--accent)}
+
+    /* --- Slider --- */
+    .slider-row{display:flex;align-items:center;gap:var(--sp-3)}
+    .slider-row input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:6px;
+      background:var(--border);border-radius:3px;outline:none}
+    .slider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;
+      border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid var(--bg)}
+    .slider-row input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;
+      background:var(--accent);cursor:pointer;border:2px solid var(--bg)}
+    .length-display{font-size:1.5rem;font-weight:700;color:var(--accent);min-width:48px;text-align:center}
+
+    /* --- Toggle Checkbox --- */
+    .option-row{display:flex;align-items:center;justify-content:space-between;padding:var(--sp-2) 0;
+      border-bottom:1px solid var(--border)}
+    .option-row:last-child{border-bottom:none}
+    .option-label{display:flex;flex-direction:column;gap:2px}
+    .option-label span:first-child{font-size:.9375rem;font-weight:500}
+    .option-label span:last-child{font-size:.75rem;color:var(--text-muted)}
+
+    /* --- Prefix/Suffix Row --- */
+    .prefix-row{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-2)}
+    @media(max-width:480px){.prefix-row{grid-template-columns:1fr}}
+
+    /* --- Custom Chars --- */
+    .custom-chars-input{width:100%;padding:var(--sp-2) var(--sp-3);background:var(--bg);
+      border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font:inherit;
+      font-family:'Courier New',Consolas,monospace;font-size:.9375rem;transition:border-color .15s}
+    .custom-chars-input:focus{outline:none;border-color:var(--accent);
+      box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent)}
+
+    /* --- Quantity Input --- */
+    .quantity-row{display:flex;align-items:center;gap:var(--sp-2);flex-wrap:wrap}
+    .quantity-input{width:80px;padding:var(--sp-2) var(--sp-3);background:var(--bg);
+      border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font:inherit;
+      font-size:.9375rem;text-align:center}
+    .quantity-input:focus{outline:none;border-color:var(--accent)}
+
+    /* --- Entropy Info --- */
+    .entropy-info{display:flex;align-items:center;gap:var(--sp-2);padding:var(--sp-2) var(--sp-3);
+      background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+      font-size:.8125rem;color:var(--text-muted);margin-top:var(--sp-2)}
+    .entropy-info .entropy-value{font-weight:600;color:var(--accent)}
+
+    /* --- Batch Output --- */
+    .batch-output{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+      padding:var(--sp-3);margin-top:var(--sp-2);max-height:320px;overflow-y:auto;display:none;position:relative}
+    .batch-output.visible{display:block}
+    .batch-item{display:flex;align-items:center;justify-content:space-between;padding:var(--sp-1) 0;
+      border-bottom:1px solid var(--border);font-family:'Courier New',Consolas,monospace;font-size:.8125rem;word-break:break-all}
+    .batch-item:last-child{border-bottom:none}
+    .batch-item button{flex-shrink:0;margin-left:var(--sp-2)}
+    .batch-item .batch-index{color:var(--text-muted);font-size:.6875rem;min-width:28px;flex-shrink:0}
+
+    /* --- Generate Row --- */
+    .generate-row{display:flex;gap:var(--sp-2);flex-wrap:wrap;align-items:center}
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="top-random-string">Ad</div>
+
+    <!-- Breadcrumb -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#text">Text Tools</a>
+        <span>/</span>
+        <span>Random String Generator</span>
+      </nav>
+
+      <h1>Random String Generator</h1>
+      <p class="text-muted mt-1 mb-3">Generate cryptographically secure random strings with full control over length, character sets, quantity, and formatting.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <!-- String Output -->
+        <div class="input-group">
+          <label>Generated String</label>
+          <div class="string-display">
+            <div class="string-text" id="stringOutput" aria-live="polite">Click Generate to create a random string</div>
+            <div class="string-actions">
+              <button class="icon-btn" id="btnCopy" title="Copy to clipboard" aria-label="Copy string">&#128203;</button>
+              <button class="icon-btn" id="btnRegen" title="Regenerate" aria-label="Regenerate string">&#8635;</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Entropy Info -->
+        <div class="entropy-info" id="entropyInfo">
+          <span>Entropy:</span>
+          <span class="entropy-value" id="entropyValue">--</span>
+          <span>bits</span>
+          <span style="margin-left:auto">Pool size: <span id="poolSizeDisplay">--</span> chars</span>
+        </div>
+
+        <!-- Length Slider -->
+        <div class="input-group mt-2">
+          <label for="lengthSlider">String Length</label>
+          <div class="slider-row">
+            <input type="range" id="lengthSlider" min="1" max="256" value="32">
+            <span class="length-display" id="lengthDisplay">32</span>
+          </div>
+        </div>
+
+        <!-- Character Set Options -->
+        <div class="input-group">
+          <label>Character Sets</label>
+          <div>
+            <div class="option-row">
+              <div class="option-label">
+                <span>Uppercase Letters</span>
+                <span>A-Z (26 characters)</span>
+              </div>
+              <label class="toggle"><input type="checkbox" id="optUpper" checked><span></span></label>
+            </div>
+            <div class="option-row">
+              <div class="option-label">
+                <span>Lowercase Letters</span>
+                <span>a-z (26 characters)</span>
+              </div>
+              <label class="toggle"><input type="checkbox" id="optLower" checked><span></span></label>
+            </div>
+            <div class="option-row">
+              <div class="option-label">
+                <span>Digits</span>
+                <span>0-9 (10 characters)</span>
+              </div>
+              <label class="toggle"><input type="checkbox" id="optDigits" checked><span></span></label>
+            </div>
+            <div class="option-row">
+              <div class="option-label">
+                <span>Symbols</span>
+                <span>!@#$%^&amp;*()_+-=[]{}|;:,./? (28 characters)</span>
+              </div>
+              <label class="toggle"><input type="checkbox" id="optSymbols"><span></span></label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Custom Characters -->
+        <div class="input-group">
+          <label for="customChars">Custom Characters (optional)</label>
+          <input type="text" class="custom-chars-input" id="customChars" placeholder="Enter additional characters to include in the pool..." maxlength="128">
+          <span style="font-size:.75rem;color:var(--text-muted)">Characters entered here are added to the selected character sets above.</span>
+        </div>
+
+        <!-- Prefix / Suffix -->
+        <div class="input-group">
+          <label>Prefix &amp; Suffix (optional)</label>
+          <div class="prefix-row">
+            <input type="text" class="input-field" id="prefixInput" placeholder="Prefix, e.g. tk_" maxlength="32">
+            <input type="text" class="input-field" id="suffixInput" placeholder="Suffix, e.g. _prod" maxlength="32">
+          </div>
+        </div>
+
+        <!-- Quantity -->
+        <div class="input-group">
+          <label for="quantityInput">Quantity (1-100)</label>
+          <div class="quantity-row">
+            <input type="number" class="quantity-input" id="quantityInput" min="1" max="100" value="1">
+            <span style="font-size:.8125rem;color:var(--text-muted)">Generate multiple strings at once</span>
+          </div>
+        </div>
+
+        <!-- Generate / Copy / Clear Buttons -->
+        <div class="generate-row mt-2">
+          <button class="btn-primary" id="btnGenerate">&#9889; Generate</button>
+          <button class="btn-secondary" id="btnCopyAll">&#128203; Copy All</button>
+          <button class="btn-secondary" id="btnClear">&#128465; Clear</button>
+        </div>
+
+        <!-- Batch Output -->
+        <div class="batch-output" id="batchOutput"></div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="content-random-string">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>&#128274; Cryptographically Secure</h3>
+            <p>This tool uses the Web Crypto API (<code>crypto.getRandomValues</code>) to produce strings from a cryptographically secure pseudo-random number generator (CSPRNG). Every character is selected through unbiased rejection sampling, ensuring uniform distribution across the character pool with no statistical patterns.</p>
+          </div>
+          <div class="feature-card">
+            <h3>&#9881;&#65039; Fully Customizable</h3>
+            <p>Configure every detail of your output: choose string length from 1 to 256 characters, toggle uppercase, lowercase, digits, and symbols independently, add your own custom characters to the pool, and attach a prefix or suffix to every generated string for consistent naming conventions.</p>
+          </div>
+          <div class="feature-card">
+            <h3>&#128736; Batch Generation</h3>
+            <p>Need more than one string? Generate up to 100 unique random strings in a single click. Each string in the batch is generated independently with fresh random bytes, and you can copy individual results or export the entire batch to your clipboard instantly.</p>
+          </div>
+          <div class="feature-card">
+            <h3>&#128202; Entropy Calculation</h3>
+            <p>See the exact entropy in bits for every string you generate. Entropy is computed as the string length multiplied by the base-2 logarithm of the character pool size, giving you a clear measure of how resistant your string is to brute-force guessing attacks.</p>
+          </div>
+          <div class="feature-card">
+            <h3>&#128683; 100% Client-Side</h3>
+            <p>All generation runs entirely in your browser. No data is transmitted to any server, stored in any database, or logged in analytics. Your generated strings remain completely private, visible only on your screen until you close or refresh the page.</p>
+          </div>
+          <div class="feature-card">
+            <h3>&#128196; Prefix &amp; Suffix Support</h3>
+            <p>Prepend or append fixed text to every generated string. This is useful for creating API keys with environment labels (e.g., <code>sk_live_</code>), database identifiers with table prefixes, or tokens that follow your organization's naming conventions.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use Random String Generator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Set the string length</strong> — Use the slider to choose a length between 1 and 256 characters. The current length is displayed next to the slider in real time.</li>
+          <li><strong>Choose character sets</strong> — Toggle uppercase letters, lowercase letters, digits, and symbols on or off. You can also type additional custom characters into the dedicated input field to include them in the pool.</li>
+          <li><strong>Add prefix or suffix (optional)</strong> — Enter a prefix and/or suffix if you need every generated string to start or end with a fixed label, such as an environment tag or a project identifier.</li>
+          <li><strong>Set the quantity</strong> — Enter a number between 1 and 100 to generate multiple strings at once. Each string is created independently with its own set of random bytes.</li>
+          <li><strong>Generate and copy</strong> — Click the Generate button. For a single string, the result appears in the output box. For multiple strings, a scrollable batch list is displayed. Use the copy buttons to copy individual strings or the entire batch.</li>
+        </ol>
+      </section>
+
+      <!-- In-Depth Article Content -->
+      <section class="mt-4">
+        <h2>Understanding Random String Generation</h2>
+        <p style="color:var(--text-muted);line-height:1.7">Random string generation is a fundamental operation in software development, security engineering, and data management. At its core, generating a random string means selecting characters from a defined pool in a way that is unpredictable and statistically uniform. The quality of a random string depends on the randomness source, the size of the character pool, and the length of the output. Weak random number generators, such as those based on linear congruential algorithms or simple time-based seeds, produce output that may appear random to a casual observer but contains subtle patterns that an attacker can exploit. For this reason, any application involving security, authentication, or data integrity should rely on a cryptographically secure pseudo-random number generator.</p>
+
+        <h3 style="margin-top:var(--sp-4)">Cryptographic Randomness and CSPRNG</h3>
+        <p style="color:var(--text-muted);line-height:1.7">A CSPRNG (cryptographically secure pseudo-random number generator) is an algorithm that produces output indistinguishable from true randomness under any computationally feasible test. Modern web browsers provide access to a CSPRNG through the Web Crypto API, specifically the <code>crypto.getRandomValues()</code> method. This function draws entropy from the operating system's randomness pool, which collects unpredictable data from hardware events such as disk access timing, network packet arrival intervals, and user input patterns. The result is a sequence of bytes that passes all known statistical randomness tests, including the NIST SP 800-22 test suite. This tool uses rejection sampling on top of <code>crypto.getRandomValues</code> to eliminate modulo bias, ensuring that every character in the pool has an exactly equal probability of being selected at each position in the string.</p>
+
+        <h3 style="margin-top:var(--sp-4)">Entropy and String Strength</h3>
+        <p style="color:var(--text-muted);line-height:1.7">Entropy is a quantitative measure of unpredictability, expressed in bits. For a randomly generated string, entropy is calculated as the string length multiplied by the base-2 logarithm of the character pool size. A 32-character string drawn from an alphanumeric pool of 62 characters (uppercase, lowercase, digits) has approximately 190 bits of entropy. To put this in perspective, 128 bits of entropy is considered sufficient for symmetric encryption keys used in AES-128, and 256 bits is the standard for AES-256. Even a 16-character alphanumeric string provides roughly 95 bits of entropy, which would take the combined computing power of every machine on Earth billions of years to brute-force. Adding symbols to the pool increases entropy per character, and increasing the string length raises the total entropy linearly. This tool displays the entropy value in real time so you can make informed decisions about the strength of every string you generate.</p>
+
+        <h3 style="margin-top:var(--sp-4)">Common Use Cases</h3>
+        <p style="color:var(--text-muted);line-height:1.7">Random strings serve a wide range of purposes across industries. API keys and access tokens use random strings to authenticate requests between services, where each key must be unique and impossible to guess. Session identifiers in web applications rely on random strings to prevent session hijacking attacks. Test data generation often requires large volumes of unique strings for populating databases, stress testing, and quality assurance. Unique identifiers for database records, file names, transaction references, and tracking codes all benefit from random string generation. Temporary passwords, invitation codes, and one-time tokens are common in user onboarding and account recovery workflows. Nonce values in cryptographic protocols use random strings to ensure that messages cannot be replayed. Even creative applications like random username generation or placeholder text creation make use of configurable random string tools.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+
+        <details class="faq-item">
+          <summary>Are the generated strings truly random?</summary>
+          <p>Yes. This tool uses the Web Crypto API (<code>crypto.getRandomValues</code>), which is a cryptographically secure pseudo-random number generator (CSPRNG) built into every modern browser. It draws entropy from the operating system's hardware-based randomness pool, producing output that is computationally indistinguishable from true randomness. Each character position in the string is selected independently using unbiased rejection sampling, which means every character in the pool has an exactly equal probability of appearing at any position. Unlike <code>Math.random()</code>, which uses a deterministic algorithm with a predictable seed, the Web Crypto API provides randomness suitable for security-critical applications including key generation and token creation.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What is cryptographic randomness and why does it matter?</summary>
+          <p>Cryptographic randomness refers to output generated by algorithms whose results cannot be predicted, even by an adversary with significant computational resources and knowledge of previous outputs. Standard random number generators like <code>Math.random()</code> use deterministic algorithms that, once seeded, produce a fixed sequence of numbers. An attacker who discovers the internal state can predict all future output. Cryptographic randomness eliminates this vulnerability by continuously incorporating fresh entropy from unpredictable physical sources. This matters whenever the generated string protects something valuable: API keys, authentication tokens, session identifiers, encryption nonces, and passwords all require cryptographic randomness to resist guessing, prediction, and brute-force attacks.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What are common use cases for random strings?</summary>
+          <p>Random strings are used across software development and IT operations for many purposes. API keys authenticate requests between services and must be unique and unguessable. Session tokens identify logged-in users and prevent hijacking when generated with sufficient entropy. Database record identifiers provide unique keys for rows without relying on sequential auto-increment values, which can leak information about record counts. Test data generation requires large volumes of unique strings for populating staging databases and running automated tests. Temporary passwords, invitation codes, and password reset tokens are generated for user onboarding and account recovery. File naming uses random strings to avoid collisions when multiple users upload content simultaneously. Nonce values in cryptographic protocols prevent replay attacks by ensuring each message is unique.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What is the difference between a UUID and a random string?</summary>
+          <p>A UUID (Universally Unique Identifier) is a standardized 128-bit identifier defined by RFC 4122, typically displayed as a 32-character hexadecimal string with hyphens in a specific pattern (e.g., <code>550e8400-e29b-41d4-a716-446655440000</code>). UUIDs follow strict formatting rules and come in multiple versions: version 4 UUIDs are randomly generated, while versions 1, 3, and 5 incorporate timestamps, namespaces, or hash functions. A random string, by contrast, is completely flexible in length, character set, and format. You can generate a 10-character alphanumeric string, a 64-character hex string, or a 128-character string including symbols. Use UUIDs when you need interoperability with systems that expect the UUID format, and use random strings when you need full control over length, characters, and structure.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>How many bits of entropy does my string have?</summary>
+          <p>Entropy is calculated as the string length multiplied by the base-2 logarithm of the character pool size. This tool displays the exact entropy in real time. For reference: a 32-character string using uppercase, lowercase, and digits (62-character pool) has approximately 190 bits of entropy. A 16-character string from the same pool has about 95 bits. Adding the 28 standard symbols expands the pool to 90 characters and increases entropy per character from roughly 5.95 to 6.49 bits. Security professionals generally consider 128 bits of entropy sufficient for most applications. For maximum security scenarios such as master encryption keys, aim for 256 bits or more. The entropy display in this tool updates automatically whenever you change the length, character sets, or custom characters.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Can I use these strings as API keys or tokens?</summary>
+          <p>Yes, the strings generated by this tool are suitable for use as API keys, bearer tokens, secret keys, and similar credentials. Because the tool uses <code>crypto.getRandomValues</code> with rejection sampling, the output has the same cryptographic quality as keys generated by professional security libraries. However, the security of an API key also depends on how it is stored and transmitted. Always store keys in environment variables or dedicated secrets management systems, never in source code repositories. Transmit keys only over encrypted connections (HTTPS/TLS). Rotate keys periodically and implement key scoping and rate limiting on your server. The random string itself is only as secure as the practices surrounding its use.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Is my data stored or sent to any server?</summary>
+          <p>No. This tool runs entirely in your web browser using client-side JavaScript. No generated strings are transmitted to any server, stored in any database, written to cookies, or saved in local storage. The random bytes are generated by your browser's built-in crypto API, and the resulting strings exist only in your browser's memory until you close or refresh the page. We do not log, collect, or analyze any of the strings you generate. Your output is completely private and visible only on your screen and in your clipboard when you choose to copy.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/password">Password Generator</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+          <a href="https://toolrip.com/word-count">Word Counter</a>
+          <a href="https://toolrip.com/case">Case Converter</a>
+          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="sidebar-random-string">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom-random-string">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+    (function() {
+      'use strict';
+
+      /* ============================================
+         Random String Generator — IIFE
+         ============================================ */
+
+      // --- Character Sets ---
+      var CHARS = {
+        upper:   'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+        lower:   'abcdefghijklmnopqrstuvwxyz',
+        digits:  '0123456789',
+        symbols: '!@#$%^&*()_+-=[]{}|;:,./?'
+      };
+
+      // --- DOM References ---
+      var els = {};
+      function initDom() {
+        els.output      = document.getElementById('stringOutput');
+        els.lengthSlider= document.getElementById('lengthSlider');
+        els.lengthDisp  = document.getElementById('lengthDisplay');
+        els.optUpper    = document.getElementById('optUpper');
+        els.optLower    = document.getElementById('optLower');
+        els.optDigits   = document.getElementById('optDigits');
+        els.optSymbols  = document.getElementById('optSymbols');
+        els.customChars = document.getElementById('customChars');
+        els.prefix      = document.getElementById('prefixInput');
+        els.suffix      = document.getElementById('suffixInput');
+        els.quantity    = document.getElementById('quantityInput');
+        els.entropyVal  = document.getElementById('entropyValue');
+        els.poolSize    = document.getElementById('poolSizeDisplay');
+        els.batchOutput = document.getElementById('batchOutput');
+        els.btnGenerate = document.getElementById('btnGenerate');
+        els.btnCopy     = document.getElementById('btnCopy');
+        els.btnCopyAll  = document.getElementById('btnCopyAll');
+        els.btnClear    = document.getElementById('btnClear');
+        els.btnRegen    = document.getElementById('btnRegen');
+      }
+
+      // --- Helpers ---
+      function getCharPool() {
+        var pool = '';
+        if (els.optUpper.checked)   pool += CHARS.upper;
+        if (els.optLower.checked)   pool += CHARS.lower;
+        if (els.optDigits.checked)  pool += CHARS.digits;
+        if (els.optSymbols.checked) pool += CHARS.symbols;
+
+        // Add custom characters (deduplicated)
+        var custom = els.customChars.value;
+        if (custom) {
+          for (var i = 0; i < custom.length; i++) {
+            if (pool.indexOf(custom[i]) === -1) {
+              pool += custom[i];
+            }
+          }
+        }
+
+        return pool;
+      }
+
+      function getLength() {
+        return parseInt(els.lengthSlider.value, 10);
+      }
+
+      function getQuantity() {
+        var q = parseInt(els.quantity.value, 10);
+        if (isNaN(q) || q < 1) return 1;
+        if (q > 100) return 100;
+        return q;
+      }
+
+      function secureRandom(max) {
+        // Unbiased random integer in [0, max) using rejection sampling
+        var array = new Uint32Array(1);
+        var limit = Math.floor(4294967296 / max) * max;
+        do {
+          crypto.getRandomValues(array);
+        } while (array[0] >= limit);
+        return array[0] % max;
+      }
+
+      function calcEntropy(length, poolSize) {
+        if (poolSize <= 1) return 0;
+        return length * (Math.log(poolSize) / Math.LN2);
+      }
+
+      // --- Generate a single random string ---
+      function generateOne(pool, length) {
+        var result = '';
+        for (var i = 0; i < length; i++) {
+          result += pool[secureRandom(pool.length)];
+        }
+        return result;
+      }
+
+      // --- Update Entropy Display ---
+      function updateEntropy(pool, length) {
+        var entropy = calcEntropy(length, pool.length);
+        els.entropyVal.textContent = Math.round(entropy);
+        els.poolSize.textContent = pool.length;
+      }
+
+      // --- Store last generated strings ---
+      var lastStrings = [];
+
+      // --- Main Generate Function ---
+      function generate() {
+        var pool = getCharPool();
+        if (pool.length === 0) {
+          showToast('Please enable at least one character set or enter custom characters.', 'error');
+          return;
+        }
+
+        var length   = getLength();
+        var quantity = getQuantity();
+        var prefix   = els.prefix.value;
+        var suffix   = els.suffix.value;
+
+        updateEntropy(pool, length);
+
+        lastStrings = [];
+
+        if (quantity === 1) {
+          // Single string mode
+          var str = prefix + generateOne(pool, length) + suffix;
+          lastStrings.push(str);
+          els.output.textContent = str;
+          els.batchOutput.classList.remove('visible');
+          els.batchOutput.innerHTML = '';
+        } else {
+          // Batch mode
+          els.output.textContent = quantity + ' strings generated below';
+          els.batchOutput.innerHTML = '';
+          els.batchOutput.classList.add('visible');
+
+          for (var i = 0; i < quantity; i++) {
+            var s = prefix + generateOne(pool, length) + suffix;
+            lastStrings.push(s);
+
+            var item = document.createElement('div');
+            item.className = 'batch-item';
+
+            var idx = document.createElement('span');
+            idx.className = 'batch-index';
+            idx.textContent = (i + 1) + '.';
+            item.appendChild(idx);
+
+            var text = document.createElement('span');
+            text.textContent = s;
+            text.style.flex = '1';
+            item.appendChild(text);
+
+            var copyBtn = document.createElement('button');
+            copyBtn.className = 'icon-btn';
+            copyBtn.innerHTML = '&#128203;';
+            copyBtn.title = 'Copy';
+            copyBtn.setAttribute('aria-label', 'Copy string');
+            (function(val, btn) {
+              btn.onclick = function() {
+                copyToClipboard(val, btn);
+                showToast('String copied!', 'success');
+              };
+            })(s, copyBtn);
+            item.appendChild(copyBtn);
+
+            els.batchOutput.appendChild(item);
+          }
+        }
+      }
+
+      // --- Copy Single ---
+      function copySingle(btn) {
+        if (lastStrings.length === 0) {
+          showToast('Generate a string first.', 'error');
+          return;
+        }
+        if (lastStrings.length === 1) {
+          copyToClipboard(lastStrings[0], btn);
+          showToast('String copied to clipboard!', 'success');
+        } else {
+          copyToClipboard(lastStrings[0], btn);
+          showToast('First string copied!', 'success');
+        }
+      }
+
+      // --- Copy All ---
+      function copyAll(btn) {
+        if (lastStrings.length === 0) {
+          showToast('Generate strings first.', 'error');
+          return;
+        }
+        copyToClipboard(lastStrings.join('\n'), btn);
+        showToast(lastStrings.length === 1 ? 'String copied!' : 'All ' + lastStrings.length + ' strings copied!', 'success');
+      }
+
+      // --- Clear ---
+      function clearAll() {
+        lastStrings = [];
+        els.output.textContent = 'Click Generate to create a random string';
+        els.batchOutput.classList.remove('visible');
+        els.batchOutput.innerHTML = '';
+        els.entropyVal.textContent = '--';
+        els.poolSize.textContent = '--';
+      }
+
+      // --- Ensure at least one charset ---
+      function ensureCharset(e) {
+        var upper = els.optUpper.checked;
+        var lower = els.optLower.checked;
+        var digits = els.optDigits.checked;
+        var syms  = els.optSymbols.checked;
+        var custom = els.customChars.value.length > 0;
+
+        if (!upper && !lower && !digits && !syms && !custom) {
+          showToast('At least one character set must be enabled.', 'error');
+          e.target.checked = true;
+        }
+      }
+
+      // --- Event Listeners ---
+      function bindEvents() {
+        els.lengthSlider.addEventListener('input', function() {
+          els.lengthDisp.textContent = this.value;
+        });
+
+        els.optUpper.addEventListener('change', ensureCharset);
+        els.optLower.addEventListener('change', ensureCharset);
+        els.optDigits.addEventListener('change', ensureCharset);
+        els.optSymbols.addEventListener('change', ensureCharset);
+
+        els.btnGenerate.addEventListener('click', generate);
+        els.btnRegen.addEventListener('click', generate);
+        els.btnCopy.addEventListener('click', function() { copySingle(this); });
+        els.btnCopyAll.addEventListener('click', function() { copyAll(this); });
+        els.btnClear.addEventListener('click', clearAll);
+
+        // Clamp quantity on blur
+        els.quantity.addEventListener('blur', function() {
+          var v = parseInt(this.value, 10);
+          if (isNaN(v) || v < 1) this.value = 1;
+          if (v > 100) this.value = 100;
+        });
+      }
+
+      // --- Init ---
+      document.addEventListener('DOMContentLoaded', function() {
+        initDom();
+        bindEvents();
+        generate();
+      });
+
+    })();
+  </script>
+</body>
+</html>

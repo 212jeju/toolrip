@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Whitespace Remover Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Remove extra whitespace, trim lines, strip blank lines, tabs, and invisible characters from text instantly. Free online whitespace cleaner — no signup, no data sent to servers.">
+  <link rel="canonical" href="https://toolrip.com/whitespace">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Whitespace Remover Online — Free, Fast, No Signup | Toolrip">
+  <meta property="og:description" content="Remove extra whitespace, trim lines, strip blank lines, tabs, and invisible characters from text instantly. Free online whitespace cleaner with no signup required.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/whitespace">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Whitespace Remover Online — Free, Fast, No Signup | Toolrip">
+  <meta name="twitter:description" content="Remove extra whitespace, trim lines, strip blank lines, tabs, and invisible characters from text instantly. Free online whitespace cleaner with no signup required.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--text-cat)}</style>
+
+  <style>
+    /* Operation buttons grid */
+    .op-buttons{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--sp-2);margin-bottom:var(--sp-4)}
+    .op-btn{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+      padding:var(--sp-2) var(--sp-3);font-size:.875rem;font-weight:500;color:var(--text);
+      cursor:pointer;transition:border-color .15s,background .15s,color .15s;text-align:center;
+      font-family:inherit;line-height:1.4}
+    .op-btn:hover{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,transparent);color:var(--accent)}
+    .op-btn.active{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent);color:var(--accent);font-weight:600}
+
+    /* Text areas */
+    #input-text,#output-text{min-height:160px;transition:height .1s;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
+    #output-text{background:var(--bg);border-color:var(--border)}
+
+    /* Stats row */
+    .text-stats{display:flex;gap:var(--sp-4);font-size:.8125rem;color:var(--text-muted);margin-top:var(--sp-2);flex-wrap:wrap}
+    .text-stats span{display:flex;align-items:center;gap:var(--sp-1)}
+
+    /* Comparison bar */
+    .compare-bar{display:flex;gap:var(--sp-4);font-size:.8125rem;color:var(--text-muted);
+      margin-top:var(--sp-3);padding:var(--sp-2) var(--sp-3);background:var(--bg);
+      border:1px solid var(--border);border-radius:var(--radius);flex-wrap:wrap;align-items:center}
+    .compare-bar .diff{color:var(--accent);font-weight:600}
+    .compare-bar .diff.positive{color:#10b981}
+    .compare-bar .diff.negative{color:#ef4444}
+
+    /* Action buttons row */
+    .action-bar{display:flex;gap:var(--sp-2);flex-wrap:wrap;margin-top:var(--sp-3)}
+
+    /* Section label */
+    .section-label{font-size:.8125rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;
+      letter-spacing:.04em;margin-bottom:var(--sp-2)}
+
+    @media(min-width:640px){
+      .op-buttons{grid-template-columns:repeat(3,1fr)}
+    }
+    @media(min-width:1024px){
+      .op-buttons{grid-template-columns:repeat(4,1fr)}
+    }
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Whitespace Remover",
+    "url": "https://toolrip.com/whitespace",
+    "description": "Remove extra whitespace, trim lines, strip blank lines, tabs, and invisible characters from text instantly. Free online whitespace cleaner with no signup required.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="top">Ad</div>
+
+    <!-- Breadcrumb -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#text">Text Tools</a>
+        <span>/</span>
+        <span>Whitespace Remover</span>
+      </nav>
+
+      <h1>Whitespace Remover</h1>
+      <p class="text-muted mt-1 mb-3">Clean up messy text by removing extra spaces, blank lines, tabs, trailing whitespace, and invisible characters. Choose from seven operations or combine them to get perfectly formatted output in seconds.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+
+        <!-- Input -->
+        <div class="input-group">
+          <label for="input-text">Paste your text</label>
+          <textarea id="input-text" class="textarea-field" placeholder="Paste or type text with extra whitespace here..." rows="8"></textarea>
+          <div class="text-stats" id="input-stats">
+            <span id="stat-chars">0 characters</span>
+            <span id="stat-lines">0 lines</span>
+          </div>
+        </div>
+
+        <!-- Operation Buttons -->
+        <div class="section-label" style="margin-top:var(--sp-4)">Choose operation</div>
+        <div class="op-buttons" id="op-buttons">
+          <button class="op-btn" data-op="all">Remove All Whitespace</button>
+          <button class="op-btn" data-op="trim">Remove Leading/Trailing</button>
+          <button class="op-btn" data-op="collapse">Collapse Extra Spaces</button>
+          <button class="op-btn" data-op="empty-lines">Remove Empty Lines</button>
+          <button class="op-btn" data-op="tabs">Remove Tabs</button>
+          <button class="op-btn" data-op="trim-lines">Trim Each Line</button>
+          <button class="op-btn" data-op="line-breaks">Remove Line Breaks</button>
+        </div>
+
+        <!-- Output -->
+        <div class="input-group">
+          <label for="output-text">Result</label>
+          <textarea id="output-text" class="textarea-field" placeholder="Cleaned text will appear here..." rows="8" readonly></textarea>
+          <div class="text-stats" id="output-stats">
+            <span id="stat-out-chars">0 characters</span>
+            <span id="stat-out-lines">0 lines</span>
+          </div>
+        </div>
+
+        <!-- Before / After Comparison -->
+        <div class="compare-bar" id="compare-bar">
+          <span>Before: <strong id="cmp-before">0</strong> chars</span>
+          <span>After: <strong id="cmp-after">0</strong> chars</span>
+          <span>Removed: <strong id="cmp-diff" class="diff">0</strong> chars (<strong id="cmp-pct" class="diff">0%</strong>)</span>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-bar">
+          <button class="btn-primary" id="copy-btn" onclick="copyOutput()">Copy Result</button>
+          <button class="btn-secondary" onclick="clearAll()">Clear</button>
+        </div>
+
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(3,1fr)">
+          <div class="feature-card">
+            <h3>7 Cleaning Operations</h3>
+            <p>Strip all whitespace at once, remove only leading and trailing spaces, collapse multiple spaces into one, delete empty lines, remove tabs, trim each line individually, or remove line breaks entirely. Each operation targets a specific whitespace problem so you can apply exactly the transformation you need without affecting the rest of your text formatting.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Real-Time Processing</h3>
+            <p>Every cleaning operation runs instantly in your browser the moment you click a button. The output updates immediately and the before-and-after character count comparison shows you exactly how many characters were removed. There is no server round-trip, no upload delay, and no file size limit, so you can clean large documents in milliseconds.</p>
+          </div>
+          <div class="feature-card">
+            <h3>100% Private</h3>
+            <p>Your text never leaves your device. All whitespace removal happens entirely in client-side JavaScript, which means nothing is transmitted over the network. There is no tracking, no logging, and no server-side processing. You can safely clean confidential documents, code snippets, or any sensitive content without worry.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Whitespace Remover</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Paste your text</strong> — Type directly into the input area or paste content from any source such as a code editor, email, terminal output, CSV file, or web page. The tool accepts any amount of text and preserves Unicode characters correctly.</li>
+          <li><strong>Choose an operation</strong> — Click one of the seven operation buttons to apply that specific whitespace transformation. The active button is highlighted, and the result appears instantly in the output area. Click a different button anytime to switch operations without retyping your text.</li>
+          <li><strong>Review the comparison</strong> — Check the before-and-after character count bar to see exactly how many characters were removed and what percentage of the original text was whitespace. This helps you understand how much redundant formatting your text contained.</li>
+          <li><strong>Copy the result</strong> — Click "Copy Result" to place the cleaned text on your clipboard. You can then paste it into your code editor, document, or any application that needs clean, properly formatted text.</li>
+        </ol>
+      </section>
+
+      <!-- Understanding Whitespace Section -->
+      <section class="mt-4">
+        <h2>Understanding Whitespace in Programming and Data</h2>
+        <p class="text-muted mb-3" style="line-height:1.7">Whitespace refers to any character that represents horizontal or vertical space in text but does not produce a visible mark on screen. In programming and data processing, whitespace management is a fundamental concern that affects code readability, data integrity, string comparison, file parsing, and output formatting. Understanding the different types of whitespace and how they behave across systems is essential for developers, data analysts, content editors, and anyone who works with structured text.</p>
+
+        <p class="text-muted mb-3" style="line-height:1.7">The most common whitespace character is the ordinary space (Unicode U+0020), which separates words in natural language and tokens in code. However, there are many other whitespace characters that can appear in text and cause unexpected behavior. The horizontal tab character (U+0009) is used for indentation in source code and column alignment in tab-separated data files. The line feed (U+000A) and carriage return (U+000D) mark the end of a line, with different operating systems using different conventions: Unix and macOS use a single line feed, while Windows uses a carriage return followed by a line feed. This discrepancy is one of the most common sources of whitespace-related bugs when transferring files between systems.</p>
+
+        <p class="text-muted mb-3" style="line-height:1.7">Beyond these standard characters, Unicode defines several additional whitespace code points that are often invisible in text editors and can cause subtle problems in data pipelines. The non-breaking space (U+00A0) looks identical to a regular space but prevents automatic line wrapping. It frequently appears in text copied from web pages or word processors and can break string comparisons, search operations, and regular expressions that expect only standard spaces. Zero-width characters such as the zero-width space (U+200B), zero-width non-joiner (U+200C), and zero-width joiner (U+200D) occupy no visible width at all, making them impossible to detect without specialized tools. These characters sometimes appear in text copied from web browsers, PDF documents, or messaging applications, and they can silently corrupt data, break URL matching, or cause unexpected parse failures in JSON, XML, and CSV files.</p>
+
+        <p class="text-muted mb-3" style="line-height:1.7">In programming, whitespace handling varies significantly between languages. Python uses indentation as part of its syntax, so stray tabs mixed with spaces can produce IndentationError exceptions or change program logic. JavaScript and JSON ignore most whitespace outside of string literals, but extra whitespace in JSON payloads increases transmission size over networks. SQL treats consecutive whitespace as a single separator, but trailing spaces in CHAR columns can affect equality comparisons depending on the database engine. In HTML, the browser collapses multiple spaces and line breaks into a single space during rendering, which is why developers use CSS or special entities to control spacing precisely.</p>
+
+        <p class="text-muted mb-3" style="line-height:1.7">Data cleaning is another domain where whitespace removal is critical. When importing data from spreadsheets, user forms, or external APIs, fields often contain leading spaces, trailing spaces, or invisible characters that prevent accurate deduplication, sorting, and matching. A customer name stored as "John Smith" with a trailing non-breaking space will not match "John Smith" with a regular space, potentially creating duplicate records in a database. Similarly, CSV files exported from different applications may contain inconsistent line endings or embedded tabs that cause column misalignment during parsing. Stripping unnecessary whitespace before processing is a standard first step in any data transformation workflow, and having a reliable tool to visualize and remove these hidden characters saves significant debugging time.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What types of whitespace does this tool remove?</summary>
+          <p>This tool handles all common whitespace characters found in text, including regular spaces (U+0020), horizontal tabs (U+0009), line feeds (U+000A), carriage returns (U+000D), and form feeds (U+000C). The "Remove All Whitespace" operation strips every one of these characters from your text, while the other six operations target specific types. For example, "Remove Tabs" only strips tab characters, "Collapse Extra Spaces" replaces runs of multiple consecutive spaces with a single space, and "Remove Empty Lines" eliminates lines that contain only whitespace. Each operation is designed to solve a specific formatting problem without affecting the characters you want to keep.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What are zero-width characters and how do they cause problems?</summary>
+          <p>Zero-width characters are Unicode code points that occupy no visible space when rendered. The most common ones are the zero-width space (U+200B), zero-width non-joiner (U+200C), and zero-width joiner (U+200D). They are used in complex scripts like Arabic, Thai, and Indic languages to control ligatures and word boundaries, but they frequently appear inadvertently in text copied from web pages, PDF documents, or messaging apps. Because they are invisible, they can silently break string comparisons, cause URL or email validation to fail, produce unexpected results in search queries, and corrupt structured data formats like JSON or CSV. Detecting and removing them requires tools that recognize these specific Unicode code points, since they will not appear in any standard text editor view.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between tabs and spaces for indentation?</summary>
+          <p>Tabs and spaces are both used for indentation, but they behave differently across tools and environments. A tab character (U+0009) is a single character that can render at varying widths depending on the editor settings, typically 2, 4, or 8 spaces wide. A space (U+0020) always occupies exactly one character width. The tabs versus spaces debate in programming largely comes down to consistency and tooling. Tabs allow each developer to set their preferred visual width without changing the file, while spaces guarantee that code looks identical everywhere. Most modern style guides and linters enforce one convention or the other. Python, for example, recommends four spaces per indentation level in PEP 8, and mixing tabs with spaces in Python 3 raises a TabError. This tool lets you remove tabs entirely or convert the results as needed for your project standards.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How does HTML handle whitespace differently from plain text?</summary>
+          <p>HTML browsers apply whitespace collapsing rules to text content by default. Multiple consecutive spaces, tabs, and line breaks are all collapsed into a single space during rendering. This means that even if your HTML source contains fifty spaces between two words, the browser will display only one space. Leading and trailing whitespace inside inline elements is also trimmed. This behavior is controlled by the CSS white-space property, which defaults to "normal" for most elements. Setting it to "pre" preserves all whitespace exactly as written, similar to the HTML pre element. The "pre-wrap" value preserves whitespace but allows lines to wrap, while "nowrap" collapses whitespace but prevents wrapping. Understanding these rules is important when debugging layout issues or when copying text from a web page, because the visible output may not match the underlying source whitespace.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can I use regular expressions to remove whitespace?</summary>
+          <p>Yes, regular expressions are a powerful way to target specific whitespace patterns. In most regex flavors, the shorthand \s matches any whitespace character, including spaces, tabs, newlines, carriage returns, and form feeds. The pattern \s+ matches one or more consecutive whitespace characters. To remove all whitespace from a string, you can use a replacement pattern like text.replace(/\s/g, '') in JavaScript or re.sub(r'\s', '', text) in Python. To collapse multiple spaces into one, use text.replace(/ {2,}/g, ' '). To trim leading and trailing whitespace, most languages provide a built-in trim function, but the regex equivalent is text.replace(/^\s+|\s+$/g, ''). For removing empty lines, the pattern /^\s*[\r\n]/gm targets lines consisting entirely of whitespace. This tool performs all of these operations behind the scenes so you do not need to write regex yourself, but understanding the patterns can help you integrate whitespace cleaning into your own scripts and automated workflows.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Why does trailing whitespace matter in source code?</summary>
+          <p>Trailing whitespace consists of space or tab characters that appear after the last visible character on a line and before the line break. While invisible to the eye, trailing whitespace causes several practical problems in software development. Version control systems like Git flag trailing whitespace as a diff change, which clutters commit histories and makes code review harder. Many linting tools and CI pipelines reject commits that introduce trailing whitespace, since it adds unnecessary bytes to source files without contributing any meaning. In some contexts, trailing whitespace can also affect program behavior: Markdown interpreters treat two trailing spaces as a forced line break, and YAML parsers may treat trailing spaces differently depending on the context. Most professional code editors can be configured to strip trailing whitespace automatically on save, and this tool serves the same purpose for text that is not being edited in a code-aware environment.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is my text safe and private when using this tool?</summary>
+          <p>Absolutely. Privacy is a core principle of every tool on Toolrip. The whitespace remover runs entirely in your browser using client-side JavaScript, which means your text is never transmitted to any server, database, or third-party service. There is no backend processing, no API call, and no analytics tracking of your input content. You can verify this by using your browser developer tools to inspect network traffic while performing an operation and you will see that no requests are made. This makes the tool safe for cleaning confidential documents, source code containing secrets, internal communications, or any other sensitive content. The tool does not use cookies to store your text, and nothing persists after you close or refresh the page.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/word-count">Word Counter</a>
+          <a href="https://toolrip.com/case">Case Converter</a>
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* ========================================
+       *  DOM References
+       * ======================================== */
+      var inputEl = document.getElementById('input-text');
+      var outputEl = document.getElementById('output-text');
+      var statChars = document.getElementById('stat-chars');
+      var statLines = document.getElementById('stat-lines');
+      var statOutChars = document.getElementById('stat-out-chars');
+      var statOutLines = document.getElementById('stat-out-lines');
+      var buttonsContainer = document.getElementById('op-buttons');
+      var cmpBefore = document.getElementById('cmp-before');
+      var cmpAfter = document.getElementById('cmp-after');
+      var cmpDiff = document.getElementById('cmp-diff');
+      var cmpPct = document.getElementById('cmp-pct');
+      var activeOp = null;
+
+      /* ========================================
+       *  Count lines
+       * ======================================== */
+      function countLines(text) {
+        if (text === '') return 0;
+        return text.split(/\n/).length;
+      }
+
+      /* ========================================
+       *  Whitespace operations
+       * ======================================== */
+      var operations = {
+
+        /* Remove every whitespace character */
+        'all': function (text) {
+          return text.replace(/\s/g, '');
+        },
+
+        /* Remove leading and trailing whitespace only */
+        'trim': function (text) {
+          return text.trim();
+        },
+
+        /* Collapse multiple consecutive spaces into one */
+        'collapse': function (text) {
+          return text.replace(/ {2,}/g, ' ');
+        },
+
+        /* Remove lines that are empty or contain only whitespace */
+        'empty-lines': function (text) {
+          return text.split(/\n/).filter(function (line) {
+            return line.trim().length > 0;
+          }).join('\n');
+        },
+
+        /* Remove all tab characters */
+        'tabs': function (text) {
+          return text.replace(/\t/g, '');
+        },
+
+        /* Trim leading and trailing whitespace from each line */
+        'trim-lines': function (text) {
+          return text.split(/\n/).map(function (line) {
+            return line.trim();
+          }).join('\n');
+        },
+
+        /* Remove all line breaks (LF, CR, CRLF) */
+        'line-breaks': function (text) {
+          return text.replace(/\r?\n|\r/g, '');
+        }
+      };
+
+      /* ========================================
+       *  Update character / line stats
+       * ======================================== */
+      function updateStats() {
+        var inputText = inputEl.value;
+        var outputText = outputEl.value;
+        statChars.textContent = inputText.length + ' character' + (inputText.length !== 1 ? 's' : '');
+        statLines.textContent = countLines(inputText) + ' line' + (countLines(inputText) !== 1 ? 's' : '');
+        statOutChars.textContent = outputText.length + ' character' + (outputText.length !== 1 ? 's' : '');
+        statOutLines.textContent = countLines(outputText) + ' line' + (countLines(outputText) !== 1 ? 's' : '');
+      }
+
+      /* ========================================
+       *  Update comparison bar
+       * ======================================== */
+      function updateComparison() {
+        var before = inputEl.value.length;
+        var after = outputEl.value.length;
+        var diff = before - after;
+        var pct = before > 0 ? ((diff / before) * 100).toFixed(1) : '0.0';
+
+        cmpBefore.textContent = before;
+        cmpAfter.textContent = after;
+        cmpDiff.textContent = diff;
+        cmpPct.textContent = pct + '%';
+
+        /* Color the diff indicators */
+        var cls = diff > 0 ? 'diff positive' : diff < 0 ? 'diff negative' : 'diff';
+        cmpDiff.className = cls;
+        cmpPct.className = cls;
+      }
+
+      /* ========================================
+       *  Perform operation
+       * ======================================== */
+      function runOperation(opName) {
+        var text = inputEl.value;
+        if (!operations[opName]) return;
+        outputEl.value = operations[opName](text);
+        updateStats();
+        updateComparison();
+
+        /* Highlight active button */
+        var buttons = buttonsContainer.querySelectorAll('.op-btn');
+        buttons.forEach(function (btn) {
+          btn.classList.toggle('active', btn.getAttribute('data-op') === opName);
+        });
+        activeOp = opName;
+      }
+
+      /* ========================================
+       *  Event: button clicks
+       * ======================================== */
+      buttonsContainer.addEventListener('click', function (e) {
+        var btn = e.target.closest('.op-btn');
+        if (!btn) return;
+        var opName = btn.getAttribute('data-op');
+        runOperation(opName);
+      });
+
+      /* ========================================
+       *  Event: live re-processing on input change
+       * ======================================== */
+      var debounceTimer;
+      inputEl.addEventListener('input', function () {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(function () {
+          if (activeOp) {
+            runOperation(activeOp);
+          }
+          updateStats();
+          updateComparison();
+        }, 50);
+      });
+
+      /* ========================================
+       *  Copy output to clipboard
+       * ======================================== */
+      window.copyOutput = function () {
+        var text = outputEl.value;
+        if (!text) {
+          showToast('Nothing to copy. Run an operation first.', 'error');
+          return;
+        }
+        copyToClipboard(text, document.getElementById('copy-btn'));
+        showToast('Copied to clipboard!', 'success');
+      };
+
+      /* ========================================
+       *  Clear all
+       * ======================================== */
+      window.clearAll = function () {
+        inputEl.value = '';
+        outputEl.value = '';
+        activeOp = null;
+        var buttons = buttonsContainer.querySelectorAll('.op-btn');
+        buttons.forEach(function (btn) { btn.classList.remove('active'); });
+        updateStats();
+        updateComparison();
+        inputEl.focus();
+        showToast('Text cleared.', 'info');
+      };
+
+      /* ========================================
+       *  Initialize stats
+       * ======================================== */
+      updateStats();
+      updateComparison();
+    })();
+  </script>
+</body>
+</html>

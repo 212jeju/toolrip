@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MD5 Hash Generator Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Generate MD5, SHA-1, SHA-256, and SHA-512 hashes online for free. Real-time hashing as you type. 100% client-side, no data uploaded. Compare hash algorithms instantly.">
+  <link rel="canonical" href="https://toolrip.com/md5">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="MD5 Hash Generator — Toolrip">
+  <meta property="og:description" content="Generate MD5, SHA-1, SHA-256, and SHA-512 hashes online for free. Real-time hashing as you type. 100% client-side, no data uploaded.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/md5">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="MD5 Hash Generator — Toolrip">
+  <meta name="twitter:description" content="Generate MD5, SHA-1, SHA-256, and SHA-512 hashes online for free. Real-time hashing as you type. 100% client-side, no data uploaded.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root{--accent:var(--security)}
+
+    .hash-input{width:100%;min-height:160px;resize:vertical;background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);color:var(--text);font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.875rem;padding:var(--sp-3);line-height:1.6;tab-size:2}
+    .hash-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent)}
+
+    .hash-results{display:flex;flex-direction:column;gap:var(--sp-3);margin-top:var(--sp-3)}
+    .hash-row{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3);position:relative}
+    .hash-row label{display:block;font-size:.75rem;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.05em;margin-bottom:var(--sp-1)}
+    .hash-row .hash-value{font-family:'Consolas','Monaco','Courier New',monospace;font-size:.8125rem;
+      color:var(--text);word-break:break-all;line-height:1.6;min-height:1.3em;user-select:all}
+    .hash-row .hash-value.empty{color:var(--text-muted);font-style:italic;user-select:none}
+    .hash-row .copy-hash{position:absolute;top:var(--sp-2);right:var(--sp-2);padding:var(--sp-1) var(--sp-2);
+      background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-sm);
+      color:var(--text-muted);font-size:.75rem;cursor:pointer}
+    .hash-row .copy-hash:hover{color:var(--text);border-color:var(--accent)}
+
+    .toolbar{display:flex;flex-wrap:wrap;gap:var(--sp-2);align-items:center;margin-top:var(--sp-3)}
+    .btn-sm{padding:var(--sp-1) var(--sp-2);font-size:.8125rem;border-radius:var(--radius-sm)}
+
+    .stat-bar{display:flex;flex-wrap:wrap;gap:var(--sp-3);font-size:.8125rem;color:var(--text-muted);margin-top:var(--sp-2)}
+    .stat-bar span{display:inline-flex;align-items:center;gap:4px}
+
+    .hash-badge{display:inline-block;padding:2px 8px;border-radius:var(--radius-sm);font-size:.6875rem;
+      font-weight:600;letter-spacing:.03em;margin-left:var(--sp-2)}
+    .badge-weak{background:rgba(239,68,68,0.15);color:#fca5a5}
+    .badge-good{background:rgba(245,158,11,0.15);color:#fcd34d}
+    .badge-strong{background:rgba(16,185,129,0.15);color:#6ee7b7}
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "MD5 Hash Generator",
+    "url": "https://toolrip.com/md5",
+    "description": "Generate MD5, SHA-1, SHA-256, and SHA-512 hashes online for free. Real-time hashing as you type. 100% client-side processing.",
+    "applicationCategory": "SecurityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Security", "item": "https://toolrip.com/#security" },
+      { "@type": "ListItem", "position": 3, "name": "MD5 Hash Generator", "item": "https://toolrip.com/md5" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is an MD5 hash?",
+        "acceptedAnswer": { "@type": "Answer", "text": "MD5 (Message Digest Algorithm 5) is a cryptographic hash function that produces a fixed 128-bit (32-character hexadecimal) digest from any input data. It was designed by Ronald Rivest in 1991 and became one of the most widely used hash functions for verifying data integrity." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is MD5 still secure?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No, MD5 is no longer considered cryptographically secure. Researchers demonstrated practical collision attacks in 2004, and generating MD5 collisions can now be done in seconds on modern hardware. MD5 should not be used for digital signatures, SSL certificates, or password hashing." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between MD5 and SHA-256?",
+        "acceptedAnswer": { "@type": "Answer", "text": "MD5 produces a 128-bit hash (32 hex characters) while SHA-256 produces a 256-bit hash (64 hex characters). SHA-256 is part of the SHA-2 family and offers significantly stronger collision resistance. SHA-256 is recommended for all security-sensitive applications." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can you reverse an MD5 hash?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Hash functions are mathematically one-way functions, meaning you cannot directly reverse an MD5 hash to recover the original input. However, attackers use rainbow tables and brute-force methods to find inputs that match known hashes, which is why MD5 is unsuitable for password storage." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a hash collision?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A hash collision occurs when two different inputs produce the same hash output. For MD5, researchers have shown that collisions can be deliberately generated, which means an attacker could create a malicious file with the same MD5 checksum as a legitimate file." }
+      },
+      {
+        "@type": "Question",
+        "name": "When should I use MD5 vs SHA-256 vs SHA-512?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Use SHA-256 or SHA-512 for any security-sensitive purpose including digital signatures and certificate validation. MD5 is acceptable only for non-security uses like checksums for file transfer verification or generating non-sensitive unique identifiers. For password hashing, use specialized algorithms like bcrypt or Argon2 instead." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is my data safe when using this hash generator?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes, all hashing is performed entirely in your browser using JavaScript. No data is transmitted to any server, stored, or logged. The tool uses the Web Crypto API for SHA hashes and a client-side JavaScript implementation for MD5." }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#security">Security</a>
+        <span>/</span>
+        <span>MD5 Hash Generator</span>
+      </nav>
+
+      <h1>MD5 Hash Generator Online</h1>
+      <p class="text-muted mt-1 mb-3">Generate MD5, SHA-1, SHA-256, and SHA-512 hashes from any text input. Hashes are computed in real time as you type. Everything runs locally in your browser with zero data sent to any server.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <div class="input-group">
+          <label for="hash-input">Enter Text to Hash</label>
+          <textarea id="hash-input" class="hash-input" placeholder="Type or paste your text here to generate hashes in real time..." spellcheck="false" rows="6"></textarea>
+          <div class="stat-bar">
+            <span>Input: <strong id="input-size">0 bytes</strong></span>
+            <span>Characters: <strong id="input-chars">0</strong></span>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <button class="btn-primary btn-sm" id="btn-generate" onclick="handleGenerate()">Generate Hashes</button>
+          <button class="btn-secondary btn-sm" onclick="handleClear()">Clear</button>
+        </div>
+
+        <div class="hash-results" id="hash-results">
+          <div class="hash-row">
+            <label>MD5 <span class="hash-badge badge-weak">128-bit</span></label>
+            <div class="hash-value empty" id="hash-md5">Hash will appear here...</div>
+            <button class="copy-hash" onclick="copyHash('md5')">Copy</button>
+          </div>
+          <div class="hash-row">
+            <label>SHA-1 <span class="hash-badge badge-weak">160-bit</span></label>
+            <div class="hash-value empty" id="hash-sha1">Hash will appear here...</div>
+            <button class="copy-hash" onclick="copyHash('sha1')">Copy</button>
+          </div>
+          <div class="hash-row">
+            <label>SHA-256 <span class="hash-badge badge-good">256-bit</span></label>
+            <div class="hash-value empty" id="hash-sha256">Hash will appear here...</div>
+            <button class="copy-hash" onclick="copyHash('sha256')">Copy</button>
+          </div>
+          <div class="hash-row">
+            <label>SHA-512 <span class="hash-badge badge-strong">512-bit</span></label>
+            <div class="hash-value empty" id="hash-sha512">Hash will appear here...</div>
+            <button class="copy-hash" onclick="copyHash('sha512')">Copy</button>
+          </div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Real-Time Hash Generation</h3>
+            <p>Every hash updates instantly as you type, with no need to click a button or wait for a server response. The tool computes MD5, SHA-1, SHA-256, and SHA-512 digests simultaneously using a combination of a pure JavaScript MD5 implementation and the browser's native Web Crypto API for SHA-family algorithms. This gives you immediate feedback and lets you compare hash outputs across four different algorithms side by side. Whether you are verifying a checksum, testing input variations, or exploring how hash functions work, the real-time computation provides a seamless and responsive experience.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Complete Client-Side Privacy</h3>
+            <p>Your text never leaves your device. All hashing operations are executed entirely within your web browser's JavaScript engine, and absolutely no data is transmitted to any remote server, stored in any database, or logged anywhere. This makes the tool completely safe for hashing sensitive information such as passwords, API keys, private messages, or confidential document content. You can verify this by opening your browser's developer tools and monitoring the network tab while using the tool. Unlike many online hash generators that process data on their servers, Toolrip's implementation guarantees genuine client-side privacy by design.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Multi-Algorithm Comparison</h3>
+            <p>Compare the output of four industry-standard hash algorithms at once. MD5 produces a 128-bit digest (32 hex characters), SHA-1 produces a 160-bit digest (40 hex characters), SHA-256 produces a 256-bit digest (64 hex characters), and SHA-512 produces a 512-bit digest (128 hex characters). Seeing all four outputs simultaneously helps you understand the differences in hash length and structure, and makes it easy to select the right algorithm for your specific use case. Each hash result includes a one-click copy button so you can quickly grab any output and paste it into your code, documentation, or verification workflow.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the MD5 Hash Generator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Enter your text.</strong> Type or paste any string into the input textarea. The tool accepts any character encoding, including Unicode, emoji, and special characters. As soon as you begin typing, all four hash algorithms start computing their digests in real time. The byte size and character count of your input are displayed below the textarea so you always know the exact size of the data being hashed.</li>
+          <li><strong>View the results.</strong> The MD5, SHA-1, SHA-256, and SHA-512 hashes appear instantly below the input area. Each hash is displayed with its algorithm name, bit length badge, and the full hexadecimal digest. You can also click the <em>Generate Hashes</em> button to explicitly trigger computation, which is useful if you have pasted a large block of text and want to confirm the final result.</li>
+          <li><strong>Copy and use.</strong> Click the <em>Copy</em> button next to any hash result to copy that specific digest to your clipboard. Use the copied hash for checksum verification, data integrity checks, database lookups, or any other purpose. Click <em>Clear</em> to reset the input and all hash outputs when you are ready to process a new string.</li>
+        </ol>
+      </section>
+
+      <!-- Understanding Hash Functions -->
+      <section class="mt-4">
+        <h2>Understanding Cryptographic Hash Functions</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">A cryptographic hash function takes an input of any length and produces a fixed-size output called a digest or hash value. The key properties of a good hash function are determinism (the same input always produces the same hash), speed (computing the hash should be efficient), pre-image resistance (it should be computationally infeasible to reconstruct the original input from the hash), and collision resistance (it should be extremely difficult to find two different inputs that produce the same hash). These properties make hash functions essential building blocks in digital signatures, data integrity verification, password storage, blockchain technology, and many other areas of information security.</p>
+
+        <h3 style="margin-top:var(--sp-3);margin-bottom:var(--sp-2)">The History and Decline of MD5</h3>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">MD5 was designed by Professor Ronald Rivest at MIT in 1991 as a successor to the earlier MD4 algorithm. It quickly became the most widely used hash function on the internet, employed for everything from file checksums to SSL certificate validation and password hashing. However, theoretical weaknesses were identified as early as 1996, and in 2004 a team of Chinese researchers led by Xiaoyun Wang demonstrated the first practical collision attack against MD5. By 2008, researchers showed they could use MD5 collisions to create a rogue certificate authority certificate, proving that MD5 was fundamentally broken for security purposes. Today, MD5 should never be used for cryptographic security, digital signatures, or password hashing. It remains acceptable only for non-security purposes such as checksum verification during file transfers, generating non-sensitive unique identifiers, or deduplication in storage systems where intentional tampering is not a concern.</p>
+
+        <h3 style="margin-top:var(--sp-3);margin-bottom:var(--sp-2)">The SHA Family: From SHA-1 to SHA-512</h3>
+        <p style="color:var(--text-muted);line-height:1.7">The Secure Hash Algorithm (SHA) family was developed by the National Security Agency (NSA) and published by the National Institute of Standards and Technology (NIST). SHA-1, producing a 160-bit digest, was the dominant hash algorithm for over a decade but was deprecated after Google demonstrated a practical collision in 2017 with the SHAttered attack. SHA-2, which includes SHA-256 and SHA-512, was published in 2001 and remains the current standard for cryptographic hashing. SHA-256 is widely used in blockchain systems including Bitcoin, TLS certificates, and code signing. SHA-512 offers a larger digest size and can be faster on 64-bit processors due to its use of 64-bit operations internally. For most modern applications requiring cryptographic integrity, SHA-256 provides an excellent balance of security and performance, while SHA-512 is preferred when maximum digest length is desired or when running on 64-bit architectures where it may outperform SHA-256.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is an MD5 hash?</summary>
+          <p>MD5 (Message Digest Algorithm 5) is a cryptographic hash function that takes any input data and produces a fixed-size 128-bit digest, represented as a 32-character hexadecimal string. It was designed by Ronald Rivest in 1991 as an improvement over the earlier MD4 algorithm. MD5 works by processing the input in 512-bit blocks through four rounds of mathematical operations, each consisting of 16 steps with different nonlinear functions. The resulting hash is deterministic, meaning the same input always produces the same output, and even a single bit change in the input produces a completely different hash value. This avalanche effect made MD5 popular for verifying file integrity, generating unique identifiers, and data deduplication. Despite being cryptographically broken for security purposes, MD5 remains one of the most recognized hash algorithms and is still used in many non-security contexts across the software industry.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is MD5 still secure for hashing passwords?</summary>
+          <p>No, MD5 is absolutely not secure for hashing passwords and should never be used for this purpose. MD5 has multiple critical vulnerabilities that make it unsuitable for password security. First, it is extremely fast to compute, which means an attacker with modern hardware can test billions of MD5 hashes per second in a brute-force attack. Second, collision vulnerabilities allow attackers to generate different inputs that produce the same hash. Third, massive precomputed rainbow tables exist for MD5, enabling instant lookups of common passwords and their MD5 hashes. For password hashing, you should use purpose-built algorithms like bcrypt, scrypt, or Argon2, which incorporate salting and configurable work factors to make brute-force attacks computationally expensive. If you discover a system that still uses MD5 for password storage, it should be upgraded immediately to a secure password hashing algorithm.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between MD5 and SHA-256?</summary>
+          <p>MD5 and SHA-256 are both cryptographic hash functions, but they differ significantly in security, output size, and suitability for modern applications. MD5 produces a 128-bit hash (32 hexadecimal characters), while SHA-256 produces a 256-bit hash (64 hexadecimal characters). The larger output size of SHA-256 provides exponentially greater collision resistance. MD5 has been cryptographically broken since 2004, with practical collision attacks that can be performed in seconds on standard hardware. SHA-256, part of the SHA-2 family designed by the NSA, has no known practical attacks against its collision resistance as of today. SHA-256 is slightly slower to compute than MD5, but this is negligible for most applications and actually beneficial for security purposes. In terms of usage, SHA-256 is the standard for TLS certificates, blockchain technology, code signing, and data integrity in security-sensitive systems. MD5 should only be used where backward compatibility is required or where security is not a concern.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can you reverse an MD5 hash to get the original text?</summary>
+          <p>Hash functions are mathematically one-way functions by design, which means there is no algorithmic method to directly reverse an MD5 hash and recover the exact original input. The hashing process deliberately discards information during computation, making it impossible to reconstruct the input from the output alone. However, there are indirect methods that attackers use to find inputs that match a known hash. Rainbow tables are precomputed databases containing millions or billions of input-hash pairs that allow instant lookup of common strings. Brute-force attacks systematically try every possible input until a match is found. Dictionary attacks test common words, phrases, and known passwords against target hashes. These methods do not technically reverse the hash but rather find an input that produces the same hash output. This is precisely why MD5 is dangerous for password storage: attackers can use these techniques to recover passwords from stolen MD5 hash databases with high success rates in a matter of hours.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is a hash collision and why does it matter?</summary>
+          <p>A hash collision occurs when two different inputs produce exactly the same hash output. Because hash functions map an infinite set of possible inputs to a fixed-size output space, collisions are mathematically guaranteed to exist for every hash function by the pigeonhole principle. However, what matters for security is how difficult it is to deliberately find or create collisions. For a strong hash function, finding a collision should require approximately 2^(n/2) operations, where n is the bit length of the hash (the birthday attack bound). For MD5 with its 128-bit output, this theoretical limit is 2^64, but actual attacks have reduced this dramatically. In 2004, researchers demonstrated that MD5 collisions could be found in minutes, and modern attacks can generate them in seconds. This has serious real-world implications: attackers have used MD5 collisions to forge digital certificates, create malicious software that passes checksum verification, and undermine document authenticity systems that rely on MD5. SHA-256, with its 256-bit output and no known shortcut attacks, requires approximately 2^128 operations for a collision, making it secure against such threats.</p>
+        </details>
+        <details class="faq-item">
+          <summary>When should I use MD5 vs SHA-256 vs SHA-512?</summary>
+          <p>The choice of hash algorithm depends on your specific use case and security requirements. Use SHA-256 as your default choice for most purposes, including data integrity verification, digital signatures, certificate validation, and any application where security matters. SHA-256 provides strong collision resistance, is widely supported across all platforms and programming languages, and is the standard for most modern security protocols. Use SHA-512 when you need a larger digest size, when working on 64-bit systems where SHA-512 may actually be faster than SHA-256 due to its use of 64-bit internal operations, or when you want additional security margin for long-term data protection. Use MD5 only for non-security purposes where backward compatibility is required, such as comparing file checksums during transfers where tampering is not a concern, generating cache keys, creating non-sensitive unique identifiers, or interoperating with legacy systems that only support MD5. Never use MD5 or SHA-1 for password hashing, digital signatures, or any context where an adversary could exploit collision vulnerabilities.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is my data safe when using this hash generator?</summary>
+          <p>Yes, your data is completely safe. This hash generator runs entirely in your web browser using client-side JavaScript. For SHA-family hashes (SHA-1, SHA-256, SHA-512), the tool uses the Web Crypto API, which is a built-in browser standard for cryptographic operations. For MD5, the tool uses a well-established pure JavaScript implementation since the Web Crypto API does not include MD5. In all cases, your input text is processed locally on your device and is never transmitted over the network, stored in any database, logged on any server, or accessible to any third party. You can verify this by opening your browser's developer tools, switching to the network tab, and observing that no requests are made when you generate hashes. The tool continues to function normally even when you are completely offline, because it has no server-side dependencies. We designed this tool with privacy as a core principle, ensuring that your sensitive data stays exactly where it belongs: on your own device.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/password">Password Generator</a>
+          <a href="https://toolrip.com/qr">QR Code Generator</a>
+          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+  (function(){
+    'use strict';
+
+    /* ========== Pure JS MD5 Implementation ========== */
+    /* Based on the public domain MD5 algorithm (RFC 1321) */
+    var md5 = (function(){
+      function safeAdd(x, y){
+        var lsw = (x & 0xffff) + (y & 0xffff);
+        var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
+        return (msw << 16) | (lsw & 0xffff);
+      }
+      function bitRotateLeft(num, cnt){
+        return (num << cnt) | (num >>> (32 - cnt));
+      }
+      function md5cmn(q, a, b, x, s, t){
+        return safeAdd(bitRotateLeft(safeAdd(safeAdd(a, q), safeAdd(x, t)), s), b);
+      }
+      function md5ff(a, b, c, d, x, s, t){
+        return md5cmn((b & c) | (~b & d), a, b, x, s, t);
+      }
+      function md5gg(a, b, c, d, x, s, t){
+        return md5cmn((b & d) | (c & ~d), a, b, x, s, t);
+      }
+      function md5hh(a, b, c, d, x, s, t){
+        return md5cmn(b ^ c ^ d, a, b, x, s, t);
+      }
+      function md5ii(a, b, c, d, x, s, t){
+        return md5cmn(c ^ (b | ~d), a, b, x, s, t);
+      }
+      function binlMD5(x, len){
+        x[len >> 5] |= 0x80 << (len % 32);
+        x[((len + 64) >>> 9 << 4) + 14] = len;
+        var a = 1732584193, b = -271733879, c = -1732584194, d = 271733878;
+        for(var i = 0; i < x.length; i += 16){
+          var olda = a, oldb = b, oldc = c, oldd = d;
+          a = md5ff(a, b, c, d, x[i],      7, -680876936);
+          d = md5ff(d, a, b, c, x[i + 1],  12, -389564586);
+          c = md5ff(c, d, a, b, x[i + 2],  17, 606105819);
+          b = md5ff(b, c, d, a, x[i + 3],  22, -1044525330);
+          a = md5ff(a, b, c, d, x[i + 4],  7, -176418897);
+          d = md5ff(d, a, b, c, x[i + 5],  12, 1200080426);
+          c = md5ff(c, d, a, b, x[i + 6],  17, -1473231341);
+          b = md5ff(b, c, d, a, x[i + 7],  22, -45705983);
+          a = md5ff(a, b, c, d, x[i + 8],  7, 1770035416);
+          d = md5ff(d, a, b, c, x[i + 9],  12, -1958414417);
+          c = md5ff(c, d, a, b, x[i + 10], 17, -42063);
+          b = md5ff(b, c, d, a, x[i + 11], 22, -1990404162);
+          a = md5ff(a, b, c, d, x[i + 12], 7, 1804603682);
+          d = md5ff(d, a, b, c, x[i + 13], 12, -40341101);
+          c = md5ff(c, d, a, b, x[i + 14], 17, -1502002290);
+          b = md5ff(b, c, d, a, x[i + 15], 22, 1236535329);
+
+          a = md5gg(a, b, c, d, x[i + 1],  5, -165796510);
+          d = md5gg(d, a, b, c, x[i + 6],  9, -1069501632);
+          c = md5gg(c, d, a, b, x[i + 11], 14, 643717713);
+          b = md5gg(b, c, d, a, x[i],      20, -373897302);
+          a = md5gg(a, b, c, d, x[i + 5],  5, -701558691);
+          d = md5gg(d, a, b, c, x[i + 10], 9, 38016083);
+          c = md5gg(c, d, a, b, x[i + 15], 14, -660478335);
+          b = md5gg(b, c, d, a, x[i + 4],  20, -405537848);
+          a = md5gg(a, b, c, d, x[i + 9],  5, 568446438);
+          d = md5gg(d, a, b, c, x[i + 14], 9, -1019803690);
+          c = md5gg(c, d, a, b, x[i + 3],  14, -187363961);
+          b = md5gg(b, c, d, a, x[i + 8],  20, 1163531501);
+          a = md5gg(a, b, c, d, x[i + 13], 5, -1444681467);
+          d = md5gg(d, a, b, c, x[i + 2],  9, -51403784);
+          c = md5gg(c, d, a, b, x[i + 7],  14, 1735328473);
+          b = md5gg(b, c, d, a, x[i + 12], 20, -1926607734);
+
+          a = md5hh(a, b, c, d, x[i + 5],  4, -378558);
+          d = md5hh(d, a, b, c, x[i + 8],  11, -2022574463);
+          c = md5hh(c, d, a, b, x[i + 11], 16, 1839030562);
+          b = md5hh(b, c, d, a, x[i + 14], 23, -35309556);
+          a = md5hh(a, b, c, d, x[i + 1],  4, -1530992060);
+          d = md5hh(d, a, b, c, x[i + 4],  11, 1272893353);
+          c = md5hh(c, d, a, b, x[i + 7],  16, -155497632);
+          b = md5hh(b, c, d, a, x[i + 10], 23, -1094730640);
+          a = md5hh(a, b, c, d, x[i + 13], 4, 681279174);
+          d = md5hh(d, a, b, c, x[i],      11, -358537222);
+          c = md5hh(c, d, a, b, x[i + 3],  16, -722521979);
+          b = md5hh(b, c, d, a, x[i + 6],  23, 76029189);
+          a = md5hh(a, b, c, d, x[i + 9],  4, -640364487);
+          d = md5hh(d, a, b, c, x[i + 12], 11, -421815835);
+          c = md5hh(c, d, a, b, x[i + 15], 16, 530742520);
+          b = md5hh(b, c, d, a, x[i + 2],  23, -995338651);
+
+          a = md5ii(a, b, c, d, x[i],      6, -198630844);
+          d = md5ii(d, a, b, c, x[i + 7],  10, 1126891415);
+          c = md5ii(c, d, a, b, x[i + 14], 15, -1416354905);
+          b = md5ii(b, c, d, a, x[i + 5],  21, -57434055);
+          a = md5ii(a, b, c, d, x[i + 12], 6, 1700485571);
+          d = md5ii(d, a, b, c, x[i + 3],  10, -1894986606);
+          c = md5ii(c, d, a, b, x[i + 10], 15, -1051523);
+          b = md5ii(b, c, d, a, x[i + 1],  21, -2054922799);
+          a = md5ii(a, b, c, d, x[i + 8],  6, 1873313359);
+          d = md5ii(d, a, b, c, x[i + 15], 10, -30611744);
+          c = md5ii(c, d, a, b, x[i + 6],  15, -1560198380);
+          b = md5ii(b, c, d, a, x[i + 13], 21, 1309151649);
+          a = md5ii(a, b, c, d, x[i + 4],  6, -145523070);
+          d = md5ii(d, a, b, c, x[i + 11], 10, -1120210379);
+          c = md5ii(c, d, a, b, x[i + 2],  15, 718787259);
+          b = md5ii(b, c, d, a, x[i + 9],  21, -343485551);
+
+          a = safeAdd(a, olda);
+          b = safeAdd(b, oldb);
+          c = safeAdd(c, oldc);
+          d = safeAdd(d, oldd);
+        }
+        return [a, b, c, d];
+      }
+      function str2binl(str){
+        var bin = [];
+        var mask = (1 << 8) - 1;
+        for(var i = 0; i < str.length * 8; i += 8){
+          bin[i >> 5] |= (str.charCodeAt(i / 8) & mask) << (i % 32);
+        }
+        return bin;
+      }
+      function binl2hex(binarray){
+        var hexTab = '0123456789abcdef';
+        var str = '';
+        for(var i = 0; i < binarray.length * 4; i++){
+          str += hexTab.charAt((binarray[i >> 2] >> ((i % 4) * 8 + 4)) & 0xf) +
+                 hexTab.charAt((binarray[i >> 2] >> ((i % 4) * 8)) & 0xf);
+        }
+        return str;
+      }
+      function rawMD5(s){
+        return binl2hex(binlMD5(str2binl(s), s.length * 8));
+      }
+      return function(str){
+        /* Encode input as UTF-8 bytes for consistent hashing */
+        var utf8 = unescape(encodeURIComponent(str));
+        return rawMD5(utf8);
+      };
+    })();
+
+    /* ========== SHA via Web Crypto API ========== */
+    function sha(algorithm, text){
+      var encoder = new TextEncoder();
+      var data = encoder.encode(text);
+      return crypto.subtle.digest(algorithm, data).then(function(buffer){
+        var hex = '';
+        var view = new Uint8Array(buffer);
+        for(var i = 0; i < view.length; i++){
+          var b = view[i].toString(16);
+          hex += b.length === 1 ? '0' + b : b;
+        }
+        return hex;
+      });
+    }
+
+    /* ========== State ========== */
+    var currentHashes = { md5: '', sha1: '', sha256: '', sha512: '' };
+    var debounceTimer = null;
+
+    /* ========== Helpers ========== */
+    function formatBytes(bytes){
+      if(bytes === 0) return '0 bytes';
+      if(bytes === 1) return '1 byte';
+      var units = ['bytes','KB','MB','GB'];
+      var i = Math.floor(Math.log(bytes) / Math.log(1024));
+      if(i === 0) return bytes + ' bytes';
+      return (bytes / Math.pow(1024, i)).toFixed(2) + ' ' + units[i];
+    }
+
+    function setHashValue(id, value){
+      var el = document.getElementById('hash-' + id);
+      if(value){
+        el.textContent = value;
+        el.classList.remove('empty');
+      } else {
+        el.textContent = 'Hash will appear here...';
+        el.classList.add('empty');
+      }
+    }
+
+    /* ========== Core: Generate All Hashes ========== */
+    function generateHashes(text){
+      /* MD5 — synchronous */
+      if(text.length === 0){
+        currentHashes = { md5: '', sha1: '', sha256: '', sha512: '' };
+        setHashValue('md5', '');
+        setHashValue('sha1', '');
+        setHashValue('sha256', '');
+        setHashValue('sha512', '');
+        return;
+      }
+
+      currentHashes.md5 = md5(text);
+      setHashValue('md5', currentHashes.md5);
+
+      /* SHA-1 */
+      sha('SHA-1', text).then(function(h){
+        currentHashes.sha1 = h;
+        setHashValue('sha1', h);
+      });
+
+      /* SHA-256 */
+      sha('SHA-256', text).then(function(h){
+        currentHashes.sha256 = h;
+        setHashValue('sha256', h);
+      });
+
+      /* SHA-512 */
+      sha('SHA-512', text).then(function(h){
+        currentHashes.sha512 = h;
+        setHashValue('sha512', h);
+      });
+    }
+
+    /* ========== Event Handlers ========== */
+    var inputEl = document.getElementById('hash-input');
+
+    inputEl.addEventListener('input', function(){
+      var text = inputEl.value;
+      var bytes = new TextEncoder().encode(text).length;
+      document.getElementById('input-size').textContent = formatBytes(bytes);
+      document.getElementById('input-chars').textContent = text.length.toLocaleString('en-US');
+
+      /* Debounce for real-time hashing */
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(function(){
+        generateHashes(text);
+      }, 80);
+    });
+
+    inputEl.addEventListener('keydown', function(e){
+      if((e.ctrlKey || e.metaKey) && e.key === 'Enter'){
+        e.preventDefault();
+        handleGenerate();
+      }
+    });
+
+    /* ========== Button Handlers (global scope) ========== */
+    window.handleGenerate = function(){
+      var text = inputEl.value;
+      generateHashes(text);
+      if(text.length > 0){
+        showToast('Hashes generated!', 'success');
+      }
+    };
+
+    window.handleClear = function(){
+      inputEl.value = '';
+      currentHashes = { md5: '', sha1: '', sha256: '', sha512: '' };
+      setHashValue('md5', '');
+      setHashValue('sha1', '');
+      setHashValue('sha256', '');
+      setHashValue('sha512', '');
+      document.getElementById('input-size').textContent = '0 bytes';
+      document.getElementById('input-chars').textContent = '0';
+      inputEl.focus();
+      showToast('Cleared', 'info');
+    };
+
+    window.copyHash = function(type){
+      var hash = currentHashes[type];
+      if(!hash){
+        showToast('Nothing to copy', 'error');
+        return;
+      }
+      copyToClipboard(hash);
+      showToast(type.toUpperCase() + ' hash copied!', 'success');
+    };
+
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unix Timestamp Converter Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Convert Unix timestamps to human-readable dates and dates to Unix timestamps. Live current timestamp, ISO 8601, RFC 2822, UTC, local time, and relative formats. Free, instant, no signup.">
+  <meta name="keywords" content="unix timestamp converter, epoch converter, timestamp to date, date to timestamp, unix time, epoch time, seconds since epoch, milliseconds timestamp">
+  <link rel="canonical" href="https://toolrip.com/timestamp">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Unix Timestamp Converter Online — Free, Fast, No Signup | Toolrip">
+  <meta property="og:description" content="Convert Unix timestamps to human-readable dates and dates to Unix timestamps. Live current timestamp, ISO 8601, RFC 2822, UTC, local, and relative formats.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/timestamp">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Unix Timestamp Converter Online — Free, Fast, No Signup | Toolrip">
+  <meta name="twitter:description" content="Convert Unix timestamps to human-readable dates and dates to Unix timestamps. Live current timestamp, ISO 8601, RFC 2822, UTC, local, and relative formats.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root { --accent: var(--conversion); }
+
+    .live-clock {
+      text-align: center;
+      padding: var(--sp-4);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--sp-4);
+    }
+    .live-clock .lc-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: var(--sp-1);
+    }
+    .live-clock .lc-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+      line-height: 1.3;
+    }
+    @media (min-width: 640px) {
+      .live-clock .lc-value { font-size: 2.5rem; }
+    }
+    .live-clock .lc-sub {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-top: var(--sp-1);
+    }
+
+    .mode-section { display: none; }
+    .mode-section.active { display: block; }
+
+    .output-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--sp-2);
+      margin-top: var(--sp-3);
+    }
+    .output-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--sp-2);
+      padding: var(--sp-2) var(--sp-3);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .output-row .or-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .output-row .or-value {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--text);
+      word-break: break-all;
+      text-align: right;
+      flex: 1;
+      min-width: 0;
+    }
+    .output-row .or-copy {
+      padding: var(--sp-1) var(--sp-2);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      font-size: 0.7rem;
+      cursor: pointer;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+    .output-row .or-copy:hover {
+      color: var(--text);
+      border-color: var(--accent);
+    }
+
+    .dt-inputs {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--sp-2);
+    }
+    @media (max-width: 639px) {
+      .dt-inputs { grid-template-columns: 1fr; }
+    }
+
+    .results-area { display: none; margin-top: var(--sp-3); }
+    .results-area.visible { display: block; }
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Unix Timestamp Converter",
+    "url": "https://toolrip.com/timestamp",
+    "description": "Convert Unix timestamps to human-readable dates and dates to Unix timestamps. Live current timestamp, ISO 8601, RFC 2822, UTC, local time, and relative formats.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is a Unix timestamp?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A Unix timestamp is a way of tracking time as a running total of seconds. It counts the number of seconds that have elapsed since January 1, 1970, at 00:00:00 UTC, which is known as the Unix epoch. This single integer value represents a precise moment in time regardless of time zone, making it the standard method for recording and exchanging time data in computer systems, databases, APIs, and programming languages around the world."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the Unix epoch?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Unix epoch is the reference point from which Unix timestamps are measured: January 1, 1970, at 00:00:00 Coordinated Universal Time (UTC). This date was chosen by the designers of the Unix operating system as a convenient and arbitrary starting point. Every Unix timestamp is calculated as the number of seconds before or after this moment. For example, timestamp 0 corresponds to the epoch itself, while negative timestamps represent dates before January 1, 1970."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the Year 2038 problem (Y2K38)?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Year 2038 problem, also called the Y2K38 bug, arises because many older systems store Unix timestamps as 32-bit signed integers. The maximum value of a 32-bit signed integer is 2,147,483,647, which corresponds to January 19, 2038, at 03:14:07 UTC. After that second, the integer overflows and wraps around to a large negative number, which would be interpreted as a date in December 1901. Modern systems have largely migrated to 64-bit integers, which can represent timestamps trillions of years into the future, effectively eliminating the problem."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between seconds and milliseconds timestamps?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A Unix timestamp in seconds counts whole seconds since the epoch and is typically a 10-digit number for current dates. A milliseconds timestamp adds three extra digits of precision, counting thousandths of a second since the epoch, resulting in a 13-digit number. JavaScript, Java, and many web APIs use milliseconds by default, while PHP, Python, and most Unix command-line tools use seconds. To convert between them, multiply seconds by 1000 to get milliseconds, or divide milliseconds by 1000 and discard the remainder to get seconds."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can Unix timestamps be negative?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. A negative Unix timestamp represents a date and time before the Unix epoch of January 1, 1970, 00:00:00 UTC. For example, timestamp -86400 represents December 31, 1969, because 86,400 is the number of seconds in one day. Negative timestamps are commonly used to store historical dates in databases and programming languages that support them. Most modern systems and this converter handle negative timestamps correctly, allowing you to work with dates well before 1970."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do time zones affect Unix timestamps?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Unix timestamps are always relative to UTC and are not affected by time zones at all. A timestamp of 1700000000 represents the exact same instant everywhere on Earth. Time zones only come into play when you convert a timestamp to a human-readable date string. The same timestamp will show a different clock time in New York, London, and Tokyo, but the underlying seconds-since-epoch value remains identical. This time-zone independence is one of the primary reasons timestamps are used for data exchange between systems in different locations."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is my data private when using this converter?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The Unix Timestamp Converter runs entirely in your web browser using client-side JavaScript. No timestamps, dates, or personal information are transmitted to our servers or any third-party service. There are no accounts, no cookies storing your data, and no server-side processing. Your data stays on your device at all times, and you can even use the tool offline once the page has loaded."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Conversion Tools", "item": "https://toolrip.com/#conversion" },
+      { "@type": "ListItem", "position": 3, "name": "Unix Timestamp Converter", "item": "https://toolrip.com/timestamp" }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="timestamp-top">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#conversion">Conversion Tools</a>
+        <span>/</span>
+        <span>Timestamp Converter</span>
+      </nav>
+
+      <h1>Unix Timestamp Converter</h1>
+      <p class="text-muted mt-1 mb-3">Convert Unix timestamps to human-readable dates and dates back to Unix timestamps. See the current time as a live-updating Unix timestamp. Output in ISO 8601, RFC 2822, UTC, local time, and relative formats. Free, instant, and private.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+
+        <!-- Live Current Timestamp -->
+        <div class="live-clock">
+          <div class="lc-label">Current Unix Timestamp</div>
+          <div class="lc-value" id="live-ts">—</div>
+          <div class="lc-sub" id="live-utc">—</div>
+        </div>
+
+        <!-- Mode Tabs -->
+        <div class="tab-group">
+          <button class="tab active" data-tab="mode-ts2date">Timestamp &rarr; Date</button>
+          <button class="tab" data-tab="mode-date2ts">Date &rarr; Timestamp</button>
+        </div>
+
+        <!-- Mode 1: Timestamp to Date -->
+        <div class="tab-panel mode-section active" id="mode-ts2date">
+          <div class="input-group">
+            <label for="ts-input">Unix Timestamp (seconds or milliseconds)</label>
+            <input type="text" id="ts-input" class="input-field" placeholder="e.g. 1700000000 or 1700000000000" aria-label="Unix timestamp input" inputmode="numeric">
+          </div>
+          <div class="flex gap-2">
+            <button class="btn-primary" onclick="tsToDate()">Convert</button>
+            <button class="btn-secondary" onclick="pasteNow()">Paste Current</button>
+            <button class="btn-secondary" onclick="resetTs()">Reset</button>
+          </div>
+          <div class="results-area" id="ts-results">
+            <div class="output-grid" id="ts-output"></div>
+          </div>
+        </div>
+
+        <!-- Mode 2: Date to Timestamp -->
+        <div class="tab-panel mode-section" id="mode-date2ts">
+          <div class="dt-inputs">
+            <div class="input-group">
+              <label for="dt-date">Date</label>
+              <input type="date" id="dt-date" class="input-field" aria-label="Date input">
+            </div>
+            <div class="input-group">
+              <label for="dt-time">Time</label>
+              <input type="time" id="dt-time" class="input-field" step="1" aria-label="Time input">
+            </div>
+          </div>
+          <div class="flex gap-2 mt-2">
+            <button class="btn-primary" onclick="dateToTs()">Convert</button>
+            <button class="btn-secondary" onclick="setNow()">Set to Now</button>
+            <button class="btn-secondary" onclick="resetDt()">Reset</button>
+          </div>
+          <div class="results-area" id="dt-results">
+            <div class="output-grid" id="dt-output"></div>
+          </div>
+        </div>
+
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="timestamp-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Bidirectional Conversion</h3>
+            <p>Convert in both directions with a single tool. Enter a Unix timestamp to get a full human-readable date breakdown, or pick a date and time to generate the corresponding Unix timestamp in seconds and milliseconds. Switching between modes is instant and seamless, making this tool ideal for developers, system administrators, and data analysts who regularly work with time-based data.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Live Current Timestamp</h3>
+            <p>See the current Unix timestamp ticking upward in real time at the top of the page. The live counter updates every second and displays the corresponding UTC date and time alongside the raw numeric value. This is useful when you need to quickly grab the current timestamp for logging, debugging API calls, or inserting time values into databases without leaving the page.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Multiple Output Formats</h3>
+            <p>Every conversion outputs the result in five widely used date formats: ISO 8601, RFC 2822, your local time, UTC time, and a relative description such as "3 hours ago" or "in 2 days." Each output row has its own one-click copy button so you can grab exactly the format you need and paste it directly into code, documentation, emails, or spreadsheets without any manual reformatting.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Automatic Detection</h3>
+            <p>Not sure whether your timestamp is in seconds or milliseconds? The converter automatically detects the unit based on the number of digits and handles both transparently. Ten-digit values are treated as seconds (standard Unix timestamps) and thirteen-digit values are treated as milliseconds (common in JavaScript and Java). You can always override this behavior by entering the value in the format you prefer.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Unix Timestamp Converter</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Convert a timestamp to a date</strong> — Select the "Timestamp to Date" tab, enter a Unix timestamp in seconds or milliseconds, and click "Convert." The tool instantly displays the corresponding date in ISO 8601, RFC 2822, local, UTC, and relative formats, each with a one-click copy button.</li>
+          <li><strong>Convert a date to a timestamp</strong> — Select the "Date to Timestamp" tab, pick a date and time using the input fields, and click "Convert." You will see the Unix timestamp in both seconds and milliseconds, along with the same five output formats for easy reference.</li>
+          <li><strong>Use the live timestamp</strong> — The live counter at the top of the tool shows the current Unix timestamp updating every second. Click "Paste Current" in the Timestamp to Date mode to instantly load the current value into the input field for conversion.</li>
+          <li><strong>Copy any result</strong> — Click the "Copy" button next to any output row to copy that specific formatted value to your clipboard. A brief confirmation will appear to let you know the copy was successful.</li>
+        </ol>
+      </section>
+
+      <!-- Understanding Unix Time -->
+      <section class="mt-4">
+        <h2>Understanding Unix Timestamps and Epoch Time</h2>
+        <p style="color:var(--text-muted);line-height:1.8">Unix time, also known as POSIX time or epoch time, is a system for describing a point in time as a single integer. It counts the number of seconds that have elapsed since the Unix epoch, which is defined as midnight on January 1, 1970, Coordinated Universal Time (UTC). This seemingly arbitrary date was chosen by the early developers of the Unix operating system at Bell Labs as a simple, convenient reference point that predated the system's creation. Because the epoch is anchored to UTC and has no time zone offset of its own, Unix timestamps are inherently timezone-neutral. A timestamp of 1,000,000,000 represents the same instant in Tokyo, London, and New York — September 9, 2001, at 01:46:40 UTC — even though local clocks in those cities showed different hours.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-3)">This universality is why virtually every modern operating system, database engine, programming language, and web API uses Unix timestamps under the hood. When your browser sends a request to a server, the timestamps in HTTP headers are derived from epoch time. When a database records the creation date of a row, it often stores a Unix timestamp. When a log file records an event, the most reliable and sortable format is seconds since the epoch. By reducing a complex calendar date — with its variable month lengths, leap years, daylight saving shifts, and time zone rules — to a single number, Unix time eliminates an entire category of bugs and ambiguities that plague date strings.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-3)">However, this elegance comes with a well-known limitation: the Year 2038 problem, often abbreviated as Y2K38. Many legacy systems store Unix timestamps in a 32-bit signed integer, which has a maximum value of 2,147,483,647. That value corresponds to Tuesday, January 19, 2038, at 03:14:07 UTC. One second later, the integer overflows and wraps to a large negative number, which the system interprets as a date in December 1901. The consequences would be similar to the Year 2000 bug: file systems could report incorrect dates, scheduled tasks could fire at the wrong time, and certificates could appear expired. The industry-wide solution is to migrate to 64-bit timestamps, which can represent dates more than 292 billion years into the future. Most modern Linux distributions, macOS, Windows, and cloud platforms have already completed or are completing this migration, but embedded systems, IoT devices, and legacy enterprise software may still be vulnerable.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-3)">For developers, understanding when to use seconds versus milliseconds is essential. The traditional Unix timestamp is measured in seconds and produces a 10-digit number for dates in the current era. JavaScript, Java, and many modern web APIs, however, default to milliseconds since the epoch, yielding a 13-digit number. Confusing the two is a common source of bugs: treating a milliseconds value as seconds produces a date thousands of years in the future, while treating a seconds value as milliseconds yields a date in January 1970. This converter automatically detects which unit you are using based on the digit count, but being explicit about units in your own code — through variable names, comments, and type annotations — is always the safest practice.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is a Unix timestamp?</summary>
+          <p>A Unix timestamp is a way of tracking time as a running total of seconds. It counts the number of seconds that have elapsed since January 1, 1970, at 00:00:00 UTC, which is known as the Unix epoch. This single integer value represents a precise moment in time regardless of time zone, making it the standard method for recording and exchanging time data in computer systems, databases, APIs, and programming languages around the world. Because it is just a number, it is easy to store, compare, and perform arithmetic on. For example, subtracting one timestamp from another gives you the exact number of seconds between two events, and adding 86,400 to a timestamp advances it by exactly one day.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the Unix epoch?</summary>
+          <p>The Unix epoch is the reference point from which Unix timestamps are measured: January 1, 1970, at 00:00:00 Coordinated Universal Time (UTC). This date was chosen by the designers of the Unix operating system as a convenient and arbitrary starting point that fell before the system's initial deployment. Every Unix timestamp is calculated as the number of seconds before or after this moment. A timestamp of zero corresponds exactly to the epoch, positive values represent times after it, and negative values represent times before it. The epoch is the same worldwide because it is defined in UTC, ensuring that all systems agree on what a given timestamp means regardless of their local time zone.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the Year 2038 problem (Y2K38)?</summary>
+          <p>The Year 2038 problem, also called the Y2K38 bug, arises because many older systems store Unix timestamps as 32-bit signed integers. The largest value a 32-bit signed integer can hold is 2,147,483,647, which corresponds to January 19, 2038, at 03:14:07 UTC. One second later, the integer overflows and wraps around to a large negative number, which the system interprets as a date in December 1901. This could cause file systems to display wrong dates, scheduled jobs to misfire, security certificates to appear expired, and financial calculations to produce incorrect results. Modern systems have largely migrated to 64-bit integers, which can represent timestamps far beyond any practical need, effectively eliminating the problem for software that has been updated.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between seconds and milliseconds timestamps?</summary>
+          <p>A Unix timestamp in seconds counts whole seconds since the epoch and is typically a 10-digit number for dates in the current era (roughly 2001 through 2286). A milliseconds timestamp adds three extra digits of precision, counting thousandths of a second since the epoch, which produces a 13-digit number. JavaScript's Date.now() function, Java's System.currentTimeMillis(), and many REST APIs return milliseconds by default, while Python's time.time(), PHP's time(), and traditional Unix command-line tools return seconds. To convert between the two, multiply seconds by 1,000 to get milliseconds, or divide milliseconds by 1,000 and discard the fractional part to get seconds. This converter detects the format automatically based on the number of digits you enter.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can Unix timestamps be negative?</summary>
+          <p>Yes. A negative Unix timestamp represents a date and time before the Unix epoch of January 1, 1970, 00:00:00 UTC. For every second you go back before the epoch, the timestamp decreases by one. For example, timestamp negative 86,400 represents December 31, 1969, because there are 86,400 seconds in a day. Negative timestamps are routinely used to store historical dates in databases and are supported by most modern programming languages and operating systems. This converter handles negative timestamps correctly, so you can freely enter values like negative 1,000,000,000 to find the corresponding date in the past.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do time zones affect Unix timestamps?</summary>
+          <p>Unix timestamps are always relative to UTC and are not affected by time zones at all. A timestamp of 1,700,000,000 represents the exact same instant everywhere on Earth. Time zones only come into play when you convert a timestamp to a human-readable date string. The same timestamp will display a different clock time in New York than in London or Tokyo, but the underlying seconds-since-epoch value remains identical. This timezone independence is one of the key reasons Unix timestamps are the preferred method for exchanging time data between distributed systems, APIs, and services running in different parts of the world.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is my data private when using this converter?</summary>
+          <p>Yes. The Unix Timestamp Converter runs entirely in your web browser using client-side JavaScript. No timestamps, dates, or personal information are transmitted to our servers or any third-party service. There are no accounts to create, no cookies storing personal data, and no server-side processing. You can verify this by inspecting network requests in your browser's developer tools while using the tool. This privacy-first approach applies to all Toolrip utilities — your data stays on your device at all times, and you can use the tool offline once the page has loaded.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/date-diff">Date Difference Calculator</a>
+          <a href="https://toolrip.com/age">Age Calculator</a>
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+          <a href="https://toolrip.com/base64">Base64 Encoder/Decoder</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="timestamp-sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="timestamp-bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Unix Timestamp Converter JS -->
+  <script>
+  (function () {
+    'use strict';
+
+    /* --- Helpers --- */
+    function $(id) { return document.getElementById(id); }
+
+    function padZ(n, len) {
+      len = len || 2;
+      return String(n).padStart(len, '0');
+    }
+
+    function toISODate(d) {
+      return d.getFullYear() + '-' + padZ(d.getMonth() + 1) + '-' + padZ(d.getDate());
+    }
+
+    function toTimeStr(d) {
+      return padZ(d.getHours()) + ':' + padZ(d.getMinutes()) + ':' + padZ(d.getSeconds());
+    }
+
+    function fmtISO(d) {
+      return d.toISOString();
+    }
+
+    function fmtRFC2822(d) {
+      return d.toUTCString();
+    }
+
+    function fmtLocal(d) {
+      return d.toLocaleString('en-US', {
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+        hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
+      });
+    }
+
+    function fmtUTC(d) {
+      return d.toLocaleString('en-US', {
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+        hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true,
+        timeZone: 'UTC'
+      }) + ' UTC';
+    }
+
+    function fmtRelative(d) {
+      var now = Date.now();
+      var diffMs = now - d.getTime();
+      var absMs = Math.abs(diffMs);
+      var past = diffMs >= 0;
+
+      var seconds = Math.floor(absMs / 1000);
+      var minutes = Math.floor(seconds / 60);
+      var hours = Math.floor(minutes / 60);
+      var days = Math.floor(hours / 24);
+      var weeks = Math.floor(days / 7);
+      var months = Math.floor(days / 30.44);
+      var years = Math.floor(days / 365.25);
+
+      var label;
+      if (seconds < 5) label = 'just now';
+      else if (seconds < 60) label = seconds + ' second' + (seconds !== 1 ? 's' : '');
+      else if (minutes < 60) label = minutes + ' minute' + (minutes !== 1 ? 's' : '');
+      else if (hours < 24) label = hours + ' hour' + (hours !== 1 ? 's' : '');
+      else if (days < 7) label = days + ' day' + (days !== 1 ? 's' : '');
+      else if (weeks < 5) label = weeks + ' week' + (weeks !== 1 ? 's' : '');
+      else if (months < 12) label = months + ' month' + (months !== 1 ? 's' : '');
+      else label = years + ' year' + (years !== 1 ? 's' : '');
+
+      if (label === 'just now') return label;
+      return past ? label + ' ago' : 'in ' + label;
+    }
+
+    /* --- Detect seconds vs milliseconds --- */
+    function normalizeTs(raw) {
+      var n = Number(raw);
+      if (isNaN(n)) return null;
+      // If abs value > 1e12, assume milliseconds
+      var isMs = Math.abs(n) > 9999999999;
+      var ms = isMs ? n : n * 1000;
+      var sec = isMs ? Math.floor(n / 1000) : n;
+      return { ms: ms, sec: sec, isMs: isMs };
+    }
+
+    /* --- Build output rows --- */
+    function buildOutputHTML(d, sec, ms) {
+      var rows = [
+        { label: 'Unix (seconds)', value: String(Math.floor(sec)) },
+        { label: 'Unix (milliseconds)', value: String(Math.floor(ms)) },
+        { label: 'ISO 8601', value: fmtISO(d) },
+        { label: 'RFC 2822', value: fmtRFC2822(d) },
+        { label: 'Local Time', value: fmtLocal(d) },
+        { label: 'UTC', value: fmtUTC(d) },
+        { label: 'Relative', value: fmtRelative(d) }
+      ];
+      var html = '';
+      for (var i = 0; i < rows.length; i++) {
+        html += '<div class="output-row">' +
+          '<span class="or-label">' + rows[i].label + '</span>' +
+          '<span class="or-value">' + escapeHTML(rows[i].value) + '</span>' +
+          '<button class="or-copy" onclick="copyToClipboard(\'' + escapeAttr(rows[i].value) + '\', this)">Copy</button>' +
+          '</div>';
+      }
+      return html;
+    }
+
+    function escapeHTML(s) {
+      var div = document.createElement('div');
+      div.appendChild(document.createTextNode(s));
+      return div.innerHTML;
+    }
+
+    function escapeAttr(s) {
+      return s.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    }
+
+    /* --- Live Clock --- */
+    var liveEl = $('live-ts');
+    var liveUtcEl = $('live-utc');
+
+    function updateLiveClock() {
+      var now = new Date();
+      var sec = Math.floor(now.getTime() / 1000);
+      liveEl.textContent = sec.toLocaleString('en-US');
+      liveUtcEl.textContent = fmtUTC(now);
+    }
+
+    updateLiveClock();
+    setInterval(updateLiveClock, 1000);
+
+    /* --- Timestamp to Date --- */
+    window.tsToDate = function () {
+      var raw = $('ts-input').value.trim();
+      if (!raw) {
+        showToast('Please enter a Unix timestamp.', 'error');
+        return;
+      }
+      var info = normalizeTs(raw);
+      if (!info) {
+        showToast('Invalid timestamp. Please enter a numeric value.', 'error');
+        return;
+      }
+      var d = new Date(info.ms);
+      if (isNaN(d.getTime())) {
+        showToast('Could not parse the timestamp. Please check the value.', 'error');
+        return;
+      }
+      $('ts-output').innerHTML = buildOutputHTML(d, info.sec, info.ms);
+      $('ts-results').classList.add('visible');
+    };
+
+    window.pasteNow = function () {
+      $('ts-input').value = Math.floor(Date.now() / 1000);
+      window.tsToDate();
+    };
+
+    window.resetTs = function () {
+      $('ts-input').value = '';
+      $('ts-results').classList.remove('visible');
+    };
+
+    /* --- Date to Timestamp --- */
+    window.dateToTs = function () {
+      var dateVal = $('dt-date').value;
+      var timeVal = $('dt-time').value;
+      if (!dateVal) {
+        showToast('Please select a date.', 'error');
+        return;
+      }
+      if (!timeVal) timeVal = '00:00:00';
+      var parts = dateVal.split('-');
+      var tParts = timeVal.split(':');
+      var d = new Date(
+        parseInt(parts[0]),
+        parseInt(parts[1]) - 1,
+        parseInt(parts[2]),
+        parseInt(tParts[0]) || 0,
+        parseInt(tParts[1]) || 0,
+        parseInt(tParts[2]) || 0
+      );
+      if (isNaN(d.getTime())) {
+        showToast('Invalid date or time. Please check your input.', 'error');
+        return;
+      }
+      var sec = Math.floor(d.getTime() / 1000);
+      var ms = d.getTime();
+      $('dt-output').innerHTML = buildOutputHTML(d, sec, ms);
+      $('dt-results').classList.add('visible');
+    };
+
+    window.setNow = function () {
+      var now = new Date();
+      $('dt-date').value = toISODate(now);
+      $('dt-time').value = toTimeStr(now);
+      window.dateToTs();
+    };
+
+    window.resetDt = function () {
+      var now = new Date();
+      $('dt-date').value = toISODate(now);
+      $('dt-time').value = '00:00:00';
+      $('dt-results').classList.remove('visible');
+    };
+
+    /* --- Init --- */
+    document.addEventListener('DOMContentLoaded', function () {
+      var now = new Date();
+      $('dt-date').value = toISODate(now);
+      $('dt-time').value = toTimeStr(now);
+
+      // Convert on Enter key in timestamp input
+      $('ts-input').addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') window.tsToDate();
+      });
+    });
+
+  })();
+  </script>
+</body>
+</html>

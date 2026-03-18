@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lorem Ipsum Generator Online — Free, Fast, No Signup</title>
+  <meta name="description" content="Generate lorem ipsum placeholder text instantly. Choose paragraphs, sentences, or words with customizable length. Free online dummy text generator for designers and developers.">
+  <link rel="canonical" href="https://toolrip.com/lorem">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Lorem Ipsum Generator — Toolrip">
+  <meta property="og:description" content="Generate lorem ipsum placeholder text instantly. Choose paragraphs, sentences, or words with customizable length. Free online dummy text generator for designers and developers.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/lorem">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Lorem Ipsum Generator — Toolrip">
+  <meta name="twitter:description" content="Generate lorem ipsum placeholder text instantly. Choose paragraphs, sentences, or words with customizable length. Free online dummy text generator for designers and developers.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--text-cat)}</style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Lorem Ipsum Generator",
+    "url": "https://toolrip.com/lorem",
+    "description": "Generate lorem ipsum placeholder text instantly. Choose paragraphs, sentences, or words with customizable length. Free online dummy text generator for designers and developers.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Text Tools", "item": "https://toolrip.com/#text" },
+      { "@type": "ListItem", "position": 3, "name": "Lorem Ipsum Generator", "item": "https://toolrip.com/lorem" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is Lorem Ipsum?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Lorem Ipsum is dummy placeholder text used in the printing and typesetting industry. It has been the standard filler text since the 1500s, when an unknown printer scrambled sections of a Latin text by Cicero to create a type specimen book." }
+      },
+      {
+        "@type": "Question",
+        "name": "Where does Lorem Ipsum come from?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Lorem Ipsum originates from sections 1.10.32 and 1.10.33 of De Finibus Bonorum et Malorum, a philosophical work written by the Roman statesman and orator Marcus Tullius Cicero in 45 BC. The text was rediscovered and popularized in typesetting during the 1500s." }
+      },
+      {
+        "@type": "Question",
+        "name": "Why do designers use Lorem Ipsum?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Designers use Lorem Ipsum because it provides a natural-looking distribution of letters and word lengths that closely resembles readable English. This prevents viewers from being distracted by the content while evaluating the visual layout and typography of a design." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Lorem Ipsum real Latin?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Lorem Ipsum is derived from real Latin but it is not proper or meaningful Latin. The original text from Cicero's De Finibus has been altered, with words changed, added, and removed, making the resulting passage nonsensical. However, many of the individual words are genuine Latin vocabulary." }
+      },
+      {
+        "@type": "Question",
+        "name": "What are alternatives to Lorem Ipsum?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Popular alternatives include Hipster Ipsum, Bacon Ipsum, Cupcake Ipsum, and Pirate Ipsum for humorous filler text. For more professional alternatives, some designers use text from public domain literature or generate random text based on the actual language of the final content." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many words are in a standard Lorem Ipsum paragraph?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A standard Lorem Ipsum paragraph typically contains between 40 and 80 words, though this varies by generator. This tool generates paragraphs with 5 to 8 sentences each, producing a natural and varied paragraph length suitable for most design mockups." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I use Lorem Ipsum in production websites?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Lorem Ipsum should only be used as temporary placeholder text during the design and development phase. Publishing it on a live production website is considered a mistake, as search engines may penalize pages with nonsensical content, and it signals to visitors that the site is unfinished." }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    .gen-controls{display:flex;flex-wrap:wrap;gap:var(--sp-3);align-items:flex-end}
+    .gen-controls .input-group{margin-bottom:0;flex:1;min-width:140px}
+    .output-wrapper{position:relative;margin-top:var(--sp-3)}
+    .output-wrapper .output-area{min-height:200px;max-height:500px;overflow-y:auto;line-height:1.8;font-size:.9375rem}
+    .output-meta{display:flex;justify-content:space-between;align-items:center;margin-top:var(--sp-2);font-size:.8125rem;color:var(--text-muted)}
+    .checkbox-row{display:flex;align-items:center;gap:var(--sp-2);padding:var(--sp-2) 0}
+    .checkbox-row input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent);cursor:pointer}
+    .checkbox-row label{font-size:.875rem;color:var(--text-muted);cursor:pointer}
+    .btn-row{display:flex;gap:var(--sp-2);flex-wrap:wrap;margin-top:var(--sp-3)}
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="top-lorem">Ad</div>
+
+    <!-- Breadcrumb -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#text">Text Tools</a>
+        <span>/</span>
+        <span>Lorem Ipsum Generator</span>
+      </nav>
+
+      <h1>Lorem Ipsum Generator</h1>
+      <p class="text-muted mt-1 mb-3">Generate placeholder dummy text instantly. Choose paragraphs, sentences, or individual words with customizable length.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <div class="gen-controls">
+          <div class="input-group">
+            <label for="genCount">Amount</label>
+            <input type="number" class="input-field" id="genCount" min="1" max="100" value="5" oninput="generate()">
+          </div>
+          <div class="input-group">
+            <label for="genType">Type</label>
+            <select class="select-field" id="genType" onchange="generate()">
+              <option value="paragraphs">Paragraphs</option>
+              <option value="sentences">Sentences</option>
+              <option value="words">Words</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="checkbox-row">
+          <input type="checkbox" id="startClassic" checked onchange="generate()">
+          <label for="startClassic">Start with "Lorem ipsum dolor sit amet..."</label>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn-primary" onclick="generate()">&#9998; Generate</button>
+          <button class="btn-secondary" id="copyBtn" onclick="copyOutput(this)">&#128203; Copy</button>
+        </div>
+
+        <div class="output-wrapper">
+          <div class="output-area" id="loremOutput" aria-live="polite">Click Generate to create lorem ipsum text.</div>
+        </div>
+        <div class="output-meta">
+          <span id="metaInfo">0 paragraphs &middot; 0 words &middot; 0 characters</span>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="content-lorem">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>&#9889; Instant Generation</h3>
+            <p>Generate any amount of lorem ipsum text in milliseconds. The tool produces output in real time as you adjust the controls, so you can fine-tune the length before copying. No loading screens, no waiting, and no page reloads required.</p>
+          </div>
+          <div class="feature-card">
+            <h3>&#9881;&#65039; Fully Customizable</h3>
+            <p>Choose exactly what you need: full paragraphs for page layouts, individual sentences for UI elements, or specific word counts for tight spaces. Set any amount from 1 to 100 and toggle the classic opening phrase on or off to suit your project requirements.</p>
+          </div>
+          <div class="feature-card">
+            <h3>&#128214; Classic Lorem Ipsum</h3>
+            <p>Built from a comprehensive corpus of over 200 words drawn from the traditional lorem ipsum text. Every paragraph, sentence, and word selection maintains the authentic look and natural word-length distribution that designers have relied on for centuries.</p>
+          </div>
+          <div class="feature-card">
+            <h3>&#128203; One-Click Copy</h3>
+            <p>Copy your generated text to the clipboard with a single click. The tool confirms the copy action with a visual notification, making it fast to paste placeholder text into design tools, code editors, content management systems, or any application you are working with.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Lorem Ipsum Generator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Set the amount</strong> — Enter a number between 1 and 100 in the Amount field. This determines how many paragraphs, sentences, or words you want to generate.</li>
+          <li><strong>Choose the type</strong> — Select Paragraphs, Sentences, or Words from the dropdown menu. Paragraphs are ideal for filling page layouts, sentences work well for UI components, and words are perfect for short labels or headings.</li>
+          <li><strong>Toggle the classic start</strong> — Check the box to begin your output with the traditional opening phrase. Uncheck it if you want every section to use randomized lorem ipsum words from the start.</li>
+          <li><strong>Generate and copy</strong> — Click the Generate button to create your text. Review the output in the preview area, then click Copy to place it on your clipboard. The word and character counts below the output help you verify the length.</li>
+        </ol>
+      </section>
+
+      <!-- SEO Content: About Lorem Ipsum -->
+      <section class="mt-4">
+        <h2>The History and Purpose of Lorem Ipsum Text</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          Lorem ipsum is the most widely used placeholder text in the world of graphic design, web development, and publishing. Its primary purpose is to fill a space in a design mockup or layout with text that looks realistic enough to evaluate the visual presentation without distracting the viewer with meaningful content. When a designer is working on a brochure, website, or mobile application, the final written content is often not ready yet. Rather than leaving blank spaces or repeating the same sentence, designers insert lorem ipsum text to simulate how the finished product will look with actual words and paragraphs in place.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          The origins of lorem ipsum trace back more than two thousand years to the writings of Marcus Tullius Cicero, one of the most influential Roman statesmen, philosophers, and orators. In 45 BC, Cicero wrote a treatise titled De Finibus Bonorum et Malorum, which translates to On the Ends of Good and Evil. This five-volume work explored the ethical theories of Epicureanism and Stoicism, debating what constitutes the highest good and the ultimate evil in human life. The specific sections that lorem ipsum derives from are found in Book 1, sections 1.10.32 and 1.10.33, where Cicero discusses the concept of pleasure and pain in the context of moral philosophy.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          The transformation from serious philosophical discourse into typographic filler text happened during the 1500s. An unknown printer took a passage from De Finibus and scrambled it to create a type specimen book, which was a sample sheet used to demonstrate different typefaces, font sizes, and text layouts to customers. The printer altered the original Latin by removing certain words, adding others, and rearranging phrases until the text was no longer coherent as a passage of Latin prose. The result was a block of text that still looked convincingly like a real language, with natural distributions of word lengths and letter frequencies, but carried no distracting meaning.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          For over four centuries, this scrambled text remained a staple of the typesetting trade. When the Letraset company began producing dry-transfer lettering sheets in the 1960s, they included lorem ipsum passages among their offerings, introducing the text to a new generation of graphic designers who used physical transfer sheets to create layouts. The popularization accelerated dramatically in the 1980s and 1990s when desktop publishing software emerged. Aldus Corporation included lorem ipsum as default placeholder text in PageMaker, one of the earliest page layout programs. As the software industry grew, lorem ipsum became the standard dummy text for word processors, web design tools, and content management systems worldwide.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          Today, lorem ipsum is used across virtually every discipline that involves visual layout. Web developers use it to test responsive designs across screen sizes. User interface designers fill prototype screens with it to evaluate spacing, font choices, and readability. Print designers rely on it for magazine spreads, book layouts, and marketing materials. Email marketers use it to preview template designs before final copy is approved. The text serves an important psychological function as well: when stakeholders review a design that contains meaningful text, they often focus on reading and critiquing the words instead of evaluating the visual composition. Lorem ipsum removes this distraction, keeping the conversation focused on layout, color, typography, and user experience.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          Despite its long history and widespread use, lorem ipsum is not without its critics. Some designers argue that using nonsensical placeholder text can lead to poor design decisions because the layout is never tested with real content of varying lengths and formats. They advocate for using actual draft copy or content that closely resembles the final text in structure and length. Others point out that lorem ipsum can cause embarrassment when it accidentally appears in published materials, which has happened to major newspapers, television broadcasts, and government documents over the years. Nevertheless, the convenience and universality of lorem ipsum ensure that it remains the default choice for designers and developers who need placeholder text quickly and reliably. This generator provides that text instantly, with full control over the format and length, making it an essential tool in any creative workflow.
+        </p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+
+        <details class="faq-item">
+          <summary>What is Lorem Ipsum?</summary>
+          <p>Lorem Ipsum is dummy placeholder text that has been used by the printing and typesetting industry since the 1500s. It consists of scrambled Latin words derived from a philosophical work by Marcus Tullius Cicero written in 45 BC. The text is designed to have a natural distribution of letters and word lengths that closely resembles readable English, making it ideal for filling layouts and mockups without distracting viewers with meaningful content. Designers, developers, and publishers use it to demonstrate visual elements like typography, spacing, and page structure before final content is available.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Where does Lorem Ipsum come from?</summary>
+          <p>Lorem Ipsum originates from De Finibus Bonorum et Malorum, a treatise on ethics written by the Roman statesman and orator Cicero in 45 BC. The specific source passages are from sections 1.10.32 and 1.10.33 of Book 1, which discuss theories of pleasure and pain. During the 1500s, an unknown printer extracted a portion of this Latin text and scrambled the words to create a type specimen book for demonstrating typefaces. The scrambled passage retained the visual appearance of natural language while losing its original meaning, making it perfect as filler text for layout purposes.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Why do designers use Lorem Ipsum instead of real text?</summary>
+          <p>Designers use Lorem Ipsum because it allows them and their clients to evaluate a visual design without being distracted by readable content. When a layout contains meaningful text, reviewers tend to focus on reading and editing the words rather than assessing the typography, color scheme, spacing, and overall composition. Lorem Ipsum provides a realistic visual texture that simulates real paragraphs and sentences while keeping attention on the design itself. It also solves a practical problem: final copy is often not ready when design work begins, and lorem ipsum fills that gap quickly and consistently.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Is Lorem Ipsum real Latin?</summary>
+          <p>Lorem Ipsum is based on real Latin but is not proper or meaningful Latin in its current form. The original source text from Cicero's De Finibus was genuine classical Latin prose with clear philosophical meaning. However, the version used as placeholder text has been heavily modified over the centuries. Words have been altered, removed, added, and rearranged, resulting in a passage that is essentially nonsensical. Many individual words within lorem ipsum are real Latin vocabulary, but the sentences they form do not convey coherent meaning. The word "lorem" itself is a truncated form of "dolorem," which means "pain" in Latin.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What are some alternatives to Lorem Ipsum?</summary>
+          <p>Several creative alternatives to Lorem Ipsum exist for designers who want something different. Humorous options include Hipster Ipsum, which uses trendy buzzwords, Bacon Ipsum, which fills text with meat-related terminology, Cupcake Ipsum, built from baking and dessert terms, and Pirate Ipsum, written in pirate dialect. For more professional use, some designers generate random text based on the language and vocabulary of the actual project, use excerpts from public domain literature, or write simplified draft copy that approximates the real content in structure and length. The best choice depends on the project context and audience.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>How many words are in a standard Lorem Ipsum paragraph?</summary>
+          <p>A standard Lorem Ipsum paragraph typically contains between 40 and 80 words, depending on the generator used and the number of sentences per paragraph. This tool produces paragraphs containing 5 to 8 randomly selected sentences, resulting in naturally varied paragraph lengths that realistically simulate how actual written content appears in layouts. The variation in paragraph length is intentional and beneficial for design work, as real-world text rarely consists of paragraphs that are all exactly the same size. You can also generate by sentence or word count for more precise control.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Can I use Lorem Ipsum on a live production website?</summary>
+          <p>Lorem Ipsum should only be used as temporary placeholder text during the design and development phases of a project. Publishing it on a live production website is strongly discouraged for several reasons. Search engines may interpret nonsensical text as low-quality or spammy content, potentially harming your search rankings. Visitors who encounter lorem ipsum on a live site will perceive the site as unfinished or unprofessional, damaging trust and credibility. Accessibility tools may also struggle with non-meaningful text. Always replace all placeholder text with final, reviewed content before launching any page publicly.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/word-count">Word Counter</a>
+          <a href="https://toolrip.com/case">Case Converter</a>
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+          <a href="https://toolrip.com/password">Password Generator</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="sidebar-lorem">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom-lorem">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+    /* ============================================
+       Lorem Ipsum Generator — Inline JS
+       ============================================ */
+
+    // --- Classic Lorem Ipsum Word Corpus (200+ words) ---
+    var LOREM_WORDS = [
+      'lorem','ipsum','dolor','sit','amet','consectetur','adipiscing','elit','sed','do',
+      'eiusmod','tempor','incididunt','ut','labore','et','dolore','magna','aliqua','enim',
+      'ad','minim','veniam','quis','nostrud','exercitation','ullamco','laboris','nisi',
+      'aliquip','ex','ea','commodo','consequat','duis','aute','irure','in','reprehenderit',
+      'voluptate','velit','esse','cillum','fugiat','nulla','pariatur','excepteur','sint',
+      'occaecat','cupidatat','non','proident','sunt','culpa','qui','officia','deserunt',
+      'mollit','anim','id','est','laborum','at','vero','eos','accusamus','iusto','odio',
+      'dignissimos','ducimus','blanditiis','praesentium','voluptatum','deleniti','atque',
+      'corrupti','quos','dolores','quas','molestias','excepturi','obcaecati','cupiditate',
+      'provident','similique','mollitia','animi','fuga','harum','rerum','necessitatibus',
+      'saepe','eveniet','voluptates','repudiandae','recusandae','itaque','earum','hic',
+      'tenetur','sapiente','delectus','reiciendis','voluptatibus','maiores','alias',
+      'consequatur','aut','perferendis','doloribus','asperiores','repellat','temporibus',
+      'autem','quibusdam','officiis','debitis','necessitatem','optio','cumque','nihil',
+      'impedit','quo','minus','maxime','placeat','facere','possimus','omnis','voluptas',
+      'assumenda','corporis','suscipit','laboriosam','aliquid','commodi','consequuntur',
+      'vel','illum','dolorem','eum','fugit','nemo','ipsam','voluptatem','quia','sequi',
+      'nesciunt','neque','porro','quisquam','numquam','eius','modi','tempora','magni',
+      'ratione','accusantium','doloremque','laudantium','totam','rem','aperiam','eaque',
+      'ipsa','quae','ab','illo','inventore','veritatis','quasi','architecto','beatae',
+      'vitae','dicta','explicabo','aspernatur','odit','fugiat','natus','error','perspiciatis',
+      'unde','expedita','distinctio','nam','libero','tempore','cum','soluta','nobis',
+      'eligendi','optio','cumque','recusandae','sapiente','delectus','praesentium',
+      'nisi','ut','aliquid','commodi','consequatur','quisquam','dolorem','adipisci',
+      'velit','quia','dolor','amet','consectetur','numquam','quia','tempora','incidunt',
+      'magnam','aliquam','quaerat','voluptatem','minima','nostrum','exercitationem',
+      'ullam','corporis','suscipit','laboriosam','quis','autem','vel','eum','iure',
+      'reprehenderit','qui','voluptate','velit','quam','nihil','molestiae','consequatur',
+      'vel','illum','pariatur','accusantium','doloremque','totam','aperiam'
+    ];
+
+    var CLASSIC_START = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+
+    // --- Random Helpers ---
+    function randInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function randWord() {
+      return LOREM_WORDS[Math.floor(Math.random() * LOREM_WORDS.length)];
+    }
+
+    function capitalize(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    // --- Generate a single sentence (6-14 words) ---
+    function generateSentence() {
+      var len = randInt(6, 14);
+      var words = [];
+      for (var i = 0; i < len; i++) {
+        words.push(randWord());
+      }
+      // Capitalize first word, add period
+      words[0] = capitalize(words[0]);
+      // Occasionally add a comma after the 3rd-5th word
+      if (len > 6 && Math.random() > 0.5) {
+        var commaPos = randInt(2, Math.min(4, len - 3));
+        words[commaPos] = words[commaPos] + ',';
+      }
+      return words.join(' ') + '.';
+    }
+
+    // --- Generate a paragraph (5-8 sentences) ---
+    function generateParagraph() {
+      var count = randInt(5, 8);
+      var sentences = [];
+      for (var i = 0; i < count; i++) {
+        sentences.push(generateSentence());
+      }
+      return sentences.join(' ');
+    }
+
+    // --- Main Generate Function ---
+    function generate() {
+      var count = parseInt(document.getElementById('genCount').value, 10);
+      if (isNaN(count) || count < 1) count = 1;
+      if (count > 100) count = 100;
+
+      var type = document.getElementById('genType').value;
+      var startClassic = document.getElementById('startClassic').checked;
+      var result = '';
+
+      if (type === 'paragraphs') {
+        var paragraphs = [];
+        for (var i = 0; i < count; i++) {
+          if (i === 0 && startClassic) {
+            // Replace first sentence with classic opening
+            var para = generateParagraph();
+            var firstDot = para.indexOf('.');
+            para = CLASSIC_START + ' ' + para.substring(firstDot + 2);
+            paragraphs.push(para);
+          } else {
+            paragraphs.push(generateParagraph());
+          }
+        }
+        result = paragraphs.join('\n\n');
+      } else if (type === 'sentences') {
+        var sentences = [];
+        for (var i = 0; i < count; i++) {
+          if (i === 0 && startClassic) {
+            sentences.push(CLASSIC_START);
+          } else {
+            sentences.push(generateSentence());
+          }
+        }
+        result = sentences.join(' ');
+      } else {
+        // words
+        var words = [];
+        if (startClassic) {
+          var classicWords = CLASSIC_START.replace(/[.,]/g, '').split(/\s+/);
+          for (var i = 0; i < Math.min(count, classicWords.length); i++) {
+            words.push(classicWords[i].toLowerCase());
+          }
+          for (var i = classicWords.length; i < count; i++) {
+            words.push(randWord());
+          }
+        } else {
+          for (var i = 0; i < count; i++) {
+            words.push(randWord());
+          }
+        }
+        // Capitalize first word
+        if (words.length > 0) {
+          words[0] = capitalize(words[0]);
+        }
+        result = words.join(' ');
+      }
+
+      // Display output
+      var outputEl = document.getElementById('loremOutput');
+      outputEl.textContent = result;
+
+      // Update meta info
+      var wordCount = result.trim().split(/\s+/).length;
+      var charCount = result.length;
+      var typeLabel = type === 'paragraphs' ? count + ' paragraph' + (count !== 1 ? 's' : '') :
+                      type === 'sentences' ? count + ' sentence' + (count !== 1 ? 's' : '') :
+                      count + ' word' + (count !== 1 ? 's' : '');
+      document.getElementById('metaInfo').textContent = typeLabel + ' \u00b7 ' + wordCount + ' words \u00b7 ' + charCount + ' characters';
+    }
+
+    // --- Copy ---
+    function copyOutput(btn) {
+      var text = document.getElementById('loremOutput').textContent;
+      if (!text || text === 'Click Generate to create lorem ipsum text.') {
+        showToast('Generate text first.', 'error');
+        return;
+      }
+      copyToClipboard(text, btn);
+      showToast('Text copied to clipboard!', 'success');
+    }
+
+    // --- Init: Generate on load ---
+    document.addEventListener('DOMContentLoaded', function() {
+      generate();
+    });
+  </script>
+</body>
+</html>

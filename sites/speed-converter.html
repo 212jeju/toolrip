@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Speed Converter — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Convert speed units between km/h, mph, m/s, ft/s, knots, and Mach instantly. View all conversions at once with reference tables and formulas. Free online tool — no signup required.">
+  <link rel="canonical" href="https://toolrip.com/speed">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Speed Converter — Free, Fast, No Signup | Toolrip">
+  <meta property="og:description" content="Convert speed units between km/h, mph, m/s, ft/s, knots, and Mach instantly. View all conversions at once with reference tables and formulas. Free online tool — no signup required.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/speed">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Speed Converter — Free, Fast, No Signup | Toolrip">
+  <meta name="twitter:description" content="Convert speed units between km/h, mph, m/s, ft/s, knots, and Mach instantly. View all conversions at once with reference tables and formulas. Free online tool — no signup required.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--conversion)}</style>
+
+  <style>
+    /* Converter layout */
+    .converter-row{display:flex;gap:var(--sp-3);align-items:flex-end;flex-wrap:wrap}
+    .converter-row .input-group{flex:1;min-width:140px}
+    .swap-btn{width:44px;height:44px;border-radius:50%;background:var(--bg);border:1px solid var(--border);
+      color:var(--accent);font-size:1.25rem;cursor:pointer;transition:background .15s,transform .3s;
+      display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-bottom:var(--sp-3)}
+    .swap-btn:hover{background:color-mix(in srgb,var(--accent) 12%,transparent);transform:rotate(180deg)}
+
+    /* Results display */
+    .result-chain{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+      padding:var(--sp-4);margin-top:var(--sp-3);font-size:1.125rem;font-weight:600;
+      color:var(--text);text-align:center;line-height:1.8;position:relative;word-break:break-word}
+    .result-chain .copy-btn{position:absolute;top:var(--sp-2);right:var(--sp-2)}
+    .result-chain .empty-state{color:var(--text-muted);font-weight:400;font-size:.9375rem}
+
+    /* All-at-once grid */
+    .all-results{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-2);margin-top:var(--sp-3)}
+    .all-result-item{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+      padding:var(--sp-3);text-align:center}
+    .all-result-item .unit-label{font-size:.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:var(--sp-1)}
+    .all-result-item .unit-value{font-size:1.125rem;font-weight:700;color:var(--text);word-break:break-all}
+    .all-result-item.active{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 5%,transparent)}
+
+    /* Formula display */
+    .formula-box{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+      padding:var(--sp-3);margin-top:var(--sp-3);font-family:'Fira Code','Consolas',monospace;
+      font-size:.875rem;color:var(--text-muted);line-height:1.8}
+    .formula-box strong{color:var(--text);font-weight:600}
+
+    /* Reference table */
+    .ref-table{width:100%;border-collapse:collapse;font-size:.875rem;margin-top:var(--sp-3)}
+    .ref-table th,.ref-table td{padding:var(--sp-2) var(--sp-3);text-align:left;border-bottom:1px solid var(--border)}
+    .ref-table th{color:var(--text-muted);font-weight:600;font-size:.8125rem;text-transform:uppercase;letter-spacing:.03em;
+      background:var(--bg);position:sticky;top:0}
+    .ref-table td{color:var(--text)}
+    .ref-table tr:hover td{background:color-mix(in srgb,var(--accent) 5%,transparent)}
+    .ref-table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius)}
+
+    /* Action buttons row */
+    .action-bar{display:flex;gap:var(--sp-2);flex-wrap:wrap;margin-top:var(--sp-3)}
+
+    @media(max-width:639px){
+      .converter-row{flex-direction:column;align-items:stretch}
+      .swap-btn{align-self:center;margin-bottom:0}
+      .all-results{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:400px){
+      .all-results{grid-template-columns:1fr}
+    }
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Speed Converter",
+    "url": "https://toolrip.com/speed",
+    "description": "Convert speed units between km/h, mph, m/s, ft/s, knots, and Mach instantly. View all conversions at once with reference tables and formulas.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Conversion Tools", "item": "https://toolrip.com/#conversion" },
+      { "@type": "ListItem", "position": 3, "name": "Speed Converter", "item": "https://toolrip.com/speed" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the difference between km/h and mph?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Kilometers per hour (km/h) and miles per hour (mph) both measure speed but use different distance units. 1 mile equals approximately 1.60934 kilometers, so 1 mph equals about 1.60934 km/h. Most countries use km/h, while the United States, United Kingdom, and a few others use mph for road speeds." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a knot and why is it used in aviation and sailing?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A knot equals one nautical mile per hour (approximately 1.852 km/h or 1.15078 mph). It is used in aviation and maritime navigation because nautical miles relate directly to degrees of latitude, making distance and speed calculations on charts much simpler." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the Mach number?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The Mach number is the ratio of an object's speed to the speed of sound in the surrounding medium. Mach 1 equals the speed of sound (approximately 343 m/s or 1,235 km/h at sea level and 20 degrees Celsius). Mach 2 is twice the speed of sound, and so on." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the speed of light?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The speed of light in a vacuum is exactly 299,792,458 meters per second (approximately 1,079,252,849 km/h or 670,616,629 mph). It is the fastest speed at which energy or information can travel and serves as a fundamental constant in physics, denoted by the letter c." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I convert km/h to m/s?",
+        "acceptedAnswer": { "@type": "Answer", "text": "To convert km/h to m/s, divide the value by 3.6. This works because 1 kilometer equals 1,000 meters and 1 hour equals 3,600 seconds, so 1 km/h = 1000/3600 = 1/3.6 m/s. For example, 100 km/h equals approximately 27.78 m/s." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I convert mph to km/h?",
+        "acceptedAnswer": { "@type": "Answer", "text": "To convert miles per hour to kilometers per hour, multiply the mph value by 1.60934. For example, 60 mph equals approximately 96.56 km/h. Conversely, to go from km/h to mph, divide by 1.60934 or multiply by 0.621371." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the speed of sound at sea level?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The speed of sound at sea level in dry air at 20 degrees Celsius (68 degrees Fahrenheit) is approximately 343 meters per second, 1,235 km/h, or 767 mph. The speed varies with temperature, humidity, and altitude — it increases with higher temperatures and decreases at higher altitudes." }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" id="ad-top" data-ad-slot="top">Ad</div>
+
+    <main class="main">
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#conversion">Conversion Tools</a>
+        <span>/</span>
+        <span>Speed Converter</span>
+      </nav>
+
+      <h1>Speed Converter</h1>
+      <p class="text-muted mt-1 mb-3">Convert between km/h, mph, m/s, ft/s, knots, and Mach instantly. See all results at once with formulas and a speed reference table.</p>
+
+      <!-- ===== TOOL UI ===== -->
+      <div class="tool-card">
+        <div class="converter-row">
+          <div class="input-group">
+            <label for="speed-value">Speed Value</label>
+            <input type="number" id="speed-value" class="input-field" placeholder="Enter value..." step="any" autocomplete="off">
+          </div>
+          <div class="input-group">
+            <label for="from-unit">From</label>
+            <select id="from-unit" class="select-field">
+              <option value="kmh">Kilometers per hour (km/h)</option>
+              <option value="mph">Miles per hour (mph)</option>
+              <option value="ms">Meters per second (m/s)</option>
+              <option value="fts">Feet per second (ft/s)</option>
+              <option value="kn">Knots (kn)</option>
+              <option value="mach">Mach</option>
+            </select>
+          </div>
+          <button class="swap-btn" id="swap-btn" title="Swap units" aria-label="Swap from and to units">&#8596;</button>
+          <div class="input-group">
+            <label for="to-unit">To</label>
+            <select id="to-unit" class="select-field">
+              <option value="mph">Miles per hour (mph)</option>
+              <option value="kmh">Kilometers per hour (km/h)</option>
+              <option value="ms">Meters per second (m/s)</option>
+              <option value="fts">Feet per second (ft/s)</option>
+              <option value="kn">Knots (kn)</option>
+              <option value="mach">Mach</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn-primary" id="convert-btn">Convert</button>
+          <button class="btn-secondary" id="clear-btn">Clear</button>
+        </div>
+
+        <!-- Primary result -->
+        <div class="result-chain" id="result-chain">
+          <button class="copy-btn" id="copy-result-btn" style="display:none">Copy</button>
+          <span class="empty-state">Enter a speed value above to see all conversions</span>
+        </div>
+
+        <!-- All conversions at once -->
+        <div class="all-results" id="all-results" style="display:none">
+          <div class="all-result-item" data-unit="kmh">
+            <div class="unit-label">km/h</div>
+            <div class="unit-value" id="res-kmh">—</div>
+          </div>
+          <div class="all-result-item" data-unit="mph">
+            <div class="unit-label">mph</div>
+            <div class="unit-value" id="res-mph">—</div>
+          </div>
+          <div class="all-result-item" data-unit="ms">
+            <div class="unit-label">m/s</div>
+            <div class="unit-value" id="res-ms">—</div>
+          </div>
+          <div class="all-result-item" data-unit="fts">
+            <div class="unit-label">ft/s</div>
+            <div class="unit-value" id="res-fts">—</div>
+          </div>
+          <div class="all-result-item" data-unit="kn">
+            <div class="unit-label">Knots</div>
+            <div class="unit-value" id="res-kn">—</div>
+          </div>
+          <div class="all-result-item" data-unit="mach">
+            <div class="unit-label">Mach</div>
+            <div class="unit-value" id="res-mach">—</div>
+          </div>
+        </div>
+
+        <!-- Formula used -->
+        <div class="formula-box" id="formula-box" style="display:none">
+          <strong>Formulas used:</strong><br>
+          <span id="formula-text"></span>
+        </div>
+      </div>
+
+      <!-- Speed Reference Table -->
+      <div class="tool-card">
+        <h2 style="font-size:1.1rem;margin-bottom:var(--sp-2)">Common Speed Reference Table</h2>
+        <p class="text-muted" style="font-size:.875rem;margin-bottom:var(--sp-3)">Everyday and scientific speed benchmarks converted across all six units.</p>
+        <div class="ref-table-wrap">
+          <table class="ref-table">
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>km/h</th>
+                <th>mph</th>
+                <th>m/s</th>
+                <th>ft/s</th>
+                <th>Knots</th>
+                <th>Mach</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Walking speed</td><td>5</td><td>3.11</td><td>1.39</td><td>4.56</td><td>2.70</td><td>0.004</td></tr>
+              <tr><td>Cycling speed</td><td>20</td><td>12.43</td><td>5.56</td><td>18.23</td><td>10.80</td><td>0.016</td></tr>
+              <tr><td>City driving</td><td>50</td><td>31.07</td><td>13.89</td><td>45.57</td><td>27.00</td><td>0.040</td></tr>
+              <tr><td>Highway driving</td><td>120</td><td>74.56</td><td>33.33</td><td>109.36</td><td>64.79</td><td>0.097</td></tr>
+              <tr><td>High-speed train</td><td>350</td><td>217.48</td><td>97.22</td><td>318.96</td><td>188.96</td><td>0.283</td></tr>
+              <tr><td>Commercial jet</td><td>900</td><td>559.23</td><td>250.00</td><td>820.21</td><td>485.96</td><td>0.729</td></tr>
+              <tr><td>Speed of sound</td><td>1,235</td><td>767.27</td><td>343.00</td><td>1,125.33</td><td>666.74</td><td>1.000</td></tr>
+              <tr><td>Speed of light</td><td>1,079,252,849</td><td>670,616,629</td><td>299,792,458</td><td>983,571,056</td><td>582,749,918</td><td>874,030</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" id="ad-in-content" data-ad-slot="in-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>All Units at Once</h3>
+            <p>See your speed converted to km/h, mph, m/s, ft/s, knots, and Mach simultaneously. No need to run separate conversions for each unit — one input gives you every result.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Real-Time Conversion</h3>
+            <p>Results update as you type, providing instant feedback without page reloads. Change the source unit and all values refresh automatically in real time.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Reference Table &amp; Formulas</h3>
+            <p>Built-in reference table with common speeds from walking pace to the speed of light. Every conversion displays the exact formula so you can verify and learn.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Swap &amp; Compare</h3>
+            <p>Quickly swap the from and to units with one click. The intuitive interface makes it easy to compare speeds in different measurement systems side by side.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Speed Converter</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li>Enter the speed value you want to convert in the input field.</li>
+          <li>Select the source unit (km/h, mph, m/s, ft/s, knots, or Mach) from the "From" dropdown.</li>
+          <li>Optionally select a target unit in the "To" dropdown, or view all conversions at once in the grid below the result.</li>
+          <li>Use the swap button (&#8596;) to quickly reverse the from and to units.</li>
+          <li>Click the "Copy" button to copy the primary conversion result to your clipboard.</li>
+        </ol>
+      </section>
+
+      <!-- SEO Content Section -->
+      <section class="mt-4">
+        <h2>Understanding Speed Units and Their History</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          Speed is one of the most intuitive physical quantities we encounter daily. From checking your car's speedometer to monitoring wind conditions for a sailing trip, speed measurements are woven into transportation, science, engineering, and athletics. Yet the world has never agreed on a single unit for measuring speed, which is why a reliable speed converter is essential for anyone working across different measurement systems.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          <strong style="color:var(--text)">Kilometers per hour (km/h)</strong> is the most widely used speed unit globally. It is the standard for road speed limits in most countries across Europe, Asia, South America, Africa, and Oceania. The metric system's adoption in the 19th and 20th centuries made km/h the natural choice for expressing everyday travel speeds. One kilometer per hour equals approximately 0.27778 meters per second, establishing a clean relationship with the SI base unit of speed.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          <strong style="color:var(--text)">Miles per hour (mph)</strong> remains the standard speed unit in the United States, the United Kingdom, and a handful of other countries that still use the imperial system for road signage. One mile equals 1.60934 kilometers, making 1 mph approximately 1.60934 km/h. While the metric system is used in scientific contexts in these countries, mph persists in everyday life, road regulations, and weather forecasting. The mile itself dates back to the Roman mille passus, meaning a thousand paces.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          <strong style="color:var(--text)">Meters per second (m/s)</strong> is the SI derived unit of speed and the standard in physics and engineering. Because it directly combines the base SI units for distance (meter) and time (second), m/s is used in scientific research, kinematics, fluid dynamics, and any context requiring precise physical calculations. Converting from km/h to m/s is straightforward — simply divide by 3.6. For example, highway speed at 120 km/h is exactly 33.33 m/s.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          <strong style="color:var(--text)">Feet per second (ft/s)</strong> is primarily used in the United States for ballistics, engineering, and some sports applications. Since one foot equals 0.3048 meters, 1 ft/s equals exactly 0.3048 m/s. This unit appears frequently in aerospace engineering, firearms specifications, and American football metrics where short-distance speed is measured in imperial units.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          <strong style="color:var(--text)">Knots (kn)</strong> have a fascinating origin in maritime history. A knot equals one nautical mile per hour, where one nautical mile is defined as exactly 1,852 meters — the length of one minute of latitude along any meridian on Earth. Sailors in the 17th century measured ship speed by dropping a log attached to a knotted rope overboard and counting how many knots paid out in a fixed time interval. This direct relationship between knots and Earth's geometry makes the unit indispensable for navigation, both at sea and in the air. International aviation universally reports airspeed and wind speed in knots.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">
+          The <strong style="color:var(--text)">Mach number</strong> occupies a special place in speed measurement because it is not a fixed velocity but a ratio. Named after Austrian physicist Ernst Mach, the Mach number expresses speed relative to the local speed of sound. At sea level in dry air at 20 degrees Celsius, the speed of sound is approximately 343 meters per second (1,235 km/h). An aircraft traveling at Mach 2 moves at twice the speed of sound, regardless of the actual velocity in km/h or mph. The speed of sound varies with temperature and altitude — at cruising altitude where the air is colder, the speed of sound is lower, so the same Mach number corresponds to a lower speed in absolute units. This makes the Mach number critical for aerodynamics, where the behavior of airflow changes dramatically near and beyond the sound barrier.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8">
+          At the extreme end of the speed spectrum, the <strong style="color:var(--text)">speed of light</strong> in a vacuum is exactly 299,792,458 meters per second. This fundamental constant of nature, denoted by the letter c, represents the upper limit of speed for any object with mass according to Einstein's theory of special relativity. While no everyday vehicle approaches this speed, it plays a central role in telecommunications, satellite technology, and our understanding of the universe. Whether you need to convert a gentle walking pace or an orbital velocity, understanding the relationships between these six speed units lets you move confidently between different measurement traditions and professional domains.
+        </p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is the difference between km/h and mph?</summary>
+          <p>Kilometers per hour and miles per hour are both units that measure how far an object travels in one hour, but they use different distance units. One mile equals approximately 1.60934 kilometers, so 1 mph is about 1.609 km/h. Most of the world uses km/h for road speed limits and everyday measurements, while the United States, the United Kingdom, and a few other countries primarily use mph. To convert mph to km/h, multiply by 1.60934. To go the other direction, divide the km/h value by 1.60934.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is a knot and why is it used in aviation and sailing?</summary>
+          <p>A knot is a unit of speed equal to one nautical mile per hour. One nautical mile equals 1,852 meters, which corresponds to one minute of latitude on Earth's surface. This direct link to geographic coordinates makes knots ideal for navigation — distances on nautical charts translate directly to speed calculations. Both the international aviation community and maritime industry use knots as their standard speed unit because it simplifies flight planning, charting courses, and communicating wind speeds across international boundaries.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the Mach number and how does it work?</summary>
+          <p>The Mach number is a dimensionless ratio that expresses an object's speed relative to the speed of sound in its surrounding medium. Mach 1 means traveling at exactly the speed of sound, Mach 2 means twice the speed of sound, and so on. At sea level and 20 degrees Celsius, the speed of sound is about 343 m/s (1,235 km/h). However, the speed of sound varies with temperature and altitude, so the same Mach number can represent different absolute speeds under different conditions. Engineers and pilots use the Mach number because aerodynamic effects depend on the ratio to sound speed rather than the absolute velocity.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the speed of light and why does it matter?</summary>
+          <p>The speed of light in a vacuum is exactly 299,792,458 meters per second — roughly 1.08 billion km/h or 671 million mph. This speed, denoted by c, is the ultimate speed limit of the universe according to Einstein's theory of relativity. Nothing with mass can reach or exceed it. The speed of light matters in everyday technology too: GPS satellites must account for the finite speed of light to provide accurate positioning, and fiber optic communications rely on light pulses traveling at near-c speeds to transmit data around the globe.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do I convert km/h to m/s quickly?</summary>
+          <p>The quickest way to convert km/h to m/s is to divide by 3.6. This works because 1 km equals 1,000 meters and 1 hour equals 3,600 seconds, giving the conversion factor of 1,000 divided by 3,600 which simplifies to 1 divided by 3.6. For example, 90 km/h divided by 3.6 equals 25 m/s. To reverse the conversion and go from m/s to km/h, simply multiply by 3.6.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do I convert mph to km/h?</summary>
+          <p>Multiply the miles-per-hour value by 1.60934 to get kilometers per hour. For a quick mental estimate, you can multiply by 1.6 — close enough for most everyday purposes. For example, 60 mph multiplied by 1.6 gives 96 km/h (the precise value is 96.56 km/h). To convert from km/h back to mph, divide by 1.60934 or multiply by 0.621371.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the speed of sound at sea level?</summary>
+          <p>The speed of sound at sea level in dry air at 20 degrees Celsius (68 degrees Fahrenheit) is approximately 343 meters per second, which equals 1,235 km/h, 767 mph, or about 667 knots. This speed is Mach 1 by definition. The speed of sound is not a fixed constant — it changes with temperature, humidity, and the medium through which it travels. In warmer air, sound travels faster. In water, sound moves about 4.3 times faster than in air, reaching roughly 1,480 m/s.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/length">Length Converter</a>
+          <a href="https://toolrip.com/temperature">Temperature Converter</a>
+          <a href="https://toolrip.com/hex-rgb">Hex-RGB Converter</a>
+          <a href="https://toolrip.com/bmi">BMI Calculator</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" id="ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" id="ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+  (function() {
+    'use strict';
+
+    var valueInput  = document.getElementById('speed-value');
+    var fromSelect  = document.getElementById('from-unit');
+    var toSelect    = document.getElementById('to-unit');
+    var swapBtn     = document.getElementById('swap-btn');
+    var convertBtn  = document.getElementById('convert-btn');
+    var clearBtn    = document.getElementById('clear-btn');
+    var resultChain = document.getElementById('result-chain');
+    var allResults  = document.getElementById('all-results');
+    var formulaBox  = document.getElementById('formula-box');
+    var formulaText = document.getElementById('formula-text');
+
+    /* Speed of sound at sea level, 20 C, dry air (m/s) */
+    var SOUND_MS = 343;
+
+    /* --- Conversion core: everything goes through m/s --- */
+    var toMs = {
+      kmh:  function(v) { return v / 3.6; },
+      mph:  function(v) { return v * 0.44704; },
+      ms:   function(v) { return v; },
+      fts:  function(v) { return v * 0.3048; },
+      kn:   function(v) { return v * 0.514444; },
+      mach: function(v) { return v * SOUND_MS; }
+    };
+
+    var fromMs = {
+      kmh:  function(v) { return v * 3.6; },
+      mph:  function(v) { return v / 0.44704; },
+      ms:   function(v) { return v; },
+      fts:  function(v) { return v / 0.3048; },
+      kn:   function(v) { return v / 0.514444; },
+      mach: function(v) { return v / SOUND_MS; }
+    };
+
+    var unitLabels = {
+      kmh: 'km/h', mph: 'mph', ms: 'm/s',
+      fts: 'ft/s', kn: 'kn', mach: 'Mach'
+    };
+
+    var unitKeys = ['kmh', 'mph', 'ms', 'fts', 'kn', 'mach'];
+
+    function formatSpeed(val) {
+      var n = Number(val);
+      if (!isFinite(n)) return '\u2014';
+      if (Math.abs(n) >= 1e9) return n.toExponential(4);
+      if (Math.abs(n) >= 1000) return parseFloat(n.toFixed(2)).toLocaleString('en-US');
+      return parseFloat(n.toFixed(6)).toString();
+    }
+
+    /* --- Build formulas text --- */
+    function buildFormulas(fromUnit) {
+      var lines = [];
+      lines.push('<strong>Base unit: m/s (meters per second)</strong>');
+      if (fromUnit !== 'ms') {
+        var formulaMap = {
+          kmh: 'm/s = km/h \u00f7 3.6',
+          mph: 'm/s = mph \u00d7 0.44704',
+          fts: 'm/s = ft/s \u00d7 0.3048',
+          kn:  'm/s = knots \u00d7 0.514444',
+          mach: 'm/s = Mach \u00d7 343'
+        };
+        lines.push(formulaMap[fromUnit]);
+      }
+      var outputFormulas = {
+        kmh: 'km/h = m/s \u00d7 3.6',
+        mph: 'mph = m/s \u00f7 0.44704',
+        fts: 'ft/s = m/s \u00f7 0.3048',
+        kn:  'knots = m/s \u00f7 0.514444',
+        mach: 'Mach = m/s \u00f7 343'
+      };
+      for (var i = 0; i < unitKeys.length; i++) {
+        var k = unitKeys[i];
+        if (k !== 'ms' && k !== fromUnit && outputFormulas[k]) {
+          lines.push(outputFormulas[k]);
+        }
+      }
+      return lines.join('<br>');
+    }
+
+    /* --- Main convert logic --- */
+    function doConvert() {
+      var raw = valueInput.value.trim();
+      if (raw === '') {
+        resultChain.innerHTML = '<button class="copy-btn" id="copy-result-btn" style="display:none">Copy</button><span class="empty-state">Enter a speed value above to see all conversions</span>';
+        allResults.style.display = 'none';
+        formulaBox.style.display = 'none';
+        return;
+      }
+
+      var value = parseFloat(raw);
+      if (isNaN(value) || value < 0) {
+        resultChain.innerHTML = '<button class="copy-btn" id="copy-result-btn" style="display:none">Copy</button><span class="empty-state" style="color:#ef4444">Please enter a valid non-negative number</span>';
+        allResults.style.display = 'none';
+        formulaBox.style.display = 'none';
+        return;
+      }
+
+      var from = fromSelect.value;
+      var to = toSelect.value;
+      var ms = toMs[from](value);
+
+      /* Primary conversion result */
+      var primaryResult = fromMs[to](ms);
+      var chain = formatSpeed(value) + ' ' + unitLabels[from] + ' = ' + formatSpeed(primaryResult) + ' ' + unitLabels[to];
+
+      resultChain.innerHTML = '<button class="copy-btn" id="copy-result-btn">Copy</button>' + chain;
+
+      /* Re-bind copy button */
+      document.getElementById('copy-result-btn').addEventListener('click', function() {
+        copyToClipboard(chain, this);
+      });
+
+      /* Update all-at-once grid */
+      allResults.style.display = '';
+      for (var i = 0; i < unitKeys.length; i++) {
+        var k = unitKeys[i];
+        var el = document.getElementById('res-' + k);
+        if (el) {
+          el.textContent = formatSpeed(fromMs[k](ms));
+        }
+        /* Highlight source unit */
+        var card = el ? el.closest('.all-result-item') : null;
+        if (card) {
+          card.classList.toggle('active', k === from);
+        }
+      }
+
+      /* Show formulas */
+      formulaText.innerHTML = buildFormulas(from);
+      formulaBox.style.display = '';
+    }
+
+    /* --- Swap units --- */
+    swapBtn.addEventListener('click', function() {
+      var tmp = fromSelect.value;
+      fromSelect.value = toSelect.value;
+      toSelect.value = tmp;
+      doConvert();
+    });
+
+    /* --- Convert button --- */
+    convertBtn.addEventListener('click', doConvert);
+
+    /* --- Clear --- */
+    clearBtn.addEventListener('click', function() {
+      valueInput.value = '';
+      fromSelect.value = 'kmh';
+      toSelect.value = 'mph';
+      resultChain.innerHTML = '<button class="copy-btn" id="copy-result-btn" style="display:none">Copy</button><span class="empty-state">Enter a speed value above to see all conversions</span>';
+      allResults.style.display = 'none';
+      formulaBox.style.display = 'none';
+      valueInput.focus();
+    });
+
+    /* --- Real-time conversion as user types --- */
+    valueInput.addEventListener('input', doConvert);
+    fromSelect.addEventListener('change', doConvert);
+    toSelect.addEventListener('change', doConvert);
+
+    /* --- Keyboard: Enter to convert --- */
+    valueInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        doConvert();
+      }
+    });
+
+  })();
+  </script>
+</body>
+</html>

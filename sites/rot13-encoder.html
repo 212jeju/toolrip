@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ROT13 Encoder &amp; Decoder Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Encode and decode ROT13, ROT5, ROT47, and custom ROTn ciphers online for free. Real-time Caesar cipher tool with instant results. No signup — 100% client-side.">
+  <link rel="canonical" href="https://toolrip.com/rot13">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="ROT13 Encoder &amp; Decoder — Toolrip">
+  <meta property="og:description" content="Encode and decode ROT13, ROT5, ROT47, and custom ROTn ciphers online for free. Real-time Caesar cipher tool with instant results. No signup — 100% client-side.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/rot13">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="ROT13 Encoder &amp; Decoder — Toolrip">
+  <meta name="twitter:description" content="Encode and decode ROT13, ROT5, ROT47, and custom ROTn ciphers online for free. Real-time Caesar cipher tool with instant results. No signup — 100% client-side.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root{--accent:var(--security)}
+
+    .rot-input{width:100%;min-height:180px;resize:vertical;background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);color:var(--text);font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.875rem;padding:var(--sp-3);line-height:1.6;tab-size:2}
+    .rot-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent)}
+
+    .output-panel{position:relative;width:100%;min-height:120px;background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);padding:var(--sp-3);overflow:auto;font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.875rem;line-height:1.6;white-space:pre-wrap;word-break:break-all}
+
+    .toolbar{display:flex;flex-wrap:wrap;gap:var(--sp-2);align-items:center;margin-bottom:var(--sp-3)}
+    .btn-sm{padding:var(--sp-1) var(--sp-2);font-size:.8125rem;border-radius:var(--radius-sm)}
+
+    .stat-bar{display:flex;flex-wrap:wrap;gap:var(--sp-3);font-size:.8125rem;color:var(--text-muted);margin-top:var(--sp-2)}
+    .stat-bar span{display:inline-flex;align-items:center;gap:4px}
+
+    .mode-selector{display:flex;flex-wrap:wrap;gap:var(--sp-2);margin-bottom:var(--sp-3);
+      padding:var(--sp-2) var(--sp-3);background:var(--bg);border:1px solid var(--border);border-radius:var(--radius)}
+    .mode-btn{padding:var(--sp-1) var(--sp-3);border:1px solid var(--border);border-radius:var(--radius-sm);
+      background:transparent;color:var(--text-muted);font:inherit;font-size:.8125rem;cursor:pointer;transition:all .15s}
+    .mode-btn:hover{color:var(--text);border-color:var(--text-muted)}
+    .mode-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+    .slider-group{display:flex;align-items:center;gap:var(--sp-2);padding:var(--sp-2) var(--sp-3);
+      background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:var(--sp-3)}
+    .slider-group label{font-size:.8125rem;color:var(--text-muted);white-space:nowrap}
+    .slider-group input[type="range"]{flex:1;accent-color:var(--accent);cursor:pointer}
+    .slider-value{min-width:2.5rem;text-align:center;font-size:.875rem;font-weight:600;color:var(--accent)}
+
+    .info-badge{display:inline-block;padding:2px 8px;background:color-mix(in srgb,var(--accent) 15%,transparent);
+      border-radius:var(--radius-sm);font-size:.75rem;color:var(--accent);font-weight:500;margin-left:var(--sp-2)}
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "ROT13 Encoder & Decoder",
+    "url": "https://toolrip.com/rot13",
+    "description": "Encode and decode ROT13, ROT5, ROT47, and custom ROTn ciphers online for free. Real-time Caesar cipher tool with instant results. No signup — 100% client-side.",
+    "applicationCategory": "SecurityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#security">Security Tools</a>
+        <span>/</span>
+        <span>ROT13 Encoder &amp; Decoder</span>
+      </nav>
+
+      <h1>ROT13 Encoder &amp; Decoder Online</h1>
+      <p class="text-muted mt-1 mb-3">Encode or decode text using ROT13, ROT5, ROT47, or any custom Caesar cipher rotation. ROT13 is self-inverse, so the same operation both encodes and decodes your text. All processing happens instantly in your browser with zero server requests.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <!-- Mode Selector -->
+        <div class="mode-selector">
+          <button class="mode-btn active" data-mode="rot13" title="Rotate letters by 13 positions">ROT13<span class="info-badge">Letters</span></button>
+          <button class="mode-btn" data-mode="rot5" title="Rotate digits by 5 positions">ROT5<span class="info-badge">Digits</span></button>
+          <button class="mode-btn" data-mode="rot47" title="Rotate all printable ASCII by 47 positions">ROT47<span class="info-badge">ASCII</span></button>
+          <button class="mode-btn" data-mode="custom" title="Choose your own rotation amount">Custom ROTn</button>
+        </div>
+
+        <!-- Custom ROTn Slider (hidden by default) -->
+        <div class="slider-group hidden" id="custom-slider">
+          <label for="rot-n-slider">Rotation:</label>
+          <input type="range" id="rot-n-slider" min="1" max="25" value="13">
+          <span class="slider-value" id="rot-n-value">13</span>
+        </div>
+
+        <!-- Input -->
+        <div class="input-group">
+          <label for="rot-input">Input Text</label>
+          <textarea id="rot-input" class="rot-input" placeholder="Enter text to encode or decode..." spellcheck="false" rows="7"></textarea>
+          <div class="stat-bar">
+            <span>Characters: <strong id="input-chars">0</strong></span>
+            <span>Bytes: <strong id="input-bytes">0 bytes</strong></span>
+          </div>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+          <button class="btn-primary btn-sm" id="btn-encode">Encode / Decode</button>
+          <button class="btn-secondary btn-sm" id="btn-clear">Clear</button>
+          <button class="btn-secondary btn-sm" id="btn-copy">Copy Output</button>
+          <button class="btn-secondary btn-sm" id="btn-swap">Swap Input &harr; Output</button>
+        </div>
+
+        <!-- Output -->
+        <div class="input-group">
+          <label>Output</label>
+          <div class="output-panel" id="rot-output">
+            <button class="copy-btn" id="btn-copy-inline">Copy</button>
+            <span class="text-muted" style="font-size:.8125rem">Encoded or decoded output will appear here...</span>
+          </div>
+          <div class="stat-bar">
+            <span>Characters: <strong id="output-chars">0</strong></span>
+          </div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Multiple Rotation Modes</h3>
+            <p>This tool supports four distinct rotation cipher modes to cover every use case. ROT13 rotates the 26 English letters by 13 positions, making it self-inverse so the same operation encodes and decodes. ROT5 applies the same principle to the ten decimal digits, shifting each digit by five positions so that 0 becomes 5, 1 becomes 6, and so on. ROT47 extends the concept to all 94 printable ASCII characters from exclamation mark (code 33) through tilde (code 126), rotating each by 47 positions. Finally, the Custom ROTn mode lets you pick any rotation from 1 to 25 for the English alphabet, effectively recreating any Caesar cipher shift you want.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Real-Time Processing</h3>
+            <p>Every character you type is transformed instantly without clicking a button. The output updates in real time as you enter, paste, or modify your input text, giving you immediate feedback on the encoded or decoded result. This live preview makes it easy to experiment with different rotation values and modes. Because ROT13 is its own inverse, you can paste encoded text directly into the input field and see the decoded plaintext appear immediately. The same applies to ROT5 and ROT47 — no separate encode and decode steps are needed. All processing runs locally in your browser using pure JavaScript with zero latency from network requests.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Complete Privacy and Security</h3>
+            <p>Your text never leaves your device. Every rotation cipher calculation is performed entirely inside your web browser by JavaScript running on your local machine. No data is transmitted to any server, logged in any database, or stored anywhere beyond your current browser session. This makes the tool safe for transforming text that you would prefer to keep private, whether you are experimenting with obfuscation for spoiler tags, testing security awareness training material, or simply playing with classical ciphers. You can verify this by checking your browser's network tab — no requests are sent when you use the tool.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the ROT13 Encoder &amp; Decoder</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Choose your cipher mode.</strong> Select ROT13 for standard letter rotation, ROT5 for digit-only rotation, ROT47 for full printable ASCII rotation, or Custom ROTn to set your own shift value using the slider. Each mode is designed for a different character set and purpose.</li>
+          <li><strong>Enter your text.</strong> Type or paste your message into the input textarea. The output updates in real time as you type, so you can see the transformation happen character by character. The character and byte counts update automatically to help you track the size of your input.</li>
+          <li><strong>Copy or swap your result.</strong> Click <em>Copy Output</em> to send the result to your clipboard. Use <em>Swap</em> to move the output back into the input field, which is useful for verifying that the encoding reverses correctly or for chaining multiple transformations. Click <em>Clear</em> to reset both fields and start fresh.</li>
+        </ol>
+      </section>
+
+      <!-- Understanding ROT13 and Caesar Ciphers -->
+      <section class="mt-4">
+        <h2>Understanding ROT13 and the Caesar Cipher</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">ROT13 is a specific instance of the Caesar cipher, one of the oldest and simplest known encryption techniques in the history of cryptography. The Caesar cipher is named after Julius Caesar, who reportedly used it to protect his military correspondence during the Gallic Wars in the first century BCE. The method works by replacing each letter in the plaintext with a letter a fixed number of positions down the alphabet. For example, with a shift of three, the letter A becomes D, B becomes E, and so on. When the shift reaches the end of the alphabet, it wraps around to the beginning, so X becomes A, Y becomes B, and Z becomes C. ROT13 uses a shift of exactly 13, which is half of the 26 letters in the English alphabet. This specific choice of shift gives ROT13 a unique mathematical property: applying the cipher twice returns the original text. In other words, ROT13 is its own inverse, which means the same function that encodes a message also decodes it.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">ROT13 gained widespread popularity on Usenet newsgroups in the 1980s and early 1990s, long before the modern web existed. Usenet users adopted ROT13 as a simple way to obscure spoilers, punchlines to jokes, puzzle solutions, and potentially offensive content so that readers would not accidentally see the text before choosing to decode it. The convention was straightforward: if a post contained a spoiler, the author would ROT13-encode the relevant section, and any reader who wanted to see the hidden text could simply apply ROT13 again to reverse it. Many Usenet newsreader clients eventually built ROT13 decoding directly into their interface, making it a single button press to reveal the hidden content. This cultural practice made ROT13 one of the most well-known ciphers among early internet users and software developers, and its legacy continues today in programming culture, online forums, and educational contexts.</p>
+        <p style="color:var(--text-muted);line-height:1.7">It is important to understand that ROT13 and other Caesar ciphers provide absolutely no real security. They are trivially easy to break because there are only 25 possible shifts to try (or 93 for ROT47), and the substitution pattern is completely regular. Any modern computer can test all possible shifts in microseconds. ROT13 should never be used to protect sensitive information, passwords, private data, or any content that genuinely needs to remain confidential. For actual security, you should use proven cryptographic algorithms such as AES-256 for symmetric encryption or RSA and elliptic curve cryptography for asymmetric encryption. ROT13 remains valuable as an educational tool for teaching the fundamentals of substitution ciphers, as a lightweight obfuscation method for hiding spoilers and puzzle answers, and as a cultural touchstone in the history of internet communication.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is ROT13 and how does it work?</summary>
+          <p>ROT13 is a letter substitution cipher that replaces each letter in the English alphabet with the letter 13 positions after it. The letter A becomes N, B becomes O, C becomes P, and so on through the entire alphabet. When the count reaches Z, it wraps around to the beginning, so N becomes A, O becomes B, and so forth. This means every letter in the alphabet maps to exactly one other letter, and the mapping is perfectly reversible. Non-alphabetic characters such as digits, punctuation, and whitespace are left unchanged by ROT13. The transformation preserves the case of each letter, so uppercase A becomes uppercase N and lowercase a becomes lowercase n. Because the English alphabet contains 26 letters and 13 is exactly half of 26, applying ROT13 twice to any text returns the original message, making it a symmetric or self-inverse cipher.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is ROT13 a form of encryption?</summary>
+          <p>Technically, ROT13 is a cipher — it substitutes each letter with another letter according to a fixed rule — but it does not provide any meaningful encryption or security. True encryption algorithms are designed to be computationally difficult to reverse without a secret key, whereas ROT13 uses a fixed, publicly known shift of 13 that anyone can reverse instantly. There is no secret key, no mathematical complexity, and no computational barrier to decoding ROT13 text. A human can decode short ROT13 messages by hand in seconds, and a computer can process millions of characters in milliseconds. ROT13 is better described as obfuscation or encoding rather than encryption. It hides text from casual glances but offers zero protection against anyone who intentionally tries to read it. For real encryption needs, use established cryptographic standards like AES, ChaCha20, or RSA with proper key management.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is a Caesar cipher?</summary>
+          <p>A Caesar cipher is a type of substitution cipher in which each letter in the plaintext is shifted a fixed number of positions through the alphabet. It is named after Julius Caesar, who used a shift of three to encrypt his private military messages. The Caesar cipher is one of the simplest and earliest known encryption techniques, and it forms the foundation for understanding more advanced cryptographic concepts. The shift value, also called the key, can be any number from 1 to 25 for the English alphabet. A shift of 13 produces ROT13, a shift of 3 produces the classical Caesar cipher, and a shift of 1 produces what is sometimes called the next-letter cipher. Despite its historical significance, the Caesar cipher is considered cryptographically worthless by modern standards because it can be broken by simply trying all 25 possible shifts, a method known as brute-force attack. It remains widely used in education to introduce the concepts of plaintext, ciphertext, keys, and substitution.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How does ROT13 differ from real encryption?</summary>
+          <p>ROT13 and real encryption differ fundamentally in purpose, strength, and design. ROT13 uses a single fixed transformation with no secret key, meaning anyone who knows the algorithm (which is public knowledge) can immediately decode any message. Real encryption algorithms like AES-256 or RSA use complex mathematical operations combined with secret keys that can be hundreds of bits long, making it computationally infeasible to recover the original data without the correct key. Real encryption is designed to withstand attack by adversaries with powerful computers, while ROT13 can be broken by a child with a pencil and paper. Additionally, real encryption undergoes years of peer review, formal mathematical proofs, and rigorous testing by the global cryptographic community before being considered safe for use. ROT13 is useful for light obfuscation like hiding spoilers, but it should never be used anywhere that genuine confidentiality is required.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Why was ROT13 popular on Usenet?</summary>
+          <p>ROT13 became a cultural institution on Usenet newsgroups during the 1980s and 1990s because it solved a specific social problem: how to share content that some readers might not want to see immediately, such as spoilers for movies and books, punchlines to jokes, answers to puzzles and riddles, and discussions of sensitive topics. Before the modern web with its collapsible sections and spoiler tags, Usenet was a text-only medium where all content was immediately visible when a message was opened. ROT13 provided a simple convention that everyone understood — the sender would encode the sensitive portion with ROT13, and any reader who wanted to see it would decode it with a single command in their newsreader client. The beauty of using a shift of 13 specifically was that the same operation both encoded and decoded, so newsreader software only needed to implement one function. Many popular newsreaders including trn, tin, and slrn included a built-in ROT13 toggle key, making the process seamless.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Why is ROT13 self-inverse?</summary>
+          <p>ROT13 is self-inverse because it shifts each letter by exactly 13 positions, and the English alphabet contains exactly 26 letters. When you shift a letter forward by 13 positions and then shift the result forward by another 13 positions, you have shifted a total of 26 positions, which is a complete cycle through the alphabet and brings you back to the original letter. Mathematically, this works because 13 plus 13 equals 26, and shifting by 26 in a 26-letter alphabet is equivalent to shifting by zero (the identity operation). This property is unique to a shift of 13 in the English alphabet. A shift of 5 in the digits 0 through 9 (ROT5) has the same self-inverse property because 5 plus 5 equals 10, completing the digit cycle. Similarly, ROT47 shifts by 47 within the 94 printable ASCII characters, and 47 plus 47 equals 94, making it self-inverse as well. Other shift values do not have this self-inverse property — for example, a Caesar cipher with a shift of 3 requires a shift of 23 (26 minus 3) to decode.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What are ROT5 and ROT47?</summary>
+          <p>ROT5 and ROT47 are variations of the rotation cipher concept applied to different character sets. ROT5 operates exclusively on the ten decimal digits (0 through 9), shifting each digit forward by 5 positions with wraparound. So 0 becomes 5, 1 becomes 6, 2 becomes 7, and so on, while 5 becomes 0, 6 becomes 1, 7 becomes 2, and so forth. Like ROT13 for letters, ROT5 is self-inverse because applying it twice returns the original digit. ROT5 is often combined with ROT13 (a combination sometimes called ROT13/5 or ROT18) to obfuscate both letters and numbers simultaneously. ROT47 takes a broader approach by operating on all 94 printable ASCII characters, which span from the exclamation mark (character code 33) through the tilde (character code 126). It shifts each character forward by 47 positions within this range, with wraparound. Because 47 is exactly half of 94, ROT47 is also self-inverse. ROT47 is more thorough than ROT13 because it transforms digits, punctuation, and special characters in addition to letters, making the encoded text harder to recognize at a glance.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/password">Password Generator</a>
+          <a href="https://toolrip.com/qr">QR Code Generator</a>
+          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+  (function() {
+    'use strict';
+
+    /* ========== DOM References ========== */
+    var inputEl = document.getElementById('rot-input');
+    var outputEl = document.getElementById('rot-output');
+    var inputCharsEl = document.getElementById('input-chars');
+    var inputBytesEl = document.getElementById('input-bytes');
+    var outputCharsEl = document.getElementById('output-chars');
+    var customSlider = document.getElementById('custom-slider');
+    var rotNSlider = document.getElementById('rot-n-slider');
+    var rotNValue = document.getElementById('rot-n-value');
+
+    var currentMode = 'rot13';
+    var lastOutput = '';
+
+    /* ========== Cipher Functions ========== */
+    function rot13(text) {
+      return text.replace(/[A-Za-z]/g, function(c) {
+        var base = c <= 'Z' ? 65 : 97;
+        return String.fromCharCode(((c.charCodeAt(0) - base + 13) % 26) + base);
+      });
+    }
+
+    function rot5(text) {
+      return text.replace(/[0-9]/g, function(c) {
+        return String.fromCharCode(((c.charCodeAt(0) - 48 + 5) % 10) + 48);
+      });
+    }
+
+    function rot47(text) {
+      var result = '';
+      for (var i = 0; i < text.length; i++) {
+        var code = text.charCodeAt(i);
+        if (code >= 33 && code <= 126) {
+          result += String.fromCharCode(((code - 33 + 47) % 94) + 33);
+        } else {
+          result += text[i];
+        }
+      }
+      return result;
+    }
+
+    function rotN(text, n) {
+      n = ((n % 26) + 26) % 26;
+      if (n === 0) return text;
+      return text.replace(/[A-Za-z]/g, function(c) {
+        var base = c <= 'Z' ? 65 : 97;
+        return String.fromCharCode(((c.charCodeAt(0) - base + n) % 26) + base);
+      });
+    }
+
+    /* ========== Transform ========== */
+    function transform(text) {
+      switch (currentMode) {
+        case 'rot13': return rot13(text);
+        case 'rot5': return rot5(text);
+        case 'rot47': return rot47(text);
+        case 'custom': return rotN(text, parseInt(rotNSlider.value, 10));
+        default: return rot13(text);
+      }
+    }
+
+    /* ========== Helpers ========== */
+    function formatBytes(bytes) {
+      if (bytes === 0) return '0 bytes';
+      if (bytes === 1) return '1 byte';
+      var units = ['bytes', 'KB', 'MB'];
+      var i = Math.floor(Math.log(bytes) / Math.log(1024));
+      if (i === 0) return bytes + ' bytes';
+      return (bytes / Math.pow(1024, i)).toFixed(2) + ' ' + units[i];
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function updateStats() {
+      var text = inputEl.value;
+      inputCharsEl.textContent = text.length;
+      inputBytesEl.textContent = formatBytes(new TextEncoder().encode(text).length);
+      outputCharsEl.textContent = lastOutput.length;
+    }
+
+    /* ========== Render Output ========== */
+    function renderOutput() {
+      var text = inputEl.value;
+      lastOutput = transform(text);
+
+      if (lastOutput.length === 0) {
+        outputEl.innerHTML =
+          '<button class="copy-btn" id="btn-copy-inline">Copy</button>' +
+          '<span class="text-muted" style="font-size:.8125rem">Encoded or decoded output will appear here...</span>';
+      } else {
+        outputEl.innerHTML =
+          '<button class="copy-btn" id="btn-copy-inline">Copy</button>' +
+          escapeHtml(lastOutput);
+      }
+
+      /* Re-bind inline copy button */
+      document.getElementById('btn-copy-inline').addEventListener('click', handleCopy);
+
+      updateStats();
+    }
+
+    /* ========== Actions ========== */
+    function handleCopy() {
+      if (!lastOutput) {
+        showToast('Nothing to copy', 'error');
+        return;
+      }
+      copyToClipboard(lastOutput);
+      showToast('Copied to clipboard!', 'success');
+    }
+
+    function handleClear() {
+      inputEl.value = '';
+      lastOutput = '';
+      renderOutput();
+      showToast('Cleared', 'info');
+    }
+
+    function handleSwap() {
+      if (!lastOutput) {
+        showToast('Nothing to swap', 'error');
+        return;
+      }
+      inputEl.value = lastOutput;
+      renderOutput();
+      showToast('Swapped input and output', 'info');
+    }
+
+    /* ========== Mode Switching ========== */
+    var modeBtns = document.querySelectorAll('.mode-btn');
+    modeBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        modeBtns.forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        currentMode = btn.dataset.mode;
+
+        if (currentMode === 'custom') {
+          customSlider.classList.remove('hidden');
+        } else {
+          customSlider.classList.add('hidden');
+        }
+
+        renderOutput();
+      });
+    });
+
+    /* ========== Slider ========== */
+    rotNSlider.addEventListener('input', function() {
+      rotNValue.textContent = rotNSlider.value;
+      if (currentMode === 'custom') {
+        renderOutput();
+      }
+    });
+
+    /* ========== Real-Time Input ========== */
+    inputEl.addEventListener('input', renderOutput);
+
+    /* ========== Button Events ========== */
+    document.getElementById('btn-encode').addEventListener('click', renderOutput);
+    document.getElementById('btn-clear').addEventListener('click', handleClear);
+    document.getElementById('btn-copy').addEventListener('click', handleCopy);
+    document.getElementById('btn-swap').addEventListener('click', handleSwap);
+    document.getElementById('btn-copy-inline').addEventListener('click', handleCopy);
+
+    /* ========== Keyboard Shortcut ========== */
+    inputEl.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        renderOutput();
+      }
+    });
+
+    /* ========== Init ========== */
+    updateStats();
+  })();
+  </script>
+</body>
+</html>

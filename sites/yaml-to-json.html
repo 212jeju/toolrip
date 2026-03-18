@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YAML to JSON Converter Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Convert YAML to JSON and JSON to YAML online for free. Instant bidirectional conversion with syntax validation. No signup required — 100% client-side.">
+  <link rel="canonical" href="https://toolrip.com/yaml">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="YAML to JSON Converter — Toolrip">
+  <meta property="og:description" content="Convert YAML to JSON and JSON to YAML online for free. Instant bidirectional conversion with syntax validation. No signup required — 100% client-side.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/yaml">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="YAML to JSON Converter — Toolrip">
+  <meta name="twitter:description" content="Convert YAML to JSON and JSON to YAML online for free. Instant bidirectional conversion with syntax validation. No signup required — 100% client-side.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root{--accent:var(--developer)}
+
+    .tool-grid{display:grid;grid-template-columns:1fr;gap:var(--sp-3)}
+    @media(min-width:768px){.tool-grid{grid-template-columns:1fr 1fr}}
+
+    .toolbar{display:flex;flex-wrap:wrap;gap:var(--sp-2);align-items:center;margin-bottom:var(--sp-3)}
+
+    .code-input{width:100%;min-height:340px;resize:vertical;background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);color:var(--text);font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.875rem;padding:var(--sp-3);line-height:1.6;tab-size:2}
+    .code-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent)}
+
+    .output-panel{position:relative;width:100%;min-height:340px;background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);padding:var(--sp-3);overflow:auto;font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.875rem;line-height:1.6;white-space:pre-wrap;word-break:break-word}
+
+    .error-bar{background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);border-radius:var(--radius-sm);
+      padding:var(--sp-2) var(--sp-3);color:#fca5a5;font-size:.8125rem;margin-bottom:var(--sp-2);display:none;
+      font-family:'Consolas','Monaco','Courier New',monospace;line-height:1.5}
+    .error-bar.visible{display:block}
+
+    .success-bar{background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);border-radius:var(--radius-sm);
+      padding:var(--sp-2) var(--sp-3);color:#6ee7b7;font-size:.8125rem;margin-bottom:var(--sp-2);display:none}
+    .success-bar.visible{display:block}
+
+    .btn-sm{padding:var(--sp-1) var(--sp-2);font-size:.8125rem;border-radius:var(--radius-sm)}
+
+    .panel-label{font-size:.75rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:var(--sp-1)}
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "YAML to JSON Converter",
+    "url": "https://toolrip.com/yaml",
+    "description": "Convert YAML to JSON and JSON to YAML online for free. Instant bidirectional conversion with syntax validation. No signup required — 100% client-side.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#developer">Developer Tools</a>
+        <span>/</span>
+        <span>YAML to JSON Converter</span>
+      </nav>
+
+      <h1>YAML to JSON Converter Online</h1>
+      <p class="text-muted mt-1 mb-3">Convert between YAML and JSON formats instantly. Paste your YAML or JSON, click convert, and get clean output. Completely free and runs entirely in your browser.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <!-- Tabs -->
+        <div class="tab-group">
+          <button class="tab active" data-tab="panel-yaml-to-json">YAML &rarr; JSON</button>
+          <button class="tab" data-tab="panel-json-to-yaml">JSON &rarr; YAML</button>
+        </div>
+
+        <!-- Error / Success bars -->
+        <div class="error-bar" id="error-bar"></div>
+        <div class="success-bar" id="success-bar"></div>
+
+        <!-- YAML to JSON Panel -->
+        <div id="panel-yaml-to-json" class="tab-panel">
+          <div class="toolbar">
+            <button class="btn-primary btn-sm" onclick="convertYamlToJson()">Convert</button>
+            <button class="btn-secondary btn-sm" onclick="copyOutput('y2j')">Copy Output</button>
+            <button class="btn-secondary btn-sm" onclick="clearAll('y2j')">Clear</button>
+            <button class="btn-secondary btn-sm" onclick="loadYamlSample()">Sample</button>
+          </div>
+          <div class="tool-grid">
+            <div>
+              <div class="panel-label">YAML Input</div>
+              <textarea id="yaml-input" class="code-input" placeholder="Paste your YAML here..." spellcheck="false"></textarea>
+            </div>
+            <div>
+              <div class="panel-label">JSON Output</div>
+              <div class="output-panel" id="y2j-output">
+                <button class="copy-btn" onclick="copyOutput('y2j')">Copy</button>
+                <span class="text-muted" style="font-size:.8125rem">JSON output will appear here...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- JSON to YAML Panel -->
+        <div id="panel-json-to-yaml" class="tab-panel hidden">
+          <div class="toolbar">
+            <button class="btn-primary btn-sm" onclick="convertJsonToYaml()">Convert</button>
+            <button class="btn-secondary btn-sm" onclick="copyOutput('j2y')">Copy Output</button>
+            <button class="btn-secondary btn-sm" onclick="clearAll('j2y')">Clear</button>
+            <button class="btn-secondary btn-sm" onclick="loadJsonSample()">Sample</button>
+          </div>
+          <div class="tool-grid">
+            <div>
+              <div class="panel-label">JSON Input</div>
+              <textarea id="json-input" class="code-input" placeholder="Paste your JSON here..." spellcheck="false"></textarea>
+            </div>
+            <div>
+              <div class="panel-label">YAML Output</div>
+              <div class="output-panel" id="j2y-output">
+                <button class="copy-btn" onclick="copyOutput('j2y')">Copy</button>
+                <span class="text-muted" style="font-size:.8125rem">YAML output will appear here...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="">Ad</div>
+
+      <!-- Content Section: YAML vs JSON -->
+      <section class="mt-4">
+        <h2>Understanding YAML and JSON</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">YAML (YAML Ain't Markup Language) and JSON (JavaScript Object Notation) are two of the most widely used data serialization formats in modern software development. Both serve the same fundamental purpose of representing structured data in a human-readable way, yet they differ significantly in syntax, readability, and typical use cases. Understanding when to use each format and how to convert between them is an essential skill for developers, DevOps engineers, and system administrators who work with configuration files, APIs, and data pipelines every day.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">JSON uses a strict syntax based on curly braces for objects, square brackets for arrays, double-quoted strings for keys and string values, and commas to separate elements. Its syntax is a subset of JavaScript, which makes it natively understood by web browsers and JavaScript runtimes. JSON is the standard data exchange format for REST APIs, web services, and client-server communication across the internet. Its strict rules mean that parsers can be simple and fast, and errors are usually caught immediately. However, the required punctuation — braces, brackets, commas, and mandatory double quotes — can make large configuration files harder to read and maintain by hand.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">YAML takes a different approach by using indentation and whitespace to represent structure instead of delimiters. Keys and values are separated by a colon and a space, nested objects are indicated by increased indentation, and arrays use a dash prefix. YAML also supports comments with the hash symbol, which JSON does not allow. These design choices make YAML files significantly more readable and easier to edit by hand, especially for large configuration documents. This is why YAML has become the dominant format for infrastructure-as-code tools like Kubernetes manifests, Docker Compose files, Ansible playbooks, GitHub Actions workflows, and CI/CD pipeline definitions.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">The choice between YAML and JSON often depends on the context. JSON is preferred when data is exchanged between machines, stored in databases, or consumed by web applications where strict parsing and compact representation matter. YAML is preferred when configuration files are authored and maintained by humans, where readability and the ability to add comments are priorities. In many real-world workflows, developers need to convert between the two formats regularly — for example, translating a Kubernetes YAML manifest to JSON for programmatic processing, or converting a JSON API response to YAML for inclusion in a configuration file.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">This converter handles both directions instantly in your browser. Paste YAML and get properly formatted JSON, or paste JSON and get clean YAML with correct indentation. All processing happens client-side, so your data never leaves your machine. Whether you are working with Kubernetes deployments, Docker Compose services, CI pipeline configurations, or any other structured data, this tool saves you the time of manual conversion and eliminates the errors that come with translating between formats by hand.</p>
+      </section>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(2,1fr)">
+          <div class="feature-card">
+            <h3>Bidirectional Conversion</h3>
+            <p>Convert from YAML to JSON and from JSON to YAML with a single click. The tool preserves your data structure, including deeply nested objects, arrays, strings, numbers, booleans, and null values. Switch between tabs to convert in either direction without losing your work. Both conversions produce clean, properly formatted output that is ready to paste into your project files or configuration documents.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Pure Client-Side Processing</h3>
+            <p>All conversion happens entirely in your browser using JavaScript. No data is sent to any server, stored in any database, or logged anywhere. You can safely convert sensitive configuration files, environment variables, and deployment manifests without worrying about data exposure. Verify this by checking your browser network tab during conversion — zero requests are made. This also means the tool works offline once the page has loaded.</p>
+          </div>
+          <div class="feature-card">
+            <h3>YAML Syntax Support</h3>
+            <p>The built-in parser handles the YAML features you use every day: key-value pairs, nested objects through indentation, arrays with dash syntax, quoted and unquoted strings, numbers, booleans, null values, and inline comments. This covers the vast majority of YAML files encountered in real-world development — from Kubernetes manifests and Docker Compose files to Ansible playbooks and GitHub Actions workflows.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Clear Error Messages</h3>
+            <p>When your input contains syntax errors, the converter provides specific error messages that help you locate and fix the problem quickly. For YAML input, errors report the line number and a description of what went wrong, such as inconsistent indentation or invalid syntax. For JSON input, the native parser pinpoints the exact position of syntax errors. Fix the issue and convert again — no page reload required.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the YAML to JSON Converter</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Choose your conversion direction.</strong> Select the <em>YAML &rarr; JSON</em> tab to convert YAML input to JSON output, or select the <em>JSON &rarr; YAML</em> tab to convert in the other direction. Each tab has its own input and output areas.</li>
+          <li><strong>Paste or type your input.</strong> Enter your YAML or JSON content into the input text area on the left. You can also click the <em>Sample</em> button to load example data and see the converter in action immediately.</li>
+          <li><strong>Click Convert.</strong> Press the <em>Convert</em> button to process your input. If the input is valid, the converted output appears in the panel on the right. If there are errors, a message describes the problem so you can fix it.</li>
+          <li><strong>Copy the result.</strong> Click <em>Copy Output</em> in the toolbar or the <em>Copy</em> button on the output panel to send the result to your clipboard. Paste it directly into your editor, terminal, or configuration file.</li>
+        </ol>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is the difference between YAML and JSON?</summary>
+          <p>YAML and JSON are both data serialization formats, but they differ in syntax and philosophy. JSON uses curly braces, square brackets, commas, and mandatory double quotes to define structure. YAML uses indentation and whitespace instead of delimiters, making it more readable for humans. YAML also supports comments using the hash character, while JSON has no comment syntax. JSON is stricter and more compact, which makes it ideal for machine-to-machine communication. YAML is more expressive and human-friendly, which makes it the preferred choice for configuration files edited by hand.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How does YAML indentation work?</summary>
+          <p>YAML uses indentation to represent nesting and hierarchy. Each level of nesting is indicated by additional spaces at the beginning of a line. You must use spaces for indentation — tabs are not allowed in standard YAML. Most tools and style guides recommend using two spaces per indentation level, though any consistent number of spaces will work. The key rule is consistency: every sibling element at the same level must have exactly the same indentation. Incorrect or inconsistent indentation is the most common cause of YAML parsing errors.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can I convert JSON with nested objects to YAML?</summary>
+          <p>Yes. This converter handles JSON of any complexity, including deeply nested objects, arrays of objects, mixed arrays containing strings and numbers, and null values. The output YAML will use proper indentation to reflect the nesting structure. Each level of nesting in the JSON translates to an additional level of indentation in the YAML output. Arrays are represented using the dash syntax, and all data types (strings, numbers, booleans, null) are converted to their YAML equivalents.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What YAML features does this converter support?</summary>
+          <p>This converter supports the YAML features used in the vast majority of real-world configuration files: scalar key-value pairs, nested mappings via indentation, sequences (arrays) using the dash prefix, quoted and unquoted strings, integers, floating-point numbers, boolean values (true and false), null values, and comments. It handles both two-space and four-space indentation styles. Advanced features like anchors, aliases, multi-document streams, and custom tags are not supported, as they are rarely used in typical configuration scenarios.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is my data safe when using this converter?</summary>
+          <p>Absolutely. All conversion processing happens entirely within your web browser using client-side JavaScript. Your data is never transmitted to any server, never stored in any database, and never logged or tracked in any way. This makes the tool safe for converting sensitive configuration files, deployment secrets, API credentials, and private infrastructure definitions. You can verify this by monitoring the network tab in your browser developer tools during conversion — no outbound requests are made.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Why do I get indentation errors in YAML?</summary>
+          <p>Indentation errors in YAML are almost always caused by one of three issues: mixing tabs with spaces, using inconsistent numbers of spaces at the same nesting level, or placing a value at the wrong indentation depth. YAML requires spaces only — tabs are not valid whitespace for indentation. Make sure every sibling element uses exactly the same number of leading spaces. If you copy YAML from different sources, check that the indentation style matches before combining them. This converter will report the line number where the indentation problem occurs to help you fix it quickly.</p>
+        </details>
+        <details class="faq-item">
+          <summary>When should I use YAML instead of JSON?</summary>
+          <p>Use YAML when the file will be read and edited by humans on a regular basis. YAML excels as a format for configuration files because of its clean syntax, support for comments, and lack of visual clutter from braces and quotes. Kubernetes manifests, Docker Compose files, Ansible playbooks, GitHub Actions workflows, and CI/CD pipeline definitions are all written in YAML for this reason. Use JSON when the data is primarily exchanged between machines, consumed by web APIs, or stored in systems that expect JSON natively. Many projects use both formats: YAML for configuration and JSON for runtime data exchange.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+          <a href="https://toolrip.com/word-count">Word Counter</a>
+          <a href="https://toolrip.com/case">Case Converter</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+  (function() {
+    'use strict';
+
+    /* ========================================
+       YAML Parser (pure JS, no libraries)
+       ======================================== */
+
+    function parseYAML(input) {
+      var lines = input.split('\n');
+      var result = parseBlock(lines, 0, -1);
+      return result.value;
+    }
+
+    function parseBlock(lines, startIdx, parentIndent) {
+      var i = startIdx;
+      var obj = null;
+      var arr = null;
+      var isArray = false;
+      var isObject = false;
+
+      while (i < lines.length) {
+        var raw = lines[i];
+        // Remove comments (not inside quotes)
+        var line = stripComment(raw);
+        // Skip blank lines
+        if (line.trim() === '') { i++; continue; }
+
+        var indent = getIndent(line);
+        var trimmed = line.trim();
+
+        // If indentation is less than or equal to parent, this block is done
+        if (indent <= parentIndent) {
+          break;
+        }
+
+        // Determine if this is an array item or a key-value pair
+        if (trimmed.charAt(0) === '-') {
+          // Array item
+          if (!isArray && !isObject) {
+            isArray = true;
+            arr = [];
+          }
+          if (isObject) {
+            // Mixed context: break out
+            break;
+          }
+
+          var afterDash = trimmed.substring(1).trim();
+
+          if (afterDash === '' || afterDash === '') {
+            // Dash with value on subsequent indented lines
+            var childResult = parseBlock(lines, i + 1, indent);
+            arr.push(childResult.value);
+            i = childResult.nextIndex;
+          } else if (afterDash.indexOf(':') !== -1 && !isQuotedString(afterDash)) {
+            // Dash followed by key: value (inline mapping in array)
+            // Treat the rest as a mapping block
+            // We create a virtual block starting from this line
+            var mapResult = parseInlineMapping(lines, i, indent);
+            arr.push(mapResult.value);
+            i = mapResult.nextIndex;
+          } else {
+            // Simple scalar array item: - value
+            arr.push(parseScalar(afterDash));
+            i++;
+          }
+        } else if (trimmed.indexOf(':') !== -1) {
+          // Key-value pair
+          var colonPos = findColonPosition(trimmed);
+          if (colonPos === -1) {
+            // No valid colon found, treat as scalar - shouldn't happen at block level
+            throw new Error('Invalid YAML syntax at line ' + (i + 1) + ': ' + trimmed);
+          }
+
+          if (!isObject && !isArray) {
+            isObject = true;
+            obj = {};
+          }
+          if (isArray) {
+            break;
+          }
+
+          var key = trimmed.substring(0, colonPos).trim();
+          key = unquoteString(key);
+          var afterColon = trimmed.substring(colonPos + 1).trim();
+
+          if (afterColon === '' || afterColon === '') {
+            // Value is a nested block
+            // Peek at next non-empty line to determine indent
+            var nextI = findNextContentLine(lines, i + 1);
+            if (nextI < lines.length) {
+              var nextIndent = getIndent(stripComment(lines[nextI]));
+              if (nextIndent > indent) {
+                var nested = parseBlock(lines, nextI, indent);
+                obj[key] = nested.value;
+                i = nested.nextIndex;
+              } else {
+                obj[key] = null;
+                i++;
+              }
+            } else {
+              obj[key] = null;
+              i++;
+            }
+          } else {
+            // Inline value
+            obj[key] = parseScalar(afterColon);
+            i++;
+          }
+        } else {
+          // Bare scalar at block level — shouldn't usually happen in well-formed YAML
+          throw new Error('Unexpected content at line ' + (i + 1) + ': ' + trimmed);
+        }
+      }
+
+      if (isArray) return { value: arr, nextIndex: i };
+      if (isObject) return { value: obj, nextIndex: i };
+      return { value: null, nextIndex: i };
+    }
+
+    function parseInlineMapping(lines, startIdx, dashIndent) {
+      // Parse a mapping that starts after a dash: - key: value
+      var obj = {};
+      var raw = lines[startIdx];
+      var line = stripComment(raw);
+      var trimmed = line.trim();
+      var afterDash = trimmed.substring(1).trim();
+
+      // The first key:value is on the dash line
+      var colonPos = findColonPosition(afterDash);
+      var key = afterDash.substring(0, colonPos).trim();
+      key = unquoteString(key);
+      var afterColon = afterDash.substring(colonPos + 1).trim();
+
+      // Calculate the effective indent of keys in this mapping
+      // It's the column position of the first key character after the dash
+      var dashPos = line.indexOf('-');
+      var keyIndent = dashPos + 2; // dash + space
+
+      if (afterColon === '') {
+        // Nested value under this key
+        var nextI = findNextContentLine(lines, startIdx + 1);
+        if (nextI < lines.length) {
+          var nextLineIndent = getIndent(stripComment(lines[nextI]));
+          if (nextLineIndent > keyIndent) {
+            var nested = parseBlock(lines, nextI, keyIndent);
+            obj[key] = nested.value;
+            var i = nested.nextIndex;
+          } else {
+            obj[key] = null;
+            var i = startIdx + 1;
+          }
+        } else {
+          obj[key] = null;
+          var i = startIdx + 1;
+        }
+      } else {
+        obj[key] = parseScalar(afterColon);
+        var i = startIdx + 1;
+      }
+
+      // Continue reading sibling keys at keyIndent level
+      while (i < lines.length) {
+        var rawL = lines[i];
+        var lineL = stripComment(rawL);
+        if (lineL.trim() === '') { i++; continue; }
+
+        var ind = getIndent(lineL);
+        var tri = lineL.trim();
+
+        // Must be at exactly keyIndent and be a key:value (not a dash)
+        if (ind === keyIndent && tri.charAt(0) !== '-' && tri.indexOf(':') !== -1) {
+          var cp = findColonPosition(tri);
+          if (cp === -1) break;
+          var k = tri.substring(0, cp).trim();
+          k = unquoteString(k);
+          var av = tri.substring(cp + 1).trim();
+
+          if (av === '') {
+            var ni = findNextContentLine(lines, i + 1);
+            if (ni < lines.length) {
+              var nni = getIndent(stripComment(lines[ni]));
+              if (nni > keyIndent) {
+                var nest = parseBlock(lines, ni, keyIndent);
+                obj[k] = nest.value;
+                i = nest.nextIndex;
+              } else {
+                obj[k] = null;
+                i++;
+              }
+            } else {
+              obj[k] = null;
+              i++;
+            }
+          } else {
+            obj[k] = parseScalar(av);
+            i++;
+          }
+        } else if (ind > keyIndent) {
+          // Continuation of a nested value — skip (already consumed)
+          i++;
+        } else {
+          break;
+        }
+      }
+
+      return { value: obj, nextIndex: i };
+    }
+
+    function findNextContentLine(lines, startIdx) {
+      for (var i = startIdx; i < lines.length; i++) {
+        var line = stripComment(lines[i]);
+        if (line.trim() !== '') return i;
+      }
+      return lines.length;
+    }
+
+    function stripComment(line) {
+      // Remove comments that are not inside quotes
+      var inSingle = false;
+      var inDouble = false;
+      for (var i = 0; i < line.length; i++) {
+        var ch = line.charAt(i);
+        if (ch === "'" && !inDouble) inSingle = !inSingle;
+        else if (ch === '"' && !inSingle) inDouble = !inDouble;
+        else if (ch === '#' && !inSingle && !inDouble) {
+          // Check that preceding character is a space or start of line
+          if (i === 0 || line.charAt(i - 1) === ' ') {
+            return line.substring(0, i);
+          }
+        }
+      }
+      return line;
+    }
+
+    function getIndent(line) {
+      var count = 0;
+      for (var i = 0; i < line.length; i++) {
+        if (line.charAt(i) === ' ') count++;
+        else break;
+      }
+      return count;
+    }
+
+    function findColonPosition(str) {
+      // Find the first colon that is not inside quotes and is followed by space, end of string, or nothing
+      var inSingle = false;
+      var inDouble = false;
+      for (var i = 0; i < str.length; i++) {
+        var ch = str.charAt(i);
+        if (ch === "'" && !inDouble) inSingle = !inSingle;
+        else if (ch === '"' && !inSingle) inDouble = !inDouble;
+        else if (ch === ':' && !inSingle && !inDouble) {
+          // Must be followed by space, end of string, or nothing
+          if (i === str.length - 1 || str.charAt(i + 1) === ' ') {
+            return i;
+          }
+        }
+      }
+      return -1;
+    }
+
+    function isQuotedString(str) {
+      var t = str.trim();
+      return (t.charAt(0) === '"' && t.charAt(t.length - 1) === '"') ||
+             (t.charAt(0) === "'" && t.charAt(t.length - 1) === "'");
+    }
+
+    function unquoteString(str) {
+      var t = str.trim();
+      if (t.length >= 2) {
+        if ((t.charAt(0) === '"' && t.charAt(t.length - 1) === '"') ||
+            (t.charAt(0) === "'" && t.charAt(t.length - 1) === "'")) {
+          return t.substring(1, t.length - 1);
+        }
+      }
+      return t;
+    }
+
+    function parseScalar(str) {
+      var trimmed = str.trim();
+      if (trimmed === '') return null;
+
+      // Quoted strings
+      if (trimmed.length >= 2) {
+        if (trimmed.charAt(0) === '"' && trimmed.charAt(trimmed.length - 1) === '"') {
+          return trimmed.substring(1, trimmed.length - 1)
+            .replace(/\\n/g, '\n')
+            .replace(/\\t/g, '\t')
+            .replace(/\\\\/g, '\\')
+            .replace(/\\"/g, '"');
+        }
+        if (trimmed.charAt(0) === "'" && trimmed.charAt(trimmed.length - 1) === "'") {
+          return trimmed.substring(1, trimmed.length - 1).replace(/''/g, "'");
+        }
+      }
+
+      // Booleans
+      var lower = trimmed.toLowerCase();
+      if (lower === 'true' || lower === 'yes' || lower === 'on') return true;
+      if (lower === 'false' || lower === 'no' || lower === 'off') return false;
+
+      // Null
+      if (lower === 'null' || lower === '~') return null;
+
+      // Numbers
+      if (/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/.test(trimmed)) {
+        var num = Number(trimmed);
+        if (!isNaN(num) && isFinite(num)) return num;
+      }
+
+      // Integers with leading zeros stay as strings, hex numbers
+      if (/^0x[0-9a-fA-F]+$/.test(trimmed)) {
+        return parseInt(trimmed, 16);
+      }
+      if (/^0o[0-7]+$/.test(trimmed)) {
+        return parseInt(trimmed.substring(2), 8);
+      }
+
+      // Plain string
+      return trimmed;
+    }
+
+
+    /* ========================================
+       JSON to YAML Converter
+       ======================================== */
+
+    function jsonToYAML(data, indent) {
+      indent = indent || 0;
+      var pad = repeat('  ', indent);
+      var lines = [];
+
+      if (data === null || data === undefined) {
+        return 'null';
+      }
+
+      if (typeof data !== 'object') {
+        return formatYAMLScalar(data);
+      }
+
+      if (Array.isArray(data)) {
+        if (data.length === 0) return '[]';
+        for (var i = 0; i < data.length; i++) {
+          var item = data[i];
+          if (item !== null && typeof item === 'object') {
+            if (Array.isArray(item)) {
+              lines.push(pad + '-');
+              var nested = jsonToYAML(item, indent + 2);
+              lines.push(nested);
+            } else {
+              // Object inside array
+              var keys = Object.keys(item);
+              if (keys.length === 0) {
+                lines.push(pad + '- {}');
+              } else {
+                for (var j = 0; j < keys.length; j++) {
+                  var k = keys[j];
+                  var v = item[k];
+                  var prefix = j === 0 ? pad + '- ' : pad + '  ';
+                  if (v !== null && typeof v === 'object') {
+                    lines.push(prefix + formatYAMLKey(k) + ':');
+                    lines.push(jsonToYAML(v, indent + 2));
+                  } else {
+                    lines.push(prefix + formatYAMLKey(k) + ': ' + formatYAMLScalar(v));
+                  }
+                }
+              }
+            }
+          } else {
+            lines.push(pad + '- ' + formatYAMLScalar(item));
+          }
+        }
+        return lines.join('\n');
+      }
+
+      // Object
+      var objKeys = Object.keys(data);
+      if (objKeys.length === 0) return '{}';
+      for (var m = 0; m < objKeys.length; m++) {
+        var ok = objKeys[m];
+        var ov = data[ok];
+        if (ov !== null && typeof ov === 'object') {
+          lines.push(pad + formatYAMLKey(ok) + ':');
+          lines.push(jsonToYAML(ov, indent + 1));
+        } else {
+          lines.push(pad + formatYAMLKey(ok) + ': ' + formatYAMLScalar(ov));
+        }
+      }
+      return lines.join('\n');
+    }
+
+    function formatYAMLScalar(val) {
+      if (val === null || val === undefined) return 'null';
+      if (typeof val === 'boolean') return val ? 'true' : 'false';
+      if (typeof val === 'number') return String(val);
+      // String
+      var s = String(val);
+      // Quote if it contains special chars or could be parsed as non-string
+      if (needsQuoting(s)) {
+        return '"' + s.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\t/g, '\\t') + '"';
+      }
+      return s;
+    }
+
+    function formatYAMLKey(key) {
+      if (needsQuoting(key)) {
+        return '"' + key.replace(/\\/g, '\\\\').replace(/"/g, '\\"') + '"';
+      }
+      return key;
+    }
+
+    function needsQuoting(s) {
+      if (s === '') return true;
+      if (s === 'true' || s === 'false' || s === 'null' || s === 'yes' || s === 'no' ||
+          s === 'on' || s === 'off' || s === 'True' || s === 'False' || s === 'Yes' ||
+          s === 'No' || s === 'NULL' || s === '~') return true;
+      if (/^-?\d+(\.\d+)?([eE][+-]?\d+)?$/.test(s)) return true;
+      if (/[:{}\[\],&*?|>!%@`#'"]/.test(s)) return true;
+      if (s.indexOf('\n') !== -1 || s.indexOf('\t') !== -1) return true;
+      if (s.charAt(0) === ' ' || s.charAt(s.length - 1) === ' ') return true;
+      if (s.charAt(0) === '-' && s.charAt(1) === ' ') return true;
+      return false;
+    }
+
+    function repeat(str, n) {
+      var result = '';
+      for (var i = 0; i < n; i++) result += str;
+      return result;
+    }
+
+
+    /* ========================================
+       UI Functions
+       ======================================== */
+
+    var lastY2JOutput = '';
+    var lastJ2YOutput = '';
+
+    function showError(msg) {
+      var bar = document.getElementById('error-bar');
+      var suc = document.getElementById('success-bar');
+      suc.classList.remove('visible');
+      bar.textContent = msg;
+      bar.classList.add('visible');
+    }
+
+    function showSuccess(msg) {
+      var bar = document.getElementById('success-bar');
+      var err = document.getElementById('error-bar');
+      err.classList.remove('visible');
+      bar.textContent = msg;
+      bar.classList.add('visible');
+    }
+
+    function clearMessages() {
+      document.getElementById('error-bar').classList.remove('visible');
+      document.getElementById('success-bar').classList.remove('visible');
+    }
+
+    // YAML to JSON
+    window.convertYamlToJson = function() {
+      clearMessages();
+      var input = document.getElementById('yaml-input').value;
+      if (!input.trim()) {
+        showError('Please enter some YAML to convert.');
+        return;
+      }
+
+      try {
+        var parsed = parseYAML(input);
+        var json = JSON.stringify(parsed, null, 2);
+        lastY2JOutput = json;
+        var escaped = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        document.getElementById('y2j-output').innerHTML =
+          '<button class="copy-btn" onclick="copyOutput(\'y2j\')">Copy</button>' + escaped;
+        showSuccess('YAML converted to JSON successfully');
+        showToast('Converted to JSON', 'success');
+      } catch (e) {
+        lastY2JOutput = '';
+        document.getElementById('y2j-output').innerHTML =
+          '<button class="copy-btn" onclick="copyOutput(\'y2j\')">Copy</button>' +
+          '<span class="text-muted" style="font-size:.8125rem">JSON output will appear here...</span>';
+        showError('YAML Parse Error: ' + (e.message || 'Invalid YAML'));
+        showToast('Conversion failed', 'error');
+      }
+    };
+
+    // JSON to YAML
+    window.convertJsonToYaml = function() {
+      clearMessages();
+      var input = document.getElementById('json-input').value;
+      if (!input.trim()) {
+        showError('Please enter some JSON to convert.');
+        return;
+      }
+
+      try {
+        var parsed = JSON.parse(input);
+        var yaml = jsonToYAML(parsed, 0);
+        lastJ2YOutput = yaml;
+        var escaped = yaml.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        document.getElementById('j2y-output').innerHTML =
+          '<button class="copy-btn" onclick="copyOutput(\'j2y\')">Copy</button>' + escaped;
+        showSuccess('JSON converted to YAML successfully');
+        showToast('Converted to YAML', 'success');
+      } catch (e) {
+        lastJ2YOutput = '';
+        document.getElementById('j2y-output').innerHTML =
+          '<button class="copy-btn" onclick="copyOutput(\'j2y\')">Copy</button>' +
+          '<span class="text-muted" style="font-size:.8125rem">YAML output will appear here...</span>';
+        var msg = e.message || 'Invalid JSON';
+        var posMatch = msg.match(/position\s+(\d+)/i);
+        if (posMatch) {
+          var pos = parseInt(posMatch[1], 10);
+          var lines = input.substring(0, pos).split('\n');
+          showError('JSON Parse Error at line ' + lines.length + ', column ' + (lines[lines.length - 1].length + 1) + ': ' + msg);
+        } else {
+          showError('JSON Parse Error: ' + msg);
+        }
+        showToast('Conversion failed', 'error');
+      }
+    };
+
+    // Copy output
+    window.copyOutput = function(mode) {
+      var text = mode === 'y2j' ? lastY2JOutput : lastJ2YOutput;
+      if (!text) {
+        showToast('Nothing to copy', 'error');
+        return;
+      }
+      copyToClipboard(text);
+      showToast('Copied to clipboard!', 'success');
+    };
+
+    // Clear
+    window.clearAll = function(mode) {
+      clearMessages();
+      if (mode === 'y2j') {
+        document.getElementById('yaml-input').value = '';
+        lastY2JOutput = '';
+        document.getElementById('y2j-output').innerHTML =
+          '<button class="copy-btn" onclick="copyOutput(\'y2j\')">Copy</button>' +
+          '<span class="text-muted" style="font-size:.8125rem">JSON output will appear here...</span>';
+      } else {
+        document.getElementById('json-input').value = '';
+        lastJ2YOutput = '';
+        document.getElementById('j2y-output').innerHTML =
+          '<button class="copy-btn" onclick="copyOutput(\'j2y\')">Copy</button>' +
+          '<span class="text-muted" style="font-size:.8125rem">YAML output will appear here...</span>';
+      }
+      showToast('Cleared', 'info');
+    };
+
+    // Sample YAML
+    window.loadYamlSample = function() {
+      var sample = [
+        '# Kubernetes Deployment Example',
+        'apiVersion: apps/v1',
+        'kind: Deployment',
+        'metadata:',
+        '  name: web-app',
+        '  namespace: production',
+        '  labels:',
+        '    app: web-app',
+        '    tier: frontend',
+        'spec:',
+        '  replicas: 3',
+        '  selector:',
+        '    matchLabels:',
+        '      app: web-app',
+        '  template:',
+        '    metadata:',
+        '      labels:',
+        '        app: web-app',
+        '    spec:',
+        '      containers:',
+        '        - name: web-app',
+        '          image: nginx:1.25',
+        '          ports:',
+        '            - containerPort: 80',
+        '          env:',
+        '            - name: NODE_ENV',
+        '              value: production',
+        '            - name: LOG_LEVEL',
+        '              value: info',
+        '          resources:',
+        '            limits:',
+        '              cpu: "500m"',
+        '              memory: "256Mi"',
+        '            requests:',
+        '              cpu: "250m"',
+        '              memory: "128Mi"',
+        '      restartPolicy: Always',
+        '      terminationGracePeriodSeconds: 30'
+      ].join('\n');
+      document.getElementById('yaml-input').value = sample;
+      convertYamlToJson();
+      showToast('Sample YAML loaded', 'info');
+    };
+
+    // Sample JSON
+    window.loadJsonSample = function() {
+      var sample = {
+        "version": "3.8",
+        "services": {
+          "web": {
+            "image": "node:18-alpine",
+            "ports": ["3000:3000"],
+            "environment": {
+              "NODE_ENV": "production",
+              "DATABASE_URL": "postgres://db:5432/app"
+            },
+            "depends_on": ["db", "redis"],
+            "restart": "always"
+          },
+          "db": {
+            "image": "postgres:15",
+            "volumes": ["pgdata:/var/lib/postgresql/data"],
+            "environment": {
+              "POSTGRES_DB": "app",
+              "POSTGRES_USER": "admin",
+              "POSTGRES_PASSWORD": "secret"
+            }
+          },
+          "redis": {
+            "image": "redis:7-alpine",
+            "ports": ["6379:6379"]
+          }
+        },
+        "volumes": {
+          "pgdata": null
+        }
+      };
+      document.getElementById('json-input').value = JSON.stringify(sample, null, 2);
+      convertJsonToYaml();
+      showToast('Sample JSON loaded', 'info');
+    };
+
+    // Keyboard shortcut: Ctrl+Enter to convert
+    document.getElementById('yaml-input').addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        convertYamlToJson();
+      }
+    });
+    document.getElementById('json-input').addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        convertJsonToYaml();
+      }
+    });
+
+  })();
+  </script>
+</body>
+</html>

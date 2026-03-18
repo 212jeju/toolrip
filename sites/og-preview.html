@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open Graph Preview Tool Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Preview how your links appear on Facebook, Twitter, LinkedIn, and Discord. Generate Open Graph and Twitter Card meta tags instantly. Free, no signup required.">
+  <link rel="canonical" href="https://toolrip.com/og-preview">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Open Graph Preview Tool — Toolrip">
+  <meta property="og:description" content="Preview how your links appear on Facebook, Twitter, LinkedIn, and Discord. Generate Open Graph and Twitter Card meta tags instantly. Free, no signup required.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/og-preview">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Open Graph Preview Tool — Toolrip">
+  <meta name="twitter:description" content="Preview how your links appear on Facebook, Twitter, LinkedIn, and Discord. Generate Open Graph and Twitter Card meta tags instantly. Free, no signup required.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root{--accent:var(--seo)}
+
+    .form-grid{display:grid;grid-template-columns:1fr;gap:var(--sp-3)}
+    @media(min-width:640px){.form-grid{grid-template-columns:1fr 1fr}}
+
+    .form-section{margin-bottom:var(--sp-4)}
+    .form-section h3{font-size:.9375rem;margin-bottom:var(--sp-2);color:var(--accent);display:flex;align-items:center;gap:var(--sp-2)}
+    .form-section h3 svg{width:18px;height:18px;flex-shrink:0}
+
+    .btn-row{display:flex;flex-wrap:wrap;gap:var(--sp-2);margin-top:var(--sp-3)}
+
+    .preview-grid{display:grid;grid-template-columns:1fr;gap:var(--sp-4);margin-top:var(--sp-4)}
+    @media(min-width:768px){.preview-grid{grid-template-columns:1fr 1fr}}
+
+    .preview-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+    .preview-card-header{padding:var(--sp-2) var(--sp-3);border-bottom:1px solid var(--border);font-size:.8125rem;font-weight:600;color:var(--text-muted);display:flex;align-items:center;gap:var(--sp-2)}
+    .preview-card-header svg{width:16px;height:16px;flex-shrink:0}
+
+    /* Facebook mockup */
+    .fb-preview{background:#242526;border-radius:8px;overflow:hidden;margin:var(--sp-3);font-family:system-ui,Helvetica,Arial,sans-serif}
+    .fb-preview-img{width:100%;aspect-ratio:1.91/1;background:#3a3b3c;display:flex;align-items:center;justify-content:center;color:#8a8d91;font-size:.8125rem;overflow:hidden}
+    .fb-preview-img img{width:100%;height:100%;object-fit:cover}
+    .fb-preview-body{padding:10px 12px;border:1px solid #3a3b3c;border-top:none;border-radius:0 0 8px 8px}
+    .fb-preview-site{font-size:.75rem;color:#8a8d91;text-transform:uppercase;letter-spacing:.03em}
+    .fb-preview-title{font-size:.9375rem;font-weight:600;color:#e4e6eb;line-height:1.3;margin-top:2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .fb-preview-desc{font-size:.8125rem;color:#8a8d91;line-height:1.35;margin-top:2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+    /* Twitter mockup */
+    .tw-preview{background:#15202b;border:1px solid #38444d;border-radius:16px;overflow:hidden;margin:var(--sp-3);font-family:system-ui,-apple-system,sans-serif}
+    .tw-preview-img{width:100%;aspect-ratio:2/1;background:#1e2732;display:flex;align-items:center;justify-content:center;color:#8899a6;font-size:.8125rem;overflow:hidden}
+    .tw-preview-img img{width:100%;height:100%;object-fit:cover}
+    .tw-preview-body{padding:10px 12px}
+    .tw-preview-site{font-size:.8125rem;color:#8899a6;display:flex;align-items:center;gap:4px}
+    .tw-preview-title{font-size:.9375rem;color:#d9d9d9;line-height:1.3;margin-top:2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .tw-preview-desc{font-size:.8125rem;color:#8899a6;line-height:1.35;margin-top:2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+    /* LinkedIn mockup */
+    .li-preview{background:#1b1f23;border:1px solid #38434f;border-radius:8px;overflow:hidden;margin:var(--sp-3);font-family:system-ui,-apple-system,sans-serif}
+    .li-preview-img{width:100%;aspect-ratio:1.91/1;background:#283038;display:flex;align-items:center;justify-content:center;color:#8899a6;font-size:.8125rem;overflow:hidden}
+    .li-preview-img img{width:100%;height:100%;object-fit:cover}
+    .li-preview-body{padding:10px 12px}
+    .li-preview-title{font-size:.875rem;font-weight:600;color:#e0e0e0;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .li-preview-site{font-size:.75rem;color:#8899a6;margin-top:2px}
+
+    /* Discord mockup */
+    .dc-preview{background:#2f3136;border-left:4px solid var(--accent);border-radius:4px;padding:8px 16px 12px 12px;margin:var(--sp-3);font-family:'gg sans',system-ui,-apple-system,sans-serif}
+    .dc-preview-site{font-size:.75rem;color:var(--accent);font-weight:500;margin-bottom:4px}
+    .dc-preview-title{font-size:.9375rem;font-weight:600;color:#00aff4;line-height:1.3;margin-bottom:4px;cursor:pointer}
+    .dc-preview-title:hover{text-decoration:underline}
+    .dc-preview-desc{font-size:.875rem;color:#dcddde;line-height:1.35;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+    .dc-preview-img{max-width:100%;max-height:200px;border-radius:4px;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#72767d;font-size:.8125rem}
+    .dc-preview-img img{max-width:100%;max-height:200px;object-fit:cover;border-radius:4px}
+
+    /* Output area for generated tags */
+    .tags-output{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3);
+      font-family:'Consolas','Monaco','Courier New',monospace;font-size:.8125rem;line-height:1.7;
+      white-space:pre-wrap;word-break:break-word;color:var(--text-muted);position:relative;min-height:80px;margin-top:var(--sp-3)}
+    .tag-key{color:#93c5fd}
+    .tag-val{color:#86efac}
+    .tag-bracket{color:#9ca3af}
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Open Graph Preview Tool",
+    "url": "https://toolrip.com/og-preview",
+    "description": "Preview how your links appear on Facebook, Twitter, LinkedIn, and Discord. Generate Open Graph and Twitter Card meta tags instantly.",
+    "applicationCategory": "BrowserApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "SEO Tools", "item": "https://toolrip.com/#seo" },
+      { "@type": "ListItem", "position": 3, "name": "OG Preview" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the Open Graph protocol?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Open Graph protocol is a set of meta tags originally created by Facebook that allows web pages to become rich objects in a social graph. When you share a URL on social media, the platform reads these tags to display a formatted preview card with a title, description, and image instead of a plain link."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which Open Graph tags are required?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The four required Open Graph tags are og:title, og:type, og:image, and og:url. These are the minimum tags needed for a valid Open Graph object. Additional recommended tags include og:description, og:site_name, and og:locale for richer previews."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the recommended Open Graph image size?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The recommended OG image size is 1200 x 630 pixels with a 1.91:1 aspect ratio. This works well across Facebook, LinkedIn, and most platforms. For Twitter summary_large_image cards, 1200 x 628 pixels is ideal. Keep file sizes under 5 MB for Facebook and 8 MB for other platforms."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are Twitter Cards and how do they differ from OG tags?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Twitter Cards are a separate set of meta tags (twitter:card, twitter:title, twitter:description, twitter:image) that control how links appear on Twitter/X. If Twitter Card tags are missing, Twitter falls back to Open Graph tags. The main difference is the twitter:card tag which controls the card layout type: summary, summary_large_image, app, or player."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I debug my Open Graph tags?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Use official platform debuggers: Facebook Sharing Debugger (developers.facebook.com/tools/debug/), Twitter Card Validator (cards-dev.twitter.com/validator), and LinkedIn Post Inspector (linkedin.com/post-inspector/). These tools fetch your page and show exactly which tags are detected and how the preview will render."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do Open Graph tags affect SEO rankings?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Open Graph tags do not directly affect search engine rankings. However, they significantly impact click-through rates on social media. A well-crafted OG title, description, and image can dramatically increase engagement when your content is shared, which indirectly benefits SEO through increased traffic and social signals."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do different platforms handle Open Graph tags?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Facebook strictly follows OG tags and caches them aggressively. Twitter prefers its own twitter:card tags but falls back to OG tags. LinkedIn uses OG tags directly with its own image cropping rules. Discord reads OG tags and displays them in its unique embed format with a colored sidebar. Each platform may crop images or truncate text differently."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#seo">SEO Tools</a>
+        <span>/</span>
+        <span>OG Preview</span>
+      </nav>
+
+      <h1>Open Graph Preview Tool Online</h1>
+      <p class="text-muted mt-1 mb-3">See exactly how your page will look when shared on Facebook, Twitter, LinkedIn, and Discord. Fill in the fields below to generate live preview mockups and copy ready-to-use meta tags.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <!-- OG Tag Inputs -->
+        <div class="form-section">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            Open Graph Tags
+          </h3>
+          <div class="form-grid">
+            <div class="input-group">
+              <label for="og-title">og:title *</label>
+              <input type="text" id="og-title" class="input-field" placeholder="Your Page Title" maxlength="95">
+            </div>
+            <div class="input-group">
+              <label for="og-url">og:url</label>
+              <input type="url" id="og-url" class="input-field" placeholder="https://example.com/page">
+            </div>
+            <div class="input-group" style="grid-column:1/-1">
+              <label for="og-description">og:description</label>
+              <textarea id="og-description" class="textarea-field" placeholder="A brief summary of your page content (recommended under 200 characters)" rows="2" maxlength="300"></textarea>
+            </div>
+            <div class="input-group">
+              <label for="og-image">og:image URL</label>
+              <input type="url" id="og-image" class="input-field" placeholder="https://example.com/image.jpg">
+            </div>
+            <div class="input-group">
+              <label for="og-site-name">og:site_name</label>
+              <input type="text" id="og-site-name" class="input-field" placeholder="Your Site Name">
+            </div>
+            <div class="input-group">
+              <label for="og-type">og:type</label>
+              <select id="og-type" class="select-field">
+                <option value="website" selected>website</option>
+                <option value="article">article</option>
+                <option value="product">product</option>
+                <option value="profile">profile</option>
+                <option value="video.movie">video.movie</option>
+                <option value="video.episode">video.episode</option>
+                <option value="music.song">music.song</option>
+                <option value="music.album">music.album</option>
+                <option value="book">book</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Twitter Card Inputs -->
+        <div class="form-section">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16h4.267l-11.733-16z"/><path d="M4 20l6.768-6.768m2.46-2.46L20 4"/></svg>
+            Twitter Card Tags
+          </h3>
+          <div class="form-grid">
+            <div class="input-group">
+              <label for="tw-card">twitter:card</label>
+              <select id="tw-card" class="select-field">
+                <option value="summary" selected>summary</option>
+                <option value="summary_large_image">summary_large_image</option>
+                <option value="app">app</option>
+                <option value="player">player</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label for="tw-title">twitter:title (fallback to og:title)</label>
+              <input type="text" id="tw-title" class="input-field" placeholder="Leave empty to use og:title">
+            </div>
+            <div class="input-group" style="grid-column:1/-1">
+              <label for="tw-description">twitter:description (fallback to og:description)</label>
+              <textarea id="tw-description" class="textarea-field" placeholder="Leave empty to use og:description" rows="2" maxlength="200"></textarea>
+            </div>
+            <div class="input-group">
+              <label for="tw-image">twitter:image (fallback to og:image)</label>
+              <input type="url" id="tw-image" class="input-field" placeholder="Leave empty to use og:image">
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="btn-row">
+          <button class="btn-primary" id="btn-generate">Generate Preview</button>
+          <button class="btn-secondary" id="btn-clear">Clear All</button>
+          <button class="btn-secondary" id="btn-sample">Load Sample</button>
+          <button class="btn-secondary" id="btn-copy-tags">Copy OG Tags</button>
+        </div>
+
+        <!-- Live Preview Cards -->
+        <div class="preview-grid" id="preview-grid">
+          <!-- Facebook -->
+          <div class="preview-card">
+            <div class="preview-card-header">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+              Facebook
+            </div>
+            <div class="fb-preview" id="fb-preview">
+              <div class="fb-preview-img" id="fb-img"><span>No image set</span></div>
+              <div class="fb-preview-body">
+                <div class="fb-preview-site" id="fb-site">example.com</div>
+                <div class="fb-preview-title" id="fb-title">Your Page Title</div>
+                <div class="fb-preview-desc" id="fb-desc">Your page description will appear here</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Twitter -->
+          <div class="preview-card">
+            <div class="preview-card-header">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              Twitter / X
+            </div>
+            <div class="tw-preview" id="tw-preview">
+              <div class="tw-preview-img" id="tw-img"><span>No image set</span></div>
+              <div class="tw-preview-body">
+                <div class="tw-preview-site" id="tw-site">example.com</div>
+                <div class="tw-preview-title" id="tw-title-preview">Your Page Title</div>
+                <div class="tw-preview-desc" id="tw-desc">Your page description will appear here</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- LinkedIn -->
+          <div class="preview-card">
+            <div class="preview-card-header">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              LinkedIn
+            </div>
+            <div class="li-preview" id="li-preview">
+              <div class="li-preview-img" id="li-img"><span>No image set</span></div>
+              <div class="li-preview-body">
+                <div class="li-preview-title" id="li-title">Your Page Title</div>
+                <div class="li-preview-site" id="li-site">example.com</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Discord -->
+          <div class="preview-card">
+            <div class="preview-card-header">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+              Discord
+            </div>
+            <div class="dc-preview" id="dc-preview">
+              <div class="dc-preview-site" id="dc-site">Your Site Name</div>
+              <div class="dc-preview-title" id="dc-title">Your Page Title</div>
+              <div class="dc-preview-desc" id="dc-desc">Your page description will appear here</div>
+              <div class="dc-preview-img" id="dc-img"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Generated Tags Output -->
+        <h3 style="margin-top:var(--sp-4);font-size:.9375rem">Generated Meta Tags</h3>
+        <div class="tags-output" id="tags-output">
+          <button class="copy-btn" id="btn-copy-output">Copy</button>
+          <span class="text-muted">Your generated Open Graph and Twitter Card meta tags will appear here...</span>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(2,1fr)">
+          <div class="feature-card">
+            <h3>Multi-Platform Preview</h3>
+            <p>See exactly how your shared link will render on four major platforms simultaneously. Facebook, Twitter, LinkedIn, and Discord all interpret Open Graph tags differently, applying unique layouts, image crops, and text truncation rules. This tool reproduces each platform's card design so you can identify issues before publishing. No more sharing a link only to discover the image is cropped awkwardly or the title is cut off mid-sentence. You get an accurate visual preview that matches real-world behavior on every platform.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Live Real-Time Updates</h3>
+            <p>Every character you type immediately refreshes all four preview mockups without any button clicks or page reloads. This real-time feedback loop lets you rapidly iterate on titles, descriptions, and image URLs until the preview looks perfect. You can experiment with different description lengths to see exactly where each platform truncates your text, test various title formats for maximum impact, and confirm that your chosen image renders well at every aspect ratio used by the platforms.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Ready-to-Use Tag Generator</h3>
+            <p>Once you are satisfied with the previews, copy properly formatted HTML meta tags with a single click. The generator produces both Open Graph and Twitter Card markup with correct attribute names and proper escaping. Paste the tags directly into the head section of your HTML document and your social sharing previews are configured. This eliminates manual tag authoring, reduces typos, and ensures you never forget a required attribute. The output follows current best practices for both protocols.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Twitter Card Support</h3>
+            <p>In addition to Open Graph tags, this tool lets you customize Twitter-specific card properties. Choose between summary and summary_large_image card types, set a separate Twitter title and description if needed, or rely on automatic fallback to your OG values. Twitter processes its own meta tags first and only falls back to Open Graph when its native tags are absent. Having dedicated fields for both protocols gives you full control over how your content appears on every platform without any guesswork.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Open Graph Preview Tool</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Enter your Open Graph details.</strong> Fill in the og:title, og:description, og:image URL, and other fields in the Open Graph Tags section. The title and image are the most important elements that determine how your share card will look across all platforms.</li>
+          <li><strong>Configure Twitter Card options.</strong> If you want different text or images on Twitter compared to Facebook and LinkedIn, fill in the Twitter Card fields. Otherwise, leave them empty and the tool will automatically fall back to your Open Graph values.</li>
+          <li><strong>Review the live previews.</strong> As you type, all four platform mockups update in real time. Check that your title is not truncated, your description conveys the right message, and your image displays correctly at each platform's aspect ratio.</li>
+          <li><strong>Copy the generated meta tags.</strong> Click the Copy OG Tags button to copy properly formatted HTML meta tags to your clipboard. Paste them into the <code>&lt;head&gt;</code> section of your web page to enable rich social sharing previews.</li>
+        </ol>
+      </section>
+
+      <!-- Content Section -->
+      <section class="mt-4">
+        <h2>Understanding Open Graph and Social Sharing</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">The Open Graph protocol was introduced by Facebook in 2010 to standardize how web pages are represented when shared on social media. Before Open Graph, sharing a URL on Facebook would often produce unpredictable results with incorrect images, missing titles, or generic descriptions pulled from random page content. By embedding a small set of meta tags in the HTML head section, developers gained complete control over the share card appearance. Today, the Open Graph protocol is supported by virtually every social media platform, messaging application, and content aggregator on the internet.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">The core Open Graph tags include og:title, og:description, og:image, og:url, og:type, and og:site_name. The title and image are the two most impactful elements because they occupy the most visual real estate in a share card. Research consistently shows that posts with well-optimized Open Graph images receive significantly higher click-through rates than those with generic or missing images. The description provides context that helps users decide whether to click, making it a critical factor in social media engagement.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Twitter developed its own card system that runs in parallel with Open Graph. Twitter Cards use a separate set of meta tags prefixed with twitter: instead of og:. The twitter:card tag is unique because it controls the visual layout rather than the content. The summary card type shows a small thumbnail beside the text, while summary_large_image displays a large banner image above the text. When Twitter-specific tags are not present, the platform falls back to reading Open Graph tags, which is why many sites only implement OG tags. However, using both gives you fine-grained control over each platform independently.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">LinkedIn and Discord also rely on Open Graph tags to generate link previews. LinkedIn renders share cards with a focus on the image and title, displaying the domain name beneath. Discord creates rich embeds with a colored sidebar, site name, title, description, and image arranged vertically. Each platform applies its own rules for image cropping, text truncation, and layout, which is why previewing your tags across multiple platforms is essential. An image that looks perfect on Facebook might be cropped poorly on Twitter or displayed at an unexpected size in a Discord chat.</p>
+        <p style="color:var(--text-muted);line-height:1.7">Proper Open Graph implementation is also a strong signal for professional web development and content strategy. Search engines do not use OG tags for ranking, but the improved click-through rates from attractive share cards drive more traffic, increase dwell time, and generate natural backlinks. For content marketers, e-commerce sites, bloggers, and SaaS products, investing a few minutes in configuring Open Graph tags can meaningfully improve the performance of every shared link across every social channel.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is the Open Graph protocol?</summary>
+          <p>The Open Graph protocol is a standard created by Facebook that uses HTML meta tags to define how a web page should be represented when shared on social media platforms. These meta tags, placed in the head section of your HTML, tell platforms like Facebook, Twitter, LinkedIn, and Discord what title, description, image, and URL to display in the share card. Without Open Graph tags, platforms attempt to scrape your page content and often produce inconsistent or unappealing previews. The protocol transforms any URL into a rich, visually formatted object across the entire social web.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Which Open Graph tags are required?</summary>
+          <p>According to the Open Graph specification, four tags are required: og:title (the title of your content), og:type (the type of object, such as website or article), og:image (a URL to an image representing the content), and og:url (the canonical URL of the page). In practice, you should also include og:description and og:site_name for the best results. Most social platforms will still generate a preview with just a title and image, but including all six recommended tags ensures consistent, high-quality share cards across every platform.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the recommended Open Graph image size?</summary>
+          <p>The recommended image size is 1200 by 630 pixels, which produces a 1.91:1 aspect ratio. This dimension works well across Facebook, LinkedIn, and most other platforms. For Twitter summary_large_image cards, 1200 by 628 pixels is ideal, and for the standard summary card, a square 400 by 400 pixel image works best. Keep your image file size under 5 megabytes for Facebook and under 8 megabytes for other platforms. Use JPEG or PNG format for maximum compatibility, and ensure that important content like text or logos is centered since different platforms crop images differently.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What are Twitter Cards and how do they relate to Open Graph?</summary>
+          <p>Twitter Cards are a set of meta tags specific to Twitter that control how your content appears when shared on the platform. The key tag is twitter:card, which determines the card layout: summary shows a small image with text, while summary_large_image displays a large banner image. Twitter checks for its own tags first, then falls back to Open Graph tags if the Twitter-specific tags are missing. This means if you only set og:title and og:description, Twitter will use those values. However, having separate Twitter tags lets you customize the Twitter appearance independently from other platforms.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How can I debug Open Graph tags on my live site?</summary>
+          <p>Each major platform offers an official debugging tool. Facebook provides the Sharing Debugger at developers.facebook.com where you can enter a URL and see exactly which tags are detected, view error warnings, and force Facebook to re-scrape the page. Twitter has the Card Validator that shows a preview of your Twitter Card. LinkedIn offers the Post Inspector tool for checking how your link will appear in the LinkedIn feed. For general validation, you can also view your page source and search for the og: and twitter: meta tags to verify they are present and properly formatted in the HTML head section.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Do Open Graph tags affect SEO rankings?</summary>
+          <p>Open Graph tags have no direct impact on search engine rankings. Google and other search engines use their own set of meta tags and signals to determine page relevance and authority. However, OG tags have a powerful indirect effect on SEO. When your content is shared on social media with an attractive preview card featuring a compelling title, clear description, and eye-catching image, users are far more likely to click through to your site. This increased social traffic, engagement, and potential backlinks from users who discover and reference your content all contribute positively to your overall SEO performance over time.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do different platforms handle Open Graph tags?</summary>
+          <p>Each platform interprets and displays Open Graph tags with its own rules. Facebook uses the full set of OG tags and caches them aggressively, meaning changes may not appear until you purge the cache using the Sharing Debugger. Twitter prioritizes its own twitter: tags and falls back to OG tags when they are absent, with the card type determining the visual layout. LinkedIn reads OG tags and renders a card with the image prominently displayed above the title and domain. Discord creates an embed box with a colored sidebar, stacking the site name, title, description, and image vertically. Image cropping, text length limits, and overall card dimensions vary across all platforms, which is exactly why using a multi-platform preview tool like this one is so valuable.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+          <a href="https://toolrip.com/word-count">Word Counter</a>
+          <a href="https://toolrip.com/case">Case Converter</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+  (function(){
+    'use strict';
+
+    /* ========== DOM References ========== */
+    var ogTitle = document.getElementById('og-title');
+    var ogDesc = document.getElementById('og-description');
+    var ogImage = document.getElementById('og-image');
+    var ogUrl = document.getElementById('og-url');
+    var ogSiteName = document.getElementById('og-site-name');
+    var ogType = document.getElementById('og-type');
+    var twCard = document.getElementById('tw-card');
+    var twTitle = document.getElementById('tw-title');
+    var twDesc = document.getElementById('tw-description');
+    var twImage = document.getElementById('tw-image');
+
+    var btnGenerate = document.getElementById('btn-generate');
+    var btnClear = document.getElementById('btn-clear');
+    var btnSample = document.getElementById('btn-sample');
+    var btnCopyTags = document.getElementById('btn-copy-tags');
+    var btnCopyOutput = document.getElementById('btn-copy-output');
+    var tagsOutput = document.getElementById('tags-output');
+
+    /* ========== Utility: Extract domain from URL ========== */
+    function extractDomain(url) {
+      if (!url) return '';
+      try {
+        var u = new URL(url);
+        return u.hostname;
+      } catch (e) {
+        return url.replace(/^https?:\/\//, '').split('/')[0] || '';
+      }
+    }
+
+    /* ========== Utility: Escape HTML ========== */
+    function esc(str) {
+      var d = document.createElement('div');
+      d.appendChild(document.createTextNode(str));
+      return d.innerHTML;
+    }
+
+    /* ========== Resolve effective values ========== */
+    function getValues() {
+      var title = ogTitle.value.trim() || 'Your Page Title';
+      var desc = ogDesc.value.trim() || '';
+      var image = ogImage.value.trim() || '';
+      var url = ogUrl.value.trim() || '';
+      var siteName = ogSiteName.value.trim() || '';
+      var type = ogType.value;
+
+      var tTitle = twTitle.value.trim() || title;
+      var tDesc = twDesc.value.trim() || desc;
+      var tImage = twImage.value.trim() || image;
+      var tCard = twCard.value;
+
+      var domain = extractDomain(url) || 'example.com';
+
+      return {
+        title: title, desc: desc, image: image, url: url,
+        siteName: siteName, type: type, domain: domain,
+        tTitle: tTitle, tDesc: tDesc, tImage: tImage, tCard: tCard
+      };
+    }
+
+    /* ========== Set Image in Preview ========== */
+    function setPreviewImage(container, src) {
+      if (src) {
+        var img = document.createElement('img');
+        img.src = src;
+        img.alt = 'OG Preview Image';
+        img.onerror = function() {
+          container.innerHTML = '<span>Image failed to load</span>';
+        };
+        container.innerHTML = '';
+        container.appendChild(img);
+      } else {
+        container.innerHTML = '<span>No image set</span>';
+      }
+    }
+
+    /* ========== Update Previews ========== */
+    function updatePreviews() {
+      var v = getValues();
+
+      /* Facebook */
+      setPreviewImage(document.getElementById('fb-img'), v.image);
+      document.getElementById('fb-site').textContent = v.domain.toUpperCase();
+      document.getElementById('fb-title').textContent = v.title;
+      document.getElementById('fb-desc').textContent = v.desc || 'No description provided';
+
+      /* Twitter */
+      setPreviewImage(document.getElementById('tw-img'), v.tImage);
+      document.getElementById('tw-site').textContent = v.domain;
+      document.getElementById('tw-title-preview').textContent = v.tTitle;
+      document.getElementById('tw-desc').textContent = v.tDesc || 'No description provided';
+
+      /* LinkedIn */
+      setPreviewImage(document.getElementById('li-img'), v.image);
+      document.getElementById('li-title').textContent = v.title;
+      document.getElementById('li-site').textContent = v.domain;
+
+      /* Discord */
+      document.getElementById('dc-site').textContent = v.siteName || v.domain;
+      document.getElementById('dc-title').textContent = v.title;
+      document.getElementById('dc-desc').textContent = v.desc || 'No description provided';
+      var dcImg = document.getElementById('dc-img');
+      if (v.image) {
+        setPreviewImage(dcImg, v.image);
+        dcImg.style.display = '';
+      } else {
+        dcImg.innerHTML = '';
+        dcImg.style.display = 'none';
+      }
+
+      /* Update generated tags */
+      updateGeneratedTags(v);
+    }
+
+    /* ========== Generate Meta Tags HTML ========== */
+    function buildTagsText(v) {
+      var lines = [];
+      lines.push('<!-- Open Graph Tags -->');
+      if (v.title && v.title !== 'Your Page Title') lines.push('<meta property="og:title" content="' + v.title + '">');
+      if (v.desc) lines.push('<meta property="og:description" content="' + v.desc + '">');
+      if (v.image) lines.push('<meta property="og:image" content="' + v.image + '">');
+      if (v.url) lines.push('<meta property="og:url" content="' + v.url + '">');
+      lines.push('<meta property="og:type" content="' + v.type + '">');
+      if (v.siteName) lines.push('<meta property="og:site_name" content="' + v.siteName + '">');
+      lines.push('');
+      lines.push('<!-- Twitter Card Tags -->');
+      lines.push('<meta name="twitter:card" content="' + v.tCard + '">');
+      if (twTitle.value.trim()) lines.push('<meta name="twitter:title" content="' + v.tTitle + '">');
+      if (twDesc.value.trim()) lines.push('<meta name="twitter:description" content="' + v.tDesc + '">');
+      if (twImage.value.trim()) lines.push('<meta name="twitter:image" content="' + v.tImage + '">');
+      return lines.join('\n');
+    }
+
+    function updateGeneratedTags(v) {
+      var raw = buildTagsText(v);
+      var highlighted = raw
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/(property|name|content)=/g, '<span class="tag-key">$1</span>=')
+        .replace(/"([^"]*)"/g, '"<span class="tag-val">$1</span>"');
+
+      tagsOutput.innerHTML = '<button class="copy-btn" id="btn-copy-output">Copy</button>' + highlighted;
+
+      /* Rebind copy button */
+      document.getElementById('btn-copy-output').addEventListener('click', function() {
+        var plain = buildTagsText(getValues());
+        copyToClipboard(plain, this);
+        showToast('Tags copied to clipboard!', 'success');
+      });
+    }
+
+    /* ========== Event Listeners ========== */
+
+    /* Real-time preview on input */
+    var allInputs = [ogTitle, ogDesc, ogImage, ogUrl, ogSiteName, ogType, twCard, twTitle, twDesc, twImage];
+    allInputs.forEach(function(el) {
+      el.addEventListener('input', updatePreviews);
+      el.addEventListener('change', updatePreviews);
+    });
+
+    /* Generate button */
+    btnGenerate.addEventListener('click', function() {
+      updatePreviews();
+      showToast('Preview generated!', 'success');
+      document.getElementById('preview-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    /* Clear button */
+    btnClear.addEventListener('click', function() {
+      allInputs.forEach(function(el) {
+        if (el.tagName === 'SELECT') {
+          el.selectedIndex = 0;
+        } else {
+          el.value = '';
+        }
+      });
+      updatePreviews();
+      showToast('All fields cleared', 'info');
+    });
+
+    /* Sample data */
+    btnSample.addEventListener('click', function() {
+      ogTitle.value = 'How to Build a High-Performance Web Application in 2026';
+      ogDesc.value = 'Learn the latest techniques for building fast, accessible, and SEO-friendly web applications. Covers frameworks, performance optimization, and deployment strategies.';
+      ogImage.value = 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&h=630&fit=crop';
+      ogUrl.value = 'https://example.com/blog/high-performance-web-app';
+      ogSiteName.value = 'TechBlog';
+      ogType.value = 'article';
+      twCard.value = 'summary_large_image';
+      twTitle.value = '';
+      twDesc.value = '';
+      twImage.value = '';
+      updatePreviews();
+      showToast('Sample data loaded', 'info');
+    });
+
+    /* Copy OG Tags button */
+    btnCopyTags.addEventListener('click', function() {
+      var plain = buildTagsText(getValues());
+      copyToClipboard(plain, this);
+      showToast('Tags copied to clipboard!', 'success');
+    });
+
+    /* Copy output button (initial bind) */
+    btnCopyOutput.addEventListener('click', function() {
+      var plain = buildTagsText(getValues());
+      copyToClipboard(plain, this);
+      showToast('Tags copied to clipboard!', 'success');
+    });
+
+    /* ========== Initial render ========== */
+    updatePreviews();
+
+  })();
+  </script>
+</body>
+</html>

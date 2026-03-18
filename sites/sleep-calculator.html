@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sleep Calculator — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Calculate the best bedtime or wake-up time based on 90-minute sleep cycles. Find your ideal sleep schedule for better rest. Free, instant, no signup required.">
+  <meta name="keywords" content="sleep calculator, sleep cycle calculator, bedtime calculator, wake up time calculator, sleep schedule, REM sleep, sleep stages, circadian rhythm">
+  <link rel="canonical" href="https://toolrip.com/sleep">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Sleep Calculator — Free, Fast, No Signup | Toolrip">
+  <meta property="og:description" content="Calculate the best bedtime or wake-up time based on 90-minute sleep cycles. Find your ideal sleep schedule for better rest.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/sleep">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Sleep Calculator — Free, Fast, No Signup | Toolrip">
+  <meta name="twitter:description" content="Calculate the best bedtime or wake-up time based on 90-minute sleep cycles. Find your ideal sleep schedule for better rest.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root { --accent: var(--health); }
+
+    .mode-toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: var(--border);
+      border-radius: var(--radius);
+      padding: 2px;
+      margin-bottom: var(--sp-4);
+    }
+    .mode-btn {
+      padding: var(--sp-2) var(--sp-3);
+      background: transparent;
+      border: none;
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      font: inherit;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      text-align: center;
+    }
+    .mode-btn.active {
+      background: var(--bg-surface);
+      color: var(--accent);
+    }
+
+    .time-input-row {
+      display: flex;
+      align-items: end;
+      gap: var(--sp-3);
+      flex-wrap: wrap;
+    }
+
+    .age-select {
+      min-width: 180px;
+    }
+
+    /* Results */
+    .results-area { display: none; margin-top: var(--sp-4); }
+    .results-area.visible { display: block; }
+
+    .result-intro {
+      text-align: center;
+      padding: var(--sp-4);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--sp-4);
+    }
+    .result-intro .ri-label {
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      margin-bottom: var(--sp-2);
+    }
+    .result-intro .ri-recommendation {
+      font-size: 0.875rem;
+      color: var(--accent);
+      margin-top: var(--sp-2);
+    }
+
+    .cycle-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--sp-3);
+    }
+    @media (min-width: 640px) {
+      .cycle-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .cycle-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-3);
+      text-align: center;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      position: relative;
+    }
+    .cycle-card.recommended {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent);
+    }
+    .cycle-card .cc-badge {
+      display: none;
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 10px;
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .cycle-card.recommended .cc-badge { display: inline-block; }
+    .cycle-card .cc-time {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.2;
+      margin-top: var(--sp-1);
+    }
+    .cycle-card .cc-time-24 {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .cycle-card .cc-cycles {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: var(--sp-2);
+    }
+    .cycle-card .cc-hours {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Age recommendation table */
+    .age-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: var(--sp-3) 0;
+      font-size: 0.875rem;
+    }
+    .age-table th,
+    .age-table td {
+      padding: var(--sp-2) var(--sp-3);
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .age-table th {
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .age-table td { color: var(--text); }
+    .age-table tr.highlight td {
+      color: var(--accent);
+      font-weight: 600;
+    }
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Sleep Calculator",
+    "url": "https://toolrip.com/sleep",
+    "description": "Calculate the best bedtime or wake-up time based on 90-minute sleep cycles. Find your ideal sleep schedule by age for better rest and energy.",
+    "applicationCategory": "HealthApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is a sleep cycle and how long does it last?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A sleep cycle is a complete sequence of sleep stages that your brain cycles through during the night. Each cycle lasts approximately 90 minutes and includes light sleep (stages 1 and 2), deep sleep (stage 3), and REM sleep. Most adults experience four to six complete cycles per night. Waking up at the end of a cycle, rather than in the middle, tends to leave you feeling more refreshed and alert."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why are sleep cycles 90 minutes long?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The 90-minute duration is an average observed across sleep studies using polysomnography (EEG monitoring). In reality, individual cycles can range from roughly 70 to 120 minutes, and the composition of each cycle changes throughout the night — earlier cycles contain more deep sleep, while later cycles have longer REM periods. The 90-minute figure is a practical approximation that works well for most adults when planning bedtimes and wake-up times."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much sleep do I need based on my age?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sleep needs vary significantly by age. Newborns (0-3 months) need 14-17 hours, infants (4-11 months) need 12-15 hours, toddlers (1-2 years) need 11-14 hours, preschoolers (3-5 years) need 10-13 hours, school-age children (6-13 years) need 9-11 hours, teenagers (14-17 years) need 8-10 hours, young adults and adults (18-64 years) need 7-9 hours, and older adults (65+) need 7-8 hours. These are guidelines from the National Sleep Foundation, and individual needs may vary."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is napping good or bad for my sleep?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Short naps of 10 to 20 minutes (power naps) can boost alertness and performance without causing grogginess. A 90-minute nap allows you to complete one full sleep cycle including REM sleep, which can enhance creativity and emotional processing. However, napping too late in the afternoon or for too long can interfere with nighttime sleep by reducing your sleep drive. If you struggle with insomnia, it is generally best to avoid naps altogether so that sleep pressure builds naturally throughout the day."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is sleep debt and can I recover from it?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sleep debt is the cumulative difference between the amount of sleep you need and the amount you actually get. For example, if you need eight hours but only sleep six hours for five nights, you accumulate ten hours of sleep debt. Short-term sleep debt can often be recovered by sleeping extra on subsequent nights. However, chronic sleep debt built up over weeks or months is harder to resolve and has been linked to impaired cognitive function, weakened immunity, and increased risk of chronic conditions. Consistent, adequate nightly sleep is the best strategy."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why does the calculator add 14 minutes to fall asleep?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The 14-minute figure is based on research indicating that the average healthy adult takes about 10 to 20 minutes to fall asleep under normal conditions. This period, known as sleep onset latency, is when you transition from wakefulness into the first stage of light sleep. The calculator uses 14 minutes as a reasonable middle estimate. If you typically fall asleep faster or slower, you can mentally adjust the suggested times by a few minutes in either direction."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the best time to go to sleep and wake up?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The ideal sleep and wake times depend on your personal schedule, chronotype (whether you are naturally a morning person or a night owl), and how many hours of sleep you need. However, aligning your sleep with your circadian rhythm — typically sleeping during darkness and waking with daylight — supports better sleep quality. For most adults, going to bed between 9 PM and midnight and waking between 5 AM and 8 AM works well. The key is consistency: going to bed and waking up at the same times every day, including weekends, helps regulate your internal clock."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Health & Fitness", "item": "https://toolrip.com/#health" },
+      { "@type": "ListItem", "position": 3, "name": "Sleep Calculator", "item": "https://toolrip.com/sleep" }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="sleep-top">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#health">Health &amp; Fitness</a>
+        <span>/</span>
+        <span>Sleep Calculator</span>
+      </nav>
+
+      <h1>Sleep Calculator</h1>
+      <p class="text-muted mt-1 mb-3">Find the best time to go to bed or wake up based on 90-minute sleep cycles. Align your sleep schedule with your natural sleep stages to wake up feeling refreshed. Free, instant, and private.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+
+        <!-- Mode Toggle -->
+        <div class="mode-toggle">
+          <button class="mode-btn active" id="mode-wake" onclick="setMode('wake')">I want to wake up at&hellip;</button>
+          <button class="mode-btn" id="mode-sleep" onclick="setMode('sleep')">I'm going to sleep at&hellip;</button>
+        </div>
+
+        <!-- Time Input -->
+        <div class="time-input-row">
+          <div class="input-group" style="margin-bottom:0">
+            <label for="time-input" id="time-label">Wake-up time</label>
+            <input type="time" id="time-input" class="input-field" value="07:00" aria-label="Enter time">
+          </div>
+          <div class="input-group age-select" style="margin-bottom:0">
+            <label for="age-group">Age group</label>
+            <select id="age-group" class="select-field" aria-label="Select age group">
+              <option value="adult" selected>Adult (18-64)</option>
+              <option value="teen">Teenager (14-17)</option>
+              <option value="school">School-age (6-13)</option>
+              <option value="preschool">Preschool (3-5)</option>
+              <option value="older">Older adult (65+)</option>
+            </select>
+          </div>
+          <button class="btn-primary" onclick="calculate()" style="align-self:end">Calculate</button>
+        </div>
+
+        <!-- Results -->
+        <div class="results-area" id="results-area">
+          <div class="result-intro">
+            <div class="ri-label" id="result-label"></div>
+            <div class="ri-recommendation" id="result-recommendation"></div>
+          </div>
+          <div class="cycle-grid" id="cycle-grid"></div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="sleep-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Dual Calculation Modes</h3>
+            <p>Whether you know what time you need to wake up or what time you plan to go to bed, the Sleep Calculator works both ways. Enter a wake-up time to see the ideal bedtimes, or enter a bedtime to find the best wake-up times. Both modes account for the average 14-minute sleep onset latency and align suggestions to complete 90-minute sleep cycles, so you wake at the lightest phase of sleep and feel more alert.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Sleep Cycle Optimization</h3>
+            <p>The calculator shows you six options ranging from four to nine complete sleep cycles. Each option is clearly labeled with the number of cycles, total sleep hours, and the exact time formatted in both 12-hour and 24-hour notation. Recommended options for your selected age group are highlighted, making it easy to pick a time that fits your schedule while still meeting your body's sleep needs.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Age-Based Recommendations</h3>
+            <p>Sleep requirements change significantly across the lifespan. The calculator lets you select your age group and automatically highlights which cycle counts match the recommended sleep duration for that group. A teenager, for example, needs more sleep than a working adult, and the tool reflects this by marking different options as recommended for each age bracket.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Instant and Private</h3>
+            <p>Every calculation runs entirely in your browser. No data is sent to any server, no account is needed, and no personal information is collected. Results update instantly as you change the time or age group. You can even use this tool offline once the page has loaded, making it ideal for a quick check right before bed when you want to minimize screen time and blue light exposure.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Sleep Calculator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Choose your mode</strong> — Select "I want to wake up at" if you have a fixed wake-up time and need to find the best bedtime. Select "I'm going to sleep at" if you know when you are going to bed and want to find the best wake-up time.</li>
+          <li><strong>Enter your time</strong> — Use the time picker to set your target wake-up time or bedtime. The default is 7:00 AM, which you can adjust to any time that fits your schedule.</li>
+          <li><strong>Select your age group</strong> — Pick the age category that matches you. The calculator uses this to highlight which sleep durations are recommended for your age, based on guidelines from sleep research.</li>
+          <li><strong>View your results</strong> — Six options appear immediately, each corresponding to a different number of complete sleep cycles (four through nine). Recommended durations for your age group are highlighted with a badge. Both 12-hour and 24-hour time formats are shown for convenience.</li>
+        </ol>
+      </section>
+
+      <!-- Understanding Sleep Cycles -->
+      <section class="mt-4">
+        <h2>Understanding Sleep Cycles and Sleep Stages</h2>
+        <p style="color:var(--text-muted);line-height:1.7">Sleep is not a uniform state. Throughout the night your brain moves through a repeating sequence of distinct stages, and each complete sequence is called a sleep cycle. A typical cycle lasts about 90 minutes and consists of four stages: three stages of non-rapid eye movement (NREM) sleep followed by one stage of rapid eye movement (REM) sleep.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-top:var(--sp-3)"><strong style="color:var(--text)">Stage 1 (NREM 1) — Light Sleep:</strong> This is the transition between wakefulness and sleep. It typically lasts one to seven minutes. Your muscles relax, your heart rate slows, and your brain produces alpha and theta waves. You can be easily awakened during this stage, and you may experience hypnic jerks — sudden muscle twitches that feel like falling.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-top:var(--sp-3)"><strong style="color:var(--text)">Stage 2 (NREM 2) — Deeper Light Sleep:</strong> This stage accounts for roughly half of your total sleep time. Your body temperature drops, eye movements stop, and your brain produces sleep spindles and K-complexes — brief bursts of electrical activity that are believed to help consolidate memories and block external stimuli from waking you.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-top:var(--sp-3)"><strong style="color:var(--text)">Stage 3 (NREM 3) — Deep Sleep:</strong> Also called slow-wave sleep or delta sleep, this is the most physically restorative stage. Growth hormone is released, tissues are repaired, the immune system is strengthened, and energy stores are replenished. It is very difficult to wake someone during deep sleep, and being roused from this stage often causes sleep inertia — that groggy, disoriented feeling. Deep sleep dominates the earlier cycles of the night.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-top:var(--sp-3)"><strong style="color:var(--text)">REM Sleep — Dreaming Stage:</strong> REM sleep is when most vivid dreaming occurs. Your brain becomes highly active, your eyes move rapidly behind closed lids, and your voluntary muscles are temporarily paralyzed to prevent you from acting out dreams. REM sleep plays a critical role in emotional regulation, memory consolidation, and creative problem-solving. REM periods grow longer as the night progresses, with the final cycle often containing 30 to 60 minutes of REM sleep.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-top:var(--sp-3)">Because each cycle ends with a period of lighter sleep before transitioning into the next, waking up at the boundary between two cycles — rather than in the middle of deep sleep or REM — tends to produce a much more refreshed feeling. This is the core principle behind this calculator: by counting backward or forward in 90-minute intervals, it aligns your alarm with these natural transition points.</p>
+      </section>
+
+      <!-- Circadian Rhythm & Sleep Hygiene -->
+      <section class="mt-4">
+        <h2>Circadian Rhythm and Sleep Hygiene Tips</h2>
+        <p style="color:var(--text-muted);line-height:1.7">Your circadian rhythm is a roughly 24-hour internal clock regulated by the suprachiasmatic nucleus in your brain. It responds primarily to light and darkness, signaling your body when to feel alert and when to feel sleepy. Disruptions to this rhythm — from jet lag, shift work, or irregular sleep schedules — can impair sleep quality even if you spend enough total hours in bed. Maintaining a consistent sleep schedule is one of the most effective things you can do for better rest.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-top:var(--sp-3)">Good sleep hygiene habits that support your circadian rhythm include keeping your bedroom cool and dark, avoiding screens for at least 30 minutes before bed, limiting caffeine after early afternoon, getting bright light exposure in the morning, exercising regularly but not too close to bedtime, and establishing a relaxing pre-sleep routine. These practices do not replace medical advice for diagnosed sleep disorders, but they form the foundation of healthy sleep for most people.</p>
+
+        <!-- Age-Based Sleep Recommendations Table -->
+        <h3 style="margin-top:var(--sp-4);margin-bottom:var(--sp-2)">Recommended Sleep by Age</h3>
+        <div style="overflow-x:auto">
+          <table class="age-table">
+            <thead>
+              <tr><th>Age Group</th><th>Age Range</th><th>Recommended Sleep</th><th>Cycles</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Newborn</td><td>0 - 3 months</td><td>14 - 17 hours</td><td>9 - 11</td></tr>
+              <tr><td>Infant</td><td>4 - 11 months</td><td>12 - 15 hours</td><td>8 - 10</td></tr>
+              <tr><td>Toddler</td><td>1 - 2 years</td><td>11 - 14 hours</td><td>7 - 9</td></tr>
+              <tr><td>Preschool</td><td>3 - 5 years</td><td>10 - 13 hours</td><td>7 - 9</td></tr>
+              <tr><td>School-age</td><td>6 - 13 years</td><td>9 - 11 hours</td><td>6 - 7</td></tr>
+              <tr><td>Teenager</td><td>14 - 17 years</td><td>8 - 10 hours</td><td>5 - 7</td></tr>
+              <tr><td>Adult</td><td>18 - 64 years</td><td>7 - 9 hours</td><td>5 - 6</td></tr>
+              <tr><td>Older Adult</td><td>65+ years</td><td>7 - 8 hours</td><td>5 - 6</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is a sleep cycle and how long does it last?</summary>
+          <p>A sleep cycle is a complete sequence of sleep stages that your brain cycles through during the night. Each cycle lasts approximately 90 minutes and includes light sleep (stages 1 and 2), deep sleep (stage 3), and REM sleep. Most adults go through four to six complete cycles per night. The composition of each cycle changes as the night progresses: earlier cycles contain more deep sleep, which is essential for physical restoration, while later cycles include longer periods of REM sleep, which is important for memory consolidation and emotional processing. Waking at the end of a completed cycle, rather than in the middle of deep sleep or REM, tends to leave you feeling more alert and less groggy.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Why are sleep cycles approximately 90 minutes?</summary>
+          <p>The 90-minute duration is an average observed across decades of sleep research using polysomnography, which measures brain wave activity during sleep. In practice, individual cycles can range from about 70 to 120 minutes, and the length may vary even within the same night. The first cycle is often the shortest, while later cycles tend to be longer because they contain more REM sleep. The 90-minute figure is used by sleep calculators because it provides a practical approximation that works well for the majority of adults when planning bedtimes and wake-up times. If you consistently wake feeling groggy, your personal cycle length may differ slightly from average, and you can experiment by adjusting your alarm a few minutes earlier or later.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How much sleep do I need based on my age?</summary>
+          <p>Sleep needs vary significantly with age. Newborns require 14 to 17 hours of sleep per day, infants need 12 to 15 hours, toddlers 11 to 14 hours, preschoolers 10 to 13 hours, school-age children 9 to 11 hours, and teenagers 8 to 10 hours. Adults aged 18 to 64 generally need 7 to 9 hours, while older adults aged 65 and above need 7 to 8 hours. These recommendations come from the National Sleep Foundation and are based on extensive review of scientific literature. Individual needs can fall outside these ranges depending on genetics, activity level, overall health, and sleep quality. If you feel consistently rested and alert during the day, you are likely getting enough sleep regardless of the exact number.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is napping good or bad for sleep quality?</summary>
+          <p>Short naps of 10 to 20 minutes, often called power naps, can boost alertness, reaction time, and mood without causing grogginess or interfering with nighttime sleep. A 90-minute nap allows you to complete one full sleep cycle including REM sleep, which can enhance creative thinking and emotional processing. However, napping too late in the afternoon — generally after 3 PM — or for too long can reduce your homeostatic sleep drive, making it harder to fall asleep at night. People who suffer from insomnia are typically advised to avoid naps entirely so that sufficient sleep pressure builds throughout the day. If you nap regularly without nighttime sleep problems, napping is generally considered beneficial.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is sleep debt and can I recover from it?</summary>
+          <p>Sleep debt is the cumulative shortfall between the sleep you need and the sleep you actually get. If you need eight hours each night but only sleep six, you build up two hours of sleep debt per day — ten hours after a working week. Short-term sleep debt accumulated over a few days can usually be repaid by sleeping extra on subsequent nights, and most people feel recovered within one to two weekends of extended sleep. Chronic sleep debt that builds over weeks or months is more difficult to resolve and has been associated with impaired cognitive performance, weakened immune function, weight gain, and increased risk of cardiovascular disease and diabetes. The most effective strategy is to maintain a consistent sleep schedule that provides adequate nightly sleep rather than relying on weekend catch-up.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Why does the calculator add 14 minutes to fall asleep?</summary>
+          <p>The 14-minute figure is based on sleep research showing that the average healthy adult takes about 10 to 20 minutes to transition from full wakefulness to the first stage of sleep. This interval is known as sleep onset latency. By adding 14 minutes to the calculated bedtime, the tool accounts for the time you spend lying in bed before actually falling asleep, ensuring that the recommended times align with complete sleep cycles. If you know that you typically fall asleep much faster or slower than average, you can mentally adjust the suggested times by a few minutes. Consistently falling asleep in under five minutes may actually indicate sleep deprivation, while taking more than 30 minutes regularly could suggest insomnia and may warrant speaking with a healthcare professional.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the best time to go to sleep and wake up?</summary>
+          <p>There is no single best bedtime or wake-up time that applies to everyone. The ideal schedule depends on your chronotype (whether you are naturally an early bird or night owl), your daily obligations, and how many hours of sleep your body needs. That said, research suggests that aligning your sleep with natural light cycles supports better sleep quality. For most adults, this means going to bed between 9 PM and midnight and waking between 5 AM and 8 AM. The most important factor is consistency — going to bed and waking up at roughly the same times every day, including weekends, helps synchronize your circadian rhythm and improves both sleep quality and daytime alertness over time.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/bmi">BMI Calculator</a>
+          <a href="https://toolrip.com/calorie">Calorie Calculator</a>
+          <a href="https://toolrip.com/age">Age Calculator</a>
+          <a href="https://toolrip.com/date-diff">Date Difference Calculator</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="sleep-sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="sleep-bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Sleep Calculator JS -->
+  <script>
+  (function () {
+    'use strict';
+
+    var CYCLE_MIN = 90;
+    var FALL_ASLEEP_MIN = 14;
+    var CYCLES = [4, 5, 6, 7, 8, 9];
+
+    /* Age group → recommended cycle range (min, max inclusive) */
+    var AGE_REC = {
+      adult:     { min: 5, max: 6, label: '7 - 9 hours (5-6 cycles)' },
+      teen:      { min: 5, max: 7, label: '8 - 10 hours (5-7 cycles)' },
+      school:    { min: 6, max: 7, label: '9 - 11 hours (6-7 cycles)' },
+      preschool: { min: 7, max: 9, label: '10 - 13 hours (7-9 cycles)' },
+      older:     { min: 5, max: 6, label: '7 - 8 hours (5-6 cycles)' }
+    };
+
+    var currentMode = 'wake'; /* 'wake' = find bedtimes, 'sleep' = find wake times */
+
+    /* --- Helpers --- */
+    function parseTimeInput() {
+      var val = document.getElementById('time-input').value;
+      if (!val) return null;
+      var parts = val.split(':');
+      return { h: parseInt(parts[0], 10), m: parseInt(parts[1], 10) };
+    }
+
+    function addMinutes(h, m, delta) {
+      var total = h * 60 + m + delta;
+      /* Normalize to 0-1439 */
+      total = ((total % 1440) + 1440) % 1440;
+      return { h: Math.floor(total / 60), m: total % 60 };
+    }
+
+    function fmt12(h, m) {
+      var suffix = h >= 12 ? 'PM' : 'AM';
+      var hour12 = h % 12;
+      if (hour12 === 0) hour12 = 12;
+      return hour12 + ':' + String(m).padStart(2, '0') + ' ' + suffix;
+    }
+
+    function fmt24(h, m) {
+      return String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0');
+    }
+
+    function cycleHours(n) {
+      var totalMin = n * CYCLE_MIN;
+      var hrs = Math.floor(totalMin / 60);
+      var mins = totalMin % 60;
+      if (mins === 0) return hrs + 'h 0m';
+      return hrs + 'h ' + mins + 'm';
+    }
+
+    /* --- Mode switch --- */
+    window.setMode = function (mode) {
+      currentMode = mode;
+      document.getElementById('mode-wake').classList.toggle('active', mode === 'wake');
+      document.getElementById('mode-sleep').classList.toggle('active', mode === 'sleep');
+      document.getElementById('time-label').textContent = mode === 'wake' ? 'Wake-up time' : 'Bedtime';
+      /* Hide results when mode changes */
+      document.getElementById('results-area').classList.remove('visible');
+    };
+
+    /* --- Main calculation --- */
+    window.calculate = function () {
+      var time = parseTimeInput();
+      if (!time) {
+        showToast('Please enter a valid time.', 'error');
+        return;
+      }
+
+      var ageKey = document.getElementById('age-group').value;
+      var rec = AGE_REC[ageKey];
+
+      var area = document.getElementById('results-area');
+      area.classList.add('visible');
+
+      /* Build label */
+      var labelEl = document.getElementById('result-label');
+      var recEl = document.getElementById('result-recommendation');
+
+      if (currentMode === 'wake') {
+        labelEl.textContent = 'To wake up at ' + fmt12(time.h, time.m) + ', try going to bed at one of these times:';
+      } else {
+        labelEl.textContent = 'If you go to bed at ' + fmt12(time.h, time.m) + ', try waking up at one of these times:';
+      }
+      recEl.textContent = 'Recommended for your age group: ' + rec.label;
+
+      /* Calculate times */
+      var gridEl = document.getElementById('cycle-grid');
+      var html = '';
+
+      for (var i = CYCLES.length - 1; i >= 0; i--) {
+        var n = CYCLES[i];
+        var sleepMin = n * CYCLE_MIN;
+        var t;
+
+        if (currentMode === 'wake') {
+          /* Subtract sleep duration + fall-asleep time from wake-up time */
+          t = addMinutes(time.h, time.m, -(sleepMin + FALL_ASLEEP_MIN));
+        } else {
+          /* Add fall-asleep time + sleep duration to bedtime */
+          t = addMinutes(time.h, time.m, sleepMin + FALL_ASLEEP_MIN);
+        }
+
+        var isRec = n >= rec.min && n <= rec.max;
+
+        html += '<div class="cycle-card' + (isRec ? ' recommended' : '') + '">';
+        html += '<span class="cc-badge">Recommended</span>';
+        html += '<div class="cc-time">' + fmt12(t.h, t.m) + '</div>';
+        html += '<div class="cc-time-24">' + fmt24(t.h, t.m) + '</div>';
+        html += '<div class="cc-cycles">' + n + ' cycle' + (n !== 1 ? 's' : '') + '</div>';
+        html += '<div class="cc-hours">' + cycleHours(n) + ' of sleep</div>';
+        html += '</div>';
+      }
+
+      gridEl.innerHTML = html;
+
+      /* Scroll to results */
+      area.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    };
+
+    /* --- Init --- */
+    document.addEventListener('DOMContentLoaded', function () {
+      /* Auto-calculate on input change */
+      document.getElementById('time-input').addEventListener('change', function () {
+        var area = document.getElementById('results-area');
+        if (area.classList.contains('visible')) calculate();
+      });
+      document.getElementById('age-group').addEventListener('change', function () {
+        var area = document.getElementById('results-area');
+        if (area.classList.contains('visible')) calculate();
+      });
+    });
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Number Base Converter Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Convert numbers between binary, octal, decimal, hexadecimal, and any base from 2 to 36 instantly. Free online number base converter with real-time results. No signup required.">
+  <link rel="canonical" href="https://toolrip.com/number-base">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Number Base Converter — Toolrip">
+  <meta property="og:description" content="Convert numbers between binary, octal, decimal, hexadecimal, and any base from 2 to 36 instantly. Free online number base converter with real-time results.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/number-base">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Number Base Converter — Toolrip">
+  <meta name="twitter:description" content="Convert numbers between binary, octal, decimal, hexadecimal, and any base from 2 to 36 instantly. Free online number base converter with real-time results.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root{--accent:var(--conversion)}
+
+    .base-input{width:100%;padding:var(--sp-2) var(--sp-3);background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);color:var(--text);font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:1.125rem;letter-spacing:.05em;transition:border-color .15s}
+    .base-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent)}
+
+    .from-base-row{display:flex;flex-wrap:wrap;gap:var(--sp-2);align-items:center;margin-bottom:var(--sp-3)}
+    .from-base-row label{font-size:.875rem;font-weight:500;color:var(--text-muted);white-space:nowrap}
+    .base-select{padding:var(--sp-2) var(--sp-3);background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);color:var(--text);font-size:.9375rem;cursor:pointer;
+      appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%239ca3af'%3E%3Cpath d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat:no-repeat;background-position:right .75rem center;padding-right:2.25rem}
+    .base-select:focus{outline:none;border-color:var(--accent)}
+
+    .custom-base-input{width:64px;padding:var(--sp-2) var(--sp-3);background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);color:var(--text);font-size:.9375rem;text-align:center}
+    .custom-base-input:focus{outline:none;border-color:var(--accent)}
+
+    .results-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-3);margin-top:var(--sp-3)}
+    @media(max-width:639px){.results-grid{grid-template-columns:1fr}}
+
+    .result-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3);position:relative}
+    .result-card .result-label{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--sp-2)}
+    .result-card .result-label span{font-size:.8125rem;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.04em}
+    .result-card .result-label .base-badge{font-size:.6875rem;background:color-mix(in srgb,var(--accent) 15%,transparent);
+      color:var(--accent);padding:2px 8px;border-radius:var(--radius-sm);font-weight:600}
+    .result-value{font-family:'Consolas','Monaco','Courier New',monospace;font-size:1rem;color:var(--text);
+      word-break:break-all;line-height:1.6;min-height:1.6em;user-select:all}
+    .result-value.empty{color:var(--text-muted);font-style:italic;font-size:.875rem;user-select:none}
+    .result-card .copy-btn{position:absolute;top:var(--sp-2);right:var(--sp-2);padding:var(--sp-1) var(--sp-2);
+      background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-sm);
+      color:var(--text-muted);font-size:.75rem;cursor:pointer}
+    .result-card .copy-btn:hover{color:var(--text);border-color:var(--accent)}
+
+    .custom-result-section{margin-top:var(--sp-3);padding:var(--sp-3);background:var(--bg);
+      border:1px solid var(--border);border-radius:var(--radius)}
+    .custom-result-section .custom-row{display:flex;flex-wrap:wrap;gap:var(--sp-2);align-items:center}
+    .custom-result-section .custom-row label{font-size:.8125rem;font-weight:500;color:var(--text-muted);white-space:nowrap}
+    .custom-result-value{flex:1;min-width:0;font-family:'Consolas','Monaco','Courier New',monospace;font-size:1rem;
+      color:var(--text);word-break:break-all;line-height:1.6;padding:var(--sp-1) 0}
+    .custom-result-value.empty{color:var(--text-muted);font-style:italic;font-size:.875rem}
+
+    .error-bar{background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);border-radius:var(--radius-sm);
+      padding:var(--sp-2) var(--sp-3);color:#fca5a5;font-size:.8125rem;margin-bottom:var(--sp-2);display:none;
+      font-family:'Consolas','Monaco','Courier New',monospace;line-height:1.5}
+    .error-bar.visible{display:block}
+
+    .quick-bases{display:flex;flex-wrap:wrap;gap:var(--sp-1);margin-left:auto}
+    .quick-base-btn{padding:4px 10px;font-size:.75rem;border-radius:var(--radius-sm);background:var(--bg-elevated);
+      border:1px solid var(--border);color:var(--text-muted);cursor:pointer;font-family:inherit;transition:border-color .15s,color .15s}
+    .quick-base-btn:hover,.quick-base-btn.active{border-color:var(--accent);color:var(--accent)}
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Number Base Converter",
+    "url": "https://toolrip.com/number-base",
+    "description": "Convert numbers between binary, octal, decimal, hexadecimal, and any base from 2 to 36 instantly. Free online number base converter with real-time results.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#conversion">Conversion Tools</a>
+        <span>/</span>
+        <span>Number Base Converter</span>
+      </nav>
+
+      <h1>Number Base Converter Online</h1>
+      <p class="text-muted mt-1 mb-3">Convert numbers between binary, octal, decimal, hexadecimal, and any custom base from 2 to 36. Enter a number, select its base, and see all conversions instantly. Everything runs locally in your browser with zero server requests.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <!-- Error bar -->
+        <div class="error-bar" id="error-bar"></div>
+
+        <!-- Input row -->
+        <div class="input-group">
+          <label for="number-input">Enter Number</label>
+          <input type="text" id="number-input" class="base-input" placeholder="e.g. 255, FF, 11111111, 377" spellcheck="false" autocomplete="off">
+        </div>
+
+        <!-- From base selection -->
+        <div class="from-base-row">
+          <label for="from-base-select">From Base:</label>
+          <select id="from-base-select" class="base-select">
+            <option value="2">Binary (2)</option>
+            <option value="8">Octal (8)</option>
+            <option value="10" selected>Decimal (10)</option>
+            <option value="16">Hexadecimal (16)</option>
+            <option value="custom">Custom (2-36)</option>
+          </select>
+          <input type="number" id="from-custom-base" class="custom-base-input hidden" min="2" max="36" value="12" aria-label="Custom base value">
+          <div class="quick-bases">
+            <button class="quick-base-btn" data-base="2">BIN</button>
+            <button class="quick-base-btn" data-base="8">OCT</button>
+            <button class="quick-base-btn active" data-base="10">DEC</button>
+            <button class="quick-base-btn" data-base="16">HEX</button>
+          </div>
+        </div>
+
+        <!-- Results grid -->
+        <div class="results-grid">
+          <div class="result-card" data-base="2">
+            <div class="result-label">
+              <span>Binary</span>
+              <span class="base-badge">Base 2</span>
+            </div>
+            <div class="result-value empty" id="result-bin">Enter a number above</div>
+            <button class="copy-btn" onclick="copyResult(2)">Copy</button>
+          </div>
+          <div class="result-card" data-base="8">
+            <div class="result-label">
+              <span>Octal</span>
+              <span class="base-badge">Base 8</span>
+            </div>
+            <div class="result-value empty" id="result-oct">Enter a number above</div>
+            <button class="copy-btn" onclick="copyResult(8)">Copy</button>
+          </div>
+          <div class="result-card" data-base="10">
+            <div class="result-label">
+              <span>Decimal</span>
+              <span class="base-badge">Base 10</span>
+            </div>
+            <div class="result-value empty" id="result-dec">Enter a number above</div>
+            <button class="copy-btn" onclick="copyResult(10)">Copy</button>
+          </div>
+          <div class="result-card" data-base="16">
+            <div class="result-label">
+              <span>Hexadecimal</span>
+              <span class="base-badge">Base 16</span>
+            </div>
+            <div class="result-value empty" id="result-hex">Enter a number above</div>
+            <button class="copy-btn" onclick="copyResult(16)">Copy</button>
+          </div>
+        </div>
+
+        <!-- Custom base output -->
+        <div class="custom-result-section">
+          <div class="custom-row">
+            <label for="to-custom-base">Custom Base:</label>
+            <input type="number" id="to-custom-base" class="custom-base-input" min="2" max="36" value="6" aria-label="Custom output base">
+            <div class="custom-result-value empty" id="result-custom">Enter a number and set a custom base</div>
+            <button class="copy-btn" style="position:static;flex-shrink:0" onclick="copyResult('custom')">Copy</button>
+          </div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Real-Time Simultaneous Conversion</h3>
+            <p>Every keystroke triggers an instant conversion across all four major number bases and your chosen custom base at the same time. There is no submit button to press and no server to wait for. As soon as you type a digit, binary, octal, decimal, and hexadecimal representations appear simultaneously in clearly labeled output cards. This immediate feedback loop makes it effortless to experiment with values and understand how the same number looks in different positional numeral systems used throughout computer science and digital electronics.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Any Base from 2 to 36</h3>
+            <p>Go beyond the standard four bases with full support for any radix between 2 and 36. Base-36 encoding uses the complete set of digits 0 through 9 plus letters A through Z, which is frequently used for compact URL-safe identifiers, timestamp shortening, and alphanumeric hash generation. The custom base input lets you convert to and from unusual radixes like base-3 (ternary), base-5 (quinary), base-12 (duodecimal), or base-20 (vigesimal) that appear in specialized computing, mathematics, and historical numeral systems.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Large Number Support</h3>
+            <p>This converter handles integers well beyond the standard 32-bit range by using JavaScript BigInt for numbers that exceed the safe integer limit of 2^53 - 1. Whether you are working with 64-bit memory addresses, cryptographic key values, or very long binary strings from hardware register dumps, the tool converts them accurately without rounding errors or silent truncation. Every output displays the complete digit sequence regardless of how many digits the converted number contains, ensuring reliable results for embedded systems, low-level debugging, and large-scale numerical computation.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Number Base Converter</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Select the input base.</strong> Choose the base of the number you want to convert from the dropdown menu or the quick-select buttons: Binary (2), Octal (8), Decimal (10), or Hexadecimal (16). If your number uses a different radix, select Custom and enter any base from 2 to 36 in the field that appears.</li>
+          <li><strong>Enter your number.</strong> Type or paste the number into the input field. For hexadecimal, use digits 0-9 and letters A-F (case insensitive). For bases above 10, letters represent values from 10 (A) up to 35 (Z). The tool validates your input against the selected base and highlights errors immediately.</li>
+          <li><strong>Read the results.</strong> All four standard base outputs (binary, octal, decimal, hexadecimal) update in real time as you type. Set the custom base field at the bottom to see the number converted to any radix from 2 to 36. Click the Copy button on any result card to send that value to your clipboard instantly.</li>
+        </ol>
+      </section>
+
+      <!-- Understanding Number Systems -->
+      <section class="mt-4">
+        <h2>Understanding Number Systems in Computing</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Number systems are the foundation of how computers store, process, and communicate data. Every piece of information inside a digital device, from a single pixel on your screen to a complex database record, ultimately reduces to sequences of digits in a positional numeral system. Understanding how to convert between these systems is an essential skill for software developers, network engineers, electronics designers, and cybersecurity analysts.</p>
+
+        <h3 style="margin-bottom:var(--sp-2)">Binary — The Language of Machines</h3>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Binary, or base-2, is the most fundamental number system in computing. Digital circuits operate using two voltage levels that correspond to the two binary digits: 0 and 1. Every processor instruction, every byte of memory, and every network packet is ultimately represented in binary. A single binary digit is called a bit, eight bits form a byte, and modern processors handle 64-bit words in a single clock cycle. When you write a program in any language, the compiler or interpreter eventually translates your code into sequences of binary instructions that the CPU can execute. Understanding binary is crucial for tasks like bitwise operations, subnet mask calculation, file permission flags, and hardware register configuration. For example, the decimal number 255 appears as 11111111 in binary, which represents a byte with all eight bits set to one, commonly seen as the maximum value in an unsigned byte, the broadcast component of an IP subnet mask, or full intensity in a single RGB color channel.</p>
+
+        <h3 style="margin-bottom:var(--sp-2)">Hexadecimal — The Developer's Shorthand</h3>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Hexadecimal, or base-16, uses digits 0 through 9 and letters A through F to represent values from zero to fifteen. Because 16 is a power of two (2^4), each hexadecimal digit maps exactly to four binary bits, making it a compact and human-readable way to express binary data. Programmers use hexadecimal constantly: memory addresses in debuggers appear as hex values like 0x7FFE0000; CSS colors are specified as six-digit hex codes like #3B82F6 where each pair of digits represents one RGB channel; Unicode code points are written as U+0041 for the letter A; and raw byte streams in hex editors display two hex digits per byte. A 32-bit integer that requires ten decimal digits or thirty-two binary digits can be written in just eight hexadecimal characters, which makes hex indispensable for reading memory dumps, analyzing network packets, and specifying color values in web design.</p>
+
+        <h3 style="margin-bottom:var(--sp-2)">Octal — Unix Permissions and Legacy Systems</h3>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Octal, or base-8, uses digits 0 through 7. Each octal digit corresponds exactly to three binary bits, which aligns neatly with the Unix file permission model. In Unix and Linux, file permissions are divided into three groups of three bits: owner, group, and others. Each group has read (4), write (2), and execute (1) flags that sum to a single octal digit. The familiar command <code>chmod 755</code> sets the owner to read-write-execute (7 = 111 in binary), and both group and others to read-execute (5 = 101 in binary). Octal was historically popular in early computing systems like the PDP-8 and IBM mainframes that used word sizes divisible by three. While hexadecimal has largely replaced octal for general binary representation, octal notation remains the standard for Unix permissions, C/C++ octal escape sequences (like \033 for the escape character), and some embedded systems where three-bit groupings are natural.</p>
+
+        <h3 style="margin-bottom:var(--sp-2)">Decimal — The Human Standard</h3>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Decimal, or base-10, is the number system humans use every day. It has ten digits from 0 to 9, and each position represents a successive power of ten. While computers do not natively think in decimal, virtually all user-facing interfaces display numbers in base-10 because it is universally understood. Financial calculations, measurement displays, counters, progress indicators, and statistics are all presented in decimal. Internally, many systems use binary-coded decimal (BCD) to avoid rounding errors when converting between binary and decimal representations, which is particularly important in financial and accounting software where precision to the cent is mandatory.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>Why do computers use binary instead of decimal?</summary>
+          <p>Computers use binary because digital electronic circuits are built from transistors that operate most reliably in two distinct states: on and off, corresponding to the binary digits 1 and 0. Designing circuits that distinguish between just two voltage levels is far simpler, faster, and more noise-resistant than building circuits that must reliably differentiate between ten voltage levels (which would be needed for decimal). Every logic gate, memory cell, and processor register is fundamentally a collection of binary switches. Boolean algebra, the mathematical framework behind digital logic, maps directly to binary values. While ternary (base-3) and other multi-valued logic systems have been researched, binary remains dominant because it maximizes reliability and minimizes manufacturing complexity. The entire stack of modern computing, from hardware through operating systems to application software, is built on this binary foundation.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How are hexadecimal color codes used in CSS?</summary>
+          <p>In CSS, hexadecimal color codes specify colors using a pound sign followed by six hex digits, such as #FF5733. The six digits are divided into three pairs: the first pair represents the red channel intensity (00 to FF, or 0 to 255 in decimal), the second pair represents green, and the third pair represents blue. For example, #FF0000 is pure red (red at maximum, green and blue at zero), #00FF00 is pure green, and #0000FF is pure blue. CSS also supports shorthand three-digit hex codes where each digit is doubled: #F00 is equivalent to #FF0000. Modern CSS extends this with eight-digit hex codes that include an alpha (transparency) channel, such as #3B82F680 where the last two digits (80, or 128 in decimal) represent 50 percent opacity. Hex color codes are compact, widely supported, and directly correspond to the underlying RGB byte values that displays use to produce colors.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do octal numbers relate to Unix file permissions?</summary>
+          <p>Unix file permissions are structured as three groups of three bits, which maps perfectly to octal digits. Each file has permissions for the owner, the group, and all other users. Within each group, the three bits represent read (value 4), write (value 2), and execute (value 1). Adding the values of the enabled permissions gives a single octal digit: 7 means read, write, and execute are all enabled (4+2+1); 6 means read and write (4+2); 5 means read and execute (4+1); 4 means read only. The command <code>chmod 644 file.txt</code> gives the owner read-write (6), and both group and others read-only (4). This three-digit octal notation is far more concise than writing out the nine individual permission flags and has become the universal shorthand for configuring file access on Unix, Linux, and macOS systems.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is base-36 and where is it used?</summary>
+          <p>Base-36 is the highest base that uses a purely alphanumeric character set: the ten digits 0 through 9 plus the twenty-six letters A through Z, giving thirty-six unique symbols. Because it produces the most compact representation possible using only letters and numbers, base-36 is commonly used for generating short, URL-safe identifiers and unique codes. URL shortening services, tracking codes on shipping labels, product serial numbers, invite codes, and database primary keys often use base-36 encoding to keep strings short while avoiding special characters that could cause parsing issues in URLs, filenames, or command-line arguments. For example, the decimal number 1,000,000 is represented as LFLS in base-36, reducing seven characters to just four. JavaScript natively supports base-36 through the <code>Number.toString(36)</code> and <code>parseInt(string, 36)</code> methods, making it trivial to implement in web applications.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do I convert a number between bases by hand?</summary>
+          <p>To convert a number from any base to decimal, multiply each digit by the base raised to the power of its position (counting from zero on the right) and sum the results. For example, binary 1011 converts to decimal as (1 times 2^3) + (0 times 2^2) + (1 times 2^1) + (1 times 2^0) = 8 + 0 + 2 + 1 = 11. To convert from decimal to another base, repeatedly divide the decimal number by the target base and record the remainders in reverse order. For example, to convert decimal 255 to hexadecimal: 255 divided by 16 gives 15 remainder 15 (F), then 15 divided by 16 gives 0 remainder 15 (F), reading the remainders bottom-up gives FF. To convert between two non-decimal bases, it is usually easiest to convert to decimal first and then convert from decimal to the target base. For binary-to-hex or hex-to-binary specifically, you can group binary digits into sets of four and convert each group directly, since each hex digit corresponds to exactly four bits.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can this tool handle very large numbers?</summary>
+          <p>Yes. This converter uses JavaScript BigInt for numbers that exceed the safe integer limit of 2^53 - 1 (which is 9,007,199,254,740,991 in decimal). Standard JavaScript numbers use 64-bit floating point, which can silently lose precision for very large integers. BigInt provides arbitrary-precision integer arithmetic, meaning it can handle numbers with hundreds or thousands of digits without rounding errors. This is particularly useful when converting long binary strings from hardware register dumps, working with cryptographic values, or manipulating 64-bit and 128-bit memory addresses. The tool automatically detects when BigInt is needed and switches to it transparently, so you get accurate results regardless of the number's magnitude.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between signed and unsigned binary numbers?</summary>
+          <p>In unsigned binary representation, all bits represent the magnitude of the number, so an 8-bit unsigned number can range from 0 (00000000) to 255 (11111111). In signed binary, the most common format is two's complement, where the leftmost bit indicates the sign: 0 for positive and 1 for negative. An 8-bit signed number in two's complement ranges from negative 128 (10000000) to positive 127 (01111111). To negate a number in two's complement, you invert all the bits and add one. This converter treats all inputs as unsigned non-negative integers. For signed number analysis, convert the unsigned binary representation and interpret the sign bit manually based on the bit width you are working with. Two's complement is the standard representation in virtually all modern processors because it simplifies the hardware needed for addition and subtraction circuits.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/hex-rgb">Hex-RGB Converter</a>
+          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+  (function(){
+    'use strict';
+
+    /* ========== DOM refs ========== */
+    var input = document.getElementById('number-input');
+    var fromSelect = document.getElementById('from-base-select');
+    var fromCustom = document.getElementById('from-custom-base');
+    var toCustom = document.getElementById('to-custom-base');
+    var errorBar = document.getElementById('error-bar');
+    var resultBin = document.getElementById('result-bin');
+    var resultOct = document.getElementById('result-oct');
+    var resultDec = document.getElementById('result-dec');
+    var resultHex = document.getElementById('result-hex');
+    var resultCustom = document.getElementById('result-custom');
+    var quickBtns = document.querySelectorAll('.quick-base-btn');
+
+    /* ========== State ========== */
+    var results = { 2:'', 8:'', 10:'', 16:'', custom:'' };
+
+    /* ========== Helpers ========== */
+    function getFromBase() {
+      var val = fromSelect.value;
+      if (val === 'custom') {
+        var c = parseInt(fromCustom.value, 10);
+        return (c >= 2 && c <= 36) ? c : null;
+      }
+      return parseInt(val, 10);
+    }
+
+    function getToCustomBase() {
+      var c = parseInt(toCustom.value, 10);
+      return (c >= 2 && c <= 36) ? c : null;
+    }
+
+    function showError(msg) {
+      errorBar.textContent = msg;
+      errorBar.classList.add('visible');
+    }
+
+    function clearError() {
+      errorBar.classList.remove('visible');
+    }
+
+    function setEmpty() {
+      var placeholder = 'Enter a number above';
+      resultBin.textContent = placeholder; resultBin.classList.add('empty');
+      resultOct.textContent = placeholder; resultOct.classList.add('empty');
+      resultDec.textContent = placeholder; resultDec.classList.add('empty');
+      resultHex.textContent = placeholder; resultHex.classList.add('empty');
+      resultCustom.textContent = 'Enter a number and set a custom base'; resultCustom.classList.add('empty');
+      results = { 2:'', 8:'', 10:'', 16:'', custom:'' };
+    }
+
+    function isValidForBase(str, base) {
+      if (!str) return false;
+      var chars = '0123456789abcdefghijklmnopqrstuvwxyz'.slice(0, base);
+      var lower = str.toLowerCase();
+      for (var i = 0; i < lower.length; i++) {
+        if (chars.indexOf(lower[i]) === -1) return false;
+      }
+      return true;
+    }
+
+    /* ========== BigInt-safe parsing ========== */
+    function parseToBigInt(str, base) {
+      str = str.toLowerCase().replace(/^0+/, '') || '0';
+      var result = BigInt(0);
+      var bigBase = BigInt(base);
+      for (var i = 0; i < str.length; i++) {
+        var c = str.charCodeAt(i);
+        var digit;
+        if (c >= 48 && c <= 57) { digit = c - 48; }
+        else if (c >= 97 && c <= 122) { digit = c - 87; }
+        else { return null; }
+        if (digit >= base) return null;
+        result = result * bigBase + BigInt(digit);
+      }
+      return result;
+    }
+
+    function bigIntToBase(num, base) {
+      if (num === BigInt(0)) return '0';
+      var digits = '';
+      var bigBase = BigInt(base);
+      var chars = '0123456789abcdefghijklmnopqrstuvwxyz';
+      while (num > BigInt(0)) {
+        var rem = Number(num % bigBase);
+        digits = chars[rem] + digits;
+        num = num / bigBase;
+      }
+      return digits;
+    }
+
+    /* ========== Group binary digits ========== */
+    function groupBinary(bin) {
+      var padLen = Math.ceil(bin.length / 4) * 4;
+      var padded = bin.padStart(padLen, '0');
+      var groups = [];
+      for (var i = 0; i < padded.length; i += 4) {
+        groups.push(padded.substring(i, i + 4));
+      }
+      return groups.join(' ');
+    }
+
+    /* ========== Core convert ========== */
+    function convert() {
+      clearError();
+      var raw = input.value.trim();
+      if (!raw) { setEmpty(); return; }
+
+      var fromBase = getFromBase();
+      if (!fromBase) {
+        showError('Invalid source base. Please enter a value between 2 and 36.');
+        setEmpty();
+        return;
+      }
+
+      /* Strip common prefixes */
+      var cleaned = raw;
+      if (fromBase === 16 && /^0x/i.test(cleaned)) { cleaned = cleaned.slice(2); }
+      if (fromBase === 2 && /^0b/i.test(cleaned)) { cleaned = cleaned.slice(2); }
+      if (fromBase === 8 && /^0o/i.test(cleaned)) { cleaned = cleaned.slice(2); }
+
+      if (!cleaned) { setEmpty(); return; }
+
+      if (!isValidForBase(cleaned, fromBase)) {
+        showError('Invalid digit for base ' + fromBase + '. Allowed digits: ' +
+          '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.slice(0, fromBase));
+        setEmpty();
+        return;
+      }
+
+      var num = parseToBigInt(cleaned, fromBase);
+      if (num === null) {
+        showError('Could not parse the input number.');
+        setEmpty();
+        return;
+      }
+
+      /* Convert to all bases */
+      var bin = bigIntToBase(num, 2);
+      var oct = bigIntToBase(num, 8);
+      var dec = bigIntToBase(num, 10);
+      var hex = bigIntToBase(num, 16);
+
+      results[2] = bin;
+      results[8] = oct;
+      results[10] = dec;
+      results[16] = hex.toUpperCase();
+
+      resultBin.textContent = groupBinary(bin);
+      resultBin.classList.remove('empty');
+
+      resultOct.textContent = oct;
+      resultOct.classList.remove('empty');
+
+      resultDec.textContent = dec;
+      resultDec.classList.remove('empty');
+
+      resultHex.textContent = hex.toUpperCase();
+      resultHex.classList.remove('empty');
+
+      /* Custom base */
+      var toBase = getToCustomBase();
+      if (toBase) {
+        var custom = bigIntToBase(num, toBase);
+        results.custom = toBase > 10 ? custom.toUpperCase() : custom;
+        resultCustom.textContent = results.custom;
+        resultCustom.classList.remove('empty');
+      } else {
+        results.custom = '';
+        resultCustom.textContent = 'Set a valid custom base (2-36)';
+        resultCustom.classList.add('empty');
+      }
+    }
+
+    /* ========== Copy ========== */
+    window.copyResult = function(base) {
+      var val = results[base] || '';
+      if (!val) {
+        showToast('Nothing to copy', 'error');
+        return;
+      }
+      copyToClipboard(val);
+      showToast('Copied to clipboard!', 'success');
+    };
+
+    /* ========== Event listeners ========== */
+    input.addEventListener('input', convert);
+
+    fromSelect.addEventListener('change', function() {
+      if (fromSelect.value === 'custom') {
+        fromCustom.classList.remove('hidden');
+        fromCustom.focus();
+        quickBtns.forEach(function(b) { b.classList.remove('active'); });
+      } else {
+        fromCustom.classList.add('hidden');
+        quickBtns.forEach(function(b) {
+          b.classList.toggle('active', b.dataset.base === fromSelect.value);
+        });
+      }
+      convert();
+    });
+
+    fromCustom.addEventListener('input', convert);
+    toCustom.addEventListener('input', convert);
+
+    /* Quick base buttons */
+    quickBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var base = btn.dataset.base;
+        fromSelect.value = base;
+        fromCustom.classList.add('hidden');
+        quickBtns.forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        convert();
+      });
+    });
+
+    /* Keyboard shortcut: Enter to focus result */
+    input.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        convert();
+      }
+    });
+
+    /* Init */
+    setEmpty();
+  })();
+  </script>
+</body>
+</html>

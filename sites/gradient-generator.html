@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Gradient Generator Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Create beautiful CSS gradients with a visual editor. Supports linear, radial, and conic gradients with multiple color stops, angle control, preset gallery, and instant CSS code output. Free, no signup.">
+  <link rel="canonical" href="https://toolrip.com/gradient">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="CSS Gradient Generator — Toolrip">
+  <meta property="og:description" content="Create beautiful CSS gradients with a visual editor. Supports linear, radial, and conic gradients with multiple color stops, angle control, preset gallery, and instant CSS code output.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/gradient">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="CSS Gradient Generator — Toolrip">
+  <meta name="twitter:description" content="Create beautiful CSS gradients with a visual editor. Supports linear, radial, and conic gradients with multiple color stops, angle control, preset gallery, and instant CSS code output.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root{--accent:var(--design)}
+
+    .grad-preview{width:100%;height:220px;border-radius:var(--radius-lg);border:2px solid var(--border);
+      margin-bottom:var(--sp-3);transition:background .15s}
+    @media(min-width:640px){.grad-preview{height:280px}}
+
+    .grad-controls{display:flex;flex-direction:column;gap:var(--sp-3)}
+
+    .control-row{display:flex;align-items:center;gap:var(--sp-2);flex-wrap:wrap}
+    .control-label{font-size:.8125rem;color:var(--text-muted);min-width:60px}
+
+    .type-btns{display:flex;gap:2px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+    .type-btn{padding:var(--sp-2) var(--sp-3);font-size:.8125rem;font-weight:600;color:var(--text-muted);
+      cursor:pointer;border:none;background:none;font-family:inherit;transition:background .15s,color .15s}
+    .type-btn:hover{color:var(--text)}
+    .type-btn.active{background:var(--accent);color:#fff}
+
+    .angle-wrap{display:flex;align-items:center;gap:var(--sp-2);flex:1;min-width:200px}
+    .angle-wrap input[type="range"]{flex:1;height:6px;-webkit-appearance:none;appearance:none;
+      background:var(--border);border-radius:3px;outline:none;cursor:pointer}
+    .angle-wrap input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;
+      border-radius:50%;background:var(--accent);border:2px solid var(--bg-surface);cursor:pointer}
+    .angle-wrap input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;
+      background:var(--accent);border:2px solid var(--bg-surface);cursor:pointer}
+    .angle-val{font-size:.875rem;font-weight:600;color:var(--text);min-width:40px;text-align:right}
+
+    .stops-section{margin-top:var(--sp-2)}
+    .stop-row{display:flex;align-items:center;gap:var(--sp-2);margin-bottom:var(--sp-2);flex-wrap:wrap}
+    .stop-row input[type="color"]{width:44px;height:36px;border:1px solid var(--border);border-radius:var(--radius-sm);
+      background:var(--bg);cursor:pointer;padding:2px;flex-shrink:0}
+    .stop-row input[type="number"]{width:70px;padding:var(--sp-1) var(--sp-2);background:var(--bg);
+      border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font:inherit;font-size:.8125rem;text-align:center}
+    .stop-row input[type="number"]:focus{outline:none;border-color:var(--accent)}
+    .stop-pct{font-size:.75rem;color:var(--text-muted)}
+    .stop-remove{width:28px;height:28px;display:flex;align-items:center;justify-content:center;
+      background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);
+      color:var(--text-muted);cursor:pointer;font-size:1rem;line-height:1;flex-shrink:0}
+    .stop-remove:hover{color:#ef4444;border-color:#ef4444}
+    .stop-remove:disabled{opacity:.3;cursor:not-allowed}
+    .stop-remove:disabled:hover{color:var(--text-muted);border-color:var(--border)}
+
+    .add-stop-btn{display:inline-flex;align-items:center;gap:var(--sp-1);padding:var(--sp-1) var(--sp-3);
+      background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-sm);
+      color:var(--text-muted);font-size:.8125rem;cursor:pointer;font-family:inherit;margin-top:var(--sp-1)}
+    .add-stop-btn:hover{color:var(--text);border-color:var(--accent)}
+
+    .css-output{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+      padding:var(--sp-3);font-family:'Consolas','Monaco','Courier New',monospace;font-size:.8125rem;
+      line-height:1.8;position:relative;white-space:pre-wrap;word-break:break-all}
+
+    .copy-sm{padding:var(--sp-1) var(--sp-2);background:var(--bg-elevated);border:1px solid var(--border);
+      border-radius:var(--radius-sm);color:var(--text-muted);font-size:.75rem;cursor:pointer;
+      white-space:nowrap;flex-shrink:0;font-family:inherit}
+    .copy-sm:hover{color:var(--text);border-color:var(--accent)}
+
+    .section-label{font-size:.9375rem;font-weight:600;margin:var(--sp-3) 0 var(--sp-2);padding-bottom:var(--sp-1);
+      border-bottom:1px solid var(--border)}
+
+    .presets-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--sp-2);margin:var(--sp-2) 0}
+    @media(min-width:480px){.presets-grid{grid-template-columns:repeat(3,1fr)}}
+    @media(min-width:640px){.presets-grid{grid-template-columns:repeat(4,1fr)}}
+    .preset-swatch{height:64px;border-radius:var(--radius);border:2px solid var(--border);cursor:pointer;
+      position:relative;transition:transform .15s,border-color .15s;overflow:hidden}
+    .preset-swatch:hover{transform:scale(1.04);border-color:var(--accent)}
+    .preset-label{position:absolute;bottom:0;left:0;right:0;text-align:center;font-size:.625rem;
+      color:#fff;background:rgba(0,0,0,.55);padding:2px 4px;font-weight:500}
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "CSS Gradient Generator",
+    "url": "https://toolrip.com/gradient",
+    "description": "Create beautiful CSS gradients with a visual editor. Supports linear, radial, and conic gradients with multiple color stops, angle control, preset gallery, and instant CSS code output.",
+    "applicationCategory": "DesignApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com"},
+      {"@type": "ListItem", "position": 2, "name": "Design Tools", "item": "https://toolrip.com/#design"},
+      {"@type": "ListItem", "position": 3, "name": "Gradient Generator", "item": "https://toolrip.com/gradient"}
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What are CSS gradients and how do they work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "CSS gradients are image values generated by the browser that display smooth transitions between two or more colors. They are defined entirely in CSS using gradient functions like linear-gradient(), radial-gradient(), and conic-gradient(). Unlike image files, gradients are resolution-independent, meaning they scale perfectly on any screen density without pixelation. The browser calculates the color at every pixel between your defined color stops, producing a seamless blend that can serve as backgrounds, borders, overlays, and decorative elements."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between linear, radial, and conic gradients?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Linear gradients transition colors along a straight line defined by an angle or direction. Radial gradients radiate outward from a center point in an elliptical or circular shape. Conic gradients rotate colors around a center point like the sweep of a clock hand. Linear gradients are the most common and versatile for backgrounds and UI elements. Radial gradients work well for spotlight effects and circular highlights. Conic gradients are ideal for pie charts, color wheels, and decorative patterns."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are CSS gradients supported in all modern browsers?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Linear and radial gradients enjoy universal support across all modern browsers including Chrome, Firefox, Safari, Edge, and Opera. Conic gradients are supported in Chrome 69 and later, Safari 12.1 and later, Firefox 83 and later, and Edge 79 and later. For older browsers, you can include a solid color fallback before the gradient declaration. The -webkit- vendor prefix is no longer required for linear and radial gradients in current browsers but may be added for broader backward compatibility."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do CSS gradients affect page performance?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "CSS gradients are rendered by the browser's compositing engine and have negligible performance overhead in most cases. They are far lighter than equivalent image files because they require zero network requests and no memory for decoded bitmap data. However, extremely complex gradients with many color stops or gradients applied to very large elements can increase paint time slightly. Animating gradient properties directly can cause repaints on every frame, so for animated effects consider animating opacity or transform on layered gradient elements instead."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I create a transparent gradient in CSS?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To create a transparent gradient, use rgba or hsla color values where the alpha channel controls opacity. For example, linear-gradient(to right, rgba(168,85,247,1), rgba(168,85,247,0)) transitions from a solid purple to fully transparent. You can also use the transparent keyword as a color stop. Transparent gradients are commonly used for overlay effects, text fading, image vignettes, and smooth transitions between sections of a page."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are color stops and how do positions work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Color stops define the colors in a gradient and where each color is placed along the gradient line. Each stop consists of a color value and an optional position expressed as a percentage or length. When positions are omitted, the browser distributes stops evenly. Setting specific percentages gives you precise control over where each color begins and how quickly it transitions to the next. Two adjacent stops at the same position create a hard color boundary with no blending."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I layer multiple gradients on the same element?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, CSS supports multiple background layers, and each layer can be a gradient. Separate each gradient with a comma in the background or background-image property. Layers are stacked in order with the first listed gradient on top. By combining gradients with transparency, you can create complex visual effects like mesh gradients, crosshatch patterns, and layered color washes without any image files. This technique is widely used in modern web design for hero sections and decorative backgrounds."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#design">Design Tools</a>
+        <span>/</span>
+        <span>Gradient Generator</span>
+      </nav>
+
+      <h1>CSS Gradient Generator</h1>
+      <p class="text-muted mt-1 mb-3">Create stunning CSS gradients visually with real-time preview. Choose between linear, radial, and conic gradient types, adjust the angle, add up to four color stops with precise position control, and copy production-ready CSS code instantly. Explore preset gradients for quick inspiration. Entirely client-side, free, and requires no signup.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <!-- Preview -->
+        <div id="grad-preview" class="grad-preview" style="background:linear-gradient(135deg,#a855f7 0%,#ec4899 100%)"></div>
+
+        <div class="grad-controls">
+          <!-- Gradient Type -->
+          <div class="control-row">
+            <span class="control-label">Type</span>
+            <div class="type-btns" id="type-btns">
+              <button class="type-btn active" data-type="linear">Linear</button>
+              <button class="type-btn" data-type="radial">Radial</button>
+              <button class="type-btn" data-type="conic">Conic</button>
+            </div>
+          </div>
+
+          <!-- Angle -->
+          <div class="control-row" id="angle-row">
+            <span class="control-label">Angle</span>
+            <div class="angle-wrap">
+              <input type="range" id="angle-slider" min="0" max="360" value="135" aria-label="Gradient angle">
+              <span class="angle-val" id="angle-val">135&deg;</span>
+            </div>
+          </div>
+
+          <!-- Color Stops -->
+          <div class="stops-section">
+            <div class="section-label">Color Stops</div>
+            <div id="stops-container"></div>
+            <button class="add-stop-btn" id="add-stop-btn">+ Add Color Stop</button>
+          </div>
+        </div>
+
+        <!-- CSS Output -->
+        <div class="section-label">CSS Output</div>
+        <div class="css-output" id="css-output"></div>
+        <button class="copy-sm" id="copy-css-btn" style="margin-top:var(--sp-2)">Copy CSS</button>
+
+        <!-- Presets -->
+        <div class="section-label">Preset Gradients</div>
+        <div class="presets-grid" id="presets-grid"></div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Visual Real-Time Preview</h3>
+            <p>Every adjustment you make is reflected instantly in the large preview area at the top of the tool. Whether you change the gradient type from linear to radial, drag the angle slider to a new position, pick a different color, or shift a color stop percentage, the preview updates without any delay. This immediate feedback loop lets you experiment freely and arrive at the perfect gradient faster than editing CSS by hand. The preview uses the exact same CSS property that will appear in your output, so what you see is precisely what your users will see when you paste the code into your project.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Three Gradient Types</h3>
+            <p>The generator supports all three CSS gradient functions available in modern browsers. Linear gradients draw color transitions along a straight line at any angle from zero to three hundred sixty degrees, making them the most versatile option for backgrounds, buttons, and section dividers. Radial gradients emit color outward from a central point, creating circular or elliptical effects that work beautifully for spotlight highlights and depth effects. Conic gradients sweep colors around a center point like a color wheel, enabling pie-chart visuals, decorative spinners, and artistic patterns that would be difficult to achieve with other gradient types.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Flexible Color Stops</h3>
+            <p>Start with two color stops and add up to four for more complex gradients. Each stop has a native color picker for intuitive color selection and a numeric position field that accepts any value from zero to one hundred percent. You can drag positions to create narrow bands of color, wide smooth transitions, or hard edges where two stops share the same position. Removing a stop is a single click, and the gradient recalculates immediately. This fine-grained control gives you the creative flexibility to reproduce virtually any gradient design you encounter in the wild or imagine from scratch.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Preset Gallery for Inspiration</h3>
+            <p>Choosing colors from scratch can be time-consuming, so the tool includes a curated gallery of ten beautiful preset gradients covering warm sunsets, cool ocean themes, vibrant neon palettes, and subtle neutral tones. Click any preset to load its colors and settings into the editor instantly. From there you can fine-tune the angle, adjust stop positions, or swap individual colors to make the gradient your own. Presets serve as a starting point that accelerates your workflow, whether you are designing a hero section, a card background, or a full-page backdrop.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Production-Ready CSS Output</h3>
+            <p>The generated CSS code includes both the standard syntax and a WebKit vendor prefix for broader backward compatibility. The output is formatted for readability and ready to paste directly into your stylesheet, inline style, or CSS-in-JS template. A dedicated copy button sends the entire code block to your clipboard with a single click, eliminating manual selection errors. Whether you work with vanilla CSS, Sass, Tailwind arbitrary values, or a styled-components setup, the output integrates seamlessly into your existing workflow.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Zero Dependencies, Full Privacy</h3>
+            <p>The entire gradient generator runs locally in your browser with no server communication. Your color choices and gradient configurations never leave your device. There are no external JavaScript libraries to load, no fonts to download, and no tracking pixels beyond the site analytics. This means the tool loads instantly even on slow connections, works offline once the page is cached, and poses no privacy risk to designers working on confidential projects. Performance remains snappy regardless of how many times you adjust the gradient because every calculation is handled by native browser rendering.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the CSS Gradient Generator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Choose a gradient type.</strong> Click Linear, Radial, or Conic to set the gradient function. Linear is selected by default. For linear and conic gradients, the angle slider controls the direction of the color transition. Radial gradients ignore the angle and radiate outward from the center.</li>
+          <li><strong>Set the angle.</strong> Drag the angle slider between zero and three hundred sixty degrees or type a value directly. The preview updates in real time so you can find the exact direction you want. Common choices include 90 degrees for left to right, 180 degrees for top to bottom, and 135 degrees for a diagonal sweep.</li>
+          <li><strong>Adjust color stops.</strong> Click any color swatch to open the native color picker and choose your color. Change the position percentage to control where each color starts along the gradient line. Add a third or fourth stop for richer multi-color gradients, or remove extra stops to simplify. The preview reflects every change immediately.</li>
+          <li><strong>Copy the CSS.</strong> Once you are satisfied with the gradient, click the Copy CSS button below the output block. The generated code includes the standard CSS syntax and a WebKit prefix. Paste it into your stylesheet and you are done. You can also select a preset from the gallery to start with a professionally designed gradient and customize it from there.</li>
+        </ol>
+      </section>
+
+      <!-- Understanding CSS Gradients -->
+      <section class="mt-4">
+        <h2>Understanding CSS Gradients</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">CSS gradients have been a cornerstone of modern web design since their standardization in the CSS Image Values Module Level 3 specification. Before gradients became a native CSS feature, designers relied on image editors to create gradient backgrounds, exporting them as bitmap files that increased page weight and made updates tedious. Today, a single line of CSS can produce the same visual effect with zero file size overhead, perfect scaling across all resolutions, and the ability to animate or modify the gradient dynamically with JavaScript or CSS transitions.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">The three gradient types each serve different design scenarios. Linear gradients are the workhorses of the group, used in everything from button hover states and navigation bars to full-page hero sections. The direction parameter, expressed as an angle in degrees or a keyword like "to right," determines the axis along which colors blend. Radial gradients are the go-to choice for creating focal-point effects, vignettes, and spherical highlights that add depth to flat designs. Conic gradients, the newest addition supported in all modern browsers since 2020, open up creative possibilities that were previously impossible in pure CSS, such as color wheels, donut charts, and kaleidoscope patterns.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">When working with gradients, keep a few design principles in mind. Limit yourself to two or three color stops for most UI elements to maintain visual clarity. Use analogous colors from the same region of the color wheel for subtle, sophisticated transitions, or complementary colors for bold, attention-grabbing effects. Pay attention to the position values of each stop, as small changes in positioning can dramatically alter the feel of a gradient. A stop positioned at fifty percent creates an even split, while moving it to twenty percent creates a quick initial transition followed by a long stretch of the second color. Hard stops, where two colors meet at the same percentage, produce sharp lines that can serve as decorative dividers or striped patterns without any extra markup.</p>
+        <p style="color:var(--text-muted);line-height:1.7">For optimal performance, avoid animating the gradient property directly because the browser must recalculate and repaint the entire gradient on every frame. Instead, layer gradients on pseudo-elements and animate their opacity or use CSS custom properties with the @property rule to animate individual color values smoothly. Always provide a solid fallback color before the gradient declaration so that users on very old browsers see a reasonable background rather than the default white. With these techniques, CSS gradients deliver rich visual experiences that load instantly and scale beautifully on every device.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What are CSS gradients and how do they work?</summary>
+          <p>CSS gradients are image values generated entirely by the browser that display smooth transitions between two or more specified colors. They are defined using CSS gradient functions such as linear-gradient(), radial-gradient(), and conic-gradient(). Unlike raster image files, gradients are resolution-independent, which means they render crisply on any screen density including high-DPI retina displays without any pixelation or blur. The browser mathematically interpolates the color at every pixel between your defined color stops, producing a seamless blend that can serve as a background for any HTML element. Gradients can be used in any CSS property that accepts an image value, including background-image, border-image, list-style-image, and even the content property of pseudo-elements. Because gradients require no network requests and no decoded bitmap memory, they are significantly lighter than equivalent image-based backgrounds, contributing to faster page loads and better Core Web Vitals scores.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between linear, radial, and conic gradients?</summary>
+          <p>Linear gradients transition colors along a straight line defined by an angle or directional keyword. You specify the direction using degrees (such as 90deg for left to right or 180deg for top to bottom) or keywords like "to bottom right." The color transition proceeds uniformly along the entire width of the element in that direction. Radial gradients radiate outward from a center point, producing elliptical or circular shapes. By default, the gradient fills the farthest corner of the element, but you can control the shape, size, and position of the center point to create focused spotlight effects, vignettes, or bubble-like highlights. Conic gradients rotate colors around a center point like the sweep of a clock hand or a pie chart. The starting angle and center position are configurable. Each type has distinct visual strengths: linear for backgrounds and UI elements, radial for focal-point effects and depth, and conic for wheels, charts, and decorative patterns.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Are CSS gradients supported in all modern browsers?</summary>
+          <p>Linear and radial gradients enjoy universal support across every modern browser, including Chrome, Firefox, Safari, Edge, and Opera, as well as their mobile counterparts. The syntax has been standardized for over a decade and no longer requires vendor prefixes in current browser versions, though including a -webkit- prefix provides an extra layer of backward compatibility for users on older devices. Conic gradients are supported in Chrome 69 and later, Safari 12.1 and later, Firefox 83 and later, and Edge 79 and later, which covers the vast majority of users worldwide. For the small fraction of users on unsupported browsers, you can include a solid color fallback declaration before the gradient line. The browser will ignore the gradient syntax it does not understand and display the fallback color instead. This progressive enhancement approach ensures every visitor sees a reasonable design regardless of their browser version.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Do CSS gradients affect page performance?</summary>
+          <p>CSS gradients have negligible performance impact in the vast majority of real-world scenarios. They are rasterized by the browser's GPU-accelerated compositing pipeline and require no network requests, no image decoding, and no additional memory for bitmap data. A gradient-based background is almost always faster than an equivalent image file because there is zero download time and the rendering calculation is trivially inexpensive for modern hardware. However, there are edge cases where gradients can affect performance. Applying a gradient to a very large element, such as a full-viewport background with many color stops, increases the paint area. Animating the gradient property directly forces the browser to recalculate and repaint on every frame, which can drop frame rates on lower-powered devices. The recommended approach for animated gradient effects is to layer multiple gradient elements and animate their opacity or transform properties, which are handled by the compositor without triggering layout or paint.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do I create a transparent or semi-transparent gradient?</summary>
+          <p>To incorporate transparency into a gradient, use color values that include an alpha channel. The rgba() notation lets you specify red, green, blue, and alpha values, where alpha ranges from 0 (fully transparent) to 1 (fully opaque). For example, linear-gradient(to right, rgba(168,85,247,1), rgba(168,85,247,0)) produces a gradient that fades from solid purple to completely transparent. You can also use the hsla() notation or the modern CSS color syntax with a slash, such as hsl(270 60% 65% / 0.5). The keyword "transparent" is equivalent to rgba(0,0,0,0) and can be used as a color stop. Transparent gradients are widely used for overlay effects on hero images, text fading at the edges of scrollable containers, decorative vignettes, and smooth transitions between page sections where the underlying background or image should show through partially.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What are color stops and how do position values work?</summary>
+          <p>Color stops are the individual color definitions within a gradient, and their positions determine where along the gradient line each color is placed. Each stop consists of a CSS color value followed by an optional position expressed as a percentage or a length unit. When you omit positions entirely, the browser distributes the stops evenly across the gradient. For a two-stop gradient, the first color starts at zero percent and the second ends at one hundred percent, with a smooth blend in between. Specifying explicit percentages gives you precise control: placing stops at 0%, 30%, and 100% means the first color occupies roughly a third of the gradient before transitioning to the second. Setting two adjacent stops at the same percentage, such as red 50% and blue 50%, creates a hard line with no blending at all, which is useful for striped patterns and sharp dividers. Positions can also be expressed in pixels, ems, or other length units for fixed-size gradients that do not scale with the element.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can I layer multiple gradients on a single element?</summary>
+          <p>Yes, the CSS background property supports multiple layers, and each layer can be a separate gradient. List your gradients separated by commas in the background-image declaration, and the browser stacks them in order with the first gradient on top and subsequent gradients behind it. For the layered effect to be visible, the upper gradients must include some level of transparency so the layers beneath can show through. This technique enables complex visual effects like mesh gradients, where multiple radial gradients with low opacity overlap to simulate organic color blending. You can also combine a linear gradient overlay with a background image to create tinted or darkened photo backgrounds. Designers frequently use layered conic gradients to produce kaleidoscope and pattern effects that would require complex SVG or canvas code to achieve otherwise. There is no practical limit to the number of gradient layers, but each additional layer adds a small amount to the paint cost, so aim for the fewest layers needed to achieve your desired appearance.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/hex-rgb">Hex to RGB Converter</a>
+          <a href="https://toolrip.com/password">Password Generator</a>
+          <a href="https://toolrip.com/qr">QR Code Generator</a>
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+  (function(){
+    'use strict';
+
+    /* ========== Presets ========== */
+    var PRESETS = [
+      { name:'Sunset',     type:'linear', angle:135, stops:[{color:'#f97316',pos:0},{color:'#ec4899',pos:100}] },
+      { name:'Ocean',      type:'linear', angle:135, stops:[{color:'#06b6d4',pos:0},{color:'#3b82f6',pos:100}] },
+      { name:'Forest',     type:'linear', angle:135, stops:[{color:'#10b981',pos:0},{color:'#065f46',pos:100}] },
+      { name:'Neon',       type:'linear', angle:135, stops:[{color:'#a855f7',pos:0},{color:'#06b6d4',pos:100}] },
+      { name:'Warm Flame', type:'linear', angle:45,  stops:[{color:'#f59e0b',pos:0},{color:'#ef4444',pos:50},{color:'#ec4899',pos:100}] },
+      { name:'Cool Sky',   type:'linear', angle:180, stops:[{color:'#bfdbfe',pos:0},{color:'#3b82f6',pos:50},{color:'#1e3a8a',pos:100}] },
+      { name:'Aurora',     type:'linear', angle:135, stops:[{color:'#10b981',pos:0},{color:'#8b5cf6',pos:50},{color:'#ec4899',pos:100}] },
+      { name:'Midnight',   type:'linear', angle:135, stops:[{color:'#1e1b4b',pos:0},{color:'#4338ca',pos:50},{color:'#7c3aed',pos:100}] },
+      { name:'Peach',      type:'radial', angle:0,   stops:[{color:'#fecaca',pos:0},{color:'#f97316',pos:100}] },
+      { name:'Spectrum',   type:'conic',  angle:0,   stops:[{color:'#ef4444',pos:0},{color:'#f59e0b',pos:25},{color:'#10b981',pos:50},{color:'#3b82f6',pos:75}] }
+    ];
+
+    /* ========== State ========== */
+    var state = {
+      type: 'linear',
+      angle: 135,
+      stops: [
+        { color: '#a855f7', pos: 0 },
+        { color: '#ec4899', pos: 100 }
+      ]
+    };
+
+    /* ========== DOM ========== */
+    var preview     = document.getElementById('grad-preview');
+    var typeBtns    = document.querySelectorAll('#type-btns .type-btn');
+    var angleRow    = document.getElementById('angle-row');
+    var angleSlider = document.getElementById('angle-slider');
+    var angleVal    = document.getElementById('angle-val');
+    var stopsEl     = document.getElementById('stops-container');
+    var addStopBtn  = document.getElementById('add-stop-btn');
+    var cssOutput   = document.getElementById('css-output');
+    var copyCssBtn  = document.getElementById('copy-css-btn');
+    var presetsGrid = document.getElementById('presets-grid');
+
+    /* ========== Build Gradient String ========== */
+    function buildGradient(st) {
+      var sorted = st.stops.slice().sort(function(a,b){ return a.pos - b.pos; });
+      var colorStr = sorted.map(function(s){ return s.color + ' ' + s.pos + '%'; }).join(', ');
+
+      if (st.type === 'linear') {
+        return 'linear-gradient(' + st.angle + 'deg, ' + colorStr + ')';
+      } else if (st.type === 'radial') {
+        return 'radial-gradient(circle, ' + colorStr + ')';
+      } else {
+        return 'conic-gradient(from ' + st.angle + 'deg, ' + colorStr + ')';
+      }
+    }
+
+    function buildCssCode(st) {
+      var grad = buildGradient(st);
+      var lines = [];
+
+      /* Vendor prefix */
+      if (st.type === 'linear') {
+        var sorted = st.stops.slice().sort(function(a,b){ return a.pos - b.pos; });
+        var colorStr = sorted.map(function(s){ return s.color + ' ' + s.pos + '%'; }).join(', ');
+        lines.push('background: -webkit-linear-gradient(' + st.angle + 'deg, ' + colorStr + ');');
+      } else if (st.type === 'radial') {
+        var sorted2 = st.stops.slice().sort(function(a,b){ return a.pos - b.pos; });
+        var colorStr2 = sorted2.map(function(s){ return s.color + ' ' + s.pos + '%'; }).join(', ');
+        lines.push('background: -webkit-radial-gradient(circle, ' + colorStr2 + ');');
+      }
+      lines.push('background: ' + grad + ';');
+      return lines.join('\n');
+    }
+
+    /* ========== Render ========== */
+    function render() {
+      /* Preview */
+      preview.style.background = buildGradient(state);
+
+      /* Angle row visibility */
+      if (state.type === 'radial') {
+        angleRow.style.display = 'none';
+      } else {
+        angleRow.style.display = '';
+      }
+
+      /* Type buttons */
+      typeBtns.forEach(function(btn){
+        btn.classList.toggle('active', btn.getAttribute('data-type') === state.type);
+      });
+
+      /* Angle */
+      angleSlider.value = state.angle;
+      angleVal.innerHTML = state.angle + '&deg;';
+
+      /* Stops */
+      renderStops();
+
+      /* CSS output */
+      cssOutput.textContent = buildCssCode(state);
+
+      /* Add button state */
+      addStopBtn.style.display = state.stops.length >= 4 ? 'none' : '';
+    }
+
+    function renderStops() {
+      var html = '';
+      var canRemove = state.stops.length > 2;
+      for (var i = 0; i < state.stops.length; i++) {
+        html += '<div class="stop-row" data-idx="' + i + '">' +
+          '<input type="color" value="' + state.stops[i].color + '" data-action="color" aria-label="Color stop ' + (i+1) + '">' +
+          '<input type="number" value="' + state.stops[i].pos + '" min="0" max="100" data-action="pos" aria-label="Position for stop ' + (i+1) + '">' +
+          '<span class="stop-pct">%</span>' +
+          '<button class="stop-remove" data-action="remove"' + (canRemove ? '' : ' disabled') + ' aria-label="Remove stop ' + (i+1) + '">&times;</button>' +
+          '</div>';
+      }
+      stopsEl.innerHTML = html;
+    }
+
+    /* ========== Render Presets ========== */
+    function renderPresets() {
+      var html = '';
+      for (var i = 0; i < PRESETS.length; i++) {
+        var p = PRESETS[i];
+        var grad = buildGradient(p);
+        html += '<div class="preset-swatch" data-preset="' + i + '" style="background:' + grad + '" title="' + p.name + '">' +
+          '<span class="preset-label">' + p.name + '</span></div>';
+      }
+      presetsGrid.innerHTML = html;
+    }
+
+    /* ========== Events: Type ========== */
+    typeBtns.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        state.type = btn.getAttribute('data-type');
+        render();
+      });
+    });
+
+    /* ========== Events: Angle ========== */
+    angleSlider.addEventListener('input', function(){
+      state.angle = parseInt(this.value);
+      render();
+    });
+
+    /* ========== Events: Stops (delegated) ========== */
+    stopsEl.addEventListener('input', function(e){
+      var row = e.target.closest('.stop-row');
+      if (!row) return;
+      var idx = parseInt(row.getAttribute('data-idx'));
+      var action = e.target.getAttribute('data-action');
+
+      if (action === 'color') {
+        state.stops[idx].color = e.target.value;
+        preview.style.background = buildGradient(state);
+        cssOutput.textContent = buildCssCode(state);
+      } else if (action === 'pos') {
+        var v = parseInt(e.target.value);
+        if (isNaN(v)) v = 0;
+        if (v < 0) v = 0;
+        if (v > 100) v = 100;
+        state.stops[idx].pos = v;
+        preview.style.background = buildGradient(state);
+        cssOutput.textContent = buildCssCode(state);
+      }
+    });
+
+    stopsEl.addEventListener('click', function(e){
+      var btn = e.target.closest('[data-action="remove"]');
+      if (!btn || btn.disabled) return;
+      var row = btn.closest('.stop-row');
+      var idx = parseInt(row.getAttribute('data-idx'));
+      if (state.stops.length > 2) {
+        state.stops.splice(idx, 1);
+        render();
+      }
+    });
+
+    /* ========== Events: Add Stop ========== */
+    addStopBtn.addEventListener('click', function(){
+      if (state.stops.length >= 4) return;
+      /* Pick a position midway between the last two stops */
+      var last = state.stops[state.stops.length - 1];
+      var prev = state.stops[state.stops.length - 2];
+      var midPos = Math.round((prev.pos + last.pos) / 2);
+      /* Pick a blended color placeholder */
+      state.stops.push({ color: '#3b82f6', pos: midPos });
+      render();
+    });
+
+    /* ========== Events: Presets ========== */
+    presetsGrid.addEventListener('click', function(e){
+      var swatch = e.target.closest('.preset-swatch');
+      if (!swatch) return;
+      var idx = parseInt(swatch.getAttribute('data-preset'));
+      var p = PRESETS[idx];
+      state.type = p.type;
+      state.angle = p.angle;
+      state.stops = p.stops.map(function(s){ return { color: s.color, pos: s.pos }; });
+      render();
+      showToast('Loaded preset: ' + p.name, 'success');
+    });
+
+    /* ========== Events: Copy CSS ========== */
+    copyCssBtn.addEventListener('click', function(){
+      copyToClipboard(cssOutput.textContent, copyCssBtn);
+    });
+
+    /* ========== Init ========== */
+    renderPresets();
+    render();
+  })();
+  </script>
+</body>
+</html>

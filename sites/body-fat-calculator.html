@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Body Fat Calculator Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Calculate your body fat percentage for free using the US Navy method or BMI-based estimate. Get fat mass, lean mass, and body fat category with color-coded results instantly.">
+  <meta name="keywords" content="body fat calculator, body fat percentage, navy method, body composition, fat mass, lean mass, body fat category">
+  <link rel="canonical" href="https://toolrip.com/body-fat">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Body Fat Calculator Online — Free, Fast, No Signup | Toolrip">
+  <meta property="og:description" content="Calculate your body fat percentage for free using the US Navy method or BMI-based estimate. Get fat mass, lean mass, and body fat category instantly.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/body-fat">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Body Fat Calculator Online — Free, Fast, No Signup | Toolrip">
+  <meta name="twitter:description" content="Calculate your body fat percentage for free using the US Navy method or BMI-based estimate. Get fat mass, lean mass, and body fat category instantly.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root { --accent: var(--health); }
+
+    /* Unit Toggle */
+    .unit-toggle-group {
+      display: flex;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .unit-toggle-group button {
+      flex: 1;
+      padding: var(--sp-2) var(--sp-3);
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font: inherit;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .unit-toggle-group button.active {
+      background: var(--accent);
+      color: #fff;
+    }
+    .unit-toggle-group button:hover:not(.active) {
+      background: var(--bg-elevated);
+      color: var(--text);
+    }
+
+    /* Input Row */
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-3);
+    }
+    @media (max-width: 639px) {
+      .input-row { grid-template-columns: 1fr; }
+    }
+
+    /* Gender Toggle */
+    .gender-toggle {
+      display: flex;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .gender-toggle button {
+      flex: 1;
+      padding: var(--sp-2) var(--sp-3);
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font: inherit;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .gender-toggle button.active {
+      background: var(--accent);
+      color: #fff;
+    }
+    .gender-toggle button:hover:not(.active) {
+      background: var(--bg-elevated);
+      color: var(--text);
+    }
+
+    /* Method tabs override for consistent height */
+    .method-tabs .tab {
+      flex: 1;
+      text-align: center;
+    }
+
+    /* Result card */
+    .result-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-5);
+      text-align: center;
+      margin-top: var(--sp-4);
+    }
+    .result-card.hidden { display: none; }
+    .bf-value {
+      font-size: 3.5rem;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: var(--sp-1);
+    }
+    .bf-category {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: var(--sp-3);
+    }
+
+    /* Body fat bar */
+    .bf-bar-wrapper {
+      margin: var(--sp-4) 0 var(--sp-2);
+    }
+    .bf-bar {
+      position: relative;
+      height: 24px;
+      border-radius: 12px;
+      background: linear-gradient(to right,
+        #3b82f6 0%, #3b82f6 12%,
+        #22c55e 12%, #22c55e 35%,
+        #84cc16 35%, #84cc16 55%,
+        #f59e0b 55%, #f59e0b 75%,
+        #ef4444 75%, #ef4444 100%
+      );
+      overflow: visible;
+    }
+    .bf-bar-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: var(--sp-1);
+      padding: 0 2px;
+    }
+    .bf-marker {
+      position: absolute;
+      top: -6px;
+      width: 4px;
+      height: 36px;
+      background: #fff;
+      border-radius: 2px;
+      transform: translateX(-50%);
+      box-shadow: 0 0 6px rgba(0,0,0,0.5);
+      transition: left 0.4s ease;
+      z-index: 2;
+    }
+    .bf-marker::after {
+      content: attr(data-bf);
+      position: absolute;
+      bottom: calc(100% + 4px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 2px 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    /* Info grid */
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: var(--sp-3);
+      margin-top: var(--sp-4);
+      text-align: left;
+    }
+    @media (max-width: 639px) {
+      .info-grid { grid-template-columns: 1fr; }
+    }
+    .info-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-3);
+    }
+    .info-box h4 {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: var(--sp-1);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .info-box p {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* Reference table */
+    .bf-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: var(--sp-3) 0;
+      font-size: 0.9rem;
+    }
+    .bf-table th,
+    .bf-table td {
+      padding: var(--sp-2) var(--sp-3);
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .bf-table th {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .bf-table tr:last-child td { border-bottom: none; }
+    .dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: var(--sp-2);
+      vertical-align: middle;
+    }
+    .dot-blue { background: #3b82f6; }
+    .dot-green { background: #22c55e; }
+    .dot-lime { background: #84cc16; }
+    .dot-orange { background: #f59e0b; }
+    .dot-red { background: #ef4444; }
+
+    /* Hip row visibility */
+    .hip-row { display: none; }
+    .hip-row.visible { display: block; }
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Body Fat Calculator",
+    "url": "https://toolrip.com/body-fat",
+    "description": "Calculate your body fat percentage for free using the US Navy method or BMI-based estimate. View fat mass, lean mass, and body fat category with color-coded results.",
+    "applicationCategory": "HealthApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Health & Fitness", "item": "https://toolrip.com/#health" },
+      { "@type": "ListItem", "position": 3, "name": "Body Fat Calculator", "item": "https://toolrip.com/body-fat" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is body fat percentage?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Body fat percentage is the proportion of your total body weight that consists of fat tissue. It includes both essential fat needed for normal physiological function and storage fat that accumulates under the skin and around organs. Unlike BMI, body fat percentage directly measures fat versus lean tissue, making it a more precise indicator of body composition and overall health."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a healthy body fat percentage?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Healthy body fat ranges differ by gender. For men, 14 to 24 percent is considered acceptable, with athletes typically falling between 6 and 13 percent. For women, 21 to 31 percent is acceptable, with athletes ranging from 14 to 20 percent. Essential fat levels below 2 to 5 percent for men and 10 to 13 percent for women can be dangerous and are not recommended."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does the US Navy method work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The US Navy method estimates body fat percentage using circumference measurements of the neck, waist, and hips (for women), along with height. The formula uses logarithmic calculations to derive an estimate that correlates well with more expensive methods like DEXA scans. It was developed by the US Navy for fitness assessments and is considered one of the most reliable tape-measure-based estimation methods."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is the US Navy method more accurate than calipers?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Both methods have trade-offs. Skinfold calipers can be very accurate when used by a trained professional, but results vary significantly based on the tester's experience and the specific protocol used. The US Navy method is more consistent and easier to self-administer since it only requires a tape measure. Studies show both methods typically have a margin of error of 3 to 4 percent compared to DEXA scans."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is visceral fat and why does it matter?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Visceral fat is the fat stored deep within your abdominal cavity, surrounding vital organs like the liver, intestines, and pancreas. Unlike subcutaneous fat that sits just beneath the skin, visceral fat is metabolically active and releases inflammatory substances that increase the risk of heart disease, type 2 diabetes, and certain cancers. Even individuals with a normal body weight can carry dangerous levels of visceral fat."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How often should I measure my body fat?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "For most people tracking fitness progress, measuring body fat every 2 to 4 weeks is sufficient. Body fat does not change rapidly, and daily fluctuations in hydration, food intake, and measurement technique can create misleading short-term variations. For best consistency, take measurements at the same time of day, under similar conditions, and use the same method each time."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I reduce body fat without losing muscle?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, it is possible to reduce body fat while preserving or even building muscle mass through a combination of moderate caloric deficit, adequate protein intake of 1.6 to 2.2 grams per kilogram of body weight, and resistance training. Crash diets and extreme calorie restriction tend to cause significant muscle loss alongside fat loss. A gradual approach, aiming to lose 0.5 to 1 percent of body weight per week, is generally recommended for preserving lean mass."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="body-fat-top">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#health">Health &amp; Fitness</a>
+        <span>/</span>
+        <span>Body Fat Calculator</span>
+      </nav>
+
+      <h1>Body Fat Calculator</h1>
+      <p class="text-muted mt-1 mb-3">Estimate your body fat percentage using the US Navy method or a BMI-based formula. Get your fat mass, lean mass, and body fat category instantly. Free, private, no sign-up required.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+
+        <!-- Gender Toggle -->
+        <div class="input-group">
+          <label>Gender</label>
+          <div class="gender-toggle">
+            <button id="btn-male" class="active" onclick="BFC.setGender('male')">Male</button>
+            <button id="btn-female" onclick="BFC.setGender('female')">Female</button>
+          </div>
+        </div>
+
+        <!-- Unit Toggle -->
+        <div class="input-group">
+          <label>Unit System</label>
+          <div class="unit-toggle-group">
+            <button id="btn-metric" class="active" onclick="BFC.setUnit('metric')">Metric (cm / kg)</button>
+            <button id="btn-imperial" onclick="BFC.setUnit('imperial')">Imperial (in / lbs)</button>
+          </div>
+        </div>
+
+        <!-- Method Tabs -->
+        <div class="tab-group method-tabs">
+          <button class="tab active" data-tab="panel-navy">US Navy Method</button>
+          <button class="tab" data-tab="panel-bmi">BMI-Based Estimate</button>
+        </div>
+
+        <!-- Navy Method Panel -->
+        <div class="tab-panel" id="panel-navy">
+          <div class="input-row">
+            <div class="input-group">
+              <label for="navy-height" id="navy-height-label">Height (cm)</label>
+              <input type="number" id="navy-height" class="input-field" placeholder="175" min="100" max="250" step="0.1">
+            </div>
+            <div class="input-group">
+              <label for="navy-neck" id="navy-neck-label">Neck Circumference (cm)</label>
+              <input type="number" id="navy-neck" class="input-field" placeholder="38" min="20" max="80" step="0.1">
+            </div>
+          </div>
+          <div class="input-row">
+            <div class="input-group">
+              <label for="navy-waist" id="navy-waist-label">Waist Circumference (cm)</label>
+              <input type="number" id="navy-waist" class="input-field" placeholder="85" min="40" max="200" step="0.1">
+            </div>
+            <div class="input-group hip-row" id="hip-group">
+              <label for="navy-hip" id="navy-hip-label">Hip Circumference (cm)</label>
+              <input type="number" id="navy-hip" class="input-field" placeholder="95" min="50" max="200" step="0.1">
+            </div>
+          </div>
+          <p class="text-muted" style="font-size:0.8rem;margin-top:var(--sp-1)">Measure neck at narrowest point, waist at navel level, hips at widest point (women only).</p>
+        </div>
+
+        <!-- BMI-Based Panel -->
+        <div class="tab-panel hidden" id="panel-bmi">
+          <div class="input-row">
+            <div class="input-group">
+              <label for="bmi-weight" id="bmi-weight-label">Weight (kg)</label>
+              <input type="number" id="bmi-weight" class="input-field" placeholder="70" min="20" max="500" step="0.1">
+            </div>
+            <div class="input-group">
+              <label for="bmi-height" id="bmi-height-label">Height (cm)</label>
+              <input type="number" id="bmi-height" class="input-field" placeholder="175" min="100" max="250" step="0.1">
+            </div>
+          </div>
+          <div class="input-group" style="max-width:50%">
+            <label for="bmi-age">Age (years)</label>
+            <input type="number" id="bmi-age" class="input-field" placeholder="25" min="15" max="120" step="1">
+          </div>
+          <p class="text-muted" style="font-size:0.8rem;margin-top:var(--sp-1)">BMI-based body fat estimation uses the Deurenberg formula: %BF = 1.20 &times; BMI + 0.23 &times; Age &minus; 10.8 &times; Sex &minus; 5.4</p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex gap-2 mt-2">
+          <button class="btn-primary" onclick="BFC.calculate()">Calculate Body Fat</button>
+          <button class="btn-secondary" onclick="BFC.reset()">Clear</button>
+        </div>
+
+        <!-- Result Section -->
+        <div class="result-card hidden" id="result-card">
+          <div class="bf-value" id="bf-value">--</div>
+          <div class="bf-category" id="bf-category">--</div>
+
+          <!-- Body Fat Bar -->
+          <div class="bf-bar-wrapper">
+            <div class="bf-bar" id="bf-bar">
+              <div class="bf-marker" id="bf-marker" data-bf="--"></div>
+            </div>
+            <div class="bf-bar-labels" id="bf-bar-labels">
+              <span>2%</span>
+              <span>6%</span>
+              <span>14%</span>
+              <span>25%</span>
+              <span>40%</span>
+            </div>
+          </div>
+
+          <!-- Info Grid -->
+          <div class="info-grid">
+            <div class="info-box">
+              <h4>Body Fat</h4>
+              <p id="fat-mass">--</p>
+            </div>
+            <div class="info-box">
+              <h4>Lean Mass</h4>
+              <p id="lean-mass">--</p>
+            </div>
+            <div class="info-box">
+              <h4>Method Used</h4>
+              <p id="method-used">--</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="body-fat-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Two Estimation Methods</h3>
+            <p>Choose between the US Navy circumference method for tape-measure accuracy or the BMI-based Deurenberg formula when you only know your weight and height. Both provide reliable body fat estimates suitable for tracking your progress over time.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Complete Body Composition</h3>
+            <p>Go beyond a single percentage. See your total fat mass and lean body mass in kilograms or pounds, along with a color-coded category that tells you exactly where you stand compared to established body fat reference ranges.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Gender-Specific Ranges</h3>
+            <p>Body fat distribution and healthy ranges differ significantly between men and women. Our calculator adjusts its formulas, reference scales, and category thresholds automatically based on your selected gender for accurate results.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Metric and Imperial Units</h3>
+            <p>Switch freely between centimeters and inches, kilograms and pounds. The calculator instantly converts your existing values when toggling units, so you never need to re-enter your measurements manually.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Visual Category Scale</h3>
+            <p>A gradient bar shows where your body fat percentage falls across five categories: essential fat, athletes, fitness, average, and obese. The animated marker and color coding make it easy to understand your result at a glance.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Privacy First</h3>
+            <p>All calculations happen directly in your browser. Your measurements are never sent to any server, stored in any database, or shared with third parties. Close the tab and your data is gone immediately.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Body Fat Calculator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Select your gender</strong> — Choose Male or Female at the top of the calculator. This affects the formula used and the reference ranges displayed since men and women carry fat differently.</li>
+          <li><strong>Choose your unit system</strong> — Pick Metric (cm/kg) or Imperial (in/lbs) depending on your preference. You can switch units at any time without losing your data.</li>
+          <li><strong>Pick a measurement method</strong> — Use the US Navy Method tab if you have a tape measure for neck, waist, and hip measurements. Use the BMI-Based Estimate tab if you only know your weight, height, and age.</li>
+          <li><strong>Enter your measurements</strong> — For the Navy method, measure your neck at its narrowest point, your waist at the navel, and hips at the widest point (women only). For BMI-based, enter your weight, height, and age.</li>
+          <li><strong>View your results</strong> — Click "Calculate Body Fat" to see your body fat percentage, fat mass, lean mass, and category. The visual scale shows exactly where you fall relative to healthy ranges.</li>
+        </ol>
+      </section>
+
+      <!-- Understanding Body Fat -->
+      <section class="mt-4">
+        <h2>Understanding Body Fat Percentage</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Body fat percentage is one of the most meaningful indicators of physical health and fitness. Unlike body mass index, which only considers total weight relative to height, body fat percentage distinguishes between metabolically active lean tissue and stored adipose tissue. This distinction matters because two people with identical weights and heights can have vastly different body compositions, health profiles, and physical capabilities depending on their ratio of muscle to fat.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Your body requires a certain amount of essential fat to function properly. Essential fat supports hormone production, vitamin absorption, temperature regulation, and organ cushioning. For men, essential fat constitutes roughly 2 to 5 percent of total body weight. For women, the essential fat range is higher at 10 to 13 percent, largely due to fat stored in the breasts, pelvis, hips, and thighs that supports reproductive function. Dropping below these essential levels can lead to serious hormonal disruption, immune suppression, and organ damage.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Storage fat accumulates beneath the skin as subcutaneous fat and around internal organs as visceral fat. While subcutaneous fat is relatively benign, excess visceral fat is strongly associated with metabolic syndrome, cardiovascular disease, insulin resistance, and chronic inflammation. Research consistently shows that waist circumference and body fat percentage are better predictors of these metabolic risks than body weight alone. This is why measuring and monitoring your body fat is an important step in managing your long-term health.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Several methods exist for estimating body fat. Clinical methods like dual-energy X-ray absorptiometry (DEXA), hydrostatic weighing, and air displacement plethysmography provide the highest accuracy but require specialized equipment and professional administration. Field methods like skinfold calipers, bioelectrical impedance analysis (BIA), and circumference-based formulas offer practical alternatives that can be performed at home with reasonable accuracy. The US Navy method used in this calculator has been validated against DEXA scans and is considered one of the most reliable circumference-based techniques available, with a typical margin of error of 3 to 4 percent.</p>
+      </section>
+
+      <!-- Body Fat Categories Table -->
+      <section class="mt-4">
+        <h2>Body Fat Percentage Categories</h2>
+        <p class="text-muted mb-2">The American Council on Exercise (ACE) defines the following body fat categories. Healthy ranges differ between men and women due to physiological differences in fat storage and distribution. These ranges serve as general guidelines and may vary based on age, ethnicity, and individual health conditions.</p>
+
+        <h3 style="font-size:1rem;margin:var(--sp-3) 0 var(--sp-2)">Men</h3>
+        <div class="tool-card" style="padding:0;overflow:hidden">
+          <table class="bf-table">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Body Fat Range</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="dot dot-blue"></span>Essential Fat</td>
+                <td>2 &ndash; 5%</td>
+              </tr>
+              <tr>
+                <td><span class="dot dot-green"></span>Athletes</td>
+                <td>6 &ndash; 13%</td>
+              </tr>
+              <tr>
+                <td><span class="dot dot-lime"></span>Fitness</td>
+                <td>14 &ndash; 17%</td>
+              </tr>
+              <tr>
+                <td><span class="dot dot-orange"></span>Average</td>
+                <td>18 &ndash; 24%</td>
+              </tr>
+              <tr>
+                <td><span class="dot dot-red"></span>Obese</td>
+                <td>25%+</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="font-size:1rem;margin:var(--sp-3) 0 var(--sp-2)">Women</h3>
+        <div class="tool-card" style="padding:0;overflow:hidden">
+          <table class="bf-table">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Body Fat Range</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="dot dot-blue"></span>Essential Fat</td>
+                <td>10 &ndash; 13%</td>
+              </tr>
+              <tr>
+                <td><span class="dot dot-green"></span>Athletes</td>
+                <td>14 &ndash; 20%</td>
+              </tr>
+              <tr>
+                <td><span class="dot dot-lime"></span>Fitness</td>
+                <td>21 &ndash; 24%</td>
+              </tr>
+              <tr>
+                <td><span class="dot dot-orange"></span>Average</td>
+                <td>25 &ndash; 31%</td>
+              </tr>
+              <tr>
+                <td><span class="dot dot-red"></span>Obese</td>
+                <td>32%+</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is body fat percentage?</summary>
+          <p>Body fat percentage is the proportion of your total body weight that consists of fat tissue. It includes both essential fat needed for normal physiological function and storage fat that accumulates under the skin and around organs. Unlike BMI, body fat percentage directly measures fat versus lean tissue, making it a more precise indicator of body composition and overall health. A person with a high body fat percentage may appear to be a normal weight but still carry health risks associated with excess fat, a condition sometimes referred to as "skinny fat" or normal-weight obesity.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is a healthy body fat percentage?</summary>
+          <p>Healthy body fat ranges differ significantly by gender due to biological differences. For men, 14 to 24 percent is considered an acceptable and healthy range, with athletes typically falling between 6 and 13 percent. For women, 21 to 31 percent is considered acceptable, with female athletes ranging from 14 to 20 percent. Essential fat, which is the minimum amount needed for basic physical and physiological health, is 2 to 5 percent for men and 10 to 13 percent for women. Going below essential fat levels can be dangerous and is not recommended outside of closely monitored competitive bodybuilding contexts.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How does the US Navy method work?</summary>
+          <p>The US Navy method estimates body fat percentage using circumference measurements of the neck, waist, and hips (for women), combined with height. The formula uses logarithmic calculations based on research conducted by Hodgdon and Beckett at the Naval Health Research Center. For men, the formula accounts for the difference between waist and neck circumference relative to height. For women, it adds hip circumference to the equation because women store proportionally more fat in the hip and thigh region. The method has been validated against hydrostatic weighing and is used by the US military for official fitness assessments.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is the US Navy method more accurate than calipers?</summary>
+          <p>Both methods have trade-offs in terms of accuracy and practicality. Skinfold calipers can be very accurate when used by a trained professional following a standardized protocol, but results vary significantly based on the tester's skill, the number of measurement sites, and the specific equation used. The US Navy method is more consistent and easier to self-administer since it only requires a flexible tape measure. Research comparing both methods to DEXA scans shows typical error margins of 3 to 4 percent for each. For personal tracking, consistency matters more than absolute accuracy, so choose one method and stick with it.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is visceral fat and why does it matter?</summary>
+          <p>Visceral fat is the fat stored deep within your abdominal cavity, surrounding vital organs like the liver, intestines, and pancreas. Unlike subcutaneous fat that sits just beneath the skin and is relatively benign, visceral fat is metabolically active and releases inflammatory cytokines, hormones, and free fatty acids directly into the portal vein that feeds the liver. This increases the risk of heart disease, type 2 diabetes, stroke, and certain cancers including colorectal and breast cancer. Even individuals who appear lean can carry dangerous levels of visceral fat. Waist circumference above 40 inches for men and 35 inches for women is a common indicator of elevated visceral fat.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How often should I measure my body fat?</summary>
+          <p>For most people tracking fitness progress, measuring body fat every 2 to 4 weeks is sufficient to observe meaningful changes. Body fat does not change rapidly, and daily fluctuations in hydration, food intake, time of day, and slight differences in tape placement can create misleading short-term variations. For the most consistent results, take measurements first thing in the morning, before eating or drinking, and record the conditions. Use the same method and technique every time to minimize measurement error and produce a reliable trend over weeks and months.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can I reduce body fat without losing muscle?</summary>
+          <p>Yes, it is possible to reduce body fat while preserving or even building muscle mass through a disciplined approach combining a moderate caloric deficit, high protein intake of 1.6 to 2.2 grams per kilogram of body weight per day, and progressive resistance training. The key is to avoid extreme calorie restriction, which triggers significant muscle loss alongside fat loss. A gradual approach targeting 0.5 to 1 percent of body weight loss per week is generally recommended by sports nutrition researchers. Adequate sleep of 7 to 9 hours per night and stress management also play important roles in maintaining muscle mass during fat loss.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/bmi">BMI Calculator</a>
+          <a href="https://toolrip.com/calorie">Calorie Calculator</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+          <a href="https://toolrip.com/age">Age Calculator</a>
+          <a href="https://toolrip.com/fraction">Fraction Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="body-fat-sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="body-fat-bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Body Fat Calculator JS -->
+  <script>
+  var BFC = (function() {
+    'use strict';
+
+    var state = {
+      gender: 'male',
+      unit: 'metric',
+      method: 'navy'
+    };
+
+    /* ===== Categories ===== */
+    var categories = {
+      male: [
+        { max: 5, label: 'Essential Fat', color: '#3b82f6' },
+        { max: 13, label: 'Athletes', color: '#22c55e' },
+        { max: 17, label: 'Fitness', color: '#84cc16' },
+        { max: 24, label: 'Average', color: '#f59e0b' },
+        { max: Infinity, label: 'Obese', color: '#ef4444' }
+      ],
+      female: [
+        { max: 13, label: 'Essential Fat', color: '#3b82f6' },
+        { max: 20, label: 'Athletes', color: '#22c55e' },
+        { max: 24, label: 'Fitness', color: '#84cc16' },
+        { max: 31, label: 'Average', color: '#f59e0b' },
+        { max: Infinity, label: 'Obese', color: '#ef4444' }
+      ]
+    };
+
+    /* ===== Bar ranges for marker positioning ===== */
+    var barRanges = {
+      male:   { min: 2, max: 40 },
+      female: { min: 10, max: 50 }
+    };
+
+    /* ===== Gender ===== */
+    function setGender(g) {
+      state.gender = g;
+      document.getElementById('btn-male').classList.toggle('active', g === 'male');
+      document.getElementById('btn-female').classList.toggle('active', g === 'female');
+      var hipGroup = document.getElementById('hip-group');
+      if (g === 'female') {
+        hipGroup.classList.add('visible');
+      } else {
+        hipGroup.classList.remove('visible');
+      }
+      updateBarLabels();
+    }
+
+    /* ===== Unit ===== */
+    function setUnit(u) {
+      state.unit = u;
+      document.getElementById('btn-metric').classList.toggle('active', u === 'metric');
+      document.getElementById('btn-imperial').classList.toggle('active', u === 'imperial');
+
+      var isMetric = u === 'metric';
+      var lenUnit = isMetric ? 'cm' : 'in';
+      var wtUnit = isMetric ? 'kg' : 'lbs';
+
+      document.getElementById('navy-height-label').textContent = 'Height (' + lenUnit + ')';
+      document.getElementById('navy-neck-label').textContent = 'Neck Circumference (' + lenUnit + ')';
+      document.getElementById('navy-waist-label').textContent = 'Waist Circumference (' + lenUnit + ')';
+      document.getElementById('navy-hip-label').textContent = 'Hip Circumference (' + lenUnit + ')';
+      document.getElementById('bmi-weight-label').textContent = 'Weight (' + wtUnit + ')';
+      document.getElementById('bmi-height-label').textContent = 'Height (' + lenUnit + ')';
+
+      if (isMetric) {
+        document.getElementById('navy-height').placeholder = '175';
+        document.getElementById('navy-neck').placeholder = '38';
+        document.getElementById('navy-waist').placeholder = '85';
+        document.getElementById('navy-hip').placeholder = '95';
+        document.getElementById('bmi-weight').placeholder = '70';
+        document.getElementById('bmi-height').placeholder = '175';
+      } else {
+        document.getElementById('navy-height').placeholder = '69';
+        document.getElementById('navy-neck').placeholder = '15';
+        document.getElementById('navy-waist').placeholder = '33';
+        document.getElementById('navy-hip').placeholder = '37';
+        document.getElementById('bmi-weight').placeholder = '154';
+        document.getElementById('bmi-height').placeholder = '69';
+      }
+    }
+
+    /* ===== Update bar labels based on gender ===== */
+    function updateBarLabels() {
+      var labels = document.getElementById('bf-bar-labels');
+      var bar = document.getElementById('bf-bar');
+      if (state.gender === 'male') {
+        labels.innerHTML = '<span>2%</span><span>6%</span><span>14%</span><span>25%</span><span>40%</span>';
+        bar.style.background = 'linear-gradient(to right, #3b82f6 0%, #3b82f6 12%, #22c55e 12%, #22c55e 35%, #84cc16 35%, #84cc16 55%, #f59e0b 55%, #f59e0b 75%, #ef4444 75%, #ef4444 100%)';
+      } else {
+        labels.innerHTML = '<span>10%</span><span>14%</span><span>21%</span><span>32%</span><span>50%</span>';
+        bar.style.background = 'linear-gradient(to right, #3b82f6 0%, #3b82f6 10%, #22c55e 10%, #22c55e 30%, #84cc16 30%, #84cc16 45%, #f59e0b 45%, #f59e0b 65%, #ef4444 65%, #ef4444 100%)';
+      }
+    }
+
+    /* ===== Convert to cm ===== */
+    function toCm(val) {
+      return state.unit === 'imperial' ? val * 2.54 : val;
+    }
+
+    /* ===== Convert to kg ===== */
+    function toKg(val) {
+      return state.unit === 'imperial' ? val * 0.453592 : val;
+    }
+
+    /* ===== Format weight ===== */
+    function formatWeight(kg) {
+      if (state.unit === 'imperial') {
+        return (kg / 0.453592).toFixed(1) + ' lbs';
+      }
+      return kg.toFixed(1) + ' kg';
+    }
+
+    /* ===== Get active method ===== */
+    function getActiveMethod() {
+      var navyPanel = document.getElementById('panel-navy');
+      return navyPanel.classList.contains('hidden') ? 'bmi' : 'navy';
+    }
+
+    /* ===== Get category ===== */
+    function getCategory(bf) {
+      var cats = categories[state.gender];
+      for (var i = 0; i < cats.length; i++) {
+        if (bf <= cats[i].max) return cats[i];
+      }
+      return cats[cats.length - 1];
+    }
+
+    /* ===== Marker position ===== */
+    function getMarkerPercent(bf) {
+      var range = barRanges[state.gender];
+      var pct = ((bf - range.min) / (range.max - range.min)) * 100;
+      return Math.max(1, Math.min(99, pct));
+    }
+
+    /* ===== Navy Method ===== */
+    function calcNavy() {
+      var heightRaw = parseFloat(document.getElementById('navy-height').value);
+      var neckRaw = parseFloat(document.getElementById('navy-neck').value);
+      var waistRaw = parseFloat(document.getElementById('navy-waist').value);
+
+      if (isNaN(heightRaw) || isNaN(neckRaw) || isNaN(waistRaw)) {
+        showToast('Please enter height, neck, and waist measurements.', 'error');
+        return null;
+      }
+
+      var height = toCm(heightRaw);
+      var neck = toCm(neckRaw);
+      var waist = toCm(waistRaw);
+
+      if (state.gender === 'male') {
+        if (waist <= neck) {
+          showToast('Waist must be larger than neck circumference.', 'error');
+          return null;
+        }
+        var bf = 86.010 * Math.log10(waist - neck) - 70.041 * Math.log10(height) + 36.76;
+        return { bf: bf, method: 'US Navy' };
+      } else {
+        var hipRaw = parseFloat(document.getElementById('navy-hip').value);
+        if (isNaN(hipRaw)) {
+          showToast('Please enter hip circumference for female calculation.', 'error');
+          return null;
+        }
+        var hip = toCm(hipRaw);
+        if ((waist + hip) <= neck) {
+          showToast('Please check your measurements. Waist + hip must be greater than neck.', 'error');
+          return null;
+        }
+        var bf = 163.205 * Math.log10(waist + hip - neck) - 97.684 * Math.log10(height) - 78.387;
+        return { bf: bf, method: 'US Navy' };
+      }
+    }
+
+    /* ===== BMI-Based Method (Deurenberg) ===== */
+    function calcBMI() {
+      var weightRaw = parseFloat(document.getElementById('bmi-weight').value);
+      var heightRaw = parseFloat(document.getElementById('bmi-height').value);
+      var age = parseFloat(document.getElementById('bmi-age').value);
+
+      if (isNaN(weightRaw) || isNaN(heightRaw) || isNaN(age)) {
+        showToast('Please enter weight, height, and age.', 'error');
+        return null;
+      }
+
+      var weightKg = toKg(weightRaw);
+      var heightM = toCm(heightRaw) / 100;
+
+      if (heightM < 1 || heightM > 2.5) {
+        showToast('Please check your height value.', 'error');
+        return null;
+      }
+
+      var bmi = weightKg / (heightM * heightM);
+      var sex = state.gender === 'male' ? 1 : 0;
+      var bf = (1.20 * bmi) + (0.23 * age) - (10.8 * sex) - 5.4;
+
+      return { bf: bf, method: 'BMI-Based', weightKg: weightKg };
+    }
+
+    /* ===== Get weight for Navy method (estimate from height) ===== */
+    function getNavyWeight() {
+      /* Navy method doesn't use weight, so we need it for fat/lean mass.
+         Check if BMI panel weight is filled, otherwise return null */
+      var bmiWeight = parseFloat(document.getElementById('bmi-weight').value);
+      if (!isNaN(bmiWeight)) return toKg(bmiWeight);
+      return null;
+    }
+
+    /* ===== Main Calculate ===== */
+    function calculate() {
+      var method = getActiveMethod();
+      var result = method === 'navy' ? calcNavy() : calcBMI();
+
+      if (!result) return;
+
+      var bf = result.bf;
+      if (bf < 0) bf = 0;
+      if (bf > 70) bf = 70;
+
+      var cat = getCategory(bf);
+
+      /* Weight-based breakdown */
+      var weightKg = result.weightKg || null;
+      if (!weightKg && method === 'navy') {
+        weightKg = getNavyWeight();
+      }
+
+      var fatMassStr = '--';
+      var leanMassStr = '--';
+      if (weightKg) {
+        var fatMass = weightKg * (bf / 100);
+        var leanMass = weightKg - fatMass;
+        fatMassStr = formatWeight(fatMass);
+        leanMassStr = formatWeight(leanMass);
+      }
+
+      /* Update DOM */
+      var resultCard = document.getElementById('result-card');
+      resultCard.classList.remove('hidden');
+
+      document.getElementById('bf-value').textContent = bf.toFixed(1) + '%';
+      document.getElementById('bf-value').style.color = cat.color;
+
+      document.getElementById('bf-category').textContent = cat.label;
+      document.getElementById('bf-category').style.color = cat.color;
+
+      /* Marker */
+      var marker = document.getElementById('bf-marker');
+      marker.style.left = getMarkerPercent(bf) + '%';
+      marker.setAttribute('data-bf', bf.toFixed(1) + '%');
+
+      /* Info boxes */
+      document.getElementById('fat-mass').textContent = fatMassStr;
+      document.getElementById('lean-mass').textContent = leanMassStr;
+      document.getElementById('method-used').textContent = result.method;
+
+      /* Scroll */
+      resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    /* ===== Reset ===== */
+    function reset() {
+      var ids = ['navy-height','navy-neck','navy-waist','navy-hip','bmi-weight','bmi-height','bmi-age'];
+      ids.forEach(function(id) {
+        document.getElementById(id).value = '';
+      });
+      document.getElementById('result-card').classList.add('hidden');
+      setGender('male');
+      setUnit('metric');
+    }
+
+    /* ===== Init ===== */
+    document.addEventListener('DOMContentLoaded', function() {
+      updateBarLabels();
+
+      /* Listen to tab changes to track active method */
+      var tabs = document.querySelectorAll('.method-tabs .tab');
+      tabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          state.method = tab.dataset.tab === 'panel-navy' ? 'navy' : 'bmi';
+        });
+      });
+    });
+
+    return {
+      setGender: setGender,
+      setUnit: setUnit,
+      calculate: calculate,
+      reset: reset
+    };
+  })();
+  </script>
+</body>
+</html>

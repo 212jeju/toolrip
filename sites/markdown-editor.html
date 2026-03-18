@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Markdown Editor &amp; Preview Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Write and preview Markdown in real time with our free online editor. Bold, italic, headers, code blocks, links, lists, and more. No signup — 100% client-side.">
+  <link rel="canonical" href="https://toolrip.com/markdown">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Markdown Editor &amp; Preview — Toolrip">
+  <meta property="og:description" content="Write and preview Markdown in real time with our free online editor. Bold, italic, headers, code blocks, links, lists, and more. No signup — 100% client-side.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/markdown">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Markdown Editor &amp; Preview — Toolrip">
+  <meta name="twitter:description" content="Write and preview Markdown in real time with our free online editor. Bold, italic, headers, code blocks, links, lists, and more. No signup — 100% client-side.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root{--accent:var(--developer)}
+
+    /* Editor layout */
+    .editor-grid{display:grid;grid-template-columns:1fr;gap:var(--sp-3)}
+    @media(min-width:768px){.editor-grid{grid-template-columns:1fr 1fr}}
+
+    .toolbar{display:flex;flex-wrap:wrap;gap:var(--sp-1);align-items:center;margin-bottom:var(--sp-3)}
+    .toolbar-right{margin-left:auto;display:flex;gap:var(--sp-2);align-items:center}
+    @media(max-width:639px){.toolbar-right{margin-left:0;width:100%}}
+
+    .tb-btn{padding:var(--sp-1) var(--sp-2);background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius-sm);color:var(--text-muted);font-size:.8125rem;cursor:pointer;
+      font-family:var(--font);line-height:1;min-width:28px;text-align:center;transition:border-color .15s,color .15s}
+    .tb-btn:hover{color:var(--text);border-color:var(--accent)}
+
+    .md-input{width:100%;min-height:420px;resize:vertical;background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);color:var(--text);font-family:'Consolas','Monaco','Courier New',monospace;
+      font-size:.875rem;padding:var(--sp-3);line-height:1.7;tab-size:2}
+    .md-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent)}
+
+    .preview-panel{position:relative;width:100%;min-height:420px;background:var(--bg);border:1px solid var(--border);
+      border-radius:var(--radius);padding:var(--sp-4);overflow:auto;line-height:1.7;word-break:break-word}
+
+    /* Preview typography */
+    .preview-panel h1{font-size:1.75rem;font-weight:700;margin:0 0 .75rem;padding-bottom:.5rem;border-bottom:1px solid var(--border);color:var(--text)}
+    .preview-panel h2{font-size:1.4rem;font-weight:600;margin:1.25rem 0 .5rem;padding-bottom:.35rem;border-bottom:1px solid var(--border);color:var(--text)}
+    .preview-panel h3{font-size:1.15rem;font-weight:600;margin:1rem 0 .4rem;color:var(--text)}
+    .preview-panel h4{font-size:1rem;font-weight:600;margin:.75rem 0 .3rem;color:var(--text)}
+    .preview-panel p{margin:0 0 .75rem;color:var(--text-muted)}
+    .preview-panel strong{color:var(--text);font-weight:600}
+    .preview-panel em{font-style:italic}
+    .preview-panel a{color:var(--accent)}
+    .preview-panel img{max-width:100%;border-radius:var(--radius-sm);margin:.5rem 0}
+    .preview-panel code{background:var(--bg-elevated);padding:2px 6px;border-radius:3px;font-size:.8125rem;
+      font-family:'Consolas','Monaco','Courier New',monospace;color:#93c5fd}
+    .preview-panel pre{background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius);
+      padding:var(--sp-3);overflow-x:auto;margin:0 0 .75rem;line-height:1.5}
+    .preview-panel pre code{background:none;padding:0;color:var(--text);font-size:.8125rem}
+    .preview-panel blockquote{border-left:3px solid var(--accent);padding:var(--sp-2) var(--sp-3);margin:0 0 .75rem;
+      background:color-mix(in srgb,var(--accent) 5%,transparent);border-radius:0 var(--radius-sm) var(--radius-sm) 0}
+    .preview-panel blockquote p{margin:0;color:var(--text-muted)}
+    .preview-panel ul,.preview-panel ol{margin:0 0 .75rem;padding-left:1.5rem;color:var(--text-muted)}
+    .preview-panel li{margin:.25rem 0}
+    .preview-panel hr{border:none;border-top:1px solid var(--border);margin:1rem 0}
+
+    .placeholder-msg{color:var(--text-muted);opacity:.4;font-size:.875rem}
+
+    .btn-sm{padding:var(--sp-1) var(--sp-2);font-size:.8125rem;border-radius:var(--radius-sm)}
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Markdown Editor & Preview",
+    "url": "https://toolrip.com/markdown",
+    "description": "Write and preview Markdown in real time with our free online editor. Supports bold, italic, headers, code blocks, links, images, lists, blockquotes, and more.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#developer">Developer Tools</a>
+        <span>/</span>
+        <span>Markdown Editor</span>
+      </nav>
+
+      <h1>Markdown Editor &amp; Preview Online</h1>
+      <p class="text-muted mt-1 mb-3">Write Markdown on the left and see a beautifully rendered HTML preview on the right — instantly, as you type. Free, private, and entirely in your browser.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <!-- Toolbar -->
+        <div class="toolbar">
+          <button class="tb-btn" onclick="MDE.insert('bold')" title="Bold (Ctrl+B)"><strong>B</strong></button>
+          <button class="tb-btn" onclick="MDE.insert('italic')" title="Italic (Ctrl+I)"><em>I</em></button>
+          <button class="tb-btn" onclick="MDE.insert('h1')" title="Heading 1">H1</button>
+          <button class="tb-btn" onclick="MDE.insert('h2')" title="Heading 2">H2</button>
+          <button class="tb-btn" onclick="MDE.insert('h3')" title="Heading 3">H3</button>
+          <button class="tb-btn" onclick="MDE.insert('link')" title="Link">&#128279;</button>
+          <button class="tb-btn" onclick="MDE.insert('image')" title="Image">&#128247;</button>
+          <button class="tb-btn" onclick="MDE.insert('code')" title="Inline Code">&lt;/&gt;</button>
+          <button class="tb-btn" onclick="MDE.insert('codeblock')" title="Code Block">```</button>
+          <button class="tb-btn" onclick="MDE.insert('ul')" title="Unordered List">&bull; List</button>
+          <button class="tb-btn" onclick="MDE.insert('ol')" title="Ordered List">1. List</button>
+          <button class="tb-btn" onclick="MDE.insert('quote')" title="Blockquote">&gt; Quote</button>
+          <button class="tb-btn" onclick="MDE.insert('hr')" title="Horizontal Rule">&#8212;</button>
+          <div class="toolbar-right">
+            <button class="btn-secondary btn-sm" onclick="MDE.copyMarkdown()">Copy MD</button>
+            <button class="btn-secondary btn-sm" onclick="MDE.copyHTML()">Copy HTML</button>
+            <button class="btn-secondary btn-sm" onclick="MDE.clear()">Clear</button>
+          </div>
+        </div>
+
+        <!-- Two-column editor -->
+        <div class="editor-grid">
+          <!-- Input -->
+          <div>
+            <textarea id="md-input" class="md-input" placeholder="Type your Markdown here..." spellcheck="false"></textarea>
+          </div>
+          <!-- Preview -->
+          <div>
+            <div class="preview-panel" id="md-preview">
+              <span class="placeholder-msg">Your rendered preview will appear here as you type...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(2,1fr)">
+          <div class="feature-card">
+            <h3>Real-Time Live Preview</h3>
+            <p>See your Markdown rendered as formatted HTML the moment you type. There is no delay, no button to press, and no page reload. Every keystroke immediately updates the preview panel on the right so you always know exactly how your document will look. This instant feedback loop makes writing faster and eliminates the guesswork that comes with switching between editing and previewing in separate tools. Whether you are drafting a quick note or composing a lengthy technical article, the live preview keeps you in flow.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Full Markdown Syntax Support</h3>
+            <p>Our built-in parser handles all the core Markdown elements you need for everyday writing. Create headers from level one through level four, make text bold or italic, build both ordered and unordered lists, insert links and images, write inline code and fenced code blocks, add blockquotes for citations, and separate sections with horizontal rules. The parser is written in pure JavaScript with zero external dependencies, which means it loads instantly and runs entirely in your browser without sending data anywhere.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Convenient Toolbar Shortcuts</h3>
+            <p>Speed up your editing with the formatting toolbar at the top of the editor. Click a button to wrap your selected text in the appropriate Markdown syntax, or insert a template at your cursor position when nothing is selected. The toolbar supports bold, italic, three levels of headings, links, images, inline code, fenced code blocks, unordered lists, ordered lists, blockquotes, and horizontal rules. Keyboard shortcuts are also available for bold and italic, letting experienced writers stay on the keyboard without reaching for the mouse.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Copy Markdown or HTML Output</h3>
+            <p>When your document is ready, export it in the format you need with a single click. The Copy MD button places the raw Markdown source text onto your clipboard so you can paste it into GitHub, GitLab, Notion, or any platform that accepts Markdown. The Copy HTML button gives you the rendered HTML markup, which is perfect for pasting into email clients, content management systems, or static website templates. Both actions happen instantly and completely on the client side, so your content stays private.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Markdown Editor</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Start writing Markdown.</strong> Type directly into the editor on the left. Use standard Markdown syntax such as <code>#</code> for headings, <code>**text**</code> for bold, <code>*text*</code> for italic, <code>[text](url)</code> for links, and <code>```</code> for code blocks. The toolbar buttons can insert these for you automatically.</li>
+          <li><strong>Watch the live preview.</strong> As you type, the right panel updates in real time to show how your Markdown will render as HTML. Scroll through the preview to check formatting, verify links, and ensure your document looks the way you intend.</li>
+          <li><strong>Use the toolbar for quick formatting.</strong> Select a word or phrase and click a toolbar button to wrap it in the appropriate syntax. If nothing is selected, a placeholder template is inserted at your cursor. Keyboard shortcuts <em>Ctrl+B</em> (bold) and <em>Ctrl+I</em> (italic) are also supported.</li>
+          <li><strong>Copy your output.</strong> Click <em>Copy MD</em> to copy the raw Markdown source, or <em>Copy HTML</em> to copy the rendered HTML markup. Paste into any platform that accepts your chosen format. Click <em>Clear</em> to reset the editor and start fresh.</li>
+        </ol>
+      </section>
+
+      <!-- About Markdown -->
+      <section class="mt-4">
+        <h2>Understanding Markdown: A Brief History and Guide</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">
+          Markdown is a lightweight markup language created by John Gruber in 2004 with significant contributions from Aaron Swartz. Gruber designed it with a clear philosophy: the source text should be readable as plain text without requiring a rendering engine. Unlike HTML, which wraps content in verbose angle-bracket tags, Markdown uses minimal punctuation characters to indicate formatting. A hash symbol becomes a heading, asterisks produce bold or italic text, and hyphens create list items. This simplicity made Markdown an immediate favorite among writers, bloggers, and developers who wanted a faster way to produce structured documents without the overhead of a full word processor or the complexity of raw HTML.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">
+          Gruber published the original Markdown syntax specification along with a Perl script that converted Markdown to HTML. The specification was intentionally informal, which gave authors flexibility but also led to inconsistencies as the language gained popularity. Different implementations interpreted edge cases differently, which meant the same Markdown source could render differently depending on which parser processed it. This fragmentation motivated a group of developers, led by Jeff Atwood and John MacFarlane, to launch the CommonMark project in 2014. CommonMark provides a rigorous, unambiguous specification with hundreds of test cases, ensuring that compliant parsers all produce identical output for the same input. Today CommonMark serves as the de facto standard that most modern Markdown tools follow.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">
+          GitHub introduced its own extension of Markdown known as GitHub Flavored Markdown, or GFM, which builds on CommonMark and adds features that are especially useful for software development. GFM supports task lists with checkboxes, tables with pipe-delimited columns, strikethrough text with double tildes, autolinked URLs, and syntax-highlighted fenced code blocks. Because GitHub is where millions of developers host their code, GFM has become one of the most widely used Markdown dialects in the world. Platforms such as GitLab, Bitbucket, Stack Overflow, Reddit, Discord, and Notion all support Markdown to varying degrees, making it a universal writing format across the technology industry.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">
+          The appeal of Markdown extends well beyond software documentation. Technical writers use it to draft manuals and API references that can be compiled into PDF, HTML, or EPUB formats using tools like Pandoc. Academics write research papers and lecture notes in Markdown, combining them with LaTeX math expressions for scientific publishing. Content marketers compose blog posts in Markdown because static site generators such as Hugo, Jekyll, and Gatsby consume Markdown files natively. Note-taking applications including Obsidian, Bear, and Typora use Markdown as their default storage format, giving users portable, future-proof documents that are not locked into any proprietary file type. Even email clients and messaging platforms now support Markdown shortcuts for bold, italic, and code formatting, which demonstrates how deeply this humble plain-text syntax has embedded itself into modern digital communication.
+        </p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is Markdown?</summary>
+          <p>Markdown is a lightweight markup language created by John Gruber in 2004. It lets you format plain text using simple symbols like hash marks for headings, asterisks for bold and italic, and hyphens for lists. A Markdown processor then converts this plain text into HTML or another output format. The key advantage of Markdown is that the source file remains human-readable even without rendering, unlike HTML or word-processor files that are filled with formatting codes. This readability, combined with its simplicity, has made Markdown the standard writing format for developers, technical writers, and anyone who values portable, future-proof documents.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How is Markdown different from HTML?</summary>
+          <p>HTML uses angle-bracket tags such as &lt;strong&gt;, &lt;em&gt;, and &lt;h1&gt; to define formatting, which makes source documents harder to read. Markdown replaces these tags with minimal punctuation: two asterisks for bold, one asterisk for italic, and hash symbols for headings. While HTML gives you complete control over every element and attribute, Markdown covers the most common formatting needs with far less typing. In practice, most Markdown processors convert your text into HTML behind the scenes, so you get the same result on the web. You can also mix HTML directly into a Markdown document for cases where you need features Markdown does not cover, such as custom CSS classes or embedded video.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Who uses Markdown and where?</summary>
+          <p>Markdown is used by millions of people across a wide range of industries. Software developers write README files, code documentation, and issue comments in Markdown on GitHub, GitLab, and Bitbucket. Technical writers draft API references and user guides that get compiled to HTML or PDF. Bloggers and content creators use static site generators like Hugo, Jekyll, and Gatsby, all of which consume Markdown files natively. Academics combine Markdown with LaTeX for research papers. Note-taking apps such as Obsidian, Bear, and Notion store content in Markdown. Even messaging platforms like Slack, Discord, and Reddit support Markdown shortcuts for formatting messages.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is GitHub Flavored Markdown (GFM)?</summary>
+          <p>GitHub Flavored Markdown is an extension of the CommonMark specification maintained by GitHub. It adds several features commonly needed by developers: task lists with checkboxes, tables using pipe characters, strikethrough text with double tildes, automatic URL linking, and syntax-highlighted fenced code blocks where you specify the programming language after the opening triple backticks. GFM is the default Markdown dialect on GitHub and has influenced many other platforms. If you write documentation or issues on GitHub, you are already using GFM. Our editor supports the core Markdown syntax that GFM is built upon, making it a natural companion for GitHub workflows.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is my data safe when using this editor?</summary>
+          <p>Yes, your content never leaves your browser. All parsing and rendering happen entirely on the client side using JavaScript that runs locally on your device. Nothing is transmitted to any server, stored in any database, or logged anywhere. This means you can safely compose private notes, draft confidential documentation, or work with sensitive content without any risk of third-party access. You can verify this by opening your browser developer tools and watching the network tab while you type — no requests are made. When you close the tab, your content is gone unless you have copied it.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What Markdown syntax does this editor support?</summary>
+          <p>This editor supports all core Markdown elements: headings from level one through level four, bold text with double asterisks or double underscores, italic text with single asterisks or single underscores, inline code with backticks, fenced code blocks with triple backticks, links in bracket-parenthesis format, images with the exclamation-mark prefix, unordered lists with hyphens or asterisks, ordered lists with numbers followed by periods, blockquotes with the greater-than symbol, horizontal rules with three hyphens, and paragraph separation with blank lines. The parser handles nested formatting and multiple consecutive elements correctly.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can I use this editor for writing README files?</summary>
+          <p>Absolutely. This editor is ideal for composing README files because it shows you exactly how your document will look once rendered on platforms like GitHub or GitLab. Write your project title, description, installation instructions, usage examples with code blocks, and contribution guidelines, then use the Copy MD button to place the raw Markdown on your clipboard. Paste it directly into your README.md file. The live preview ensures you catch formatting issues before committing, saving you the cycle of pushing to GitHub and checking how it looks. For a polished README, combine headings, lists, code blocks, and links to create a document that is both informative and easy to navigate.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+          <a href="https://toolrip.com/word-count">Word Counter</a>
+          <a href="https://toolrip.com/case">Case Converter</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+    var MDE = (function() {
+      'use strict';
+
+      var inputEl, previewEl, debounceTimer;
+
+      /* ========== Markdown Parser ========== */
+      function escapeHtml(str) {
+        return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      }
+
+      function parseMarkdown(src) {
+        var lines = src.split('\n');
+        var html = '';
+        var i = 0;
+        var len = lines.length;
+
+        while (i < len) {
+          var line = lines[i];
+
+          // Fenced code block
+          if (/^```/.test(line)) {
+            var code = '';
+            i++;
+            while (i < len && !/^```/.test(lines[i])) {
+              code += (code ? '\n' : '') + escapeHtml(lines[i]);
+              i++;
+            }
+            if (i < len) i++; // skip closing ```
+            html += '<pre><code>' + code + '</code></pre>\n';
+            continue;
+          }
+
+          // Blank line
+          if (/^\s*$/.test(line)) {
+            i++;
+            continue;
+          }
+
+          // Horizontal rule
+          if (/^(-{3,}|\*{3,}|_{3,})\s*$/.test(line)) {
+            html += '<hr>\n';
+            i++;
+            continue;
+          }
+
+          // Headings
+          var headingMatch = line.match(/^(#{1,4})\s+(.+)/);
+          if (headingMatch) {
+            var level = headingMatch[1].length;
+            html += '<h' + level + '>' + parseInline(headingMatch[2]) + '</h' + level + '>\n';
+            i++;
+            continue;
+          }
+
+          // Blockquote
+          if (/^>\s?/.test(line)) {
+            var quoteLines = [];
+            while (i < len && /^>\s?/.test(lines[i])) {
+              quoteLines.push(lines[i].replace(/^>\s?/, ''));
+              i++;
+            }
+            html += '<blockquote>' + parseMarkdown(quoteLines.join('\n')) + '</blockquote>\n';
+            continue;
+          }
+
+          // Unordered list
+          if (/^[\-\*]\s+/.test(line)) {
+            html += '<ul>\n';
+            while (i < len && /^[\-\*]\s+/.test(lines[i])) {
+              html += '<li>' + parseInline(lines[i].replace(/^[\-\*]\s+/, '')) + '</li>\n';
+              i++;
+            }
+            html += '</ul>\n';
+            continue;
+          }
+
+          // Ordered list
+          if (/^\d+\.\s+/.test(line)) {
+            html += '<ol>\n';
+            while (i < len && /^\d+\.\s+/.test(lines[i])) {
+              html += '<li>' + parseInline(lines[i].replace(/^\d+\.\s+/, '')) + '</li>\n';
+              i++;
+            }
+            html += '</ol>\n';
+            continue;
+          }
+
+          // Paragraph — collect consecutive non-empty, non-special lines
+          var paraLines = [];
+          while (i < len && !/^\s*$/.test(lines[i]) && !/^(#{1,4}\s|```|>\s?|[\-\*]\s+|\d+\.\s+|(-{3,}|\*{3,}|_{3,})\s*$)/.test(lines[i])) {
+            paraLines.push(lines[i]);
+            i++;
+          }
+          if (paraLines.length > 0) {
+            html += '<p>' + parseInline(paraLines.join('<br>')) + '</p>\n';
+          }
+        }
+
+        return html;
+      }
+
+      function parseInline(text) {
+        // Images: ![alt](url)
+        text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1">');
+
+        // Links: [text](url)
+        text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+
+        // Inline code: `code`
+        text = text.replace(/`([^`]+)`/g, function(m, code) {
+          return '<code>' + escapeHtml(code) + '</code>';
+        });
+
+        // Bold: **text** or __text__
+        text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        text = text.replace(/__(.+?)__/g, '<strong>$1</strong>');
+
+        // Italic: *text* or _text_
+        text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
+        text = text.replace(/_(.+?)_/g, '<em>$1</em>');
+
+        return text;
+      }
+
+      /* ========== Render Preview ========== */
+      function render() {
+        var raw = inputEl.value;
+        if (!raw.trim()) {
+          previewEl.innerHTML = '<span class="placeholder-msg">Your rendered preview will appear here as you type...</span>';
+          return;
+        }
+        previewEl.innerHTML = parseMarkdown(raw);
+      }
+
+      function debouncedRender() {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(render, 60);
+      }
+
+      /* ========== Toolbar Insert ========== */
+      function insert(type) {
+        inputEl.focus();
+        var start = inputEl.selectionStart;
+        var end = inputEl.selectionEnd;
+        var sel = inputEl.value.substring(start, end);
+        var before = inputEl.value.substring(0, start);
+        var after = inputEl.value.substring(end);
+        var replacement = '';
+        var cursorOffset = 0;
+
+        switch (type) {
+          case 'bold':
+            replacement = '**' + (sel || 'bold text') + '**';
+            cursorOffset = sel ? replacement.length : 2;
+            break;
+          case 'italic':
+            replacement = '*' + (sel || 'italic text') + '*';
+            cursorOffset = sel ? replacement.length : 1;
+            break;
+          case 'h1':
+            replacement = '# ' + (sel || 'Heading 1');
+            cursorOffset = replacement.length;
+            break;
+          case 'h2':
+            replacement = '## ' + (sel || 'Heading 2');
+            cursorOffset = replacement.length;
+            break;
+          case 'h3':
+            replacement = '### ' + (sel || 'Heading 3');
+            cursorOffset = replacement.length;
+            break;
+          case 'link':
+            if (sel) {
+              replacement = '[' + sel + '](url)';
+              cursorOffset = sel.length + 2;
+            } else {
+              replacement = '[link text](url)';
+              cursorOffset = 1;
+            }
+            break;
+          case 'image':
+            if (sel) {
+              replacement = '![' + sel + '](url)';
+              cursorOffset = sel.length + 3;
+            } else {
+              replacement = '![alt text](url)';
+              cursorOffset = 2;
+            }
+            break;
+          case 'code':
+            replacement = '`' + (sel || 'code') + '`';
+            cursorOffset = sel ? replacement.length : 1;
+            break;
+          case 'codeblock':
+            replacement = '```\n' + (sel || 'code here') + '\n```';
+            cursorOffset = 4;
+            break;
+          case 'ul':
+            replacement = '- ' + (sel || 'list item');
+            cursorOffset = replacement.length;
+            break;
+          case 'ol':
+            replacement = '1. ' + (sel || 'list item');
+            cursorOffset = replacement.length;
+            break;
+          case 'quote':
+            replacement = '> ' + (sel || 'blockquote');
+            cursorOffset = replacement.length;
+            break;
+          case 'hr':
+            replacement = '\n---\n';
+            cursorOffset = replacement.length;
+            break;
+        }
+
+        inputEl.value = before + replacement + after;
+        var newPos = start + cursorOffset;
+        inputEl.setSelectionRange(newPos, newPos);
+        render();
+      }
+
+      /* ========== Copy Actions ========== */
+      function copyMarkdown() {
+        var text = inputEl.value;
+        if (!text.trim()) {
+          showToast('Nothing to copy', 'error');
+          return;
+        }
+        copyToClipboard(text);
+        showToast('Markdown copied to clipboard!', 'success');
+      }
+
+      function copyHTML() {
+        var text = inputEl.value;
+        if (!text.trim()) {
+          showToast('Nothing to copy', 'error');
+          return;
+        }
+        var html = parseMarkdown(text);
+        copyToClipboard(html);
+        showToast('HTML copied to clipboard!', 'success');
+      }
+
+      /* ========== Clear ========== */
+      function clear() {
+        inputEl.value = '';
+        previewEl.innerHTML = '<span class="placeholder-msg">Your rendered preview will appear here as you type...</span>';
+        showToast('Cleared', 'info');
+      }
+
+      /* ========== Init ========== */
+      function init() {
+        inputEl = document.getElementById('md-input');
+        previewEl = document.getElementById('md-preview');
+
+        inputEl.addEventListener('input', debouncedRender);
+
+        // Keyboard shortcuts
+        inputEl.addEventListener('keydown', function(e) {
+          if ((e.ctrlKey || e.metaKey) && e.key === 'b') {
+            e.preventDefault();
+            insert('bold');
+          }
+          if ((e.ctrlKey || e.metaKey) && e.key === 'i') {
+            e.preventDefault();
+            insert('italic');
+          }
+          // Tab key inserts spaces instead of changing focus
+          if (e.key === 'Tab') {
+            e.preventDefault();
+            var s = inputEl.selectionStart;
+            var end = inputEl.selectionEnd;
+            inputEl.value = inputEl.value.substring(0, s) + '  ' + inputEl.value.substring(end);
+            inputEl.selectionStart = inputEl.selectionEnd = s + 2;
+            render();
+          }
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', init);
+
+      return {
+        insert: insert,
+        copyMarkdown: copyMarkdown,
+        copyHTML: copyHTML,
+        clear: clear
+      };
+    })();
+  </script>
+</body>
+</html>

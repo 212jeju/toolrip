@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meta Tag Generator Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Generate perfect HTML meta tags for SEO, Open Graph, and Twitter Cards. Live Google SERP preview, character counters, and one-click copy. Free, no signup required.">
+  <link rel="canonical" href="https://toolrip.com/meta-tag">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Meta Tag Generator — Toolrip">
+  <meta property="og:description" content="Generate perfect HTML meta tags for SEO, Open Graph, and Twitter Cards. Live Google SERP preview, character counters, and one-click copy. Free, no signup required.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/meta-tag">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Meta Tag Generator — Toolrip">
+  <meta name="twitter:description" content="Generate perfect HTML meta tags for SEO, Open Graph, and Twitter Cards. Live Google SERP preview, character counters, and one-click copy. Free, no signup required.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root{--accent:var(--seo)}
+
+    .form-grid{display:grid;grid-template-columns:1fr;gap:var(--sp-3)}
+    @media(min-width:768px){.form-grid{grid-template-columns:1fr 1fr}}
+
+    .char-count{font-size:.75rem;color:var(--text-muted);text-align:right;margin-top:2px}
+    .char-count.warn{color:#f59e0b}
+    .char-count.over{color:#ef4444}
+
+    .section-label{font-size:.9375rem;font-weight:600;color:var(--accent);margin-bottom:var(--sp-2);padding-bottom:var(--sp-1);border-bottom:1px solid var(--border)}
+
+    .full-width{grid-column:1/-1}
+
+    .serp-preview{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-4);margin-top:var(--sp-3)}
+    .serp-preview-label{font-size:.75rem;color:var(--text-muted);margin-bottom:var(--sp-2);text-transform:uppercase;letter-spacing:.05em}
+    .serp-title{font-size:1.125rem;color:#8ab4f8;line-height:1.3;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:600px}
+    .serp-title:hover{text-decoration:underline}
+    .serp-url{font-size:.8125rem;color:#bdc1c6;margin:4px 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:600px}
+    .serp-desc{font-size:.875rem;color:#bdc1c6;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+    .output-code{position:relative;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3);
+      padding-top:calc(var(--sp-3) + 1.5rem);font-family:'Consolas','Monaco','Courier New',monospace;font-size:.8125rem;
+      line-height:1.7;white-space:pre-wrap;word-break:break-all;color:var(--text);overflow:auto;max-height:500px;margin-top:var(--sp-3)}
+
+    .btn-row{display:flex;flex-wrap:wrap;gap:var(--sp-2);margin-top:var(--sp-3)}
+
+    .tag-hl{color:#93c5fd}
+    .attr-hl{color:#fbbf24}
+    .val-hl{color:#86efac}
+
+    .select-row{display:flex;gap:var(--sp-2)}
+    .select-row .input-group{flex:1}
+
+    .inline-label{display:flex;align-items:center;gap:var(--sp-2);font-size:.875rem;color:var(--text-muted);cursor:pointer}
+    .inline-label input[type="checkbox"]{accent-color:var(--accent);width:16px;height:16px;cursor:pointer}
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Meta Tag Generator",
+    "url": "https://toolrip.com/meta-tag",
+    "description": "Generate perfect HTML meta tags for SEO, Open Graph, and Twitter Cards. Live Google SERP preview, character counters, and one-click copy. Free, no signup required.",
+    "applicationCategory": "WebApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#seo">SEO Tools</a>
+        <span>/</span>
+        <span>Meta Tag Generator</span>
+      </nav>
+
+      <h1>Meta Tag Generator Online</h1>
+      <p class="text-muted mt-1 mb-3">Create optimized HTML meta tags for search engines, social media sharing, and browser display. Fill in the fields below to instantly generate a complete set of meta tags with a live Google SERP preview. Everything runs in your browser with no signup required.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+
+        <!-- Basic SEO Section -->
+        <div class="section-label">Basic SEO Tags</div>
+        <div class="form-grid">
+          <div class="input-group full-width">
+            <label for="inp-title">Page Title</label>
+            <input type="text" id="inp-title" class="input-field" maxlength="70" placeholder="e.g. Best Coffee Shops in New York — My Blog">
+            <div class="char-count" id="count-title">0 / 60</div>
+          </div>
+          <div class="input-group full-width">
+            <label for="inp-desc">Meta Description</label>
+            <textarea id="inp-desc" class="textarea-field" maxlength="200" rows="3" placeholder="e.g. Discover the top-rated coffee shops in New York City with reviews, hours, and directions. Updated for 2026."></textarea>
+            <div class="char-count" id="count-desc">0 / 160</div>
+          </div>
+          <div class="input-group">
+            <label for="inp-keywords">Keywords (comma-separated)</label>
+            <input type="text" id="inp-keywords" class="input-field" placeholder="e.g. coffee shops, new york, best cafe">
+          </div>
+          <div class="input-group">
+            <label for="inp-author">Author</label>
+            <input type="text" id="inp-author" class="input-field" placeholder="e.g. John Smith">
+          </div>
+          <div class="input-group">
+            <label for="inp-canonical">Canonical URL</label>
+            <input type="url" id="inp-canonical" class="input-field" placeholder="https://example.com/page">
+          </div>
+          <div class="input-group">
+            <label>Robots Directives</label>
+            <div class="select-row">
+              <div class="input-group" style="margin-bottom:0">
+                <select id="inp-robots-index" class="select-field">
+                  <option value="index">index</option>
+                  <option value="noindex">noindex</option>
+                </select>
+              </div>
+              <div class="input-group" style="margin-bottom:0">
+                <select id="inp-robots-follow" class="select-field">
+                  <option value="follow">follow</option>
+                  <option value="nofollow">nofollow</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Open Graph Section -->
+        <div class="section-label" style="margin-top:var(--sp-4)">Open Graph Tags</div>
+        <div class="form-grid">
+          <div class="input-group">
+            <label for="inp-og-type">OG Type</label>
+            <select id="inp-og-type" class="select-field">
+              <option value="website">website</option>
+              <option value="article">article</option>
+              <option value="product">product</option>
+              <option value="profile">profile</option>
+              <option value="video.other">video</option>
+              <option value="music.song">music</option>
+              <option value="book">book</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="inp-og-image">OG Image URL</label>
+            <input type="url" id="inp-og-image" class="input-field" placeholder="https://example.com/image.jpg">
+          </div>
+          <div class="input-group full-width">
+            <label>
+              <label class="inline-label">
+                <input type="checkbox" id="chk-og-custom" onchange="toggleOgCustom()">
+                Use different title &amp; description for Open Graph
+              </label>
+            </label>
+          </div>
+          <div class="input-group hidden" id="og-title-group">
+            <label for="inp-og-title">OG Title</label>
+            <input type="text" id="inp-og-title" class="input-field" placeholder="Custom Open Graph title">
+          </div>
+          <div class="input-group hidden" id="og-desc-group">
+            <label for="inp-og-desc">OG Description</label>
+            <input type="text" id="inp-og-desc" class="input-field" placeholder="Custom Open Graph description">
+          </div>
+        </div>
+
+        <!-- Twitter Card Section -->
+        <div class="section-label" style="margin-top:var(--sp-4)">Twitter Card Tags</div>
+        <div class="form-grid">
+          <div class="input-group">
+            <label for="inp-tw-card">Card Type</label>
+            <select id="inp-tw-card" class="select-field">
+              <option value="summary">summary</option>
+              <option value="summary_large_image">summary_large_image</option>
+              <option value="app">app</option>
+              <option value="player">player</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="inp-tw-site">Twitter @username (optional)</label>
+            <input type="text" id="inp-tw-site" class="input-field" placeholder="@yourhandle">
+          </div>
+        </div>
+
+        <!-- SERP Preview -->
+        <div class="serp-preview">
+          <div class="serp-preview-label">Google SERP Preview</div>
+          <div class="serp-url" id="serp-url">https://example.com</div>
+          <div class="serp-title" id="serp-title">Your Page Title Will Appear Here</div>
+          <div class="serp-desc" id="serp-desc">Your meta description will appear here. Write a compelling description between 120 and 160 characters to maximize click-through rates from search results.</div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="btn-row">
+          <button class="btn-primary" id="btn-generate" onclick="generateTags()">Generate Meta Tags</button>
+          <button class="btn-secondary" onclick="copyOutput()">Copy to Clipboard</button>
+          <button class="btn-secondary" onclick="clearAll()">Clear All</button>
+        </div>
+
+        <!-- Output -->
+        <div class="output-code" id="output-code">
+          <button class="copy-btn" onclick="copyOutput()">Copy</button>
+          <span class="text-muted">Your generated meta tags will appear here...</span>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(2,1fr)">
+          <div class="feature-card">
+            <h3>Live Google SERP Preview</h3>
+            <p>See exactly how your page will appear in Google search results as you type. The live preview updates in real time with accurate title truncation, URL formatting, and description length so you can optimize your click-through rate before publishing. No more guessing whether your title is too long or your description gets cut off mid-sentence. The preview mimics the latest Google desktop layout so you get a pixel-accurate representation of your search listing.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Complete Open Graph Support</h3>
+            <p>Generate all the Open Graph meta tags needed for perfect social media sharing on Facebook, LinkedIn, Pinterest, and other platforms that support the Open Graph protocol. Specify your OG type, title, description, and image URL to control exactly how your content appears when someone shares your link. You can use separate values for social sharing and search engines, giving you full control over your content presentation across every channel without writing a single line of HTML by hand.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Twitter Card Generation</h3>
+            <p>Create Twitter Card meta tags that make your links stand out in timelines. Choose between summary cards with small thumbnails, large image cards that dominate the feed, app cards for mobile applications, and player cards for rich media. The generator handles all the required markup so that when someone shares your URL on Twitter, it expands into an eye-catching card with your title, description, and image displayed exactly the way you intended.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Character Counters and Validation</h3>
+            <p>Built-in character counters show you exactly where you stand against recommended lengths for every field. The title counter tracks your progress against the 60-character best practice limit, and the description counter monitors the 160-character guideline. Counters change color from neutral to warning to over-limit as you type, so you always know whether your content will be displayed in full or truncated by search engines. This real-time feedback eliminates the trial-and-error process of optimizing tag lengths.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Meta Tag Generator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Enter your page title.</strong> Type your desired page title into the title field. Keep it under 60 characters to avoid truncation in search results. The character counter will guide you, and the live SERP preview updates instantly so you can see exactly how it will look in Google.</li>
+          <li><strong>Write your meta description.</strong> Craft a compelling description of up to 160 characters that accurately summarizes your page content and encourages clicks. Include your target keywords naturally without keyword stuffing. The preview below the form shows you the final appearance in real time.</li>
+          <li><strong>Configure additional fields.</strong> Add keywords, author name, canonical URL, and set your robots directives. Fill in Open Graph fields for social media sharing and choose your Twitter Card type. Every field is optional except the title and description.</li>
+          <li><strong>Generate and copy.</strong> Click the Generate Meta Tags button to produce the complete HTML code block. Review the output, then click Copy to Clipboard to paste the tags directly into the <code>&lt;head&gt;</code> section of your HTML document. You can adjust any field and regenerate as many times as you need.</li>
+        </ol>
+      </section>
+
+      <!-- SEO Content -->
+      <section class="mt-4">
+        <h2>Understanding Meta Tags and SEO</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Meta tags are snippets of HTML code placed in the <code>&lt;head&gt;</code> section of a web page that provide structured information about the page to search engines, social media platforms, and web browsers. While they are invisible to visitors viewing your page, meta tags play a critical role in how search engines index and display your content, how social networks render your shared links, and how browsers handle your page. A well-crafted set of meta tags can significantly improve your search visibility, click-through rate, and social sharing performance.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">The title tag is widely considered the single most important on-page SEO element. It appears as the clickable headline in search engine results pages and in the browser tab. Search engines use the title tag as a primary ranking signal, and users rely on it to decide which result to click. Best practices recommend keeping your title under 60 characters, placing your primary keyword near the beginning, and making it descriptive enough to set accurate expectations about the page content. Avoid duplicating titles across pages, and never leave the title tag empty or filled with generic text.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">The meta description does not directly influence search rankings, but it has a powerful indirect effect on your organic traffic. Google often displays the meta description as the snippet beneath your title in search results. A compelling description with a clear value proposition and a call to action can dramatically increase your click-through rate compared to competitors with vague or missing descriptions. Aim for 120 to 160 characters, include relevant keywords that may appear bolded in results, and write unique descriptions for every page on your site.</p>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Open Graph tags, originally developed by Facebook, control how your content appears when shared on social media platforms. The four essential Open Graph properties are <code>og:title</code>, <code>og:description</code>, <code>og:image</code>, and <code>og:url</code>. When you share a link on Facebook, LinkedIn, or Pinterest, these platforms read your Open Graph tags to build the preview card. Without them, platforms attempt to extract information automatically, often with poor results such as the wrong image or a truncated description. Setting explicit Open Graph values ensures consistent, attractive previews everywhere your content is shared.</p>
+        <p style="color:var(--text-muted);line-height:1.7">Twitter Cards work similarly to Open Graph but are specific to the Twitter platform. By adding a few meta tags, you can transform a plain text link into a rich media card with a title, description, and image or video. Twitter supports several card types including summary, summary with large image, app, and player cards. The summary card is the most common choice for blog posts and articles, while summary with large image is ideal for visual content where a prominent image drives engagement. Properly configured Twitter Cards help your content stand out in fast-moving timelines and encourage users to click through to your site.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What are meta tags and why are they important?</summary>
+          <p>Meta tags are HTML elements placed inside the <code>&lt;head&gt;</code> section of a web page that provide metadata about the page to search engines, browsers, and social media platforms. They do not appear as visible content on the page itself, but they influence how your page is indexed, ranked, and displayed in search results and social shares. The most important meta tags for SEO include the title tag, meta description, canonical URL, and robots directive. For social sharing, Open Graph and Twitter Card tags control the preview cards that appear when someone shares your link. Properly configured meta tags can improve your search rankings, increase your click-through rate, and ensure your content looks professional when shared online.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Do meta keywords still matter for SEO?</summary>
+          <p>Google has officially stated that it does not use the meta keywords tag as a ranking factor, and this has been the case since 2009. Most major search engines, including Bing and Yahoo, have followed suit and either ignore the keywords meta tag entirely or give it negligible weight. However, some smaller or specialized search engines may still reference it. The meta keywords tag is included in this generator for completeness, but you should not rely on it as part of your SEO strategy. Instead, focus your keyword optimization efforts on your title tag, meta description, heading tags, and the actual content of your page.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the ideal length for a title tag?</summary>
+          <p>The recommended length for a title tag is between 50 and 60 characters. Google typically displays the first 50 to 60 characters of a title tag in search results, though the exact cutoff depends on pixel width rather than character count. Titles that exceed this limit will be truncated with an ellipsis, which can cut off important keywords or make your listing look incomplete. To be safe, aim for under 60 characters while including your primary keyword near the beginning of the title. Every page on your site should have a unique, descriptive title that accurately reflects the content of that specific page.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How long should a meta description be?</summary>
+          <p>Google typically displays meta descriptions up to approximately 155 to 160 characters on desktop and around 120 characters on mobile devices. The optimal length is between 120 and 160 characters to ensure your full description appears on both device types. Write concise, compelling descriptions that summarize the page content and include a clear value proposition or call to action. If your description is too short, Google may deem it insufficient and replace it with content extracted from your page. If it is too long, it will be truncated. Either situation reduces your control over how your page appears in search results.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What are Open Graph tags used for?</summary>
+          <p>Open Graph tags are meta tags that control how your web page appears when shared on social media platforms like Facebook, LinkedIn, Pinterest, and many messaging applications. When a user pastes your URL into a social media post, the platform reads your Open Graph tags to generate a preview card with a title, description, image, and URL. Without Open Graph tags, platforms attempt to auto-detect this information, which frequently results in the wrong image being selected or the description being poorly extracted. By explicitly defining your Open Graph properties, you ensure that every share of your content displays with the correct, professional-looking preview card that you intended.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between Twitter Cards and Open Graph?</summary>
+          <p>Twitter Cards and Open Graph tags serve similar purposes but are designed for different platforms. Open Graph was created by Facebook and is used by Facebook, LinkedIn, Pinterest, and many other services. Twitter Cards are specific to Twitter and provide additional options such as summary cards, large image cards, app download cards, and video player cards. In practice, Twitter will fall back to Open Graph tags if Twitter-specific tags are not present, but using dedicated Twitter Card markup gives you more control over the appearance of your links on the platform. For the best coverage, include both Open Graph and Twitter Card tags on every page of your site.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is this meta tag generator free and safe to use?</summary>
+          <p>Yes, this meta tag generator is completely free to use with no signup, account creation, or payment required. All processing happens entirely in your browser using client-side JavaScript. Nothing you type is ever sent to a server, stored in a database, or shared with any third party. You can use the generator as many times as you need for as many pages as you want. The generated HTML code is standard, valid markup that works with all modern search engines, social media platforms, and web browsers. Simply copy the output and paste it into the <code>&lt;head&gt;</code> section of your HTML page to start benefiting from optimized meta tags immediately.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/json">JSON Formatter</a>
+          <a href="https://toolrip.com/word-count">Word Counter</a>
+          <a href="https://toolrip.com/case">Case Converter</a>
+          <a href="https://toolrip.com/uuid">UUID Generator</a>
+          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Tool-specific JS -->
+  <script>
+  (function(){
+    'use strict';
+
+    /* ========== DOM Refs ========== */
+    var inpTitle = document.getElementById('inp-title');
+    var inpDesc = document.getElementById('inp-desc');
+    var inpKeywords = document.getElementById('inp-keywords');
+    var inpAuthor = document.getElementById('inp-author');
+    var inpCanonical = document.getElementById('inp-canonical');
+    var inpRobotsIndex = document.getElementById('inp-robots-index');
+    var inpRobotsFollow = document.getElementById('inp-robots-follow');
+    var inpOgType = document.getElementById('inp-og-type');
+    var inpOgImage = document.getElementById('inp-og-image');
+    var chkOgCustom = document.getElementById('chk-og-custom');
+    var inpOgTitle = document.getElementById('inp-og-title');
+    var inpOgDesc = document.getElementById('inp-og-desc');
+    var inpTwCard = document.getElementById('inp-tw-card');
+    var inpTwSite = document.getElementById('inp-tw-site');
+    var countTitle = document.getElementById('count-title');
+    var countDesc = document.getElementById('count-desc');
+    var serpTitle = document.getElementById('serp-title');
+    var serpUrl = document.getElementById('serp-url');
+    var serpDesc = document.getElementById('serp-desc');
+    var outputCode = document.getElementById('output-code');
+
+    var lastGeneratedCode = '';
+
+    /* ========== Character Counters ========== */
+    function updateCharCount(el, counterEl, limit) {
+      var len = el.value.length;
+      counterEl.textContent = len + ' / ' + limit;
+      counterEl.classList.remove('warn', 'over');
+      if (len > limit) {
+        counterEl.classList.add('over');
+      } else if (len > limit * 0.85) {
+        counterEl.classList.add('warn');
+      }
+    }
+
+    inpTitle.addEventListener('input', function() {
+      updateCharCount(inpTitle, countTitle, 60);
+      updateSerpPreview();
+    });
+
+    inpDesc.addEventListener('input', function() {
+      updateCharCount(inpDesc, countDesc, 160);
+      updateSerpPreview();
+    });
+
+    inpCanonical.addEventListener('input', updateSerpPreview);
+
+    /* ========== SERP Preview ========== */
+    function updateSerpPreview() {
+      var title = inpTitle.value.trim();
+      var desc = inpDesc.value.trim();
+      var url = inpCanonical.value.trim();
+
+      serpTitle.textContent = title || 'Your Page Title Will Appear Here';
+      serpDesc.textContent = desc || 'Your meta description will appear here. Write a compelling description between 120 and 160 characters to maximize click-through rates from search results.';
+
+      if (url) {
+        try {
+          var parsed = new URL(url);
+          serpUrl.textContent = parsed.origin + parsed.pathname;
+        } catch (e) {
+          serpUrl.textContent = url;
+        }
+      } else {
+        serpUrl.textContent = 'https://example.com';
+      }
+    }
+
+    /* ========== Toggle OG Custom ========== */
+    window.toggleOgCustom = function() {
+      var show = chkOgCustom.checked;
+      document.getElementById('og-title-group').classList.toggle('hidden', !show);
+      document.getElementById('og-desc-group').classList.toggle('hidden', !show);
+    };
+
+    /* ========== Escape HTML ========== */
+    function esc(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    /* ========== Generate Meta Tags ========== */
+    window.generateTags = function() {
+      var title = inpTitle.value.trim();
+      var desc = inpDesc.value.trim();
+
+      if (!title) {
+        showToast('Please enter a page title', 'error');
+        inpTitle.focus();
+        return;
+      }
+      if (!desc) {
+        showToast('Please enter a meta description', 'error');
+        inpDesc.focus();
+        return;
+      }
+
+      var lines = [];
+      lines.push('<meta charset="UTF-8">');
+      lines.push('<meta name="viewport" content="width=device-width, initial-scale=1.0">');
+      lines.push('<title>' + esc(title) + '</title>');
+      lines.push('<meta name="description" content="' + esc(desc) + '">');
+
+      var keywords = inpKeywords.value.trim();
+      if (keywords) {
+        lines.push('<meta name="keywords" content="' + esc(keywords) + '">');
+      }
+
+      var author = inpAuthor.value.trim();
+      if (author) {
+        lines.push('<meta name="author" content="' + esc(author) + '">');
+      }
+
+      var robotsIndex = inpRobotsIndex.value;
+      var robotsFollow = inpRobotsFollow.value;
+      lines.push('<meta name="robots" content="' + robotsIndex + ', ' + robotsFollow + '">');
+
+      var canonical = inpCanonical.value.trim();
+      if (canonical) {
+        lines.push('<link rel="canonical" href="' + esc(canonical) + '">');
+      }
+
+      // Open Graph
+      lines.push('');
+      lines.push('<!-- Open Graph -->');
+      var ogTitle = chkOgCustom.checked && inpOgTitle.value.trim() ? inpOgTitle.value.trim() : title;
+      var ogDesc = chkOgCustom.checked && inpOgDesc.value.trim() ? inpOgDesc.value.trim() : desc;
+      lines.push('<meta property="og:type" content="' + esc(inpOgType.value) + '">');
+      lines.push('<meta property="og:title" content="' + esc(ogTitle) + '">');
+      lines.push('<meta property="og:description" content="' + esc(ogDesc) + '">');
+      if (canonical) {
+        lines.push('<meta property="og:url" content="' + esc(canonical) + '">');
+      }
+      var ogImage = inpOgImage.value.trim();
+      if (ogImage) {
+        lines.push('<meta property="og:image" content="' + esc(ogImage) + '">');
+      }
+
+      // Twitter Card
+      lines.push('');
+      lines.push('<!-- Twitter Card -->');
+      lines.push('<meta name="twitter:card" content="' + esc(inpTwCard.value) + '">');
+      lines.push('<meta name="twitter:title" content="' + esc(ogTitle) + '">');
+      lines.push('<meta name="twitter:description" content="' + esc(ogDesc) + '">');
+      if (ogImage) {
+        lines.push('<meta name="twitter:image" content="' + esc(ogImage) + '">');
+      }
+      var twSite = inpTwSite.value.trim();
+      if (twSite) {
+        lines.push('<meta name="twitter:site" content="' + esc(twSite) + '">');
+      }
+
+      lastGeneratedCode = lines.join('\n');
+
+      // Syntax-highlighted output
+      var highlighted = lastGeneratedCode
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/&lt;(\/?[\w-]+)/g, '&lt;<span class="tag-hl">$1</span>')
+        .replace(/\s([\w-]+)=/g, ' <span class="attr-hl">$1</span>=')
+        .replace(/="([^"]*)"/g, '="<span class="val-hl">$1</span>"');
+
+      outputCode.innerHTML = '<button class="copy-btn" onclick="copyOutput()">Copy</button>' + highlighted;
+      showToast('Meta tags generated!', 'success');
+    };
+
+    /* ========== Copy Output ========== */
+    window.copyOutput = function() {
+      if (!lastGeneratedCode) {
+        showToast('Generate meta tags first', 'error');
+        return;
+      }
+      copyToClipboard(lastGeneratedCode);
+      showToast('Copied to clipboard!', 'success');
+    };
+
+    /* ========== Clear All ========== */
+    window.clearAll = function() {
+      inpTitle.value = '';
+      inpDesc.value = '';
+      inpKeywords.value = '';
+      inpAuthor.value = '';
+      inpCanonical.value = '';
+      inpRobotsIndex.value = 'index';
+      inpRobotsFollow.value = 'follow';
+      inpOgType.value = 'website';
+      inpOgImage.value = '';
+      chkOgCustom.checked = false;
+      inpOgTitle.value = '';
+      inpOgDesc.value = '';
+      inpTwCard.value = 'summary';
+      inpTwSite.value = '';
+
+      document.getElementById('og-title-group').classList.add('hidden');
+      document.getElementById('og-desc-group').classList.add('hidden');
+
+      countTitle.textContent = '0 / 60';
+      countTitle.classList.remove('warn', 'over');
+      countDesc.textContent = '0 / 160';
+      countDesc.classList.remove('warn', 'over');
+
+      updateSerpPreview();
+
+      lastGeneratedCode = '';
+      outputCode.innerHTML = '<button class="copy-btn" onclick="copyOutput()">Copy</button><span class="text-muted">Your generated meta tags will appear here...</span>';
+      showToast('Cleared', 'info');
+    };
+
+    /* ========== Auto-generate on input ========== */
+    var allInputs = [inpTitle, inpDesc, inpKeywords, inpAuthor, inpCanonical, inpOgImage, inpOgTitle, inpOgDesc, inpTwSite];
+    var allSelects = [inpRobotsIndex, inpRobotsFollow, inpOgType, inpTwCard];
+
+    function autoGenerate() {
+      if (inpTitle.value.trim() && inpDesc.value.trim()) {
+        generateTags();
+      }
+    }
+
+    var debounceTimer;
+    function debouncedGenerate() {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(autoGenerate, 400);
+    }
+
+    allInputs.forEach(function(el) {
+      el.addEventListener('input', debouncedGenerate);
+    });
+    allSelects.forEach(function(el) {
+      el.addEventListener('change', function() {
+        autoGenerate();
+      });
+    });
+    chkOgCustom.addEventListener('change', function() {
+      autoGenerate();
+    });
+
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Statistics Calculator Online — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Calculate mean, median, mode, standard deviation, variance, and more from any data set. Free online statistics calculator with population and sample measures. No signup required.">
+  <link rel="canonical" href="https://toolrip.com/statistics">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Statistics Calculator — Toolrip">
+  <meta property="og:description" content="Calculate mean, median, mode, standard deviation, variance, and more from any data set. Free online statistics calculator with instant results.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/statistics">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Statistics Calculator — Toolrip">
+  <meta name="twitter:description" content="Calculate mean, median, mode, standard deviation, variance, and more from any data set. Free online statistics calculator with instant results.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--math)}</style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Statistics Calculator",
+    "url": "https://toolrip.com/statistics",
+    "description": "Calculate mean, median, mode, standard deviation, variance, and more from any data set. Free online statistics calculator with population and sample measures.",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Math & Science", "item": "https://toolrip.com/#math" },
+      { "@type": "ListItem", "position": 3, "name": "Statistics Calculator", "item": "https://toolrip.com/statistics" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the difference between mean, median, and mode?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The mean is the arithmetic average calculated by summing all values and dividing by the count. The median is the middle value when data is sorted in order; if the count is even, it is the average of the two middle values. The mode is the value that appears most frequently. A data set can have no mode, one mode, or multiple modes. Each measure describes the center of a data set differently and is useful in different situations."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between population and sample standard deviation?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Population standard deviation divides the sum of squared deviations by N (the total number of values), while sample standard deviation divides by N minus 1. The N minus 1 correction, known as Bessel's correction, compensates for the fact that a sample tends to underestimate the variability of the full population. Use population standard deviation when your data includes every member of the group you are studying, and sample standard deviation when your data is a subset drawn from a larger population."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "When should I use the mean versus the median?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Use the mean when your data is roughly symmetric and free of extreme outliers, because it takes every value into account and provides a balanced center. Use the median when your data is skewed or contains outliers, because the median is resistant to extreme values and better represents the typical observation. For example, median household income is preferred over mean income because a few extremely high earners can inflate the average."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do outliers affect statistical measures?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Outliers are data points that fall far from the rest of the data. They can dramatically shift the mean toward the extreme value, increase variance and standard deviation, and widen the range. The median and mode are resistant to outliers because they depend on data position or frequency rather than magnitude. When outliers are present, reporting both the mean and the median gives a clearer picture of the data distribution."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is variance and how is it related to standard deviation?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Variance measures how far each data point is from the mean, on average, in squared units. It is calculated by averaging the squared differences between each value and the mean. Standard deviation is the square root of variance and is expressed in the same units as the original data, making it easier to interpret. A low standard deviation means the data points cluster closely around the mean, while a high standard deviation means the data is spread out over a wider range."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can this calculator handle negative numbers and decimals?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, this statistics calculator accepts negative numbers, decimals, and integers in any combination. You can enter values separated by commas, spaces, or newlines, and even mix delimiters in the same input. The parser automatically filters out empty entries and non-numeric characters so you can paste data directly from spreadsheets or text files without manual cleanup."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is this statistics calculator free to use?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, this statistics calculator is completely free with no signup or account required. All calculations run entirely in your browser using JavaScript, so your data stays private and is never uploaded to a server. There are no usage limits, and the tool works on any device with a modern web browser. After the initial page load, calculations work offline since all the math is performed locally."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    /* Statistics result grid */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--sp-2);
+      margin-top: var(--sp-3);
+    }
+    .stat-item {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-2) var(--sp-3);
+    }
+    .stat-item .label {
+      font-size: .7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-bottom: 2px;
+    }
+    .stat-item .value {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent);
+      word-break: break-word;
+    }
+    .stat-item .value.empty {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+    .stat-item.full-width {
+      grid-column: 1 / -1;
+    }
+    .stat-section-label {
+      grid-column: 1 / -1;
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      padding-top: var(--sp-2);
+      border-top: 1px solid var(--border);
+      margin-top: var(--sp-1);
+    }
+
+    /* Frequency table */
+    .freq-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: var(--sp-2);
+      font-size: .875rem;
+    }
+    .freq-table th,
+    .freq-table td {
+      padding: var(--sp-1) var(--sp-2);
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+    .freq-table th {
+      color: var(--text-muted);
+      font-size: .75rem;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      font-weight: 600;
+    }
+    .freq-table td {
+      color: var(--text);
+    }
+    .freq-bar-cell {
+      width: 40%;
+    }
+    .freq-bar {
+      height: 16px;
+      background: var(--accent);
+      border-radius: 3px;
+      opacity: 0.7;
+      transition: width .3s;
+    }
+
+    /* Sorted data display */
+    .sorted-display {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-2) var(--sp-3);
+      font-size: .875rem;
+      color: var(--text-muted);
+      word-break: break-word;
+      max-height: 120px;
+      overflow-y: auto;
+      margin-top: var(--sp-2);
+    }
+
+    .result-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-4);
+      margin-top: var(--sp-3);
+    }
+    .result-card.has-value {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 4%, var(--bg));
+    }
+    .result-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--sp-2);
+    }
+    .result-header h3 {
+      font-size: .9rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    @media (min-width: 640px) {
+      .stat-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    @media (max-width: 480px) {
+      .stat-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="top">Ad</div>
+
+    <!-- Breadcrumb -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#math">Math &amp; Science</a>
+        <span>/</span>
+        <span>Statistics Calculator</span>
+      </nav>
+
+      <h1>Statistics Calculator</h1>
+      <p class="text-muted mt-1 mb-3">Enter a data set to instantly calculate mean, median, mode, standard deviation, variance, range, and more. Supports population and sample statistics with a frequency distribution table. All calculations run in your browser.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+
+      <div class="tool-card">
+        <div class="input-group">
+          <label for="dataInput">Enter Your Data</label>
+          <textarea id="dataInput" class="textarea-field" rows="5" placeholder="Enter numbers separated by commas, spaces, or newlines&#10;Example: 12, 15, 18, 22, 25, 18, 30, 15, 18, 20" aria-label="Data input"></textarea>
+          <div class="text-muted" style="font-size:.8rem;margin-top:2px">Accepts commas, spaces, newlines, or any mix. Non-numeric entries are ignored.</div>
+        </div>
+
+        <div class="flex gap-2" style="flex-wrap:wrap">
+          <button class="btn-primary" id="calcBtn" type="button">Calculate</button>
+          <button class="btn-secondary" id="clearBtn" type="button">Clear</button>
+        </div>
+
+        <!-- Results -->
+        <div class="result-card" id="resultCard">
+          <div class="result-header">
+            <h3>Results</h3>
+            <button type="button" class="copy-btn" id="copyBtn">Copy All</button>
+          </div>
+
+          <div class="stat-grid" id="statGrid">
+            <!-- Basic -->
+            <div class="stat-item">
+              <div class="label">Count (N)</div>
+              <div class="value empty" id="resCount">&mdash;</div>
+            </div>
+            <div class="stat-item">
+              <div class="label">Sum</div>
+              <div class="value empty" id="resSum">&mdash;</div>
+            </div>
+            <div class="stat-item">
+              <div class="label">Mean (Average)</div>
+              <div class="value empty" id="resMean">&mdash;</div>
+            </div>
+
+            <!-- Central Tendency -->
+            <div class="stat-section-label">Central Tendency</div>
+            <div class="stat-item">
+              <div class="label">Median</div>
+              <div class="value empty" id="resMedian">&mdash;</div>
+            </div>
+            <div class="stat-item">
+              <div class="label">Mode</div>
+              <div class="value empty" id="resMode">&mdash;</div>
+            </div>
+
+            <!-- Range -->
+            <div class="stat-section-label">Spread &amp; Range</div>
+            <div class="stat-item">
+              <div class="label">Min</div>
+              <div class="value empty" id="resMin">&mdash;</div>
+            </div>
+            <div class="stat-item">
+              <div class="label">Max</div>
+              <div class="value empty" id="resMax">&mdash;</div>
+            </div>
+            <div class="stat-item">
+              <div class="label">Range</div>
+              <div class="value empty" id="resRange">&mdash;</div>
+            </div>
+
+            <!-- Variance & Std Dev -->
+            <div class="stat-section-label">Variance &amp; Standard Deviation</div>
+            <div class="stat-item">
+              <div class="label">Population Variance (&sigma;&sup2;)</div>
+              <div class="value empty" id="resPopVar">&mdash;</div>
+            </div>
+            <div class="stat-item">
+              <div class="label">Sample Variance (s&sup2;)</div>
+              <div class="value empty" id="resSmpVar">&mdash;</div>
+            </div>
+            <div class="stat-item">
+              <div class="label">Population Std Dev (&sigma;)</div>
+              <div class="value empty" id="resPopStd">&mdash;</div>
+            </div>
+            <div class="stat-item">
+              <div class="label">Sample Std Dev (s)</div>
+              <div class="value empty" id="resSmpStd">&mdash;</div>
+            </div>
+
+            <!-- Sorted Data -->
+            <div class="stat-section-label">Sorted Data</div>
+            <div class="stat-item full-width">
+              <div class="label">Ascending Order</div>
+              <div class="sorted-display" id="resSorted">&mdash;</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Frequency Distribution Table -->
+        <div class="result-card" id="freqCard" style="display:none">
+          <div class="result-header">
+            <h3>Frequency Distribution</h3>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="freq-table" id="freqTable">
+              <thead>
+                <tr>
+                  <th>Value</th>
+                  <th>Frequency</th>
+                  <th>Relative (%)</th>
+                  <th class="freq-bar-cell">Distribution</th>
+                </tr>
+              </thead>
+              <tbody id="freqBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="in-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Complete Descriptive Statistics</h3>
+            <p>This calculator provides a comprehensive set of descriptive statistics for any numerical data set you enter. It computes the count, sum, arithmetic mean, median, and mode in a single click. Whether you are analyzing survey responses, test scores, financial data, or scientific measurements, you get a complete summary of your data's central tendency without switching between multiple tools or performing tedious manual calculations. The results update instantly and are presented in a clear, organized grid that makes it easy to find the specific statistic you need for your report, homework, or research project.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Population &amp; Sample Measures</h3>
+            <p>Understanding the distinction between population and sample statistics is critical for accurate data analysis. This tool calculates both population variance and standard deviation (dividing by N) and sample variance and standard deviation (dividing by N minus 1, using Bessel's correction). When you are working with a complete data set such as all students in a class, you use population measures. When your data represents a random subset drawn from a larger group, sample measures provide an unbiased estimate. Having both side by side lets you choose the correct statistic for your specific analytical context without running separate calculations.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Flexible Input &amp; Frequency Table</h3>
+            <p>The input parser accepts numbers separated by commas, spaces, newlines, tabs, or any combination of these delimiters. You can paste data directly from a spreadsheet, copy a column of numbers from a text file, or type values manually. Non-numeric entries are silently ignored, so you do not need to clean your data before pasting. The optional frequency distribution table shows how often each unique value appears, along with its relative percentage and a visual bar chart. This gives you immediate insight into the shape and distribution of your data without needing a separate charting tool.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Sorted Data &amp; Range Analysis</h3>
+            <p>Beyond central tendency, understanding the spread of your data is equally important. The calculator displays the minimum value, maximum value, and range (the difference between max and min) so you can quickly assess the breadth of your data. The sorted data display shows your entire data set arranged in ascending order, making it easy to visually spot outliers, clusters, and gaps. Sorted data is also essential for manually verifying the median or identifying quartile boundaries when performing more advanced statistical analysis.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Privacy-First Browser Calculations</h3>
+            <p>All statistical computations run entirely in your browser using JavaScript. Your data is never uploaded to any server, transmitted over the network, or stored anywhere outside your device. This makes the calculator safe to use with confidential research data, proprietary business metrics, student grades, or any other sensitive numerical information. There is no signup requirement, no login, no cookies that track your calculations, and no usage limits. Once the page has loaded, the calculator continues to work even without an internet connection, making it ideal for fieldwork or offline analysis sessions.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Statistics Calculator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li>Enter your numerical data in the text area above. You can type numbers separated by commas, spaces, or newlines. Mixing delimiters is fully supported, and non-numeric text is automatically ignored.</li>
+          <li>Click the Calculate button to generate all statistical measures. The results appear instantly in the grid below the input area, organized by category: basic counts, central tendency, spread, and variance.</li>
+          <li>Review the sorted data display to see your values arranged in ascending order, which helps in identifying outliers and verifying the median visually.</li>
+          <li>Check the frequency distribution table to see how often each unique value occurs, its relative percentage, and a visual bar representing its proportion.</li>
+          <li>Click the Copy All button to copy a formatted summary of all statistics to your clipboard, ready to paste into a document, email, or spreadsheet.</li>
+        </ol>
+      </section>
+
+      <!-- Understanding Statistics -->
+      <section class="mt-4">
+        <h2>Understanding Statistics: A Complete Guide</h2>
+        <p style="color:var(--text-muted);line-height:1.8">Statistics is the branch of mathematics concerned with collecting, organizing, analyzing, interpreting, and presenting numerical data. It is divided into two broad categories: descriptive statistics and inferential statistics. Descriptive statistics summarize and describe the main features of a data set through measures like the mean, median, mode, variance, and standard deviation. These measures allow you to condense large amounts of raw data into a few meaningful numbers that characterize the data's center, spread, and shape. Inferential statistics, on the other hand, use data from a sample to make generalizations about a larger population, employing techniques such as hypothesis testing, confidence intervals, and regression analysis.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-3)">The arithmetic mean, commonly called the average, is the most widely used measure of central tendency. It is calculated by adding all values and dividing by the total count. While the mean is intuitive and mathematically convenient, it is sensitive to extreme values. A single very large or very small number can pull the mean significantly away from the center of the majority of the data. This is why income statistics, home prices, and other skewed distributions often report the median instead. The median is the value that splits the sorted data set into two equal halves. If the data set has an even number of observations, the median is the average of the two middle values. Because it depends on position rather than magnitude, the median is robust against outliers and provides a more representative center for skewed distributions.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-3)">The mode identifies the most frequently occurring value in the data set. Unlike the mean and median, the mode can be used with categorical as well as numerical data. A data set may have no mode if all values are unique, one mode (unimodal), two modes (bimodal), or more than two modes (multimodal). In real-world applications, the mode is useful for identifying the most popular product size, the most common test score, or the peak hour in traffic data. Understanding when to use each measure of central tendency is essential for accurate data interpretation. Business analysts rely on these measures to summarize sales performance, educators use them to evaluate student achievement, healthcare researchers apply them to clinical trial results, and engineers depend on them for quality control in manufacturing processes.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is the difference between mean, median, and mode?</summary>
+          <p>The mean is the arithmetic average, found by summing all values and dividing by the count. It takes every data point into account but is sensitive to outliers. The median is the middle value in a sorted data set. For an even number of values, it is the average of the two middle entries. The median is resistant to extreme values, making it a better measure of center for skewed data. The mode is the value that occurs most frequently. A data set can have zero, one, or multiple modes. In practice, the mean is used when data is symmetric, the median when data is skewed, and the mode when you need the most common category or observation.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the difference between population and sample standard deviation?</summary>
+          <p>Population standard deviation uses N (the total count) in the denominator of the variance formula because you have data for every member of the group. Sample standard deviation uses N minus 1, a correction known as Bessel's correction, because a sample drawn from a larger population tends to underestimate the true variability. Dividing by N minus 1 produces an unbiased estimate of the population variance. If your data set represents an entire population (for example, all employees in a company or every student in a class), use the population formula. If your data is a random sample from a larger group, use the sample formula for more accurate inference.</p>
+        </details>
+        <details class="faq-item">
+          <summary>When should I use the mean versus the median?</summary>
+          <p>Use the mean when your data is roughly symmetric and does not contain extreme outliers, because it incorporates every value and provides a mathematically balanced center. Use the median when your data is skewed or contains outliers, because the median is not affected by extreme values. For example, if you have income data where a few individuals earn far more than the rest, the mean income will be inflated while the median income will more accurately represent the typical earner. In general, reporting both the mean and median gives the most complete picture of your data's central tendency.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do outliers affect statistical measures?</summary>
+          <p>Outliers are data points that deviate significantly from the rest of the data. They can pull the mean toward the extreme end, inflate the variance and standard deviation, and widen the range. However, the median and mode are resistant to outliers because they depend on position or frequency rather than value magnitude. When outliers are present, it is good practice to report both the mean and the median so readers can assess how much the extreme values affect the average. You should also investigate whether outliers result from data entry errors, measurement anomalies, or genuinely unusual observations before deciding to include or exclude them from your analysis.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is variance and how is it related to standard deviation?</summary>
+          <p>Variance measures the average squared distance of each data point from the mean. Because it involves squaring, variance is expressed in squared units of the original data, which can be difficult to interpret directly. Standard deviation is the square root of variance and is expressed in the same units as the data, making it much more intuitive. For example, if your data is in centimeters, the standard deviation is also in centimeters. A small standard deviation means data points cluster tightly around the mean, while a large standard deviation indicates the data is widely spread out. Together, variance and standard deviation quantify the dispersion or variability within a data set.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can this calculator handle negative numbers and decimals?</summary>
+          <p>Yes, this statistics calculator fully supports negative numbers, positive numbers, decimals, and integers in any combination. You can enter values separated by commas, spaces, newlines, tabs, or a mix of these delimiters. The input parser is designed to be flexible: it strips out empty entries and non-numeric text automatically, so you can paste data directly from a spreadsheet column or a text file without needing to reformat it first. If the input contains no valid numbers after parsing, the calculator will display a clear error message asking you to check your data.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is this statistics calculator free to use?</summary>
+          <p>Yes, this statistics calculator is completely free, requires no account or signup, and has no usage limits. All calculations run entirely in your browser using JavaScript, which means your data is never uploaded to a server and remains completely private on your device. The tool works on desktops, laptops, tablets, and smartphones with any modern web browser. You can bookmark this page for instant access whenever you need to analyze data for school, work, or research. After the initial page load, the calculator even works offline because all computations are performed locally.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/fraction">Fraction Calculator</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+          <a href="https://toolrip.com/bmi">BMI Calculator</a>
+          <a href="https://toolrip.com/age">Age Calculator</a>
+          <a href="https://toolrip.com/compound-interest">Compound Interest Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Statistics Calculator JS -->
+  <script>
+  (function() {
+    'use strict';
+
+    /* ========== DOM References ========== */
+    var dataInput = document.getElementById('dataInput');
+    var calcBtn = document.getElementById('calcBtn');
+    var clearBtn = document.getElementById('clearBtn');
+    var copyBtn = document.getElementById('copyBtn');
+    var resultCard = document.getElementById('resultCard');
+    var freqCard = document.getElementById('freqCard');
+    var freqBody = document.getElementById('freqBody');
+
+    var ids = ['resCount','resSum','resMean','resMedian','resMode','resMin','resMax',
+               'resRange','resPopVar','resSmpVar','resPopStd','resSmpStd','resSorted'];
+    var els = {};
+    ids.forEach(function(id) { els[id] = document.getElementById(id); });
+
+    /* ========== Input Parser ========== */
+    function parseData(raw) {
+      if (!raw || !raw.trim()) return [];
+      // Split by commas, spaces, tabs, newlines, semicolons
+      var tokens = raw.split(/[\s,;\t\n\r]+/);
+      var nums = [];
+      for (var i = 0; i < tokens.length; i++) {
+        var t = tokens[i].trim();
+        if (t === '') continue;
+        var n = Number(t);
+        if (!isNaN(n) && isFinite(n)) {
+          nums.push(n);
+        }
+      }
+      return nums;
+    }
+
+    /* ========== Statistical Functions ========== */
+    function calcSum(arr) {
+      var s = 0;
+      for (var i = 0; i < arr.length; i++) s += arr[i];
+      return s;
+    }
+
+    function calcMean(arr) {
+      return calcSum(arr) / arr.length;
+    }
+
+    function calcMedian(sorted) {
+      var n = sorted.length;
+      if (n === 0) return 0;
+      var mid = Math.floor(n / 2);
+      if (n % 2 === 1) return sorted[mid];
+      return (sorted[mid - 1] + sorted[mid]) / 2;
+    }
+
+    function calcMode(arr) {
+      var freq = {};
+      var maxFreq = 0;
+      for (var i = 0; i < arr.length; i++) {
+        var key = String(arr[i]);
+        freq[key] = (freq[key] || 0) + 1;
+        if (freq[key] > maxFreq) maxFreq = freq[key];
+      }
+      if (maxFreq === 1) return { modes: [], freq: 1 };
+      var modes = [];
+      for (var k in freq) {
+        if (freq[k] === maxFreq) modes.push(Number(k));
+      }
+      modes.sort(function(a, b) { return a - b; });
+      return { modes: modes, freq: maxFreq };
+    }
+
+    function calcVariance(arr, mean, isPopulation) {
+      var sumSq = 0;
+      for (var i = 0; i < arr.length; i++) {
+        var diff = arr[i] - mean;
+        sumSq += diff * diff;
+      }
+      var divisor = isPopulation ? arr.length : arr.length - 1;
+      return divisor > 0 ? sumSq / divisor : 0;
+    }
+
+    function calcFrequency(sorted) {
+      var freq = [];
+      var map = {};
+      for (var i = 0; i < sorted.length; i++) {
+        var key = String(sorted[i]);
+        if (map[key] === undefined) {
+          map[key] = freq.length;
+          freq.push({ value: sorted[i], count: 1 });
+        } else {
+          freq[map[key]].count++;
+        }
+      }
+      return freq;
+    }
+
+    /* ========== Formatting ========== */
+    function fmt(n) {
+      if (n === undefined || n === null || isNaN(n)) return '\u2014';
+      // Up to 6 decimal places, trim trailing zeros
+      var s = n.toFixed(6).replace(/\.?0+$/, '');
+      var parts = s.split('.');
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return parts.join('.');
+    }
+
+    /* ========== Reset ========== */
+    function resetResults() {
+      ids.forEach(function(id) {
+        var el = els[id];
+        if (id === 'resSorted') {
+          el.textContent = '\u2014';
+        } else {
+          el.textContent = '\u2014';
+          el.classList.add('empty');
+        }
+      });
+      resultCard.classList.remove('has-value');
+      freqCard.style.display = 'none';
+      freqBody.innerHTML = '';
+    }
+
+    function clearAll() {
+      dataInput.value = '';
+      resetResults();
+      dataInput.focus();
+    }
+
+    /* ========== Main Calculation ========== */
+    function calculate() {
+      var data = parseData(dataInput.value);
+
+      if (data.length === 0) {
+        resetResults();
+        showToast('Please enter at least one valid number.', 'error');
+        return;
+      }
+
+      var sorted = data.slice().sort(function(a, b) { return a - b; });
+      var n = data.length;
+      var sum = calcSum(data);
+      var mean = calcMean(data);
+      var median = calcMedian(sorted);
+      var modeResult = calcMode(data);
+      var min = sorted[0];
+      var max = sorted[n - 1];
+      var range = max - min;
+      var popVar = calcVariance(data, mean, true);
+      var smpVar = n > 1 ? calcVariance(data, mean, false) : 0;
+      var popStd = Math.sqrt(popVar);
+      var smpStd = n > 1 ? Math.sqrt(smpVar) : 0;
+
+      // Display results
+      els.resCount.textContent = n;
+      els.resCount.classList.remove('empty');
+      els.resSum.textContent = fmt(sum);
+      els.resSum.classList.remove('empty');
+      els.resMean.textContent = fmt(mean);
+      els.resMean.classList.remove('empty');
+      els.resMedian.textContent = fmt(median);
+      els.resMedian.classList.remove('empty');
+
+      if (modeResult.modes.length === 0) {
+        els.resMode.textContent = 'No mode (all unique)';
+      } else {
+        els.resMode.textContent = modeResult.modes.map(fmt).join(', ') + ' (freq: ' + modeResult.freq + ')';
+      }
+      els.resMode.classList.remove('empty');
+
+      els.resMin.textContent = fmt(min);
+      els.resMin.classList.remove('empty');
+      els.resMax.textContent = fmt(max);
+      els.resMax.classList.remove('empty');
+      els.resRange.textContent = fmt(range);
+      els.resRange.classList.remove('empty');
+
+      els.resPopVar.textContent = fmt(popVar);
+      els.resPopVar.classList.remove('empty');
+
+      if (n > 1) {
+        els.resSmpVar.textContent = fmt(smpVar);
+        els.resSmpVar.classList.remove('empty');
+        els.resSmpStd.textContent = fmt(smpStd);
+        els.resSmpStd.classList.remove('empty');
+      } else {
+        els.resSmpVar.textContent = 'N/A (need N>1)';
+        els.resSmpVar.classList.remove('empty');
+        els.resSmpStd.textContent = 'N/A (need N>1)';
+        els.resSmpStd.classList.remove('empty');
+      }
+
+      els.resPopStd.textContent = fmt(popStd);
+      els.resPopStd.classList.remove('empty');
+
+      els.resSorted.textContent = sorted.map(fmt).join(', ');
+
+      resultCard.classList.add('has-value');
+
+      // Frequency distribution table
+      var freq = calcFrequency(sorted);
+      freqBody.innerHTML = '';
+      var maxCount = 0;
+      for (var i = 0; i < freq.length; i++) {
+        if (freq[i].count > maxCount) maxCount = freq[i].count;
+      }
+      for (var j = 0; j < freq.length; j++) {
+        var pct = ((freq[j].count / n) * 100).toFixed(1);
+        var barWidth = maxCount > 0 ? ((freq[j].count / maxCount) * 100).toFixed(1) : 0;
+        var row = document.createElement('tr');
+        row.innerHTML = '<td>' + fmt(freq[j].value) + '</td>'
+          + '<td>' + freq[j].count + '</td>'
+          + '<td>' + pct + '%</td>'
+          + '<td class="freq-bar-cell"><div class="freq-bar" style="width:' + barWidth + '%"></div></td>';
+        freqBody.appendChild(row);
+      }
+      freqCard.style.display = '';
+
+      showToast('Statistics calculated for ' + n + ' values.', 'success');
+    }
+
+    /* ========== Copy Results ========== */
+    function copyResults() {
+      var lines = [];
+      lines.push('Statistics Summary');
+      lines.push('==================');
+      lines.push('Count: ' + els.resCount.textContent);
+      lines.push('Sum: ' + els.resSum.textContent);
+      lines.push('Mean: ' + els.resMean.textContent);
+      lines.push('Median: ' + els.resMedian.textContent);
+      lines.push('Mode: ' + els.resMode.textContent);
+      lines.push('Min: ' + els.resMin.textContent);
+      lines.push('Max: ' + els.resMax.textContent);
+      lines.push('Range: ' + els.resRange.textContent);
+      lines.push('Population Variance: ' + els.resPopVar.textContent);
+      lines.push('Sample Variance: ' + els.resSmpVar.textContent);
+      lines.push('Population Std Dev: ' + els.resPopStd.textContent);
+      lines.push('Sample Std Dev: ' + els.resSmpStd.textContent);
+      lines.push('Sorted Data: ' + els.resSorted.textContent);
+      copyToClipboard(lines.join('\n'), copyBtn);
+    }
+
+    /* ========== Event Listeners ========== */
+    calcBtn.addEventListener('click', calculate);
+    clearBtn.addEventListener('click', clearAll);
+    copyBtn.addEventListener('click', copyResults);
+
+    // Keyboard: Enter triggers calculate, Ctrl+Enter also
+    dataInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault();
+        calculate();
+      }
+    });
+
+  })();
+  </script>
+</body>
+</html>

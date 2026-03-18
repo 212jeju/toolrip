@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GCF &amp; LCM Calculator Online — Free, Fast, No Signup</title>
+  <meta name="description" content="Calculate the Greatest Common Factor (GCF) and Least Common Multiple (LCM) of two or more numbers. Prime factorization, step-by-step Euclidean algorithm, free online tool.">
+  <link rel="canonical" href="https://toolrip.com/gcf-lcm">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="GCF & LCM Calculator — Toolrip">
+  <meta property="og:description" content="Calculate GCF and LCM of two or more numbers with prime factorization and step-by-step Euclidean algorithm. Free online calculator.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/gcf-lcm">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="GCF & LCM Calculator — Toolrip">
+  <meta name="twitter:description" content="Calculate GCF and LCM of two or more numbers with prime factorization and step-by-step Euclidean algorithm. Free online calculator.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>:root{--accent:var(--math)}</style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "GCF & LCM Calculator",
+    "url": "https://toolrip.com/gcf-lcm",
+    "description": "Calculate the Greatest Common Factor (GCF) and Least Common Multiple (LCM) of two or more numbers. Shows prime factorization and step-by-step Euclidean algorithm.",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Math & Science", "item": "https://toolrip.com/#math" },
+      { "@type": "ListItem", "position": 3, "name": "GCF & LCM Calculator", "item": "https://toolrip.com/gcf-lcm" }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the difference between GCF and GCD?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "GCF (Greatest Common Factor) and GCD (Greatest Common Divisor) are two names for exactly the same concept: the largest positive integer that divides each of the given numbers without a remainder. In the United States, math curricula typically use GCF, while GCD is more common in computer science and international textbooks. The term HCF (Highest Common Factor) is used in British and Commonwealth education systems. Regardless of the name, the computation and result are identical."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you find the GCF by hand using the Euclidean algorithm?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Euclidean algorithm finds the GCF of two numbers by repeated division. Start with the two numbers, divide the larger by the smaller, and note the remainder. Replace the larger number with the smaller and the smaller with the remainder. Repeat until the remainder is zero. The last nonzero remainder is the GCF. For example, GCF(48, 18): 48 divided by 18 is 2 remainder 12; 18 divided by 12 is 1 remainder 6; 12 divided by 6 is 2 remainder 0. So GCF(48, 18) = 6."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the relationship between GCF and LCM?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "For any two positive integers a and b, the product of their GCF and LCM equals the product of the numbers themselves: GCF(a, b) × LCM(a, b) = a × b. This means once you know the GCF, you can compute the LCM as LCM(a, b) = (a × b) / GCF(a, b). This formula avoids overflow issues that can occur when multiplying large numbers and is the standard method used in computer algorithms."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are practical uses of GCF and LCM?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "GCF is used to simplify fractions by dividing numerator and denominator by their GCF, to distribute items into equal groups, and in tiling and measurement problems. LCM is used to find common denominators when adding fractions, to determine when repeating schedules align (e.g., two buses that depart at different intervals), and in music to compute rhythmic patterns. In programming, GCF and LCM appear in cryptography, hash functions, and number-theoretic algorithms."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can you find GCF and LCM of more than two numbers?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. To find the GCF of three or more numbers, compute the GCF of the first two numbers, then compute the GCF of that result with the third number, and continue for each additional number. The same chaining approach works for LCM. For example, GCF(12, 18, 24): GCF(12, 18) = 6, then GCF(6, 24) = 6, so GCF(12, 18, 24) = 6. This calculator supports any number of inputs using this iterative method."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does prime factorization help find GCF and LCM?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Prime factorization breaks each number into a product of prime numbers. The GCF is found by multiplying the lowest power of each prime that appears in all factorizations. The LCM is found by multiplying the highest power of each prime that appears in any factorization. For example, 12 = 2² × 3 and 18 = 2 × 3². The GCF takes the lower powers: 2¹ × 3¹ = 6. The LCM takes the higher powers: 2² × 3² = 36."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is this GCF & LCM calculator free to use?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, this calculator is completely free with no signup or account required. All calculations run entirely in your browser using JavaScript, so your data stays private and never leaves your device. There are no usage limits, and the tool works on any device with a modern web browser. After the initial page load, you can use the calculator offline."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    /* GCF/LCM tool custom styles */
+    .number-input-area {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-2);
+    }
+    .number-input-row {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+      flex-wrap: wrap;
+    }
+    .number-input-row .input-field {
+      flex: 1;
+      min-width: 200px;
+    }
+    .add-number-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-1);
+      padding: var(--sp-1) var(--sp-3);
+      background: transparent;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      color: var(--text-muted);
+      font: inherit;
+      font-size: .85rem;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .add-number-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .remove-field-btn {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all .15s;
+      flex-shrink: 0;
+    }
+    .remove-field-btn:hover {
+      border-color: var(--security);
+      color: var(--security);
+    }
+    .input-hint {
+      font-size: .8rem;
+      color: var(--text-muted);
+      margin-top: var(--sp-1);
+    }
+
+    /* Results */
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-3);
+      margin-top: var(--sp-3);
+    }
+    @media (max-width: 480px) {
+      .result-grid { grid-template-columns: 1fr; }
+    }
+    .result-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-4);
+      text-align: center;
+      transition: border-color .2s, background .2s;
+    }
+    .result-box.has-value {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 4%, var(--bg));
+    }
+    .result-box .label {
+      font-size: .75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      margin-bottom: var(--sp-1);
+    }
+    .result-box .value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--accent);
+      word-break: break-all;
+    }
+    .result-box .value.empty {
+      color: var(--text-muted);
+      font-size: 1.25rem;
+    }
+
+    /* Prime factorization table */
+    .factor-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: var(--sp-3);
+      font-size: .9rem;
+    }
+    .factor-table th,
+    .factor-table td {
+      padding: var(--sp-2) var(--sp-3);
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .factor-table th {
+      font-size: .75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      font-weight: 600;
+    }
+    .factor-table td {
+      color: var(--text);
+    }
+    .factor-table .factor-num {
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    /* Step-by-step */
+    .steps-area {
+      margin-top: var(--sp-3);
+      padding: var(--sp-3);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .steps-area h4 {
+      font-size: .85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-bottom: var(--sp-2);
+    }
+    .step-line {
+      padding: var(--sp-1) 0;
+      font-size: .9rem;
+      color: var(--text);
+      line-height: 1.6;
+      border-bottom: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+    }
+    .step-line:last-child {
+      border-bottom: none;
+    }
+    .step-num {
+      display: inline-block;
+      width: 22px;
+      height: 22px;
+      line-height: 22px;
+      text-align: center;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-size: .7rem;
+      font-weight: 700;
+      margin-right: var(--sp-2);
+      flex-shrink: 0;
+    }
+    .step-highlight {
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .step-sub {
+      padding-left: 30px;
+      font-size: .85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .pair-header {
+      font-weight: 600;
+      color: var(--text);
+      margin-top: var(--sp-2);
+      margin-bottom: var(--sp-1);
+      font-size: .9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="top">Ad</div>
+
+    <!-- Main Content -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#math">Math &amp; Science</a>
+        <span>/</span>
+        <span>GCF &amp; LCM Calculator</span>
+      </nav>
+
+      <h1>GCF &amp; LCM Calculator</h1>
+      <p class="text-muted mt-1 mb-3">Find the Greatest Common Factor (GCF) and Least Common Multiple (LCM) of two or more numbers instantly. View prime factorizations and step-by-step Euclidean algorithm solutions. All calculations run in your browser.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+        <div class="input-group">
+          <label for="numbersInput">Enter Numbers</label>
+          <div class="number-input-area" id="inputArea">
+            <div class="number-input-row">
+              <input type="text" class="input-field num-input" inputmode="numeric" placeholder="e.g. 48" autocomplete="off" aria-label="First number">
+              <input type="text" class="input-field num-input" inputmode="numeric" placeholder="e.g. 18" autocomplete="off" aria-label="Second number">
+            </div>
+          </div>
+          <p class="input-hint">Enter at least 2 positive integers. Use the button below to add more numbers.</p>
+        </div>
+
+        <div class="flex gap-2" style="flex-wrap:wrap;margin-bottom:var(--sp-3)">
+          <button type="button" class="add-number-btn" id="addFieldBtn">+ Add Number</button>
+        </div>
+
+        <div class="flex gap-2" style="flex-wrap:wrap">
+          <button class="btn-primary" id="calcBtn" type="button">Calculate</button>
+          <button class="btn-secondary" id="clearBtn" type="button">Clear</button>
+        </div>
+
+        <!-- Results -->
+        <div class="result-grid" id="resultGrid">
+          <div class="result-box" id="gcfBox">
+            <div class="label">GCF (Greatest Common Factor)</div>
+            <div class="value empty" id="gcfValue">&mdash;</div>
+          </div>
+          <div class="result-box" id="lcmBox">
+            <div class="label">LCM (Least Common Multiple)</div>
+            <div class="value empty" id="lcmValue">&mdash;</div>
+          </div>
+        </div>
+
+        <!-- Prime Factorization Table -->
+        <div class="hidden" id="factorSection">
+          <h3 style="font-size:1rem;margin-top:var(--sp-4);margin-bottom:var(--sp-2)">Prime Factorizations</h3>
+          <table class="factor-table" id="factorTable">
+            <thead>
+              <tr>
+                <th>Number</th>
+                <th>Prime Factorization</th>
+                <th>Factors</th>
+              </tr>
+            </thead>
+            <tbody id="factorBody"></tbody>
+          </table>
+        </div>
+
+        <!-- Step-by-step Euclidean Algorithm -->
+        <div class="steps-area hidden" id="stepsArea">
+          <h4>Step-by-Step — Euclidean Algorithm</h4>
+          <div id="stepsContent"></div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="in-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Euclidean Algorithm Walkthrough</h3>
+            <p>Every calculation includes a complete step-by-step breakdown of the Euclidean algorithm showing each division, quotient, and remainder until the GCF is found. When you enter more than two numbers, the calculator chains the algorithm across successive pairs and displays every intermediate result. This makes the tool invaluable for students learning number theory and for teachers who need clear worked examples for classroom instruction or homework review.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Prime Factorization Display</h3>
+            <p>Each number you enter is decomposed into its prime factors using trial division. The results appear in a clear table showing exponential notation alongside the full list of individual factors. Seeing the prime factorization of every input helps you visually verify the GCF and LCM results and deepens understanding of how the two values relate to the underlying prime structure of each number. The factorization runs instantly for numbers up to trillions.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Multi-Number Support</h3>
+            <p>Unlike basic calculators limited to two inputs, this tool handles three, four, or any number of values at once. Simply add more fields and click Calculate. The GCF is computed iteratively by chaining pairwise GCF operations, and the LCM uses the same chaining approach with the identity LCM(a, b) = a times b divided by GCF(a, b). Whether you are simplifying a complex fraction with a shared denominator across several terms or finding when multiple periodic events coincide, multi-number support saves time and eliminates manual chaining errors.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Instant Browser Calculations</h3>
+            <p>All math runs entirely in JavaScript within your browser. Nothing is uploaded to a server, which means your data stays private, results appear instantly without network delay, and the calculator works offline after the initial page load. There are no usage caps, no rate limits, and no account required. The lightweight implementation loads in under a second on any modern device, meeting Core Web Vitals performance standards.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the GCF &amp; LCM Calculator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li>Enter at least two positive integers in the input fields. Use the placeholder hints as guidance for expected values.</li>
+          <li>To calculate for three or more numbers, click the <strong>+ Add Number</strong> button to reveal additional input fields. You can remove extra fields by clicking the X button beside them.</li>
+          <li>Click <strong>Calculate</strong> to see the GCF and LCM displayed prominently, along with the prime factorization table for each number.</li>
+          <li>Scroll down to the Step-by-Step section to review the Euclidean algorithm applied to each pair of numbers. Each division step shows the dividend, divisor, quotient, and remainder.</li>
+          <li>Click <strong>Clear</strong> to reset all fields and results so you can start a new calculation.</li>
+        </ol>
+      </section>
+
+      <!-- Educational Content -->
+      <section class="mt-4">
+        <h2>Understanding GCF and LCM</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">The Greatest Common Factor and the Least Common Multiple are two of the most fundamental concepts in number theory, and they appear constantly in everyday mathematics, from simplifying fractions in grade school to designing scheduling systems in software engineering. Understanding what they are, how they relate to each other, and how to compute them efficiently opens the door to a wide range of practical and theoretical applications.</p>
+
+        <h3 style="font-size:1rem;margin-bottom:var(--sp-2)">What Is the Greatest Common Factor?</h3>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">The Greatest Common Factor of two or more integers is the largest positive integer that divides each of them without leaving a remainder. For example, the factors of 12 are 1, 2, 3, 4, 6, and 12, while the factors of 18 are 1, 2, 3, 6, 9, and 18. The common factors are 1, 2, 3, and 6, so the GCF is 6. The GCF is also called the Greatest Common Divisor (GCD) in many textbooks, and the Highest Common Factor (HCF) in British and Commonwealth education. All three terms refer to the same value. The GCF is always at least 1 because 1 divides every integer. When the GCF of two numbers is 1, those numbers are called coprime or relatively prime, meaning they share no prime factor.</p>
+
+        <h3 style="font-size:1rem;margin-bottom:var(--sp-2)">What Is the Least Common Multiple?</h3>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">The Least Common Multiple of two or more integers is the smallest positive integer that is a multiple of each of them. For 4 and 6, the multiples of 4 are 4, 8, 12, 16, 20, 24, and so on, while the multiples of 6 are 6, 12, 18, 24, and so on. The smallest value that appears in both lists is 12, so LCM(4, 6) = 12. LCM is essential when adding fractions because you need a common denominator, and the LCD (Least Common Denominator) is exactly the LCM of the denominators. It also arises in scheduling problems: if one event repeats every 4 days and another every 6 days, they coincide every 12 days.</p>
+
+        <h3 style="font-size:1rem;margin-bottom:var(--sp-2)">The Euclidean Algorithm</h3>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">Named after the Greek mathematician Euclid, who described it around 300 BCE in his treatise Elements, the Euclidean algorithm is one of the oldest known algorithms still in everyday use. It computes the GCF by repeatedly dividing the larger number by the smaller and replacing the larger number with the remainder. The process terminates when the remainder reaches zero, and the last nonzero remainder is the GCF. Its elegance lies in its efficiency: the number of steps is proportional to the logarithm of the smaller number, making it extremely fast even for very large inputs. Modern applications of the Euclidean algorithm extend far beyond basic arithmetic. It is a building block in the RSA cryptographic algorithm, in computing modular inverses, and in continued fraction representations of real numbers.</p>
+
+        <h3 style="font-size:1rem;margin-bottom:var(--sp-2)">Real-World Applications</h3>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-3)">In the kitchen, GCF helps when scaling recipes. If a recipe calls for 3/4 cup of flour and you want to express it in simplest form, dividing by the GCF keeps numbers small and readable. In music, LCM determines when two rhythmic patterns played simultaneously will line up again at beat one. A pattern repeating every 3 beats and another every 4 beats align every 12 beats. In construction and tiling, GCF tells you the largest square tile that fits evenly across two wall dimensions without cutting. Scheduling software uses LCM to find when rotating shifts, maintenance cycles, or bus routes coincide. In computer science, GCF powers fraction arithmetic in symbolic computation engines, hash table sizing, and clock synchronization algorithms in distributed systems.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>What is the difference between GCF and GCD?</summary>
+          <p>GCF (Greatest Common Factor) and GCD (Greatest Common Divisor) are two names for exactly the same concept: the largest positive integer that divides each of the given numbers without a remainder. In the United States, math curricula typically use GCF, while GCD is more common in computer science and international textbooks. The term HCF (Highest Common Factor) is used in British and Commonwealth education systems. Regardless of the name, the computation and result are identical, so you can use whichever term your textbook or instructor prefers.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do you find the GCF by hand using the Euclidean algorithm?</summary>
+          <p>The Euclidean algorithm finds the GCF of two numbers through repeated division. Start with your two numbers and divide the larger by the smaller. Write down the remainder. Now replace the larger number with the smaller number and the smaller with the remainder. Repeat this process until the remainder is zero. The last nonzero remainder is the GCF. For example, to find GCF(48, 18): divide 48 by 18 to get quotient 2 and remainder 12. Then divide 18 by 12 to get quotient 1 and remainder 6. Finally, divide 12 by 6 to get quotient 2 and remainder 0. Since the last nonzero remainder is 6, GCF(48, 18) = 6. This calculator automates the process and shows every step.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is the relationship between GCF and LCM?</summary>
+          <p>For any two positive integers a and b, their GCF and LCM are connected by the formula: GCF(a, b) multiplied by LCM(a, b) equals a multiplied by b. This means once you know the GCF, you can find the LCM by dividing the product of the two numbers by the GCF, and vice versa. For example, with 12 and 18: GCF is 6 and 12 times 18 is 216. So LCM = 216 divided by 6 = 36. This relationship holds because every prime factor is accounted for exactly once between the GCF (which takes the minimum power) and the LCM (which takes the maximum power).</p>
+        </details>
+        <details class="faq-item">
+          <summary>What are practical uses of GCF and LCM?</summary>
+          <p>GCF is used to simplify fractions to their lowest terms, divide items into the largest possible equal groups, and determine the largest tile size that fits a floor without cutting. LCM is used to find common denominators when adding or subtracting fractions, to determine when repeating schedules align (for example, two buses departing at different intervals), and in music to compute when polyrhythmic patterns coincide. In programming, GCF appears in cryptographic algorithms like RSA, while LCM is used in thread synchronization and task scheduling.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can you find GCF and LCM of more than two numbers?</summary>
+          <p>Yes. To find the GCF of three or more numbers, compute the GCF of the first two numbers, then compute the GCF of that result with the third number, and continue for each additional number. The same chaining approach works for LCM. For example, GCF(12, 18, 24): first find GCF(12, 18) = 6, then GCF(6, 24) = 6. For LCM(4, 6, 10): first LCM(4, 6) = 12, then LCM(12, 10) = 60. This calculator supports any number of inputs and applies this iterative method automatically, showing the intermediate results in the step-by-step section.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How does prime factorization help find GCF and LCM?</summary>
+          <p>Prime factorization decomposes each number into a product of prime numbers raised to specific powers. To find the GCF, take the lowest power of each prime that appears in all factorizations. To find the LCM, take the highest power of each prime from any factorization. For instance, 12 equals 2 squared times 3, and 18 equals 2 times 3 squared. The GCF takes the lower power of 2 (which is 1) and the lower power of 3 (which is 1), giving 2 times 3 = 6. The LCM takes the higher power of each, giving 4 times 9 = 36. This method is intuitive and clearly shows why the GCF times LCM equals the product of the two numbers.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is this GCF &amp; LCM calculator free to use?</summary>
+          <p>Yes, this calculator is completely free with no signup, no account, and no usage limits. All calculations run entirely in your browser using JavaScript, which means nothing is uploaded to a server and your data stays private on your device. The tool works on desktops, laptops, tablets, and smartphones with any modern browser. After the initial page load, the calculator functions offline since all math happens locally. Bookmark this page for instant access whenever you need to compute GCF, LCM, or prime factorizations for school, work, or personal projects.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/fraction">Fraction Calculator</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+          <a href="https://toolrip.com/bmi">BMI Calculator</a>
+          <a href="https://toolrip.com/age">Age Calculator</a>
+          <a href="https://toolrip.com/compound-interest">Compound Interest Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- GCF & LCM Calculator JS -->
+  <script>
+  (function() {
+    'use strict';
+
+    /* ========== Math Utilities ========== */
+
+    function gcd(a, b) {
+      a = Math.abs(a);
+      b = Math.abs(b);
+      if (a === 0) return b;
+      if (b === 0) return a;
+      while (b) {
+        var t = b;
+        b = a % b;
+        a = t;
+      }
+      return a;
+    }
+
+    function lcm(a, b) {
+      if (a === 0 || b === 0) return 0;
+      return Math.abs(a) / gcd(a, b) * Math.abs(b);
+    }
+
+    function gcdMultiple(nums) {
+      var result = nums[0];
+      for (var i = 1; i < nums.length; i++) {
+        result = gcd(result, nums[i]);
+      }
+      return result;
+    }
+
+    function lcmMultiple(nums) {
+      var result = nums[0];
+      for (var i = 1; i < nums.length; i++) {
+        result = lcm(result, nums[i]);
+        if (!isFinite(result) || result > Number.MAX_SAFE_INTEGER) return Infinity;
+      }
+      return result;
+    }
+
+    function primeFactorize(n) {
+      n = Math.abs(n);
+      if (n <= 1) return [];
+      var factors = [];
+      var d = 2;
+      while (d * d <= n) {
+        var count = 0;
+        while (n % d === 0) {
+          count++;
+          n = n / d;
+        }
+        if (count > 0) {
+          factors.push({ prime: d, exp: count });
+        }
+        d++;
+      }
+      if (n > 1) {
+        factors.push({ prime: n, exp: 1 });
+      }
+      return factors;
+    }
+
+    function formatFactorization(factors) {
+      if (factors.length === 0) return '1';
+      return factors.map(function(f) {
+        return f.exp === 1 ? String(f.prime) : f.prime + '<sup>' + f.exp + '</sup>';
+      }).join(' &times; ');
+    }
+
+    function formatFactorList(factors) {
+      if (factors.length === 0) return '1';
+      var list = [];
+      for (var i = 0; i < factors.length; i++) {
+        for (var j = 0; j < factors[i].exp; j++) {
+          list.push(factors[i].prime);
+        }
+      }
+      return list.join(', ');
+    }
+
+    function euclideanSteps(a, b) {
+      a = Math.abs(a);
+      b = Math.abs(b);
+      if (a < b) { var tmp = a; a = b; b = tmp; }
+      var steps = [];
+      while (b > 0) {
+        var q = Math.floor(a / b);
+        var r = a % b;
+        steps.push({ a: a, b: b, q: q, r: r });
+        a = b;
+        b = r;
+      }
+      return { gcd: a, steps: steps };
+    }
+
+    function formatNumber(n) {
+      return Number(n).toLocaleString('en-US');
+    }
+
+    function parsePositiveInt(str) {
+      if (!str || str.trim() === '') return NaN;
+      var cleaned = str.trim().replace(/,/g, '');
+      if (!/^\d+$/.test(cleaned)) return NaN;
+      var n = parseInt(cleaned, 10);
+      if (n < 1 || n > 1e15) return NaN;
+      return n;
+    }
+
+    /* ========== DOM References ========== */
+
+    var inputArea = document.getElementById('inputArea');
+    var addFieldBtn = document.getElementById('addFieldBtn');
+    var calcBtn = document.getElementById('calcBtn');
+    var clearBtn = document.getElementById('clearBtn');
+    var gcfBox = document.getElementById('gcfBox');
+    var lcmBox = document.getElementById('lcmBox');
+    var gcfValue = document.getElementById('gcfValue');
+    var lcmValue = document.getElementById('lcmValue');
+    var factorSection = document.getElementById('factorSection');
+    var factorBody = document.getElementById('factorBody');
+    var stepsArea = document.getElementById('stepsArea');
+    var stepsContent = document.getElementById('stepsContent');
+
+    /* ========== Dynamic Input Fields ========== */
+
+    var fieldCount = 2;
+
+    addFieldBtn.addEventListener('click', function() {
+      if (fieldCount >= 10) {
+        showToast('Maximum 10 numbers allowed', 'error');
+        return;
+      }
+      fieldCount++;
+      var row = document.createElement('div');
+      row.className = 'number-input-row';
+      row.innerHTML = '<input type="text" class="input-field num-input" inputmode="numeric" placeholder="e.g. ' + (fieldCount * 7) + '" autocomplete="off" aria-label="Number ' + fieldCount + '">'
+        + '<button type="button" class="remove-field-btn" aria-label="Remove this field" title="Remove">&times;</button>';
+      var firstRow = inputArea.querySelector('.number-input-row');
+      inputArea.appendChild(row);
+      row.querySelector('.remove-field-btn').addEventListener('click', function() {
+        row.remove();
+        fieldCount--;
+      });
+      row.querySelector('.num-input').focus();
+    });
+
+    /* ========== Step HTML Builder ========== */
+
+    function stepHtml(num, text) {
+      return '<div class="step-line"><span class="step-num">' + num + '</span>' + text + '</div>';
+    }
+
+    function subStepHtml(text) {
+      return '<div class="step-sub">' + text + '</div>';
+    }
+
+    /* ========== Clear ========== */
+
+    function clearAll() {
+      var inputs = inputArea.querySelectorAll('.num-input');
+      inputs.forEach(function(inp) { inp.value = ''; });
+      /* Remove extra rows (keep first row with 2 inputs) */
+      var rows = inputArea.querySelectorAll('.number-input-row');
+      for (var i = 1; i < rows.length; i++) {
+        rows[i].remove();
+      }
+      fieldCount = 2;
+      gcfValue.textContent = '\u2014';
+      gcfValue.className = 'value empty';
+      lcmValue.textContent = '\u2014';
+      lcmValue.className = 'value empty';
+      gcfBox.classList.remove('has-value');
+      lcmBox.classList.remove('has-value');
+      factorSection.classList.add('hidden');
+      factorBody.innerHTML = '';
+      stepsArea.classList.add('hidden');
+      stepsContent.innerHTML = '';
+      inputArea.querySelector('.num-input').focus();
+    }
+
+    clearBtn.addEventListener('click', clearAll);
+
+    /* ========== Calculate ========== */
+
+    function calculate() {
+      var inputs = inputArea.querySelectorAll('.num-input');
+      var nums = [];
+      for (var i = 0; i < inputs.length; i++) {
+        var val = parsePositiveInt(inputs[i].value);
+        if (isNaN(val)) {
+          showToast('Please enter valid positive integers in all fields', 'error');
+          inputs[i].focus();
+          return;
+        }
+        nums.push(val);
+      }
+
+      if (nums.length < 2) {
+        showToast('Please enter at least 2 numbers', 'error');
+        return;
+      }
+
+      /* Compute GCF and LCM */
+      var gcfResult = gcdMultiple(nums);
+      var lcmResult = lcmMultiple(nums);
+
+      /* Display results */
+      gcfValue.textContent = formatNumber(gcfResult);
+      gcfValue.className = 'value';
+      gcfBox.classList.add('has-value');
+
+      if (lcmResult === Infinity || !isFinite(lcmResult)) {
+        lcmValue.textContent = 'Too large';
+        lcmValue.className = 'value empty';
+        lcmBox.classList.remove('has-value');
+      } else {
+        lcmValue.textContent = formatNumber(lcmResult);
+        lcmValue.className = 'value';
+        lcmBox.classList.add('has-value');
+      }
+
+      /* Prime factorization table */
+      factorBody.innerHTML = '';
+      for (var j = 0; j < nums.length; j++) {
+        var factors = primeFactorize(nums[j]);
+        var tr = document.createElement('tr');
+        tr.innerHTML = '<td class="factor-num">' + formatNumber(nums[j]) + '</td>'
+          + '<td>' + formatFactorization(factors) + '</td>'
+          + '<td style="color:var(--text-muted);font-size:.85rem">' + formatFactorList(factors) + '</td>';
+        factorBody.appendChild(tr);
+      }
+      factorSection.classList.remove('hidden');
+
+      /* Step-by-step Euclidean algorithm */
+      var html = '';
+      var stepNum = 1;
+
+      if (nums.length === 2) {
+        /* Simple two-number case */
+        var e = euclideanSteps(nums[0], nums[1]);
+        html += stepHtml(stepNum++, 'Find GCF of <span class="step-highlight">' + formatNumber(nums[0]) + '</span> and <span class="step-highlight">' + formatNumber(nums[1]) + '</span> using the Euclidean algorithm:');
+
+        for (var k = 0; k < e.steps.length; k++) {
+          var s = e.steps[k];
+          html += subStepHtml(formatNumber(s.a) + ' = ' + formatNumber(s.b) + ' &times; ' + s.q + ' + <span class="step-highlight">' + formatNumber(s.r) + '</span>');
+        }
+
+        html += stepHtml(stepNum++, 'The last nonzero remainder is <span class="step-highlight">' + formatNumber(e.gcd) + '</span>, so GCF(' + formatNumber(nums[0]) + ', ' + formatNumber(nums[1]) + ') = <span class="step-highlight">' + formatNumber(e.gcd) + '</span>');
+
+        if (isFinite(lcmResult)) {
+          html += stepHtml(stepNum++, 'Compute LCM using the formula: LCM = (' + formatNumber(nums[0]) + ' &times; ' + formatNumber(nums[1]) + ') &divide; GCF');
+          html += subStepHtml('LCM = ' + formatNumber(nums[0] * nums[1]) + ' &divide; ' + formatNumber(e.gcd) + ' = <span class="step-highlight">' + formatNumber(lcmResult) + '</span>');
+        }
+      } else {
+        /* Multi-number case: chain pairwise */
+        html += stepHtml(stepNum++, 'Computing GCF of ' + nums.length + ' numbers by chaining pairwise GCF operations:');
+
+        var runningGcf = nums[0];
+        for (var m = 1; m < nums.length; m++) {
+          var e2 = euclideanSteps(runningGcf, nums[m]);
+          html += '<div class="pair-header">GCF(' + formatNumber(runningGcf) + ', ' + formatNumber(nums[m]) + '):</div>';
+
+          for (var p = 0; p < e2.steps.length; p++) {
+            var s2 = e2.steps[p];
+            html += subStepHtml(formatNumber(s2.a) + ' = ' + formatNumber(s2.b) + ' &times; ' + s2.q + ' + <span class="step-highlight">' + formatNumber(s2.r) + '</span>');
+          }
+
+          runningGcf = e2.gcd;
+          html += subStepHtml('Result: <span class="step-highlight">' + formatNumber(runningGcf) + '</span>');
+        }
+
+        html += stepHtml(stepNum++, 'Final GCF = <span class="step-highlight">' + formatNumber(gcfResult) + '</span>');
+
+        if (isFinite(lcmResult)) {
+          html += stepHtml(stepNum++, 'Computing LCM by chaining pairwise LCM operations:');
+          var runningLcm = nums[0];
+          for (var n = 1; n < nums.length; n++) {
+            var pairGcf = gcd(runningLcm, nums[n]);
+            var pairLcm = runningLcm / pairGcf * nums[n];
+            html += subStepHtml('LCM(' + formatNumber(runningLcm) + ', ' + formatNumber(nums[n]) + ') = ' + formatNumber(runningLcm) + ' &times; ' + formatNumber(nums[n]) + ' &divide; ' + formatNumber(pairGcf) + ' = <span class="step-highlight">' + formatNumber(pairLcm) + '</span>');
+            runningLcm = pairLcm;
+          }
+          html += stepHtml(stepNum++, 'Final LCM = <span class="step-highlight">' + formatNumber(lcmResult) + '</span>');
+        }
+      }
+
+      stepsContent.innerHTML = html;
+      stepsArea.classList.remove('hidden');
+    }
+
+    calcBtn.addEventListener('click', calculate);
+
+    /* Enter key triggers calculate from any input */
+    inputArea.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        calculate();
+      }
+    });
+
+  })();
+  </script>
+</body>
+</html>

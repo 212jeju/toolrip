@@ -8,34 +8,116 @@
    ============================================ */
 
 const TOOL_MAP = {
-  // Finance (5)
+  // Finance (15)
   'mortgage': 'mortgage-calculator',
   'compound-interest': 'compound-interest',
   'tip': 'tip-calculator',
   'salary': 'salary-calculator',
   'percentage': 'percentage-calculator',
-  // Health (2)
+  'emi': 'emi-calculator',
+  'roi': 'roi-calculator',
+  'sales-tax': 'sales-tax-calculator',
+  'inflation': 'inflation-calculator',
+  'retirement': 'retirement-calculator',
+  'break-even': 'break-even-calculator',
+  'profit-margin': 'profit-margin',
+  'apr': 'apr-calculator',
+  'debt-payoff': 'debt-payoff',
+  'loan-compare': 'loan-comparison',
+  // Health (11)
   'bmi': 'bmi-calculator',
   'calorie': 'calorie-calculator',
-  // Developer (3)
+  'bmr': 'bmr-calculator',
+  'body-fat': 'body-fat-calculator',
+  'macro': 'macro-calculator',
+  'ideal-weight': 'ideal-weight',
+  'water-intake': 'water-intake',
+  'running-pace': 'running-pace',
+  'heart-rate': 'heart-rate-zones',
+  'due-date': 'due-date-calculator',
+  'sleep': 'sleep-calculator',
+  // Developer (20)
   'json': 'json-formatter',
   'base64': 'base64-encoder',
   'uuid': 'uuid-generator',
-  // Text (2)
+  'regex': 'regex-tester',
+  'css-minify': 'css-minifier',
+  'js-minify': 'js-minifier',
+  'sql': 'sql-formatter',
+  'markdown': 'markdown-editor',
+  'html-entity': 'html-entity-encoder',
+  'jwt': 'jwt-decoder',
+  'yaml': 'yaml-to-json',
+  'cron': 'cron-generator',
+  'csv-json': 'csv-to-json',
+  'json-csv': 'json-to-csv',
+  'xml': 'xml-formatter',
+  'img-base64': 'image-to-base64',
+  'escape': 'string-escape',
+  'url-encode': 'url-encoder',
+  'ascii-hex': 'ascii-hex-converter',
+  'ip': 'ip-lookup',
+  // Text (12)
   'word-count': 'word-counter',
   'case': 'case-converter',
-  // Conversion (3)
+  'lorem': 'lorem-ipsum',
+  'slug': 'slug-generator',
+  'diff': 'text-diff',
+  'dedupe': 'duplicate-remover',
+  'binary': 'text-to-binary',
+  'lines': 'line-counter',
+  'whitespace': 'whitespace-remover',
+  'reverse': 'reverse-text',
+  'repeat': 'text-repeater',
+  'random-string': 'random-string',
+  // Conversion (10)
   'hex-rgb': 'hex-rgb-converter',
   'temperature': 'temperature-converter',
   'length': 'length-converter',
-  // Security (2)
+  'weight': 'weight-converter',
+  'speed': 'speed-converter',
+  'data-storage': 'data-storage-converter',
+  'angle': 'angle-converter',
+  'timestamp': 'timestamp-converter',
+  'number-base': 'number-base-converter',
+  'roman': 'roman-numeral',
+  // Security (7)
   'password': 'password-generator',
   'qr': 'qr-code-generator',
-  // Math (1)
+  'md5': 'md5-generator',
+  'sha256': 'sha256-generator',
+  'password-strength': 'password-strength',
+  'rot13': 'rot13-encoder',
+  'bcrypt': 'bcrypt-generator',
+  // Math (9)
   'fraction': 'fraction-calculator',
-  // DateTime (2)
+  'statistics': 'statistics-calculator',
+  'gcf-lcm': 'gcf-lcm-calculator',
+  'prime': 'prime-checker',
+  'quadratic': 'quadratic-solver',
+  'pythagorean': 'pythagorean-calculator',
+  'area-volume': 'area-volume-calculator',
+  'scientific': 'scientific-notation',
+  'matrix': 'matrix-calculator',
+  // DateTime (8)
   'date-diff': 'date-difference',
-  'age': 'age-calculator'
+  'age': 'age-calculator',
+  'timezone': 'timezone-converter',
+  'countdown': 'countdown-timer',
+  'epoch': 'epoch-converter',
+  'week-number': 'week-number',
+  'business-days': 'business-days',
+  'pomodoro': 'pomodoro-timer',
+  // Design (6)
+  'color-palette': 'color-palette',
+  'gradient': 'gradient-generator',
+  'box-shadow': 'box-shadow-generator',
+  'svg-png': 'svg-to-png',
+  'color-blind': 'color-blindness',
+  'aspect-ratio': 'aspect-ratio',
+  // SEO (2)
+  'meta-tag': 'meta-tag-generator',
+  'og-preview': 'og-preview'
 };
 
 const LEGAL_PATHS = ['about', 'privacy', 'terms', 'contact'];

@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pregnancy Due Date Calculator — Free, Fast, No Signup | Toolrip</title>
+  <meta name="description" content="Calculate your estimated pregnancy due date based on your last menstrual period (LMP) using Naegele's rule. See current week, trimester, conception date, and key prenatal milestones. Free, instant, no signup.">
+  <meta name="keywords" content="due date calculator, pregnancy due date, estimated delivery date, Naegele's rule, LMP calculator, pregnancy week calculator, trimester calculator, prenatal milestones">
+  <link rel="canonical" href="https://toolrip.com/due-date">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Pregnancy Due Date Calculator — Free, Fast, No Signup | Toolrip">
+  <meta property="og:description" content="Calculate your estimated pregnancy due date based on your last menstrual period. See current week, trimester, conception date, and key prenatal milestones.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/due-date">
+  <meta property="og:site_name" content="Toolrip">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Pregnancy Due Date Calculator — Free, Fast, No Signup | Toolrip">
+  <meta name="twitter:description" content="Calculate your estimated pregnancy due date based on your last menstrual period. See current week, trimester, conception date, and key prenatal milestones.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    :root { --accent: var(--health); }
+
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-3);
+      align-items: end;
+    }
+    @media (max-width: 639px) {
+      .input-row { grid-template-columns: 1fr; }
+    }
+
+    /* Results */
+    .results-area { display: none; margin-top: var(--sp-4); }
+    .results-area.visible { display: block; }
+
+    .result-headline {
+      text-align: center;
+      padding: var(--sp-5);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--sp-4);
+    }
+    .result-headline .rh-big {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1.3;
+    }
+    @media (min-width: 640px) {
+      .result-headline .rh-big { font-size: 2.5rem; }
+    }
+    .result-headline .rh-sub {
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      margin-top: var(--sp-1);
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--sp-3);
+    }
+    @media (min-width: 640px) {
+      .result-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .result-item {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--sp-3);
+      text-align: center;
+    }
+    .result-item .ri-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+      word-break: break-word;
+    }
+    .result-item .ri-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: var(--sp-1);
+    }
+
+    /* Timeline */
+    .timeline-section {
+      margin-top: var(--sp-4);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-4);
+    }
+    .timeline-section h3 {
+      font-size: 1rem;
+      margin-bottom: var(--sp-3);
+    }
+    .timeline-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      position: relative;
+    }
+    .timeline-list::before {
+      content: '';
+      position: absolute;
+      left: 10px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: var(--border);
+    }
+    .timeline-item {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--sp-3);
+      padding: var(--sp-2) 0;
+      position: relative;
+    }
+    .timeline-dot {
+      width: 22px;
+      height: 22px;
+      min-width: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: var(--bg-surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      z-index: 1;
+    }
+    .timeline-item.passed .timeline-dot {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #fff;
+    }
+    .timeline-item.passed .timeline-dot::after {
+      content: '\2713';
+    }
+    .timeline-content {
+      flex: 1;
+    }
+    .timeline-label {
+      font-weight: 600;
+      font-size: 0.9375rem;
+      color: var(--text);
+    }
+    .timeline-date {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .timeline-week {
+      font-size: 0.75rem;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* Disclaimer */
+    .disclaimer {
+      margin-top: var(--sp-4);
+      padding: var(--sp-3);
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      border-radius: var(--radius);
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .disclaimer strong {
+      color: var(--accent);
+    }
+
+    /* Progress bar */
+    .progress-section {
+      margin-top: var(--sp-3);
+    }
+    .progress-bar-bg {
+      width: 100%;
+      height: 12px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 6px;
+      transition: width 0.3s ease;
+    }
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: var(--sp-1);
+    }
+  </style>
+
+  <!-- Schema.org WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Pregnancy Due Date Calculator",
+    "url": "https://toolrip.com/due-date",
+    "description": "Calculate your estimated pregnancy due date based on your last menstrual period using Naegele's rule. See current week, trimester, conception date, and key prenatal milestones.",
+    "applicationCategory": "HealthApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript"
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How accurate is a due date calculator?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A due date calculator based on Naegele's rule provides a clinically accepted estimate, but only about 4 to 5 percent of babies are born on their exact due date. The estimated due date represents the midpoint of a normal delivery window that spans roughly from 37 weeks (early term) to 42 weeks (post-term). Factors that affect accuracy include irregular menstrual cycles, uncertain last menstrual period dates, and individual variations in ovulation timing. An early ultrasound, typically performed between 8 and 12 weeks of gestation, can refine the estimate to within plus or minus five days. Your healthcare provider may adjust your due date based on ultrasound measurements and other clinical findings."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is Naegele's rule and how does it work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Naegele's rule is a standard method used to estimate a pregnancy due date. It was developed by German obstetrician Franz Karl Naegele in the early 1800s. The rule calculates the estimated date of delivery by adding 280 days (40 weeks) to the first day of the last menstrual period, assuming a 28-day menstrual cycle. For cycles longer or shorter than 28 days, the calculation is adjusted by adding or subtracting the difference. For example, if your cycle is 32 days, four extra days are added to the standard 280-day calculation. This method assumes ovulation occurs around day 14 of a 28-day cycle and that fertilization happens shortly after ovulation."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What happens during the first trimester of pregnancy?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The first trimester spans from week 1 through week 12 of pregnancy. During this period, the fertilized egg implants in the uterine wall, and the embryo begins rapid development. By week 6, a heartbeat can usually be detected via ultrasound. By the end of the first trimester, all major organs and body systems have begun forming, the embryo is now called a fetus, and it is roughly 3 inches long. Common symptoms during this period include morning sickness, fatigue, breast tenderness, and frequent urination. The first trimester carries the highest risk of miscarriage, which is why many people wait until the second trimester to announce their pregnancy."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "When should I see a doctor after getting a positive pregnancy test?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most healthcare providers recommend scheduling your first prenatal appointment between 6 and 8 weeks after your last menstrual period. During this initial visit, your doctor will confirm the pregnancy, estimate the gestational age, check for a heartbeat via ultrasound, review your medical history, and order baseline blood tests. If you have a history of complications, chronic health conditions, or experience symptoms such as severe pain or heavy bleeding, you should contact your provider immediately rather than waiting for a routine appointment. Early and regular prenatal care is one of the most important steps you can take for a healthy pregnancy."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What does it mean if I go past my due date?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Going past your due date is common and not necessarily a cause for concern. A pregnancy is considered full term between 39 and 40 weeks, late term at 41 weeks, and post-term at 42 weeks and beyond. About 60 percent of women deliver before their due date, while roughly 10 percent reach 42 weeks. After 41 weeks, your provider will typically increase monitoring with non-stress tests and ultrasounds to check amniotic fluid levels and fetal well-being. If labor has not begun by 42 weeks, induction is usually recommended because the risk of complications, including reduced placental function and meconium aspiration, increases after this point."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How are pregnancy weeks and trimesters divided?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Pregnancy is measured from the first day of the last menstrual period and lasts approximately 40 weeks. It is divided into three trimesters. The first trimester covers weeks 1 through 12 and is the period of initial embryonic development and organ formation. The second trimester spans weeks 13 through 26 and is often considered the most comfortable period, during which the fetus grows significantly and movements become noticeable. The third trimester runs from week 27 through week 40 and involves rapid fetal growth, lung maturation, and preparation for delivery. Each trimester has distinct developmental milestones and associated prenatal screenings."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is my data private when using this calculator?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, completely. The Pregnancy Due Date Calculator runs entirely in your web browser using client-side JavaScript. No dates, health information, or personal data are transmitted to our servers or any third party. There are no accounts to create, no cookies storing personal health data, and no server-side processing. You can verify this by inspecting network requests in your browser's developer tools. Your privacy is especially important given the sensitive nature of pregnancy-related information, and this tool is designed to keep all data on your device at all times."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Schema.org BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com" },
+      { "@type": "ListItem", "position": 2, "name": "Health & Fitness", "item": "https://toolrip.com/#health" },
+      { "@type": "ListItem", "position": 3, "name": "Due Date Calculator", "item": "https://toolrip.com/due-date" }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Top Ad -->
+    <div class="ad-slot ad-top" data-ad-slot="due-date-top">Ad</div>
+
+    <!-- Main -->
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <a href="https://toolrip.com/#health">Health &amp; Fitness</a>
+        <span>/</span>
+        <span>Due Date Calculator</span>
+      </nav>
+
+      <h1>Pregnancy Due Date Calculator</h1>
+      <p class="text-muted mt-1 mb-3">Estimate your baby's due date based on your last menstrual period (LMP) using Naegele's rule. See your current week of pregnancy, trimester, estimated conception date, and key prenatal milestones. Free, instant, and completely private.</p>
+
+      <!-- ===== TOOL UI START ===== -->
+      <div class="tool-card">
+
+        <!-- Inputs -->
+        <div class="input-row">
+          <div class="input-group">
+            <label for="lmp-date">First Day of Last Menstrual Period (LMP)</label>
+            <input type="date" id="lmp-date" class="input-field" aria-label="First day of last menstrual period">
+          </div>
+          <div class="input-group">
+            <label for="cycle-length">Average Cycle Length (days)</label>
+            <input type="number" id="cycle-length" class="input-field" min="20" max="45" value="28" aria-label="Average menstrual cycle length in days">
+          </div>
+        </div>
+
+        <div class="flex gap-2 mt-2">
+          <button class="btn-primary" onclick="DDC.calculate()">Calculate Due Date</button>
+          <button class="btn-secondary" onclick="DDC.resetForm()">Clear</button>
+        </div>
+
+        <!-- Results -->
+        <div class="results-area" id="results-area">
+
+          <!-- Headline -->
+          <div class="result-headline">
+            <div class="rh-big" id="rh-big"></div>
+            <div class="rh-sub" id="rh-sub"></div>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="progress-section" id="progress-section" style="display:none">
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" id="progress-fill"></div>
+            </div>
+            <div class="progress-labels">
+              <span id="progress-week">Week 0</span>
+              <span>Week 40</span>
+            </div>
+          </div>
+
+          <!-- Result Grid -->
+          <div class="result-grid" id="result-grid"></div>
+
+          <!-- Milestones Timeline -->
+          <div class="timeline-section" id="timeline-section">
+            <h3>Key Prenatal Milestones</h3>
+            <ul class="timeline-list" id="timeline-list"></ul>
+          </div>
+
+          <!-- Disclaimer -->
+          <div class="disclaimer">
+            <strong>Medical Disclaimer:</strong> This calculator provides an estimate only and is not a substitute for professional medical advice, diagnosis, or treatment. Due dates are approximate — only about 4-5% of babies are born on their exact estimated due date. Always consult your healthcare provider for personalized prenatal care. An early ultrasound between 8 and 12 weeks can provide a more precise estimate.
+          </div>
+        </div>
+      </div>
+      <!-- ===== TOOL UI END ===== -->
+
+      <!-- In-Content Ad -->
+      <div class="ad-slot ad-in-content" data-ad-slot="due-date-content">Ad</div>
+
+      <!-- Feature Cards -->
+      <section class="mt-4">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Naegele's Rule with Cycle Adjustment</h3>
+            <p>This calculator uses the clinically accepted Naegele's rule to estimate your due date by adding 280 days to the first day of your last menstrual period. Unlike basic calculators, it also adjusts for your actual cycle length. If your cycle is longer or shorter than the standard 28 days, the estimated due date shifts accordingly to provide a more personalized and accurate result.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Pregnancy Progress Tracking</h3>
+            <p>See exactly where you are in your pregnancy journey at a glance. The calculator displays your current gestational week and day, which trimester you are in, the estimated conception date, and how many days remain until your due date. A visual progress bar shows how far along you are through the full 40-week pregnancy period.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Prenatal Milestone Timeline</h3>
+            <p>View a complete timeline of key prenatal milestones from the first detectable heartbeat at around 6 weeks through the end of the first trimester, the anatomy scan window, the age of viability, the start of full term, and your estimated delivery date. Each milestone shows the expected date and whether it has already passed, helping you prepare for upcoming appointments and developmental stages.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Completely Private and Secure</h3>
+            <p>All calculations run entirely in your browser. No health data, dates, or personal information is ever sent to any server. Given the sensitive and personal nature of pregnancy information, this privacy-first approach ensures your data stays on your device at all times. There are no accounts, no tracking of health inputs, and no third-party data sharing of any kind.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How Pregnancy Dating Works -->
+      <section class="mt-4">
+        <h2>How Pregnancy Due Date Calculation Works</h2>
+        <p style="color:var(--text-muted);line-height:1.8">Pregnancy due date estimation has been a cornerstone of obstetric care for over two centuries. The most widely used method, known as Naegele's rule, was formalized by the German obstetrician Franz Karl Naegele in 1812. The rule is straightforward: take the first day of the woman's last menstrual period, add one year, subtract three months, and add seven days. Mathematically, this is equivalent to adding 280 days (or 40 weeks) to the LMP date. The result is the estimated date of delivery, often abbreviated as EDD.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-2)">This 280-day figure is based on the assumption that ovulation occurs approximately 14 days after the start of menstruation in a regular 28-day cycle, and that fertilization happens within 24 hours of ovulation. Since gestational age is counted from the LMP rather than the actual date of conception, the first two weeks of pregnancy technically occur before the egg is even fertilized. This convention exists because most women can reliably recall the start of their last period, whereas the exact date of conception is rarely known with certainty.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-2)">Not all menstrual cycles are 28 days long. Cycles can range from 21 to 35 days or more, and this variation affects when ovulation occurs. For a woman with a 32-day cycle, ovulation likely happens around day 18 rather than day 14, pushing the actual conception date — and therefore the realistic due date — four days later than Naegele's standard formula would suggest. This calculator accounts for cycle length by adding or subtracting the difference between your cycle length and 28 days to the standard 280-day calculation.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-2)">Pregnancy is divided into three trimesters, each roughly 13 weeks long. The first trimester spans weeks 1 through 12 and is the period of the most rapid embryonic development. By week 6, a fetal heartbeat can often be detected. The second trimester covers weeks 13 through 26 and is generally considered the most comfortable period for the mother, as early symptoms like morning sickness tend to subside. This trimester includes the anatomy scan, typically performed between weeks 18 and 22, which checks the baby's organ development. The third trimester begins at week 27 and continues until delivery, during which the baby gains most of its birth weight and the lungs mature in preparation for breathing air.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-2)">It is important to understand that a due date is an estimate, not a guarantee. Full-term birth is defined as delivery between 39 weeks 0 days and 40 weeks 6 days. Babies born between 37 and 38 weeks 6 days are considered early term, those at 41 weeks are late term, and those at 42 weeks or later are post-term. Only about 4 to 5 percent of babies arrive on their exact due date. Most deliveries occur within a two-week window on either side of the EDD. Healthcare providers use the due date as a reference point for scheduling prenatal screenings, monitoring fetal growth, and making decisions about labor induction if the pregnancy extends beyond 41 or 42 weeks.</p>
+      </section>
+
+      <!-- How to Use -->
+      <section class="mt-4">
+        <h2>How to Use the Pregnancy Due Date Calculator</h2>
+        <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><strong>Enter your LMP date</strong> — Select the first day of your last menstrual period using the date picker. This is the date your most recent period started, not the date it ended.</li>
+          <li><strong>Set your cycle length</strong> — Enter your average menstrual cycle length in days. The default is 28 days. If you are unsure, leave it at 28. If your cycles are consistently longer or shorter, adjusting this value will improve the accuracy of your estimate.</li>
+          <li><strong>Click Calculate Due Date</strong> — Your estimated delivery date, current week of pregnancy, trimester, conception date estimate, and a complete milestone timeline will appear instantly.</li>
+          <li><strong>Review your milestones</strong> — The timeline shows key prenatal milestones with their estimated dates. Milestones you have already passed are marked with a check, making it easy to see what has been achieved and what is coming next.</li>
+        </ol>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item">
+          <summary>How accurate is a due date calculator?</summary>
+          <p>A due date calculator based on Naegele's rule provides a clinically accepted estimate, but only about 4 to 5 percent of babies are born on their exact due date. The estimated due date represents the midpoint of a normal delivery window that spans roughly from 37 weeks (early term) to 42 weeks (post-term). Factors that affect accuracy include irregular menstrual cycles, uncertain last menstrual period dates, and individual variations in ovulation timing. An early ultrasound, typically performed between 8 and 12 weeks of gestation, can refine the estimate to within plus or minus five days. For the most precise dating, healthcare providers often combine LMP-based calculation with first-trimester ultrasound measurements of the crown-rump length.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is Naegele's rule and how does it work?</summary>
+          <p>Naegele's rule is a standard method used to estimate a pregnancy due date, developed by German obstetrician Franz Karl Naegele in the early 1800s. The rule calculates the estimated date of delivery by adding 280 days (40 weeks) to the first day of the last menstrual period, assuming a regular 28-day menstrual cycle. For cycles longer or shorter than 28 days, the calculation is adjusted by adding or subtracting the difference between the actual cycle length and 28 days. For example, if your cycle averages 32 days, four extra days are added to the standard 280-day calculation. The underlying assumption is that ovulation occurs approximately 14 days before the next period, and that fertilization happens shortly after ovulation.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What happens during the first trimester?</summary>
+          <p>The first trimester spans from week 1 through week 12 of pregnancy and is the period of the most dramatic developmental changes. During weeks 1 through 4, the fertilized egg implants in the uterine lining and the placenta begins forming. By week 5 or 6, the embryo's heart starts beating, which can often be detected via transvaginal ultrasound. By week 8, all major organ systems have begun to form, and the embryo is officially called a fetus. By the end of week 12, the fetus is about 3 inches long and has developed recognizable facial features, fingers, and toes. Common maternal symptoms during this period include morning sickness, fatigue, breast tenderness, mood changes, and frequent urination. The first trimester carries the highest risk of miscarriage, with most occurring before week 12.</p>
+        </details>
+        <details class="faq-item">
+          <summary>When should I see a doctor after a positive pregnancy test?</summary>
+          <p>Most healthcare providers recommend scheduling your first prenatal appointment between 6 and 8 weeks after the first day of your last menstrual period. During this initial visit, your doctor will confirm the pregnancy through a blood test or ultrasound, estimate the gestational age, check for a fetal heartbeat, review your medical history and current medications, and order baseline laboratory tests including blood type, Rh factor, and screening for infections. If you have a history of pregnancy complications, ectopic pregnancy, recurrent miscarriage, or chronic health conditions such as diabetes or hypertension, contact your provider sooner rather than waiting for a routine appointment. Seek immediate medical attention if you experience severe abdominal pain, heavy bleeding, or dizziness before your first appointment.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What does it mean if I go past my due date?</summary>
+          <p>Going past your due date is a common occurrence and is not automatically a reason for concern. A pregnancy is classified as early term at 37 to 38 weeks, full term at 39 to 40 weeks, late term at 41 weeks, and post-term at 42 weeks and beyond. About 60 percent of women deliver on or before their due date, meaning roughly 40 percent go at least slightly past it. After 41 weeks, your healthcare provider will typically increase monitoring with twice-weekly non-stress tests, amniotic fluid index measurements, and biophysical profiles to ensure the baby remains healthy. Most providers will discuss and often recommend labor induction between 41 and 42 weeks because the risk of complications — including decreased placental efficiency, meconium aspiration, and stillbirth — rises after this point.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How are pregnancy weeks and trimesters divided?</summary>
+          <p>Pregnancy is measured from the first day of the last menstrual period and lasts approximately 40 weeks, or 280 days. It is divided into three trimesters. The first trimester covers weeks 1 through 12 and encompasses implantation, embryonic development, and the formation of all major organs. The second trimester spans weeks 13 through 26 and is characterized by rapid fetal growth, the development of movement patterns the mother can feel (known as quickening), and important screening tests such as the anatomy ultrasound. The third trimester runs from week 27 through delivery and involves significant weight gain for the baby, lung maturation, and the baby assuming a head-down position in preparation for birth. Each trimester has specific prenatal visits, screenings, and vaccinations recommended by medical guidelines.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is my data private when using this calculator?</summary>
+          <p>Yes, completely. The Pregnancy Due Date Calculator runs entirely in your web browser using client-side JavaScript. No dates, health information, or personal data are transmitted to our servers or any third party. There are no accounts to create, no cookies storing personal health data, and no server-side processing. You can verify this by inspecting network requests in your browser's developer tools while using the tool. Given the sensitive and personal nature of pregnancy-related information, this privacy-first design is intentional. Your data stays on your device at all times, and the calculator works fully offline once the page has loaded.</p>
+        </details>
+      </section>
+
+      <!-- Related Tools -->
+      <section class="mt-4">
+        <h2>Related Tools</h2>
+        <div class="related-tools">
+          <a href="https://toolrip.com/bmi">BMI Calculator</a>
+          <a href="https://toolrip.com/calorie">Calorie Calculator</a>
+          <a href="https://toolrip.com/age">Age Calculator</a>
+          <a href="https://toolrip.com/date-diff">Date Difference Calculator</a>
+          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="ad-slot ad-sidebar" data-ad-slot="due-date-sidebar">Ad</div>
+    </aside>
+
+    <!-- Bottom Ad -->
+    <div class="ad-slot ad-bottom" data-ad-slot="due-date-bottom">Ad</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/privacy">Privacy Policy</a>
+        <a href="https://toolrip.com/terms">Terms of Service</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Config -->
+  <script>
+    // window.ADSENSE_ID = 'ca-pub-XXXXXXXXXXXXXXXX';
+    // window.CF_ANALYTICS_TOKEN = 'your-token-here';
+  </script>
+  <script src="/shared/common.js"></script>
+
+  <!-- Pregnancy Due Date Calculator JS -->
+  <script>
+    var DDC = (function () {
+      'use strict';
+
+      /* --- Helpers --- */
+      function toISO(d) {
+        var y = d.getFullYear();
+        var m = String(d.getMonth() + 1).padStart(2, '0');
+        var day = String(d.getDate()).padStart(2, '0');
+        return y + '-' + m + '-' + day;
+      }
+
+      function parseDate(id) {
+        var val = document.getElementById(id).value;
+        if (!val) return null;
+        var parts = val.split('-');
+        return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+      }
+
+      function addDays(d, n) {
+        var result = new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
+        return result;
+      }
+
+      function daysBetween(a, b) {
+        var msPerDay = 86400000;
+        var utcA = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+        var utcB = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+        return Math.floor((utcB - utcA) / msPerDay);
+      }
+
+      function formatDateLong(d) {
+        return d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      }
+
+      function formatDateShort(d) {
+        return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+      }
+
+      /* --- Calculate Due Date (Naegele's rule with cycle adjustment) --- */
+      function calcDueDate(lmp, cycleLength) {
+        // Due date = LMP + 280 days + (cycleLength - 28)
+        var adjustment = cycleLength - 28;
+        return addDays(lmp, 280 + adjustment);
+      }
+
+      /* --- Get trimester label --- */
+      function getTrimester(weeks) {
+        if (weeks < 0) return '—';
+        if (weeks < 13) return '1st Trimester';
+        if (weeks < 27) return '2nd Trimester';
+        return '3rd Trimester';
+      }
+
+      /* --- Main calculation --- */
+      function calculate() {
+        var lmp = parseDate('lmp-date');
+        var cycleLengthVal = parseInt(document.getElementById('cycle-length').value);
+
+        if (!lmp) {
+          if (typeof showToast === 'function') {
+            showToast('Please enter the first day of your last menstrual period.', 'error');
+          }
+          return;
+        }
+
+        if (isNaN(cycleLengthVal) || cycleLengthVal < 20 || cycleLengthVal > 45) {
+          if (typeof showToast === 'function') {
+            showToast('Please enter a cycle length between 20 and 45 days.', 'error');
+          }
+          return;
+        }
+
+        var today = new Date();
+        today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+        var dueDate = calcDueDate(lmp, cycleLengthVal);
+
+        // Conception date estimate: LMP + 14 days + cycle adjustment
+        var conceptionDate = addDays(lmp, 14 + (cycleLengthVal - 28));
+
+        // Gestational age in days from LMP
+        var gestDays = daysBetween(lmp, today);
+        var gestWeeks = Math.floor(gestDays / 7);
+        var gestRemainDays = gestDays % 7;
+
+        // Days remaining until due date
+        var daysRemaining = daysBetween(today, dueDate);
+
+        // Trimester
+        var trimester = getTrimester(gestWeeks);
+
+        // Progress percentage (0-100, capped)
+        var progressPct = Math.max(0, Math.min(100, (gestDays / 280) * 100));
+
+        // Determine if pregnancy is current, future, or past
+        var isPast = daysRemaining < -14;
+        var isFuture = gestDays < 0;
+
+        // --- Render ---
+        var area = document.getElementById('results-area');
+        area.classList.add('visible');
+
+        // Headline
+        document.getElementById('rh-big').textContent = formatDateLong(dueDate);
+        var subText = 'Estimated due date based on LMP of ' +
+          formatDateShort(lmp);
+        if (cycleLengthVal !== 28) {
+          subText += ' (adjusted for ' + cycleLengthVal + '-day cycle)';
+        }
+        document.getElementById('rh-sub').textContent = subText;
+
+        // Progress bar
+        var progressSection = document.getElementById('progress-section');
+        if (!isFuture && !isPast) {
+          progressSection.style.display = 'block';
+          document.getElementById('progress-fill').style.width = progressPct.toFixed(1) + '%';
+          document.getElementById('progress-week').textContent = 'Week ' + gestWeeks + ', Day ' + gestRemainDays;
+        } else {
+          progressSection.style.display = 'none';
+        }
+
+        // Result grid
+        var gridItems = [];
+
+        if (!isFuture && !isPast) {
+          gridItems.push({ value: gestWeeks + 'w ' + gestRemainDays + 'd', label: 'Current Week' });
+          gridItems.push({ value: trimester, label: 'Trimester' });
+          gridItems.push({ value: daysRemaining > 0 ? daysRemaining.toLocaleString('en-US') : '0', label: 'Days Remaining' });
+        }
+
+        gridItems.push({ value: formatDateShort(conceptionDate), label: 'Est. Conception' });
+        gridItems.push({ value: formatDateShort(dueDate), label: 'Est. Due Date' });
+        gridItems.push({ value: '40 weeks', label: 'Gestation Period' });
+
+        var gridHTML = '';
+        for (var i = 0; i < gridItems.length; i++) {
+          gridHTML += '<div class="result-item"><div class="ri-value">' +
+            gridItems[i].value + '</div><div class="ri-label">' +
+            gridItems[i].label + '</div></div>';
+        }
+        document.getElementById('result-grid').innerHTML = gridHTML;
+
+        // Milestones timeline
+        var milestones = [
+          { week: 6, label: 'First Heartbeat Detectable', date: addDays(lmp, 42 + (cycleLengthVal - 28)) },
+          { week: 8, label: 'First Prenatal Visit', date: addDays(lmp, 56 + (cycleLengthVal - 28)) },
+          { week: 12, label: 'End of First Trimester', date: addDays(lmp, 84 + (cycleLengthVal - 28)) },
+          { week: 20, label: 'Anatomy Scan (Mid-Pregnancy Ultrasound)', date: addDays(lmp, 140 + (cycleLengthVal - 28)) },
+          { week: 24, label: 'Viability Milestone', date: addDays(lmp, 168 + (cycleLengthVal - 28)) },
+          { week: 27, label: 'Third Trimester Begins', date: addDays(lmp, 189 + (cycleLengthVal - 28)) },
+          { week: 37, label: 'Early Term (Baby Could Arrive)', date: addDays(lmp, 259 + (cycleLengthVal - 28)) },
+          { week: 39, label: 'Full Term Begins', date: addDays(lmp, 273 + (cycleLengthVal - 28)) },
+          { week: 40, label: 'Estimated Due Date', date: dueDate }
+        ];
+
+        var tlHTML = '';
+        for (var j = 0; j < milestones.length; j++) {
+          var ms = milestones[j];
+          var passed = today >= ms.date;
+          tlHTML += '<li class="timeline-item' + (passed ? ' passed' : '') + '">' +
+            '<div class="timeline-dot"></div>' +
+            '<div class="timeline-content">' +
+            '<div class="timeline-label">' + ms.label + '</div>' +
+            '<div class="timeline-date">' + formatDateShort(ms.date) + '</div>' +
+            '<div class="timeline-week">Week ' + ms.week + '</div>' +
+            '</div></li>';
+        }
+        document.getElementById('timeline-list').innerHTML = tlHTML;
+
+        // Scroll to results
+        area.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      /* --- Reset --- */
+      function resetForm() {
+        document.getElementById('lmp-date').value = '';
+        document.getElementById('cycle-length').value = '28';
+        document.getElementById('results-area').classList.remove('visible');
+      }
+
+      /* --- Init --- */
+      document.addEventListener('DOMContentLoaded', function () {
+        // Real-time calculation
+        document.getElementById('lmp-date').addEventListener('change', function () {
+          if (document.getElementById('lmp-date').value) calculate();
+        });
+        document.getElementById('cycle-length').addEventListener('change', function () {
+          if (document.getElementById('lmp-date').value) calculate();
+        });
+      });
+
+      return {
+        calculate: calculate,
+        resetForm: resetForm
+      };
+    })();
+  </script>
+</body>
+</html>
