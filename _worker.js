@@ -122,6 +122,15 @@ const TOOL_MAP = {
 
 const LEGAL_PATHS = ['about', 'privacy', 'terms', 'contact'];
 
+const BLOG_MAP = {
+  'blog': 'index',
+  'blog/best-finance-calculators': 'best-finance-calculators',
+  'blog/essential-developer-tools': 'essential-developer-tools',
+  'blog/health-fitness-calculators': 'health-fitness-calculators',
+  'blog/unit-conversion-guide': 'unit-conversion-guide',
+  'blog/free-security-tools': 'free-security-tools'
+};
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -150,6 +159,22 @@ export default {
     // Legal pages: /about, /privacy, /terms, /contact
     if (LEGAL_PATHS.includes(path)) {
       const response = await fetchAsset(`/legal/${path}.html`);
+      if (response.ok) {
+        return new Response(response.body, {
+          status: 200,
+          headers: {
+            ...Object.fromEntries(response.headers),
+            'Content-Type': 'text/html;charset=UTF-8',
+            'Cache-Control': 'public, max-age=3600, s-maxage=86400'
+          }
+        });
+      }
+    }
+
+    // Blog pages: /blog, /blog/best-finance-calculators, etc.
+    const blogSlug = BLOG_MAP[path];
+    if (blogSlug) {
+      const response = await fetchAsset(`/blog/${blogSlug}.html`);
       if (response.ok) {
         return new Response(response.body, {
           status: 200,

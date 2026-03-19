@@ -126,4 +126,12 @@
   <!-- SEO Tools (2) -->
   <url><loc>https://toolrip.com/meta-tag</loc><lastmod>2026-03-19</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://toolrip.com/og-preview</loc><lastmod>2026-03-19</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+  <!-- Blog -->
+  <url><loc>https://toolrip.com/blog</loc><lastmod>2026-03-19</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://toolrip.com/blog/best-finance-calculators</loc><lastmod>2026-03-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://toolrip.com/blog/essential-developer-tools</loc><lastmod>2026-03-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://toolrip.com/blog/health-fitness-calculators</loc><lastmod>2026-03-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://toolrip.com/blog/unit-conversion-guide</loc><lastmod>2026-03-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://toolrip.com/blog/free-security-tools</loc><lastmod>2026-03-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>
