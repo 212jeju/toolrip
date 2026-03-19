@@ -293,7 +293,13 @@
             </div>
             <div class="input-group">
               <label for="dt-time">Time</label>
-              <input type="time" id="dt-time" class="input-field" step="1" aria-label="Time input">
+              <div style="display:flex;gap:4px;align-items:center">
+                <select id="dt-hour" class="select-field" style="width:auto" aria-label="Hour"></select>
+                <span style="font-weight:700;color:var(--text)">:</span>
+                <select id="dt-min" class="select-field" style="width:auto" aria-label="Minute"></select>
+                <span style="font-weight:700;color:var(--text)">:</span>
+                <select id="dt-sec" class="select-field" style="width:auto" aria-label="Second"></select>
+              </div>
             </div>
           </div>
           <div class="flex gap-2 mt-2">
@@ -594,21 +600,19 @@
     /* --- Date to Timestamp --- */
     window.dateToTs = function () {
       var dateVal = $('dt-date').value;
-      var timeVal = $('dt-time').value;
       if (!dateVal) {
         showToast('Please select a date.', 'error');
         return;
       }
-      if (!timeVal) timeVal = '00:00:00';
       var parts = dateVal.split('-');
-      var tParts = timeVal.split(':');
+      var hh = parseInt($('dt-hour').value) || 0;
+      var mm = parseInt($('dt-min').value) || 0;
+      var ss = parseInt($('dt-sec').value) || 0;
       var d = new Date(
         parseInt(parts[0]),
         parseInt(parts[1]) - 1,
         parseInt(parts[2]),
-        parseInt(tParts[0]) || 0,
-        parseInt(tParts[1]) || 0,
-        parseInt(tParts[2]) || 0
+        hh, mm, ss
       );
       if (isNaN(d.getTime())) {
         showToast('Invalid date or time. Please check your input.', 'error');
@@ -623,22 +627,33 @@
     window.setNow = function () {
       var now = new Date();
       $('dt-date').value = toISODate(now);
-      $('dt-time').value = toTimeStr(now);
+      $('dt-hour').value = now.getHours();
+      $('dt-min').value = now.getMinutes();
+      $('dt-sec').value = now.getSeconds();
       window.dateToTs();
     };
 
     window.resetDt = function () {
       var now = new Date();
       $('dt-date').value = toISODate(now);
-      $('dt-time').value = '00:00:00';
+      $('dt-hour').value = 0;
+      $('dt-min').value = 0;
+      $('dt-sec').value = 0;
       $('dt-results').classList.remove('visible');
     };
 
     /* --- Init --- */
     document.addEventListener('DOMContentLoaded', function () {
       var now = new Date();
+      // Populate hour/min/sec selects
+      var hS=$('dt-hour'),mS=$('dt-min'),sS=$('dt-sec');
+      for(var i=0;i<24;i++){var o=document.createElement('option');o.value=i;o.textContent=String(i).padStart(2,'0');hS.appendChild(o);}
+      for(var j=0;j<60;j++){var o2=document.createElement('option');o2.value=j;o2.textContent=String(j).padStart(2,'0');mS.appendChild(o2);}
+      for(var k=0;k<60;k++){var o3=document.createElement('option');o3.value=k;o3.textContent=String(k).padStart(2,'0');sS.appendChild(o3);}
       $('dt-date').value = toISODate(now);
-      $('dt-time').value = toTimeStr(now);
+      hS.value = now.getHours();
+      mS.value = now.getMinutes();
+      sS.value = now.getSeconds();
 
       // Convert on Enter key in timestamp input
       $('ts-input').addEventListener('keydown', function (e) {

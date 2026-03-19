@@ -329,7 +329,13 @@
             </div>
             <div class="input-group">
               <label for="d2e-time">Time</label>
-              <input type="time" id="d2e-time" class="input-field" step="1" aria-label="Time to convert">
+              <div style="display:flex;gap:4px;align-items:center">
+                <select id="d2e-hour" class="select-field" style="width:auto" aria-label="Hour"></select>
+                <span style="font-weight:700;color:var(--text)">:</span>
+                <select id="d2e-min" class="select-field" style="width:auto" aria-label="Minute"></select>
+                <span style="font-weight:700;color:var(--text)">:</span>
+                <select id="d2e-sec" class="select-field" style="width:auto" aria-label="Second"></select>
+              </div>
             </div>
           </div>
           <div class="flex gap-2" style="margin-top:var(--sp-2)">
@@ -598,22 +604,20 @@
     /* --- Date → Epoch --- */
     window.dateToEpoch = function () {
       var dateVal = document.getElementById('d2e-date').value;
-      var timeVal = document.getElementById('d2e-time').value;
-
       if (!dateVal) {
         showToast('Please select a date.', 'error');
         return;
       }
 
       var parts = dateVal.split('-');
-      var timeParts = timeVal ? timeVal.split(':') : ['0', '0', '0'];
+      var hh = parseInt(document.getElementById('d2e-hour').value) || 0;
+      var mm = parseInt(document.getElementById('d2e-min').value) || 0;
+      var ss = parseInt(document.getElementById('d2e-sec').value) || 0;
       var d = new Date(
         parseInt(parts[0]),
         parseInt(parts[1]) - 1,
         parseInt(parts[2]),
-        parseInt(timeParts[0]) || 0,
-        parseInt(timeParts[1]) || 0,
-        parseInt(timeParts[2]) || 0
+        hh, mm, ss
       );
 
       var ms = d.getTime();
@@ -630,7 +634,9 @@
     window.setNowD2E = function () {
       var now = new Date();
       document.getElementById('d2e-date').value = toISODate(now);
-      document.getElementById('d2e-time').value = toISOTime(now);
+      document.getElementById('d2e-hour').value = now.getHours();
+      document.getElementById('d2e-min').value = now.getMinutes();
+      document.getElementById('d2e-sec').value = now.getSeconds();
       dateToEpoch();
     };
 
@@ -682,8 +688,16 @@
 
     /* --- Init date/time pickers --- */
     var now = new Date();
+    var hSel = document.getElementById('d2e-hour');
+    var mSel = document.getElementById('d2e-min');
+    var sSel = document.getElementById('d2e-sec');
+    for (var i = 0; i < 24; i++) { var o = document.createElement('option'); o.value = i; o.textContent = String(i).padStart(2,'0'); hSel.appendChild(o); }
+    for (var j = 0; j < 60; j++) { var o2 = document.createElement('option'); o2.value = j; o2.textContent = String(j).padStart(2,'0'); mSel.appendChild(o2); }
+    for (var k = 0; k < 60; k++) { var o3 = document.createElement('option'); o3.value = k; o3.textContent = String(k).padStart(2,'0'); sSel.appendChild(o3); }
     document.getElementById('d2e-date').value = toISODate(now);
-    document.getElementById('d2e-time').value = toISOTime(now);
+    hSel.value = now.getHours();
+    mSel.value = now.getMinutes();
+    sSel.value = now.getSeconds();
   })();
   </script>
 </body>

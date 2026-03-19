@@ -320,8 +320,12 @@
         <!-- Time Input -->
         <div class="time-input-row">
           <div class="input-group" style="margin-bottom:0">
-            <label for="time-input" id="time-label">Wake-up time</label>
-            <input type="time" id="time-input" class="input-field" value="07:00" aria-label="Enter time">
+            <label id="time-label">Wake-up time</label>
+            <div style="display:flex;gap:6px;align-items:center">
+              <select id="time-hour" class="select-field" aria-label="Hour" style="width:auto;padding:var(--sp-2) var(--sp-3)"></select>
+              <span style="font-size:1.25rem;font-weight:700;color:var(--text)">:</span>
+              <select id="time-minute" class="select-field" aria-label="Minute" style="width:auto;padding:var(--sp-2) var(--sp-3)"></select>
+            </div>
           </div>
           <div class="input-group age-select" style="margin-bottom:0">
             <label for="age-group">Age group</label>
@@ -520,10 +524,10 @@
 
     /* --- Helpers --- */
     function parseTimeInput() {
-      var val = document.getElementById('time-input').value;
-      if (!val) return null;
-      var parts = val.split(':');
-      return { h: parseInt(parts[0], 10), m: parseInt(parts[1], 10) };
+      var h = parseInt(document.getElementById('time-hour').value, 10);
+      var m = parseInt(document.getElementById('time-minute').value, 10);
+      if (isNaN(h) || isNaN(m)) return null;
+      return { h: h, m: m };
     }
 
     function addMinutes(h, m, delta) {
@@ -623,8 +627,29 @@
 
     /* --- Init --- */
     document.addEventListener('DOMContentLoaded', function () {
+      /* Populate hour/minute selects */
+      var hourEl = document.getElementById('time-hour');
+      var minEl = document.getElementById('time-minute');
+      for (var i = 0; i < 24; i++) {
+        var opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = String(i).padStart(2, '0');
+        if (i === 7) opt.selected = true;
+        hourEl.appendChild(opt);
+      }
+      for (var j = 0; j < 60; j += 5) {
+        var opt2 = document.createElement('option');
+        opt2.value = j;
+        opt2.textContent = String(j).padStart(2, '0');
+        if (j === 0) opt2.selected = true;
+        minEl.appendChild(opt2);
+      }
       /* Auto-calculate on input change */
-      document.getElementById('time-input').addEventListener('change', function () {
+      hourEl.addEventListener('change', function () {
+        var area = document.getElementById('results-area');
+        if (area.classList.contains('visible')) calculate();
+      });
+      minEl.addEventListener('change', function () {
         var area = document.getElementById('results-area');
         if (area.classList.contains('visible')) calculate();
       });
