@@ -444,82 +444,75 @@
   var QRCode = (function() {
     'use strict';
 
-    // Error correction codewords and block info per version [total, ec_per_block, blocks_group1, data_group1, blocks_group2, data_group2]
-    var EC_TABLE = {
+    // ---- EC Table: [ecPerBlock, g1Blocks, g1DataPerBlock, g2Blocks, g2DataPerBlock] ----
+    // Indexed by EC_PARAMS[ecLevel][version], version 1-40
+    var EC_PARAMS = {
       L: [
         null,
-        [26,7,1,19,0,0],[44,10,1,34,0,0],[70,15,1,55,0,0],[100,20,1,80,0,0],[134,26,1,108,0,0],
-        [172,18,2,68,0,0],[196,20,2,78,0,0],[242,24,2,97,0,0],[292,30,2,116,0,0],[346,18,2,68,2,69],
-        [404,20,4,81,0,0],[466,24,2,92,2,93],[532,26,4,107,0,0],[581,30,3,115,1,116],[655,22,5,87,1,88],
-        [733,24,5,98,1,99],[815,28,1,107,5,108],[901,30,5,120,1,121],[991,28,3,113,4,114],[1085,28,4,107,3,108],
-        [1156,28,17,68,0,0],[1258,28,4,69,5,70],[1364,30,6,75,2,76],[1474,30,8,75,0,0],[1588,26,10,73,0,0],
-        [1706,28,8,75,4,76],[1828,30,10,74,2,75],[1921,30,3,73,10,74],[2051,30,7,73,7,74],[2185,30,5,75,10,76],
-        [2323,30,13,74,3,75],[2465,30,17,69,0,0],[2611,30,17,70,1,71],[2761,30,13,70,6,71],[2876,30,12,75,7,76],
-        [3034,30,6,73,14,74],[3196,30,17,73,4,74],[3362,30,4,75,18,76],[3532,30,20,75,4,76]
+        [7,1,19,0,0],[10,1,34,0,0],[15,1,55,0,0],[20,1,80,0,0],[26,1,108,0,0],
+        [18,2,68,0,0],[20,2,78,0,0],[24,2,97,0,0],[30,2,116,0,0],[18,2,68,2,69],
+        [20,4,81,0,0],[24,2,92,2,93],[26,4,107,0,0],[30,3,115,1,116],[22,5,87,1,88],
+        [24,5,98,1,99],[28,1,107,5,108],[30,5,120,1,121],[28,3,113,4,114],[28,4,107,3,108],
+        [28,17,68,0,0],[28,4,69,5,70],[30,6,75,2,76],[30,8,75,0,0],[26,10,73,0,0],
+        [28,8,75,4,76],[30,10,74,2,75],[30,3,73,10,74],[30,7,73,7,74],[30,5,75,10,76],
+        [30,13,74,3,75],[30,17,69,0,0],[30,17,70,1,71],[30,13,70,6,71],[30,12,75,7,76],
+        [30,6,73,14,74],[30,17,73,4,74],[30,4,75,18,76],[30,20,75,4,76]
       ],
       M: [
         null,
-        [26,10,1,16,0,0],[44,16,1,28,0,0],[70,26,1,44,0,0],[100,18,2,32,0,0],[134,24,2,43,0,0],
-        [172,16,4,27,0,0],[196,18,4,31,0,0],[242,22,2,38,2,39],[292,22,3,36,2,37],[346,26,4,43,1,44],
-        [404,30,1,50,4,51],[466,22,6,36,2,37],[532,22,8,37,1,38],[581,24,4,40,5,41],[655,24,5,41,5,42],
-        [733,28,7,45,3,46],[815,28,10,46,1,47],[901,26,9,43,4,44],[991,26,3,44,11,45],[1085,26,3,41,13,42],
-        [1156,26,17,42,0,0],[1258,28,17,46,0,0],[1364,28,4,47,14,48],[1474,28,6,45,14,46],[1588,28,8,47,13,48],
-        [1706,28,19,46,4,47],[1828,28,22,45,3,46],[1921,28,3,45,23,46],[2051,28,21,45,7,46],[2185,28,19,47,10,48],
-        [2323,28,2,46,29,47],[2465,28,10,46,23,47],[2611,28,14,46,21,47],[2761,28,14,46,23,47],[2876,28,12,47,26,48],
-        [3034,28,6,47,34,48],[3196,28,29,46,14,47],[3362,28,13,46,32,47],[3532,28,40,47,7,48]
+        [10,1,16,0,0],[16,1,28,0,0],[26,1,44,0,0],[18,2,32,0,0],[24,2,43,0,0],
+        [16,4,27,0,0],[18,4,31,0,0],[22,2,38,2,39],[22,3,36,2,37],[26,4,43,1,44],
+        [30,1,50,4,51],[22,6,36,2,37],[22,8,37,1,38],[24,4,40,5,41],[24,5,41,5,42],
+        [28,7,45,3,46],[28,10,46,1,47],[26,9,43,4,44],[26,3,44,11,45],[26,3,41,13,42],
+        [26,17,42,0,0],[28,17,46,0,0],[28,4,47,14,48],[28,6,45,14,46],[28,8,47,13,48],
+        [28,19,46,4,47],[28,22,45,3,46],[28,3,45,23,46],[28,21,45,7,46],[28,19,47,10,48],
+        [28,2,46,29,47],[28,10,46,23,47],[28,14,46,21,47],[28,14,46,23,47],[28,12,47,26,48],
+        [28,6,47,34,48],[28,29,46,14,47],[28,13,46,32,47],[28,40,47,7,48]
       ],
       Q: [
         null,
-        [26,13,1,13,0,0],[44,22,1,22,0,0],[70,18,2,17,0,0],[100,26,2,24,0,0],[134,18,2,15,2,16],
-        [172,24,4,19,0,0],[196,18,2,14,4,15],[242,22,4,18,2,19],[292,20,4,16,4,17],[346,24,6,19,2,20],
-        [404,28,4,22,4,23],[466,26,4,20,6,21],[532,24,8,20,4,21],[581,20,11,16,5,17],[655,30,5,24,7,25],
-        [733,24,15,19,2,20],[815,28,1,22,15,23],[901,28,17,22,1,23],[991,26,17,21,4,22],[1085,30,15,24,5,25],
-        [1156,28,17,22,6,23],[1258,30,7,24,16,25],[1364,30,11,24,14,25],[1474,30,11,24,16,25],[1588,30,7,24,22,25],
-        [1706,28,28,22,6,23],[1828,30,8,23,26,24],[1921,30,4,24,31,25],[2051,30,1,23,37,24],[2185,30,15,24,25,25],
-        [2323,30,42,24,1,25],[2465,30,10,24,35,25],[2611,30,29,24,19,25],[2761,30,44,24,7,25],[2876,30,39,24,14,25],
-        [3034,30,46,24,10,25],[3196,30,49,24,10,25],[3362,30,48,24,14,25],[3532,30,43,24,22,25]
+        [13,1,13,0,0],[22,1,22,0,0],[18,2,17,0,0],[26,2,24,0,0],[18,2,15,2,16],
+        [24,4,19,0,0],[18,2,14,4,15],[22,4,18,2,19],[20,4,16,4,17],[24,6,19,2,20],
+        [28,4,22,4,23],[26,4,20,6,21],[24,8,20,4,21],[20,11,16,5,17],[30,5,24,7,25],
+        [24,15,19,2,20],[28,1,22,15,23],[28,17,22,1,23],[26,17,21,4,22],[30,15,24,5,25],
+        [28,17,22,6,23],[30,7,24,16,25],[30,11,24,14,25],[30,11,24,16,25],[30,7,24,22,25],
+        [28,28,22,6,23],[30,8,23,26,24],[30,4,24,31,25],[30,1,23,37,24],[30,15,24,25,25],
+        [30,42,24,1,25],[30,10,24,35,25],[30,29,24,19,25],[30,44,24,7,25],[30,39,24,14,25],
+        [30,46,24,10,25],[30,49,24,10,25],[30,48,24,14,25],[30,43,24,22,25]
       ],
       H: [
         null,
-        [26,17,1,9,0,0],[44,28,1,16,0,0],[70,22,2,13,0,0],[100,16,4,9,0,0],[134,22,2,11,2,12],
-        [172,28,4,15,0,0],[196,26,4,13,1,14],[242,26,4,14,2,15],[292,24,4,12,4,13],[346,28,6,15,2,16],
-        [404,24,3,12,8,13],[466,28,7,14,4,15],[532,22,12,11,4,12],[581,24,11,12,5,13],[655,24,11,12,7,13],
-        [733,30,3,15,13,16],[815,28,2,14,17,15],[901,28,2,14,19,15],[991,26,9,13,16,14],[1085,28,15,15,10,16],
-        [1156,30,19,16,6,17],[1258,24,34,13,0,0],[1364,30,16,15,14,16],[1474,30,30,16,2,17],[1588,30,22,15,13,16],
-        [1706,30,33,16,4,17],[1828,30,12,15,28,16],[1921,30,11,15,31,16],[2051,30,19,15,26,16],[2185,30,23,15,25,16],
-        [2323,30,23,15,28,16],[2465,30,19,15,35,16],[2611,30,11,15,46,16],[2761,30,59,16,1,17],[2876,30,22,15,41,16],
-        [3034,30,2,15,64,16],[3196,30,24,15,46,16],[3362,30,42,15,32,16],[3532,30,10,15,67,16]
+        [17,1,9,0,0],[28,1,16,0,0],[22,2,13,0,0],[16,4,9,0,0],[22,2,11,2,12],
+        [28,4,15,0,0],[26,4,13,1,14],[26,4,14,2,15],[24,4,12,4,13],[28,6,15,2,16],
+        [24,3,12,8,13],[28,7,14,4,15],[22,12,11,4,12],[24,11,12,5,13],[24,11,12,7,13],
+        [30,3,15,13,16],[28,2,14,17,15],[28,2,14,19,15],[26,9,13,16,14],[28,15,15,10,16],
+        [30,19,16,6,17],[24,34,13,0,0],[30,16,15,14,16],[30,30,16,2,17],[30,22,15,13,16],
+        [30,33,16,4,17],[30,12,15,28,16],[30,11,15,31,16],[30,19,15,26,16],[30,23,15,25,16],
+        [30,23,15,28,16],[30,19,15,35,16],[30,11,15,46,16],[30,59,16,1,17],[30,22,15,41,16],
+        [30,2,15,64,16],[30,24,15,46,16],[30,42,15,32,16],[30,10,15,67,16]
       ]
     };
 
-    // Alignment pattern positions per version
+    // Alignment pattern center positions per version (from ISO 18004 Table E.1)
     var ALIGN_POS = [
       null, [], [6,18], [6,22], [6,26], [6,30], [6,34],
       [6,22,38], [6,24,42], [6,26,46], [6,28,50], [6,30,54], [6,32,58], [6,34,62],
       [6,26,46,66], [6,26,48,70], [6,26,50,74], [6,30,54,78], [6,30,56,82], [6,30,58,86], [6,34,62,90],
-      [6,28,50,72,94], [6,26,50,74,98], [6,30,54,78,102], [6,28,54,80,106], [6,32,58,84,110], [6,30,58,86,114], [6,34,62,90,118],
-      [6,26,50,74,98,122], [6,30,54,78,102,126], [6,26,52,78,104,130], [6,30,56,82,108,134], [6,34,60,86,112,138], [6,30,58,86,114,142], [6,34,62,90,118,146],
-      [6,30,54,78,102,126,150], [6,24,50,76,102,128,154], [6,28,54,80,106,132,158], [6,32,58,84,110,136,162], [6,26,54,82,110,138,166], [6,30,58,86,114,142,170]
+      [6,28,50,72,94], [6,26,50,74,98], [6,30,54,78,102], [6,28,54,80,106], [6,32,58,84,110],
+      [6,30,58,86,114], [6,34,62,90,118],
+      [6,26,50,74,98,122], [6,30,54,78,102,126], [6,26,52,78,104,130], [6,30,56,82,108,134],
+      [6,34,60,86,112,138], [6,30,58,86,114,142], [6,34,62,90,118,146],
+      [6,30,54,78,102,126,150], [6,24,50,76,102,128,154], [6,28,54,80,106,132,158],
+      [6,32,58,84,110,136,162], [6,26,54,82,110,138,166], [6,30,58,86,114,142,170]
     ];
 
-    // Format info strings for each EC level and mask
-    var FORMAT_INFO = {
-      L: [0x77c4,0x72f3,0x7daa,0x789d,0x662f,0x6318,0x6c41,0x6976,0x5412,0x5125,0x5e7c,0x5b4b,0x45f9,0x40ce,0x4f97,0x4aa0],
-      M: [0x5412,0x5125,0x5e7c,0x5b4b,0x45f9,0x40ce,0x4f97,0x4aa0,0x77c4,0x72f3,0x7daa,0x789d,0x662f,0x6318,0x6c41,0x6976],
-      Q: [0x355f,0x3068,0x3f31,0x3a06,0x24b4,0x2183,0x2eda,0x2bed,0x19d0,0x1ce7,0x13be,0x1689,0x083b,0x0d0c,0x0255,0x0762],
-      H: [0x1689,0x13be,0x1ce7,0x19d0,0x0762,0x0255,0x0d0c,0x083b,0x355f,0x3068,0x3f31,0x3a06,0x24b4,0x2183,0x2eda,0x2bed]
-    };
-
-    // Version info for versions 7-40
-    var VERSION_INFO = [
-      null,null,null,null,null,null,null,
-      0x07c94,0x085bc,0x09a99,0x0a4d3,0x0bbf6,0x0c762,0x0d847,0x0e60d,0x0f928,
-      0x10b78,0x1145d,0x12a17,0x13532,0x149a6,0x15683,0x168c9,0x177ec,0x18ec4,
-      0x191e1,0x1afab,0x1b08e,0x1cc1a,0x1d33f,0x1ed75,0x1f250,0x209d5,0x216f0,
-      0x228ba,0x2379f,0x24b0b,0x2542e,0x26a64,0x27541
+    // Remainder bits per version (number of remainder bits after data+EC)
+    var REMAINDER_BITS = [
+      0, 0,7,7,7,7,7, 0,0,0,0,0,0,0, 3,3,3,3,3,3,3,
+      4,4,4,4,4,4,4, 3,3,3,3,3,3,3, 0,0,0,0,0,0
     ];
 
-    // Galois Field GF(256) tables
+    // ---- GF(256) with polynomial 0x11d ----
     var GF_EXP = new Array(512);
     var GF_LOG = new Array(256);
     (function() {
@@ -538,169 +531,163 @@
       return GF_EXP[GF_LOG[a] + GF_LOG[b]];
     }
 
-    function polyMul(p1, p2) {
-      var result = new Array(p1.length + p2.length - 1).fill(0);
-      for (var i = 0; i < p1.length; i++)
-        for (var j = 0; j < p2.length; j++)
-          result[i + j] ^= gfMul(p1[i], p2[j]);
-      return result;
+    // ---- Reed-Solomon ----
+    function rsGeneratorPoly(degree) {
+      var gen = [1];
+      for (var i = 0; i < degree; i++) {
+        var next = new Array(gen.length + 1);
+        for (var k = 0; k < next.length; k++) next[k] = 0;
+        for (var j = 0; j < gen.length; j++) {
+          next[j] ^= gen[j];
+          next[j + 1] ^= gfMul(gen[j], GF_EXP[i]);
+        }
+        gen = next;
+      }
+      return gen;
     }
 
-    function generateECPoly(numEC) {
-      var poly = [1];
-      for (var i = 0; i < numEC; i++)
-        poly = polyMul(poly, [1, GF_EXP[i]]);
-      return poly;
-    }
-
-    function polyDiv(msg, gen) {
-      var result = msg.slice();
-      for (var i = 0; i < msg.length - gen.length + 1; i++) {
+    function rsEncode(data, numEC) {
+      var gen = rsGeneratorPoly(numEC);
+      var result = new Array(data.length + numEC);
+      var k;
+      for (k = 0; k < data.length; k++) result[k] = data[k];
+      for (; k < result.length; k++) result[k] = 0;
+      for (var i = 0; i < data.length; i++) {
         var coef = result[i];
         if (coef !== 0) {
-          for (var j = 1; j < gen.length; j++)
+          for (var j = 0; j < gen.length; j++) {
             result[i + j] ^= gfMul(gen[j], coef);
+          }
         }
       }
-      return result.slice(msg.length - gen.length + 1);
+      return result.slice(data.length);
     }
 
-    function getVersion(dataLen, ecLevel) {
-      for (var v = 1; v <= 40; v++) {
-        var info = EC_TABLE[ecLevel][v];
-        var totalData = info[3] * info[2] + (info[5] || 0) * (info[4] || 0);
-        if (dataLen <= totalData) return v;
-      }
-      return -1;
-    }
-
-    function getCharCountBits(version) {
-      if (version <= 9) return 8;
-      if (version <= 26) return 16;
-      return 16;
-    }
-
-    function encodeData(text, ecLevel) {
-      var utf8 = [];
+    // ---- UTF-8 encoding ----
+    function toUTF8(text) {
+      var bytes = [];
       for (var i = 0; i < text.length; i++) {
-        var code = text.charCodeAt(i);
-        if (code < 0x80) {
-          utf8.push(code);
-        } else if (code < 0x800) {
-          utf8.push(0xc0 | (code >> 6), 0x80 | (code & 0x3f));
-        } else if (code < 0x10000) {
-          utf8.push(0xe0 | (code >> 12), 0x80 | ((code >> 6) & 0x3f), 0x80 | (code & 0x3f));
+        var cp = text.charCodeAt(i);
+        // Handle surrogate pairs
+        if (cp >= 0xD800 && cp <= 0xDBFF && i + 1 < text.length) {
+          var lo = text.charCodeAt(i + 1);
+          if (lo >= 0xDC00 && lo <= 0xDFFF) {
+            cp = 0x10000 + ((cp - 0xD800) << 10) + (lo - 0xDC00);
+            i++;
+          }
+        }
+        if (cp < 0x80) {
+          bytes.push(cp);
+        } else if (cp < 0x800) {
+          bytes.push(0xC0 | (cp >> 6), 0x80 | (cp & 0x3F));
+        } else if (cp < 0x10000) {
+          bytes.push(0xE0 | (cp >> 12), 0x80 | ((cp >> 6) & 0x3F), 0x80 | (cp & 0x3F));
         } else {
-          utf8.push(0xf0 | (code >> 18), 0x80 | ((code >> 12) & 0x3f), 0x80 | ((code >> 6) & 0x3f), 0x80 | (code & 0x3f));
+          bytes.push(0xF0 | (cp >> 18), 0x80 | ((cp >> 12) & 0x3F), 0x80 | ((cp >> 6) & 0x3F), 0x80 | (cp & 0x3F));
         }
       }
+      return bytes;
+    }
 
-      // Determine minimum version
-      // Try to find the smallest version that fits
+    // ---- Data capacity (data codewords) for a version+ecLevel ----
+    function dataCapacity(version, ecLevel) {
+      var p = EC_PARAMS[ecLevel][version];
+      return p[1] * p[2] + p[3] * p[4];
+    }
+
+    // ---- Byte-mode character count indicator bits ----
+    function charCountBits(version) {
+      return version <= 9 ? 8 : 16;
+    }
+
+    // ---- Encode data into codewords for given ecLevel ----
+    function encodeData(text, ecLevel) {
+      var utf8 = toUTF8(text);
+
+      // Find smallest version that fits
       var version = -1;
       for (var v = 1; v <= 40; v++) {
-        var info = EC_TABLE[ecLevel][v];
-        var totalData = info[3] * info[2] + (info[5] || 0) * (info[4] || 0);
-        var ccBits = getCharCountBits(v);
-        var headerBits = 4 + ccBits; // mode indicator + char count
-        var dataBits = headerBits + utf8.length * 8;
-        var dataBytes = Math.ceil(dataBits / 8);
-        if (dataBytes <= totalData) {
-          version = v;
-          break;
-        }
+        var cap = dataCapacity(v, ecLevel);
+        var ccb = charCountBits(v);
+        // bits: 4 (mode) + ccb (char count) + utf8.length*8 (data)
+        var totalBits = 4 + ccb + utf8.length * 8;
+        var totalBytes = Math.ceil(totalBits / 8);
+        if (totalBytes <= cap) { version = v; break; }
       }
       if (version === -1) throw new Error('Data too long for QR code');
 
-      var info = EC_TABLE[ecLevel][version];
-      var totalData = info[3] * info[2] + (info[5] || 0) * (info[4] || 0);
-      var ccBits = getCharCountBits(version);
+      var cap = dataCapacity(version, ecLevel);
+      var ccb = charCountBits(version);
 
       // Build bit stream
       var bits = [];
-      function addBits(val, len) {
-        for (var i = len - 1; i >= 0; i--)
-          bits.push((val >> i) & 1);
+      function pushBits(val, len) {
+        for (var i = len - 1; i >= 0; i--) bits.push((val >> i) & 1);
       }
-
-      // Mode indicator: byte mode = 0100
-      addBits(4, 4);
+      // Mode indicator: Byte = 0100
+      pushBits(4, 4);
       // Character count
-      addBits(utf8.length, ccBits);
-      // Data
-      for (var i = 0; i < utf8.length; i++)
-        addBits(utf8[i], 8);
-
-      // Terminator
-      var maxBits = totalData * 8;
+      pushBits(utf8.length, ccb);
+      // Data bytes
+      for (var i = 0; i < utf8.length; i++) pushBits(utf8[i], 8);
+      // Terminator (up to 4 zero bits)
+      var maxBits = cap * 8;
       var termLen = Math.min(4, maxBits - bits.length);
-      addBits(0, termLen);
-
+      for (var i = 0; i < termLen; i++) bits.push(0);
       // Pad to byte boundary
       while (bits.length % 8 !== 0) bits.push(0);
-
-      // Pad bytes
-      var padBytes = [0xec, 0x11];
-      var padIdx = 0;
+      // Pad bytes 0xEC, 0x11
+      var padToggle = 0;
       while (bits.length < maxBits) {
-        addBits(padBytes[padIdx], 8);
-        padIdx = (padIdx + 1) % 2;
+        pushBits(padToggle === 0 ? 0xEC : 0x11, 8);
+        padToggle ^= 1;
       }
 
-      // Convert to byte array
+      // Convert bit stream to bytes
       var data = [];
       for (var i = 0; i < bits.length; i += 8) {
-        var byte = 0;
-        for (var j = 0; j < 8; j++) byte = (byte << 1) | (bits[i + j] || 0);
-        data.push(byte);
+        var b = 0;
+        for (var j = 0; j < 8; j++) b = (b << 1) | (bits[i + j] || 0);
+        data.push(b);
       }
 
-      return { version: version, data: data, ecInfo: info };
+      return { version: version, data: data };
     }
 
-    function generateECWords(dataBlocks, numEC) {
-      var gen = generateECPoly(numEC);
-      var result = [];
-      for (var b = 0; b < dataBlocks.length; b++) {
-        var msg = dataBlocks[b].slice();
-        var padded = msg.concat(new Array(numEC).fill(0));
-        var ec = polyDiv(padded, gen);
-        result.push(ec);
-      }
-      return result;
-    }
-
-    function interleaveData(version, data, ecInfo) {
-      var numEC = ecInfo[1];
-      var g1Blocks = ecInfo[2], g1Data = ecInfo[3];
-      var g2Blocks = ecInfo[4] || 0, g2Data = ecInfo[5] || 0;
-      var totalBlocks = g1Blocks + g2Blocks;
+    // ---- Split data into blocks, generate EC, interleave ----
+    function interleave(version, data, ecLevel) {
+      var p = EC_PARAMS[ecLevel][version];
+      var ecPerBlock = p[0], g1Count = p[1], g1Data = p[2], g2Count = p[3], g2Data = p[4];
+      var totalBlocks = g1Count + g2Count;
 
       // Split data into blocks
-      var dataBlocks = [];
+      var blocks = [];
       var offset = 0;
-      for (var i = 0; i < g1Blocks; i++) {
-        dataBlocks.push(data.slice(offset, offset + g1Data));
+      for (var i = 0; i < g1Count; i++) {
+        blocks.push(data.slice(offset, offset + g1Data));
         offset += g1Data;
       }
-      for (var i = 0; i < g2Blocks; i++) {
-        dataBlocks.push(data.slice(offset, offset + g2Data));
+      for (var i = 0; i < g2Count; i++) {
+        blocks.push(data.slice(offset, offset + g2Data));
         offset += g2Data;
       }
 
-      // Generate EC codewords
-      var ecBlocks = generateECWords(dataBlocks, numEC);
+      // Generate EC for each block
+      var ecBlocks = [];
+      for (var i = 0; i < totalBlocks; i++) {
+        ecBlocks.push(rsEncode(blocks[i], ecPerBlock));
+      }
 
-      // Interleave data
+      // Interleave data codewords
       var result = [];
-      var maxDataLen = Math.max(g1Data, g2Data);
-      for (var i = 0; i < maxDataLen; i++) {
+      var maxData = Math.max(g1Data, g2Data);
+      for (var i = 0; i < maxData; i++) {
         for (var b = 0; b < totalBlocks; b++) {
-          if (i < dataBlocks[b].length) result.push(dataBlocks[b][i]);
+          if (i < blocks[b].length) result.push(blocks[b][i]);
         }
       }
-      // Interleave EC
-      for (var i = 0; i < numEC; i++) {
+      // Interleave EC codewords
+      for (var i = 0; i < ecPerBlock; i++) {
         for (var b = 0; b < totalBlocks; b++) {
           result.push(ecBlocks[b][i]);
         }
@@ -709,276 +696,310 @@
       return result;
     }
 
+    // ---- Matrix construction ----
     function createMatrix(version) {
       var size = version * 4 + 17;
-      var matrix = [];
-      var reserved = [];
+      var mod = [], rsv = [];
       for (var i = 0; i < size; i++) {
-        matrix.push(new Array(size).fill(0));
-        reserved.push(new Array(size).fill(false));
+        mod.push(new Array(size).fill(0));
+        rsv.push(new Array(size).fill(false));
       }
 
-      // Finder patterns
+      function setModule(r, c, val) {
+        mod[r][c] = val;
+        rsv[r][c] = true;
+      }
+
+      // Finder pattern (7x7 + separator)
       function placeFinder(row, col) {
-        for (var r = -1; r <= 7; r++) {
-          for (var c = -1; c <= 7; c++) {
-            var rr = row + r, cc = col + c;
-            if (rr < 0 || rr >= size || cc < 0 || cc >= size) continue;
-            var val = 0;
-            if (r >= 0 && r <= 6 && c >= 0 && c <= 6) {
-              if (r === 0 || r === 6 || c === 0 || c === 6 || (r >= 2 && r <= 4 && c >= 2 && c <= 4)) val = 1;
+        for (var dr = -1; dr <= 7; dr++) {
+          for (var dc = -1; dc <= 7; dc++) {
+            var r = row + dr, c = col + dc;
+            if (r < 0 || r >= size || c < 0 || c >= size) continue;
+            var dark = false;
+            if (dr >= 0 && dr <= 6 && dc >= 0 && dc <= 6) {
+              dark = (dr === 0 || dr === 6 || dc === 0 || dc === 6 ||
+                     (dr >= 2 && dr <= 4 && dc >= 2 && dc <= 4));
             }
-            matrix[rr][cc] = val;
-            reserved[rr][cc] = true;
+            setModule(r, c, dark ? 1 : 0);
           }
         }
       }
-
       placeFinder(0, 0);
       placeFinder(0, size - 7);
       placeFinder(size - 7, 0);
 
       // Timing patterns
       for (var i = 8; i < size - 8; i++) {
-        matrix[6][i] = (i % 2 === 0) ? 1 : 0;
-        reserved[6][i] = true;
-        matrix[i][6] = (i % 2 === 0) ? 1 : 0;
-        reserved[i][6] = true;
+        setModule(6, i, (i & 1) === 0 ? 1 : 0);
+        setModule(i, 6, (i & 1) === 0 ? 1 : 0);
       }
 
       // Alignment patterns
       if (version >= 2) {
-        var positions = ALIGN_POS[version];
-        for (var i = 0; i < positions.length; i++) {
-          for (var j = 0; j < positions.length; j++) {
-            var r = positions[i], c = positions[j];
-            if (reserved[r][c]) continue;
+        var pos = ALIGN_POS[version];
+        for (var a = 0; a < pos.length; a++) {
+          for (var b = 0; b < pos.length; b++) {
+            var cr = pos[a], cc = pos[b];
+            // Skip if overlapping a finder pattern
+            if (rsv[cr][cc]) continue;
             for (var dr = -2; dr <= 2; dr++) {
               for (var dc = -2; dc <= 2; dc++) {
-                var val = (Math.abs(dr) === 2 || Math.abs(dc) === 2 || (dr === 0 && dc === 0)) ? 1 : 0;
-                matrix[r + dr][c + dc] = val;
-                reserved[r + dr][c + dc] = true;
+                var dark = (Math.abs(dr) === 2 || Math.abs(dc) === 2 || (dr === 0 && dc === 0));
+                setModule(cr + dr, cc + dc, dark ? 1 : 0);
               }
             }
           }
         }
       }
 
-      // Reserve format info areas
-      for (var i = 0; i < 8; i++) {
-        reserved[8][i] = true;
-        reserved[8][size - 1 - i] = true;
-        reserved[i][8] = true;
-        reserved[size - 1 - i][8] = true;
+      // Dark module (always present at row (4*version + 9), col 8)
+      setModule(4 * version + 9, 8, 1);
+
+      // Reserve format info areas (around finders)
+      // Top-left
+      for (var i = 0; i <= 8; i++) {
+        if (!rsv[8][i]) { rsv[8][i] = true; }
+        if (!rsv[i][8]) { rsv[i][8] = true; }
       }
-      reserved[8][8] = true;
-      // Dark module
-      matrix[size - 8][8] = 1;
-      reserved[size - 8][8] = true;
+      // Top-right
+      for (var i = 0; i < 8; i++) {
+        if (!rsv[8][size - 1 - i]) { rsv[8][size - 1 - i] = true; }
+      }
+      // Bottom-left
+      for (var i = 0; i < 7; i++) {
+        if (!rsv[size - 1 - i][8]) { rsv[size - 1 - i][8] = true; }
+      }
 
       // Reserve version info areas
       if (version >= 7) {
         for (var i = 0; i < 6; i++) {
           for (var j = 0; j < 3; j++) {
-            reserved[i][size - 11 + j] = true;
-            reserved[size - 11 + j][i] = true;
+            rsv[i][size - 11 + j] = true;
+            rsv[size - 11 + j][i] = true;
           }
         }
       }
 
-      return { matrix: matrix, reserved: reserved, size: size };
+      return { mod: mod, rsv: rsv, size: size };
     }
 
-    function placeData(matrix, reserved, size, data) {
+    // ---- Place data bits in zigzag pattern ----
+    function placeDataBits(mod, rsv, size, codewords, version) {
+      // Convert codewords to bit array, including remainder bits
       var bits = [];
-      for (var i = 0; i < data.length; i++) {
-        for (var j = 7; j >= 0; j--) bits.push((data[i] >> j) & 1);
+      for (var i = 0; i < codewords.length; i++) {
+        for (var j = 7; j >= 0; j--) bits.push((codewords[i] >> j) & 1);
       }
       // Add remainder bits
-      var totalModules = 0;
-      for (var r = 0; r < size; r++)
-        for (var c = 0; c < size; c++)
-          if (!reserved[r][c]) totalModules++;
-      while (bits.length < totalModules) bits.push(0);
+      var rem = REMAINDER_BITS[version];
+      for (var i = 0; i < rem; i++) bits.push(0);
 
       var bitIdx = 0;
+      // Right-to-left, two-column-wide zigzag
       var upward = true;
-      for (var col = size - 1; col >= 0; col -= 2) {
-        if (col === 6) col = 5; // skip timing column
-        var rows = upward ? [] : [];
-        if (upward) {
-          for (var r = size - 1; r >= 0; r--) rows.push(r);
-        } else {
-          for (var r = 0; r < size; r++) rows.push(r);
-        }
-        for (var ri = 0; ri < rows.length; ri++) {
-          var r = rows[ri];
-          for (var dc = 0; dc >= -1; dc--) {
-            var c = col + dc;
-            if (c < 0 || c >= size) continue;
-            if (reserved[r][c]) continue;
-            if (bitIdx < bits.length) {
-              matrix[r][c] = bits[bitIdx++];
-            }
+      for (var right = size - 1; right >= 1; right -= 2) {
+        if (right === 6) right = 5; // Skip timing pattern column
+        for (var cnt = 0; cnt < size; cnt++) {
+          var row = upward ? (size - 1 - cnt) : cnt;
+          // Right column of pair, then left column
+          for (var dx = 0; dx <= 1; dx++) {
+            var col = right - dx;
+            if (col < 0 || col >= size) continue;
+            if (rsv[row][col]) continue;
+            mod[row][col] = bitIdx < bits.length ? bits[bitIdx++] : 0;
           }
         }
         upward = !upward;
       }
     }
 
-    var MASK_FUNCTIONS = [
+    // ---- Mask patterns (ISO 18004 Table 10) ----
+    var MASK_FN = [
       function(r, c) { return (r + c) % 2 === 0; },
       function(r, c) { return r % 2 === 0; },
       function(r, c) { return c % 3 === 0; },
       function(r, c) { return (r + c) % 3 === 0; },
-      function(r, c) { return (Math.floor(r / 2) + Math.floor(c / 3)) % 2 === 0; },
-      function(r, c) { return ((r * c) % 2 + (r * c) % 3) === 0; },
+      function(r, c) { return (((r >> 1) + Math.floor(c / 3)) & 1) === 0; },
+      function(r, c) { return (r * c) % 2 + (r * c) % 3 === 0; },
       function(r, c) { return ((r * c) % 2 + (r * c) % 3) % 2 === 0; },
       function(r, c) { return ((r + c) % 2 + (r * c) % 3) % 2 === 0; }
     ];
 
-    function applyMask(matrix, reserved, size, maskIdx) {
-      var masked = matrix.map(function(row) { return row.slice(); });
-      var fn = MASK_FUNCTIONS[maskIdx];
+    function applyMask(matrix, rsv, size, maskIdx) {
+      var out = [];
+      for (var r = 0; r < size; r++) {
+        out.push(matrix[r].slice());
+      }
+      var fn = MASK_FN[maskIdx];
       for (var r = 0; r < size; r++) {
         for (var c = 0; c < size; c++) {
-          if (!reserved[r][c] && fn(r, c)) {
-            masked[r][c] ^= 1;
-          }
+          if (!rsv[r][c] && fn(r, c)) out[r][c] ^= 1;
         }
       }
-      return masked;
+      return out;
     }
 
+    // ---- BCH encoding for format info ----
+    function bchFormatInfo(data5) {
+      // Generator polynomial for format info: x^10 + x^8 + x^5 + x^4 + x^2 + x + 1 = 0x537
+      var d = data5 << 10;
+      var gen = 0x537;
+      for (var i = 4; i >= 0; i--) {
+        if (d & (1 << (i + 10))) d ^= gen << i;
+      }
+      return ((data5 << 10) | d) ^ 0x5412;
+    }
+
+    // ---- BCH encoding for version info ----
+    function bchVersionInfo(data6) {
+      // Generator polynomial for version info: x^12 + x^11 + x^10 + x^9 + x^8 + x^5 + x^2 + 1 = 0x1F25
+      var d = data6 << 12;
+      var gen = 0x1F25;
+      for (var i = 5; i >= 0; i--) {
+        if (d & (1 << (i + 12))) d ^= gen << i;
+      }
+      return (data6 << 12) | d;
+    }
+
+    // ---- Place format info (15 bits) ----
     function placeFormatInfo(matrix, size, ecLevel, maskIdx) {
-      var formatBits = FORMAT_INFO[ecLevel][maskIdx];
-      // Place along top-left finder
-      var positions1 = [[8,0],[8,1],[8,2],[8,3],[8,4],[8,5],[8,7],[8,8],[7,8],[5,8],[4,8],[3,8],[2,8],[1,8],[0,8]];
+      var ecBits = { L: 1, M: 0, Q: 3, H: 2 };
+      var data5 = (ecBits[ecLevel] << 3) | maskIdx;
+      var fmt = bchFormatInfo(data5);
+
+      // Around top-left finder (bit 0 = LSB, placed first)
+      // Horizontal: row 8, columns 0..5, then 7, 8
+      // Vertical: column 8, rows 0..5, then 7, 8
+      var hPos = [
+        [8, 0], [8, 1], [8, 2], [8, 3], [8, 4], [8, 5], [8, 7], [8, 8],
+        [7, 8], [5, 8], [4, 8], [3, 8], [2, 8], [1, 8], [0, 8]
+      ];
       for (var i = 0; i < 15; i++) {
-        matrix[positions1[i][0]][positions1[i][1]] = (formatBits >> i) & 1;
+        matrix[hPos[i][0]][hPos[i][1]] = (fmt >> i) & 1;
       }
-      // Place along bottom-left and top-right finders
-      var positions2 = [[size-1,8],[size-2,8],[size-3,8],[size-4,8],[size-5,8],[size-6,8],[size-7,8],
-                        [8,size-8],[8,size-7],[8,size-6],[8,size-5],[8,size-4],[8,size-3],[8,size-2],[8,size-1]];
+
+      // Second copy: bottom-left and top-right
+      var vPos = [
+        [size - 1, 8], [size - 2, 8], [size - 3, 8], [size - 4, 8],
+        [size - 5, 8], [size - 6, 8], [size - 7, 8],
+        [8, size - 8], [8, size - 7], [8, size - 6], [8, size - 5],
+        [8, size - 4], [8, size - 3], [8, size - 2], [8, size - 1]
+      ];
       for (var i = 0; i < 15; i++) {
-        matrix[positions2[i][0]][positions2[i][1]] = (formatBits >> i) & 1;
+        matrix[vPos[i][0]][vPos[i][1]] = (fmt >> i) & 1;
       }
     }
 
+    // ---- Place version info (18 bits, for version >= 7) ----
     function placeVersionInfo(matrix, size, version) {
       if (version < 7) return;
-      var versionBits = VERSION_INFO[version];
+      var vi = bchVersionInfo(version);
       for (var i = 0; i < 18; i++) {
-        var bit = (versionBits >> i) & 1;
-        var r = Math.floor(i / 3);
-        var c = size - 11 + (i % 3);
-        matrix[r][c] = bit;
-        matrix[c][r] = bit;
+        var bit = (vi >> i) & 1;
+        var row = Math.floor(i / 3);
+        var col = size - 11 + (i % 3);
+        matrix[row][col] = bit;
+        matrix[col][row] = bit;
       }
     }
 
-    function calculatePenalty(matrix, size) {
-      var penalty = 0;
+    // ---- Penalty scoring ----
+    function penalty(matrix, size) {
+      var score = 0;
 
-      // Rule 1: Groups of 5+ same-color modules in row/column
+      // Rule 1: Runs of 5+ same-color modules in a row/column
       for (var r = 0; r < size; r++) {
-        var count = 1;
+        var run = 1;
         for (var c = 1; c < size; c++) {
-          if (matrix[r][c] === matrix[r][c - 1]) {
-            count++;
-          } else {
-            if (count >= 5) penalty += count - 2;
-            count = 1;
-          }
+          if (matrix[r][c] === matrix[r][c - 1]) { run++; }
+          else { if (run >= 5) score += run - 2; run = 1; }
         }
-        if (count >= 5) penalty += count - 2;
+        if (run >= 5) score += run - 2;
       }
       for (var c = 0; c < size; c++) {
-        var count = 1;
+        var run = 1;
         for (var r = 1; r < size; r++) {
-          if (matrix[r][c] === matrix[r - 1][c]) {
-            count++;
-          } else {
-            if (count >= 5) penalty += count - 2;
-            count = 1;
-          }
+          if (matrix[r][c] === matrix[r - 1][c]) { run++; }
+          else { if (run >= 5) score += run - 2; run = 1; }
         }
-        if (count >= 5) penalty += count - 2;
+        if (run >= 5) score += run - 2;
       }
 
       // Rule 2: 2x2 blocks of same color
       for (var r = 0; r < size - 1; r++) {
         for (var c = 0; c < size - 1; c++) {
-          var val = matrix[r][c];
-          if (val === matrix[r][c + 1] && val === matrix[r + 1][c] && val === matrix[r + 1][c + 1])
-            penalty += 3;
+          var v = matrix[r][c];
+          if (v === matrix[r][c + 1] && v === matrix[r + 1][c] && v === matrix[r + 1][c + 1])
+            score += 3;
         }
       }
 
-      // Rule 3: Finder-like patterns
-      var pattern1 = [1,0,1,1,1,0,1,0,0,0,0];
-      var pattern2 = [0,0,0,0,1,0,1,1,1,0,1];
+      // Rule 3: Finder-like patterns (1011101 + 4 white on either side)
+      var pat1 = [1,0,1,1,1,0,1,0,0,0,0];
+      var pat2 = [0,0,0,0,1,0,1,1,1,0,1];
       for (var r = 0; r < size; r++) {
         for (var c = 0; c <= size - 11; c++) {
-          var match1 = true, match2 = true;
+          var m1 = true, m2 = true;
           for (var k = 0; k < 11; k++) {
-            if (matrix[r][c + k] !== pattern1[k]) match1 = false;
-            if (matrix[r][c + k] !== pattern2[k]) match2 = false;
+            if (matrix[r][c + k] !== pat1[k]) m1 = false;
+            if (matrix[r][c + k] !== pat2[k]) m2 = false;
           }
-          if (match1 || match2) penalty += 40;
+          if (m1 || m2) score += 40;
         }
       }
       for (var c = 0; c < size; c++) {
         for (var r = 0; r <= size - 11; r++) {
-          var match1 = true, match2 = true;
+          var m1 = true, m2 = true;
           for (var k = 0; k < 11; k++) {
-            if (matrix[r + k][c] !== pattern1[k]) match1 = false;
-            if (matrix[r + k][c] !== pattern2[k]) match2 = false;
+            if (matrix[r + k][c] !== pat1[k]) m1 = false;
+            if (matrix[r + k][c] !== pat2[k]) m2 = false;
           }
-          if (match1 || match2) penalty += 40;
+          if (m1 || m2) score += 40;
         }
       }
 
-      // Rule 4: Proportion of dark modules
-      var darkCount = 0;
+      // Rule 4: Dark module proportion
+      var dark = 0;
       for (var r = 0; r < size; r++)
         for (var c = 0; c < size; c++)
-          if (matrix[r][c]) darkCount++;
-      var ratio = darkCount / (size * size);
-      var prev5 = Math.floor(ratio * 20) * 5;
+          if (matrix[r][c]) dark++;
+      var pct = (dark * 100) / (size * size);
+      var prev5 = Math.floor(pct / 5) * 5;
       var next5 = prev5 + 5;
-      penalty += Math.min(Math.abs(prev5 - 50), Math.abs(next5 - 50)) * 2;
+      score += Math.min(Math.abs(prev5 - 50), Math.abs(next5 - 50)) * 2;
 
-      return penalty;
+      return score;
     }
 
+    // ---- Main generate function ----
     function generate(text, ecLevel) {
       ecLevel = ecLevel || 'M';
       if (!text) throw new Error('No data to encode');
 
+      // Encode data
       var encoded = encodeData(text, ecLevel);
       var version = encoded.version;
-      var interleaved = interleaveData(version, encoded.data, encoded.ecInfo);
 
-      var matrixInfo = createMatrix(version);
-      var matrix = matrixInfo.matrix;
-      var reserved = matrixInfo.reserved;
-      var size = matrixInfo.size;
+      // Interleave data and EC codewords
+      var codewords = interleave(version, encoded.data, ecLevel);
 
-      placeData(matrix, reserved, size, interleaved);
+      // Build matrix with function patterns
+      var mat = createMatrix(version);
+      var size = mat.size;
 
-      // Try all masks and pick the best
-      var bestMask = 0;
-      var bestPenalty = Infinity;
-      var bestMatrix = null;
+      // Place data bits
+      placeDataBits(mat.mod, mat.rsv, size, codewords, version);
 
+      // Try all 8 masks and pick the one with lowest penalty
+      var bestMask = 0, bestPenalty = Infinity, bestMatrix = null;
       for (var m = 0; m < 8; m++) {
-        var masked = applyMask(matrix, reserved, size, m);
+        var masked = applyMask(mat.mod, mat.rsv, size, m);
         placeFormatInfo(masked, size, ecLevel, m);
         placeVersionInfo(masked, size, version);
-        var pen = calculatePenalty(masked, size);
-        if (pen < bestPenalty) {
-          bestPenalty = pen;
+        var p = penalty(masked, size);
+        if (p < bestPenalty) {
+          bestPenalty = p;
           bestMask = m;
           bestMatrix = masked;
         }
