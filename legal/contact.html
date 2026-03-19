@@ -131,7 +131,12 @@
       <!-- Contact Form -->
       <div class="contact-card" id="contact-form-card">
         <h2 style="font-size:1.15rem;margin-bottom:var(--sp-3)">Send Us a Message</h2>
-        <form class="contact-form" id="contactForm" onsubmit="handleSubmit(event)">
+        <form class="contact-form" id="contactForm" action="https://formsubmit.co/contact@toolrip.com" method="POST">
+          <input type="hidden" name="_subject" value="New message from Toolrip Contact Form">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_next" value="https://toolrip.com/contact?sent=1">
+          <input type="hidden" name="_template" value="table">
+          <input type="text" name="_honey" style="display:none">
           <div class="form-row">
             <div class="form-group">
               <label for="name">Name <span style="color:var(--accent)">*</span></label>
@@ -160,15 +165,15 @@
           <div>
             <button type="submit" class="btn-primary">Send Message</button>
           </div>
-          <p class="form-note">By submitting this form, your default email client will open with the message pre-filled. You can also copy the details and email us directly.</p>
+          <p class="form-note">Your message will be sent directly to our team. We typically respond within 24 hours.</p>
         </form>
       </div>
 
-      <!-- Thank You Message -->
-      <div class="thank-you-msg" id="thankYouMsg">
+      <!-- Thank You Message (shown when ?sent=1) -->
+      <div class="thank-you-msg" id="thankYouMsg" style="display:none">
         <h3>Thank You!</h3>
-        <p>Your email client should have opened with the message. If it didn't, please send your message directly to <a href="mailto:contact@toolrip.com">contact@toolrip.com</a>.</p>
-        <button class="btn-secondary mt-2" onclick="resetForm()">Send Another Message</button>
+        <p>Your message has been sent successfully. We'll get back to you at the email address you provided, typically within 24 hours.</p>
+        <a href="/contact" class="btn-secondary mt-2">Send Another Message</a>
       </div>
 
       <!-- Direct Email -->
@@ -228,31 +233,10 @@
 
   <script src="/shared/common.js"></script>
   <script>
-    function handleSubmit(e) {
-      e.preventDefault();
-      var name = document.getElementById('name').value.trim();
-      var email = document.getElementById('email').value.trim();
-      var subject = document.getElementById('subject').value;
-      var message = document.getElementById('message').value.trim();
-
-      var body = 'Name: ' + name + '\n' +
-                 'Email: ' + email + '\n\n' +
-                 message;
-
-      var mailtoLink = 'mailto:contact@toolrip.com' +
-        '?subject=' + encodeURIComponent(subject) +
-        '&body=' + encodeURIComponent(body);
-
-      window.location.href = mailtoLink;
-
+    // Show thank you message if redirected back after form submission
+    if (window.location.search.indexOf('sent=1') !== -1) {
       document.getElementById('contact-form-card').style.display = 'none';
       document.getElementById('thankYouMsg').style.display = 'block';
-    }
-
-    function resetForm() {
-      document.getElementById('contactForm').reset();
-      document.getElementById('contact-form-card').style.display = 'block';
-      document.getElementById('thankYouMsg').style.display = 'none';
     }
   </script>
 </body>
