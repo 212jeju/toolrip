@@ -114,10 +114,33 @@
     .home-faq{max-width:800px;margin:var(--sp-5) auto}
     .home-faq h2{font-size:1.25rem;margin-bottom:var(--sp-3);text-align:center}
 
-    @media(max-width:480px){
+    /* Hide ad placeholders until AdSense approved */
+    .ad-slot{display:none!important}
+
+    /* Mobile: <= 640px */
+    @media(max-width:640px){
+      .hero{padding:var(--sp-3) var(--sp-3) var(--sp-2)}
       .hero h1{font-size:1.5rem}
-      .t-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
-      .cat-tabs{justify-content:flex-start}
+      .hero p{font-size:.875rem;margin-bottom:var(--sp-2)}
+      .search-wrap{margin-bottom:var(--sp-3)}
+      .search-wrap input{padding:12px 14px 12px 38px;font-size:.875rem}
+      .cat-tabs{justify-content:flex-start;gap:6px;padding:0 var(--sp-3);margin-bottom:var(--sp-3)}
+      .cat-tab{padding:5px 10px;font-size:.75rem}
+      .t-grid{grid-template-columns:1fr 1fr;gap:8px}
+      .t-card{padding:8px 10px;gap:8px}
+      .t-card .t-icon{width:28px;height:28px;font-size:.75rem;border-radius:6px}
+      .t-card .t-name{font-size:.75rem}
+      .t-card .t-kw{font-size:.625rem}
+      .cat-head h2{font-size:1rem}
+      .cat-head .ch-cnt{font-size:.75rem}
+      .feats{grid-template-columns:repeat(2,1fr)}
+    }
+
+    /* Small mobile: <= 380px */
+    @media(max-width:380px){
+      .hero h1{font-size:1.25rem}
+      .t-grid{grid-template-columns:1fr;gap:6px}
+      .cat-tab{padding:4px 8px;font-size:.6875rem}
     }
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1801576841825156" crossorigin="anonymous"></script>

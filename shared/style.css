@@ -76,9 +76,10 @@ a:hover{text-decoration:underline}
 .toggle input:checked+span::before{transform:translateX(20px)}
 
 /* --- 4. Ad Slots --- */
-.ad-slot{display:flex;align-items:center;justify-content:center;background:var(--bg-surface);
+.ad-slot{display:none;align-items:center;justify-content:center;background:var(--bg-surface);
   border:1px dashed var(--border);border-radius:var(--radius);color:var(--text-muted);
   font-size:.75rem;overflow:hidden;margin:var(--sp-3) auto}
+/* AdSense approved: change display:none to display:flex to show ad slots */
 .ad-top{width:100%;max-width:728px;min-height:90px}
 .ad-sidebar{width:300px;min-height:250px}
 .ad-bottom{width:336px;min-height:280px;margin:var(--sp-4) auto}
