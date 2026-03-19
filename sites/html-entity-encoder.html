@@ -518,14 +518,16 @@
 
     function encodeAllChars(text) {
       var result = '';
-      for (var i = 0; i < text.length; i++) {
-        var code = text.charCodeAt(i);
+      var arr = Array.from(text);
+      for (var i = 0; i < arr.length; i++) {
+        var ch = arr[i];
+        var code = ch.codePointAt(0);
         if (code > 127) {
           result += '&#' + code + ';';
-        } else if (SPECIAL_CHARS[text[i]]) {
-          result += SPECIAL_CHARS[text[i]];
+        } else if (SPECIAL_CHARS[ch]) {
+          result += SPECIAL_CHARS[ch];
         } else {
-          result += text[i];
+          result += ch;
         }
       }
       return result;

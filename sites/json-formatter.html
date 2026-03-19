@@ -412,10 +412,10 @@
           return ': <span class="json-string">' + str + '</span>';
         }
       );
-      // Strings not preceded by colon (in arrays)
+      // Strings in arrays (Safari-safe, no lookbehind)
       html = html.replace(
-        /(?<=[\[,\n]\s*)("(?:\\.|[^"\\])*")(?=\s*[,\]\n])/g,
-        '<span class="json-string">$1</span>'
+        /([\[,\n]\s*)("(?:\\.|[^"\\])*")(?=\s*[,\]\n])/g,
+        '$1<span class="json-string">$2</span>'
       );
       html = html.replace(
         /\b(-?\d+\.?\d*(?:[eE][+-]?\d+)?)\b(?=[,\s\]\}])/g,

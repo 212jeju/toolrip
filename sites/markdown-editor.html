@@ -404,6 +404,11 @@
       }
 
       function parseInline(text) {
+        // Escape HTML first to prevent XSS (but preserve <br> tags from paragraph join)
+        text = text.replace(/<br>/g, '\x00BR\x00');
+        text = escapeHtml(text);
+        text = text.replace(/\x00BR\x00/g, '<br>');
+
         // Images: ![alt](url)
         text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1">');
 
