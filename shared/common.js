@@ -155,11 +155,65 @@ function formatCurrency(n, currency) {
   return Number(n).toLocaleString('en-US', { style: 'currency', currency: currency });
 }
 
+/* --- GA4 Custom Event Tracking --- */
+function trackEvent(eventName, params) {
+  if (typeof gtag === 'function') {
+    gtag('event', eventName, params || {});
+  }
+}
+
+function initEventTracking() {
+  var toolName = document.querySelector('h1')
+    ? document.querySelector('h1').textContent.trim() : document.title;
+  var category = (document.querySelector('.breadcrumb a:nth-child(2)') || {}).textContent || 'unknown';
+
+  // Track tool_use_complete on primary action buttons
+  document.querySelectorAll('.tool-card button.primary, .tool-card button[onclick]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      trackEvent('tool_use_complete', {
+        tool_name: toolName,
+        tool_category: category.trim(),
+        action: btn.textContent.trim()
+      });
+    });
+  });
+
+  // Track copy events
+  var origCopy = window.copyToClipboard;
+  window.copyToClipboard = function (text, btn) {
+    trackEvent('copy_result', { tool_name: toolName, content_length: text ? text.length : 0 });
+    return origCopy(text, btn);
+  };
+
+  // Track outbound link clicks
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest('a[href]');
+    if (!link) return;
+    var href = link.getAttribute('href');
+    if (href && href.indexOf('http') === 0 && href.indexOf('toolrip.com') === -1) {
+      trackEvent('outbound_click', { url: href, tool_name: toolName });
+    }
+  });
+
+  // Track FAQ interactions
+  document.querySelectorAll('details.faq-item summary').forEach(function (summary) {
+    summary.addEventListener('click', function () {
+      trackEvent('faq_open', { tool_name: toolName, question: summary.textContent.trim().substring(0, 80) });
+    });
+  });
+
+  // Track time on tool (30s engagement signal)
+  setTimeout(function () {
+    trackEvent('engaged_user', { tool_name: toolName, seconds: 30 });
+  }, 30000);
+}
+
 /* --- Init on DOM Ready --- */
 document.addEventListener('DOMContentLoaded', function () {
   initTabs();
   initFaq();
   setTimeout(initAds, 100);
   setTimeout(initGA4, 2000);
+  setTimeout(initEventTracking, 2500);
   initAnalytics();
 });
