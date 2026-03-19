@@ -44,48 +44,81 @@
   </script>
 
   <style>
-    .hero{text-align:center;padding:var(--sp-6) var(--sp-4)}
-    .hero h1{font-size:2.25rem;font-weight:800;margin-bottom:var(--sp-2)}
-    .hero p{color:var(--text-muted);font-size:1.125rem;max-width:640px;margin:0 auto var(--sp-4)}
-    .search-box{max-width:500px;margin:0 auto;position:relative}
-    .search-box input{width:100%;padding:var(--sp-3) var(--sp-4);padding-left:3rem;background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-lg);color:var(--text);font-size:1rem}
-    .search-box input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 20%,transparent)}
-    .search-icon{position:absolute;left:1rem;top:50%;transform:translateY(-50%);color:var(--text-muted);pointer-events:none}
+    *{box-sizing:border-box}
+    /* Hero - compact */
+    .hero{text-align:center;padding:var(--sp-5) var(--sp-4) var(--sp-3)}
+    .hero h1{font-size:2rem;font-weight:800;margin-bottom:.5rem}
+    .hero p{color:var(--text-muted);font-size:1rem;max-width:560px;margin:0 auto var(--sp-3)}
 
-    .stats{display:flex;justify-content:center;gap:var(--sp-5);margin:var(--sp-4) 0;flex-wrap:wrap}
-    .stat{text-align:center}
-    .stat-number{font-size:2rem;font-weight:800;color:var(--accent)}
-    .stat-label{font-size:.8125rem;color:var(--text-muted)}
+    /* Search bar - prominent */
+    .search-wrap{max-width:560px;margin:0 auto var(--sp-4);position:relative}
+    .search-wrap input{width:100%;padding:14px 16px 14px 44px;background:var(--bg-surface);border:2px solid var(--border);border-radius:12px;color:var(--text);font-size:1rem;transition:border-color .2s,box-shadow .2s}
+    .search-wrap input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 15%,transparent)}
+    .search-wrap .s-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);pointer-events:none;font-size:1.1rem}
+    .search-wrap .s-count{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:.75rem;color:var(--text-muted);pointer-events:none;transition:opacity .2s}
+    .search-wrap .s-count.hide{opacity:0}
+    .search-wrap .s-clear{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.2rem;display:none;padding:4px}
+    .search-wrap .s-clear.show{display:block}
 
-    .intro-section{max-width:800px;margin:0 auto var(--sp-5);text-align:center}
-    .intro-section h2{font-size:1.5rem;margin-bottom:var(--sp-3)}
-    .intro-section p{color:var(--text-muted);line-height:1.8;font-size:.9375rem}
+    /* Category tabs */
+    .cat-tabs{display:flex;gap:8px;overflow-x:auto;padding:0 var(--sp-4);margin-bottom:var(--sp-4);scrollbar-width:none;-ms-overflow-style:none;justify-content:center;flex-wrap:wrap}
+    .cat-tabs::-webkit-scrollbar{display:none}
+    .cat-tab{padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:var(--bg-surface);color:var(--text-muted);font-size:.8125rem;cursor:pointer;white-space:nowrap;transition:all .2s;font-weight:500;display:flex;align-items:center;gap:6px}
+    .cat-tab:hover{border-color:var(--text-muted);color:var(--text)}
+    .cat-tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+    .cat-tab .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+    .cat-tab.active .dot{background:rgba(255,255,255,.5)}
+    .cat-tab .cnt{font-size:.6875rem;opacity:.7}
 
-    .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--sp-3);margin:var(--sp-4) 0}
-    .feat{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-4);text-align:center}
-    .feat-icon{font-size:2rem;margin-bottom:var(--sp-2)}
-    .feat h3{font-size:1rem;margin-bottom:var(--sp-1)}
-    .feat p{font-size:.8125rem;color:var(--text-muted);line-height:1.6}
+    /* Stats mini */
+    .stats-mini{display:flex;justify-content:center;gap:var(--sp-4);margin-bottom:var(--sp-3);flex-wrap:wrap}
+    .stats-mini .sm{text-align:center}
+    .stats-mini .sm-n{font-size:1.5rem;font-weight:800;color:var(--accent)}
+    .stats-mini .sm-l{font-size:.6875rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px}
 
-    .category-section{margin-top:var(--sp-5)}
-    .category-header{display:flex;align-items:center;gap:var(--sp-2);margin-bottom:var(--sp-2)}
-    .category-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
-    .category-header h2{font-size:1.25rem}
-    .category-count{color:var(--text-muted);font-size:.875rem}
-    .category-desc{color:var(--text-muted);font-size:.875rem;margin-bottom:var(--sp-3);line-height:1.6}
+    /* Category section */
+    .cat-section{margin-bottom:var(--sp-4)}
+    .cat-head{display:flex;align-items:center;gap:10px;margin-bottom:var(--sp-2);padding-bottom:var(--sp-1);border-bottom:1px solid var(--border)}
+    .cat-head .ch-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+    .cat-head h2{font-size:1.125rem;font-weight:700}
+    .cat-head .ch-cnt{color:var(--text-muted);font-size:.8125rem}
 
-    .tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:var(--sp-3)}
-    .tool-link{display:block;padding:var(--sp-3) var(--sp-4);background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius);text-decoration:none;transition:border-color .15s,transform .15s}
-    .tool-link:hover{border-color:var(--accent);transform:translateY(-2px);text-decoration:none}
-    .tool-link h3{font-size:.9375rem;color:var(--text);margin-bottom:4px}
-    .tool-link .kw{font-size:.75rem;color:var(--accent);margin-top:4px;display:inline-block}
+    /* Tool grid - compact 2-col on mobile, 3/4 on desktop */
+    .t-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+    .t-card{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius);text-decoration:none;transition:border-color .15s,transform .15s,box-shadow .15s}
+    .t-card:hover{border-color:var(--accent);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15);text-decoration:none}
+    .t-card .t-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.875rem;flex-shrink:0;color:#fff;font-weight:700}
+    .t-card .t-info{min-width:0}
+    .t-card .t-name{font-size:.8125rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .t-card .t-kw{font-size:.6875rem;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
     .hidden-tool{display:none!important}
     .no-results{display:none;text-align:center;padding:var(--sp-5);color:var(--text-muted)}
     .no-results.show{display:block}
+    .no-results .nr-icon{font-size:2.5rem;margin-bottom:var(--sp-2)}
 
-    .home-faq{max-width:800px;margin:var(--sp-6) auto}
-    .home-faq h2{font-size:1.5rem;margin-bottom:var(--sp-3);text-align:center}
+    /* Features row */
+    .feats{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--sp-3);margin:var(--sp-4) 0}
+    @media(max-width:640px){.feats{grid-template-columns:repeat(2,1fr)}}
+    .ft{text-align:center;padding:var(--sp-3)}
+    .ft-i{font-size:1.5rem;margin-bottom:6px}
+    .ft h3{font-size:.8125rem;margin-bottom:4px}
+    .ft p{font-size:.6875rem;color:var(--text-muted);line-height:1.5}
+
+    /* Intro text for SEO */
+    .intro{max-width:800px;margin:0 auto var(--sp-4);text-align:center}
+    .intro h2{font-size:1.25rem;margin-bottom:var(--sp-2)}
+    .intro p{color:var(--text-muted);line-height:1.7;font-size:.875rem}
+
+    /* FAQ */
+    .home-faq{max-width:800px;margin:var(--sp-5) auto}
+    .home-faq h2{font-size:1.25rem;margin-bottom:var(--sp-3);text-align:center}
+
+    @media(max-width:480px){
+      .hero h1{font-size:1.5rem}
+      .t-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+      .cat-tabs{justify-content:flex-start}
+    }
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1801576841825156" crossorigin="anonymous"></script>
 </head>
@@ -105,275 +138,264 @@
       <!-- Hero -->
       <div class="hero">
         <h1>100 Free Online Tools</h1>
-        <p>Powerful calculators, converters, formatters, and generators — all free, private, and running entirely in your browser. No signup, no data collection, no limits.</p>
-        <div class="search-box">
-          <span class="search-icon">&#x1F50D;</span>
-          <input type="text" id="search" placeholder="Search tools... (e.g. JSON, BMI, mortgage)" autocomplete="off" aria-label="Search tools">
-        </div>
+        <p>Calculators, converters, formatters & generators — all free, private, running in your browser.</p>
       </div>
 
-      <div class="stats">
-        <div class="stat"><div class="stat-number">100</div><div class="stat-label">Free Tools</div></div>
-        <div class="stat"><div class="stat-number">10</div><div class="stat-label">Categories</div></div>
-        <div class="stat"><div class="stat-number">0</div><div class="stat-label">Signups Required</div></div>
+      <!-- Search -->
+      <div class="search-wrap">
+        <span class="s-icon">&#x1F50D;</span>
+        <input type="text" id="search" placeholder="Search 100 tools... (JSON, BMI, mortgage, password)" autocomplete="off" aria-label="Search tools">
+        <span class="s-count" id="s-count">100 tools</span>
+        <button class="s-clear" id="s-clear" aria-label="Clear search">&times;</button>
       </div>
 
-      <!-- Why Toolrip -->
-      <section class="intro-section">
-        <h2>Why Toolrip?</h2>
-        <p>Toolrip is a comprehensive collection of 100 free online tools designed for everyday tasks. Whether you need to format JSON, calculate a mortgage payment, check your BMI, or generate a secure password, every tool runs instantly in your browser with zero setup. Your data never leaves your device — all processing happens client-side for maximum privacy and speed.</p>
-      </section>
-
-      <div class="features">
-        <div class="feat">
-          <div class="feat-icon">&#9889;</div>
-          <h3>Instant Results</h3>
-          <p>Every tool loads in under a second and runs entirely in your browser. No server processing, no waiting.</p>
-        </div>
-        <div class="feat">
-          <div class="feat-icon">&#128274;</div>
-          <h3>100% Private</h3>
-          <p>Your data stays on your device. Nothing is uploaded, stored, or shared with any third party.</p>
-        </div>
-        <div class="feat">
-          <div class="feat-icon">&#128241;</div>
-          <h3>Works Everywhere</h3>
-          <p>Responsive design that works perfectly on desktop, tablet, and mobile. Use any tool on any device.</p>
-        </div>
-        <div class="feat">
-          <div class="feat-icon">&#127381;</div>
-          <h3>Always Free</h3>
-          <p>No hidden fees, no premium tiers, no signup walls. Every tool is completely free to use, forever.</p>
-        </div>
+      <!-- Category Tabs -->
+      <div class="cat-tabs" id="cat-tabs">
+        <button class="cat-tab active" data-cat="all">All <span class="cnt">100</span></button>
+        <button class="cat-tab" data-cat="finance"><span class="dot" style="background:#10b981"></span>Finance <span class="cnt">15</span></button>
+        <button class="cat-tab" data-cat="health"><span class="dot" style="background:#f59e0b"></span>Health <span class="cnt">11</span></button>
+        <button class="cat-tab" data-cat="developer"><span class="dot" style="background:#3b82f6"></span>Developer <span class="cnt">20</span></button>
+        <button class="cat-tab" data-cat="text"><span class="dot" style="background:#8b5cf6"></span>Text <span class="cnt">12</span></button>
+        <button class="cat-tab" data-cat="conversion"><span class="dot" style="background:#06b6d4"></span>Conversion <span class="cnt">10</span></button>
+        <button class="cat-tab" data-cat="security"><span class="dot" style="background:#ef4444"></span>Security <span class="cnt">7</span></button>
+        <button class="cat-tab" data-cat="math"><span class="dot" style="background:#ec4899"></span>Math <span class="cnt">9</span></button>
+        <button class="cat-tab" data-cat="datetime"><span class="dot" style="background:#f97316"></span>DateTime <span class="cnt">8</span></button>
+        <button class="cat-tab" data-cat="design"><span class="dot" style="background:#a855f7"></span>Design <span class="cnt">6</span></button>
+        <button class="cat-tab" data-cat="seo"><span class="dot" style="background:#14b8a6"></span>SEO <span class="cnt">2</span></button>
       </div>
 
-      <div class="ad-slot ad-top" data-ad-slot="">Ad</div>
-
-      <div id="no-results" class="no-results">No tools found matching your search. Try a different keyword.</div>
+      <div id="no-results" class="no-results">
+        <div class="nr-icon">&#128269;</div>
+        No tools found. Try a different keyword.
+      </div>
 
       <!-- ===== FINANCE (15) ===== -->
-      <section class="category-section" id="finance">
-        <div class="category-header">
-          <span class="category-dot" style="background:#10b981"></span>
+      <section class="cat-section" data-cat="finance" id="finance">
+        <div class="cat-head">
+          <span class="ch-dot" style="background:#10b981"></span>
           <h2>Finance Calculators</h2>
-          <span class="category-count">(15 tools)</span>
+          <span class="ch-cnt">(15)</span>
         </div>
-        <p class="category-desc">Plan your finances with free calculators for mortgages, loans, interest rates, investments, taxes, and retirement. Make informed financial decisions with accurate, instant results.</p>
-        <div class="tools-grid">
-          <a href="/mortgage" class="tool-link" data-name="mortgage calculator" data-kw="mortgage calculator"><h3>Mortgage Calculator</h3><span class="kw">mortgage calculator</span></a>
-          <a href="/compound-interest" class="tool-link" data-name="compound interest calculator" data-kw="compound interest calculator"><h3>Compound Interest Calculator</h3><span class="kw">compound interest</span></a>
-          <a href="/tip" class="tool-link" data-name="tip calculator" data-kw="tip calculator"><h3>Tip Calculator</h3><span class="kw">tip calculator</span></a>
-          <a href="/salary" class="tool-link" data-name="salary to hourly calculator" data-kw="salary to hourly calculator"><h3>Salary to Hourly Calculator</h3><span class="kw">salary calculator</span></a>
-          <a href="/percentage" class="tool-link" data-name="percentage calculator" data-kw="percentage calculator"><h3>Percentage Calculator</h3><span class="kw">percentage calculator</span></a>
-          <a href="/emi" class="tool-link" data-name="emi loan calculator" data-kw="emi calculator"><h3>EMI Calculator</h3><span class="kw">emi calculator</span></a>
-          <a href="/roi" class="tool-link" data-name="roi return on investment calculator" data-kw="roi calculator"><h3>ROI Calculator</h3><span class="kw">roi calculator</span></a>
-          <a href="/sales-tax" class="tool-link" data-name="sales tax calculator" data-kw="sales tax calculator"><h3>Sales Tax Calculator</h3><span class="kw">sales tax calculator</span></a>
-          <a href="/inflation" class="tool-link" data-name="inflation calculator" data-kw="inflation calculator"><h3>Inflation Calculator</h3><span class="kw">inflation calculator</span></a>
-          <a href="/retirement" class="tool-link" data-name="retirement savings calculator" data-kw="retirement calculator"><h3>Retirement Calculator</h3><span class="kw">retirement calculator</span></a>
-          <a href="/break-even" class="tool-link" data-name="break even calculator" data-kw="break even calculator"><h3>Break-Even Calculator</h3><span class="kw">break-even analysis</span></a>
-          <a href="/profit-margin" class="tool-link" data-name="profit margin calculator" data-kw="profit margin calculator"><h3>Profit Margin Calculator</h3><span class="kw">profit margin</span></a>
-          <a href="/apr" class="tool-link" data-name="apr annual percentage rate calculator" data-kw="apr calculator"><h3>APR Calculator</h3><span class="kw">apr calculator</span></a>
-          <a href="/debt-payoff" class="tool-link" data-name="debt payoff calculator avalanche snowball" data-kw="debt payoff calculator"><h3>Debt Payoff Calculator</h3><span class="kw">debt payoff</span></a>
-          <a href="/loan-compare" class="tool-link" data-name="loan comparison calculator" data-kw="loan comparison"><h3>Loan Comparison Calculator</h3><span class="kw">loan comparison</span></a>
+        <div class="t-grid">
+          <a href="/mortgage" class="t-card tool-link" data-name="mortgage calculator" data-kw="mortgage home loan payment"><div class="t-icon" style="background:#10b981">&#127968;</div><div class="t-info"><div class="t-name">Mortgage Calculator</div><div class="t-kw">mortgage calculator</div></div></a>
+          <a href="/compound-interest" class="t-card tool-link" data-name="compound interest calculator" data-kw="compound interest savings investment"><div class="t-icon" style="background:#10b981">&#128200;</div><div class="t-info"><div class="t-name">Compound Interest</div><div class="t-kw">compound interest</div></div></a>
+          <a href="/tip" class="t-card tool-link" data-name="tip calculator" data-kw="tip gratuity restaurant split bill"><div class="t-icon" style="background:#10b981">&#128176;</div><div class="t-info"><div class="t-name">Tip Calculator</div><div class="t-kw">tip calculator</div></div></a>
+          <a href="/salary" class="t-card tool-link" data-name="salary to hourly calculator" data-kw="salary hourly annual wage income"><div class="t-icon" style="background:#10b981">&#128181;</div><div class="t-info"><div class="t-name">Salary Calculator</div><div class="t-kw">salary to hourly</div></div></a>
+          <a href="/percentage" class="t-card tool-link" data-name="percentage calculator" data-kw="percentage percent change increase decrease"><div class="t-icon" style="background:#10b981">&#37;</div><div class="t-info"><div class="t-name">Percentage Calculator</div><div class="t-kw">percentage calculator</div></div></a>
+          <a href="/emi" class="t-card tool-link" data-name="emi loan calculator" data-kw="emi equated monthly installment loan"><div class="t-icon" style="background:#10b981">&#128179;</div><div class="t-info"><div class="t-name">EMI Calculator</div><div class="t-kw">emi calculator</div></div></a>
+          <a href="/roi" class="t-card tool-link" data-name="roi return on investment calculator" data-kw="roi return investment annualized"><div class="t-icon" style="background:#10b981">&#128202;</div><div class="t-info"><div class="t-name">ROI Calculator</div><div class="t-kw">roi calculator</div></div></a>
+          <a href="/sales-tax" class="t-card tool-link" data-name="sales tax calculator" data-kw="sales tax vat state tax"><div class="t-icon" style="background:#10b981">&#127991;</div><div class="t-info"><div class="t-name">Sales Tax Calculator</div><div class="t-kw">sales tax</div></div></a>
+          <a href="/inflation" class="t-card tool-link" data-name="inflation calculator" data-kw="inflation purchasing power cpi"><div class="t-icon" style="background:#10b981">&#128184;</div><div class="t-info"><div class="t-name">Inflation Calculator</div><div class="t-kw">inflation calculator</div></div></a>
+          <a href="/retirement" class="t-card tool-link" data-name="retirement savings calculator" data-kw="retirement 401k savings pension"><div class="t-icon" style="background:#10b981">&#127958;</div><div class="t-info"><div class="t-name">Retirement Calculator</div><div class="t-kw">retirement savings</div></div></a>
+          <a href="/break-even" class="t-card tool-link" data-name="break even calculator" data-kw="break even analysis business profit"><div class="t-icon" style="background:#10b981">&#9878;</div><div class="t-info"><div class="t-name">Break-Even Calculator</div><div class="t-kw">break-even analysis</div></div></a>
+          <a href="/profit-margin" class="t-card tool-link" data-name="profit margin calculator" data-kw="profit margin markup revenue cost"><div class="t-icon" style="background:#10b981">&#128178;</div><div class="t-info"><div class="t-name">Profit Margin</div><div class="t-kw">profit margin</div></div></a>
+          <a href="/apr" class="t-card tool-link" data-name="apr annual percentage rate calculator" data-kw="apr annual percentage rate loan"><div class="t-icon" style="background:#10b981">&#128203;</div><div class="t-info"><div class="t-name">APR Calculator</div><div class="t-kw">apr calculator</div></div></a>
+          <a href="/debt-payoff" class="t-card tool-link" data-name="debt payoff calculator avalanche snowball" data-kw="debt payoff avalanche snowball"><div class="t-icon" style="background:#10b981">&#128467;</div><div class="t-info"><div class="t-name">Debt Payoff Calculator</div><div class="t-kw">debt payoff</div></div></a>
+          <a href="/loan-compare" class="t-card tool-link" data-name="loan comparison calculator" data-kw="loan comparison compare loans"><div class="t-icon" style="background:#10b981">&#9878;</div><div class="t-info"><div class="t-name">Loan Comparison</div><div class="t-kw">loan comparison</div></div></a>
         </div>
       </section>
 
       <!-- ===== HEALTH (11) ===== -->
-      <section class="category-section" id="health">
-        <div class="category-header">
-          <span class="category-dot" style="background:#f59e0b"></span>
+      <section class="cat-section" data-cat="health" id="health">
+        <div class="cat-head">
+          <span class="ch-dot" style="background:#f59e0b"></span>
           <h2>Health &amp; Fitness</h2>
-          <span class="category-count">(11 tools)</span>
+          <span class="ch-cnt">(11)</span>
         </div>
-        <p class="category-desc">Track your health goals with calculators for BMI, calories, macros, body fat, heart rate, and more. Get personalized results to support your fitness journey.</p>
-        <div class="tools-grid">
-          <a href="/bmi" class="tool-link" data-name="bmi calculator" data-kw="bmi calculator"><h3>BMI Calculator</h3><span class="kw">bmi calculator</span></a>
-          <a href="/calorie" class="tool-link" data-name="calorie calculator tdee" data-kw="calorie calculator"><h3>Calorie Calculator (TDEE)</h3><span class="kw">calorie calculator</span></a>
-          <a href="/bmr" class="tool-link" data-name="bmr basal metabolic rate calculator" data-kw="bmr calculator"><h3>BMR Calculator</h3><span class="kw">bmr calculator</span></a>
-          <a href="/body-fat" class="tool-link" data-name="body fat percentage calculator" data-kw="body fat calculator"><h3>Body Fat Calculator</h3><span class="kw">body fat calculator</span></a>
-          <a href="/macro" class="tool-link" data-name="macro calculator protein carbs fat" data-kw="macro calculator"><h3>Macro Calculator</h3><span class="kw">macro calculator</span></a>
-          <a href="/ideal-weight" class="tool-link" data-name="ideal weight calculator" data-kw="ideal weight calculator"><h3>Ideal Weight Calculator</h3><span class="kw">ideal weight</span></a>
-          <a href="/water-intake" class="tool-link" data-name="water intake calculator" data-kw="water intake calculator"><h3>Water Intake Calculator</h3><span class="kw">water intake</span></a>
-          <a href="/running-pace" class="tool-link" data-name="running pace calculator" data-kw="running pace calculator"><h3>Running Pace Calculator</h3><span class="kw">running pace</span></a>
-          <a href="/heart-rate" class="tool-link" data-name="heart rate zones calculator" data-kw="heart rate zones"><h3>Heart Rate Zones Calculator</h3><span class="kw">heart rate zones</span></a>
-          <a href="/due-date" class="tool-link" data-name="pregnancy due date calculator" data-kw="due date calculator"><h3>Due Date Calculator</h3><span class="kw">due date calculator</span></a>
-          <a href="/sleep" class="tool-link" data-name="sleep cycle calculator" data-kw="sleep calculator"><h3>Sleep Calculator</h3><span class="kw">sleep calculator</span></a>
+        <div class="t-grid">
+          <a href="/bmi" class="t-card tool-link" data-name="bmi calculator" data-kw="bmi body mass index weight height"><div class="t-icon" style="background:#f59e0b">&#9878;</div><div class="t-info"><div class="t-name">BMI Calculator</div><div class="t-kw">bmi calculator</div></div></a>
+          <a href="/calorie" class="t-card tool-link" data-name="calorie calculator tdee" data-kw="calorie tdee daily energy expenditure"><div class="t-icon" style="background:#f59e0b">&#127869;</div><div class="t-info"><div class="t-name">Calorie Calculator</div><div class="t-kw">calorie / TDEE</div></div></a>
+          <a href="/bmr" class="t-card tool-link" data-name="bmr basal metabolic rate calculator" data-kw="bmr basal metabolic rate"><div class="t-icon" style="background:#f59e0b">&#128293;</div><div class="t-info"><div class="t-name">BMR Calculator</div><div class="t-kw">basal metabolic rate</div></div></a>
+          <a href="/body-fat" class="t-card tool-link" data-name="body fat percentage calculator" data-kw="body fat percentage navy method"><div class="t-icon" style="background:#f59e0b">&#128170;</div><div class="t-info"><div class="t-name">Body Fat Calculator</div><div class="t-kw">body fat %</div></div></a>
+          <a href="/macro" class="t-card tool-link" data-name="macro calculator protein carbs fat" data-kw="macro protein carbs fat iifym"><div class="t-icon" style="background:#f59e0b">&#127860;</div><div class="t-info"><div class="t-name">Macro Calculator</div><div class="t-kw">macro calculator</div></div></a>
+          <a href="/ideal-weight" class="t-card tool-link" data-name="ideal weight calculator" data-kw="ideal weight devine robinson miller"><div class="t-icon" style="background:#f59e0b">&#9878;</div><div class="t-info"><div class="t-name">Ideal Weight</div><div class="t-kw">ideal weight</div></div></a>
+          <a href="/water-intake" class="t-card tool-link" data-name="water intake calculator" data-kw="water intake hydration daily"><div class="t-icon" style="background:#f59e0b">&#128167;</div><div class="t-info"><div class="t-name">Water Intake</div><div class="t-kw">daily water intake</div></div></a>
+          <a href="/running-pace" class="t-card tool-link" data-name="running pace calculator" data-kw="running pace speed splits marathon"><div class="t-icon" style="background:#f59e0b">&#127939;</div><div class="t-info"><div class="t-name">Running Pace</div><div class="t-kw">running pace</div></div></a>
+          <a href="/heart-rate" class="t-card tool-link" data-name="heart rate zones calculator" data-kw="heart rate zones training karvonen"><div class="t-icon" style="background:#f59e0b">&#10084;</div><div class="t-info"><div class="t-name">Heart Rate Zones</div><div class="t-kw">heart rate zones</div></div></a>
+          <a href="/due-date" class="t-card tool-link" data-name="pregnancy due date calculator" data-kw="due date pregnancy lmp naegele"><div class="t-icon" style="background:#f59e0b">&#128118;</div><div class="t-info"><div class="t-name">Due Date Calculator</div><div class="t-kw">due date calculator</div></div></a>
+          <a href="/sleep" class="t-card tool-link" data-name="sleep cycle calculator" data-kw="sleep cycle bedtime wake up rem"><div class="t-icon" style="background:#f59e0b">&#128164;</div><div class="t-info"><div class="t-name">Sleep Calculator</div><div class="t-kw">sleep calculator</div></div></a>
         </div>
       </section>
 
       <div class="ad-slot ad-in-content" data-ad-slot="">Ad</div>
 
       <!-- ===== DEVELOPER (20) ===== -->
-      <section class="category-section" id="developer">
-        <div class="category-header">
-          <span class="category-dot" style="background:#3b82f6"></span>
+      <section class="cat-section" data-cat="developer" id="developer">
+        <div class="cat-head">
+          <span class="ch-dot" style="background:#3b82f6"></span>
           <h2>Developer Tools</h2>
-          <span class="category-count">(20 tools)</span>
+          <span class="ch-cnt">(20)</span>
         </div>
-        <p class="category-desc">Essential tools for software developers: format JSON/XML/SQL, encode/decode data, test regex, generate UUIDs, minify CSS/JS, decode JWTs, and more.</p>
-        <div class="tools-grid">
-          <a href="/json" class="tool-link" data-name="json formatter validator" data-kw="json formatter online"><h3>JSON Formatter &amp; Validator</h3><span class="kw">json formatter</span></a>
-          <a href="/base64" class="tool-link" data-name="base64 encoder decoder" data-kw="base64 encode decode"><h3>Base64 Encoder/Decoder</h3><span class="kw">base64 encode</span></a>
-          <a href="/uuid" class="tool-link" data-name="uuid generator" data-kw="uuid generator online"><h3>UUID Generator</h3><span class="kw">uuid generator</span></a>
-          <a href="/regex" class="tool-link" data-name="regex tester regular expression" data-kw="regex tester"><h3>Regex Tester</h3><span class="kw">regex tester</span></a>
-          <a href="/css-minify" class="tool-link" data-name="css minifier beautifier" data-kw="css minifier"><h3>CSS Minifier</h3><span class="kw">css minifier</span></a>
-          <a href="/js-minify" class="tool-link" data-name="javascript minifier beautifier" data-kw="js minifier"><h3>JS Minifier</h3><span class="kw">js minifier</span></a>
-          <a href="/sql" class="tool-link" data-name="sql formatter beautifier" data-kw="sql formatter"><h3>SQL Formatter</h3><span class="kw">sql formatter</span></a>
-          <a href="/markdown" class="tool-link" data-name="markdown editor preview" data-kw="markdown editor"><h3>Markdown Editor</h3><span class="kw">markdown editor</span></a>
-          <a href="/html-entity" class="tool-link" data-name="html entity encoder decoder" data-kw="html entity encoder"><h3>HTML Entity Encoder</h3><span class="kw">html entity</span></a>
-          <a href="/jwt" class="tool-link" data-name="jwt decoder json web token" data-kw="jwt decoder"><h3>JWT Decoder</h3><span class="kw">jwt decoder</span></a>
-          <a href="/yaml" class="tool-link" data-name="yaml to json converter" data-kw="yaml to json"><h3>YAML to JSON Converter</h3><span class="kw">yaml to json</span></a>
-          <a href="/cron" class="tool-link" data-name="cron expression generator parser" data-kw="cron generator"><h3>Cron Expression Generator</h3><span class="kw">cron generator</span></a>
-          <a href="/csv-json" class="tool-link" data-name="csv to json converter" data-kw="csv to json"><h3>CSV to JSON Converter</h3><span class="kw">csv to json</span></a>
-          <a href="/json-csv" class="tool-link" data-name="json to csv converter" data-kw="json to csv"><h3>JSON to CSV Converter</h3><span class="kw">json to csv</span></a>
-          <a href="/xml" class="tool-link" data-name="xml formatter validator" data-kw="xml formatter"><h3>XML Formatter</h3><span class="kw">xml formatter</span></a>
-          <a href="/img-base64" class="tool-link" data-name="image to base64 converter" data-kw="image to base64"><h3>Image to Base64 Converter</h3><span class="kw">image to base64</span></a>
-          <a href="/escape" class="tool-link" data-name="string escape unescape" data-kw="string escape"><h3>String Escape/Unescape</h3><span class="kw">string escape</span></a>
-          <a href="/url-encode" class="tool-link" data-name="url encoder decoder" data-kw="url encoder decoder"><h3>URL Encoder/Decoder</h3><span class="kw">url encoder</span></a>
-          <a href="/ascii-hex" class="tool-link" data-name="ascii hex converter" data-kw="ascii to hex"><h3>ASCII/Hex Converter</h3><span class="kw">ascii to hex</span></a>
-          <a href="/ip" class="tool-link" data-name="ip subnet calculator cidr" data-kw="ip subnet calculator"><h3>IP Subnet Calculator</h3><span class="kw">subnet calculator</span></a>
+        <div class="t-grid">
+          <a href="/json" class="t-card tool-link" data-name="json formatter validator" data-kw="json formatter validator beautify"><div class="t-icon" style="background:#3b82f6">{}</div><div class="t-info"><div class="t-name">JSON Formatter</div><div class="t-kw">json formatter</div></div></a>
+          <a href="/base64" class="t-card tool-link" data-name="base64 encoder decoder" data-kw="base64 encode decode"><div class="t-icon" style="background:#3b82f6">B64</div><div class="t-info"><div class="t-name">Base64 Encode/Decode</div><div class="t-kw">base64 encoder</div></div></a>
+          <a href="/uuid" class="t-card tool-link" data-name="uuid generator" data-kw="uuid guid generator v4"><div class="t-icon" style="background:#3b82f6">ID</div><div class="t-info"><div class="t-name">UUID Generator</div><div class="t-kw">uuid generator</div></div></a>
+          <a href="/regex" class="t-card tool-link" data-name="regex tester regular expression" data-kw="regex regular expression test match"><div class="t-icon" style="background:#3b82f6">.*</div><div class="t-info"><div class="t-name">Regex Tester</div><div class="t-kw">regex tester</div></div></a>
+          <a href="/css-minify" class="t-card tool-link" data-name="css minifier beautifier" data-kw="css minifier beautifier minify"><div class="t-icon" style="background:#3b82f6">CSS</div><div class="t-info"><div class="t-name">CSS Minifier</div><div class="t-kw">css minifier</div></div></a>
+          <a href="/js-minify" class="t-card tool-link" data-name="javascript minifier beautifier" data-kw="javascript js minifier beautifier"><div class="t-icon" style="background:#3b82f6">JS</div><div class="t-info"><div class="t-name">JS Minifier</div><div class="t-kw">js minifier</div></div></a>
+          <a href="/sql" class="t-card tool-link" data-name="sql formatter beautifier" data-kw="sql formatter beautifier query"><div class="t-icon" style="background:#3b82f6">SQL</div><div class="t-info"><div class="t-name">SQL Formatter</div><div class="t-kw">sql formatter</div></div></a>
+          <a href="/markdown" class="t-card tool-link" data-name="markdown editor preview" data-kw="markdown editor preview md"><div class="t-icon" style="background:#3b82f6">MD</div><div class="t-info"><div class="t-name">Markdown Editor</div><div class="t-kw">markdown editor</div></div></a>
+          <a href="/html-entity" class="t-card tool-link" data-name="html entity encoder decoder" data-kw="html entity encode decode"><div class="t-icon" style="background:#3b82f6">&amp;</div><div class="t-info"><div class="t-name">HTML Entity Encoder</div><div class="t-kw">html entity</div></div></a>
+          <a href="/jwt" class="t-card tool-link" data-name="jwt decoder json web token" data-kw="jwt decoder json web token"><div class="t-icon" style="background:#3b82f6">JWT</div><div class="t-info"><div class="t-name">JWT Decoder</div><div class="t-kw">jwt decoder</div></div></a>
+          <a href="/yaml" class="t-card tool-link" data-name="yaml to json converter" data-kw="yaml json converter"><div class="t-icon" style="background:#3b82f6">YML</div><div class="t-info"><div class="t-name">YAML to JSON</div><div class="t-kw">yaml to json</div></div></a>
+          <a href="/cron" class="t-card tool-link" data-name="cron expression generator parser" data-kw="cron expression generator crontab"><div class="t-icon" style="background:#3b82f6">&#9201;</div><div class="t-info"><div class="t-name">Cron Generator</div><div class="t-kw">cron generator</div></div></a>
+          <a href="/csv-json" class="t-card tool-link" data-name="csv to json converter" data-kw="csv to json converter"><div class="t-icon" style="background:#3b82f6">CSV</div><div class="t-info"><div class="t-name">CSV to JSON</div><div class="t-kw">csv to json</div></div></a>
+          <a href="/json-csv" class="t-card tool-link" data-name="json to csv converter" data-kw="json to csv converter"><div class="t-icon" style="background:#3b82f6">&#8644;</div><div class="t-info"><div class="t-name">JSON to CSV</div><div class="t-kw">json to csv</div></div></a>
+          <a href="/xml" class="t-card tool-link" data-name="xml formatter validator" data-kw="xml formatter validator beautify"><div class="t-icon" style="background:#3b82f6">XML</div><div class="t-info"><div class="t-name">XML Formatter</div><div class="t-kw">xml formatter</div></div></a>
+          <a href="/img-base64" class="t-card tool-link" data-name="image to base64 converter" data-kw="image base64 converter data uri"><div class="t-icon" style="background:#3b82f6">&#128444;</div><div class="t-info"><div class="t-name">Image to Base64</div><div class="t-kw">image to base64</div></div></a>
+          <a href="/escape" class="t-card tool-link" data-name="string escape unescape" data-kw="string escape unescape json html"><div class="t-icon" style="background:#3b82f6">\\</div><div class="t-info"><div class="t-name">String Escape</div><div class="t-kw">string escape</div></div></a>
+          <a href="/url-encode" class="t-card tool-link" data-name="url encoder decoder" data-kw="url encode decode percent"><div class="t-icon" style="background:#3b82f6">%</div><div class="t-info"><div class="t-name">URL Encoder</div><div class="t-kw">url encoder</div></div></a>
+          <a href="/ascii-hex" class="t-card tool-link" data-name="ascii hex converter" data-kw="ascii hex converter decimal"><div class="t-icon" style="background:#3b82f6">0x</div><div class="t-info"><div class="t-name">ASCII/Hex Converter</div><div class="t-kw">ascii to hex</div></div></a>
+          <a href="/ip" class="t-card tool-link" data-name="ip subnet calculator cidr" data-kw="ip subnet cidr calculator network"><div class="t-icon" style="background:#3b82f6">IP</div><div class="t-info"><div class="t-name">IP Subnet Calculator</div><div class="t-kw">subnet calculator</div></div></a>
         </div>
       </section>
 
       <!-- ===== TEXT (12) ===== -->
-      <section class="category-section" id="text">
-        <div class="category-header">
-          <span class="category-dot" style="background:#8b5cf6"></span>
+      <section class="cat-section" data-cat="text" id="text">
+        <div class="cat-head">
+          <span class="ch-dot" style="background:#8b5cf6"></span>
           <h2>Text &amp; String Tools</h2>
-          <span class="category-count">(12 tools)</span>
+          <span class="ch-cnt">(12)</span>
         </div>
-        <p class="category-desc">Manipulate and analyze text with tools for word counting, case conversion, diff checking, deduplication, and more.</p>
-        <div class="tools-grid">
-          <a href="/word-count" class="tool-link" data-name="word counter text analyzer" data-kw="word counter online"><h3>Word Counter</h3><span class="kw">word counter</span></a>
-          <a href="/case" class="tool-link" data-name="text case converter" data-kw="text case converter"><h3>Text Case Converter</h3><span class="kw">case converter</span></a>
-          <a href="/lorem" class="tool-link" data-name="lorem ipsum generator" data-kw="lorem ipsum generator"><h3>Lorem Ipsum Generator</h3><span class="kw">lorem ipsum</span></a>
-          <a href="/slug" class="tool-link" data-name="slug generator url slug" data-kw="slug generator"><h3>Slug Generator</h3><span class="kw">slug generator</span></a>
-          <a href="/diff" class="tool-link" data-name="text diff checker compare" data-kw="text diff checker"><h3>Text Diff Checker</h3><span class="kw">text diff</span></a>
-          <a href="/dedupe" class="tool-link" data-name="duplicate remover lines" data-kw="duplicate remover"><h3>Duplicate Remover</h3><span class="kw">duplicate remover</span></a>
-          <a href="/binary" class="tool-link" data-name="text to binary converter" data-kw="text to binary"><h3>Text to Binary Converter</h3><span class="kw">text to binary</span></a>
-          <a href="/lines" class="tool-link" data-name="line counter text" data-kw="line counter"><h3>Line Counter</h3><span class="kw">line counter</span></a>
-          <a href="/whitespace" class="tool-link" data-name="whitespace remover trim" data-kw="whitespace remover"><h3>Whitespace Remover</h3><span class="kw">whitespace remover</span></a>
-          <a href="/reverse" class="tool-link" data-name="reverse text generator flip" data-kw="reverse text"><h3>Reverse Text Generator</h3><span class="kw">reverse text</span></a>
-          <a href="/repeat" class="tool-link" data-name="text repeater string" data-kw="text repeater"><h3>Text Repeater</h3><span class="kw">text repeater</span></a>
-          <a href="/random-string" class="tool-link" data-name="random string generator" data-kw="random string generator"><h3>Random String Generator</h3><span class="kw">random string</span></a>
+        <div class="t-grid">
+          <a href="/word-count" class="t-card tool-link" data-name="word counter text analyzer" data-kw="word counter character count"><div class="t-icon" style="background:#8b5cf6">Wc</div><div class="t-info"><div class="t-name">Word Counter</div><div class="t-kw">word counter</div></div></a>
+          <a href="/case" class="t-card tool-link" data-name="text case converter" data-kw="text case upper lower title camel"><div class="t-icon" style="background:#8b5cf6">Aa</div><div class="t-info"><div class="t-name">Case Converter</div><div class="t-kw">case converter</div></div></a>
+          <a href="/lorem" class="t-card tool-link" data-name="lorem ipsum generator" data-kw="lorem ipsum placeholder text"><div class="t-icon" style="background:#8b5cf6">Li</div><div class="t-info"><div class="t-name">Lorem Ipsum Generator</div><div class="t-kw">lorem ipsum</div></div></a>
+          <a href="/slug" class="t-card tool-link" data-name="slug generator url slug" data-kw="slug url friendly seo"><div class="t-icon" style="background:#8b5cf6">/</div><div class="t-info"><div class="t-name">Slug Generator</div><div class="t-kw">slug generator</div></div></a>
+          <a href="/diff" class="t-card tool-link" data-name="text diff checker compare" data-kw="text diff compare difference"><div class="t-icon" style="background:#8b5cf6">&#177;</div><div class="t-info"><div class="t-name">Text Diff Checker</div><div class="t-kw">text diff</div></div></a>
+          <a href="/dedupe" class="t-card tool-link" data-name="duplicate remover lines" data-kw="duplicate remover deduplicate lines"><div class="t-icon" style="background:#8b5cf6">&#8800;</div><div class="t-info"><div class="t-name">Duplicate Remover</div><div class="t-kw">duplicate remover</div></div></a>
+          <a href="/binary" class="t-card tool-link" data-name="text to binary converter" data-kw="text binary converter ascii"><div class="t-icon" style="background:#8b5cf6">01</div><div class="t-info"><div class="t-name">Text to Binary</div><div class="t-kw">text to binary</div></div></a>
+          <a href="/lines" class="t-card tool-link" data-name="line counter text" data-kw="line counter count lines"><div class="t-icon" style="background:#8b5cf6">#</div><div class="t-info"><div class="t-name">Line Counter</div><div class="t-kw">line counter</div></div></a>
+          <a href="/whitespace" class="t-card tool-link" data-name="whitespace remover trim" data-kw="whitespace remover trim spaces"><div class="t-icon" style="background:#8b5cf6">&#9251;</div><div class="t-info"><div class="t-name">Whitespace Remover</div><div class="t-kw">whitespace remover</div></div></a>
+          <a href="/reverse" class="t-card tool-link" data-name="reverse text generator flip" data-kw="reverse text flip mirror upside down"><div class="t-icon" style="background:#8b5cf6">&#8634;</div><div class="t-info"><div class="t-name">Reverse Text</div><div class="t-kw">reverse text</div></div></a>
+          <a href="/repeat" class="t-card tool-link" data-name="text repeater string" data-kw="text repeater repeat string"><div class="t-icon" style="background:#8b5cf6">&#8734;</div><div class="t-info"><div class="t-name">Text Repeater</div><div class="t-kw">text repeater</div></div></a>
+          <a href="/random-string" class="t-card tool-link" data-name="random string generator" data-kw="random string generator token"><div class="t-icon" style="background:#8b5cf6">?!</div><div class="t-info"><div class="t-name">Random String</div><div class="t-kw">random string</div></div></a>
         </div>
       </section>
 
       <!-- ===== CONVERSION (10) ===== -->
-      <section class="category-section" id="conversion">
-        <div class="category-header">
-          <span class="category-dot" style="background:#06b6d4"></span>
+      <section class="cat-section" data-cat="conversion" id="conversion">
+        <div class="cat-head">
+          <span class="ch-dot" style="background:#06b6d4"></span>
           <h2>Conversion Tools</h2>
-          <span class="category-count">(10 tools)</span>
+          <span class="ch-cnt">(10)</span>
         </div>
-        <p class="category-desc">Convert between units, number systems, and formats. From temperature and weight to timestamps and Roman numerals.</p>
-        <div class="tools-grid">
-          <a href="/hex-rgb" class="tool-link" data-name="hex to rgb converter" data-kw="hex to rgb converter"><h3>Hex to RGB Converter</h3><span class="kw">hex to rgb</span></a>
-          <a href="/temperature" class="tool-link" data-name="temperature converter" data-kw="celsius to fahrenheit"><h3>Temperature Converter</h3><span class="kw">temperature converter</span></a>
-          <a href="/length" class="tool-link" data-name="length distance converter" data-kw="cm to inches converter"><h3>Length/Distance Converter</h3><span class="kw">length converter</span></a>
-          <a href="/weight" class="tool-link" data-name="weight converter kg lbs" data-kw="weight converter"><h3>Weight Converter</h3><span class="kw">weight converter</span></a>
-          <a href="/speed" class="tool-link" data-name="speed converter mph kph" data-kw="speed converter"><h3>Speed Converter</h3><span class="kw">speed converter</span></a>
-          <a href="/data-storage" class="tool-link" data-name="data storage converter gb tb" data-kw="data storage converter"><h3>Data Storage Converter</h3><span class="kw">data storage</span></a>
-          <a href="/angle" class="tool-link" data-name="angle converter degrees radians" data-kw="angle converter"><h3>Angle Converter</h3><span class="kw">angle converter</span></a>
-          <a href="/timestamp" class="tool-link" data-name="timestamp converter unix" data-kw="timestamp converter"><h3>Timestamp Converter</h3><span class="kw">timestamp converter</span></a>
-          <a href="/number-base" class="tool-link" data-name="number base converter binary hex" data-kw="number base converter"><h3>Number Base Converter</h3><span class="kw">base converter</span></a>
-          <a href="/roman" class="tool-link" data-name="roman numeral converter" data-kw="roman numeral converter"><h3>Roman Numeral Converter</h3><span class="kw">roman numeral</span></a>
+        <div class="t-grid">
+          <a href="/hex-rgb" class="t-card tool-link" data-name="hex to rgb converter color" data-kw="hex rgb hsl color converter"><div class="t-icon" style="background:#06b6d4">&#127912;</div><div class="t-info"><div class="t-name">Hex/RGB Converter</div><div class="t-kw">hex to rgb</div></div></a>
+          <a href="/temperature" class="t-card tool-link" data-name="temperature converter" data-kw="celsius fahrenheit kelvin temperature"><div class="t-icon" style="background:#06b6d4">&#127777;</div><div class="t-info"><div class="t-name">Temperature Converter</div><div class="t-kw">temperature</div></div></a>
+          <a href="/length" class="t-card tool-link" data-name="length distance converter" data-kw="length cm inches feet meters miles"><div class="t-icon" style="background:#06b6d4">&#128207;</div><div class="t-info"><div class="t-name">Length Converter</div><div class="t-kw">length converter</div></div></a>
+          <a href="/weight" class="t-card tool-link" data-name="weight converter kg lbs" data-kw="weight kg lbs ounce stone"><div class="t-icon" style="background:#06b6d4">&#9878;</div><div class="t-info"><div class="t-name">Weight Converter</div><div class="t-kw">weight converter</div></div></a>
+          <a href="/speed" class="t-card tool-link" data-name="speed converter mph kph" data-kw="speed mph kph knots mach"><div class="t-icon" style="background:#06b6d4">&#128168;</div><div class="t-info"><div class="t-name">Speed Converter</div><div class="t-kw">speed converter</div></div></a>
+          <a href="/data-storage" class="t-card tool-link" data-name="data storage converter gb tb" data-kw="data storage gb tb mb bytes"><div class="t-icon" style="background:#06b6d4">&#128190;</div><div class="t-info"><div class="t-name">Data Storage</div><div class="t-kw">data storage</div></div></a>
+          <a href="/angle" class="t-card tool-link" data-name="angle converter degrees radians" data-kw="angle degrees radians gradians"><div class="t-icon" style="background:#06b6d4">&#8736;</div><div class="t-info"><div class="t-name">Angle Converter</div><div class="t-kw">angle converter</div></div></a>
+          <a href="/timestamp" class="t-card tool-link" data-name="timestamp converter unix" data-kw="timestamp unix epoch date"><div class="t-icon" style="background:#06b6d4">&#128338;</div><div class="t-info"><div class="t-name">Timestamp Converter</div><div class="t-kw">timestamp</div></div></a>
+          <a href="/number-base" class="t-card tool-link" data-name="number base converter binary hex" data-kw="number base binary hex octal decimal"><div class="t-icon" style="background:#06b6d4">16</div><div class="t-info"><div class="t-name">Number Base Converter</div><div class="t-kw">base converter</div></div></a>
+          <a href="/roman" class="t-card tool-link" data-name="roman numeral converter" data-kw="roman numeral converter XIV"><div class="t-icon" style="background:#06b6d4">IV</div><div class="t-info"><div class="t-name">Roman Numeral</div><div class="t-kw">roman numeral</div></div></a>
         </div>
       </section>
 
       <!-- ===== SECURITY (7) ===== -->
-      <section class="category-section" id="security">
-        <div class="category-header">
-          <span class="category-dot" style="background:#ef4444"></span>
+      <section class="cat-section" data-cat="security" id="security">
+        <div class="cat-head">
+          <span class="ch-dot" style="background:#ef4444"></span>
           <h2>Security &amp; Encryption</h2>
-          <span class="category-count">(7 tools)</span>
+          <span class="ch-cnt">(7)</span>
         </div>
-        <p class="category-desc">Generate secure passwords, hash data, check password strength, and encode text with ROT13. All processing happens locally for maximum security.</p>
-        <div class="tools-grid">
-          <a href="/password" class="tool-link" data-name="password generator" data-kw="password generator"><h3>Password Generator</h3><span class="kw">password generator</span></a>
-          <a href="/qr" class="tool-link" data-name="qr code generator" data-kw="qr code generator"><h3>QR Code Generator</h3><span class="kw">qr code generator</span></a>
-          <a href="/md5" class="tool-link" data-name="md5 hash generator" data-kw="md5 generator"><h3>MD5 Hash Generator</h3><span class="kw">md5 generator</span></a>
-          <a href="/sha256" class="tool-link" data-name="sha256 hash generator" data-kw="sha256 generator"><h3>SHA-256 Hash Generator</h3><span class="kw">sha256 generator</span></a>
-          <a href="/password-strength" class="tool-link" data-name="password strength checker" data-kw="password strength checker"><h3>Password Strength Checker</h3><span class="kw">password strength</span></a>
-          <a href="/rot13" class="tool-link" data-name="rot13 encoder decoder caesar cipher" data-kw="rot13 encoder"><h3>ROT13 Encoder</h3><span class="kw">rot13 encoder</span></a>
-          <a href="/bcrypt" class="tool-link" data-name="bcrypt hash generator" data-kw="bcrypt generator"><h3>Bcrypt Generator</h3><span class="kw">bcrypt generator</span></a>
+        <div class="t-grid">
+          <a href="/password" class="t-card tool-link" data-name="password generator" data-kw="password generator secure random"><div class="t-icon" style="background:#ef4444">&#128274;</div><div class="t-info"><div class="t-name">Password Generator</div><div class="t-kw">password generator</div></div></a>
+          <a href="/qr" class="t-card tool-link" data-name="qr code generator" data-kw="qr code generator scan"><div class="t-icon" style="background:#ef4444">&#9641;</div><div class="t-info"><div class="t-name">QR Code Generator</div><div class="t-kw">qr code</div></div></a>
+          <a href="/md5" class="t-card tool-link" data-name="md5 hash generator" data-kw="md5 hash generator checksum"><div class="t-icon" style="background:#ef4444">MD5</div><div class="t-info"><div class="t-name">MD5 Hash Generator</div><div class="t-kw">md5 generator</div></div></a>
+          <a href="/sha256" class="t-card tool-link" data-name="sha256 hash generator" data-kw="sha256 sha hash generator"><div class="t-icon" style="background:#ef4444">SHA</div><div class="t-info"><div class="t-name">SHA-256 Generator</div><div class="t-kw">sha256 generator</div></div></a>
+          <a href="/password-strength" class="t-card tool-link" data-name="password strength checker" data-kw="password strength checker entropy"><div class="t-icon" style="background:#ef4444">&#128272;</div><div class="t-info"><div class="t-name">Password Strength</div><div class="t-kw">password strength</div></div></a>
+          <a href="/rot13" class="t-card tool-link" data-name="rot13 encoder decoder caesar cipher" data-kw="rot13 caesar cipher encoder"><div class="t-icon" style="background:#ef4444">R13</div><div class="t-info"><div class="t-name">ROT13 Encoder</div><div class="t-kw">rot13 encoder</div></div></a>
+          <a href="/bcrypt" class="t-card tool-link" data-name="bcrypt hash generator" data-kw="bcrypt hash generator password"><div class="t-icon" style="background:#ef4444">&#128737;</div><div class="t-info"><div class="t-name">Bcrypt Generator</div><div class="t-kw">bcrypt generator</div></div></a>
         </div>
       </section>
 
       <!-- ===== MATH (9) ===== -->
-      <section class="category-section" id="math">
-        <div class="category-header">
-          <span class="category-dot" style="background:#ec4899"></span>
+      <section class="cat-section" data-cat="math" id="math">
+        <div class="cat-head">
+          <span class="ch-dot" style="background:#ec4899"></span>
           <h2>Math &amp; Science</h2>
-          <span class="category-count">(9 tools)</span>
+          <span class="ch-cnt">(9)</span>
         </div>
-        <p class="category-desc">Solve math problems with calculators for fractions, statistics, primes, quadratic equations, geometry, matrices, and scientific notation.</p>
-        <div class="tools-grid">
-          <a href="/fraction" class="tool-link" data-name="fraction calculator" data-kw="fraction calculator"><h3>Fraction Calculator</h3><span class="kw">fraction calculator</span></a>
-          <a href="/statistics" class="tool-link" data-name="statistics calculator mean median mode" data-kw="statistics calculator"><h3>Statistics Calculator</h3><span class="kw">statistics calculator</span></a>
-          <a href="/gcf-lcm" class="tool-link" data-name="gcf lcm calculator" data-kw="gcf lcm calculator"><h3>GCF &amp; LCM Calculator</h3><span class="kw">gcf lcm calculator</span></a>
-          <a href="/prime" class="tool-link" data-name="prime number checker" data-kw="prime number checker"><h3>Prime Number Checker</h3><span class="kw">prime checker</span></a>
-          <a href="/quadratic" class="tool-link" data-name="quadratic equation solver" data-kw="quadratic solver"><h3>Quadratic Equation Solver</h3><span class="kw">quadratic solver</span></a>
-          <a href="/pythagorean" class="tool-link" data-name="pythagorean theorem calculator" data-kw="pythagorean calculator"><h3>Pythagorean Calculator</h3><span class="kw">pythagorean theorem</span></a>
-          <a href="/area-volume" class="tool-link" data-name="area volume calculator geometry" data-kw="area volume calculator"><h3>Area &amp; Volume Calculator</h3><span class="kw">area volume</span></a>
-          <a href="/scientific" class="tool-link" data-name="scientific notation converter" data-kw="scientific notation"><h3>Scientific Notation Converter</h3><span class="kw">scientific notation</span></a>
-          <a href="/matrix" class="tool-link" data-name="matrix calculator multiply inverse" data-kw="matrix calculator"><h3>Matrix Calculator</h3><span class="kw">matrix calculator</span></a>
+        <div class="t-grid">
+          <a href="/fraction" class="t-card tool-link" data-name="fraction calculator" data-kw="fraction calculator add subtract multiply"><div class="t-icon" style="background:#ec4899">&#189;</div><div class="t-info"><div class="t-name">Fraction Calculator</div><div class="t-kw">fraction calculator</div></div></a>
+          <a href="/statistics" class="t-card tool-link" data-name="statistics calculator mean median mode" data-kw="statistics mean median mode std dev"><div class="t-icon" style="background:#ec4899">&#963;</div><div class="t-info"><div class="t-name">Statistics Calculator</div><div class="t-kw">statistics calculator</div></div></a>
+          <a href="/gcf-lcm" class="t-card tool-link" data-name="gcf lcm calculator" data-kw="gcf gcd lcm greatest common factor"><div class="t-icon" style="background:#ec4899">&#8745;</div><div class="t-info"><div class="t-name">GCF &amp; LCM Calculator</div><div class="t-kw">gcf lcm</div></div></a>
+          <a href="/prime" class="t-card tool-link" data-name="prime number checker" data-kw="prime number checker sieve factorize"><div class="t-icon" style="background:#ec4899">P</div><div class="t-info"><div class="t-name">Prime Checker</div><div class="t-kw">prime checker</div></div></a>
+          <a href="/quadratic" class="t-card tool-link" data-name="quadratic equation solver" data-kw="quadratic equation solver parabola"><div class="t-icon" style="background:#ec4899">x&#178;</div><div class="t-info"><div class="t-name">Quadratic Solver</div><div class="t-kw">quadratic solver</div></div></a>
+          <a href="/pythagorean" class="t-card tool-link" data-name="pythagorean theorem calculator" data-kw="pythagorean theorem triangle hypotenuse"><div class="t-icon" style="background:#ec4899">&#9651;</div><div class="t-info"><div class="t-name">Pythagorean Calculator</div><div class="t-kw">pythagorean theorem</div></div></a>
+          <a href="/area-volume" class="t-card tool-link" data-name="area volume calculator geometry" data-kw="area volume geometry sphere cube cylinder"><div class="t-icon" style="background:#ec4899">&#9632;</div><div class="t-info"><div class="t-name">Area &amp; Volume</div><div class="t-kw">area volume</div></div></a>
+          <a href="/scientific" class="t-card tool-link" data-name="scientific notation converter" data-kw="scientific notation exponent e-notation"><div class="t-icon" style="background:#ec4899">E</div><div class="t-info"><div class="t-name">Scientific Notation</div><div class="t-kw">scientific notation</div></div></a>
+          <a href="/matrix" class="t-card tool-link" data-name="matrix calculator multiply inverse" data-kw="matrix calculator multiply inverse determinant"><div class="t-icon" style="background:#ec4899">[ ]</div><div class="t-info"><div class="t-name">Matrix Calculator</div><div class="t-kw">matrix calculator</div></div></a>
         </div>
       </section>
 
       <!-- ===== DATETIME (8) ===== -->
-      <section class="category-section" id="datetime">
-        <div class="category-header">
-          <span class="category-dot" style="background:#f97316"></span>
+      <section class="cat-section" data-cat="datetime" id="datetime">
+        <div class="cat-head">
+          <span class="ch-dot" style="background:#f97316"></span>
           <h2>Date &amp; Time</h2>
-          <span class="category-count">(8 tools)</span>
+          <span class="ch-cnt">(8)</span>
         </div>
-        <p class="category-desc">Calculate date differences, convert timezones, find week numbers, count business days, and manage your time with Pomodoro.</p>
-        <div class="tools-grid">
-          <a href="/date-diff" class="tool-link" data-name="date difference calculator" data-kw="date difference calculator"><h3>Date Difference Calculator</h3><span class="kw">date difference</span></a>
-          <a href="/age" class="tool-link" data-name="age calculator" data-kw="age calculator"><h3>Age Calculator</h3><span class="kw">age calculator</span></a>
-          <a href="/timezone" class="tool-link" data-name="timezone converter world clock" data-kw="timezone converter"><h3>Timezone Converter</h3><span class="kw">timezone converter</span></a>
-          <a href="/countdown" class="tool-link" data-name="countdown timer" data-kw="countdown timer"><h3>Countdown Timer</h3><span class="kw">countdown timer</span></a>
-          <a href="/epoch" class="tool-link" data-name="epoch unix timestamp converter" data-kw="epoch converter"><h3>Epoch Converter</h3><span class="kw">epoch converter</span></a>
-          <a href="/week-number" class="tool-link" data-name="week number calculator iso" data-kw="week number calculator"><h3>Week Number Calculator</h3><span class="kw">week number</span></a>
-          <a href="/business-days" class="tool-link" data-name="business days calculator working days" data-kw="business days calculator"><h3>Business Days Calculator</h3><span class="kw">business days</span></a>
-          <a href="/pomodoro" class="tool-link" data-name="pomodoro timer technique" data-kw="pomodoro timer"><h3>Pomodoro Timer</h3><span class="kw">pomodoro timer</span></a>
+        <div class="t-grid">
+          <a href="/date-diff" class="t-card tool-link" data-name="date difference calculator" data-kw="date difference days between dates"><div class="t-icon" style="background:#f97316">&#128197;</div><div class="t-info"><div class="t-name">Date Difference</div><div class="t-kw">date difference</div></div></a>
+          <a href="/age" class="t-card tool-link" data-name="age calculator" data-kw="age calculator birthday how old"><div class="t-icon" style="background:#f97316">&#127874;</div><div class="t-info"><div class="t-name">Age Calculator</div><div class="t-kw">age calculator</div></div></a>
+          <a href="/timezone" class="t-card tool-link" data-name="timezone converter world clock" data-kw="timezone converter world clock"><div class="t-icon" style="background:#f97316">&#127760;</div><div class="t-info"><div class="t-name">Timezone Converter</div><div class="t-kw">timezone converter</div></div></a>
+          <a href="/countdown" class="t-card tool-link" data-name="countdown timer" data-kw="countdown timer stopwatch"><div class="t-icon" style="background:#f97316">&#9201;</div><div class="t-info"><div class="t-name">Countdown Timer</div><div class="t-kw">countdown timer</div></div></a>
+          <a href="/epoch" class="t-card tool-link" data-name="epoch unix timestamp converter" data-kw="epoch unix timestamp converter"><div class="t-icon" style="background:#f97316">&#128336;</div><div class="t-info"><div class="t-name">Epoch Converter</div><div class="t-kw">epoch converter</div></div></a>
+          <a href="/week-number" class="t-card tool-link" data-name="week number calculator iso" data-kw="week number iso calendar year"><div class="t-icon" style="background:#f97316">W#</div><div class="t-info"><div class="t-name">Week Number</div><div class="t-kw">week number</div></div></a>
+          <a href="/business-days" class="t-card tool-link" data-name="business days calculator working days" data-kw="business days working days holidays"><div class="t-icon" style="background:#f97316">&#128188;</div><div class="t-info"><div class="t-name">Business Days</div><div class="t-kw">business days</div></div></a>
+          <a href="/pomodoro" class="t-card tool-link" data-name="pomodoro timer technique" data-kw="pomodoro timer productivity focus"><div class="t-icon" style="background:#f97316">&#127813;</div><div class="t-info"><div class="t-name">Pomodoro Timer</div><div class="t-kw">pomodoro timer</div></div></a>
         </div>
       </section>
 
       <!-- ===== DESIGN (6) ===== -->
-      <section class="category-section" id="design">
-        <div class="category-header">
-          <span class="category-dot" style="background:#a855f7"></span>
+      <section class="cat-section" data-cat="design" id="design">
+        <div class="cat-head">
+          <span class="ch-dot" style="background:#a855f7"></span>
           <h2>Design Tools</h2>
-          <span class="category-count">(6 tools)</span>
+          <span class="ch-cnt">(6)</span>
         </div>
-        <p class="category-desc">Create color palettes, CSS gradients, box shadows, and more. Convert SVG to PNG and simulate color blindness for accessibility testing.</p>
-        <div class="tools-grid">
-          <a href="/color-palette" class="tool-link" data-name="color palette generator" data-kw="color palette generator"><h3>Color Palette Generator</h3><span class="kw">color palette</span></a>
-          <a href="/gradient" class="tool-link" data-name="css gradient generator" data-kw="css gradient generator"><h3>CSS Gradient Generator</h3><span class="kw">gradient generator</span></a>
-          <a href="/box-shadow" class="tool-link" data-name="css box shadow generator" data-kw="box shadow generator"><h3>Box Shadow Generator</h3><span class="kw">box shadow</span></a>
-          <a href="/svg-png" class="tool-link" data-name="svg to png converter" data-kw="svg to png"><h3>SVG to PNG Converter</h3><span class="kw">svg to png</span></a>
-          <a href="/color-blind" class="tool-link" data-name="color blindness simulator accessibility" data-kw="color blindness simulator"><h3>Color Blindness Simulator</h3><span class="kw">color blindness</span></a>
-          <a href="/aspect-ratio" class="tool-link" data-name="aspect ratio calculator" data-kw="aspect ratio calculator"><h3>Aspect Ratio Calculator</h3><span class="kw">aspect ratio</span></a>
+        <div class="t-grid">
+          <a href="/color-palette" class="t-card tool-link" data-name="color palette generator" data-kw="color palette generator harmony"><div class="t-icon" style="background:#a855f7">&#127912;</div><div class="t-info"><div class="t-name">Color Palette</div><div class="t-kw">color palette</div></div></a>
+          <a href="/gradient" class="t-card tool-link" data-name="css gradient generator" data-kw="css gradient linear radial conic"><div class="t-icon" style="background:#a855f7">&#127752;</div><div class="t-info"><div class="t-name">Gradient Generator</div><div class="t-kw">gradient generator</div></div></a>
+          <a href="/box-shadow" class="t-card tool-link" data-name="css box shadow generator" data-kw="box shadow css generator"><div class="t-icon" style="background:#a855f7">&#9632;</div><div class="t-info"><div class="t-name">Box Shadow</div><div class="t-kw">box shadow</div></div></a>
+          <a href="/svg-png" class="t-card tool-link" data-name="svg to png converter" data-kw="svg to png converter rasterize"><div class="t-icon" style="background:#a855f7">SVG</div><div class="t-info"><div class="t-name">SVG to PNG</div><div class="t-kw">svg to png</div></div></a>
+          <a href="/color-blind" class="t-card tool-link" data-name="color blindness simulator accessibility" data-kw="color blindness simulator a11y wcag"><div class="t-icon" style="background:#a855f7">&#128065;</div><div class="t-info"><div class="t-name">Color Blindness Sim</div><div class="t-kw">color blindness</div></div></a>
+          <a href="/aspect-ratio" class="t-card tool-link" data-name="aspect ratio calculator" data-kw="aspect ratio calculator 16:9"><div class="t-icon" style="background:#a855f7">&#9634;</div><div class="t-info"><div class="t-name">Aspect Ratio</div><div class="t-kw">aspect ratio</div></div></a>
         </div>
       </section>
 
       <!-- ===== SEO (2) ===== -->
-      <section class="category-section" id="seo">
-        <div class="category-header">
-          <span class="category-dot" style="background:#14b8a6"></span>
+      <section class="cat-section" data-cat="seo" id="seo">
+        <div class="cat-head">
+          <span class="ch-dot" style="background:#14b8a6"></span>
           <h2>SEO Tools</h2>
-          <span class="category-count">(2 tools)</span>
+          <span class="ch-cnt">(2)</span>
         </div>
-        <p class="category-desc">Generate meta tags and preview Open Graph cards for social media. Optimize your website's search engine visibility and social sharing appearance.</p>
-        <div class="tools-grid">
-          <a href="/meta-tag" class="tool-link" data-name="meta tag generator seo" data-kw="meta tag generator"><h3>Meta Tag Generator</h3><span class="kw">meta tag generator</span></a>
-          <a href="/og-preview" class="tool-link" data-name="open graph preview og tags" data-kw="og preview"><h3>Open Graph Preview</h3><span class="kw">og preview</span></a>
+        <div class="t-grid">
+          <a href="/meta-tag" class="t-card tool-link" data-name="meta tag generator seo" data-kw="meta tag generator seo title description"><div class="t-icon" style="background:#14b8a6">&lt;/&gt;</div><div class="t-info"><div class="t-name">Meta Tag Generator</div><div class="t-kw">meta tag generator</div></div></a>
+          <a href="/og-preview" class="t-card tool-link" data-name="open graph preview og tags" data-kw="open graph og preview social media"><div class="t-icon" style="background:#14b8a6">OG</div><div class="t-info"><div class="t-name">OG Preview</div><div class="t-kw">og preview</div></div></a>
         </div>
       </section>
 
       <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+      <!-- Features -->
+      <div class="feats">
+        <div class="ft"><div class="ft-i">&#9889;</div><h3>Instant</h3><p>Loads in under a second, runs in your browser</p></div>
+        <div class="ft"><div class="ft-i">&#128274;</div><h3>Private</h3><p>Data never leaves your device</p></div>
+        <div class="ft"><div class="ft-i">&#128241;</div><h3>Responsive</h3><p>Works on desktop, tablet & mobile</p></div>
+        <div class="ft"><div class="ft-i">&#127381;</div><h3>Free Forever</h3><p>No signup, no premium tiers</p></div>
+      </div>
+
+      <!-- SEO intro text -->
+      <section class="intro">
+        <h2>Why Toolrip?</h2>
+        <p>Toolrip is a comprehensive collection of 100 free online tools designed for everyday tasks. Whether you need to format JSON, calculate a mortgage payment, check your BMI, or generate a secure password, every tool runs instantly in your browser with zero setup. Your data never leaves your device — all processing happens client-side for maximum privacy and speed.</p>
+      </section>
 
       <!-- FAQ -->
       <section class="home-faq">
@@ -421,22 +443,65 @@
 
   <script src="/shared/common.js" defer></script>
   <script>
-    document.getElementById('search').addEventListener('input', function(e) {
-      var q = e.target.value.toLowerCase().trim();
-      var total = 0, visible = 0;
-      document.querySelectorAll('.tool-link').forEach(function(el) {
-        total++;
-        var match = !q || el.dataset.name.indexOf(q) !== -1 || el.dataset.kw.indexOf(q) !== -1;
-        el.classList.toggle('hidden-tool', !match);
-        if (match) visible++;
+  (function(){
+    var searchEl = document.getElementById('search');
+    var countEl = document.getElementById('s-count');
+    var clearEl = document.getElementById('s-clear');
+    var noRes = document.getElementById('no-results');
+    var tabs = document.querySelectorAll('.cat-tab');
+    var sections = document.querySelectorAll('.cat-section');
+    var allLinks = document.querySelectorAll('.tool-link');
+    var activeCat = 'all';
+
+    function update() {
+      var q = searchEl.value.toLowerCase().trim();
+      var visible = 0;
+
+      allLinks.forEach(function(el) {
+        var sec = el.closest('.cat-section');
+        var catMatch = activeCat === 'all' || sec.dataset.cat === activeCat;
+        var searchMatch = !q || el.dataset.name.indexOf(q) !== -1 || el.dataset.kw.indexOf(q) !== -1;
+        var show = catMatch && searchMatch;
+        el.classList.toggle('hidden-tool', !show);
+        if (show) visible++;
       });
-      document.querySelectorAll('.category-section').forEach(function(sec) {
-        var v = sec.querySelectorAll('.tool-link:not(.hidden-tool)').length;
-        sec.style.display = v ? '' : 'none';
+
+      sections.forEach(function(sec) {
+        var catMatch = activeCat === 'all' || sec.dataset.cat === activeCat;
+        var hasVisible = sec.querySelectorAll('.tool-link:not(.hidden-tool)').length > 0;
+        sec.style.display = (catMatch && hasVisible) ? '' : 'none';
       });
-      var nr = document.getElementById('no-results');
-      nr.classList.toggle('show', q && visible === 0);
+
+      countEl.textContent = visible + ' tool' + (visible !== 1 ? 's' : '');
+      countEl.classList.toggle('hide', q.length > 0);
+      clearEl.classList.toggle('show', q.length > 0);
+      noRes.classList.toggle('show', visible === 0);
+    }
+
+    searchEl.addEventListener('input', update);
+
+    clearEl.addEventListener('click', function() {
+      searchEl.value = '';
+      searchEl.focus();
+      update();
     });
+
+    tabs.forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        tabs.forEach(function(t){ t.classList.remove('active'); });
+        tab.classList.add('active');
+        activeCat = tab.dataset.cat;
+        update();
+      });
+    });
+
+    // Handle ?q= URL parameter
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('q')) {
+      searchEl.value = params.get('q');
+      update();
+    }
+  })();
   </script>
 </body>
 </html>
