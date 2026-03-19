@@ -30,10 +30,10 @@ function copyToClipboard(text, btn) {
 /* --- AdSense Loader --- */
 function initAds() {
   if (document.querySelector('script[src*="adsbygoogle"]')) return;
-  if (!window.ADSENSE_ID) return;
+  var adsenseId = window.ADSENSE_ID || 'ca-pub-1801576841825156';
 
   var s = document.createElement('script');
-  s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + window.ADSENSE_ID;
+  s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + adsenseId;
   s.async = true;
   s.crossOrigin = 'anonymous';
 
