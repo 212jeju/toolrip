@@ -357,6 +357,56 @@
         </details>
       </section>
 
+      <!-- Gradient Trends in Modern Web Design -->
+      <section class="mt-4">
+        <h2>Gradient Trends in Modern Web Design</h2>
+        <p>Gradients have evolved far beyond simple two-color fades. Modern web design leverages five distinct gradient styles, each with unique visual characteristics and CSS techniques.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem;margin:1.5rem 0">
+          <div style="border:1px solid var(--border);border-radius:0.75rem;overflow:hidden">
+            <div style="height:6rem;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%)"></div>
+            <div style="padding:1.25rem">
+              <h3 style="margin:0 0 0.5rem;color:var(--text);font-size:1rem">Linear Gradients</h3>
+              <p style="margin:0 0 0.75rem;color:var(--text);opacity:0.85;font-size:0.9rem">The foundation of gradient design. Colors transition along a straight line at any angle. Modern trends favor subtle, low-contrast linear gradients as background washes rather than the bold two-tone stripes of earlier eras. Diagonal angles (135 degrees or 150 degrees) create more dynamic energy than horizontal or vertical lines.</p>
+              <code style="font-size:0.8rem;color:var(--accent);background:var(--bg);padding:0.25rem 0.5rem;border-radius:0.25rem">background: linear-gradient(135deg, #667eea, #764ba2)</code>
+            </div>
+          </div>
+          <div style="border:1px solid var(--border);border-radius:0.75rem;overflow:hidden">
+            <div style="height:6rem;background:radial-gradient(circle at 30% 40%,#fbc2eb 0%,#a6c1ee 100%)"></div>
+            <div style="padding:1.25rem">
+              <h3 style="margin:0 0 0.5rem;color:var(--text);font-size:1rem">Radial Gradients</h3>
+              <p style="margin:0 0 0.75rem;color:var(--text);opacity:0.85;font-size:0.9rem">Colors radiate outward from a central point, creating a spotlight or orb effect. By positioning the center off-axis (such as 30% 40%), designers create organic, asymmetric lighting that mimics natural light sources. Radial gradients layered at varying opacities produce soft, ambient backgrounds popular in SaaS landing pages.</p>
+              <code style="font-size:0.8rem;color:var(--accent);background:var(--bg);padding:0.25rem 0.5rem;border-radius:0.25rem">background: radial-gradient(circle at 30% 40%, #fbc2eb, #a6c1ee)</code>
+            </div>
+          </div>
+          <div style="border:1px solid var(--border);border-radius:0.75rem;overflow:hidden">
+            <div style="height:6rem;background:conic-gradient(from 45deg,#ff6b6b,#feca57,#48dbfb,#ff9ff3,#ff6b6b)"></div>
+            <div style="padding:1.25rem">
+              <h3 style="margin:0 0 0.5rem;color:var(--text);font-size:1rem">Conic Gradients</h3>
+              <p style="margin:0 0 0.75rem;color:var(--text);opacity:0.85;font-size:0.9rem">Colors sweep around a center point like the hands of a clock. Conic gradients are ideal for pie charts, color wheels, and decorative backgrounds. With hard color stops, they produce sharp geometric patterns. When looped back to the starting color, they create seamless circular transitions that add a unique sense of rotation to UI elements.</p>
+              <code style="font-size:0.8rem;color:var(--accent);background:var(--bg);padding:0.25rem 0.5rem;border-radius:0.25rem">background: conic-gradient(from 45deg, #ff6b6b, #feca57, #48dbfb, #ff6b6b)</code>
+            </div>
+          </div>
+          <div style="border:1px solid var(--border);border-radius:0.75rem;overflow:hidden">
+            <div style="height:6rem;background:radial-gradient(at 40% 20%,#e8b4b8 0px,transparent 50%),radial-gradient(at 80% 0%,#a8d8ea 0px,transparent 50%),radial-gradient(at 0% 50%,#fcf6bd 0px,transparent 50%),radial-gradient(at 80% 80%,#d4a5ff 0px,transparent 50%),radial-gradient(at 0% 100%,#a8e6cf 0px,transparent 50%)"></div>
+            <div style="padding:1.25rem">
+              <h3 style="margin:0 0 0.5rem;color:var(--text);font-size:1rem">Mesh Gradients</h3>
+              <p style="margin:0 0 0.75rem;color:var(--text);opacity:0.85;font-size:0.9rem">Created by layering multiple semi-transparent radial gradients at different positions, mesh gradients produce the rich, fluid color blending seen in iOS and macOS wallpapers. While CSS has no native mesh-gradient function yet, the technique of stacking four to six radial gradients with large spread and low opacity achieves a convincing effect in pure CSS.</p>
+              <code style="font-size:0.8rem;color:var(--accent);background:var(--bg);padding:0.25rem 0.5rem;border-radius:0.25rem">background: radial-gradient(at 40% 20%, #e8b4b8, transparent 50%), ...</code>
+            </div>
+          </div>
+          <div style="border:1px solid var(--border);border-radius:0.75rem;overflow:hidden">
+            <div style="height:6rem;background:linear-gradient(270deg,#ee7752,#e73c7e,#23a6d5,#23d5ab);background-size:400% 400%;animation:gradientShift 6s ease infinite"></div>
+            <style>@keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}</style>
+            <div style="padding:1.25rem">
+              <h3 style="margin:0 0 0.5rem;color:var(--text);font-size:1rem">Animated Gradients</h3>
+              <p style="margin:0 0 0.75rem;color:var(--text);opacity:0.85;font-size:0.9rem">By oversizing a gradient (300% to 400% of the element) and animating background-position with CSS keyframes, designers create a smooth, continuously shifting color effect. This technique is GPU-accelerated and performs well even on mobile devices. It adds life to hero sections and loading states without requiring JavaScript or external assets.</p>
+              <code style="font-size:0.8rem;color:var(--accent);background:var(--bg);padding:0.25rem 0.5rem;border-radius:0.25rem">background-size: 400% 400%; animation: shift 6s ease infinite</code>
+            </div>
+          </div>
+        </div>
+        <p>When implementing gradients, always test your designs across devices and ensure sufficient contrast between text and gradient backgrounds. Use your browser DevTools to verify that the gradient does not make foreground content harder to read at any point in its color range.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

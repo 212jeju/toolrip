@@ -351,6 +351,147 @@
         </details>
       </section>
 
+      <!-- Escape Sequences Reference -->
+      <section class="mt-4">
+        <h2>Escape Sequences Reference</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Escape sequences represent special characters within string literals. While the backslash convention is shared across many languages, subtle differences exist. This cross-language reference table helps you avoid bugs when switching between programming environments.</p>
+        <div style="overflow-x:auto;margin-bottom:var(--sp-3)">
+          <table style="width:100%;border-collapse:collapse;font-size:.8125rem">
+            <thead>
+              <tr style="border-bottom:2px solid var(--accent)">
+                <th style="text-align:left;padding:var(--sp-2);color:var(--text)">Escape</th>
+                <th style="text-align:left;padding:var(--sp-2);color:var(--text)">Meaning</th>
+                <th style="text-align:center;padding:var(--sp-2);color:var(--text)">JavaScript</th>
+                <th style="text-align:center;padding:var(--sp-2);color:var(--text)">Python</th>
+                <th style="text-align:center;padding:var(--sp-2);color:var(--text)">Java</th>
+                <th style="text-align:center;padding:var(--sp-2);color:var(--text)">C#</th>
+                <th style="text-align:center;padding:var(--sp-2);color:var(--text)">Go</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2)"><code>\\</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Backslash</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2)"><code>\n</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Newline (LF)</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2)"><code>\r</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Carriage return (CR)</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2)"><code>\t</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Horizontal tab</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2)"><code>\"</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Double quote</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2)"><code>\'</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Single quote</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2)"><code>\0</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Null character</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2)"><code>\b</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Backspace</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2)"><code>\f</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Form feed</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#ef4444">No</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2)"><code>\v</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Vertical tab</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#ef4444">No</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2)"><code>\uXXXX</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Unicode (BMP)</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2)"><code>\u{XXXXX}</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Unicode (extended)</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">ES6+</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">\U+8 digits</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#ef4444">No</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#ef4444">No</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+              </tr>
+              <tr>
+                <td style="padding:var(--sp-2)"><code>\xXX</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Hex byte</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#ef4444">No</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">\xXXXX</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981">Yes</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="color:var(--text-muted);line-height:1.7"><strong style="color:var(--text)">Language-specific notes:</strong> Python offers raw strings (<code>r"..."</code>) that disable escape processing, useful for regex patterns and Windows file paths. C# provides verbatim strings (<code>@"..."</code>) for the same purpose. Java requires Unicode escapes for non-ASCII characters in source code. Go interprets escapes only in double-quoted strings; backtick-delimited raw strings pass backslashes through literally.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

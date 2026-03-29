@@ -403,6 +403,81 @@
         </details>
       </section>
 
+      <!-- Angle Units in Different Fields -->
+      <section class="mt-4">
+        <h2>Angle Units in Different Fields</h2>
+        <p>Angles are measured differently depending on the discipline. While degrees are the most familiar unit in everyday life, mathematicians, engineers, surveyors, and astronomers each have their own preferred systems optimized for their specific calculations. Understanding when and why each unit is used helps you choose the right one for your work and avoid costly conversion errors.</p>
+        <div style="overflow-x:auto;margin:1.5rem 0">
+          <table style="width:100%;border-collapse:collapse;font-size:.9rem">
+            <thead>
+              <tr style="background:var(--accent);color:#fff">
+                <th style="padding:.75rem 1rem;text-align:left">Field</th>
+                <th style="padding:.75rem 1rem;text-align:center">Degrees (&deg;)</th>
+                <th style="padding:.75rem 1rem;text-align:center">Radians (rad)</th>
+                <th style="padding:.75rem 1rem;text-align:center">Gradians (gon)</th>
+                <th style="padding:.75rem 1rem;text-align:center">Turns</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:.75rem 1rem;font-weight:600">Mathematics</td>
+                <td style="padding:.75rem 1rem;text-align:center">&#9675;</td>
+                <td style="padding:.75rem 1rem;text-align:center;color:var(--accent);font-weight:700">&#9733; Primary</td>
+                <td style="padding:.75rem 1rem;text-align:center">&#9675;</td>
+                <td style="padding:.75rem 1rem;text-align:center">&#9675;</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);background:var(--bg)">
+                <td style="padding:.75rem 1rem;font-weight:600">Physics</td>
+                <td style="padding:.75rem 1rem;text-align:center">&#9675;</td>
+                <td style="padding:.75rem 1rem;text-align:center;color:var(--accent);font-weight:700">&#9733; Primary</td>
+                <td style="padding:.75rem 1rem;text-align:center">&mdash;</td>
+                <td style="padding:.75rem 1rem;text-align:center">&#9675;</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:.75rem 1rem;font-weight:600">Civil Engineering</td>
+                <td style="padding:.75rem 1rem;text-align:center">&#9675;</td>
+                <td style="padding:.75rem 1rem;text-align:center">&mdash;</td>
+                <td style="padding:.75rem 1rem;text-align:center;color:var(--accent);font-weight:700">&#9733; Primary</td>
+                <td style="padding:.75rem 1rem;text-align:center">&mdash;</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);background:var(--bg)">
+                <td style="padding:.75rem 1rem;font-weight:600">Surveying</td>
+                <td style="padding:.75rem 1rem;text-align:center">&#9675;</td>
+                <td style="padding:.75rem 1rem;text-align:center">&mdash;</td>
+                <td style="padding:.75rem 1rem;text-align:center;color:var(--accent);font-weight:700">&#9733; Primary</td>
+                <td style="padding:.75rem 1rem;text-align:center">&mdash;</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:.75rem 1rem;font-weight:600">Navigation</td>
+                <td style="padding:.75rem 1rem;text-align:center;color:var(--accent);font-weight:700">&#9733; Primary</td>
+                <td style="padding:.75rem 1rem;text-align:center">&mdash;</td>
+                <td style="padding:.75rem 1rem;text-align:center">&mdash;</td>
+                <td style="padding:.75rem 1rem;text-align:center">&mdash;</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);background:var(--bg)">
+                <td style="padding:.75rem 1rem;font-weight:600">Astronomy</td>
+                <td style="padding:.75rem 1rem;text-align:center;color:var(--accent);font-weight:700">&#9733; Primary</td>
+                <td style="padding:.75rem 1rem;text-align:center">&#9675;</td>
+                <td style="padding:.75rem 1rem;text-align:center">&mdash;</td>
+                <td style="padding:.75rem 1rem;text-align:center">&mdash;</td>
+              </tr>
+              <tr>
+                <td style="padding:.75rem 1rem;font-weight:600">Game Development</td>
+                <td style="padding:.75rem 1rem;text-align:center;color:var(--accent);font-weight:700">&#9733; Primary</td>
+                <td style="padding:.75rem 1rem;text-align:center">&#9675;</td>
+                <td style="padding:.75rem 1rem;text-align:center">&mdash;</td>
+                <td style="padding:.75rem 1rem;text-align:center">&#9675;</td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="font-size:.8rem;color:var(--muted);margin:.5rem 0 0">&#9733; = standard unit in the field &nbsp;&bull;&nbsp; &#9675; = commonly used &nbsp;&bull;&nbsp; &mdash; = rarely used</p>
+        </div>
+        <p><strong>Degrees</strong> divide a full rotation into 360 equal parts, a convention dating back to ancient Babylonian astronomy. The number 360 was chosen because it is highly divisible (by 2, 3, 4, 5, 6, 8, 9, 10, 12, 15, 18, 20, 24, 30, 36, 40, 45, 60, 72, 90, 120, and 180), making fractional angles easy to work with. Degrees remain the default in navigation, astronomy, architecture, and everyday conversation.</p>
+        <p><strong>Radians</strong> define angle as the ratio of arc length to radius, making them dimensionless and mathematically natural. A full circle equals 2&pi; radians. All calculus-based trigonometric formulas assume radian input, which is why every programming language's math library (sin, cos, tan) uses radians by default. Attempting to pass degrees into these functions is one of the most common bugs in scientific computing.</p>
+        <p><strong>Gradians</strong> (also called gons) divide a right angle into exactly 100 parts, making a full circle 400 gradians. This decimal-friendly system is standard in European surveying and civil engineering because slope calculations become simple percentages. Most scientific calculators include a gradian mode alongside degree and radian modes.</p>
+        <p>Use the angle converter above to translate between all these units instantly and avoid the common pitfalls of manual conversion, especially the tricky degrees-to-radians calculation that trips up even experienced programmers.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

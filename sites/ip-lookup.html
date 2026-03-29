@@ -367,6 +367,105 @@
         </details>
       </section>
 
+      <!-- Subnet Mask Quick Reference -->
+      <section class="mt-4">
+        <h2>Subnet Mask Quick Reference</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">CIDR (Classless Inter-Domain Routing) notation expresses a subnet mask as a prefix length appended to an IP address. The prefix length indicates how many leading bits define the network portion. This table covers the most commonly used subnet sizes from /8 through /30.</p>
+        <div style="overflow-x:auto;margin-bottom:var(--sp-3)">
+          <table style="width:100%;border-collapse:collapse;font-size:.875rem">
+            <thead>
+              <tr style="border-bottom:2px solid var(--accent)">
+                <th style="text-align:left;padding:var(--sp-2);color:var(--text)">CIDR</th>
+                <th style="text-align:left;padding:var(--sp-2);color:var(--text)">Subnet Mask</th>
+                <th style="text-align:right;padding:var(--sp-2);color:var(--text)">Total IPs</th>
+                <th style="text-align:right;padding:var(--sp-2);color:var(--text)">Usable Hosts</th>
+                <th style="text-align:left;padding:var(--sp-2);color:var(--text)">Common Use</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);font-weight:600"><code>/8</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">255.0.0.0</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:right">16,777,216</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:right">16,777,214</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Class A networks (10.0.0.0/8 private)</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);font-weight:600"><code>/12</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">255.240.0.0</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:right">1,048,576</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:right">1,048,574</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Docker default network (172.16.0.0/12)</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);font-weight:600"><code>/16</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">255.255.0.0</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:right">65,536</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:right">65,534</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">AWS VPC default, large corporate networks</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);font-weight:600"><code>/20</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">255.255.240.0</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:right">4,096</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:right">4,094</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">AWS default subnet, medium deployments</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);font-weight:600"><code>/22</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">255.255.252.0</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:right">1,024</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:right">1,022</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Multi-floor office buildings</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);font-weight:600"><code>/24</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">255.255.255.0</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:right">256</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:right">254</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Most common LAN, home routers, small offices</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);font-weight:600"><code>/25</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">255.255.255.128</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:right">128</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:right">126</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Split a /24 into two segments</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);font-weight:600"><code>/26</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">255.255.255.192</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:right">64</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:right">62</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Small department, VLAN segmentation</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);font-weight:600"><code>/28</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">255.255.255.240</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:right">16</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:right">14</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Small server cluster, DMZ</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);font-weight:600"><code>/30</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">255.255.255.252</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:right">4</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:right">2</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Point-to-point router links</td>
+              </tr>
+              <tr>
+                <td style="padding:var(--sp-2);font-weight:600"><code>/32</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">255.255.255.255</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:right">1</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:right">1</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Single host route, loopback, firewall rules</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="color:var(--text-muted);line-height:1.7"><strong style="color:var(--text)">How to calculate usable hosts:</strong> The formula is 2^(32 - prefix) - 2. The two subtracted addresses are the network address (all host bits zero) and the broadcast address (all host bits one). For /31 and /32 subnets, RFC 3021 allows special handling: /31 provides 2 usable addresses for point-to-point links with no broadcast, and /32 represents a single specific host.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

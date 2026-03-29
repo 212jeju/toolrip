@@ -280,6 +280,75 @@
         </details>
       </section>
 
+      <!-- Types of Whitespace Characters -->
+      <section class="mt-4">
+        <h2>Types of Whitespace Characters</h2>
+        <p>Whitespace is not as simple as pressing the spacebar. There are over a dozen distinct whitespace characters in the Unicode standard, each with different widths, behaviors, and purposes. Many of them are invisible on screen but can cause subtle bugs in code, break data imports, and create duplicate entries in databases. Understanding the different types of whitespace helps you diagnose formatting issues and clean data more effectively.</p>
+        <div style="overflow-x:auto;margin:1.5rem 0">
+          <table style="width:100%;border-collapse:collapse;font-size:.95rem">
+            <thead>
+              <tr style="background:var(--accent);color:#fff">
+                <th style="padding:.75rem 1rem;text-align:left">Character</th>
+                <th style="padding:.75rem 1rem;text-align:left">Unicode</th>
+                <th style="padding:.75rem 1rem;text-align:left">Escape</th>
+                <th style="padding:.75rem 1rem;text-align:left">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:.75rem 1rem;font-weight:600">Space</td>
+                <td style="padding:.75rem 1rem;font-family:monospace">U+0020</td>
+                <td style="padding:.75rem 1rem;font-family:monospace">\x20</td>
+                <td style="padding:.75rem 1rem">The standard space character produced by the spacebar. The most common whitespace in text and code, used to separate words and tokens.</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);background:var(--bg)">
+                <td style="padding:.75rem 1rem;font-weight:600">Tab</td>
+                <td style="padding:.75rem 1rem;font-family:monospace">U+0009</td>
+                <td style="padding:.75rem 1rem;font-family:monospace">\t</td>
+                <td style="padding:.75rem 1rem">Horizontal tab character. Advances the cursor to the next tab stop, typically every 4 or 8 spaces. Widely used for code indentation and TSV file delimiters.</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:.75rem 1rem;font-weight:600">Line Feed (LF)</td>
+                <td style="padding:.75rem 1rem;font-family:monospace">U+000A</td>
+                <td style="padding:.75rem 1rem;font-family:monospace">\n</td>
+                <td style="padding:.75rem 1rem">The standard newline character on Unix, Linux, and macOS. Moves the cursor to the beginning of the next line. The default line ending in most programming languages.</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);background:var(--bg)">
+                <td style="padding:.75rem 1rem;font-weight:600">Carriage Return (CR)</td>
+                <td style="padding:.75rem 1rem;font-family:monospace">U+000D</td>
+                <td style="padding:.75rem 1rem;font-family:monospace">\r</td>
+                <td style="padding:.75rem 1rem">Returns the cursor to the beginning of the current line. Windows uses CR+LF (\r\n) as its line ending sequence. Classic Mac OS used CR alone before switching to LF in macOS.</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:.75rem 1rem;font-weight:600">Non-Breaking Space</td>
+                <td style="padding:.75rem 1rem;font-family:monospace">U+00A0</td>
+                <td style="padding:.75rem 1rem;font-family:monospace">&amp;nbsp;</td>
+                <td style="padding:.75rem 1rem">Looks identical to a regular space but prevents line breaks at its position. Common in HTML and often introduced by rich text editors. A frequent cause of invisible data mismatches.</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);background:var(--bg)">
+                <td style="padding:.75rem 1rem;font-weight:600">Em Space</td>
+                <td style="padding:.75rem 1rem;font-family:monospace">U+2003</td>
+                <td style="padding:.75rem 1rem;font-family:monospace">&amp;emsp;</td>
+                <td style="padding:.75rem 1rem">A space equal to the width of the current font's em size. Used in typography for precise spacing. Sometimes found in text copied from PDFs or desktop publishing software.</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:.75rem 1rem;font-weight:600">Zero-Width Space</td>
+                <td style="padding:.75rem 1rem;font-family:monospace">U+200B</td>
+                <td style="padding:.75rem 1rem;font-family:monospace">&#8203;</td>
+                <td style="padding:.75rem 1rem">Completely invisible and takes up no width, but allows a line break at its position. Often found in text copied from websites. One of the hardest whitespace characters to detect and debug.</td>
+              </tr>
+              <tr>
+                <td style="padding:.75rem 1rem;font-weight:600">Form Feed</td>
+                <td style="padding:.75rem 1rem;font-family:monospace">U+000C</td>
+                <td style="padding:.75rem 1rem;font-family:monospace">\f</td>
+                <td style="padding:.75rem 1rem">Originally caused printers to advance to the top of the next page. Rarely used in modern text but still recognized by some programming languages and legacy systems.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>The whitespace remover tool above detects and strips all of these characters, including the invisible ones that are nearly impossible to find manually. This is especially useful when cleaning data pasted from websites, PDFs, or rich text editors where hidden Unicode whitespace characters frequently creep in unnoticed.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

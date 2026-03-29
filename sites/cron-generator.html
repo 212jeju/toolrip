@@ -348,6 +348,86 @@
         </details>
       </section>
 
+      <!-- Cron Expression Examples -->
+      <section class="mt-4">
+        <h2>Cron Expression Examples</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">The following table provides 12 ready-to-use cron expressions covering the most common scheduling scenarios. Each expression uses the standard five-field format: minute, hour, day-of-month, month, and day-of-week. Copy any expression into the generator above to visualize its schedule.</p>
+        <div style="overflow-x:auto;margin-bottom:var(--sp-3)">
+          <table style="width:100%;border-collapse:collapse;font-size:.875rem">
+            <thead>
+              <tr style="border-bottom:2px solid var(--accent)">
+                <th style="text-align:left;padding:var(--sp-2);color:var(--text)">Expression</th>
+                <th style="text-align:left;padding:var(--sp-2);color:var(--text)">Schedule</th>
+                <th style="text-align:left;padding:var(--sp-2);color:var(--text)">Typical Use Case</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2)"><code>* * * * *</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Every minute</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Health checks, queue polling</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2)"><code>*/5 * * * *</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Every 5 minutes</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Cache refresh, status updates</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2)"><code>*/15 * * * *</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Every 15 minutes</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Data sync, feed aggregation</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2)"><code>0 * * * *</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Every hour (at :00)</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Log rotation, hourly reports</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2)"><code>0 0 * * *</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Daily at midnight</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Database backups, cleanup tasks</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2)"><code>0 9 * * 1-5</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Weekdays at 9:00 AM</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Daily standup reminders, business reports</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2)"><code>0 6,18 * * *</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Daily at 6 AM and 6 PM</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Twice-daily digest emails</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2)"><code>0 0 * * 0</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Every Sunday at midnight</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Weekly maintenance, full backups</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2)"><code>0 0 1 * *</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">First day of every month</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Monthly invoicing, billing cycles</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2)"><code>0 0 1 1 *</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">January 1st at midnight</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Annual report generation, license renewal</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2)"><code>30 2 * * 1</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Every Monday at 2:30 AM</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Weekly data warehouse ETL jobs</td>
+              </tr>
+              <tr>
+                <td style="padding:var(--sp-2)"><code>0 */4 * * *</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Every 4 hours</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">SSL certificate checks, sitemap generation</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="color:var(--text-muted);line-height:1.7"><strong style="color:var(--text)">Field reference:</strong> The five fields are minute (0-59), hour (0-23), day of month (1-31), month (1-12), and day of week (0-6, where 0 is Sunday). Special characters include <code>*</code> (any value), <code>,</code> (list separator), <code>-</code> (range), and <code>/</code> (step). Some systems like Kubernetes and AWS add a sixth field for seconds, and Quartz scheduler uses a seventh field for year.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

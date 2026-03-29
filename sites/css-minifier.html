@@ -303,6 +303,56 @@
         </details>
       </section>
 
+      <!-- CSS Optimization Best Practices -->
+      <section class="mt-4">
+        <h2>CSS Optimization Best Practices</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Minification removes whitespace and comments, but it is only one piece of the CSS optimization puzzle. These six techniques can reduce your stylesheet size and improve rendering performance far beyond what minification alone achieves.</p>
+        <div style="display:flex;flex-direction:column;gap:var(--sp-3);margin-bottom:var(--sp-3)">
+          <div style="display:flex;gap:var(--sp-3);align-items:flex-start;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3)">
+            <div style="flex-shrink:0;width:36px;height:36px;background:var(--accent);color:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem">1</div>
+            <div>
+              <div style="font-weight:700;color:var(--text);margin-bottom:var(--sp-1)">Combine Duplicate Selectors</div>
+              <p style="color:var(--text-muted);font-size:.875rem;line-height:1.6;margin:0">When the same selector appears in multiple places, merge the declarations into one rule block. For example, if <code>.card</code> is styled in three separate locations, combining them eliminates selector repetition and makes your CSS easier to maintain. Tools like CSScomb and Stylelint can detect duplicates automatically.</p>
+            </div>
+          </div>
+          <div style="display:flex;gap:var(--sp-3);align-items:flex-start;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3)">
+            <div style="flex-shrink:0;width:36px;height:36px;background:var(--accent);color:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem">2</div>
+            <div>
+              <div style="font-weight:700;color:var(--text);margin-bottom:var(--sp-1)">Use Shorthand Properties</div>
+              <p style="color:var(--text-muted);font-size:.875rem;line-height:1.6;margin:0">Replace longhand declarations with shorthand equivalents. Writing <code>margin: 10px 20px</code> instead of four separate margin properties saves bytes. This applies to margin, padding, background, border, font, flex, grid, animation, and transition properties.</p>
+            </div>
+          </div>
+          <div style="display:flex;gap:var(--sp-3);align-items:flex-start;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3)">
+            <div style="flex-shrink:0;width:36px;height:36px;background:var(--accent);color:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem">3</div>
+            <div>
+              <div style="font-weight:700;color:var(--text);margin-bottom:var(--sp-1)">Remove Unused CSS</div>
+              <p style="color:var(--text-muted);font-size:.875rem;line-height:1.6;margin:0">The average website ships over 35 percent unused CSS. Tools like PurgeCSS and UnCSS analyze your HTML to determine which selectors are actually used and strip the rest. This is especially impactful for sites using Bootstrap or Tailwind without tree-shaking.</p>
+            </div>
+          </div>
+          <div style="display:flex;gap:var(--sp-3);align-items:flex-start;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3)">
+            <div style="flex-shrink:0;width:36px;height:36px;background:var(--accent);color:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem">4</div>
+            <div>
+              <div style="font-weight:700;color:var(--text);margin-bottom:var(--sp-1)">Reduce Selector Specificity</div>
+              <p style="color:var(--text-muted);font-size:.875rem;line-height:1.6;margin:0">Deeply nested selectors like <code>div.container > ul.nav > li > a.link</code> are longer and slower than <code>.nav-link</code>. Browsers read selectors right-to-left, so shorter selectors with lower specificity parse faster and produce smaller files. Aim for two to three levels maximum.</p>
+            </div>
+          </div>
+          <div style="display:flex;gap:var(--sp-3);align-items:flex-start;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3)">
+            <div style="flex-shrink:0;width:36px;height:36px;background:var(--accent);color:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem">5</div>
+            <div>
+              <div style="font-weight:700;color:var(--text);margin-bottom:var(--sp-1)">Optimize Color Values</div>
+              <p style="color:var(--text-muted);font-size:.875rem;line-height:1.6;margin:0">Use the shortest color representation. <code>#ffffff</code> becomes <code>#fff</code>. Named colors like <code>red</code> (3 bytes) beat <code>#ff0000</code> (7 bytes). Modern minifiers handle this automatically, but writing short colors from the start keeps your source clean and readable.</p>
+            </div>
+          </div>
+          <div style="display:flex;gap:var(--sp-3);align-items:flex-start;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3)">
+            <div style="flex-shrink:0;width:36px;height:36px;background:var(--accent);color:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem">6</div>
+            <div>
+              <div style="font-weight:700;color:var(--text);margin-bottom:var(--sp-1)">Leverage CSS Custom Properties</div>
+              <p style="color:var(--text-muted);font-size:.875rem;line-height:1.6;margin:0">Define repeated values once as custom properties (<code>--brand: #3b82f6</code>) and reference with <code>var(--brand)</code>. When you change the value later, you update it in one place instead of dozens. This simplifies maintenance dramatically across large stylesheets.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

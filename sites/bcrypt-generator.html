@@ -336,6 +336,70 @@
         </details>
       </section>
 
+      <!-- Password Hashing Best Practices -->
+      <section class="mt-4">
+        <h2>Password Hashing Best Practices</h2>
+        <p>Storing passwords securely requires a dedicated key derivation function that is deliberately slow and resource-intensive. The three leading algorithms today are bcrypt, scrypt, and Argon2. Each takes a different approach to making brute-force attacks impractical.</p>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.95rem">
+            <thead>
+              <tr style="background:var(--accent);color:#fff">
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">Feature</th>
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">bcrypt</th>
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">scrypt</th>
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">Argon2</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background:var(--bg)">
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">Year Introduced</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">1999</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">2009</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">2015</td>
+              </tr>
+              <tr>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">CPU Hardness</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes (cost factor)</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes (N parameter)</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes (time cost)</td>
+              </tr>
+              <tr style="background:var(--bg)">
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">Memory Hardness</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#f59e0b">Minimal (4 KB)</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes (configurable)</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes (configurable)</td>
+              </tr>
+              <tr>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">Parallelism Resistance</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#f59e0b">Limited</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Good</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Excellent (configurable)</td>
+              </tr>
+              <tr style="background:var(--bg)">
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">Max Input Length</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">72 bytes</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Unlimited</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Unlimited</td>
+              </tr>
+              <tr>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">GPU/ASIC Resistance</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#f59e0b">Moderate</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">High</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Very High</td>
+              </tr>
+              <tr style="background:var(--bg)">
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">Library Support</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Excellent</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Good</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Growing</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p><strong>Recommendation:</strong> For new projects, <strong>Argon2id</strong> (the hybrid variant of Argon2) is the strongest choice. It won the 2015 Password Hashing Competition and provides configurable CPU time, memory usage, and parallelism, offering the best defense against both GPU-based and side-channel attacks. Use at least 64 MB of memory and a time cost that results in roughly 0.5 to 1 second of hashing time on your server hardware.</p>
+        <p>For existing systems already using <strong>bcrypt</strong>, there is no urgent need to migrate. Bcrypt with a cost factor of 12 or higher remains secure against current attack hardware. Its 72-byte input limit is rarely a practical concern since passwords longer than 72 characters are extremely uncommon. The most important rule across all three algorithms is to never roll your own implementation. Always use a well-maintained, audited library and keep the cost parameters high enough that hashing takes meaningful time on your production hardware.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

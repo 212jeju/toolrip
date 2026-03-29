@@ -242,6 +242,58 @@
         </details>
       </section>
 
+      <!-- SQL Style Guide -->
+      <section class="mt-4">
+        <h2>SQL Style Guide</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Consistent SQL formatting makes queries easier to read, review, and debug. The following conventions are used by major organizations and align with the output of this formatter. Apply these rules to keep your SQL clean and team-friendly.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:var(--sp-3);margin-bottom:var(--sp-3)">
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3)">
+            <div style="font-weight:700;color:var(--accent);margin-bottom:var(--sp-2)">Before (Unformatted)</div>
+            <pre style="background:var(--bg-alt);padding:var(--sp-2);border-radius:var(--radius);font-size:.8125rem;overflow-x:auto;margin:0;color:var(--text-muted);line-height:1.5"><code>select u.id, u.name, o.total from users u join orders o on u.id=o.user_id where o.status='active' and o.total>100 order by o.total desc limit 20;</code></pre>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3)">
+            <div style="font-weight:700;color:var(--accent);margin-bottom:var(--sp-2)">After (Formatted)</div>
+            <pre style="background:var(--bg-alt);padding:var(--sp-2);border-radius:var(--radius);font-size:.8125rem;overflow-x:auto;margin:0;color:var(--text-muted);line-height:1.5"><code>SELECT
+    u.id,
+    u.name,
+    o.total
+FROM users u
+JOIN orders o
+    ON u.id = o.user_id
+WHERE o.status = 'active'
+    AND o.total > 100
+ORDER BY o.total DESC
+LIMIT 20;</code></pre>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:var(--sp-2);margin-bottom:var(--sp-3)">
+          <div style="display:flex;gap:var(--sp-2);align-items:baseline">
+            <span style="color:var(--accent);font-weight:700;font-size:.875rem;flex-shrink:0">Rule 1</span>
+            <p style="color:var(--text-muted);font-size:.875rem;margin:0"><strong style="color:var(--text)">Uppercase keywords:</strong> Write SQL keywords (SELECT, FROM, WHERE, JOIN, ORDER BY, GROUP BY, INSERT, UPDATE, DELETE) in uppercase. This visually separates the query structure from the data elements.</p>
+          </div>
+          <div style="display:flex;gap:var(--sp-2);align-items:baseline">
+            <span style="color:var(--accent);font-weight:700;font-size:.875rem;flex-shrink:0">Rule 2</span>
+            <p style="color:var(--text-muted);font-size:.875rem;margin:0"><strong style="color:var(--text)">Lowercase identifiers:</strong> Table names, column names, and aliases should be in lowercase or snake_case. This convention improves readability and avoids quoting issues across databases.</p>
+          </div>
+          <div style="display:flex;gap:var(--sp-2);align-items:baseline">
+            <span style="color:var(--accent);font-weight:700;font-size:.875rem;flex-shrink:0">Rule 3</span>
+            <p style="color:var(--text-muted);font-size:.875rem;margin:0"><strong style="color:var(--text)">One column per line:</strong> In SELECT and GROUP BY clauses, place each column on its own line with consistent indentation. This makes it easy to add, remove, or comment out individual columns during development.</p>
+          </div>
+          <div style="display:flex;gap:var(--sp-2);align-items:baseline">
+            <span style="color:var(--accent);font-weight:700;font-size:.875rem;flex-shrink:0">Rule 4</span>
+            <p style="color:var(--text-muted);font-size:.875rem;margin:0"><strong style="color:var(--text)">Leading commas vs trailing commas:</strong> Both styles are valid. Trailing commas (<code>col1,</code>) are more common, but leading commas (<code>, col2</code>) make it easier to comment out the last column. Pick one style and apply it consistently across your team.</p>
+          </div>
+          <div style="display:flex;gap:var(--sp-2);align-items:baseline">
+            <span style="color:var(--accent);font-weight:700;font-size:.875rem;flex-shrink:0">Rule 5</span>
+            <p style="color:var(--text-muted);font-size:.875rem;margin:0"><strong style="color:var(--text)">Indent JOIN conditions:</strong> Place the ON clause on a new indented line below the JOIN. When a join has multiple conditions, put each AND condition on a new indented line for clarity.</p>
+          </div>
+          <div style="display:flex;gap:var(--sp-2);align-items:baseline">
+            <span style="color:var(--accent);font-weight:700;font-size:.875rem;flex-shrink:0">Rule 6</span>
+            <p style="color:var(--text-muted);font-size:.875rem;margin:0"><strong style="color:var(--text)">Align WHERE conditions:</strong> Start the WHERE clause on its own line and place each AND/OR condition on a new indented line. This layout makes it straightforward to trace filter logic during code review.</p>
+          </div>
+        </div>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

@@ -324,6 +324,75 @@
         </details>
       </section>
 
+      <!-- Code Line Count Benchmarks -->
+      <section class="mt-4">
+        <h2>Code Line Count Benchmarks</h2>
+        <p>Counting lines of code (LOC) is one of the oldest and most widely used software metrics. While it is not a perfect measure of complexity or productivity, LOC provides a useful sense of scale when comparing projects, estimating maintenance effort, or onboarding new team members. The table below shows approximate line counts for well-known open source projects, offering real-world benchmarks for what different scales of software look like.</p>
+        <div style="overflow-x:auto;margin:1.5rem 0">
+          <table style="width:100%;border-collapse:collapse;font-size:.95rem">
+            <thead>
+              <tr style="background:var(--accent);color:#fff">
+                <th style="padding:.75rem 1rem;text-align:left">Project</th>
+                <th style="padding:.75rem 1rem;text-align:left">Language</th>
+                <th style="padding:.75rem 1rem;text-align:right">Approx. Lines</th>
+                <th style="padding:.75rem 1rem;text-align:left">Context</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:.75rem 1rem;font-weight:600">Linux Kernel</td>
+                <td style="padding:.75rem 1rem">C</td>
+                <td style="padding:.75rem 1rem;text-align:right">28,000,000+</td>
+                <td style="padding:.75rem 1rem">The world's largest collaborative open source project, powering servers, Android devices, and supercomputers globally.</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);background:var(--bg)">
+                <td style="padding:.75rem 1rem;font-weight:600">Chromium</td>
+                <td style="padding:.75rem 1rem">C++</td>
+                <td style="padding:.75rem 1rem;text-align:right">35,000,000+</td>
+                <td style="padding:.75rem 1rem">The open source browser engine behind Google Chrome, Microsoft Edge, and Opera. One of the largest C++ codebases in existence.</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:.75rem 1rem;font-weight:600">React</td>
+                <td style="padding:.75rem 1rem">JavaScript</td>
+                <td style="padding:.75rem 1rem;text-align:right">350,000+</td>
+                <td style="padding:.75rem 1rem">Facebook's UI library. Relatively compact for its impact, reflecting a focused API surface with extensive test coverage making up a significant portion of the codebase.</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);background:var(--bg)">
+                <td style="padding:.75rem 1rem;font-weight:600">jQuery</td>
+                <td style="padding:.75rem 1rem">JavaScript</td>
+                <td style="padding:.75rem 1rem;text-align:right">10,000</td>
+                <td style="padding:.75rem 1rem">Once the backbone of web development. Its compact size demonstrates that high-impact libraries do not require massive codebases.</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:.75rem 1rem;font-weight:600">VS Code</td>
+                <td style="padding:.75rem 1rem">TypeScript</td>
+                <td style="padding:.75rem 1rem;text-align:right">4,500,000+</td>
+                <td style="padding:.75rem 1rem">Microsoft's popular code editor. The large codebase includes built-in extensions, language services, and the integrated terminal.</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);background:var(--bg)">
+                <td style="padding:.75rem 1rem;font-weight:600">Django</td>
+                <td style="padding:.75rem 1rem">Python</td>
+                <td style="padding:.75rem 1rem;text-align:right">350,000+</td>
+                <td style="padding:.75rem 1rem">Python's most popular web framework. Includes ORM, admin panel, authentication, and templating engine all in one package.</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:.75rem 1rem;font-weight:600">Ruby on Rails</td>
+                <td style="padding:.75rem 1rem">Ruby</td>
+                <td style="padding:.75rem 1rem;text-align:right">300,000+</td>
+                <td style="padding:.75rem 1rem">The framework that popularized convention over configuration. Its moderate size reflects Ruby's expressive, concise syntax.</td>
+              </tr>
+              <tr>
+                <td style="padding:.75rem 1rem;font-weight:600">SQLite</td>
+                <td style="padding:.75rem 1rem">C</td>
+                <td style="padding:.75rem 1rem;text-align:right">150,000</td>
+                <td style="padding:.75rem 1rem">The most widely deployed database engine in the world. Ships inside every smartphone, browser, and most operating systems despite its compact size.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>These benchmarks illustrate that project size varies enormously depending on scope and language verbosity. A 10,000-line library like jQuery can have as much real-world impact as a 35-million-line browser engine. Use the line counter tool above to quickly measure your own projects and track how your codebase grows over time.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

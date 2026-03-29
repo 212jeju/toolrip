@@ -406,6 +406,79 @@
         </details>
       </section>
 
+      <!-- World Time Zones Explained -->
+      <section class="mt-4">
+        <h2>World Time Zones Explained</h2>
+        <p>The world is divided into time zones based on offsets from Coordinated Universal Time (UTC), the global time standard maintained by atomic clocks. Understanding the key concepts behind time zones helps avoid scheduling errors in our increasingly connected world.</p>
+        <h3 style="color:var(--text);font-size:1.05rem;margin:1.5rem 0 0.75rem">UTC vs GMT</h3>
+        <p>UTC (Coordinated Universal Time) and GMT (Greenwich Mean Time) represent the same time in practice, but they are defined differently. GMT is a time zone based on the mean solar time at the Royal Observatory in Greenwich, London. UTC is a precise scientific standard maintained by a network of atomic clocks worldwide, accurate to within billionths of a second. UTC is the standard used in computing, aviation, and international coordination. GMT is still used colloquially in the UK and as a time zone label.</p>
+        <h3 style="color:var(--text);font-size:1.05rem;margin:1.5rem 0 0.75rem">Daylight Saving Time (DST)</h3>
+        <p>Many countries shift their clocks forward by one hour in spring and back in fall to extend evening daylight during warmer months. This means the UTC offset for a city can change twice a year. Not all regions observe DST: most of Africa, Asia, and South America do not, and even within countries that do, some states or territories opt out (such as Arizona in the United States). DST transitions are the most common source of scheduling bugs in software.</p>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.95rem">
+            <thead>
+              <tr style="background:var(--accent);color:#fff">
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">Time Zone</th>
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">UTC Offset</th>
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">Major Cities</th>
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">DST</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background:var(--bg)">
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">PST / PDT</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">UTC-8 / UTC-7</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Los Angeles, San Francisco, Seattle</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Yes</td>
+              </tr>
+              <tr>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">EST / EDT</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">UTC-5 / UTC-4</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">New York, Toronto, Miami</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Yes</td>
+              </tr>
+              <tr style="background:var(--bg)">
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">GMT / BST</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">UTC+0 / UTC+1</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">London, Dublin, Lisbon</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Yes</td>
+              </tr>
+              <tr>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">CET / CEST</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">UTC+1 / UTC+2</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Berlin, Paris, Rome, Madrid</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Yes</td>
+              </tr>
+              <tr style="background:var(--bg)">
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">IST</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">UTC+5:30</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Mumbai, Delhi, Bangalore</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">No</td>
+              </tr>
+              <tr>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">CST (China)</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">UTC+8</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Beijing, Shanghai, Singapore</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">No</td>
+              </tr>
+              <tr style="background:var(--bg)">
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">JST</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">UTC+9</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Tokyo, Seoul, Osaka</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">No</td>
+              </tr>
+              <tr>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">AEST / AEDT</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">UTC+10 / UTC+11</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Sydney, Melbourne, Brisbane</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Varies by state</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Note that some time zones use non-standard half-hour or 45-minute offsets. India (UTC+5:30), Nepal (UTC+5:45), and the Chatham Islands of New Zealand (UTC+12:45) are notable examples. When scheduling international meetings, always specify the UTC offset explicitly rather than using abbreviations, since abbreviations like CST refer to different zones in different countries.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

@@ -297,6 +297,47 @@
         </details>
       </section>
 
+      <!-- XML vs JSON in Modern Development -->
+      <section class="mt-4">
+        <h2>XML vs JSON in Modern Development</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">XML dominated data interchange for over a decade, but JSON has become the default for most new projects. Understanding where each format still thrives helps you make the right architectural decisions and work effectively with legacy systems.</p>
+        <div style="margin-bottom:var(--sp-3)">
+          <div style="display:flex;align-items:center;gap:var(--sp-2);margin-bottom:var(--sp-2)">
+            <div style="flex:1;height:24px;background:linear-gradient(90deg, var(--accent) 82%, transparent 82%);border-radius:var(--radius);position:relative">
+              <span style="position:absolute;left:var(--sp-2);top:50%;transform:translateY(-50%);color:var(--bg);font-size:.75rem;font-weight:700">JSON — 82% of public APIs (2024)</span>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:var(--sp-2);margin-bottom:var(--sp-3)">
+            <div style="flex:1;height:24px;background:linear-gradient(90deg, var(--border) 14%, transparent 14%);border-radius:var(--radius);position:relative">
+              <span style="position:absolute;left:var(--sp-2);top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:.75rem;font-weight:700">XML — 14% of public APIs</span>
+            </div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--sp-3);margin-bottom:var(--sp-3)">
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3)">
+            <div style="font-weight:700;color:var(--text);margin-bottom:var(--sp-2)">Where XML Still Dominates</div>
+            <ul style="color:var(--text-muted);font-size:.875rem;line-height:1.7;margin:0;padding-left:var(--sp-3)">
+              <li><strong style="color:var(--text)">SOAP web services</strong> — enterprise APIs in banking, healthcare, and government still rely on XML-based SOAP with WSDL contracts</li>
+              <li><strong style="color:var(--text)">Document formats</strong> — DOCX, XLSX, SVG, XHTML, RSS, and Atom feeds are all XML-based</li>
+              <li><strong style="color:var(--text)">Configuration files</strong> — Maven pom.xml, .NET web.config, Android manifests, and Spring XML config</li>
+              <li><strong style="color:var(--text)">Schema validation</strong> — XSD provides strict type checking and structural validation more mature than JSON Schema</li>
+              <li><strong style="color:var(--text)">XSLT transformations</strong> — server-side document transformation pipelines in publishing workflows</li>
+            </ul>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3)">
+            <div style="font-weight:700;color:var(--text);margin-bottom:var(--sp-2)">Where JSON Has Won</div>
+            <ul style="color:var(--text-muted);font-size:.875rem;line-height:1.7;margin:0;padding-left:var(--sp-3)">
+              <li><strong style="color:var(--text)">REST APIs</strong> — virtually all modern REST and GraphQL APIs use JSON as the default response format</li>
+              <li><strong style="color:var(--text)">Browser applications</strong> — native <code>JSON.parse()</code> is faster and simpler than XML DOM parsing in JavaScript</li>
+              <li><strong style="color:var(--text)">NoSQL databases</strong> — MongoDB, CouchDB, and DynamoDB store documents as JSON or BSON natively</li>
+              <li><strong style="color:var(--text)">Package management</strong> — package.json, composer.json, Cargo.toml (JSON-like) define project dependencies</li>
+              <li><strong style="color:var(--text)">Real-time communication</strong> — WebSocket messages, Server-Sent Events, and webhook payloads use JSON</li>
+            </ul>
+          </div>
+        </div>
+        <p style="color:var(--text-muted);line-height:1.7"><strong style="color:var(--text)">Practical advice:</strong> Choose JSON for new web services and APIs. Use XML when integrating with systems that require it (SOAP, legacy enterprise, document processing). Many developers need both skills — this formatter helps you work efficiently with XML when the situation demands it.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

@@ -319,6 +319,25 @@
         </details>
       </section>
 
+      <!-- Shadow Design Principles -->
+      <section class="mt-4">
+        <h2>Shadow Design Principles</h2>
+        <p>Shadows are not merely decorative effects. They communicate spatial relationships, establish visual hierarchy, and guide the user's eye to interactive elements. Understanding the principles behind shadow design helps you create interfaces that feel intuitive and polished.</p>
+        <h3 style="color:var(--text);font-size:1.05rem;margin:1.5rem 0 0.75rem">Elevation and Depth</h3>
+        <p>Google's Material Design introduced a formalized elevation system where each UI layer sits at a specific height above the base surface. Higher elements cast larger, softer shadows. This system uses six elevation levels (0dp through 24dp), each with precisely defined shadow values. The key insight is that shadow offset, blur radius, and opacity should all increase together as elevation rises. A card at 2dp might use <code style="font-size:0.85rem;background:var(--bg);padding:0.15rem 0.4rem;border-radius:0.25rem">0 1px 3px rgba(0,0,0,0.12)</code>, while a modal dialog at 24dp uses <code style="font-size:0.85rem;background:var(--bg);padding:0.15rem 0.4rem;border-radius:0.25rem">0 11px 15px rgba(0,0,0,0.2)</code>.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:1.5rem;margin:1.5rem 0;justify-content:center">
+          <div style="width:120px;height:80px;background:var(--bg);border-radius:0.5rem;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:600;color:var(--text);box-shadow:0 1px 2px rgba(0,0,0,0.1)">Level 1</div>
+          <div style="width:120px;height:80px;background:var(--bg);border-radius:0.5rem;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:600;color:var(--text);box-shadow:0 2px 6px rgba(0,0,0,0.15)">Level 2</div>
+          <div style="width:120px;height:80px;background:var(--bg);border-radius:0.5rem;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:600;color:var(--text);box-shadow:0 4px 12px rgba(0,0,0,0.18)">Level 3</div>
+          <div style="width:120px;height:80px;background:var(--bg);border-radius:0.5rem;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:600;color:var(--text);box-shadow:0 8px 24px rgba(0,0,0,0.22)">Level 4</div>
+          <div style="width:120px;height:80px;background:var(--bg);border-radius:0.5rem;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:600;color:var(--text);box-shadow:0 12px 32px rgba(0,0,0,0.28)">Level 5</div>
+        </div>
+        <h3 style="color:var(--text);font-size:1.05rem;margin:1.5rem 0 0.75rem">Shadow as Interactive Feedback</h3>
+        <p>Shadows can respond to user actions to reinforce interactivity. A button that gains a deeper shadow on hover signals that it is clickable and has "lifted" toward the user. A pressed state that reduces or removes the shadow communicates that the button has been pushed down. This physical metaphor is universally understood and reduces the need for explicit affordance labels. Transition the box-shadow property over 150 to 200 milliseconds for a smooth, responsive feel.</p>
+        <h3 style="color:var(--text);font-size:1.05rem;margin:1.5rem 0 0.75rem">Accessibility Considerations</h3>
+        <p>Never rely on shadow alone to indicate element boundaries or states. Users with low vision or high-contrast display settings may not perceive shadows at all, since most operating-system high-contrast modes strip box shadows entirely. Always pair shadows with borders, background color differences, or other visible indicators. Additionally, avoid extremely dark or opaque shadows on light backgrounds, as they can create distracting visual noise for users with certain visual processing sensitivities. Subtle shadows with opacity between 0.08 and 0.2 generally strike the best balance between visible depth and visual comfort.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

@@ -347,6 +347,57 @@
         </details>
       </section>
 
+      <!-- Understanding Diff Algorithms -->
+      <section class="mt-4">
+        <h2>Understanding Diff Algorithms</h2>
+        <p>When you compare two pieces of text, the tool needs a systematic way to determine exactly what was added, removed, or changed. This is the job of a diff algorithm. The most widely used approach is the Myers diff algorithm, published by Eugene Myers in 1986, which finds the shortest edit script to transform one text into another. Understanding how it works gives you insight into the technology behind version control systems like Git, code review platforms, and this very tool.</p>
+        <h3 style="font-size:1.05rem;margin:1.5rem 0 .75rem">How the Myers Algorithm Works</h3>
+        <p>The algorithm models the comparison as a graph traversal problem. Imagine placing the original text along the X-axis and the new text along the Y-axis. Moving right represents a deletion (consuming a character from the original), moving down represents an insertion (consuming a character from the new text), and moving diagonally represents a match (the characters are identical). The algorithm finds the path from the top-left corner to the bottom-right corner that uses the fewest right and down moves.</p>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:.75rem;padding:1.5rem;margin:1.5rem 0">
+          <h3 style="font-size:1rem;margin:0 0 1rem;color:var(--accent)">Visual Example: Comparing Two Sentences</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+            <div style="background:var(--surface);padding:1rem;border-radius:.5rem">
+              <p style="font-size:.85rem;color:var(--muted);margin:0 0 .25rem">Original</p>
+              <p style="margin:0;font-family:monospace">The <strong>quick</strong> brown fox</p>
+            </div>
+            <div style="background:var(--surface);padding:1rem;border-radius:.5rem">
+              <p style="font-size:.85rem;color:var(--muted);margin:0 0 .25rem">Modified</p>
+              <p style="margin:0;font-family:monospace">The <strong>slow</strong> brown <strong>dog</strong></p>
+            </div>
+          </div>
+          <div style="background:var(--surface);padding:1rem;border-radius:.5rem">
+            <p style="font-size:.85rem;color:var(--muted);margin:0 0 .5rem">Diff Result</p>
+            <p style="margin:0;font-family:monospace;line-height:2">
+              <span>The </span>
+              <span style="background:#fee2e2;color:#dc2626;padding:.15rem .3rem;border-radius:.25rem;text-decoration:line-through">quick</span>
+              <span style="background:#dcfce7;color:#16a34a;padding:.15rem .3rem;border-radius:.25rem">slow</span>
+              <span> brown </span>
+              <span style="background:#fee2e2;color:#dc2626;padding:.15rem .3rem;border-radius:.25rem;text-decoration:line-through">fox</span>
+              <span style="background:#dcfce7;color:#16a34a;padding:.15rem .3rem;border-radius:.25rem">dog</span>
+            </p>
+          </div>
+        </div>
+        <h3 style="font-size:1.05rem;margin:1.5rem 0 .75rem">Three Types of Changes</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin:1rem 0">
+          <div style="background:var(--bg);border:2px solid #dc2626;border-radius:.75rem;padding:1rem;text-align:center">
+            <p style="font-size:1.5rem;margin:0">&#8722;</p>
+            <p style="font-weight:700;margin:.25rem 0;color:#dc2626">Deletions</p>
+            <p style="font-size:.85rem;margin:0">Text present in the original but absent in the modified version. Shown with a red background and strikethrough formatting.</p>
+          </div>
+          <div style="background:var(--bg);border:2px solid #16a34a;border-radius:.75rem;padding:1rem;text-align:center">
+            <p style="font-size:1.5rem;margin:0">&#43;</p>
+            <p style="font-weight:700;margin:.25rem 0;color:#16a34a">Additions</p>
+            <p style="font-size:.85rem;margin:0">Text present in the modified version but absent in the original. Displayed with a green background to indicate new content.</p>
+          </div>
+          <div style="background:var(--bg);border:2px solid var(--accent);border-radius:.75rem;padding:1rem;text-align:center">
+            <p style="font-size:1.5rem;margin:0">&#8644;</p>
+            <p style="font-weight:700;margin:.25rem 0;color:var(--accent)">Changes</p>
+            <p style="font-size:.85rem;margin:0">A deletion immediately followed by an insertion at the same position. The algorithm sees these as a remove-then-add pair, which visually appears as a replacement.</p>
+          </div>
+        </div>
+        <p>The Myers algorithm runs in O(ND) time, where N is the total length of both texts and D is the size of the minimum edit script. For texts that are mostly similar, D is small and the algorithm performs extremely well. This efficiency is why Git chose it as the default diff engine, and why it powers the comparison tool above.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

@@ -379,6 +379,39 @@ border-color: #FF5733;</div>
         </details>
       </section>
 
+      <!-- Color Spaces Explained -->
+      <section class="mt-4">
+        <h2>Color Spaces Explained</h2>
+        <p>Colors in digital design and printing are defined using mathematical models called color spaces. Each color space describes colors differently, and choosing the right one depends on whether you are working on screens, print materials, or data visualizations. Here is a comparison of the four most commonly used color spaces and when each one is the best fit.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.25rem;margin:1.5rem 0">
+          <div style="background:var(--bg);border:2px solid #3b82f6;border-radius:.75rem;padding:1.25rem">
+            <h3 style="color:#3b82f6;margin:0 0 .5rem;font-size:1.1rem">RGB</h3>
+            <p style="font-family:monospace;background:var(--surface);padding:.5rem;border-radius:.375rem;margin:.5rem 0;font-size:.9rem">rgb(59, 130, 246)</p>
+            <p style="margin:0 0 .75rem;font-size:.9rem">Defines colors by mixing Red, Green, and Blue light on a scale of 0 to 255 per channel. This produces over 16.7 million possible colors. RGB is the native color model for all screens because monitors physically emit red, green, and blue light.</p>
+            <p style="margin:0;font-size:.85rem;color:var(--accent);font-weight:600">Best for: CSS, JavaScript, APIs, dynamic color manipulation</p>
+          </div>
+          <div style="background:var(--bg);border:2px solid #8b5cf6;border-radius:.75rem;padding:1.25rem">
+            <h3 style="color:#8b5cf6;margin:0 0 .5rem;font-size:1.1rem">HEX</h3>
+            <p style="font-family:monospace;background:var(--surface);padding:.5rem;border-radius:.375rem;margin:.5rem 0;font-size:.9rem">#3B82F6</p>
+            <p style="margin:0 0 .75rem;font-size:.9rem">A compact hexadecimal representation of RGB values. Each pair of hex digits maps to one RGB channel (RR GG BB). HEX is simply RGB written in base-16 notation, making it shorter to type while encoding exactly the same information.</p>
+            <p style="margin:0;font-size:.85rem;color:var(--accent);font-weight:600">Best for: CSS stylesheets, design tokens, brand guidelines</p>
+          </div>
+          <div style="background:var(--bg);border:2px solid #f59e0b;border-radius:.75rem;padding:1.25rem">
+            <h3 style="color:#f59e0b;margin:0 0 .5rem;font-size:1.1rem">HSL</h3>
+            <p style="font-family:monospace;background:var(--surface);padding:.5rem;border-radius:.375rem;margin:.5rem 0;font-size:.9rem">hsl(217, 91%, 60%)</p>
+            <p style="margin:0 0 .75rem;font-size:.9rem">Describes colors using Hue (0-360 degree color wheel), Saturation (intensity), and Lightness (brightness). HSL is more intuitive for humans because adjusting lightness or saturation is straightforward without affecting the base color.</p>
+            <p style="margin:0;font-size:.85rem;color:var(--accent);font-weight:600">Best for: Generating color palettes, theming, creating tints and shades</p>
+          </div>
+          <div style="background:var(--bg);border:2px solid #ec4899;border-radius:.75rem;padding:1.25rem">
+            <h3 style="color:#ec4899;margin:0 0 .5rem;font-size:1.1rem">CMYK</h3>
+            <p style="font-family:monospace;background:var(--surface);padding:.5rem;border-radius:.375rem;margin:.5rem 0;font-size:.9rem">cmyk(76%, 47%, 0%, 4%)</p>
+            <p style="margin:0 0 .75rem;font-size:.9rem">A subtractive color model using Cyan, Magenta, Yellow, and Key (black) inks. Unlike RGB which adds light, CMYK subtracts brightness from white paper. Colors that look vibrant on screen may appear muted when printed because CMYK has a smaller color gamut.</p>
+            <p style="margin:0;font-size:.85rem;color:var(--accent);font-weight:600">Best for: Print design, packaging, physical marketing materials</p>
+          </div>
+        </div>
+        <p>When working on web projects, RGB and HEX are interchangeable since they encode the same color space. Use HEX for static values in stylesheets and RGB when you need to manipulate individual channels in JavaScript. Choose HSL when building design systems with programmatic color variations, and switch to CMYK only when preparing files for professional printing. The converter above handles instant translation between HEX and RGB, the two formats you will encounter most frequently in web development.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

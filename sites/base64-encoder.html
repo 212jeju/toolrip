@@ -293,6 +293,40 @@
         </details>
       </section>
 
+      <!-- How Base64 Encoding Works -->
+      <section class="mt-4">
+        <h2>How Base64 Encoding Works</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Base64 converts binary data into a set of 64 printable ASCII characters. Understanding the encoding process helps you debug issues and estimate output sizes. Here is a step-by-step walkthrough of how the text "Hello" is encoded to Base64.</p>
+        <div style="display:flex;flex-direction:column;gap:var(--sp-3);margin-bottom:var(--sp-3)">
+          <div style="background:var(--bg);border-left:4px solid var(--accent);padding:var(--sp-3);border-radius:0 var(--radius) var(--radius) 0">
+            <div style="font-weight:700;color:var(--accent);margin-bottom:var(--sp-1)">Step 1: Convert to ASCII Values</div>
+            <code style="display:block;background:var(--bg-alt);padding:var(--sp-2);border-radius:var(--radius);font-size:.875rem;margin-bottom:var(--sp-1)">H=72 e=101 l=108 l=108 o=111</code>
+            <p style="color:var(--text-muted);font-size:.8125rem;margin:0">Each character is converted to its ASCII decimal value. This works identically for UTF-8 encoded text where each byte is processed individually.</p>
+          </div>
+          <div style="background:var(--bg);border-left:4px solid var(--accent);padding:var(--sp-3);border-radius:0 var(--radius) var(--radius) 0">
+            <div style="font-weight:700;color:var(--accent);margin-bottom:var(--sp-1)">Step 2: Convert to 8-bit Binary</div>
+            <code style="display:block;background:var(--bg-alt);padding:var(--sp-2);border-radius:var(--radius);font-size:.875rem;margin-bottom:var(--sp-1)">01001000 01100101 01101100 01101100 01101111</code>
+            <p style="color:var(--text-muted);font-size:.8125rem;margin:0">Each ASCII value is represented as an 8-bit binary number. "Hello" produces 5 bytes = 40 bits total.</p>
+          </div>
+          <div style="background:var(--bg);border-left:4px solid var(--accent);padding:var(--sp-3);border-radius:0 var(--radius) var(--radius) 0">
+            <div style="font-weight:700;color:var(--accent);margin-bottom:var(--sp-1)">Step 3: Regroup into 6-bit Chunks</div>
+            <code style="display:block;background:var(--bg-alt);padding:var(--sp-2);border-radius:var(--radius);font-size:.875rem;margin-bottom:var(--sp-1)">010010 000110 010101 101100 011011 000110 1111<span style="color:var(--accent)">00</span></code>
+            <p style="color:var(--text-muted);font-size:.8125rem;margin:0">The concatenated binary is split into 6-bit groups. Since 40 is not divisible by 6, the last group is padded with zeros (shown in color) to complete 42 bits (7 groups).</p>
+          </div>
+          <div style="background:var(--bg);border-left:4px solid var(--accent);padding:var(--sp-3);border-radius:0 var(--radius) var(--radius) 0">
+            <div style="font-weight:700;color:var(--accent);margin-bottom:var(--sp-1)">Step 4: Map to Base64 Alphabet</div>
+            <code style="display:block;background:var(--bg-alt);padding:var(--sp-2);border-radius:var(--radius);font-size:.875rem;margin-bottom:var(--sp-1)">18=S 6=G 21=V 44=s 27=b 6=G 60=8</code>
+            <p style="color:var(--text-muted);font-size:.8125rem;margin:0">Each 6-bit value (0-63) maps to a character: A-Z (0-25), a-z (26-51), 0-9 (52-61), + (62), / (63). The values above produce the characters S, G, V, s, b, G, 8.</p>
+          </div>
+          <div style="background:var(--bg);border-left:4px solid var(--accent);padding:var(--sp-3);border-radius:0 var(--radius) var(--radius) 0">
+            <div style="font-weight:700;color:var(--accent);margin-bottom:var(--sp-1)">Step 5: Add Padding</div>
+            <code style="display:block;background:var(--bg-alt);padding:var(--sp-2);border-radius:var(--radius);font-size:.875rem;margin-bottom:var(--sp-1)">SGVsbG8<span style="color:var(--accent)">=</span></code>
+            <p style="color:var(--text-muted);font-size:.8125rem;margin:0">Base64 output must be a multiple of 4 characters. Since 7 characters were produced, one "=" pad character is appended. If the input had 1 byte remainder, two "=" pads would be added; if evenly divisible by 3, no padding is needed.</p>
+          </div>
+        </div>
+        <p style="color:var(--text-muted);line-height:1.7"><strong style="color:var(--text)">Size overhead:</strong> Base64 encoding always increases data size by approximately 33%. Every 3 input bytes become 4 output characters. For a 1 MB file, the Base64 representation will be roughly 1.33 MB. URL-safe Base64 replaces + with - and / with _ to avoid conflicts with URL reserved characters, but the encoding process is otherwise identical.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

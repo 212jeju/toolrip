@@ -384,6 +384,101 @@
         </details>
       </section>
 
+      <!-- Common Regex Patterns -->
+      <section class="mt-4">
+        <h2>Common Regex Patterns</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Memorizing every regex metacharacter is unnecessary when you have a solid library of tested patterns. The following table contains 15 production-ready regular expressions for the most common validation and extraction tasks. Copy any pattern directly into this tool to test it against your own data.</p>
+        <div style="overflow-x:auto;margin-bottom:var(--sp-3)">
+          <table style="width:100%;border-collapse:collapse;font-size:.875rem">
+            <thead>
+              <tr style="border-bottom:2px solid var(--accent)">
+                <th style="text-align:left;padding:var(--sp-2);color:var(--text);white-space:nowrap">Pattern Name</th>
+                <th style="text-align:left;padding:var(--sp-2);color:var(--text)">Regex</th>
+                <th style="text-align:left;padding:var(--sp-2);color:var(--text)">Example Match</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);color:var(--text-muted);white-space:nowrap">Email Address</td>
+                <td style="padding:var(--sp-2)"><code style="font-size:.8125rem">^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">user@example.com</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);color:var(--text-muted);white-space:nowrap">URL (HTTP/HTTPS)</td>
+                <td style="padding:var(--sp-2)"><code style="font-size:.8125rem">https?:\/\/[^\s/$.?#].[^\s]*</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">https://example.com/path</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);color:var(--text-muted);white-space:nowrap">IPv4 Address</td>
+                <td style="padding:var(--sp-2)"><code style="font-size:.8125rem">^(\d{1,3}\.){3}\d{1,3}$</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">192.168.1.1</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);color:var(--text-muted);white-space:nowrap">IPv6 Address</td>
+                <td style="padding:var(--sp-2)"><code style="font-size:.8125rem">^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">2001:0db8:85a3:0000:0000:8a2e:0370:7334</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);color:var(--text-muted);white-space:nowrap">US Phone Number</td>
+                <td style="padding:var(--sp-2)"><code style="font-size:.8125rem">^\+?1?[-.\s]?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">(555) 123-4567</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);color:var(--text-muted);white-space:nowrap">Date (YYYY-MM-DD)</td>
+                <td style="padding:var(--sp-2)"><code style="font-size:.8125rem">^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">2025-12-31</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);color:var(--text-muted);white-space:nowrap">Time (24h)</td>
+                <td style="padding:var(--sp-2)"><code style="font-size:.8125rem">^([01]\d|2[0-3]):[0-5]\d(:[0-5]\d)?$</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">14:30:00</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);color:var(--text-muted);white-space:nowrap">Hex Color Code</td>
+                <td style="padding:var(--sp-2)"><code style="font-size:.8125rem">^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">#ff5733</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);color:var(--text-muted);white-space:nowrap">Strong Password</td>
+                <td style="padding:var(--sp-2)"><code style="font-size:.8125rem">^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">P@ssw0rd!</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);color:var(--text-muted);white-space:nowrap">HTML Tag</td>
+                <td style="padding:var(--sp-2)"><code style="font-size:.8125rem">&lt;([a-z]+)([^&lt;]*?)(?:&gt;(.*?)&lt;\/\1&gt;|\/&gt;)</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">&lt;div class="x"&gt;...&lt;/div&gt;</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);color:var(--text-muted);white-space:nowrap">Username</td>
+                <td style="padding:var(--sp-2)"><code style="font-size:.8125rem">^[a-zA-Z0-9_-]{3,20}$</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">cool_user123</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);color:var(--text-muted);white-space:nowrap">Credit Card (Visa)</td>
+                <td style="padding:var(--sp-2)"><code style="font-size:.8125rem">^4[0-9]{12}(?:[0-9]{3})?$</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">4111111111111111</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);color:var(--text-muted);white-space:nowrap">ZIP Code (US)</td>
+                <td style="padding:var(--sp-2)"><code style="font-size:.8125rem">^\d{5}(-\d{4})?$</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">90210 or 90210-1234</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);color:var(--text-muted);white-space:nowrap">MAC Address</td>
+                <td style="padding:var(--sp-2)"><code style="font-size:.8125rem">^([0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2}$</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">00:1A:2B:3C:4D:5E</td>
+              </tr>
+              <tr>
+                <td style="padding:var(--sp-2);color:var(--text-muted);white-space:nowrap">Slug (URL-friendly)</td>
+                <td style="padding:var(--sp-2)"><code style="font-size:.8125rem">^[a-z0-9]+(?:-[a-z0-9]+)*$</code></td>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">my-blog-post-title</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="color:var(--text-muted);line-height:1.7"><strong style="color:var(--text)">Important note:</strong> These patterns cover common cases but are not exhaustive validators. For example, the email regex does not cover every valid email per RFC 5322 (which allows quoted strings and IP addresses in the domain part). Always combine regex validation with additional server-side checks for critical data.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

@@ -340,6 +340,40 @@
         </details>
       </section>
 
+      <!-- Text Case Naming Conventions -->
+      <section class="mt-4">
+        <h2>Text Case Naming Conventions in Programming</h2>
+        <p>Text casing is not just about aesthetics; it is a fundamental part of how developers communicate intent through code. Every major programming language and framework has established conventions that use specific text cases to distinguish between variables, classes, constants, and other identifiers. Understanding these conventions helps you write more readable code and collaborate effectively with other developers.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;margin:1.5rem 0">
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:.75rem;padding:1.25rem">
+            <h3 style="color:var(--accent);margin:0 0 .5rem;font-size:1.1rem">camelCase</h3>
+            <p style="font-family:monospace;background:var(--surface);padding:.5rem;border-radius:.375rem;margin:.5rem 0">getUserName, totalPrice, isActive</p>
+            <p style="margin:0;font-size:.9rem">Starts with a lowercase letter and capitalizes each subsequent word. The dominant convention in JavaScript, Java, and TypeScript for variables, function names, and object properties. Widely adopted because it balances readability with compactness.</p>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:.75rem;padding:1.25rem">
+            <h3 style="color:var(--accent);margin:0 0 .5rem;font-size:1.1rem">PascalCase</h3>
+            <p style="font-family:monospace;background:var(--surface);padding:.5rem;border-radius:.375rem;margin:.5rem 0">UserProfile, HttpRequest, DataManager</p>
+            <p style="margin:0;font-size:.9rem">Every word starts with an uppercase letter, including the first. Used for class names in nearly all object-oriented languages including C#, Java, Python, and JavaScript. React components must use PascalCase to differentiate them from HTML elements.</p>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:.75rem;padding:1.25rem">
+            <h3 style="color:var(--accent);margin:0 0 .5rem;font-size:1.1rem">snake_case</h3>
+            <p style="font-family:monospace;background:var(--surface);padding:.5rem;border-radius:.375rem;margin:.5rem 0">user_name, max_retry_count, is_valid</p>
+            <p style="margin:0;font-size:.9rem">All lowercase with underscores separating words. The standard naming convention in Python (PEP 8), Ruby, and Rust for variables and functions. Also widely used in database column names and REST API query parameters.</p>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:.75rem;padding:1.25rem">
+            <h3 style="color:var(--accent);margin:0 0 .5rem;font-size:1.1rem">kebab-case</h3>
+            <p style="font-family:monospace;background:var(--surface);padding:.5rem;border-radius:.375rem;margin:.5rem 0">user-profile, main-content, nav-bar</p>
+            <p style="margin:0;font-size:.9rem">All lowercase with hyphens between words. The standard in CSS class names, HTML attributes, URL slugs, and npm package names. Cannot be used as identifiers in most programming languages because the hyphen is interpreted as a minus operator.</p>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:.75rem;padding:1.25rem">
+            <h3 style="color:var(--accent);margin:0 0 .5rem;font-size:1.1rem">SCREAMING_SNAKE_CASE</h3>
+            <p style="font-family:monospace;background:var(--surface);padding:.5rem;border-radius:.375rem;margin:.5rem 0">MAX_RETRIES, API_BASE_URL, PI_VALUE</p>
+            <p style="margin:0;font-size:.9rem">All uppercase with underscores. Universally used for constants across JavaScript, Python, Java, C, and C++. The uppercase letters signal to other developers that this value should never be reassigned during program execution.</p>
+          </div>
+        </div>
+        <p>Choosing the right text case convention depends on your programming language, the type of identifier, and your team's style guide. Consistent casing makes your code easier to scan, reduces cognitive load during code reviews, and prevents naming conflicts. Use the case converter tool above to quickly transform text between any of these conventions.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

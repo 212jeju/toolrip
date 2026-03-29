@@ -306,6 +306,71 @@
         </details>
       </section>
 
+      <!-- When to Use Base64 Images -->
+      <section class="mt-4">
+        <h2>When to Use Base64 Images</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Embedding images as Base64 data URIs eliminates HTTP requests but increases file size. Knowing when this tradeoff is beneficial is critical for web performance optimization.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--sp-3);margin-bottom:var(--sp-3)">
+          <div style="background:var(--bg);border:1px solid var(--border);border-left:4px solid #10b981;border-radius:var(--radius);padding:var(--sp-3)">
+            <div style="font-weight:700;color:#10b981;margin-bottom:var(--sp-2);font-size:1.05rem">Advantages</div>
+            <ul style="color:var(--text-muted);font-size:.875rem;line-height:1.7;margin:0;padding-left:var(--sp-3)">
+              <li><strong style="color:var(--text)">Fewer HTTP requests</strong> — each external image requires a separate network round trip (DNS + TCP + TLS + response). Inlining eliminates this overhead entirely.</li>
+              <li><strong style="color:var(--text)">Self-contained files</strong> — HTML emails, single-file documentation, and offline applications benefit from having zero external dependencies.</li>
+              <li><strong style="color:var(--text)">No CORS issues</strong> — embedded images avoid cross-origin restrictions that affect images loaded from different domains.</li>
+              <li><strong style="color:var(--text)">Instant rendering</strong> — small icons and UI elements appear immediately without waiting for a separate download.</li>
+            </ul>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-left:4px solid #ef4444;border-radius:var(--radius);padding:var(--sp-3)">
+            <div style="font-weight:700;color:#ef4444;margin-bottom:var(--sp-2);font-size:1.05rem">Disadvantages</div>
+            <ul style="color:var(--text-muted);font-size:.875rem;line-height:1.7;margin:0;padding-left:var(--sp-3)">
+              <li><strong style="color:var(--text)">33% size increase</strong> — Base64 encoding expands every 3 bytes of binary data to 4 ASCII characters, adding roughly one-third overhead.</li>
+              <li><strong style="color:var(--text)">No browser caching</strong> — external images are cached independently; inline images must be re-downloaded with every page load.</li>
+              <li><strong style="color:var(--text)">Blocks rendering</strong> — large Base64 strings in CSS increase stylesheet parse time and delay first paint.</li>
+              <li><strong style="color:var(--text)">Maintenance burden</strong> — updating an inline image requires editing source code rather than simply replacing a file on the server.</li>
+            </ul>
+          </div>
+        </div>
+        <div style="overflow-x:auto;margin-bottom:var(--sp-3)">
+          <table style="width:100%;border-collapse:collapse;font-size:.875rem">
+            <thead>
+              <tr style="border-bottom:2px solid var(--accent)">
+                <th style="text-align:left;padding:var(--sp-2);color:var(--text)">Image Type</th>
+                <th style="text-align:center;padding:var(--sp-2);color:var(--text)">Original Size</th>
+                <th style="text-align:center;padding:var(--sp-2);color:var(--text)">Base64 Size</th>
+                <th style="text-align:center;padding:var(--sp-2);color:var(--text)">Recommendation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Small icon (SVG/PNG)</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">&lt; 2 KB</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">~2.7 KB</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#10b981;font-weight:600">Inline</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);color:var(--text-muted)">UI element / sprite</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">2-10 KB</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">2.7-13.3 KB</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#f59e0b;font-weight:600">Consider</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Thumbnail photo</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">10-50 KB</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">13-67 KB</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#ef4444;font-weight:600">External file</td>
+              </tr>
+              <tr>
+                <td style="padding:var(--sp-2);color:var(--text-muted)">Full-size photo</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">100+ KB</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">133+ KB</td>
+                <td style="padding:var(--sp-2);text-align:center;color:#ef4444;font-weight:600">External file</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="color:var(--text-muted);line-height:1.7"><strong style="color:var(--text)">Rule of thumb:</strong> Inline images smaller than 2 KB where the HTTP request overhead would exceed the Base64 size increase. For anything larger, use external files with proper cache headers (Cache-Control: max-age=31536000) and a CDN. Modern build tools like Webpack and Vite can automate this decision based on configurable size thresholds.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

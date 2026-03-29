@@ -313,6 +313,84 @@
         </details>
       </section>
 
+      <!-- Data Format Comparison -->
+      <section class="mt-4">
+        <h2>Data Format Comparison</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Choosing the right data format depends on your use case. This feature matrix compares the four most common data interchange formats across key dimensions to help you pick the best format for your project.</p>
+        <div style="overflow-x:auto;margin-bottom:var(--sp-3)">
+          <table style="width:100%;border-collapse:collapse;font-size:.875rem">
+            <thead>
+              <tr style="border-bottom:2px solid var(--accent)">
+                <th style="text-align:left;padding:var(--sp-2);color:var(--text)">Feature</th>
+                <th style="text-align:center;padding:var(--sp-2);color:var(--text)">CSV</th>
+                <th style="text-align:center;padding:var(--sp-2);color:var(--text)">JSON</th>
+                <th style="text-align:center;padding:var(--sp-2);color:var(--text)">XML</th>
+                <th style="text-align:center;padding:var(--sp-2);color:var(--text)">YAML</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);color:var(--text);font-weight:600">Human Readable</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">Medium</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">Good</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">Verbose</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">Excellent</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);color:var(--text);font-weight:600">Nesting Support</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">None</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">Full</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">Full</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">Full</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);color:var(--text);font-weight:600">Data Types</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">Strings only</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">6 types</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">Strings + schema</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">Rich types</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);color:var(--text);font-weight:600">Comments</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">No standard</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">Not supported</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">Supported</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">Supported</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);color:var(--text);font-weight:600">File Size</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">Smallest</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">Small</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">Largest</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">Medium</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);color:var(--text);font-weight:600">Parse Speed</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">Very fast</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">Fast</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">Slow</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">Medium</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:var(--sp-2);color:var(--text);font-weight:600">Schema Validation</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">None</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">JSON Schema</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">XSD / DTD</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">None native</td>
+              </tr>
+              <tr>
+                <td style="padding:var(--sp-2);color:var(--text);font-weight:600">Best For</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">Tabular data, spreadsheets, data exports</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">Web APIs, config, browser storage</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">SOAP APIs, enterprise, document markup</td>
+                <td style="padding:var(--sp-2);color:var(--text-muted);text-align:center">Config files, DevOps, CI/CD</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="color:var(--text-muted);line-height:1.7"><strong style="color:var(--text)">Choosing wisely:</strong> CSV excels for flat tabular data like database exports, spreadsheets, and analytics datasets. JSON is the default for web APIs and browser-based applications. XML remains dominant in enterprise systems, SOAP services, and document-oriented workflows. YAML is the preferred format for configuration and infrastructure-as-code tools. Convert between them as needed using the tools on this site.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

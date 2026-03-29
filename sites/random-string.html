@@ -381,6 +381,66 @@
         </details>
       </section>
 
+      <!-- Random String Entropy Explained -->
+      <section class="mt-4">
+        <h2>Random String Entropy Explained</h2>
+        <p>Not all random strings are equally secure. A 10-character string using only lowercase letters is far easier to crack than a 10-character string using uppercase, lowercase, digits, and symbols. The concept that quantifies this difference is called entropy, measured in bits. Higher entropy means more possible combinations, which translates directly to greater resistance against brute-force attacks. Understanding entropy helps you choose the right string length and character set for your specific security requirements.</p>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:.75rem;padding:1.5rem;margin:1.5rem 0">
+          <h3 style="color:var(--accent);margin:0 0 .75rem;font-size:1.05rem">The Entropy Formula</h3>
+          <div style="background:var(--surface);padding:1.25rem;border-radius:.5rem;text-align:center;margin-bottom:1rem">
+            <p style="font-size:1.3rem;font-family:monospace;font-weight:700;margin:0">E = L &times; log<sub>2</sub>(R)</p>
+            <p style="font-size:.85rem;color:var(--muted);margin:.5rem 0 0"><strong>E</strong> = entropy in bits &nbsp;&bull;&nbsp; <strong>L</strong> = string length &nbsp;&bull;&nbsp; <strong>R</strong> = number of possible characters in the set</p>
+          </div>
+          <p style="font-size:.9rem;margin:0">Each character in a random string contributes log<sub>2</sub>(R) bits of entropy, where R is the size of the character pool. The total entropy is simply this value multiplied by the string length. For example, a single lowercase letter (26 possibilities) contributes about 4.7 bits, while a character drawn from the full printable ASCII set (95 characters) contributes about 6.6 bits.</p>
+        </div>
+        <div style="overflow-x:auto;margin:1.5rem 0">
+          <table style="width:100%;border-collapse:collapse;font-size:.95rem">
+            <thead>
+              <tr style="background:var(--accent);color:#fff">
+                <th style="padding:.75rem 1rem;text-align:left">Character Set</th>
+                <th style="padding:.75rem 1rem;text-align:right">Pool Size</th>
+                <th style="padding:.75rem 1rem;text-align:right">Bits / Char</th>
+                <th style="padding:.75rem 1rem;text-align:right">8-Char Entropy</th>
+                <th style="padding:.75rem 1rem;text-align:right">16-Char Entropy</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:.75rem 1rem;font-weight:600">Digits only (0-9)</td>
+                <td style="padding:.75rem 1rem;text-align:right">10</td>
+                <td style="padding:.75rem 1rem;text-align:right">3.32</td>
+                <td style="padding:.75rem 1rem;text-align:right">26.6 bits</td>
+                <td style="padding:.75rem 1rem;text-align:right">53.1 bits</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);background:var(--bg)">
+                <td style="padding:.75rem 1rem;font-weight:600">Lowercase (a-z)</td>
+                <td style="padding:.75rem 1rem;text-align:right">26</td>
+                <td style="padding:.75rem 1rem;text-align:right">4.70</td>
+                <td style="padding:.75rem 1rem;text-align:right">37.6 bits</td>
+                <td style="padding:.75rem 1rem;text-align:right">75.2 bits</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:.75rem 1rem;font-weight:600">Alphanumeric (a-z, A-Z, 0-9)</td>
+                <td style="padding:.75rem 1rem;text-align:right">62</td>
+                <td style="padding:.75rem 1rem;text-align:right">5.95</td>
+                <td style="padding:.75rem 1rem;text-align:right">47.6 bits</td>
+                <td style="padding:.75rem 1rem;text-align:right">95.3 bits</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);background:var(--bg)">
+                <td style="padding:.75rem 1rem;font-weight:600">Alphanumeric + symbols</td>
+                <td style="padding:.75rem 1rem;text-align:right">95</td>
+                <td style="padding:.75rem 1rem;text-align:right">6.57</td>
+                <td style="padding:.75rem 1rem;text-align:right">52.6 bits</td>
+                <td style="padding:.75rem 1rem;text-align:right">105.1 bits</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 style="font-size:1.05rem;margin:1.25rem 0 .75rem">Security Recommendations by Use Case</h3>
+        <p>For session tokens and API keys, security experts recommend a minimum of 128 bits of entropy, which requires a 22-character alphanumeric string or a 20-character string with symbols. For short-lived verification codes like two-factor authentication, 20 bits (a 6-digit number) is sufficient because these codes expire within seconds. Database primary keys that use UUIDs provide 122 bits of entropy with their 32 hexadecimal characters. Password reset tokens should aim for at least 128 bits to prevent brute-force guessing within the token's validity window.</p>
+        <p>Use the random string generator above to create strings with your desired character set and length, then calculate the entropy using the formula to verify it meets your security requirements. The tool uses the Web Crypto API for cryptographically secure random number generation, ensuring that generated strings are truly unpredictable.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

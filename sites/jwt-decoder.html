@@ -287,6 +287,62 @@
         </details>
       </section>
 
+      <!-- JWT Token Structure Explained -->
+      <section class="mt-4">
+        <h2>JWT Token Structure Explained</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">A JSON Web Token consists of three Base64URL-encoded parts separated by dots. Understanding each part helps you debug authentication issues, verify claims, and identify security problems in your token flow.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:0;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:var(--sp-3)">
+          <div style="padding:var(--sp-3);border-bottom:1px solid var(--border);border-right:1px solid var(--border)">
+            <div style="display:flex;align-items:center;gap:var(--sp-2);margin-bottom:var(--sp-2)">
+              <div style="width:10px;height:10px;border-radius:50%;background:#ef4444;flex-shrink:0"></div>
+              <div style="font-weight:700;color:#ef4444;font-size:1.1rem">Header</div>
+            </div>
+            <pre style="background:var(--bg-alt);padding:var(--sp-2);border-radius:var(--radius);font-size:.8125rem;margin-bottom:var(--sp-2);overflow-x:auto"><code>{
+  "alg": "HS256",
+  "typ": "JWT"
+}</code></pre>
+            <div style="font-size:.8125rem;color:var(--text-muted);line-height:1.6">
+              <p style="margin:0 0 var(--sp-1) 0"><strong style="color:var(--text)">alg</strong> — The signing algorithm used. Common values: HS256 (HMAC-SHA256, symmetric), RS256 (RSA-SHA256, asymmetric), ES256 (ECDSA-SHA256).</p>
+              <p style="margin:0"><strong style="color:var(--text)">typ</strong> — Token type, almost always "JWT". Some systems omit this field entirely since it is implied by context.</p>
+            </div>
+          </div>
+          <div style="padding:var(--sp-3);border-bottom:1px solid var(--border);border-right:1px solid var(--border)">
+            <div style="display:flex;align-items:center;gap:var(--sp-2);margin-bottom:var(--sp-2)">
+              <div style="width:10px;height:10px;border-radius:50%;background:#a855f7;flex-shrink:0"></div>
+              <div style="font-weight:700;color:#a855f7;font-size:1.1rem">Payload</div>
+            </div>
+            <pre style="background:var(--bg-alt);padding:var(--sp-2);border-radius:var(--radius);font-size:.8125rem;margin-bottom:var(--sp-2);overflow-x:auto"><code>{
+  "sub": "1234567890",
+  "name": "John Doe",
+  "iat": 1516239022,
+  "exp": 1516242622
+}</code></pre>
+            <div style="font-size:.8125rem;color:var(--text-muted);line-height:1.6">
+              <p style="margin:0 0 var(--sp-1) 0"><strong style="color:var(--text)">sub</strong> — Subject identifier, typically the user ID.</p>
+              <p style="margin:0 0 var(--sp-1) 0"><strong style="color:var(--text)">iat</strong> — Issued-at time as a Unix timestamp.</p>
+              <p style="margin:0 0 var(--sp-1) 0"><strong style="color:var(--text)">exp</strong> — Expiration time. The token is invalid after this timestamp.</p>
+              <p style="margin:0"><strong style="color:var(--text)">Custom claims</strong> — Any additional data your application needs (roles, permissions, tenant ID).</p>
+            </div>
+          </div>
+          <div style="padding:var(--sp-3);border-bottom:1px solid var(--border)">
+            <div style="display:flex;align-items:center;gap:var(--sp-2);margin-bottom:var(--sp-2)">
+              <div style="width:10px;height:10px;border-radius:50%;background:#3b82f6;flex-shrink:0"></div>
+              <div style="font-weight:700;color:#3b82f6;font-size:1.1rem">Signature</div>
+            </div>
+            <pre style="background:var(--bg-alt);padding:var(--sp-2);border-radius:var(--radius);font-size:.8125rem;margin-bottom:var(--sp-2);overflow-x:auto"><code>HMACSHA256(
+  base64UrlEncode(header) + "." +
+  base64UrlEncode(payload),
+  secret
+)</code></pre>
+            <div style="font-size:.8125rem;color:var(--text-muted);line-height:1.6">
+              <p style="margin:0 0 var(--sp-1) 0">The signature verifies the token has not been tampered with. It is computed by signing the encoded header and payload with a secret key (HS256) or private key (RS256).</p>
+              <p style="margin:0"><strong style="color:var(--text)">Important:</strong> This tool decodes the header and payload without verifying the signature. Never trust a JWT payload in production without server-side signature verification.</p>
+            </div>
+          </div>
+        </div>
+        <p style="color:var(--text-muted);line-height:1.7"><strong style="color:var(--text)">Security reminder:</strong> The payload is only Base64URL-encoded, not encrypted. Anyone with the token can read the claims. Never store sensitive data like passwords or credit card numbers in a JWT. Use JWE (JSON Web Encryption) if the payload itself must be confidential.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

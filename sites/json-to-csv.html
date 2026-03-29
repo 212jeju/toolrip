@@ -270,6 +270,47 @@
         </details>
       </section>
 
+      <!-- Flattening Nested JSON -->
+      <section class="mt-4">
+        <h2>Flattening Nested JSON</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Converting hierarchical JSON to flat CSV requires a process called flattening. Nested objects become dot-separated column names, and arrays are expanded into indexed columns. Understanding this process helps you predict and control the CSV output structure.</p>
+        <div style="display:flex;flex-direction:column;gap:var(--sp-3);margin-bottom:var(--sp-3)">
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3)">
+            <div style="font-weight:700;color:var(--accent);margin-bottom:var(--sp-2);display:flex;align-items:center;gap:var(--sp-2)"><span style="background:var(--accent);color:var(--bg);width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.875rem;flex-shrink:0">1</span> Original Nested JSON</div>
+            <pre style="background:var(--bg-alt);padding:var(--sp-2);border-radius:var(--radius);font-size:.8125rem;overflow-x:auto;margin:0;color:var(--text-muted);line-height:1.5"><code>{
+  "id": 1,
+  "name": "Alice",
+  "address": {
+    "city": "Seattle",
+    "state": "WA",
+    "zip": "98101"
+  },
+  "tags": ["admin", "editor"]
+}</code></pre>
+          </div>
+          <div style="text-align:center;color:var(--accent);font-size:1.5rem;line-height:1">&#8595; &#8595; &#8595;</div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3)">
+            <div style="font-weight:700;color:var(--accent);margin-bottom:var(--sp-2);display:flex;align-items:center;gap:var(--sp-2)"><span style="background:var(--accent);color:var(--bg);width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.875rem;flex-shrink:0">2</span> Flattened Key Mapping</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-1);font-size:.8125rem">
+              <div style="padding:var(--sp-1) var(--sp-2);background:var(--bg-alt);border-radius:var(--radius);color:var(--text-muted)"><code>id</code> &rarr; <code>id</code></div>
+              <div style="padding:var(--sp-1) var(--sp-2);background:var(--bg-alt);border-radius:var(--radius);color:var(--text-muted)"><code>name</code> &rarr; <code>name</code></div>
+              <div style="padding:var(--sp-1) var(--sp-2);background:var(--bg-alt);border-radius:var(--radius);color:var(--text-muted)"><code>address.city</code> &rarr; <code>address.city</code></div>
+              <div style="padding:var(--sp-1) var(--sp-2);background:var(--bg-alt);border-radius:var(--radius);color:var(--text-muted)"><code>address.state</code> &rarr; <code>address.state</code></div>
+              <div style="padding:var(--sp-1) var(--sp-2);background:var(--bg-alt);border-radius:var(--radius);color:var(--text-muted)"><code>address.zip</code> &rarr; <code>address.zip</code></div>
+              <div style="padding:var(--sp-1) var(--sp-2);background:var(--bg-alt);border-radius:var(--radius);color:var(--text-muted)"><code>tags[0]</code>, <code>tags[1]</code> &rarr; indexed columns</div>
+            </div>
+          </div>
+          <div style="text-align:center;color:var(--accent);font-size:1.5rem;line-height:1">&#8595; &#8595; &#8595;</div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3)">
+            <div style="font-weight:700;color:var(--accent);margin-bottom:var(--sp-2);display:flex;align-items:center;gap:var(--sp-2)"><span style="background:var(--accent);color:var(--bg);width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.875rem;flex-shrink:0">3</span> Resulting CSV Output</div>
+            <pre style="background:var(--bg-alt);padding:var(--sp-2);border-radius:var(--radius);font-size:.8125rem;overflow-x:auto;margin:0;color:var(--text-muted);line-height:1.5"><code>id,name,address.city,address.state,address.zip,tags.0,tags.1
+1,Alice,Seattle,WA,98101,admin,editor</code></pre>
+          </div>
+        </div>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-2)"><strong style="color:var(--text)">How flattening rules work:</strong> Nested object keys are joined with a dot separator (e.g., <code>address.city</code>). Array elements are expanded into separate columns using numeric indices (e.g., <code>tags.0</code>, <code>tags.1</code>). When different objects in an array have different keys, all unique keys become CSV columns with empty values where a particular object lacks that key.</p>
+        <p style="color:var(--text-muted);line-height:1.7"><strong style="color:var(--text)">Handling edge cases:</strong> Deeply nested structures produce long column names like <code>order.items.0.product.name</code>. Arrays of objects create multiple column groups per array element. If your JSON contains mixed-type arrays (strings and objects together), some converters will serialize the non-primitive values as JSON strings within the CSV cell. This tool handles all of these cases automatically.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

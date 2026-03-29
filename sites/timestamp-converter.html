@@ -399,6 +399,69 @@
         </details>
       </section>
 
+      <!-- Unix Epoch Key Timestamps -->
+      <section class="mt-4">
+        <h2>Unix Epoch: Key Timestamps</h2>
+        <p>Unix time counts the number of seconds that have elapsed since January 1, 1970, at 00:00:00 UTC, a moment known as the Unix epoch. This deceptively simple system underpins virtually all modern computing, from databases and log files to APIs and authentication tokens. Certain Unix timestamps mark historically significant moments or technically important milestones. The table below highlights the most notable ones.</p>
+        <div style="overflow-x:auto;margin:1.5rem 0">
+          <table style="width:100%;border-collapse:collapse;font-size:.95rem">
+            <thead>
+              <tr style="background:var(--accent);color:#fff">
+                <th style="padding:.75rem 1rem;text-align:left">Event</th>
+                <th style="padding:.75rem 1rem;text-align:right">Unix Timestamp</th>
+                <th style="padding:.75rem 1rem;text-align:left">Human Date (UTC)</th>
+                <th style="padding:.75rem 1rem;text-align:left">Significance</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:.75rem 1rem;font-weight:600">Unix Epoch</td>
+                <td style="padding:.75rem 1rem;text-align:right;font-family:monospace">0</td>
+                <td style="padding:.75rem 1rem">Jan 1, 1970 00:00:00</td>
+                <td style="padding:.75rem 1rem">The starting point of Unix time. Chosen by early Unix developers at Bell Labs as a convenient, recent round date. All Unix timestamps are measured relative to this moment.</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);background:var(--bg)">
+                <td style="padding:.75rem 1rem;font-weight:600">Moon Landing</td>
+                <td style="padding:.75rem 1rem;text-align:right;font-family:monospace">-14182940</td>
+                <td style="padding:.75rem 1rem">Jul 20, 1969 20:17:40</td>
+                <td style="padding:.75rem 1rem">Apollo 11 touched down on the lunar surface before the epoch began, so its timestamp is negative. This demonstrates that Unix time extends backward as well as forward.</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:.75rem 1rem;font-weight:600">Billionth Second</td>
+                <td style="padding:.75rem 1rem;text-align:right;font-family:monospace">1,000,000,000</td>
+                <td style="padding:.75rem 1rem">Sep 9, 2001 01:46:40</td>
+                <td style="padding:.75rem 1rem">The first time the Unix timestamp reached 10 digits. Some systems that had allocated only 9 digits experienced overflow bugs at this transition, foreshadowing the Year 2038 problem.</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);background:var(--bg)">
+                <td style="padding:.75rem 1rem;font-weight:600">Y2K</td>
+                <td style="padding:.75rem 1rem;text-align:right;font-family:monospace">946,684,800</td>
+                <td style="padding:.75rem 1rem">Jan 1, 2000 00:00:00</td>
+                <td style="padding:.75rem 1rem">The turn of the millennium caused widespread concern about two-digit year formats in legacy systems. Unix time itself was unaffected because it uses a continuous second count rather than calendar fields.</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:.75rem 1rem;font-weight:600">1234567890</td>
+                <td style="padding:.75rem 1rem;text-align:right;font-family:monospace">1,234,567,890</td>
+                <td style="padding:.75rem 1rem">Feb 13, 2009 23:31:30</td>
+                <td style="padding:.75rem 1rem">Celebrated by programmers worldwide as a sequential milestone. Parties and countdowns were held in tech communities to mark this aesthetically pleasing timestamp.</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);background:var(--bg)">
+                <td style="padding:.75rem 1rem;font-weight:600">2-Billionth Second</td>
+                <td style="padding:.75rem 1rem;text-align:right;font-family:monospace">2,000,000,000</td>
+                <td style="padding:.75rem 1rem">May 18, 2033 03:33:20</td>
+                <td style="padding:.75rem 1rem">An upcoming milestone that will test systems using unsigned 32-bit integers. Most modern systems have already migrated to 64-bit timestamps, but embedded and legacy systems may still be vulnerable.</td>
+              </tr>
+              <tr>
+                <td style="padding:.75rem 1rem;font-weight:600">Year 2038 Problem</td>
+                <td style="padding:.75rem 1rem;text-align:right;font-family:monospace">2,147,483,647</td>
+                <td style="padding:.75rem 1rem">Jan 19, 2038 03:14:07</td>
+                <td style="padding:.75rem 1rem">The maximum value of a signed 32-bit integer. After this moment, systems still using 32-bit timestamps will overflow and interpret dates as December 1901, potentially causing catastrophic failures in banking, aviation, and infrastructure.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>The Year 2038 problem is often called the "Unix Y2K" and is considered a serious concern for embedded systems in automobiles, medical devices, and industrial controllers that may still be running in 2038. The solution is migrating to 64-bit timestamps, which can represent dates for approximately 292 billion years into the future. Use the timestamp converter above to explore any Unix timestamp and see its human-readable equivalent instantly.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

@@ -346,6 +346,47 @@
         </details>
       </section>
 
+      <!-- Types of Color Vision Deficiency -->
+      <section class="mt-4">
+        <h2>Types of Color Vision Deficiency</h2>
+        <p>Color vision deficiency (commonly called color blindness) affects approximately 8% of men and 0.5% of women of Northern European descent. It occurs when one or more types of cone photoreceptors in the retina are absent or function abnormally. Understanding the specific types helps designers create interfaces that are accessible to all users.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.25rem;margin:1.5rem 0">
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:0.75rem;padding:1.25rem;border-left:4px solid #ef4444">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem">
+              <h3 style="margin:0;color:var(--text);font-size:1.05rem">Protanopia</h3>
+              <span style="font-size:0.75rem;padding:0.2rem 0.6rem;border-radius:1rem;background:#ef44441a;color:#ef4444;font-weight:600">~1.3% of males</span>
+            </div>
+            <p style="margin:0 0 0.5rem;color:var(--text);opacity:0.85;font-size:0.9rem"><strong>Affected cones:</strong> L-cones (long wavelength / red)</p>
+            <p style="margin:0;color:var(--text);opacity:0.85;font-size:0.9rem">People with protanopia cannot perceive red light. Reds appear dark or brownish, and red-green distinctions are lost entirely. Red traffic lights may appear dim or nearly black. Orange and green can look identical. This is one of the two most common forms and is inherited as an X-linked recessive trait, which explains why it predominantly affects males.</p>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:0.75rem;padding:1.25rem;border-left:4px solid #10b981">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem">
+              <h3 style="margin:0;color:var(--text);font-size:1.05rem">Deuteranopia</h3>
+              <span style="font-size:0.75rem;padding:0.2rem 0.6rem;border-radius:1rem;background:#10b9811a;color:#10b981;font-weight:600">~1.2% of males</span>
+            </div>
+            <p style="margin:0 0 0.5rem;color:var(--text);opacity:0.85;font-size:0.9rem"><strong>Affected cones:</strong> M-cones (medium wavelength / green)</p>
+            <p style="margin:0;color:var(--text);opacity:0.85;font-size:0.9rem">The most common form of color blindness. People with deuteranopia lack functioning green cones, making it difficult to distinguish green from red and certain shades of brown, orange, and yellow. Unlike protanopia, reds do not appear abnormally dark. The two conditions are collectively called "red-green color blindness" and together account for over 99% of inherited color vision deficiency.</p>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:0.75rem;padding:1.25rem;border-left:4px solid #3b82f6">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem">
+              <h3 style="margin:0;color:var(--text);font-size:1.05rem">Tritanopia</h3>
+              <span style="font-size:0.75rem;padding:0.2rem 0.6rem;border-radius:1rem;background:#3b82f61a;color:#3b82f6;font-weight:600">~0.01% of population</span>
+            </div>
+            <p style="margin:0 0 0.5rem;color:var(--text);opacity:0.85;font-size:0.9rem"><strong>Affected cones:</strong> S-cones (short wavelength / blue)</p>
+            <p style="margin:0;color:var(--text);opacity:0.85;font-size:0.9rem">An extremely rare form where blue-sensitive cones are absent. Blues and yellows become difficult to distinguish, while reds and greens are perceived normally. Unlike red-green deficiency, tritanopia is not X-linked: it is inherited as an autosomal dominant trait and affects males and females equally. It can also be acquired through aging, optic nerve disease, or certain medications.</p>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:0.75rem;padding:1.25rem;border-left:4px solid #6b7280">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem">
+              <h3 style="margin:0;color:var(--text);font-size:1.05rem">Achromatopsia</h3>
+              <span style="font-size:0.75rem;padding:0.2rem 0.6rem;border-radius:1rem;background:#6b72801a;color:#6b7280;font-weight:600">~0.003% of population</span>
+            </div>
+            <p style="margin:0 0 0.5rem;color:var(--text);opacity:0.85;font-size:0.9rem"><strong>Affected cones:</strong> All three types (complete)</p>
+            <p style="margin:0;color:var(--text);opacity:0.85;font-size:0.9rem">Total color blindness where no cone photoreceptors function. The world is perceived entirely in shades of gray. Achromatopsia also causes extreme light sensitivity (photophobia), reduced visual acuity (often 20/200), and involuntary eye movements (nystagmus). It is estimated to affect roughly 1 in 30,000 people worldwide, though prevalence is significantly higher on certain Pacific islands due to founder effects.</p>
+          </div>
+        </div>
+        <p>For designers, the practical takeaway is to never use color alone to convey critical information. Always supplement color coding with text labels, icons, patterns, or other non-color indicators. This tool helps you preview how your designs appear under each type of color vision deficiency so you can identify and fix accessibility issues before your users encounter them.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

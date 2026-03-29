@@ -353,6 +353,51 @@
         </details>
       </section>
 
+      <!-- Number Systems in Computing -->
+      <section class="mt-4">
+        <h2>Number Systems in Computing</h2>
+        <p>Computers operate in binary, but programmers rarely work in raw ones and zeros. Instead, different number bases serve as convenient shorthand for different tasks. Each base has a specific role in modern computing, chosen because it maps cleanly to the underlying binary architecture while being more readable for humans. Understanding these four number systems is essential for anyone working with low-level code, networking, or digital design.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.25rem;margin:1.5rem 0">
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:.75rem;padding:1.25rem;border-top:4px solid var(--accent)">
+            <h3 style="margin:0 0 .25rem;font-size:1.1rem">Binary (Base 2)</h3>
+            <p style="font-family:monospace;color:var(--accent);font-size:1rem;margin:0 0 .75rem">Digits: 0, 1</p>
+            <p style="font-size:.9rem;margin:0 0 .75rem">The native language of all digital electronics. Every processor instruction, every byte of memory, and every network packet is ultimately a sequence of binary digits. Each bit represents a single on/off state in a transistor, and eight bits form one byte.</p>
+            <div style="background:var(--surface);padding:.75rem;border-radius:.5rem">
+              <p style="font-size:.8rem;color:var(--muted);margin:0 0 .25rem">Real-world uses:</p>
+              <p style="font-size:.85rem;margin:0">Subnet masks (255.255.255.0 = 11111111.11111111.11111111.00000000), bitwise flags in permissions systems, hardware register configuration, and understanding CPU instruction encoding.</p>
+            </div>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:.75rem;padding:1.25rem;border-top:4px solid #f59e0b">
+            <h3 style="margin:0 0 .25rem;font-size:1.1rem">Octal (Base 8)</h3>
+            <p style="font-family:monospace;color:#f59e0b;font-size:1rem;margin:0 0 .75rem">Digits: 0 &ndash; 7</p>
+            <p style="font-size:.9rem;margin:0 0 .75rem">Each octal digit maps to exactly three binary digits, making it a compact way to represent binary data. Octal was more popular in early computing when systems used 12-bit, 24-bit, or 36-bit word sizes that divided evenly by three.</p>
+            <div style="background:var(--surface);padding:.75rem;border-radius:.5rem">
+              <p style="font-size:.8rem;color:var(--muted);margin:0 0 .25rem">Real-world uses:</p>
+              <p style="font-size:.85rem;margin:0">Unix file permissions (chmod 755 means rwxr-xr-x), some legacy mainframe systems, and escape sequences in C strings (\012 for newline). The three-digit permission model maps perfectly to octal.</p>
+            </div>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:.75rem;padding:1.25rem;border-top:4px solid #10b981">
+            <h3 style="margin:0 0 .25rem;font-size:1.1rem">Decimal (Base 10)</h3>
+            <p style="font-family:monospace;color:#10b981;font-size:1rem;margin:0 0 .75rem">Digits: 0 &ndash; 9</p>
+            <p style="font-size:.9rem;margin:0 0 .75rem">The number system humans learn from childhood, almost certainly because we have ten fingers. While not naturally aligned with binary computing, decimal is used for all user-facing values because it is what people understand intuitively.</p>
+            <div style="background:var(--surface);padding:.75rem;border-radius:.5rem">
+              <p style="font-size:.8rem;color:var(--muted);margin:0 0 .25rem">Real-world uses:</p>
+              <p style="font-size:.85rem;margin:0">All user interfaces, financial calculations (where binary floating-point errors are unacceptable), API responses, database values, and any data that humans need to read and verify directly.</p>
+            </div>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:.75rem;padding:1.25rem;border-top:4px solid #8b5cf6">
+            <h3 style="margin:0 0 .25rem;font-size:1.1rem">Hexadecimal (Base 16)</h3>
+            <p style="font-family:monospace;color:#8b5cf6;font-size:1rem;margin:0 0 .75rem">Digits: 0 &ndash; 9, A &ndash; F</p>
+            <p style="font-size:.9rem;margin:0 0 .75rem">Each hex digit maps to exactly four binary digits (one nibble), making it the most efficient human-readable representation of binary data. Two hex digits represent one byte, which is why hex is ubiquitous in systems programming.</p>
+            <div style="background:var(--surface);padding:.75rem;border-radius:.5rem">
+              <p style="font-size:.8rem;color:var(--muted);margin:0 0 .25rem">Real-world uses:</p>
+              <p style="font-size:.85rem;margin:0">CSS colors (#FF5733), memory addresses (0x7FFF5FBFF8A0), MAC addresses (00:1A:2B:3C:4D:5E), Unicode code points (U+1F600), hex dumps for debugging binary files, and cryptographic hashes (SHA-256).</p>
+            </div>
+          </div>
+        </div>
+        <p>The relationship between these bases is the key to understanding them: every octal digit is three binary digits, and every hex digit is four binary digits. This means converting between binary, octal, and hex is just a matter of grouping bits. Converting to and from decimal requires actual division. The number base converter above handles all these conversions instantly, saving you from manual arithmetic and potential errors.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

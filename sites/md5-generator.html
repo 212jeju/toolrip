@@ -287,6 +287,64 @@
         </details>
       </section>
 
+      <!-- Hash Algorithm Comparison -->
+      <section class="mt-4">
+        <h2>Hash Algorithm Comparison</h2>
+        <p>Choosing the right hash algorithm depends on your use case. The table below compares the most widely used hash functions across key characteristics including output size, relative speed, and current security standing.</p>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.95rem">
+            <thead>
+              <tr style="background:var(--accent);color:#fff">
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">Algorithm</th>
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">Output Length</th>
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">Speed</th>
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">Security Status</th>
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">Best Use Case</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background:var(--bg)">
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">MD5</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">128-bit (32 hex)</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Very Fast</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#ef4444">Broken</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Checksums, non-security</td>
+              </tr>
+              <tr>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">SHA-1</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">160-bit (40 hex)</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Fast</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#ef4444">Deprecated</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Legacy systems only</td>
+              </tr>
+              <tr style="background:var(--bg)">
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">SHA-256</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">256-bit (64 hex)</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Fast</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Secure</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Digital signatures, TLS, blockchain</td>
+              </tr>
+              <tr>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">SHA-512</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">512-bit (128 hex)</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Fast (64-bit CPUs)</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Secure</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">High-security applications</td>
+              </tr>
+              <tr style="background:var(--bg)">
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">bcrypt</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">184-bit (60 char encoded)</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Intentionally Slow</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Secure</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Password storage</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p><strong>Important:</strong> MD5 is cryptographically broken and must <em>never</em> be used for password hashing, digital signatures, or any security-critical purpose. Researchers demonstrated practical collision attacks against MD5 as early as 2004, and since then the cost of producing collisions has dropped to seconds on a standard laptop. MD5 remains useful only for non-security tasks such as verifying file integrity during downloads or generating quick checksums for deduplication.</p>
+        <p>For password storage, always use a purpose-built key derivation function like bcrypt, scrypt, or Argon2. These algorithms are deliberately slow and memory-intensive, making brute-force attacks orders of magnitude more expensive. For data integrity and digital signatures, SHA-256 is the current industry standard and is used throughout TLS, code signing, and blockchain technology.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

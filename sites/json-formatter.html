@@ -293,6 +293,45 @@
         </details>
       </section>
 
+      <!-- JSON Syntax Quick Reference -->
+      <section class="mt-4">
+        <h2>JSON Syntax Quick Reference</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">JSON (JavaScript Object Notation) supports exactly six data types. Mastering these types is essential for writing valid JSON and debugging parsing errors. Below is a complete reference card showing every data type with correct syntax examples.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--sp-3);margin-bottom:var(--sp-3)">
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3)">
+            <div style="font-weight:700;color:var(--accent);margin-bottom:var(--sp-1);font-family:monospace;font-size:1.1rem">String</div>
+            <code style="display:block;background:var(--bg-alt);padding:var(--sp-2);border-radius:var(--radius);margin-bottom:var(--sp-1);font-size:.875rem">"name": "Alice"</code>
+            <p style="color:var(--text-muted);font-size:.8125rem;margin:0">Must use double quotes. Supports Unicode escapes (\u0041), newlines (\n), tabs (\t), and backslash (\\). Single quotes are invalid in JSON.</p>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3)">
+            <div style="font-weight:700;color:var(--accent);margin-bottom:var(--sp-1);font-family:monospace;font-size:1.1rem">Number</div>
+            <code style="display:block;background:var(--bg-alt);padding:var(--sp-2);border-radius:var(--radius);margin-bottom:var(--sp-1);font-size:.875rem">"price": 29.99, "count": -5, "big": 1.5e10</code>
+            <p style="color:var(--text-muted);font-size:.8125rem;margin:0">Integer or floating point. Supports negative numbers and scientific notation (e/E). No leading zeros allowed. NaN and Infinity are not valid JSON numbers.</p>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3)">
+            <div style="font-weight:700;color:var(--accent);margin-bottom:var(--sp-1);font-family:monospace;font-size:1.1rem">Boolean</div>
+            <code style="display:block;background:var(--bg-alt);padding:var(--sp-2);border-radius:var(--radius);margin-bottom:var(--sp-1);font-size:.875rem">"active": true, "deleted": false</code>
+            <p style="color:var(--text-muted);font-size:.8125rem;margin:0">Only lowercase true or false. No quotes around the value. Unlike JavaScript, 0, empty string, and undefined are not valid boolean representations.</p>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3)">
+            <div style="font-weight:700;color:var(--accent);margin-bottom:var(--sp-1);font-family:monospace;font-size:1.1rem">Null</div>
+            <code style="display:block;background:var(--bg-alt);padding:var(--sp-2);border-radius:var(--radius);margin-bottom:var(--sp-1);font-size:.875rem">"middleName": null</code>
+            <p style="color:var(--text-muted);font-size:.8125rem;margin:0">Represents an intentionally empty value. Must be lowercase. Use null when a field exists but has no meaningful value. Not the same as omitting the key entirely.</p>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3)">
+            <div style="font-weight:700;color:var(--accent);margin-bottom:var(--sp-1);font-family:monospace;font-size:1.1rem">Object</div>
+            <code style="display:block;background:var(--bg-alt);padding:var(--sp-2);border-radius:var(--radius);margin-bottom:var(--sp-1);font-size:.875rem">{"key": "value", "nested": {"a": 1}}</code>
+            <p style="color:var(--text-muted);font-size:.8125rem;margin:0">Unordered collection of key-value pairs. Keys must be strings in double quotes. Values can be any JSON type. Duplicate keys are technically allowed but strongly discouraged.</p>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3)">
+            <div style="font-weight:700;color:var(--accent);margin-bottom:var(--sp-1);font-family:monospace;font-size:1.1rem">Array</div>
+            <code style="display:block;background:var(--bg-alt);padding:var(--sp-2);border-radius:var(--radius);margin-bottom:var(--sp-1);font-size:.875rem">"tags": ["web", "api", 42, null, true]</code>
+            <p style="color:var(--text-muted);font-size:.8125rem;margin:0">Ordered list of values enclosed in square brackets. Elements can be any JSON type and can be mixed. Arrays can contain other arrays and objects for complex nesting.</p>
+          </div>
+        </div>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-2)"><strong style="color:var(--text)">Common pitfalls:</strong> Trailing commas after the last element are invalid. Comments (// or /* */) are not allowed in standard JSON. Keys must always be double-quoted strings, unlike JavaScript object literals which accept unquoted keys. Use a JSON validator to catch these errors before they cause runtime failures in your application.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

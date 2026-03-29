@@ -459,6 +459,63 @@
         </details>
       </section>
 
+      <!-- Open Graph Best Practices -->
+      <section class="mt-4">
+        <h2>Open Graph Best Practices</h2>
+        <p>Each social platform interprets Open Graph tags differently, with its own image dimensions, text truncation rules, and caching behavior. Designing for all of them at once requires knowing the specific constraints of each platform.</p>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.95rem">
+            <thead>
+              <tr style="background:var(--accent);color:#fff">
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">Platform</th>
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">Image Size</th>
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">Title Limit</th>
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">Description Limit</th>
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">Special Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background:var(--bg)">
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">Facebook</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">1200 x 630 px</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">~65 characters</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">~155 characters</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Aggressive caching. Use the Sharing Debugger to clear cache after updates. Minimum image width: 200px.</td>
+              </tr>
+              <tr>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">Twitter (X)</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">1200 x 628 px (large)<br>144 x 144 px (summary)</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">~70 characters</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">~200 characters</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Prefers twitter: tags over og: tags. Set twitter:card to "summary_large_image" for best display. Max image file size: 5 MB.</td>
+              </tr>
+              <tr style="background:var(--bg)">
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">LinkedIn</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">1200 x 627 px</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">~150 characters</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">~300 characters</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Shows the domain name prominently below the image. Use the Post Inspector tool to refresh cached previews. Minimum image width: 1200px recommended.</td>
+              </tr>
+              <tr>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">Discord</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">1200 x 630 px (large)<br>Any size (thumbnail)</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">~256 characters</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">~350 characters</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Renders embeds with a colored sidebar using the og:theme-color meta tag. Supports og:video for inline video previews. Caches for roughly one week.</td>
+              </tr>
+              <tr style="background:var(--bg)">
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">Slack</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">1200 x 630 px</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">~100 characters</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">~300 characters</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Unfurls links automatically in channels. Shows site_name above the title. Respects twitter:card for layout choice. Cache lasts approximately 1 hour.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p><strong>Universal recommendations:</strong> Create your OG image at exactly 1200 x 630 pixels, which is the safe zone that works well across every major platform. Keep the file size under 1 MB for fast loading (JPEG quality 80-85 is usually ideal). Place critical text and visual elements in the center of the image, because some platforms crop the edges. Always include og:title, og:description, og:image, and og:url as the minimum set of tags, then add platform-specific tags like twitter:card for maximum control over how your content appears everywhere it is shared.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

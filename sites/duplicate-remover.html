@@ -334,6 +334,44 @@
         </details>
       </section>
 
+      <!-- Data Cleaning Workflow -->
+      <section class="mt-4">
+        <h2>Data Cleaning Workflow</h2>
+        <p>Removing duplicates is just one step in a comprehensive data cleaning process. Whether you are preparing a mailing list, cleaning survey responses, or tidying a product catalog, following a structured workflow ensures consistent, reliable results. Each step builds on the previous one, so the order matters. Here is the professional data cleaning pipeline used by data analysts and engineers worldwide.</p>
+        <div style="display:flex;flex-direction:column;gap:0;margin:1.5rem 0;position:relative">
+          <div style="background:var(--bg);border:2px solid var(--accent);border-radius:.75rem;padding:1.25rem 1.25rem 1.25rem 4.5rem;position:relative">
+            <div style="position:absolute;left:1rem;top:50%;transform:translateY(-50%);width:2.5rem;height:2.5rem;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem">1</div>
+            <h3 style="margin:0 0 .4rem;font-size:1rem;color:var(--accent)">Remove Exact Duplicates</h3>
+            <p style="margin:0;font-size:.9rem">Start by eliminating rows or lines that are perfectly identical. This is the lowest-risk step because exact duplicates are unambiguously redundant. For large datasets, hash-based comparison is the fastest approach, generating a unique fingerprint for each record and flagging collisions. This step alone often reduces dataset size by 5 to 15 percent.</p>
+          </div>
+          <div style="text-align:center;padding:.25rem 0;font-size:1.5rem;color:var(--accent)">&#8595;</div>
+          <div style="background:var(--bg);border:2px solid var(--accent);border-radius:.75rem;padding:1.25rem 1.25rem 1.25rem 4.5rem;position:relative">
+            <div style="position:absolute;left:1rem;top:50%;transform:translateY(-50%);width:2.5rem;height:2.5rem;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem">2</div>
+            <h3 style="margin:0 0 .4rem;font-size:1rem;color:var(--accent)">Trim Whitespace</h3>
+            <p style="margin:0;font-size:.9rem">Remove leading and trailing spaces, tabs, and extra internal whitespace from every field. Invisible whitespace is one of the most common causes of false non-matches. Two records that look identical on screen may be treated as different if one has a trailing space. Trimming also reduces storage size and prevents downstream formatting issues in reports and exports.</p>
+          </div>
+          <div style="text-align:center;padding:.25rem 0;font-size:1.5rem;color:var(--accent)">&#8595;</div>
+          <div style="background:var(--bg);border:2px solid var(--accent);border-radius:.75rem;padding:1.25rem 1.25rem 1.25rem 4.5rem;position:relative">
+            <div style="position:absolute;left:1rem;top:50%;transform:translateY(-50%);width:2.5rem;height:2.5rem;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem">3</div>
+            <h3 style="margin:0 0 .4rem;font-size:1rem;color:var(--accent)">Normalize Case</h3>
+            <p style="margin:0;font-size:.9rem">Convert all text to a consistent case, typically lowercase. This reveals near-duplicates that differ only in capitalization, such as "New York" versus "new york" or "john@email.com" versus "John@Email.com." Case normalization is essential before performing fuzzy matching or grouping operations because most string comparison functions are case-sensitive by default.</p>
+          </div>
+          <div style="text-align:center;padding:.25rem 0;font-size:1.5rem;color:var(--accent)">&#8595;</div>
+          <div style="background:var(--bg);border:2px solid var(--accent);border-radius:.75rem;padding:1.25rem 1.25rem 1.25rem 4.5rem;position:relative">
+            <div style="position:absolute;left:1rem;top:50%;transform:translateY(-50%);width:2.5rem;height:2.5rem;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem">4</div>
+            <h3 style="margin:0 0 .4rem;font-size:1rem;color:var(--accent)">Standardize Formats</h3>
+            <p style="margin:0;font-size:.9rem">Apply consistent formatting to dates, phone numbers, addresses, and other structured fields. For example, convert all dates to ISO 8601 format (YYYY-MM-DD), strip non-digit characters from phone numbers, and expand abbreviations like "St" to "Street." Format standardization catches duplicates that would otherwise slip through because the same information was entered differently by different people.</p>
+          </div>
+          <div style="text-align:center;padding:.25rem 0;font-size:1.5rem;color:var(--accent)">&#8595;</div>
+          <div style="background:var(--bg);border:2px solid var(--accent);border-radius:.75rem;padding:1.25rem 1.25rem 1.25rem 4.5rem;position:relative">
+            <div style="position:absolute;left:1rem;top:50%;transform:translateY(-50%);width:2.5rem;height:2.5rem;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem">5</div>
+            <h3 style="margin:0 0 .4rem;font-size:1rem;color:var(--accent)">Validate and Verify</h3>
+            <p style="margin:0;font-size:.9rem">Run final validation checks to ensure data integrity. Verify that email addresses contain an @ symbol and a valid domain, that numeric fields fall within expected ranges, and that required fields are not empty. This last step catches any errors introduced during earlier cleaning stages and confirms that the dataset is ready for analysis, import, or distribution.</p>
+          </div>
+        </div>
+        <p>The duplicate remover tool above handles the critical first step of this workflow. For best results, combine it with the other text tools on Toolrip to trim whitespace and normalize case before running your final deduplication pass.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

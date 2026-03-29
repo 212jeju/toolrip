@@ -300,6 +300,35 @@
         </details>
       </section>
 
+      <!-- SHA-256 in Blockchain -->
+      <section class="mt-4">
+        <h2>SHA-256 in Blockchain</h2>
+        <p>SHA-256 is the cryptographic backbone of Bitcoin and many other blockchain networks. Understanding how it powers the mining process helps illustrate why this hash function is so fundamental to modern decentralized systems.</p>
+        <div style="margin:1.5rem 0">
+          <div style="display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.25rem">
+            <div style="min-width:2.5rem;height:2.5rem;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem">1</div>
+            <div><strong style="color:var(--text)">Transaction Collection</strong><p style="margin:0.25rem 0 0;color:var(--text);opacity:0.85">Miners gather unconfirmed transactions from the network mempool and assemble them into a candidate block. Each transaction is individually hashed with SHA-256 (actually double-hashed: SHA-256 applied twice) to produce a transaction ID.</p></div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.25rem">
+            <div style="min-width:2.5rem;height:2.5rem;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem">2</div>
+            <div><strong style="color:var(--text)">Merkle Tree Construction</strong><p style="margin:0.25rem 0 0;color:var(--text);opacity:0.85">Transaction hashes are paired and hashed together repeatedly using SHA-256 until a single hash remains: the Merkle root. This compact fingerprint represents every transaction in the block and allows efficient verification without downloading the full block.</p></div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.25rem">
+            <div style="min-width:2.5rem;height:2.5rem;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem">3</div>
+            <div><strong style="color:var(--text)">Block Header Assembly</strong><p style="margin:0.25rem 0 0;color:var(--text);opacity:0.85">The miner constructs an 80-byte block header containing the previous block hash, the Merkle root, a timestamp, the difficulty target, and a 32-bit nonce field. This header is what gets hashed during the mining process.</p></div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.25rem">
+            <div style="min-width:2.5rem;height:2.5rem;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem">4</div>
+            <div><strong style="color:var(--text)">Proof of Work (Mining)</strong><p style="margin:0.25rem 0 0;color:var(--text);opacity:0.85">The miner repeatedly changes the nonce and double-hashes the block header with SHA-256. The goal is to find a hash that, when interpreted as a 256-bit number, falls below the current difficulty target. Because SHA-256 output is unpredictable, the only strategy is trial and error, which requires enormous computational effort.</p></div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:1rem">
+            <div style="min-width:2.5rem;height:2.5rem;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem">5</div>
+            <div><strong style="color:var(--text)">Block Acceptance</strong><p style="margin:0.25rem 0 0;color:var(--text);opacity:0.85">Once a valid hash is found, the block is broadcast to the network. Other nodes verify the proof by performing a single double-SHA-256 hash of the header, confirming it meets the difficulty requirement. Verification is nearly instant, while finding the solution takes the entire network roughly 10 minutes on average.</p></div>
+          </div>
+        </div>
+        <p>This asymmetry between the cost of finding a valid hash and the ease of verifying one is the core principle of proof of work. SHA-256 makes this possible because it is deterministic, fast to compute once, and produces output that is uniformly distributed and practically impossible to reverse-engineer.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

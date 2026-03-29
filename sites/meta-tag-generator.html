@@ -401,6 +401,71 @@
         </details>
       </section>
 
+      <!-- Essential Meta Tags Checklist -->
+      <section class="mt-4">
+        <h2>Essential Meta Tags Checklist</h2>
+        <p>Not all meta tags carry the same weight. Some are critical for search engine rankings, others control how your page appears when shared on social media, and a few handle technical browser behavior. Use this checklist to ensure every page on your site includes the tags that matter most.</p>
+        <div style="margin:1.5rem 0">
+          <div style="display:flex;align-items:flex-start;gap:1rem;padding:1rem 1.25rem;border:1px solid var(--border);border-radius:0.75rem 0.75rem 0 0;background:var(--bg)">
+            <span style="min-width:4.5rem;font-size:0.7rem;font-weight:700;padding:0.25rem 0.5rem;border-radius:0.25rem;background:#ef4444;color:#fff;text-align:center;text-transform:uppercase">Critical</span>
+            <div>
+              <strong style="color:var(--text)">&lt;title&gt;</strong>
+              <p style="margin:0.25rem 0 0;color:var(--text);opacity:0.85;font-size:0.9rem">The single most important on-page SEO element. Appears in search results, browser tabs, and social shares. Keep it under 60 characters to avoid truncation. Place your primary keyword near the beginning.</p>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:1rem;padding:1rem 1.25rem;border:1px solid var(--border);border-top:none">
+            <span style="min-width:4.5rem;font-size:0.7rem;font-weight:700;padding:0.25rem 0.5rem;border-radius:0.25rem;background:#ef4444;color:#fff;text-align:center;text-transform:uppercase">Critical</span>
+            <div>
+              <strong style="color:var(--text)">&lt;meta name="description"&gt;</strong>
+              <p style="margin:0.25rem 0 0;color:var(--text);opacity:0.85;font-size:0.9rem">Controls the snippet shown below your title in search results. A compelling description improves click-through rate even if it does not directly affect rankings. Keep it under 160 characters and include a clear value proposition.</p>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:1rem;padding:1rem 1.25rem;border:1px solid var(--border);border-top:none;background:var(--bg)">
+            <span style="min-width:4.5rem;font-size:0.7rem;font-weight:700;padding:0.25rem 0.5rem;border-radius:0.25rem;background:#ef4444;color:#fff;text-align:center;text-transform:uppercase">Critical</span>
+            <div>
+              <strong style="color:var(--text)">&lt;meta name="viewport"&gt;</strong>
+              <p style="margin:0.25rem 0 0;color:var(--text);opacity:0.85;font-size:0.9rem">Required for responsive design and mobile-first indexing. Without this tag, mobile devices render your page at desktop width and scale it down, hurting both usability and search rankings. Standard value: <code style="font-size:0.85rem">width=device-width, initial-scale=1</code>.</p>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:1rem;padding:1rem 1.25rem;border:1px solid var(--border);border-top:none">
+            <span style="min-width:4.5rem;font-size:0.7rem;font-weight:700;padding:0.25rem 0.5rem;border-radius:0.25rem;background:#f59e0b;color:#fff;text-align:center;text-transform:uppercase">Important</span>
+            <div>
+              <strong style="color:var(--text)">&lt;link rel="canonical"&gt;</strong>
+              <p style="margin:0.25rem 0 0;color:var(--text);opacity:0.85;font-size:0.9rem">Tells search engines the preferred URL for a page, preventing duplicate content issues caused by URL parameters, trailing slashes, or www/non-www variations. Every indexable page should have a self-referencing canonical tag.</p>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:1rem;padding:1rem 1.25rem;border:1px solid var(--border);border-top:none;background:var(--bg)">
+            <span style="min-width:4.5rem;font-size:0.7rem;font-weight:700;padding:0.25rem 0.5rem;border-radius:0.25rem;background:#f59e0b;color:#fff;text-align:center;text-transform:uppercase">Important</span>
+            <div>
+              <strong style="color:var(--text)">Open Graph Tags (og:title, og:description, og:image)</strong>
+              <p style="margin:0.25rem 0 0;color:var(--text);opacity:0.85;font-size:0.9rem">Control how your page appears when shared on Facebook, LinkedIn, Discord, and other platforms. The og:image tag is especially impactful since posts with rich previews receive significantly more clicks. Recommended image size: 1200 x 630 pixels.</p>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:1rem;padding:1rem 1.25rem;border:1px solid var(--border);border-top:none">
+            <span style="min-width:4.5rem;font-size:0.7rem;font-weight:700;padding:0.25rem 0.5rem;border-radius:0.25rem;background:#f59e0b;color:#fff;text-align:center;text-transform:uppercase">Important</span>
+            <div>
+              <strong style="color:var(--text)">Twitter Card Tags (twitter:card, twitter:title, twitter:image)</strong>
+              <p style="margin:0.25rem 0 0;color:var(--text);opacity:0.85;font-size:0.9rem">Twitter (X) uses its own card tags, falling back to OG tags when they are absent. Set twitter:card to "summary_large_image" for maximum visual impact in the feed. Without these tags, shared links appear as plain text URLs.</p>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:1rem;padding:1rem 1.25rem;border:1px solid var(--border);border-top:none;background:var(--bg)">
+            <span style="min-width:4.5rem;font-size:0.7rem;font-weight:700;padding:0.25rem 0.5rem;border-radius:0.25rem;background:#3b82f6;color:#fff;text-align:center;text-transform:uppercase">Optional</span>
+            <div>
+              <strong style="color:var(--text)">&lt;meta name="robots"&gt;</strong>
+              <p style="margin:0.25rem 0 0;color:var(--text);opacity:0.85;font-size:0.9rem">Controls whether search engines index the page and follow its links. Defaults to "index, follow" when absent, so you only need this tag to restrict access (e.g., "noindex" for staging pages or "nofollow" for user-generated content).</p>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:1rem;padding:1rem 1.25rem;border:1px solid var(--border);border-top:none;border-radius:0 0 0.75rem 0.75rem">
+            <span style="min-width:4.5rem;font-size:0.7rem;font-weight:700;padding:0.25rem 0.5rem;border-radius:0.25rem;background:#3b82f6;color:#fff;text-align:center;text-transform:uppercase">Optional</span>
+            <div>
+              <strong style="color:var(--text)">&lt;meta charset="UTF-8"&gt;</strong>
+              <p style="margin:0.25rem 0 0;color:var(--text);opacity:0.85;font-size:0.9rem">Declares the character encoding for the page. UTF-8 supports virtually all languages and symbols. While modern browsers often detect encoding automatically, explicitly declaring it prevents rendering issues and should always be the first tag inside &lt;head&gt;.</p>
+            </div>
+          </div>
+        </div>
+        <p>This generator automatically produces all of the critical and important tags listed above. Simply fill in your page details and copy the complete output into your HTML head section for a fully optimized meta tag setup.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

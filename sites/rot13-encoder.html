@@ -294,6 +294,39 @@
         </details>
       </section>
 
+      <!-- Classical Cipher History -->
+      <section class="mt-4">
+        <h2>Classical Cipher History</h2>
+        <p>ROT13 belongs to a long lineage of substitution ciphers stretching back thousands of years. Tracing this evolution reveals how humanity's quest for secret communication grew from simple letter shifts to the electromechanical machines that shaped world history.</p>
+        <div style="position:relative;margin:1.5rem 0;padding-left:2rem;border-left:3px solid var(--accent)">
+          <div style="margin-bottom:2rem;position:relative">
+            <div style="position:absolute;left:-2.65rem;top:0;width:1.25rem;height:1.25rem;background:var(--accent);border-radius:50%"></div>
+            <div style="font-size:0.8rem;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:0.05em">~58 BC</div>
+            <h3 style="margin:0.25rem 0 0.5rem;color:var(--text);font-size:1.1rem">Caesar Cipher</h3>
+            <p style="margin:0;color:var(--text);opacity:0.85">Julius Caesar reportedly shifted each letter in his military messages by three positions (A becomes D, B becomes E, and so on). With only 25 possible shifts in the Latin alphabet, the cipher is trivially breakable today, but it was effective in an era when most adversaries were illiterate. The Caesar cipher is the direct ancestor of ROT13, which simply uses a shift of 13 instead of 3.</p>
+          </div>
+          <div style="margin-bottom:2rem;position:relative">
+            <div style="position:absolute;left:-2.65rem;top:0;width:1.25rem;height:1.25rem;background:var(--accent);border-radius:50%"></div>
+            <div style="font-size:0.8rem;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:0.05em">1982</div>
+            <h3 style="margin:0.25rem 0 0.5rem;color:var(--text);font-size:1.1rem">ROT13</h3>
+            <p style="margin:0;color:var(--text);opacity:0.85">ROT13 emerged on Usenet forums in the early 1980s as a way to hide spoilers and punchlines rather than to provide real security. Because 13 is exactly half of the 26-letter alphabet, applying ROT13 twice returns the original text, making it self-inverse. This convenience made it the standard light-obfuscation method across internet culture for decades.</p>
+          </div>
+          <div style="margin-bottom:2rem;position:relative">
+            <div style="position:absolute;left:-2.65rem;top:0;width:1.25rem;height:1.25rem;background:var(--accent);border-radius:50%"></div>
+            <div style="font-size:0.8rem;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:0.05em">1553</div>
+            <h3 style="margin:0.25rem 0 0.5rem;color:var(--text);font-size:1.1rem">Vigen&egrave;re Cipher</h3>
+            <p style="margin:0;color:var(--text);opacity:0.85">Giovan Battista Bellaso published a cipher that uses a keyword to vary the shift for each letter in the message. If the keyword is "KEY", the first letter shifts by 10 (K), the second by 4 (E), the third by 24 (Y), then the pattern repeats. This polyalphabetic approach resisted frequency analysis for roughly 300 years and was once called "le chiffre ind&eacute;chiffrable" (the indecipherable cipher).</p>
+          </div>
+          <div style="position:relative">
+            <div style="position:absolute;left:-2.65rem;top:0;width:1.25rem;height:1.25rem;background:var(--accent);border-radius:50%"></div>
+            <div style="font-size:0.8rem;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:0.05em">1918 &ndash; 1945</div>
+            <h3 style="margin:0.25rem 0 0.5rem;color:var(--text);font-size:1.1rem">Enigma Machine</h3>
+            <p style="margin:0;color:var(--text);opacity:0.85">The German Enigma machine used rotating electromechanical rotors to perform a different substitution for every single keystroke, producing an astronomical number of possible configurations. Breaking Enigma required the combined efforts of Polish mathematicians and the British team at Bletchley Park, led by Alan Turing, and is widely credited with shortening World War II. Enigma marked the transition from classical hand ciphers to machine-based cryptography, paving the way for the digital encryption algorithms we rely on today.</p>
+          </div>
+        </div>
+        <p>From Caesar's three-position shift to modern 256-bit encryption, the fundamental challenge remains the same: make encryption easy for authorized parties and prohibitively expensive for everyone else. ROT13 sits at the simplest end of this spectrum, a reminder that not every encoding needs to be unbreakable to serve a useful purpose.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

@@ -324,6 +324,58 @@
         </details>
       </section>
 
+      <!-- How Binary Encoding Works -->
+      <section class="mt-4">
+        <h2>How Binary Encoding Works</h2>
+        <p>Every character you type on a keyboard is stored inside your computer as a sequence of ones and zeros. This process, called binary encoding, is the foundation of all digital communication. Understanding how text becomes binary helps demystify everything from file storage to network protocols. Let us walk through the conversion step by step using the word "Hi" as an example.</p>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:.75rem;padding:1.5rem;margin:1.5rem 0">
+          <h3 style="color:var(--accent);margin:0 0 1.25rem;font-size:1.1rem;text-align:center">Converting "Hi" to Binary</h3>
+          <div style="display:flex;flex-direction:column;gap:1.25rem">
+            <div style="background:var(--surface);border-radius:.5rem;padding:1.25rem">
+              <p style="font-size:.8rem;color:var(--accent);font-weight:700;margin:0 0 .5rem;text-transform:uppercase;letter-spacing:.05em">Step 1: Identify Each Character</p>
+              <p style="margin:0;font-size:.95rem">Break the text into individual characters. The word "Hi" contains two characters: the uppercase letter <strong>H</strong> and the lowercase letter <strong>i</strong>. Each character will be encoded independently.</p>
+            </div>
+            <div style="text-align:center;font-size:1.25rem;color:var(--accent)">&#8595;</div>
+            <div style="background:var(--surface);border-radius:.5rem;padding:1.25rem">
+              <p style="font-size:.8rem;color:var(--accent);font-weight:700;margin:0 0 .5rem;text-transform:uppercase;letter-spacing:.05em">Step 2: Look Up ASCII Values</p>
+              <p style="margin:0;font-size:.95rem">Each character maps to a number in the ASCII (American Standard Code for Information Interchange) table. This table assigns a unique integer from 0 to 127 to every English letter, digit, and common symbol.</p>
+              <div style="display:flex;gap:2rem;justify-content:center;margin-top:.75rem;flex-wrap:wrap">
+                <div style="text-align:center;padding:.5rem 1.5rem;background:var(--bg);border-radius:.375rem;border:1px solid var(--border)">
+                  <p style="font-size:1.5rem;font-weight:700;margin:0">H</p>
+                  <p style="font-size:.85rem;color:var(--muted);margin:.25rem 0 0">ASCII 72</p>
+                </div>
+                <div style="text-align:center;padding:.5rem 1.5rem;background:var(--bg);border-radius:.375rem;border:1px solid var(--border)">
+                  <p style="font-size:1.5rem;font-weight:700;margin:0">i</p>
+                  <p style="font-size:.85rem;color:var(--muted);margin:.25rem 0 0">ASCII 105</p>
+                </div>
+              </div>
+            </div>
+            <div style="text-align:center;font-size:1.25rem;color:var(--accent)">&#8595;</div>
+            <div style="background:var(--surface);border-radius:.5rem;padding:1.25rem">
+              <p style="font-size:.8rem;color:var(--accent);font-weight:700;margin:0 0 .5rem;text-transform:uppercase;letter-spacing:.05em">Step 3: Convert Decimal to Binary</p>
+              <p style="margin:0 0 .75rem;font-size:.95rem">Divide each ASCII value by 2 repeatedly, recording the remainders. Read the remainders from bottom to top to get the binary representation. Each character uses 8 bits (one byte), padded with leading zeros if necessary.</p>
+              <div style="display:flex;gap:2rem;justify-content:center;flex-wrap:wrap">
+                <div style="text-align:center;padding:.5rem 1.5rem;background:var(--bg);border-radius:.375rem;border:1px solid var(--border)">
+                  <p style="font-size:.85rem;color:var(--muted);margin:0">72 in binary</p>
+                  <p style="font-size:1.3rem;font-weight:700;margin:.25rem 0 0;font-family:monospace;letter-spacing:.15em">01001000</p>
+                </div>
+                <div style="text-align:center;padding:.5rem 1.5rem;background:var(--bg);border-radius:.375rem;border:1px solid var(--border)">
+                  <p style="font-size:.85rem;color:var(--muted);margin:0">105 in binary</p>
+                  <p style="font-size:1.3rem;font-weight:700;margin:.25rem 0 0;font-family:monospace;letter-spacing:.15em">01101001</p>
+                </div>
+              </div>
+            </div>
+            <div style="text-align:center;font-size:1.25rem;color:var(--accent)">&#8595;</div>
+            <div style="background:var(--surface);border-radius:.5rem;padding:1.25rem">
+              <p style="font-size:.8rem;color:var(--accent);font-weight:700;margin:0 0 .5rem;text-transform:uppercase;letter-spacing:.05em">Step 4: Final Binary Output</p>
+              <p style="margin:0 0 .75rem;font-size:.95rem">Concatenate the binary values for all characters, separated by spaces for readability. The word "Hi" in binary is:</p>
+              <p style="text-align:center;font-size:1.4rem;font-weight:700;font-family:monospace;letter-spacing:.1em;margin:0;color:var(--accent)">01001000 01101001</p>
+            </div>
+          </div>
+        </div>
+        <p>ASCII encoding uses 7 bits per character (stored as 8 bits with a leading zero), which covers 128 characters including English letters, digits, and basic punctuation. For international characters, emojis, and symbols from other languages, the Unicode standard extends this system to cover over 149,000 characters using UTF-8 encoding, which uses one to four bytes per character. The text-to-binary converter above supports both ASCII and UTF-8 encoding for complete character coverage.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>

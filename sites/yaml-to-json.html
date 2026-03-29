@@ -255,6 +255,41 @@
         </details>
       </section>
 
+      <!-- YAML vs JSON: When to Use Which -->
+      <section class="mt-4">
+        <h2>YAML vs JSON: When to Use Which</h2>
+        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Both YAML and JSON represent structured data, but they have different strengths. This comparison helps you choose the right format based on your specific requirements.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:var(--sp-3);font-size:.875rem">
+          <div style="background:var(--accent);color:var(--bg);padding:var(--sp-2);font-weight:700;text-align:center">YAML</div>
+          <div style="background:var(--accent);color:var(--bg);padding:var(--sp-2);font-weight:700;text-align:center">JSON</div>
+          <div style="padding:var(--sp-2);border-bottom:1px solid var(--border);border-right:1px solid var(--border);background:var(--bg-alt);color:var(--text);font-weight:600">Comments Support</div>
+          <div style="padding:var(--sp-2);border-bottom:1px solid var(--border);background:var(--bg-alt);color:var(--text);font-weight:600">Comments Support</div>
+          <div style="padding:var(--sp-2);border-bottom:1px solid var(--border);border-right:1px solid var(--border);color:var(--text-muted)">Yes — use <code>#</code> for single-line comments anywhere in the file. Ideal for documenting configuration choices.</div>
+          <div style="padding:var(--sp-2);border-bottom:1px solid var(--border);color:var(--text-muted)">No native comment support. Some parsers accept <code>//</code> or <code>/* */</code> (JSONC), but this is non-standard.</div>
+          <div style="padding:var(--sp-2);border-bottom:1px solid var(--border);border-right:1px solid var(--border);background:var(--bg-alt);color:var(--text);font-weight:600">Human Readability</div>
+          <div style="padding:var(--sp-2);border-bottom:1px solid var(--border);background:var(--bg-alt);color:var(--text);font-weight:600">Human Readability</div>
+          <div style="padding:var(--sp-2);border-bottom:1px solid var(--border);border-right:1px solid var(--border);color:var(--text-muted)">Very high. Indentation-based, no braces or quotes needed for most strings. Clean and minimal visual noise.</div>
+          <div style="padding:var(--sp-2);border-bottom:1px solid var(--border);color:var(--text-muted)">Good for small payloads. Braces, brackets, and mandatory quotes add visual clutter in large documents.</div>
+          <div style="padding:var(--sp-2);border-bottom:1px solid var(--border);border-right:1px solid var(--border);background:var(--bg-alt);color:var(--text);font-weight:600">Data Types</div>
+          <div style="padding:var(--sp-2);border-bottom:1px solid var(--border);background:var(--bg-alt);color:var(--text);font-weight:600">Data Types</div>
+          <div style="padding:var(--sp-2);border-bottom:1px solid var(--border);border-right:1px solid var(--border);color:var(--text-muted)">Rich types: strings, numbers, booleans, null, dates, timestamps, binary, and custom tags.</div>
+          <div style="padding:var(--sp-2);border-bottom:1px solid var(--border);color:var(--text-muted)">Six types only: string, number, boolean, null, object, and array. Dates are stored as strings.</div>
+          <div style="padding:var(--sp-2);border-bottom:1px solid var(--border);border-right:1px solid var(--border);background:var(--bg-alt);color:var(--text);font-weight:600">Multi-line Strings</div>
+          <div style="padding:var(--sp-2);border-bottom:1px solid var(--border);background:var(--bg-alt);color:var(--text);font-weight:600">Multi-line Strings</div>
+          <div style="padding:var(--sp-2);border-bottom:1px solid var(--border);border-right:1px solid var(--border);color:var(--text-muted)">Native support with <code>|</code> (literal block) and <code>&gt;</code> (folded block) indicators. Perfect for embedded scripts.</div>
+          <div style="padding:var(--sp-2);border-bottom:1px solid var(--border);color:var(--text-muted)">No multi-line strings. Use <code>\n</code> escape sequences within a single-line quoted string.</div>
+          <div style="padding:var(--sp-2);border-bottom:1px solid var(--border);border-right:1px solid var(--border);background:var(--bg-alt);color:var(--text);font-weight:600">Parsing Speed</div>
+          <div style="padding:var(--sp-2);border-bottom:1px solid var(--border);background:var(--bg-alt);color:var(--text);font-weight:600">Parsing Speed</div>
+          <div style="padding:var(--sp-2);border-bottom:1px solid var(--border);border-right:1px solid var(--border);color:var(--text-muted)">Slower. Indentation-sensitive parsing is more complex. Not ideal for high-throughput API responses.</div>
+          <div style="padding:var(--sp-2);border-bottom:1px solid var(--border);color:var(--text-muted)">Very fast. Native <code>JSON.parse()</code> in JavaScript is highly optimized. The standard format for web APIs.</div>
+          <div style="padding:var(--sp-2);border-bottom:1px solid var(--border);border-right:1px solid var(--border);background:var(--bg-alt);color:var(--text);font-weight:600">Common Use Cases</div>
+          <div style="padding:var(--sp-2);border-bottom:1px solid var(--border);background:var(--bg-alt);color:var(--text);font-weight:600">Common Use Cases</div>
+          <div style="padding:var(--sp-2);border-right:1px solid var(--border);color:var(--text-muted)">Kubernetes manifests, Docker Compose, Ansible playbooks, GitHub Actions, CI/CD pipelines, application config files.</div>
+          <div style="padding:var(--sp-2);color:var(--text-muted)">REST APIs, browser storage, package.json, tsconfig.json, data interchange between services, NoSQL databases.</div>
+        </div>
+        <p style="color:var(--text-muted);line-height:1.7"><strong style="color:var(--text)">Bottom line:</strong> Use YAML for files that humans read and edit frequently (configuration, infrastructure-as-code). Use JSON for machine-to-machine communication and anywhere browser-native parsing matters. Many projects use both: YAML for config and JSON for runtime data exchange.</p>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>
