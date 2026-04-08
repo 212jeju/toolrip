@@ -300,6 +300,27 @@
           <li><strong>Enter your string.</strong> Type or paste the text you want to process into the input textarea. If the real-time toggle is enabled, the output will update automatically with every keystroke. If real-time mode is off, click the <em>Escape</em> or <em>Unescape</em> button to process the input manually. The character and byte counts update in real time to help you track string length.</li>
           <li><strong>Copy or swap the result.</strong> Click <em>Copy Output</em> to send the processed string to your clipboard. Use the <em>Swap Input/Output</em> button to move the result back into the input for chained operations such as double-escaping. Click <em>Clear</em> to reset both fields and start a new conversion.</li>
         </ol>
+        <div class="pro-tip"><span class="pro-tip-label">Pro Tip</span><p>In JSON, you must escape backslashes, double quotes, and control characters (newline, tab, etc.). The minimal set is: <code>\\</code>, <code>\"</code>, <code>\n</code>, <code>\t</code>, <code>\r</code>. Unicode characters outside the Basic Latin range can optionally use <code>\uXXXX</code> notation for maximum compatibility.</p></div>
+        <div class="pro-tip mistake"><span class="pro-tip-label">Common Mistake</span><p>Forgetting to escape backslashes in Windows file paths. The path <code>C:\new\folder</code> is interpreted as <code>C:[newline]ew[formfeed]older</code> in most languages. Always double the backslashes: <code>C:\\new\\folder</code>, or use forward slashes which work on all platforms.</p></div>
+      </section>
+
+      <!-- Use Cases -->
+      <section class="mt-4">
+        <h2>Who Uses This Tool</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+          <div class="feature-card">
+            <h3>Backend Developer</h3>
+            <p>Leo constructs SQL queries in his Python application and needs to properly escape user-supplied string values. He tests escape sequences here before implementing them in parameterized queries, verifying that special characters like apostrophes and backslashes are handled correctly.</p>
+          </div>
+          <div class="feature-card">
+            <h3>API Developer</h3>
+            <p>Yara debugs JSON payloads that contain escaped Unicode characters and nested quoted strings. She unescapes the raw API response to read the actual content, then re-escapes corrected values before sending them back in PATCH requests.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Security Researcher</h3>
+            <p>Marco tests XSS and SQL injection payloads by escaping attack strings in different formats. He verifies that his web application's output encoding correctly neutralizes malicious input across HTML, JavaScript, and SQL contexts.</p>
+          </div>
+        </div>
       </section>
 
       <!-- Escape Sequences Reference -->
@@ -496,11 +517,11 @@
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/json">JSON Formatter</a>
-          <a href="https://toolrip.com/base64">Base64 Encoder</a>
-          <a href="https://toolrip.com/uuid">UUID Generator</a>
-          <a href="https://toolrip.com/word-count">Word Counter</a>
-          <a href="https://toolrip.com/case">Case Converter</a>
+          <a href="https://toolrip.com/json">JSON Formatter <span class="related-desc">— Format, validate, and minify JSON with syntax highlighting</span></a>
+          <a href="https://toolrip.com/base64">Base64 Encoder <span class="related-desc">— Encode and decode Base64 strings for APIs and data URIs</span></a>
+          <a href="https://toolrip.com/uuid">UUID Generator <span class="related-desc">— Generate unique identifiers (v1, v4, v7) for database keys</span></a>
+          <a href="https://toolrip.com/word-count">Word Counter <span class="related-desc">— Count words, characters, sentences, and reading time</span></a>
+          <a href="https://toolrip.com/case">Case Converter <span class="related-desc">— Convert between camelCase, snake_case, kebab-case, and more</span></a>
         </div>
       </section>
 
@@ -513,6 +534,19 @@
 
     <!-- Bottom Ad -->
     <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <section class="sources-section">
+      <h2>Sources &amp; References</h2>
+      <ul class="sources-list">
+        <li><a href="https://developer.mozilla.org/" class="citation-link" target="_blank" rel="noopener">MDN Web Docs</a> — Comprehensive web technology documentation</li>
+        <li><a href="https://datatracker.ietf.org/" class="citation-link" target="_blank" rel="noopener">IETF RFC Standards</a> — Official internet protocol specifications</li>
+        <li><a href="https://owasp.org/" class="citation-link" target="_blank" rel="noopener">OWASP Foundation</a> — Web application security standards and best practices</li>
+      </ul>
+    </section>
+    <div class="credibility-footer">
+      Developer tools follow IETF, W3C, and OWASP standards. Built with vanilla JavaScript and the Web Crypto API.
+      <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

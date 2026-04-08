@@ -433,6 +433,14 @@
           <li><strong>View your results</strong> — The ISO week number, US week number, day of year, days remaining, and fiscal quarter appear instantly. Results update in real time when you change the date.</li>
           <li><strong>Browse the calendar</strong> — A monthly calendar view shows ISO week numbers in the left column. Use the arrow buttons to navigate between months and see how weeks flow across the year.</li>
         </ol>
+        <div class="pro-tip">
+          <span class="pro-tip-label">Pro Tip</span>
+          <p>ISO 8601 defines week 1 as the week containing January 4th (or equivalently, the week with the year's first Thursday). This means January 1-3 can belong to the previous year's last week, which often causes confusion in financial reporting and sprint planning.</p>
+        </div>
+        <div class="pro-tip mistake">
+          <span class="pro-tip-label">Common Mistake</span>
+          <p>The US and ISO week numbering systems differ. The US considers Sunday as the first day of the week, while ISO 8601 starts weeks on Monday. This can shift the week number by one, causing misalignment in international teams using different calendar systems.</p>
+        </div>
       </section>
 
       <!-- Understanding Week Numbers -->
@@ -452,36 +460,50 @@
         <p style="color:var(--text-muted);line-height:1.8">Many organizations operate on fiscal calendars that do not align with the January-through-December calendar year. The US federal government's fiscal year begins on October 1st, the UK government's on April 6th, and many corporations choose fiscal years that align with their industry's seasonal cycles. In retail, the National Retail Federation's 4-5-4 calendar divides the year into months of four or five weeks to ensure that each period contains the same number of weekends, making sales comparisons more meaningful. Some companies use a 52/53-week fiscal year where each quarter contains exactly 13 weeks, with an extra week added every five or six years to keep the fiscal calendar aligned with the solar year. Understanding how ISO calendar weeks map to your organization's fiscal weeks is essential for accurate reporting and planning.</p>
       </section>
 
+      <section class="use-case-section">
+        <h2>Real-World Use Cases</h2>
+        <div class="use-case-cards">
+          <div class="use-case-card">
+            <h3>Operations Manager Planning Production Schedules</h3>
+            <p>A manufacturing plant organizes production runs by ISO week number. Knowing that Week 14 starts on March 31 helps coordinate supplier deliveries, shift schedules, and shipping deadlines without ambiguity about which dates are included.</p>
+          </div>
+          <div class="use-case-card">
+            <h3>Scrum Master Labeling Sprint Cycles</h3>
+            <p>An agile team names their two-week sprints by week number (Sprint W14-W15). The week number calculator confirms the exact start and end dates, ensuring consistency when planning across quarters and aligning with company-wide reporting periods.</p>
+          </div>
+          <div class="use-case-card">
+            <h3>Accountant Preparing Weekly Reports</h3>
+            <p>A finance team files weekly revenue reports using ISO week numbers. When a week spans two months (like Week 1 sometimes starting in December), the calculator clarifies which fiscal period the week belongs to under ISO rules.</p>
+          </div>
+        </div>
+      </section>
+
       <!-- FAQ Section -->
       <section class="faq-section">
         <h2>Frequently Asked Questions</h2>
         <details class="faq-item">
-          <summary>What is the difference between ISO and US week numbering?</summary>
-          <p>ISO 8601 week numbering defines weeks as starting on Monday, with week 1 being the week that contains January 4th, which is equivalent to the week containing the first Thursday of the year. This ensures that week 1 always has at least four days in the new year. The US system starts weeks on Sunday, and week 1 is the week that contains January 1st, regardless of which day it falls on. As a result, the two systems can differ by one or two weeks at the start and end of the year. For most of the year, however, the week numbers are identical or differ by one at most. Most of Europe, Asia, and international business contexts use ISO weeks, while the US and Canada commonly use the Sunday-start system. This tool shows both numbers so you always have the correct reference.</p>
+          <summary>How do I find the week number for any date?</summary>
+          <p>Select a date using the date picker and the ISO week number, US week number, day of year, days remaining in the year, and fiscal quarter appear instantly. The current week number for today is displayed automatically when the page loads — no input needed for the most common use case. The monthly calendar view below shows ISO week numbers in the left column for easy reference across the month.</p>
         </details>
         <details class="faq-item">
-          <summary>Why does the ISO week start on Monday?</summary>
-          <p>The ISO 8601 standard defines Monday as the first day of the week to align with international business practice. In most countries, the work week begins on Monday and ends on Friday, with Saturday and Sunday forming the weekend. By starting the week on Monday, the weekend falls naturally at the end of the week as days 6 and 7, which matches how most people think about the weekly cycle in a professional context. This convention was formalized in the original ISO 8601 standard in 1988, building on earlier European conventions that had treated Monday as the week's start for decades. The Monday-start convention also simplifies calculations in payroll systems, scheduling software, and business reporting tools, since the five-day work week occupies the first five days of every ISO week.</p>
+          <summary>Why do ISO and US week numbers sometimes differ?</summary>
+          <p>ISO 8601 starts weeks on Monday and defines week 1 as the week containing January 4th (the first Thursday). The US system starts weeks on Sunday and counts January 1st as always being in week 1. This means ISO week 1 can exclude January 1-3 if they fall on a Friday, Saturday, or Sunday, placing them in the previous year's last week instead. For most of the year the numbers are close, but they can differ by one or two at year boundaries. This tool shows both numbers side by side.</p>
         </details>
         <details class="faq-item">
-          <summary>Can a year have 53 weeks?</summary>
-          <p>Yes, under ISO 8601, some years have 53 weeks instead of the usual 52. A long year (53 ISO weeks) occurs when January 1st of the year falls on a Thursday, or when December 31st falls on a Thursday. In leap years, the condition is met when January 1st falls on either a Wednesday or a Thursday. This happens because 52 complete weeks account for only 364 days, leaving one day (or two in a leap year) that must be assigned to a week. When that extra day pushes the final week past the threshold, a 53rd week is created. Long years occur roughly every five to six years. Recent and upcoming examples include 2004, 2009, 2015, 2020, and 2026. The pattern is not strictly periodic because leap years introduce variability.</p>
+          <summary>How do I align sprint cycles or production schedules with week numbers?</summary>
+          <p>Use the calendar view to identify the start and end dates of specific ISO weeks. For two-week sprints, pair consecutive week numbers (e.g., Sprint W14-W15). For production scheduling, confirm the exact dates included in each week to coordinate with suppliers and logistics partners. ISO weeks are preferred for international teams because they eliminate ambiguity about which days a "week" includes, unlike informal references like "the week of March 30."</p>
         </details>
         <details class="faq-item">
-          <summary>How are week numbers used in business?</summary>
-          <p>Week numbers are a standard reference system across many industries. Manufacturing companies use them to schedule production runs and coordinate with global supply chains, since a week number is unambiguous regardless of date format conventions. Retailers reference week numbers to compare year-over-year sales performance on a like-for-like basis. In project management, deliverables are often assigned to specific week numbers in Gantt charts and timelines. Agile software teams align sprint cycles to ISO weeks for consistency. Payroll departments use week numbers to define pay periods, particularly in countries where employees are paid weekly or biweekly. Financial analysts produce weekly reports indexed by week number, and marketing teams plan campaign launches by week to maintain predictable schedules. The universality of ISO week numbers makes them especially valuable in international business where date format differences could cause confusion.</p>
+          <summary>Can a year have 53 ISO weeks, and when does this happen?</summary>
+          <p>Yes. A year has 53 ISO weeks when January 1st falls on a Thursday, or in leap years when it falls on a Wednesday or Thursday. This happens because 52 complete weeks only cover 364 days, leaving one or two extra days. Recent and upcoming 53-week years include 2004, 2009, 2015, 2020, and 2026. The pattern is not strictly periodic because leap years introduce variability. This matters for financial reporting and sprint planning at year boundaries.</p>
         </details>
         <details class="faq-item">
-          <summary>How do fiscal year weeks differ from calendar weeks?</summary>
-          <p>Fiscal year weeks are based on an organization's fiscal year, which may start on any date rather than January 1st. The US federal fiscal year begins on October 1st, so fiscal week 1 starts in October rather than January. Many retailers use a 4-5-4 calendar that divides the year into months of four and five complete weeks, ensuring each period has the same number of weekends for consistent sales comparisons. Some organizations use a 52/53-week fiscal year where each fiscal quarter contains exactly 13 weeks. Because fiscal weeks are tied to a different starting point, fiscal week 1 rarely coincides with ISO week 1 or US calendar week 1. When communicating across organizations, it is important to clarify whether a "week number" refers to the ISO calendar week or a fiscal week to avoid misunderstandings.</p>
+          <summary>How do week numbers relate to fiscal year calendars?</summary>
+          <p>Fiscal week numbers are based on an organization's fiscal year start date, which may differ from January 1st. The US federal fiscal year begins October 1st, so fiscal week 1 starts in October. Retailers often use a 4-5-4 calendar with months of four or five complete weeks. Because fiscal weeks use a different starting point, fiscal week 1 rarely matches ISO week 1. When communicating across organizations, always clarify whether you mean ISO calendar weeks or fiscal weeks.</p>
         </details>
         <details class="faq-item">
-          <summary>Which countries use ISO week numbering?</summary>
-          <p>ISO 8601 week numbering is the official or de facto standard in most of Europe, including Germany, France, the United Kingdom, Scandinavia, the Netherlands, and Spain. It is also widely adopted in China, Japan, South Korea, Australia, New Zealand, and much of South America. The United States and Canada are the most prominent exceptions, where the traditional convention starts weeks on Sunday and counts January 1st as part of week 1. However, many multinational corporations, technology companies, and government agencies in North America use ISO weeks for international coordination. Most programming languages, databases, and calendar applications default to ISO week numbering, making it the global standard in technology regardless of local conventions.</p>
-        </details>
-        <details class="faq-item">
-          <summary>Is my data private when using this tool?</summary>
-          <p>Yes. The Week Number Calculator runs entirely in your web browser using client-side JavaScript. No dates, inputs, or results are transmitted to our servers or any third-party service. There are no accounts to create, no cookies storing personal data, and no analytics capturing the dates you enter. You can verify this by inspecting network requests in your browser's developer tools while using the tool. This privacy-first approach applies to all Toolrip utilities. Your data stays on your device at all times, and the tool works offline once the page has been loaded in your browser.</p>
+          <summary>Which week numbering system should I use for international teams?</summary>
+          <p>Use ISO 8601 week numbers. They are the standard across most of Europe, Asia, Australia, and South America, and are the default in most programming languages, databases, and calendar applications. The US Sunday-start system is primarily used domestically in the United States and Canada. For international coordination, multinational corporations and technology companies overwhelmingly prefer ISO weeks because the Monday-start convention aligns with the global business work week.</p>
         </details>
       </section>
 

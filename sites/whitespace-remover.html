@@ -231,6 +231,8 @@
           <li><strong>Review the comparison</strong> — Check the before-and-after character count bar to see exactly how many characters were removed and what percentage of the original text was whitespace. This helps you understand how much redundant formatting your text contained.</li>
           <li><strong>Copy the result</strong> — Click "Copy Result" to place the cleaned text on your clipboard. You can then paste it into your code editor, document, or any application that needs clean, properly formatted text.</li>
         </ol>
+        <div class="pro-tip"><span class="pro-tip-label">Pro Tip</span><p>Non-breaking spaces (U+00A0) copied from Microsoft Word or PDF documents look identical to regular spaces but are not caught by standard trim functions. If string comparisons fail on seemingly identical text, check for \u00A0 characters using a hex viewer or by searching for the Unicode code point explicitly in your code.</p></div>
+        <div class="pro-tip mistake"><span class="pro-tip-label">Common Mistake</span><p>Removing all whitespace indiscriminately can destroy significant whitespace in programming languages like Python (where indentation defines code blocks) and YAML (where indentation defines hierarchy). Always review the context before applying blanket whitespace removal to code files.</p></div>
       </section>
 
       <!-- Understanding Whitespace Section -->
@@ -245,6 +247,15 @@
         <p class="text-muted mb-3" style="line-height:1.7">In programming, whitespace handling varies significantly between languages. Python uses indentation as part of its syntax, so stray tabs mixed with spaces can produce IndentationError exceptions or change program logic. JavaScript and JSON ignore most whitespace outside of string literals, but extra whitespace in JSON payloads increases transmission size over networks. SQL treats consecutive whitespace as a single separator, but trailing spaces in CHAR columns can affect equality comparisons depending on the database engine. In HTML, the browser collapses multiple spaces and line breaks into a single space during rendering, which is why developers use CSS or special entities to control spacing precisely.</p>
 
         <p class="text-muted mb-3" style="line-height:1.7">Data cleaning is another domain where whitespace removal is critical. When importing data from spreadsheets, user forms, or external APIs, fields often contain leading spaces, trailing spaces, or invisible characters that prevent accurate deduplication, sorting, and matching. A customer name stored as "John Smith" with a trailing non-breaking space will not match "John Smith" with a regular space, potentially creating duplicate records in a database. Similarly, CSV files exported from different applications may contain inconsistent line endings or embedded tabs that cause column misalignment during parsing. Stripping unnecessary whitespace before processing is a standard first step in any data transformation workflow, and having a reliable tool to visualize and remove these hidden characters saves significant debugging time.</p>
+      </section>
+
+      <section class="use-case-section">
+        <h2>Real-World Use Cases</h2>
+        <div class="use-case-cards">
+          <div class="use-case-card"><h3>Developer</h3><p>A developer strips trailing whitespace from source files before committing to Git, preventing noisy diffs where the only change on a line is an invisible trailing space that clutters code review history.</p></div>
+          <div class="use-case-card"><h3>Data Analyst</h3><p>A data analyst removes hidden non-breaking spaces and zero-width characters from spreadsheet exports before importing into a database, eliminating phantom duplicate records caused by invisible character differences.</p></div>
+          <div class="use-case-card"><h3>Content Editor</h3><p>A content editor collapses extra spaces and removes empty lines from author submissions pasted from Word documents, normalizing formatting before publishing to the CMS to ensure consistent paragraph spacing across the website.</p></div>
+        </div>
       </section>
 
       <!-- FAQ Section -->
@@ -353,11 +364,11 @@
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/word-count">Word Counter</a>
-          <a href="https://toolrip.com/case">Case Converter</a>
-          <a href="https://toolrip.com/json">JSON Formatter</a>
-          <a href="https://toolrip.com/uuid">UUID Generator</a>
-          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+          <a href="https://toolrip.com/word-count"><strong>Word Counter</strong> <span>Count words, characters, sentences, and reading time</span></a>
+          <a href="https://toolrip.com/case"><strong>Case Converter</strong> <span>Transform text between uppercase, lowercase, title case, and more</span></a>
+          <a href="https://toolrip.com/json"><strong>JSON Formatter</strong> <span>Format, validate, and beautify JSON data instantly</span></a>
+          <a href="https://toolrip.com/uuid"><strong>UUID Generator</strong> <span>Generate universally unique identifiers instantly</span></a>
+          <a href="https://toolrip.com/base64"><strong>Base64 Encoder</strong> <span>Encode and decode Base64 strings online</span></a>
         </div>
       </section>
 
@@ -370,6 +381,19 @@
 
     <!-- Bottom Ad -->
     <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <section class="sources-section">
+      <h2>Sources &amp; References</h2>
+      <ul class="sources-list">
+        <li><a href="https://www.unicode.org/" class="citation-link" target="_blank" rel="noopener">Unicode Consortium</a> — International standard for text encoding and character sets</li>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="citation-link" target="_blank" rel="noopener">MDN String Reference</a> — JavaScript string methods used in these tools</li>
+        <li><a href="https://developers.google.com/search/docs/fundamentals/seo-starter-guide" class="citation-link" target="_blank" rel="noopener">Google SEO Starter Guide</a> — Best practices for URL structure and content optimization</li>
+      </ul>
+    </section>
+    <div class="credibility-footer">
+      Text processing tools handle Unicode correctly following W3C internationalization standards.
+      <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

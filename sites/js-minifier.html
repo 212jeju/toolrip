@@ -268,6 +268,27 @@
           <li><strong>Or click Beautify.</strong> If you have minified code and want to make it readable again, paste it into the input and click Beautify. The tool adds line breaks and indentation to restore a clean, structured layout.</li>
           <li><strong>Copy the result.</strong> Click the Copy button to send the output to your clipboard. You can then paste the minified code into your project, a build configuration, or a content delivery network.</li>
         </ol>
+        <div class="pro-tip"><span class="pro-tip-label">Pro Tip</span><p>Tree-shaking (dead code elimination) removes more unused code than minification alone. Use ES module <code>import/export</code> syntax so bundlers like Webpack and Rollup can statically analyze dependencies and drop entire unused modules from your final bundle.</p></div>
+        <div class="pro-tip mistake"><span class="pro-tip-label">Common Mistake</span><p>Minifying code that uses <code>eval()</code> or the <code>Function()</code> constructor can break your application. Minifiers rename variables for shorter names, but <code>eval</code> accesses variables by their original names at runtime. Either avoid <code>eval</code> entirely or mark those files as excluded from minification.</p></div>
+      </section>
+
+      <!-- Use Cases -->
+      <section class="mt-4">
+        <h2>Who Uses This Tool</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+          <div class="feature-card">
+            <h3>Frontend Developer</h3>
+            <p>Liam ships a single-page React app and needs to minimize bundle size for users on slow 3G connections. He minifies vendor libraries received outside his build pipeline before concatenating them with his application code.</p>
+          </div>
+          <div class="feature-card">
+            <h3>WordPress Plugin Author</h3>
+            <p>Fatima distributes a jQuery plugin that must load fast on shared hosting. She minifies the production build to under 5KB, then pastes the beautified version side-by-side to verify no logic was altered during compression.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Technical Writer</h3>
+            <p>Andrei embeds JavaScript code samples in documentation and blog posts. He beautifies minified snippets from open-source libraries so readers can study the logic, then re-minifies them for the downloadable example files.</p>
+          </div>
+        </div>
       </section>
 
       <!-- Build Tools & Performance Section -->
@@ -386,11 +407,11 @@
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/json">JSON Formatter</a>
-          <a href="https://toolrip.com/base64">Base64 Encoder</a>
-          <a href="https://toolrip.com/uuid">UUID Generator</a>
-          <a href="https://toolrip.com/word-count">Word Counter</a>
-          <a href="https://toolrip.com/case">Case Converter</a>
+          <a href="https://toolrip.com/json">JSON Formatter <span class="related-desc">— Format, validate, and minify JSON with syntax highlighting</span></a>
+          <a href="https://toolrip.com/base64">Base64 Encoder <span class="related-desc">— Encode and decode Base64 strings for APIs and data URIs</span></a>
+          <a href="https://toolrip.com/uuid">UUID Generator <span class="related-desc">— Generate unique identifiers (v1, v4, v7) for database keys</span></a>
+          <a href="https://toolrip.com/word-count">Word Counter <span class="related-desc">— Count words, characters, sentences, and reading time</span></a>
+          <a href="https://toolrip.com/case">Case Converter <span class="related-desc">— Convert between camelCase, snake_case, kebab-case, and more</span></a>
         </div>
       </section>
 
@@ -403,6 +424,19 @@
 
     <!-- Bottom Ad -->
     <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <section class="sources-section">
+      <h2>Sources &amp; References</h2>
+      <ul class="sources-list">
+        <li><a href="https://developer.mozilla.org/" class="citation-link" target="_blank" rel="noopener">MDN Web Docs</a> — Comprehensive web technology documentation</li>
+        <li><a href="https://datatracker.ietf.org/" class="citation-link" target="_blank" rel="noopener">IETF RFC Standards</a> — Official internet protocol specifications</li>
+        <li><a href="https://owasp.org/" class="citation-link" target="_blank" rel="noopener">OWASP Foundation</a> — Web application security standards and best practices</li>
+      </ul>
+    </section>
+    <div class="credibility-footer">
+      Developer tools follow IETF, W3C, and OWASP standards. Built with vanilla JavaScript and the Web Crypto API.
+      <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

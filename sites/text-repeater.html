@@ -247,6 +247,8 @@
           <li><strong>Add prefix and suffix (optional)</strong> — If you want each repetition wrapped with additional text, enter a prefix and suffix. For example, a prefix of <code>"</code> and suffix of <code>"</code> would wrap each copy in double quotes.</li>
           <li><strong>Generate and copy</strong> — Click "Generate" to produce the output, then use "Copy Result" to place the full text on your clipboard, or select and copy manually from the output area. Click "Clear" to reset all fields.</li>
         </ol>
+        <div class="pro-tip"><span class="pro-tip-label">Pro Tip</span><p>Text repetition is a powerful technique for load testing. By generating payloads of specific byte sizes (e.g., repeating a character 1,000,000 times to create a 1 MB payload), you can stress-test API endpoints, database field limits, and file upload handlers to find performance bottlenecks and buffer overflow vulnerabilities.</p></div>
+        <div class="pro-tip mistake"><span class="pro-tip-label">Common Mistake</span><p>Generating very large repetitions (e.g., 10,000 copies of a long paragraph) can exhaust browser memory and crash the tab. JavaScript strings are stored in memory, and a 100 MB string will consume significant RAM. Always start with smaller counts and increase gradually, especially when working with multi-line input text.</p></div>
       </section>
 
       <!-- Use Cases Section -->
@@ -268,6 +270,15 @@
 
         <h3 style="margin-top:var(--sp-4);font-size:1rem">Programming and Development</h3>
         <p class="text-muted" style="line-height:1.7">Developers across all languages encounter situations where they need a long repeated string for configuration, test fixtures, seeded data, or documentation examples. Generating a repeated pattern for a regular expression test, creating a padding string of a specific length, building an array literal with identical initial values, or producing a sequence of identical HTML elements are all tasks that a text repeater handles in seconds. The prefix and suffix options are particularly useful here because they let you wrap each repetition in code syntax such as quotation marks, brackets, or XML tags, producing code-ready output that can be dropped directly into source files without further editing.</p>
+      </section>
+
+      <section class="use-case-section">
+        <h2>Real-World Use Cases</h2>
+        <div class="use-case-cards">
+          <div class="use-case-card"><h3>QA Tester</h3><p>A QA engineer generates a 10,000-character string to paste into form fields, verifying that character limit validation, database column constraints, and UI truncation all work correctly before release.</p></div>
+          <div class="use-case-card"><h3>Developer</h3><p>A backend developer creates repeated JSON array elements with prefix/suffix wrapping to quickly seed a development database with thousands of test records, avoiding the need to write a custom data generation script.</p></div>
+          <div class="use-case-card"><h3>Designer</h3><p>A web designer repeats a product name 50 times to preview how a catalog grid layout handles overflow, text wrapping, and responsive breakpoints with realistic content density across different screen sizes.</p></div>
+        </div>
       </section>
 
       <!-- FAQ Section -->
@@ -340,11 +351,11 @@
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/word-count">Word Counter</a>
-          <a href="https://toolrip.com/case">Case Converter</a>
-          <a href="https://toolrip.com/json">JSON Formatter</a>
-          <a href="https://toolrip.com/uuid">UUID Generator</a>
-          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+          <a href="https://toolrip.com/word-count"><strong>Word Counter</strong> <span>Count words, characters, sentences, and reading time</span></a>
+          <a href="https://toolrip.com/case"><strong>Case Converter</strong> <span>Transform text between uppercase, lowercase, title case, and more</span></a>
+          <a href="https://toolrip.com/json"><strong>JSON Formatter</strong> <span>Format, validate, and beautify JSON data instantly</span></a>
+          <a href="https://toolrip.com/uuid"><strong>UUID Generator</strong> <span>Generate universally unique identifiers instantly</span></a>
+          <a href="https://toolrip.com/base64"><strong>Base64 Encoder</strong> <span>Encode and decode Base64 strings online</span></a>
         </div>
       </section>
 
@@ -357,6 +368,19 @@
 
     <!-- Bottom Ad -->
     <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <section class="sources-section">
+      <h2>Sources &amp; References</h2>
+      <ul class="sources-list">
+        <li><a href="https://www.unicode.org/" class="citation-link" target="_blank" rel="noopener">Unicode Consortium</a> — International standard for text encoding and character sets</li>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="citation-link" target="_blank" rel="noopener">MDN String Reference</a> — JavaScript string methods used in these tools</li>
+        <li><a href="https://developers.google.com/search/docs/fundamentals/seo-starter-guide" class="citation-link" target="_blank" rel="noopener">Google SEO Starter Guide</a> — Best practices for URL structure and content optimization</li>
+      </ul>
+    </section>
+    <div class="credibility-footer">
+      Text processing tools handle Unicode correctly following W3C internationalization standards.
+      <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

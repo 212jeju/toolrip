@@ -210,6 +210,27 @@
           <li><strong>Use the toolbar for quick formatting.</strong> Select a word or phrase and click a toolbar button to wrap it in the appropriate syntax. If nothing is selected, a placeholder template is inserted at your cursor. Keyboard shortcuts <em>Ctrl+B</em> (bold) and <em>Ctrl+I</em> (italic) are also supported.</li>
           <li><strong>Copy your output.</strong> Click <em>Copy MD</em> to copy the raw Markdown source, or <em>Copy HTML</em> to copy the rendered HTML markup. Paste into any platform that accepts your chosen format. Click <em>Clear</em> to reset the editor and start fresh.</li>
         </ol>
+        <div class="pro-tip"><span class="pro-tip-label">Pro Tip</span><p>GitHub Flavored Markdown (GFM) extensions like task lists (<code>- [ ]</code>), tables, and strikethrough (<code>~~text~~</code>) are not portable across all renderers. If your document will be processed by Pandoc, Hugo, or a non-GFM parser, stick to CommonMark syntax for maximum compatibility.</p></div>
+        <div class="pro-tip mistake"><span class="pro-tip-label">Common Mistake</span><p>Using raw HTML inside Markdown without checking if the renderer supports it. Some platforms (Notion, Discord, many CMSs) strip HTML tags entirely, breaking your layout. Always test your target platform before relying on inline HTML for formatting.</p></div>
+      </section>
+
+      <!-- Use Cases -->
+      <section class="mt-4">
+        <h2>Who Uses This Tool</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+          <div class="feature-card">
+            <h3>Open-Source Maintainer</h3>
+            <p>Yuki writes README files, CONTRIBUTING guides, and changelogs for her GitHub projects. She previews the rendered output here before committing, ensuring badges, tables, and code blocks display correctly on the repository page.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Technical Writer</h3>
+            <p>Omar drafts API documentation in Markdown that gets compiled to a static docs site with Hugo. He uses the live preview to verify heading hierarchy, link formatting, and code fence syntax before pushing to the docs repository.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Content Marketer</h3>
+            <p>Ines writes blog posts in Markdown for a Gatsby-powered site. She composes drafts in this editor to check formatting, then copies the raw Markdown into her CMS, saving time compared to switching between a word processor and code editor.</p>
+          </div>
+        </div>
       </section>
 
       <!-- About Markdown -->
@@ -309,11 +330,11 @@
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/json">JSON Formatter</a>
-          <a href="https://toolrip.com/base64">Base64 Encoder</a>
-          <a href="https://toolrip.com/uuid">UUID Generator</a>
-          <a href="https://toolrip.com/word-count">Word Counter</a>
-          <a href="https://toolrip.com/case">Case Converter</a>
+          <a href="https://toolrip.com/json">JSON Formatter <span class="related-desc">— Format, validate, and minify JSON with syntax highlighting</span></a>
+          <a href="https://toolrip.com/base64">Base64 Encoder <span class="related-desc">— Encode and decode Base64 strings for APIs and data URIs</span></a>
+          <a href="https://toolrip.com/uuid">UUID Generator <span class="related-desc">— Generate unique identifiers (v1, v4, v7) for database keys</span></a>
+          <a href="https://toolrip.com/word-count">Word Counter <span class="related-desc">— Count words, characters, sentences, and reading time</span></a>
+          <a href="https://toolrip.com/case">Case Converter <span class="related-desc">— Convert between camelCase, snake_case, kebab-case, and more</span></a>
         </div>
       </section>
 
@@ -326,6 +347,19 @@
 
     <!-- Bottom Ad -->
     <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <section class="sources-section">
+      <h2>Sources &amp; References</h2>
+      <ul class="sources-list">
+        <li><a href="https://developer.mozilla.org/" class="citation-link" target="_blank" rel="noopener">MDN Web Docs</a> — Comprehensive web technology documentation</li>
+        <li><a href="https://datatracker.ietf.org/" class="citation-link" target="_blank" rel="noopener">IETF RFC Standards</a> — Official internet protocol specifications</li>
+        <li><a href="https://owasp.org/" class="citation-link" target="_blank" rel="noopener">OWASP Foundation</a> — Web application security standards and best practices</li>
+      </ul>
+    </section>
+    <div class="credibility-footer">
+      Developer tools follow IETF, W3C, and OWASP standards. Built with vanilla JavaScript and the Web Crypto API.
+      <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

@@ -306,7 +306,18 @@
           <li>Use the "CIDR Reference" tab for a quick lookup of subnet masks and host counts for all common prefix lengths.</li>
           <li>Click the "Copy" button next to any result to copy it to your clipboard for use in configurations or documentation.</li>
         </ol>
+<div class="pro-tip"><span class="pro-tip-label">Pro Tip</span><p>Private IP ranges (10.x.x.x, 172.16-31.x.x, 192.168.x.x) are not routable on the public internet. If a lookup returns a private address, the request is coming from behind a NAT or proxy — you are seeing the internal network address, not the user's public IP.</p></div>
+<div class="pro-tip mistake"><span class="pro-tip-label">Common Mistake</span><p>Relying on IP geolocation for precise user location. IP-based geolocation is accurate to the city level at best, and often only to the region or country level. VPNs, corporate proxies, and mobile carriers can place users in entirely different cities or countries.</p></div>
       </section>
+
+<section class="use-case-section">
+  <h2>Real-World Use Cases</h2>
+  <div class="use-case-cards">
+    <div class="use-case-card"><h3>Network Administrator</h3><p>A network admin troubleshoots connectivity by looking up IP addresses from firewall logs. Identifying whether traffic originates from internal private ranges or external public IPs determines the correct troubleshooting path and escalation procedure.</p></div>
+    <div class="use-case-card"><h3>Cloud Infrastructure Engineer</h3><p>A cloud engineer designing AWS VPC networks uses CIDR calculations to size subnets correctly across availability zones. Under-sizing means running out of IP addresses; over-sizing wastes address space needed for future growth.</p></div>
+    <div class="use-case-card"><h3>Security Operations Analyst</h3><p>A SOC analyst investigates IDS alerts by looking up source IPs to determine if they belong to known cloud providers, residential ISPs, or Tor exit nodes. This context drives the severity assessment and incident response playbook selection.</p></div>
+  </div>
+</section>
 
       <!-- SEO Content Section -->
       <section class="mt-4">
@@ -470,11 +481,11 @@
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/json">JSON Formatter</a>
-          <a href="https://toolrip.com/base64">Base64 Encoder</a>
-          <a href="https://toolrip.com/uuid">UUID Generator</a>
-          <a href="https://toolrip.com/regex">Regex Tester</a>
-          <a href="https://toolrip.com/password">Password Generator</a>
+          <a href="https://toolrip.com/json"><strong>JSON Formatter</strong><span>Format and validate JSON</span></a>
+          <a href="https://toolrip.com/base64"><strong>Base64 Encoder</strong><span>Encode and decode Base64</span></a>
+          <a href="https://toolrip.com/uuid"><strong>UUID Generator</strong><span>Generate unique identifiers</span></a>
+          <a href="https://toolrip.com/regex"><strong>Regex Tester</strong><span>Build and test regex patterns</span></a>
+          <a href="https://toolrip.com/password"><strong>Password Generator</strong><span>Create strong random passwords</span></a>
         </div>
       </section>
 
@@ -487,6 +498,9 @@
 
     <!-- Bottom Ad -->
     <div class="ad-slot ad-bottom" id="ad-bottom" data-ad-slot="bottom">Ad</div>
+
+<section class="sources-section"><h2>Sources &amp; References</h2><ul class="sources-list"><li><a href="https://developer.mozilla.org/" class="citation-link" target="_blank" rel="noopener">MDN Web Docs</a> — Comprehensive web technology documentation</li><li><a href="https://datatracker.ietf.org/" class="citation-link" target="_blank" rel="noopener">IETF RFC Standards</a> — Official internet protocol specifications</li><li><a href="https://owasp.org/" class="citation-link" target="_blank" rel="noopener">OWASP Foundation</a> — Web application security best practices</li></ul></section>
+<div class="credibility-footer">Developer tools follow IETF, W3C, and OWASP standards. <a href="https://toolrip.com/about">Learn more about our methodology</a>.</div>
 
     <!-- Footer -->
     <footer class="footer">

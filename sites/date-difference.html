@@ -436,38 +436,60 @@
           <li><strong>View your results</strong> — The exact difference in years, months, and days appears instantly, along with total days, weeks, hours, minutes, seconds, business days, and a full weekday breakdown. Results update in real time whenever you change either date.</li>
           <li><strong>Add or subtract days</strong> — Scroll to the Add or Subtract section, enter a base date and number of days, then click the + Add or - Subtract button to find the resulting date.</li>
         </ol>
+        <div class="pro-tip">
+          <span class="pro-tip-label">Pro Tip</span>
+          <p>When calculating project deadlines, account for weekends and public holidays. A "30-day timeline" often means only 20-22 working days, which can make or break delivery schedules.</p>
+        </div>
+        <div class="pro-tip mistake">
+          <span class="pro-tip-label">Common Mistake</span>
+          <p>Forgetting that months have different lengths. The difference between January 31 and March 1 is 29 days in a regular year but 30 days in a leap year. Always use a date library or calculator rather than assuming 30 days per month.</p>
+        </div>
+      </section>
+
+      <section class="use-case-section">
+        <h2>Real-World Use Cases</h2>
+        <div class="use-case-cards">
+          <div class="use-case-card">
+            <h3>Project Manager Planning Sprint Deadlines</h3>
+            <p>A PM needs to calculate the exact number of days between the project kickoff and the client delivery date. They use the calculator to verify that the 90-day timeline fits within the quarter, accounting for the actual calendar days across months with varying lengths.</p>
+          </div>
+          <div class="use-case-card">
+            <h3>HR Coordinator Calculating Employee Tenure</h3>
+            <p>An HR specialist needs to determine how many years, months, and days an employee has been with the company for anniversary recognition and benefits eligibility. The precise breakdown matters because benefits often vest on exact anniversary dates.</p>
+          </div>
+          <div class="use-case-card">
+            <h3>Event Planner Tracking Milestones</h3>
+            <p>A wedding planner calculates the days remaining until the event to create a preparation timeline. Knowing the exact count helps schedule vendor bookings, RSVPs, and rehearsals at the right intervals before the date.</p>
+          </div>
+        </div>
       </section>
 
       <!-- FAQ Section -->
       <section class="faq-section">
         <h2>Frequently Asked Questions</h2>
         <details class="faq-item">
-          <summary>How does the Date Difference Calculator work?</summary>
-          <p>The Date Difference Calculator computes the exact span between two dates you provide. It first calculates the difference in full calendar years, then full months within the remaining period, and finally the leftover days. This approach respects the varying lengths of calendar months, so a span from January 31 to February 28 is treated as exactly one month. The total day count is derived from the absolute number of days between the two dates, and all other totals — weeks, hours, minutes, and seconds — are computed from that number. Every calculation is performed in your browser using JavaScript and the Gregorian calendar. No data is sent to any server, ensuring your information stays completely private. You can use the calculator with any pair of dates, past or future, and results update in real time as you modify inputs.</p>
+          <summary>How do I calculate the exact number of days between two dates?</summary>
+          <p>Enter a start date and an end date using the date pickers, and the calculator instantly displays the total number of days between them. It also breaks the result into years, months, and days for clarity. If you need to include the end date itself in the count (for rental periods, event durations, or insurance coverage), toggle the "Include end date" switch. All calculations run in your browser using the Gregorian calendar with full leap year support, so results are accurate for any pair of dates — past or future.</p>
         </details>
         <details class="faq-item">
-          <summary>Does the calculator handle leap years correctly?</summary>
-          <p>Yes. The calculator fully respects Gregorian leap year rules: a year is a leap year if it is divisible by 4, except for century years that are not divisible by 400. Under these rules, 2000 and 2024 are leap years (February has 29 days), while 1900 and 2100 are not (February has 28 days). When your date range spans a February 29, that day is correctly included in the total day count and in all derived metrics such as weeks, hours, and business days. The weekday breakdown will also reflect February 29 as whichever day of the week it falls on. Whether you are calculating a span of a few days or several centuries, the leap year logic ensures your results are always accurate to the day.</p>
+          <summary>How do I find a deadline date by adding days to a start date?</summary>
+          <p>Scroll to the Add or Subtract Days section below the main results. Enter a starting date, type the number of days, and click "+ Add" to move forward or "- Subtract" to move backward. The resulting date and its day of the week appear instantly. This is useful for calculating contract expirations, delivery windows, or any scenario where you know the duration in days and need the exact calendar date. The calculation correctly handles varying month lengths and leap years.</p>
         </details>
         <details class="faq-item">
-          <summary>What are business days and how are they calculated?</summary>
-          <p>Business days, also known as working days, refer to the weekdays from Monday through Friday. The calculator iterates through every day in the selected range and counts only those that fall on a weekday, excluding Saturdays and Sundays. It is important to note that public holidays are not excluded because they vary by country, region, and even employer. If your use case requires subtracting public holidays, simply subtract the number of holiday days that fall on weekdays from the business days total. This approach gives you a reliable baseline figure that is useful for project timelines, legal deadlines, shipping estimates, payroll periods, and any scenario where weekend days do not count toward a duration.</p>
+          <summary>Does the calculator account for leap years and different month lengths?</summary>
+          <p>Yes. The calculator follows standard Gregorian leap year rules — a year is a leap year if divisible by 4, except for century years not divisible by 400. February 29 is included when it falls within your date range, and months of 28, 29, 30, or 31 days are all handled correctly. A span from January 31 to February 28 counts as exactly one month. Whether your range covers a few days or several centuries, every metric (days, weeks, hours, business days) remains accurate to the day.</p>
         </details>
         <details class="faq-item">
-          <summary>Can I include the end date in the calculation?</summary>
-          <p>Yes. By default, the calculator counts the days between the start and end dates without including the end date itself — this is the standard mathematical convention where the span from January 1 to January 2 equals one day. If you want both the start and end dates to count as full days, toggle the "Include end date" switch. This adds one day to the total and is useful in scenarios like event planning, rental periods, or insurance coverage calculations where the last day should be counted as part of the duration. The include toggle affects all metrics: total days, weeks, hours, minutes, seconds, business days, and the weekday breakdown will all reflect the additional day.</p>
+          <summary>How are business days counted and can I exclude holidays?</summary>
+          <p>Business days include only Monday through Friday, with Saturdays and Sundays excluded. The calculator iterates through every day in the range and counts only weekdays. Public holidays are not automatically excluded because they vary by country, region, and employer. If you need to account for holidays, subtract the number of holiday weekdays from the business day total. For a dedicated tool with US federal holiday support, try the <a href="https://toolrip.com/business-days">Business Days Calculator</a>.</p>
         </details>
         <details class="faq-item">
-          <summary>How do I add or subtract days from a date?</summary>
-          <p>Use the Add or Subtract Days section located below the main results area. Enter a starting date using the date picker, type the number of days in the input field, and then click either the "+ Add" button to move forward in time or the "- Subtract" button to move backward. The result is displayed immediately, showing the full date and the day of the week it falls on. This feature is helpful for calculating contract expiration dates, determining delivery arrival windows, finding out what date falls a certain number of days before or after an event, or simply counting forward from today to a future milestone. The calculation correctly accounts for varying month lengths and leap years, so adding 365 days from March 1, 2024 gives you March 1, 2025 — not February 28.</p>
+          <summary>Why does the weekday breakdown matter for scheduling?</summary>
+          <p>The weekday breakdown shows how many times each day of the week (Monday through Sunday) appears in your selected date range. This is valuable for payroll calculations (how many Fridays in a pay period), shift scheduling (distributing weekend duties), and meeting planning (knowing how many Tuesdays are available). The individual counts always sum to the total number of days, providing a quick cross-check on your calculation.</p>
         </details>
         <details class="faq-item">
-          <summary>What does the weekday breakdown show?</summary>
-          <p>The weekday breakdown section lists each day of the week from Monday through Sunday and shows exactly how many times that day appears within the selected date range. For example, if your range covers exactly four weeks, each day will appear four times. The breakdown is computed by iterating through every date in the range and tallying each day of the week. This information is useful for work scheduling, understanding how many weekend days fall in a period, calculating shift rotations, or estimating how many specific weekdays are available for recurring meetings. The individual counts always add up to the total number of days in the range, providing a quick sanity check on your calculation.</p>
-        </details>
-        <details class="faq-item">
-          <summary>Is my data private when using this tool?</summary>
-          <p>Absolutely. The Date Difference Calculator runs entirely in your web browser using client-side JavaScript. No dates, inputs, or results are transmitted to our servers or any third-party service. There are no accounts to create, no cookies storing personal data, and no analytics capturing the dates you enter. You can verify this by using your browser's developer tools to inspect network requests while using the tool. This privacy-first approach applies to all Toolrip utilities — your data stays on your device at all times, and you can use the tool offline once the page has loaded.</p>
+          <summary>Can I use this calculator offline after loading the page?</summary>
+          <p>Yes. The Date Difference Calculator runs entirely in your browser using client-side JavaScript. Once the page has loaded, no internet connection is needed for calculations. No dates or personal data are transmitted to any server. There are no accounts, no cookies storing inputs, and no analytics tracking which dates you enter. You can verify this by monitoring network requests in your browser's developer tools.</p>
         </details>
       </section>
 

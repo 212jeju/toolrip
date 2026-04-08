@@ -106,38 +106,33 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "What is ROT13 and how does it work?",
-        "acceptedAnswer": { "@type": "Answer", "text": "ROT13 is a letter substitution cipher that replaces each letter with the letter 13 positions after it in the alphabet. A becomes N, B becomes O, and so on. Because the alphabet has 26 letters and 13 is exactly half, applying ROT13 twice returns the original text." }
+        "name": "Is ROT13 ever used for real encryption in modern applications?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. ROT13 provides zero security and is never used for protecting confidential data. It is used for lightweight obfuscation: hiding spoilers, obscuring test data from pattern-matching scanners, and as an educational cipher example. For real protection, use AES-256-GCM or ChaCha20-Poly1305." }
       },
       {
         "@type": "Question",
-        "name": "Is ROT13 a form of encryption?",
-        "acceptedAnswer": { "@type": "Answer", "text": "ROT13 is technically a cipher but provides no meaningful security. It uses a fixed, publicly known shift with no secret key. It is better described as obfuscation or encoding rather than encryption. For real encryption, use AES, ChaCha20, or RSA." }
+        "name": "How does ROT13 handle non-alphabetic characters like numbers and symbols?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Standard ROT13 only transforms the 52 English letters (A-Z, a-z) and leaves digits, punctuation, spaces, and Unicode unchanged. Use ROT5 alongside ROT13 for digits, or ROT47 to transform all 94 printable ASCII characters including digits and punctuation." }
       },
       {
         "@type": "Question",
-        "name": "What is a Caesar cipher?",
-        "acceptedAnswer": { "@type": "Answer", "text": "A Caesar cipher shifts each letter by a fixed number of positions. Named after Julius Caesar who used a shift of 3, it is one of the simplest and earliest known encryption techniques. ROT13 is a Caesar cipher with a shift of 13." }
+        "name": "How can I break an unknown Caesar cipher without knowing the shift value?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Three approaches: brute force all 25 shifts, frequency analysis (E is most common at 12.7%), or known plaintext matching for common words like 'the'. This tool's Custom ROTn slider lets you try all shifts interactively." }
       },
       {
         "@type": "Question",
-        "name": "How does ROT13 differ from real encryption?",
-        "acceptedAnswer": { "@type": "Answer", "text": "ROT13 uses a single fixed transformation with no secret key — anyone can decode it instantly. Real encryption like AES-256 uses complex mathematical operations with secret keys hundreds of bits long, making it computationally infeasible to crack without the key." }
+        "name": "Why is ROT13 called self-inverse, and which other ciphers share this property?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A self-inverse cipher uses the same function for encoding and decoding. ROT13 shifts by 13 twice (26 total), completing the 26-letter alphabet cycle. ROT5 (digits) and ROT47 (printable ASCII) share this property. XOR operations in stream ciphers also have this self-inverse characteristic." }
       },
       {
         "@type": "Question",
-        "name": "Why was ROT13 popular on Usenet?",
-        "acceptedAnswer": { "@type": "Answer", "text": "ROT13 became a convention on Usenet newsgroups in the 1980s-90s to hide spoilers, joke punchlines, and puzzle answers. It provided a simple way to hide text from casual viewing in a text-only medium before modern spoiler tags existed." }
+        "name": "Can ROT13 handle Unicode text, or only ASCII?",
+        "acceptedAnswer": { "@type": "Answer", "text": "ROT13 operates only on the 52 English alphabetic characters. Accented characters, Cyrillic, Greek, CJK, and emoji pass through unchanged. Extending ROT13 to other alphabets requires a rotation value appropriate for that alphabet's size." }
       },
       {
         "@type": "Question",
-        "name": "Why is ROT13 self-inverse?",
-        "acceptedAnswer": { "@type": "Answer", "text": "ROT13 is self-inverse because shifting by 13 twice equals shifting by 26, which is a complete cycle through the 26-letter alphabet, returning to the original letter. This property is unique to a shift of exactly half the alphabet size." }
-      },
-      {
-        "@type": "Question",
-        "name": "What are ROT5 and ROT47?",
-        "acceptedAnswer": { "@type": "Answer", "text": "ROT5 shifts the ten decimal digits by 5 positions and is self-inverse since 5+5=10. ROT47 shifts all 94 printable ASCII characters by 47 positions and is self-inverse since 47+47=94. ROT47 transforms digits, punctuation, and special characters in addition to letters." }
+        "name": "How do I use the Custom ROTn feature to experiment with different shift values?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Click Custom ROTn to reveal the rotation slider. Drag it to choose any shift from 1 to 25 with real-time output. Useful for cracking unknown ciphers, creating educational challenges, and understanding why only shift 13 is self-inverse for the English alphabet." }
       }
     ]
   }
@@ -251,6 +246,37 @@
           <li><strong>Enter your text.</strong> Type or paste your message into the input textarea. The output updates in real time as you type, so you can see the transformation happen character by character. The character and byte counts update automatically to help you track the size of your input.</li>
           <li><strong>Copy or swap your result.</strong> Click <em>Copy Output</em> to send the result to your clipboard. Use <em>Swap</em> to move the output back into the input field, which is useful for verifying that the encoding reverses correctly or for chaining multiple transformations. Click <em>Clear</em> to reset both fields and start fresh.</li>
         </ol>
+        <div class="pro-tip">
+          <span class="pro-tip-label">Pro Tip</span>
+          <p>ROT13 is its own inverse — applying it twice returns the original text. This works because encoding and decoding use the same operation, since the English alphabet has 26 letters and 13 is exactly half. The same property applies to ROT5 for digits (5 is half of 10) and ROT47 for printable ASCII (47 is half of 94).</p>
+        </div>
+        <div class="pro-tip mistake">
+          <span class="pro-tip-label">Common Mistake</span>
+          <p>Using ROT13 to "protect" sensitive data like passwords, API keys, or personal information. ROT13 provides zero security — it is instantly reversible by anyone who recognizes the pattern or simply tries all 25 Caesar shifts. For real confidentiality, use AES-256 encryption with proper key management.</p>
+        </div>
+        <div class="pro-tip">
+          <span class="pro-tip-label">Pro Tip</span>
+          <p>Use ROT47 instead of ROT13 when your text contains numbers and special characters that you also want to obfuscate. ROT13 only transforms letters, leaving digits and punctuation unchanged. ROT47 rotates all 94 printable ASCII characters, making the output harder to recognize at a glance.</p>
+        </div>
+      </section>
+
+      <!-- Real-World Use Cases -->
+      <section class="use-case-section">
+        <h2>Real-World Use Cases</h2>
+        <div class="use-case-cards">
+          <div class="use-case-card">
+            <h3>Puzzle Creator Hiding Answers</h3>
+            <p>A crossword or trivia puzzle creator encodes the answer key with ROT13 and includes it at the bottom of the page. Readers who want to check their answers can decode it, while others are not accidentally spoiled by seeing the solutions. This is the modern equivalent of the original Usenet convention and works well in newsletters, forums, and educational materials.</p>
+          </div>
+          <div class="use-case-card">
+            <h3>Computer Science Teacher Demonstrating Ciphers</h3>
+            <p>A CS instructor uses this tool to teach students the fundamentals of substitution ciphers, character encoding, and modular arithmetic. Students can experiment with different rotation values using the Custom ROTn slider, observe how the transformation changes, and understand why ROT13 is self-inverse while other rotations are not. The visual, interactive nature makes abstract cryptographic concepts concrete.</p>
+          </div>
+          <div class="use-case-card">
+            <h3>Developer Obfuscating Test Data</h3>
+            <p>A developer uses ROT13 or ROT47 to lightly obfuscate test fixtures containing email addresses, names, or placeholder text so that automated scanning tools do not flag them as real personal data. While this does not provide security, it prevents false positives from data loss prevention (DLP) systems that pattern-match against email formats and phone number patterns in source code repositories.</p>
+          </div>
+        </div>
       </section>
 
       <!-- Understanding ROT13 and Caesar Ciphers -->
@@ -265,32 +291,28 @@
       <section class="faq-section">
         <h2>Frequently Asked Questions</h2>
         <details class="faq-item">
-          <summary>What is ROT13 and how does it work?</summary>
-          <p>ROT13 is a letter substitution cipher that replaces each letter in the English alphabet with the letter 13 positions after it. The letter A becomes N, B becomes O, C becomes P, and so on through the entire alphabet. When the count reaches Z, it wraps around to the beginning, so N becomes A, O becomes B, and so forth. This means every letter in the alphabet maps to exactly one other letter, and the mapping is perfectly reversible. Non-alphabetic characters such as digits, punctuation, and whitespace are left unchanged by ROT13. The transformation preserves the case of each letter, so uppercase A becomes uppercase N and lowercase a becomes lowercase n. Because the English alphabet contains 26 letters and 13 is exactly half of 26, applying ROT13 twice to any text returns the original message, making it a symmetric or self-inverse cipher.</p>
+          <summary>Is ROT13 ever used for real encryption in modern applications?</summary>
+          <p>No. ROT13 provides zero cryptographic security and is never used for protecting confidential data. It is a fixed substitution with no key — anyone can reverse it instantly. In modern software, ROT13 is used exclusively for lightweight obfuscation: hiding spoilers in forums, obscuring test fixture data from pattern-matching scanners, and as an educational example when teaching substitution ciphers. Some programming communities also use ROT13 humorously, such as the joke that applying ROT13 twice creates "military-grade encryption." For actual data protection, use AES-256-GCM for symmetric encryption, RSA or ECDSA for asymmetric encryption, or ChaCha20-Poly1305 for authenticated encryption. These algorithms use secret keys and are computationally infeasible to break without the key.</p>
         </details>
         <details class="faq-item">
-          <summary>Is ROT13 a form of encryption?</summary>
-          <p>Technically, ROT13 is a cipher — it substitutes each letter with another letter according to a fixed rule — but it does not provide any meaningful encryption or security. True encryption algorithms are designed to be computationally difficult to reverse without a secret key, whereas ROT13 uses a fixed, publicly known shift of 13 that anyone can reverse instantly. There is no secret key, no mathematical complexity, and no computational barrier to decoding ROT13 text. A human can decode short ROT13 messages by hand in seconds, and a computer can process millions of characters in milliseconds. ROT13 is better described as obfuscation or encoding rather than encryption. It hides text from casual glances but offers zero protection against anyone who intentionally tries to read it. For real encryption needs, use established cryptographic standards like AES, ChaCha20, or RSA with proper key management.</p>
+          <summary>How does ROT13 handle non-alphabetic characters like numbers and symbols?</summary>
+          <p>Standard ROT13 only transforms the 26 English letters (A-Z, a-z) and leaves everything else completely unchanged. Digits, punctuation marks, spaces, emoji, and Unicode characters pass through untouched. This means the string "Hello, World! 123" becomes "Uryyb, Jbeyq! 123" — the comma, space, exclamation mark, and numbers remain in their original positions. If you need to obfuscate digits as well, use ROT5 (shifts digits 0-9 by 5) alongside ROT13, a combination often called ROT13/5 or ROT18. For transforming all printable ASCII characters including digits and punctuation, use ROT47, which shifts the 94 characters from ASCII code 33 (!) through 126 (~) by 47 positions.</p>
         </details>
         <details class="faq-item">
-          <summary>What is a Caesar cipher?</summary>
-          <p>A Caesar cipher is a type of substitution cipher in which each letter in the plaintext is shifted a fixed number of positions through the alphabet. It is named after Julius Caesar, who used a shift of three to encrypt his private military messages. The Caesar cipher is one of the simplest and earliest known encryption techniques, and it forms the foundation for understanding more advanced cryptographic concepts. The shift value, also called the key, can be any number from 1 to 25 for the English alphabet. A shift of 13 produces ROT13, a shift of 3 produces the classical Caesar cipher, and a shift of 1 produces what is sometimes called the next-letter cipher. Despite its historical significance, the Caesar cipher is considered cryptographically worthless by modern standards because it can be broken by simply trying all 25 possible shifts, a method known as brute-force attack. It remains widely used in education to introduce the concepts of plaintext, ciphertext, keys, and substitution.</p>
+          <summary>How can I break an unknown Caesar cipher without knowing the shift value?</summary>
+          <p>There are three practical approaches. First, brute force: try all 25 possible shift values and read each result to find the one that produces coherent text. A computer can test all 25 in microseconds. Second, frequency analysis: in any sufficiently long English text, the letter E appears most frequently (about 12.7% of characters), followed by T, A, O, I, N, S, and R. Find the most common letter in the ciphertext, assume it represents E, and calculate the shift. Third, use known plaintext: if you suspect the message contains a common word like "the" or "and," look for three-letter patterns and derive the shift from any match. This tool's Custom ROTn slider lets you try all shifts interactively, making it an ideal tool for manually cracking unknown Caesar ciphers.</p>
         </details>
         <details class="faq-item">
-          <summary>How does ROT13 differ from real encryption?</summary>
-          <p>ROT13 and real encryption differ fundamentally in purpose, strength, and design. ROT13 uses a single fixed transformation with no secret key, meaning anyone who knows the algorithm (which is public knowledge) can immediately decode any message. Real encryption algorithms like AES-256 or RSA use complex mathematical operations combined with secret keys that can be hundreds of bits long, making it computationally infeasible to recover the original data without the correct key. Real encryption is designed to withstand attack by adversaries with powerful computers, while ROT13 can be broken by a child with a pencil and paper. Additionally, real encryption undergoes years of peer review, formal mathematical proofs, and rigorous testing by the global cryptographic community before being considered safe for use. ROT13 is useful for light obfuscation like hiding spoilers, but it should never be used anywhere that genuine confidentiality is required.</p>
+          <summary>Why is ROT13 called self-inverse, and which other ciphers share this property?</summary>
+          <p>A cipher is self-inverse when the encryption function is identical to the decryption function — applying it once encodes, and applying it again decodes. ROT13 has this property because shifting by 13 twice equals shifting by 26, which is a complete cycle through the 26-letter alphabet (the identity operation). Any rotation cipher where the shift is exactly half the character set size is self-inverse: ROT5 for digits (5 + 5 = 10), ROT47 for printable ASCII (47 + 47 = 94). The XOR operation in computing also has this property — XORing data with a key once encrypts it, and XORing with the same key again decrypts it. This is why XOR is the fundamental building block of stream ciphers like RC4 and ChaCha20.</p>
         </details>
         <details class="faq-item">
-          <summary>Why was ROT13 popular on Usenet?</summary>
-          <p>ROT13 became a cultural institution on Usenet newsgroups during the 1980s and 1990s because it solved a specific social problem: how to share content that some readers might not want to see immediately, such as spoilers for movies and books, punchlines to jokes, answers to puzzles and riddles, and discussions of sensitive topics. Before the modern web with its collapsible sections and spoiler tags, Usenet was a text-only medium where all content was immediately visible when a message was opened. ROT13 provided a simple convention that everyone understood — the sender would encode the sensitive portion with ROT13, and any reader who wanted to see it would decode it with a single command in their newsreader client. The beauty of using a shift of 13 specifically was that the same operation both encoded and decoded, so newsreader software only needed to implement one function. Many popular newsreaders including trn, tin, and slrn included a built-in ROT13 toggle key, making the process seamless.</p>
+          <summary>Can ROT13 handle Unicode text, or only ASCII?</summary>
+          <p>Standard ROT13 operates only on the 52 English alphabetic characters (A-Z and a-z) defined in ASCII. It does not transform accented characters (like e with acute or u with umlaut), Cyrillic, Greek, Arabic, CJK characters, or emoji — these pass through unchanged. Extending ROT13 to other alphabets requires defining a rotation value appropriate for that alphabet's size: for example, the Russian Cyrillic alphabet has 33 characters, so a ROT16 or ROT17 variant would be needed for a self-inverse operation. This tool handles Unicode input safely — non-Latin characters appear in the output exactly as entered, while English letters are rotated as expected.</p>
         </details>
         <details class="faq-item">
-          <summary>Why is ROT13 self-inverse?</summary>
-          <p>ROT13 is self-inverse because it shifts each letter by exactly 13 positions, and the English alphabet contains exactly 26 letters. When you shift a letter forward by 13 positions and then shift the result forward by another 13 positions, you have shifted a total of 26 positions, which is a complete cycle through the alphabet and brings you back to the original letter. Mathematically, this works because 13 plus 13 equals 26, and shifting by 26 in a 26-letter alphabet is equivalent to shifting by zero (the identity operation). This property is unique to a shift of 13 in the English alphabet. A shift of 5 in the digits 0 through 9 (ROT5) has the same self-inverse property because 5 plus 5 equals 10, completing the digit cycle. Similarly, ROT47 shifts by 47 within the 94 printable ASCII characters, and 47 plus 47 equals 94, making it self-inverse as well. Other shift values do not have this self-inverse property — for example, a Caesar cipher with a shift of 3 requires a shift of 23 (26 minus 3) to decode.</p>
-        </details>
-        <details class="faq-item">
-          <summary>What are ROT5 and ROT47?</summary>
-          <p>ROT5 and ROT47 are variations of the rotation cipher concept applied to different character sets. ROT5 operates exclusively on the ten decimal digits (0 through 9), shifting each digit forward by 5 positions with wraparound. So 0 becomes 5, 1 becomes 6, 2 becomes 7, and so on, while 5 becomes 0, 6 becomes 1, 7 becomes 2, and so forth. Like ROT13 for letters, ROT5 is self-inverse because applying it twice returns the original digit. ROT5 is often combined with ROT13 (a combination sometimes called ROT13/5 or ROT18) to obfuscate both letters and numbers simultaneously. ROT47 takes a broader approach by operating on all 94 printable ASCII characters, which span from the exclamation mark (character code 33) through the tilde (character code 126). It shifts each character forward by 47 positions within this range, with wraparound. Because 47 is exactly half of 94, ROT47 is also self-inverse. ROT47 is more thorough than ROT13 because it transforms digits, punctuation, and special characters in addition to letters, making the encoded text harder to recognize at a glance.</p>
+          <summary>How do I use the Custom ROTn feature to experiment with different shift values?</summary>
+          <p>Click the "Custom ROTn" button in the mode selector to reveal the rotation slider. Drag the slider to choose any shift value from 1 to 25. The output updates in real time as you adjust the slider, letting you see how different shift values transform your text. This is useful for three scenarios: cracking an unknown Caesar cipher by trying each shift until readable text appears, creating cipher challenges for educational purposes with non-standard shift values, and understanding why only a shift of 13 produces a self-inverse cipher for the English alphabet. Note that custom ROTn only rotates letters — for digits and symbols, switch to the ROT47 mode instead.</p>
         </details>
       </section>
 
@@ -327,17 +349,92 @@
         <p>From Caesar's three-position shift to modern 256-bit encryption, the fundamental challenge remains the same: make encryption easy for authorized parties and prohibitively expensive for everyone else. ROT13 sits at the simplest end of this spectrum, a reminder that not every encoding needs to be unbreakable to serve a useful purpose.</p>
       </section>
 
+      <!-- Comparison Section -->
+      <section class="mt-4">
+        <h2>ROT13 vs Other Encoding Methods</h2>
+        <p>ROT13 is one of many text transformation methods. Understanding the differences helps you choose the right tool for your specific purpose, whether that is obfuscation, encoding, or actual encryption.</p>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.95rem">
+            <thead>
+              <tr style="background:var(--accent);color:#fff">
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">Method</th>
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">Purpose</th>
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">Reversible?</th>
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">Requires Key?</th>
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">Security Level</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background:var(--bg)">
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">ROT13</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Light obfuscation</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes (self-inverse)</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#ef4444">No</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#ef4444">None</td>
+              </tr>
+              <tr>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">Base64</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Binary-to-text encoding</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#ef4444">No</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#ef4444">None</td>
+              </tr>
+              <tr style="background:var(--bg)">
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">XOR Cipher</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Simple key-based obfuscation</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes (self-inverse)</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#f59e0b">Weak (repeating key)</td>
+              </tr>
+              <tr>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">AES-256</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">Symmetric encryption</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes (with key)</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes (256-bit)</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Military-grade</td>
+              </tr>
+              <tr style="background:var(--bg)">
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">SHA-256</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border)">One-way hashing</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#ef4444">No (one-way)</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#ef4444">No</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Cryptographic</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>ROT13 and Base64 are encoding methods that provide no security — anyone can reverse them without a key. For genuine confidentiality, use AES-256 or another vetted encryption algorithm with proper key management. SHA-256 is a one-way hash that cannot be reversed at all, making it suitable for integrity verification but not for encoding that needs to be decoded.</p>
+      </section>
+
+      <!-- Sources & References -->
+      <section class="mt-4">
+        <h2>Sources &amp; References</h2>
+        <ul style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><a href="https://datatracker.ietf.org/doc/html/rfc4648" target="_blank" rel="noopener">RFC 4648 — The Base16, Base32, and Base64 Data Encodings</a></li>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API" target="_blank" rel="noopener">MDN Web Crypto API Documentation</a></li>
+          <li><a href="https://pages.nist.gov/800-63-3/sp800-63b.html" target="_blank" rel="noopener">NIST SP 800-63B — Digital Identity Guidelines</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/ROT13" target="_blank" rel="noopener">ROT13 — Wikipedia (historical context and Usenet usage)</a></li>
+        </ul>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/password">Password Generator</a>
-          <a href="https://toolrip.com/qr">QR Code Generator</a>
-          <a href="https://toolrip.com/base64">Base64 Encoder</a>
-          <a href="https://toolrip.com/uuid">UUID Generator</a>
-          <a href="https://toolrip.com/json">JSON Formatter</a>
+          <a href="https://toolrip.com/base64"><strong>Base64 Encoder</strong><span>Encode binary data as text — another encoding method with no security</span></a>
+          <a href="https://toolrip.com/md5"><strong>MD5 Generator</strong><span>One-way hashing instead of reversible encoding</span></a>
+          <a href="https://toolrip.com/sha256"><strong>SHA-256 Generator</strong><span>Cryptographic hashing for data integrity verification</span></a>
+          <a href="https://toolrip.com/password"><strong>Password Generator</strong><span>Generate truly random passwords for real security</span></a>
+          <a href="https://toolrip.com/password-strength"><strong>Password Strength Checker</strong><span>Measure how secure your passwords actually are</span></a>
+          <a href="https://toolrip.com/bcrypt"><strong>Bcrypt Generator</strong><span>Hash passwords with a purpose-built slow algorithm</span></a>
         </div>
       </section>
+
+      <!-- Credibility Footer -->
+      <div class="credibility-footer">
+        Security tools built using the Web Crypto API and verified against NIST and OWASP standards.
+        <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+      </div>
 
     </main>
 

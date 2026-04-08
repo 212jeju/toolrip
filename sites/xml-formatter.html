@@ -244,6 +244,27 @@
           <li><strong>Review the output.</strong> The formatted or minified result appears in the right panel (or below on mobile) with full syntax highlighting. If validation finds errors, the error bar shows the exact location and description of the problem so you can correct it quickly.</li>
           <li><strong>Copy or continue editing.</strong> Click the <em>Copy</em> button to send the result to your clipboard instantly. If you spot an issue, fix it in the input area and re-format — the tool responds in real time with no page reload required.</li>
         </ol>
+        <div class="pro-tip"><span class="pro-tip-label">Pro Tip</span><p>XML is case-sensitive, unlike HTML. <code>&lt;Name&gt;</code> and <code>&lt;name&gt;</code> are two completely different elements. This is a frequent source of bugs when developers accustomed to HTML switch to XML. Always match the exact casing of your tag names throughout the document.</p></div>
+        <div class="pro-tip mistake"><span class="pro-tip-label">Common Mistake</span><p>Using unescaped ampersands (<code>&amp;</code>) in XML content. Unlike HTML which is lenient, XML parsers will reject any bare <code>&amp;</code> that is not part of a valid entity reference. Always write <code>&amp;amp;</code> for literal ampersands, even in attribute values and CDATA sections.</p></div>
+      </section>
+
+      <!-- Use Cases -->
+      <section class="mt-4">
+        <h2>Who Uses This Tool</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+          <div class="feature-card">
+            <h3>Java Developer</h3>
+            <p>Henrik debugs Maven POM files and Spring configuration XMLs that span hundreds of lines. He pastes minified XML from build logs into the formatter to quickly locate misconfigured dependencies and bean definitions.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Integration Engineer</h3>
+            <p>Carmen works with SOAP web services that exchange large XML payloads. She formats incoming messages to trace namespace prefixes and nested elements, then minifies outgoing payloads to reduce bandwidth in high-volume enterprise integrations.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Android Developer</h3>
+            <p>Tunde edits layout XML files and AndroidManifest.xml for mobile apps. He validates his XML for well-formedness before building, catching mismatched tags and missing closing elements that would otherwise cause cryptic build failures.</p>
+          </div>
+        </div>
       </section>
 
       <!-- Understanding XML -->
@@ -342,11 +363,11 @@
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/json">JSON Formatter</a>
-          <a href="https://toolrip.com/base64">Base64 Encoder</a>
-          <a href="https://toolrip.com/uuid">UUID Generator</a>
-          <a href="https://toolrip.com/word-count">Word Counter</a>
-          <a href="https://toolrip.com/case">Case Converter</a>
+          <a href="https://toolrip.com/json">JSON Formatter <span class="related-desc">— Format, validate, and minify JSON with syntax highlighting</span></a>
+          <a href="https://toolrip.com/base64">Base64 Encoder <span class="related-desc">— Encode and decode Base64 strings for APIs and data URIs</span></a>
+          <a href="https://toolrip.com/uuid">UUID Generator <span class="related-desc">— Generate unique identifiers (v1, v4, v7) for database keys</span></a>
+          <a href="https://toolrip.com/word-count">Word Counter <span class="related-desc">— Count words, characters, sentences, and reading time</span></a>
+          <a href="https://toolrip.com/case">Case Converter <span class="related-desc">— Convert between camelCase, snake_case, kebab-case, and more</span></a>
         </div>
       </section>
 
@@ -359,6 +380,19 @@
 
     <!-- Bottom Ad -->
     <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <section class="sources-section">
+      <h2>Sources &amp; References</h2>
+      <ul class="sources-list">
+        <li><a href="https://developer.mozilla.org/" class="citation-link" target="_blank" rel="noopener">MDN Web Docs</a> — Comprehensive web technology documentation</li>
+        <li><a href="https://datatracker.ietf.org/" class="citation-link" target="_blank" rel="noopener">IETF RFC Standards</a> — Official internet protocol specifications</li>
+        <li><a href="https://owasp.org/" class="citation-link" target="_blank" rel="noopener">OWASP Foundation</a> — Web application security standards and best practices</li>
+      </ul>
+    </section>
+    <div class="credibility-footer">
+      Developer tools follow IETF, W3C, and OWASP standards. Built with vanilla JavaScript and the Web Crypto API.
+      <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

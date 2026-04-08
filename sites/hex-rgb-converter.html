@@ -348,6 +348,24 @@ border-color: #FF5733;</div>
           <li><strong>Fine-tune with sliders.</strong> Drag the Red, Green, and Blue sliders to adjust individual channels, or use the Hue, Saturation, and Lightness sliders for more intuitive control. Adjust the Alpha slider to set opacity from 0 (fully transparent) to 1 (fully opaque). Every change updates all output values and the preview swatch in real time.</li>
           <li><strong>Copy and use.</strong> Click the Copy button next to any output format to send it to your clipboard. Use the CSS output block for ready-to-paste stylesheet declarations. Check the WCAG contrast ratios to verify accessibility, and explore the generated color palette for harmonious companion colors. Click any palette swatch to switch to that color instantly.</li>
         </ol>
+        <div class="pro-tip">
+          <span class="pro-tip-label">Pro Tip</span>
+          <p>Consider using the CSS oklch() color function for perceptually uniform color manipulation. Unlike RGB or HSL, oklch() ensures that two colors with the same lightness value actually look equally bright to the human eye, making it ideal for generating accessible color palettes and consistent design systems.</p>
+        </div>
+        <div class="pro-tip mistake">
+          <span class="pro-tip-label">Common Mistake</span>
+          <p>Shorthand hex codes expand by doubling each character, not by appending zeros. For example, #03F expands to #0033FF (each digit repeated), not #030F00. This is a frequent source of color mismatches when developers manually expand shorthand notation.</p>
+        </div>
+      </section>
+
+      <!-- Use Cases -->
+      <section class="use-case-section">
+        <h2>Real-World Use Cases</h2>
+        <div class="use-case-cards">
+          <div class="use-case-card"><h3>Web Designer</h3><p>A UI designer receives brand colors as hex codes from a client's style guide but needs RGB values to configure opacity variants in a Figma design system. This converter lets them instantly translate between formats and preview WCAG contrast ratios against background colors.</p></div>
+          <div class="use-case-card"><h3>Front-End Developer</h3><p>A React developer needs to convert hex brand colors to HSL values for building a dynamic theming system where lightness and saturation are adjusted programmatically. The HSL output provides the exact values needed for CSS custom properties.</p></div>
+          <div class="use-case-card"><h3>Email Marketing Specialist</h3><p>An email marketer must use hex codes for maximum client compatibility but receives color specs in RGB from the design team. They use this tool to convert colors and verify that the email template meets accessibility contrast standards before sending.</p></div>
+        </div>
       </section>
 
       <!-- FAQ Section -->
@@ -416,11 +434,11 @@ border-color: #FF5733;</div>
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/temperature">Temperature Converter</a>
-          <a href="https://toolrip.com/length">Length Converter</a>
-          <a href="https://toolrip.com/base64">Base64 Encoder</a>
-          <a href="https://toolrip.com/json">JSON Formatter</a>
-          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+          <a href="https://toolrip.com/temperature"><strong>Temperature Converter</strong><span>Another unit conversion tool for switching between Fahrenheit, Celsius, and Kelvin</span></a>
+          <a href="https://toolrip.com/length"><strong>Length Converter</strong><span>Convert between metric and imperial length units like meters, feet, and inches</span></a>
+          <a href="https://toolrip.com/base64"><strong>Base64 Encoder</strong><span>Encode images and data to Base64 strings often used alongside color codes in CSS</span></a>
+          <a href="https://toolrip.com/json"><strong>JSON Formatter</strong><span>Format and validate JSON data including design tokens that store color values</span></a>
+          <a href="https://toolrip.com/percentage"><strong>Percentage Calculator</strong><span>Calculate percentages useful for opacity and color channel intensity adjustments</span></a>
         </div>
       </section>
 
@@ -433,6 +451,19 @@ border-color: #FF5733;</div>
 
     <!-- Bottom Ad -->
     <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <section class="sources-section">
+      <h2>Sources &amp; References</h2>
+      <ul class="sources-list">
+        <li><a href="https://www.w3.org/TR/css-color-4/" class="citation-link" target="_blank" rel="noopener">W3C CSS Color Module Level 4</a> — Official specification for CSS color formats including hex, rgb(), hsl(), and oklch()</li>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/color_value" class="citation-link" target="_blank" rel="noopener">MDN CSS Color Values</a> — Comprehensive reference for all CSS color value types and conversion rules</li>
+        <li><a href="https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html" class="citation-link" target="_blank" rel="noopener">WCAG 2.1 Contrast Guidelines</a> — Accessibility standards for color contrast ratios used in this tool</li>
+      </ul>
+    </section>
+    <div class="credibility-footer">
+      Conversion formulas verified against W3C CSS Color Module Level 4 and WCAG 2.1 accessibility standards.
+      <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

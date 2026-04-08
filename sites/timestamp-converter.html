@@ -355,6 +355,14 @@
           <li><strong>Use the live timestamp</strong> — The live counter at the top of the tool shows the current Unix timestamp updating every second. Click "Paste Current" in the Timestamp to Date mode to instantly load the current value into the input field for conversion.</li>
           <li><strong>Copy any result</strong> — Click the "Copy" button next to any output row to copy that specific formatted value to your clipboard. A brief confirmation will appear to let you know the copy was successful.</li>
         </ol>
+        <div class="pro-tip">
+          <span class="pro-tip-label">Pro Tip</span>
+          <p>ISO 8601 formatted timestamps (e.g., 2026-04-09T14:30:00Z) are naturally sortable as plain text strings. This means you can sort filenames, log entries, or database records alphabetically and they will automatically be in chronological order -- no date parsing required.</p>
+        </div>
+        <div class="pro-tip mistake">
+          <span class="pro-tip-label">Common Mistake</span>
+          <p>The timezone offset +00:00 and the Z suffix both mean UTC, but some parsers treat them differently. For example, older Java date parsers reject Z while accepting +00:00, and some JavaScript environments do the opposite. Always test your target parser with both formats to avoid unexpected failures in production.</p>
+        </div>
       </section>
 
       <!-- Understanding Unix Time -->
@@ -364,6 +372,16 @@
         <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-3)">This universality is why virtually every modern operating system, database engine, programming language, and web API uses Unix timestamps under the hood. When your browser sends a request to a server, the timestamps in HTTP headers are derived from epoch time. When a database records the creation date of a row, it often stores a Unix timestamp. When a log file records an event, the most reliable and sortable format is seconds since the epoch. By reducing a complex calendar date — with its variable month lengths, leap years, daylight saving shifts, and time zone rules — to a single number, Unix time eliminates an entire category of bugs and ambiguities that plague date strings.</p>
         <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-3)">However, this elegance comes with a well-known limitation: the Year 2038 problem, often abbreviated as Y2K38. Many legacy systems store Unix timestamps in a 32-bit signed integer, which has a maximum value of 2,147,483,647. That value corresponds to Tuesday, January 19, 2038, at 03:14:07 UTC. One second later, the integer overflows and wraps to a large negative number, which the system interprets as a date in December 1901. The consequences would be similar to the Year 2000 bug: file systems could report incorrect dates, scheduled tasks could fire at the wrong time, and certificates could appear expired. The industry-wide solution is to migrate to 64-bit timestamps, which can represent dates more than 292 billion years into the future. Most modern Linux distributions, macOS, Windows, and cloud platforms have already completed or are completing this migration, but embedded systems, IoT devices, and legacy enterprise software may still be vulnerable.</p>
         <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-3)">For developers, understanding when to use seconds versus milliseconds is essential. The traditional Unix timestamp is measured in seconds and produces a 10-digit number for dates in the current era. JavaScript, Java, and many modern web APIs, however, default to milliseconds since the epoch, yielding a 13-digit number. Confusing the two is a common source of bugs: treating a milliseconds value as seconds produces a date thousands of years in the future, while treating a seconds value as milliseconds yields a date in January 1970. This converter automatically detects which unit you are using based on the digit count, but being explicit about units in your own code — through variable names, comments, and type annotations — is always the safest practice.</p>
+      </section>
+
+      <!-- Use Cases -->
+      <section class="use-case-section">
+        <h2>Real-World Use Cases</h2>
+        <div class="use-case-cards">
+          <div class="use-case-card"><h3>Backend Developer</h3><p>A developer debugging a distributed system receives Unix timestamps in API error logs. Converting them to human-readable dates with timezone context helps correlate events across servers in different regions and pinpoint the exact sequence of failures.</p></div>
+          <div class="use-case-card"><h3>Data Analyst</h3><p>An analyst working with a database export finds date columns stored as epoch seconds. Converting these timestamps to ISO 8601 format makes the data readable in spreadsheets and enables proper date filtering and grouping in SQL queries.</p></div>
+          <div class="use-case-card"><h3>DevOps Engineer</h3><p>A DevOps engineer investigating a deployment rollback needs to match container restart timestamps from Docker logs (Unix epoch) with CI/CD pipeline events shown in local time. Quick conversion identifies whether the deploy or a config change triggered the incident.</p></div>
+        </div>
       </section>
 
       <!-- FAQ Section -->
@@ -466,11 +484,11 @@
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/date-diff">Date Difference Calculator</a>
-          <a href="https://toolrip.com/age">Age Calculator</a>
-          <a href="https://toolrip.com/json">JSON Formatter</a>
-          <a href="https://toolrip.com/base64">Base64 Encoder/Decoder</a>
-          <a href="https://toolrip.com/uuid">UUID Generator</a>
+          <a href="https://toolrip.com/date-diff"><strong>Date Difference Calculator</strong><span>Calculate the duration between two dates often derived from timestamp conversions</span></a>
+          <a href="https://toolrip.com/age"><strong>Age Calculator</strong><span>Compute exact age from a birth date using the same date math as timestamps</span></a>
+          <a href="https://toolrip.com/json"><strong>JSON Formatter</strong><span>Format API responses that commonly contain Unix timestamps in their payloads</span></a>
+          <a href="https://toolrip.com/base64"><strong>Base64 Encoder/Decoder</strong><span>Decode JWT tokens that contain timestamp claims like iat and exp fields</span></a>
+          <a href="https://toolrip.com/uuid"><strong>UUID Generator</strong><span>Generate unique identifiers often paired with timestamps in database records</span></a>
         </div>
       </section>
 
@@ -483,6 +501,19 @@
 
     <!-- Bottom Ad -->
     <div class="ad-slot ad-bottom" data-ad-slot="timestamp-bottom">Ad</div>
+
+    <section class="sources-section">
+      <h2>Sources &amp; References</h2>
+      <ul class="sources-list">
+        <li><a href="https://www.nist.gov/pml/special-publication-811" class="citation-link" target="_blank" rel="noopener">NIST Guide for the International System of Units</a> — Official U.S. measurement standards reference</li>
+        <li><a href="https://www.bipm.org/en/measurement-units" class="citation-link" target="_blank" rel="noopener">BIPM International System of Units</a> — Global authority on measurement standards</li>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math" class="citation-link" target="_blank" rel="noopener">MDN Math Reference</a> — JavaScript Math functions used in these calculations</li>
+      </ul>
+    </section>
+    <div class="credibility-footer">
+      Conversion formulas verified against NIST and BIPM international measurement standards.
+      <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

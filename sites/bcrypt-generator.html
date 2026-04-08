@@ -274,6 +274,37 @@
           <li><strong>Generate the hash</strong> — Click "Generate Hash" and a random 128-bit salt will be created using <code>crypto.getRandomValues()</code>. The bcrypt algorithm then processes your password through the Blowfish key schedule for 2<sup>n</sup> rounds. The resulting hash string includes the algorithm version, cost factor, salt, and digest in a single portable format.</li>
           <li><strong>Verify a password</strong> — Switch to the Verify tab, enter a plaintext password and a bcrypt hash, then click "Verify Password." The tool extracts the embedded salt and cost factor from the hash, rehashes the provided password with the same parameters, and tells you whether the two match.</li>
         </ol>
+        <div class="pro-tip">
+          <span class="pro-tip-label">Pro Tip</span>
+          <p>The cost factor in bcrypt doubles the computation time with each increment. A cost of 10 takes roughly 100ms, while 12 takes roughly 400ms. For user authentication, cost 10-12 balances security with acceptable login latency. Benchmark on your production hardware and choose the highest cost that keeps response time under 500ms.</p>
+        </div>
+        <div class="pro-tip mistake">
+          <span class="pro-tip-label">Common Mistake</span>
+          <p>Comparing bcrypt hashes with a simple string equality check (== or ===). Because bcrypt includes a random salt, the same password produces a different hash every time. You must use the bcrypt verify function, which extracts the embedded salt, rehashes the candidate password, and performs a constant-time comparison. This tool's Verify tab handles this correctly.</p>
+        </div>
+        <div class="pro-tip">
+          <span class="pro-tip-label">Pro Tip</span>
+          <p>If your passwords may exceed 72 bytes (common with Unicode or passphrase inputs), pre-hash them with SHA-256 before passing the digest to bcrypt. This preserves all entropy within bcrypt's 72-byte input limit. Many modern bcrypt libraries like bcryptjs offer this as a built-in option.</p>
+        </div>
+      </section>
+
+      <!-- Real-World Use Cases -->
+      <section class="use-case-section">
+        <h2>Real-World Use Cases</h2>
+        <div class="use-case-cards">
+          <div class="use-case-card">
+            <h3>Backend Developer Implementing User Registration</h3>
+            <p>When building a signup flow, a backend developer hashes the user's chosen password with bcrypt at cost 12 before storing it in the database. During login, the server retrieves the stored hash, passes the submitted password to bcrypt's verify function, and grants access only if the hashes match. This approach means the server never stores or logs the plaintext password, and even a complete database breach reveals no usable credentials.</p>
+          </div>
+          <div class="use-case-card">
+            <h3>Security Auditor Testing Hash Strength</h3>
+            <p>A security auditor extracts password hashes from a client's database (with authorization) and uses this tool to verify whether they are bcrypt hashes and what cost factor was used. By examining the hash format ($2b$10$ prefix indicates bcrypt version 2b at cost 10), the auditor can assess whether the cost factor is appropriate for current hardware and recommend an increase if the system was configured years ago when lower costs were standard.</p>
+          </div>
+          <div class="use-case-card">
+            <h3>Sysadmin Migrating from MD5 to Bcrypt</h3>
+            <p>A systems administrator discovers that a legacy application stores passwords as unsalted MD5 hashes. They implement a migration strategy: on each user's next successful login, the application verifies against the old MD5 hash, then immediately rehashes the plaintext password with bcrypt and replaces the stored hash. This tool helps the admin generate sample bcrypt hashes at different cost factors to benchmark performance before deploying the migration.</p>
+          </div>
+        </div>
       </section>
 
       <!-- Understanding Bcrypt -->
@@ -301,38 +332,33 @@
         <h2>Frequently Asked Questions</h2>
 
         <details class="faq-item">
-          <summary>What is the difference between bcrypt and SHA-256 for password hashing?</summary>
-          <p>SHA-256 is a general-purpose cryptographic hash function designed for speed. It can process millions of hashes per second on a single CPU and billions per second on GPUs. This speed is an asset when verifying file integrity or building blockchain systems, but it is a critical weakness for password hashing because attackers can try enormous numbers of password guesses very quickly. Bcrypt was purpose-built for passwords. It incorporates an adjustable cost factor that controls how many iterations of the Blowfish key schedule are performed, making each hash computation deliberately slow. A bcrypt hash at cost 10 takes roughly 100 milliseconds, while a SHA-256 hash completes in microseconds. That five-order-of-magnitude difference means that a brute-force attack against bcrypt-hashed passwords requires proportionally more time and resources, giving defenders a massive advantage.</p>
+          <summary>What cost factor should I use for bcrypt in a production application?</summary>
+          <p>The optimal cost factor depends on your server hardware and acceptable login latency. Start by benchmarking: on your production server, measure how long a single bcrypt hash takes at cost 10, 11, 12, and 13. Choose the highest value that keeps the hash computation under 250-500 milliseconds. In 2026, cost 10 (roughly 100ms on modern hardware) is the minimum recommended default. Cost 12 (roughly 400ms) provides stronger protection for sensitive applications like banking and healthcare. Each increment doubles computation time, so moving from 10 to 12 quadruples the work. As hardware improves, periodically re-benchmark and increase the cost factor. You can rehash stored passwords at the new cost during each user's next successful login without requiring a password reset.</p>
         </details>
 
         <details class="faq-item">
-          <summary>What cost factor should I use for bcrypt?</summary>
-          <p>The ideal cost factor depends on your specific hardware and performance requirements. A cost factor of 10 is the most common default and is generally suitable for web applications where login should complete in under 200 milliseconds. For higher-security applications such as banking or healthcare systems, a cost factor of 12 to 13 provides stronger protection at the expense of increased login latency. The best approach is to benchmark your production server: measure how long a bcrypt hash takes at various cost factors and choose the highest value that stays within your acceptable response time budget. As a rule of thumb, if a single hash takes between 100 and 500 milliseconds, you have a good balance between usability and security. Remember that each increment doubles the computation time, so the jump from cost 12 to 13 is the same as doubling your current hashing time.</p>
+          <summary>Why does bcrypt produce a different hash each time for the same password?</summary>
+          <p>Bcrypt generates a fresh 128-bit random salt for every hash operation. This salt is combined with the password during the Blowfish key expansion, so even identical passwords produce completely different hash outputs. The salt is not secret — it is stored as part of the hash string (the 22 characters after the cost factor prefix). Its purpose is to prevent precomputed attacks: without a unique salt, an attacker could build one rainbow table and crack every password in a database simultaneously. With unique salts, each password must be attacked individually, multiplying the attacker's workload by the number of accounts in the database.</p>
         </details>
 
         <details class="faq-item">
-          <summary>What is a salt in bcrypt and why does it matter?</summary>
-          <p>A salt is a random value that is generated freshly each time a password is hashed and then stored alongside the hash output. In bcrypt, the salt is 128 bits (16 bytes) long and is embedded directly in the output string, so you never need to store it separately. The salt ensures that even if two users choose the identical password, their stored hashes will be completely different. Without a salt, an attacker who compromises a database could instantly identify all accounts sharing the same password or use precomputed tables to look up common passwords. With unique salts, an attacker must perform the full bcrypt computation individually for every hash in the database, turning a potentially quick table lookup into an extremely costly per-hash brute-force effort.</p>
+          <summary>How do I migrate from MD5 or SHA-256 password hashes to bcrypt?</summary>
+          <p>The safest migration strategy is gradual rehashing on login. When a user logs in, verify their password against the existing MD5/SHA-256 hash. If it matches, immediately rehash the plaintext password with bcrypt and replace the old hash in the database. Add a column to track which hashing algorithm each user's hash uses, and check it during authentication to route to the correct verification function. Users who never log in during the migration period will retain their old hashes, so set a deadline after which remaining accounts require a password reset. Never attempt to convert hashes directly — you cannot bcrypt an MD5 hash and get meaningful results, because bcrypt needs the original plaintext password.</p>
         </details>
 
         <details class="faq-item">
-          <summary>Can bcrypt protect against rainbow table attacks?</summary>
-          <p>Yes. Rainbow tables are massive precomputed databases that map hash outputs back to their plaintext inputs. They work against unsalted hashes because the attacker only needs one table for a given hash function. Bcrypt defeats rainbow tables in two ways. First, the 128-bit random salt means there are roughly 3.4 times 10 to the power of 38 possible salt values. An attacker would need a separate rainbow table for each salt value, which is computationally and physically impossible to store. Second, bcrypt's slow hashing makes the precomputation itself far more expensive than it would be for fast hash functions. Even if an attacker attempted to build a rainbow table for a single salt, the time and energy cost of hashing each candidate at bcrypt's work factor would be prohibitive compared to the same effort with SHA-256 or MD5.</p>
+          <summary>How does bcrypt's internal Blowfish key schedule make it slow on purpose?</summary>
+          <p>Bcrypt's expensive key setup (EksBlowfishSetup) repeatedly processes the password and salt through Blowfish's key expansion function. At cost factor n, this key expansion runs 2^n times. Each iteration modifies all 18 P-boxes and 1,024 S-box entries (4 KB of state), mixing in the password and salt alternately. This process is inherently sequential — each iteration depends on the output of the previous one — which prevents parallel speedup on GPUs or ASICs. After the key schedule completes, bcrypt encrypts the constant string "OrpheanBeholderScryDoubt" 64 times with the configured Blowfish state to produce the final 24-byte hash. The combination of iterative key expansion and the 4 KB working state makes bcrypt significantly more resistant to hardware-accelerated attacks than fast hash functions.</p>
         </details>
 
         <details class="faq-item">
-          <summary>Is bcrypt vulnerable to timing attacks?</summary>
-          <p>Bcrypt implementations should use constant-time comparison when checking whether a submitted password matches a stored hash. A timing attack works by measuring tiny differences in how long a comparison takes: if the system returns "no match" faster for completely wrong passwords than for nearly-correct ones, an attacker could theoretically narrow down the correct hash byte by byte. Well-implemented bcrypt libraries always compare every byte of the computed hash against the stored hash before returning a result, ensuring that the comparison takes the same amount of time regardless of how many bytes match. This tool uses a constant-time comparison in its verify function. If you are implementing bcrypt in production code, always use the comparison function provided by your language's bcrypt library rather than writing your own string equality check.</p>
+          <summary>Should I switch from bcrypt to Argon2 for new projects?</summary>
+          <p>If your platform has mature Argon2 library support, Argon2id (the hybrid variant) is the strongest choice for new projects. It provides configurable CPU time, memory usage, and parallelism, offering superior defense against both GPU-based attacks and side-channel attacks. Configure it with at least 64 MB of memory and a time cost yielding 0.5-1 second of hashing. However, if your stack lacks first-class Argon2 support, bcrypt at cost 12 or higher remains completely secure and battle-tested. The practical security difference between well-configured bcrypt and Argon2 is small compared to the risk of misconfiguring a less familiar algorithm. Both are vastly superior to any fast hash function like SHA-256 or MD5.</p>
         </details>
 
         <details class="faq-item">
-          <summary>How does Argon2 compare to bcrypt?</summary>
-          <p>Argon2 is a newer password hashing algorithm that won the Password Hashing Competition in 2015. Its main advantage over bcrypt is that it is memory-hard: in addition to requiring significant CPU time, Argon2 forces the hashing process to use a configurable amount of RAM, making attacks with specialized hardware like ASICs and FPGAs much harder. Bcrypt's Blowfish-based algorithm requires relatively little memory (about 4 KB), which means attackers with custom chips can run many parallel bcrypt computations on a single device. Argon2, configured to use 64 MB or more per hash, limits parallelism because each hashing operation must reserve that memory. Despite Argon2's theoretical advantages, bcrypt remains an excellent choice for most applications because it has decades of real-world deployment, extensive auditing, and first-class library support in virtually every language and framework. If your platform supports Argon2 natively, it is worth considering, but bcrypt is not considered outdated or insecure.</p>
-        </details>
-
-        <details class="faq-item">
-          <summary>Why does bcrypt have a 72-byte password limit?</summary>
-          <p>Bcrypt's 72-byte limit comes directly from the underlying Blowfish cipher. The Blowfish key schedule accepts keys up to 72 bytes (or 56 bytes in some implementations), and bcrypt feeds the password into this key schedule during the expensive key setup phase. Any password bytes beyond position 72 are silently ignored. In practice, 72 bytes accommodates passwords of 72 ASCII characters, which provides more than enough entropy for virtually any realistic password. If you need to support longer passphrases, a common workaround is to first hash the password with SHA-256 or SHA-512 to produce a fixed-length digest, then pass that digest to bcrypt. This approach preserves all of the password's entropy while fitting within bcrypt's input limit. Many modern bcrypt libraries handle this pre-hashing automatically.</p>
+          <summary>How do I handle bcrypt's 72-byte password limit with long passphrases?</summary>
+          <p>Bcrypt silently truncates passwords at 72 bytes due to the Blowfish key schedule limit. For ASCII passwords, this means 72 characters — more than enough for virtually all real-world passwords. However, Unicode characters can use 2-4 bytes each, so a 30-character passphrase with accented or CJK characters could exceed the limit. The standard workaround is pre-hashing: compute SHA-256 of the password first, then pass the 32-byte digest to bcrypt. This preserves all entropy regardless of input length. Some libraries call this approach "bcrypt-sha256" and handle it automatically. When implementing this, ensure you Base64-encode the SHA-256 output to avoid null bytes that could truncate the bcrypt input prematurely.</p>
         </details>
       </section>
 

@@ -131,58 +131,42 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "What is the CSS box-shadow syntax?",
+        "name": "How do I create a shadow that looks like Material Design elevation?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The CSS box-shadow property accepts values in the order: horizontal offset, vertical offset, blur radius, spread radius, color, and an optional inset keyword. For example, box-shadow: 10px 10px 20px 0px rgba(0,0,0,0.25) creates a shadow offset 10 pixels right and down with a 20-pixel blur. The inset keyword placed at the beginning creates an inner shadow instead of an outer one."
+          "text": "Material Design uses two layered shadows for each elevation level: a key shadow (sharper, directional) and an ambient shadow (softer, all-around). For a card (elevation 2), use something like: box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23). Increase both blur and offset values for higher elevations."
         }
       },
       {
         "@type": "Question",
-        "name": "How do I add multiple box shadows in CSS?",
+        "name": "Can I use box-shadow for effects other than drop shadows?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "You can apply multiple shadows to a single element by separating each shadow value with a comma in the box-shadow property. For example, box-shadow: 2px 2px 5px rgba(0,0,0,0.2), -2px -2px 5px rgba(255,255,255,0.1) applies two shadows at once. Browsers render the first shadow on top and subsequent shadows behind it, so ordering matters when shadows overlap."
+          "text": "Yes — box-shadow is surprisingly versatile. Use inset shadows for pressed-button effects. Stack multiple shadows to create glows, borders without affecting layout, or even crude illustrations. The spread parameter can create solid outlines when blur is set to zero."
         }
       },
       {
         "@type": "Question",
-        "name": "Does box-shadow affect page performance?",
+        "name": "Why does my box-shadow look blurry on retina displays?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Box shadows are rendered by the browser's compositor and generally have minimal performance impact for static elements. However, animating box-shadow directly forces the browser to repaint on every frame, which can cause jank on lower-powered devices. For smooth shadow animations, consider transitioning opacity on a pseudo-element that already has the target shadow applied, or use filter: drop-shadow() which can be GPU-accelerated in some browsers."
+          "text": "On high-DPI screens, a shadow with a large blur radius can appear washed out. Reduce the blur slightly and increase the opacity for retina displays. Some designers use media queries targeting device-pixel-ratio to serve different shadow values for standard versus retina screens."
         }
       },
       {
         "@type": "Question",
-        "name": "What is an inset box shadow and when should I use it?",
+        "name": "How do I add a shadow to only one side of an element?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "An inset shadow is drawn inside the element's border box rather than outside it. Add the inset keyword at the start of your shadow value to create this effect. Inset shadows are commonly used to create pressed button states, recessed input fields, and neumorphic design patterns. They give the visual impression that an element is carved into or sunken below the surrounding surface."
+          "text": "Use a combination of positive Y-offset and negative spread to create a bottom-only shadow. For example, box-shadow: 0 4px 6px -4px rgba(0,0,0,0.3) applies shadow only below the element. Adjust the offset and spread to target different sides."
         }
       },
       {
         "@type": "Question",
-        "name": "What is the difference between box-shadow and text-shadow?",
+        "name": "What is the performance impact of complex box shadows?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The box-shadow property applies a shadow to the rectangular bounding box of an element, while text-shadow applies a shadow to the individual glyphs of text content. Box-shadow supports spread radius and the inset keyword, neither of which is available in text-shadow. Text-shadow only accepts horizontal offset, vertical offset, blur radius, and color. Use box-shadow for cards, buttons, and containers. Use text-shadow for decorative or legibility effects on headings and labels."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How do I create a neumorphism effect with box-shadow?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Neumorphism uses two opposing shadows on the same element: a light shadow offset toward the upper-left and a dark shadow offset toward the lower-right, both applied to a background color that closely matches the page background. A typical neumorphic shadow looks like box-shadow: 8px 8px 16px rgba(0,0,0,0.2), -8px -8px 16px rgba(255,255,255,0.05). The key is keeping the element background similar to its surroundings so the dual shadows create a soft, extruded appearance."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Can I use CSS variables with box-shadow?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes. CSS custom properties work inside box-shadow declarations, making it easy to create themeable and reusable shadow systems. You can define variables like --shadow-color, --shadow-offset, and --shadow-blur on the root or on individual components, then reference them in your box-shadow value. This approach is widely used in design systems to maintain consistent shadow tokens across light and dark themes."
+          "text": "Box shadows trigger paint operations in the browser rendering pipeline. A single simple shadow has negligible impact, but stacking multiple shadows on many elements or animating shadows can cause frame drops. For animated shadows, consider using filter: drop-shadow() instead or transitioning opacity of a pseudo-element with a fixed shadow."
         }
       }
     ]
@@ -276,6 +260,14 @@
           <li><strong>Stack multiple layers.</strong> Click Add Shadow Layer to create additional shadows on the same element. Each layer is rendered in order, with the first layer on top. Combine outer and inset shadows, or blend different colors and offsets to achieve depth, glow, or neumorphic effects.</li>
           <li><strong>Copy the CSS.</strong> The CSS output panel at the bottom shows the complete box-shadow declaration in real time. Click the Copy CSS button to send it to your clipboard, ready to paste into your stylesheet or component code.</li>
         </ol>
+        <div class="pro-tip">
+          <span class="pro-tip-label">Pro Tip</span>
+          <p>Layer multiple shadows for realistic depth — a tight, dark shadow for definition plus a larger, softer shadow for ambient light. This mimics how real-world objects cast both hard and soft shadows, creating the illusion of physical elevation.</p>
+        </div>
+        <div class="pro-tip mistake">
+          <span class="pro-tip-label">Common Mistake</span>
+          <p>Using pure black (#000000) for shadows looks harsh and unnatural. Use a darkened version of your background color with reduced opacity instead — for example, rgba(0, 0, 20, 0.15) on light backgrounds produces a more natural shadow.</p>
+        </div>
       </section>
 
       <!-- Understanding Box Shadow -->
@@ -286,36 +278,46 @@
         <p style="color:var(--text-muted);line-height:1.8">Design systems benefit from defining shadow tokens as CSS custom properties. Variables such as --shadow-sm, --shadow-md, and --shadow-lg establish a consistent elevation scale that all components can reference. This approach simplifies dark mode adaptation because you only need to adjust the shadow color variables rather than rewriting every box-shadow declaration. When choosing shadow colors, avoid pure black shadows in light themes. Instead, use a slightly tinted, semi-transparent color that complements your palette. A blue-tinted shadow on a cool-toned interface or a warm brownish shadow on a cream background produces a more natural and polished result than rgba(0,0,0,0.3) ever will. The tool on this page lets you experiment with all of these techniques visually, generating copy-ready CSS so you can spend less time on syntax and more time on design.</p>
       </section>
 
+      <section class="use-case-section">
+        <h2>Real-World Use Cases</h2>
+        <div class="use-case-cards">
+          <div class="use-case-card">
+            <h3>Frontend Developer Implementing Material Design</h3>
+            <p>A developer building a dashboard needs consistent elevation shadows matching Material Design specifications. They use the generator to create layered shadows for cards (2dp), navigation bars (4dp), and modal dialogs (24dp) with precise blur and spread values.</p>
+          </div>
+          <div class="use-case-card">
+            <h3>Designer Prototyping Card Layouts</h3>
+            <p>A designer rapidly prototyping a card-based interface adjusts shadow parameters in real time to find the right balance between subtlety and depth. The live preview eliminates the trial-and-error cycle of editing CSS and refreshing the browser.</p>
+          </div>
+          <div class="use-case-card">
+            <h3>Freelancer Matching Client Mockups</h3>
+            <p>A freelance developer receives a Figma mockup with specific shadow values. They input the exact X offset, Y offset, blur radius, and color from the design file to generate pixel-perfect CSS that matches the mockup exactly.</p>
+          </div>
+        </div>
+      </section>
+
       <!-- FAQ Section -->
       <section class="faq-section">
         <h2>Frequently Asked Questions</h2>
         <details class="faq-item">
-          <summary>What is the CSS box-shadow syntax?</summary>
-          <p>The CSS box-shadow property accepts values in the following order: an optional inset keyword, horizontal offset, vertical offset, blur radius, spread radius, and color. All length values are specified in pixels or other CSS units. The horizontal and vertical offsets are required; blur, spread, and color are optional but nearly always included. For example, box-shadow: 10px 10px 20px 0px rgba(0,0,0,0.25) creates a shadow displaced 10 pixels right and 10 pixels down with a 20-pixel Gaussian blur and no spread. Adding the inset keyword at the beginning switches the shadow from outside to inside the element. You can also omit the spread value entirely, in which case it defaults to zero, meaning the shadow is the same size as the element before blur is applied.</p>
+          <summary>How do I create a shadow that looks like Material Design elevation?</summary>
+          <p>Material Design uses two layered shadows for each elevation level: a key shadow (sharper, directional) and an ambient shadow (softer, all-around). For a card (elevation 2), use something like: box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23). Increase both blur and offset values for higher elevations.</p>
         </details>
         <details class="faq-item">
-          <summary>How do I create multiple box shadows on one element?</summary>
-          <p>Separate each shadow definition with a comma inside a single box-shadow declaration. The browser draws them in order, with the first shadow on top and subsequent shadows layered behind it. This layering behavior lets you combine different offsets, colors, and blur values to simulate complex lighting. A common pattern is pairing a tight, dark shadow for grounding with a larger, lighter shadow for ambient depth. There is no hard limit on the number of shadows you can stack, though readability and rendering performance suggest keeping the count practical. Design systems typically define two to four shadow layers for their elevation scale.</p>
+          <summary>Can I use box-shadow for effects other than drop shadows?</summary>
+          <p>Yes — box-shadow is surprisingly versatile. Use inset shadows for pressed-button effects. Stack multiple shadows to create glows, borders without affecting layout, or even crude illustrations. The spread parameter can create solid outlines when blur is set to zero.</p>
         </details>
         <details class="faq-item">
-          <summary>Does box-shadow affect rendering performance?</summary>
-          <p>For static elements, box-shadow has a negligible performance cost because the browser caches the rendered shadow at the compositor level. Problems arise when you animate the box-shadow property directly, which forces the browser to recalculate and repaint the shadow every frame. On lower-powered devices or pages with many animated shadows, this can cause noticeable jank. The recommended optimization is to apply the target shadow to a pseudo-element and animate its opacity instead. This way the shadow itself never changes, only its visibility, which the browser can accelerate via the GPU compositor without repainting. Another approach is using the filter: drop-shadow() function, which is GPU-composited in most modern browsers and supports transitions more efficiently than box-shadow.</p>
+          <summary>Why does my box-shadow look blurry on retina displays?</summary>
+          <p>On high-DPI screens, a shadow with a large blur radius can appear washed out. Reduce the blur slightly and increase the opacity for retina displays. Some designers use media queries targeting device-pixel-ratio to serve different shadow values for standard versus retina screens.</p>
         </details>
         <details class="faq-item">
-          <summary>What is an inset shadow and when should I use it?</summary>
-          <p>An inset shadow is rendered inside the element rather than outside it. You activate it by placing the inset keyword at the start of your shadow value. Visually, inset shadows create the appearance of a pressed or recessed surface, making them ideal for toggle buttons in their active state, text input fields that appear carved into the page, and neumorphic design patterns where concave and convex surfaces coexist. You can combine inset and outset shadows on the same element by listing them together in a comma-separated box-shadow declaration. For example, applying an outer shadow for elevation and an inner shadow for surface texture produces a rich, layered appearance.</p>
+          <summary>How do I add a shadow to only one side of an element?</summary>
+          <p>Use a combination of positive Y-offset and negative spread to create a bottom-only shadow. For example, box-shadow: 0 4px 6px -4px rgba(0,0,0,0.3) applies shadow only below the element. Adjust the offset and spread to target different sides.</p>
         </details>
         <details class="faq-item">
-          <summary>What is the difference between box-shadow and text-shadow?</summary>
-          <p>Box-shadow applies to the rectangular bounding box of an HTML element, while text-shadow applies directly to the rendered glyphs of text content. The syntax differs in two important ways: text-shadow does not support the spread radius parameter and does not accept the inset keyword. Text-shadow takes only a horizontal offset, vertical offset, optional blur radius, and color. Use box-shadow for structural elements like cards, buttons, modals, and navigation bars. Reserve text-shadow for decorative effects on headings, hover states on labels, or improving text legibility over complex backgrounds by adding a subtle halo.</p>
-        </details>
-        <details class="faq-item">
-          <summary>How do I create a neumorphism effect with box-shadow?</summary>
-          <p>Neumorphism relies on two opposing shadows applied to an element whose background closely matches its parent. Set a lighter shadow offset toward the upper-left and a darker shadow offset toward the lower-right. Both should use moderate blur values and the element background should be nearly identical to the page background. A typical implementation looks like box-shadow: 8px 8px 16px rgba(0,0,0,0.2), -8px -8px 16px rgba(255,255,255,0.05). The contrast between the two shadows creates a soft extrusion effect. To create a pressed or concave neumorphic element, use the same two shadows but add the inset keyword to both. Keep in mind that neumorphic designs can reduce visual contrast and may present accessibility challenges, so always verify your interface meets WCAG contrast guidelines.</p>
-        </details>
-        <details class="faq-item">
-          <summary>Can I use CSS variables with the box-shadow property?</summary>
-          <p>Yes, CSS custom properties work inside box-shadow declarations and are widely used in modern design systems to create consistent elevation scales. Define variables like --shadow-color: rgba(0,0,0,0.15) and --shadow-blur: 20px at the root level, then reference them in your box-shadow values throughout the stylesheet. When switching between light and dark themes, you only need to update the shadow color variable rather than rewriting every individual declaration. This approach also makes it straightforward to adjust shadow intensity across breakpoints or component variants. All modern browsers support custom properties in box-shadow without any fallback requirements.</p>
+          <summary>What is the performance impact of complex box shadows?</summary>
+          <p>Box shadows trigger paint operations in the browser rendering pipeline. A single simple shadow has negligible impact, but stacking multiple shadows on many elements or animating shadows can cause frame drops. For animated shadows, consider using filter: drop-shadow() instead or transitioning opacity of a pseudo-element with a fixed shadow.</p>
         </details>
       </section>
 
@@ -338,17 +340,50 @@
         <p>Never rely on shadow alone to indicate element boundaries or states. Users with low vision or high-contrast display settings may not perceive shadows at all, since most operating-system high-contrast modes strip box shadows entirely. Always pair shadows with borders, background color differences, or other visible indicators. Additionally, avoid extremely dark or opaque shadows on light backgrounds, as they can create distracting visual noise for users with certain visual processing sensitivities. Subtle shadows with opacity between 0.08 and 0.2 generally strike the best balance between visible depth and visual comfort.</p>
       </section>
 
+      <!-- Comparison Section -->
+      <section class="mt-4">
+        <h2>How This Tool Compares</h2>
+        <table class="comparison-table">
+          <thead>
+            <tr><th>Feature</th><th>Toolrip Box Shadow</th><th>CSSmatic</th><th>Figma</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Price</td><td>Free, no signup</td><td>Free with ads</td><td>Free tier + paid plans</td></tr>
+            <tr><td>Privacy</td><td>100% client-side</td><td>Cloud-based</td><td>Cloud-based</td></tr>
+            <tr><td>Multiple Layers</td><td>Unlimited layers</td><td>Single layer</td><td>Multiple via UI</td></tr>
+            <tr><td>CSS Output</td><td>Yes, one-click copy</td><td>Yes, one-click copy</td><td>Via inspect panel or plugins</td></tr>
+            <tr><td>Presets</td><td>7 built-in presets</td><td>No presets</td><td>No built-in shadow presets</td></tr>
+            <tr><td>Inset Shadows</td><td>Yes</td><td>Yes</td><td>Inner shadow via UI</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Sources Section -->
+      <section class="sources-section">
+        <h2>Sources &amp; References</h2>
+        <ul class="sources-list">
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow" class="citation-link" target="_blank" rel="noopener">MDN — CSS box-shadow</a> — Complete reference for box-shadow syntax, values, and browser compatibility</li>
+          <li><a href="https://m3.material.io/styles/elevation/overview" class="citation-link" target="_blank" rel="noopener">Material Design — Elevation</a> — Google's elevation system and shadow specifications for UI design</li>
+        </ul>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/hex-rgb">Hex to RGB Converter</a>
-          <a href="https://toolrip.com/json">JSON Formatter</a>
-          <a href="https://toolrip.com/base64">Base64 Encoder</a>
-          <a href="https://toolrip.com/uuid">UUID Generator</a>
-          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
+          <a href="https://toolrip.com/gradient"><strong>Gradient Generator</strong><span>Create gradient backgrounds to pair with shadow effects</span></a>
+          <a href="https://toolrip.com/color-palette"><strong>Color Palette Generator</strong><span>Find shadow colors that match your design palette</span></a>
+          <a href="https://toolrip.com/hex-rgb"><strong>Hex-RGB Converter</strong><span>Convert shadow colors between hex and RGB formats</span></a>
+          <a href="https://toolrip.com/color-blind"><strong>Color Blindness Simulator</strong><span>Test shadow visibility for color vision deficiency</span></a>
+          <a href="https://toolrip.com/css-minify"><strong>CSS Minifier</strong><span>Minify your CSS including box-shadow declarations</span></a>
+          <a href="https://toolrip.com/svg-png"><strong>SVG to PNG Converter</strong><span>Convert SVG icons to use alongside shadowed elements</span></a>
         </div>
       </section>
+
+      <div class="credibility-footer">
+        Design tools follow W3C accessibility guidelines and modern CSS standards. Color calculations use industry-standard color science.
+        <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+      </div>
 
     </main>
 

@@ -226,6 +226,27 @@
           <li><strong>Click Convert.</strong> The tool parses your JSON, collects all unique keys, flattens nested structures if enabled, and generates CSV text. The output appears in the CSV panel below the input, and a preview table renders the data in a visual grid.</li>
           <li><strong>Copy or download.</strong> Click <em>Copy CSV</em> to send the result to your clipboard, or click <em>Download .csv</em> to save a ready-to-use CSV file to your computer. The file uses UTF-8 encoding with a BOM for maximum Excel compatibility.</li>
         </ol>
+        <div class="pro-tip"><span class="pro-tip-label">Pro Tip</span><p>Use dot notation to flatten nested JSON keys into CSV column headers (e.g., <code>user.address.city</code>). This preserves the hierarchical relationship in the column name, making it easy to reconstruct the original JSON structure later if needed.</p></div>
+        <div class="pro-tip mistake"><span class="pro-tip-label">Common Mistake</span><p>Forgetting that CSV loses all data type information — numbers, booleans, null values, and dates all become plain strings. When importing CSV back into a typed system, you must explicitly parse and cast each column. A JSON boolean <code>true</code> becomes the string <code>"true"</code> in CSV.</p></div>
+      </section>
+
+      <!-- Use Cases -->
+      <section class="mt-4">
+        <h2>Who Uses This Tool</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+          <div class="feature-card">
+            <h3>Product Manager</h3>
+            <p>Sofia exports user analytics data from a REST API as JSON and converts it to CSV for pivot table analysis in Excel. She uses the flattening option to expand nested event properties into separate columns for easy filtering and charting.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Data Scientist</h3>
+            <p>Nikolai converts API response data from JSON to CSV for import into pandas DataFrames. He verifies the column structure and data types here before writing the automated Python script that will process thousands of records nightly.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Business Analyst</h3>
+            <p>Fatou receives JSON exports from the company CRM and needs to produce CSV reports for stakeholders who use Google Sheets. She converts the data, selects semicolon delimiters for European locale compatibility, and downloads the file directly.</p>
+          </div>
+        </div>
       </section>
 
       <!-- Long-form content for SEO / AdSense -->
@@ -315,11 +336,11 @@
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/json">JSON Formatter</a>
-          <a href="https://toolrip.com/base64">Base64 Encoder</a>
-          <a href="https://toolrip.com/uuid">UUID Generator</a>
-          <a href="https://toolrip.com/word-count">Word Counter</a>
-          <a href="https://toolrip.com/case">Case Converter</a>
+          <a href="https://toolrip.com/json">JSON Formatter <span class="related-desc">— Format, validate, and minify JSON with syntax highlighting</span></a>
+          <a href="https://toolrip.com/base64">Base64 Encoder <span class="related-desc">— Encode and decode Base64 strings for APIs and data URIs</span></a>
+          <a href="https://toolrip.com/uuid">UUID Generator <span class="related-desc">— Generate unique identifiers (v1, v4, v7) for database keys</span></a>
+          <a href="https://toolrip.com/word-count">Word Counter <span class="related-desc">— Count words, characters, sentences, and reading time</span></a>
+          <a href="https://toolrip.com/case">Case Converter <span class="related-desc">— Convert between camelCase, snake_case, kebab-case, and more</span></a>
         </div>
       </section>
 
@@ -332,6 +353,19 @@
 
     <!-- Bottom Ad -->
     <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <section class="sources-section">
+      <h2>Sources &amp; References</h2>
+      <ul class="sources-list">
+        <li><a href="https://developer.mozilla.org/" class="citation-link" target="_blank" rel="noopener">MDN Web Docs</a> — Comprehensive web technology documentation</li>
+        <li><a href="https://datatracker.ietf.org/" class="citation-link" target="_blank" rel="noopener">IETF RFC Standards</a> — Official internet protocol specifications</li>
+        <li><a href="https://owasp.org/" class="citation-link" target="_blank" rel="noopener">OWASP Foundation</a> — Web application security standards and best practices</li>
+      </ul>
+    </section>
+    <div class="credibility-footer">
+      Developer tools follow IETF, W3C, and OWASP standards. Built with vanilla JavaScript and the Web Crypto API.
+      <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

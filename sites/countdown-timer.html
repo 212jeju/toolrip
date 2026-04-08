@@ -335,6 +335,14 @@
           <li><strong>Pause or resume</strong> — Click Pause at any time to freeze the timer. Click Resume to continue from exactly where you left off. The remaining time is preserved precisely, down to the fraction of a second.</li>
           <li><strong>Listen for the alert</strong> — When the countdown reaches zero, an audio beep plays and the display flashes. Click Reset to clear the timer and set a new duration.</li>
         </ol>
+        <div class="pro-tip">
+          <span class="pro-tip-label">Pro Tip</span>
+          <p>Browser tabs throttle setInterval to once per second when inactive. For accurate countdowns, always calculate remaining time from Date.now() on each tick instead of decrementing a counter variable. This prevents drift when users switch tabs.</p>
+        </div>
+        <div class="pro-tip mistake">
+          <span class="pro-tip-label">Common Mistake</span>
+          <p>Setting a countdown to a date without specifying the timezone. "January 1, 2027" means midnight in the user's local timezone, which varies by up to 26 hours across the globe. For global events, always specify the target timezone explicitly.</p>
+        </div>
       </section>
 
       <!-- SEO Content: Time Management & Productivity -->
@@ -357,36 +365,50 @@
         </p>
       </section>
 
+      <section class="use-case-section">
+        <h2>Real-World Use Cases</h2>
+        <div class="use-case-cards">
+          <div class="use-case-card">
+            <h3>Product Team Tracking a Launch Deadline</h3>
+            <p>A product manager sets a countdown to the release date and shares the screen during daily standups. The visible countdown creates urgency and helps the team prioritize features that must ship versus those that can wait for a subsequent release.</p>
+          </div>
+          <div class="use-case-card">
+            <h3>Teacher Managing Exam Time</h3>
+            <p>A teacher projects a countdown timer during an exam so students can track remaining time without repeatedly asking. The full-screen display is visible from the back of the room and prevents the distraction of individual phone timers.</p>
+          </div>
+          <div class="use-case-card">
+            <h3>Presenter Tracking Talk Duration</h3>
+            <p>A conference speaker sets a 20-minute countdown to stay within their allotted time slot. The timer runs in a separate browser tab that they can glance at while presenting, without needing a dedicated hardware timer.</p>
+          </div>
+        </div>
+      </section>
+
       <!-- FAQ Section -->
       <section class="faq-section">
         <h2>Frequently Asked Questions</h2>
         <details class="faq-item">
-          <summary>How do I use the Countdown Timer?</summary>
-          <p>Click one of the six quick preset buttons to start a timer for a common duration — 1 minute, 5 minutes, 10 minutes, 15 minutes, 30 minutes, or 1 hour. If you need a different duration, type the hours, minutes, and seconds into the custom input fields and click Start. The large display shows the remaining time, and a progress bar tracks your progress visually. You can pause, resume, or reset the timer at any time using the control buttons. The browser tab title also updates in real time so you can monitor the countdown from another tab.</p>
+          <summary>How do I set a custom countdown duration?</summary>
+          <p>Type your desired hours, minutes, and seconds into the three input fields and click Start. For common durations, use the quick preset buttons (1 min, 5 min, 10 min, 15 min, 30 min, or 1 hr) to start instantly. The timer supports durations up to 99 hours, 59 minutes, and 59 seconds. The display automatically switches between MM:SS and HH:MM:SS format based on the total duration.</p>
         </details>
         <details class="faq-item">
-          <summary>What happens when the timer reaches zero?</summary>
-          <p>When the countdown finishes, the timer plays an audio beep directly in your browser using the Web Audio API. No external sound files are required and no downloads are triggered. The countdown display flashes with an animation to catch your attention visually, and the browser tab title changes to indicate that the timer has completed. You can then click Reset to set a new timer. The audio alert works in all modern browsers that support the Web Audio API, including Chrome, Firefox, Safari, and Edge.</p>
+          <summary>Can I pause the timer if I get interrupted?</summary>
+          <p>Yes. Click Pause at any time to freeze the countdown. The remaining time is preserved down to the millisecond, and the progress bar holds its position. Click Resume to continue from exactly where you stopped. This is useful during work sessions, cooking, or any activity where interruptions happen. There is no time lost or gained when you resume — the mechanism stores the precise remaining duration.</p>
         </details>
         <details class="faq-item">
-          <summary>Does the timer keep running if I switch to another browser tab?</summary>
-          <p>Yes. The timer calculates the remaining time by comparing the current timestamp against the target end time, rather than relying on the precision of setInterval alone. Most browsers throttle JavaScript timers in background tabs to conserve resources, which can cause interval-based timers to drift. This timer compensates for that by re-checking the actual system time on every tick. When you return to the tab, the display will show the correct remaining time. The tab title also updates with the remaining time, so you can monitor the countdown without switching back to this tab.</p>
+          <summary>Will the timer still be accurate if I switch to another browser tab?</summary>
+          <p>Yes. The timer calculates remaining time by comparing Date.now() against the target end time on every tick, rather than relying solely on setInterval precision. Browsers throttle background tab timers to conserve resources, but this approach compensates for that drift. When you return to the tab, the display shows the correct remaining time. The browser tab title also updates with the countdown, so you can monitor progress without switching back.</p>
         </details>
         <details class="faq-item">
-          <summary>Can I pause and resume the countdown?</summary>
-          <p>Yes. Click the Pause button at any time to freeze the timer. The remaining time is preserved exactly as displayed, and the progress bar holds its current position. Click Resume to continue counting down from where you paused. This feature is useful if you are interrupted during a work session or need to temporarily halt a cooking timer. The pause and resume mechanism stores the remaining milliseconds precisely, so there is no time lost or gained when you resume.</p>
+          <summary>How do I set up a Pomodoro work-break cycle with this timer?</summary>
+          <p>Enter 25 minutes for your work session and click Start. Focus on your task until the audio alert sounds. Reset the timer to 5 minutes for a short break. Repeat this cycle four times, then set a 15-to-30-minute long break. For a dedicated experience with automatic session tracking and break transitions, try the <a href="https://toolrip.com/pomodoro">Pomodoro Timer</a> which handles the full cycle automatically.</p>
         </details>
         <details class="faq-item">
-          <summary>How can I use this timer for the Pomodoro Technique?</summary>
-          <p>To practice the Pomodoro Technique, set the timer to 25 minutes for your work session by entering 25 in the minutes field and clicking Start. Focus entirely on your task until the audio alert signals the end of the interval. Then reset the timer to 5 minutes for a short break. After completing four 25-minute work sessions, take a longer break of 15 to 30 minutes. This structured cycle of focused work and rest helps maintain concentration, reduces fatigue, and improves the quality of your output over sustained periods. The quick preset buttons make it easy to switch between work and break intervals.</p>
+          <summary>How does the audio alert work and will it play if my device is on silent?</summary>
+          <p>The alert is generated directly in your browser using the Web Audio API — no external sound files are downloaded. It plays through your device's audio output at the current volume level. If your device is muted or the browser tab is silenced, the audio will not be audible, but the visual flash animation and tab title update will still notify you. The alert works in all modern browsers including Chrome, Firefox, Safari, and Edge.</p>
         </details>
         <details class="faq-item">
-          <summary>Is there a maximum time I can set?</summary>
-          <p>The timer supports durations up to 99 hours, 59 minutes, and 59 seconds. For durations under one hour, the display shows the time in MM:SS format. For durations of one hour or more, it switches to HH:MM:SS format to keep the display clear and readable. This range covers virtually every practical use case, from quick one-minute timers for everyday tasks to multi-hour countdowns for extended activities like slow-cooking, marathon study sessions, or monitoring long-running processes.</p>
-        </details>
-        <details class="faq-item">
-          <summary>Is my data private when using this tool?</summary>
-          <p>Absolutely. The Countdown Timer runs entirely in your web browser using client-side JavaScript. No timer settings, durations, usage data, or personal information are transmitted to our servers or any third party. There are no accounts, no cookies storing personal data, and no server-side processing of any kind. The audio alert is generated locally using the Web Audio API. You can verify this by monitoring network requests in your browser's developer tools while using the timer. Your data stays on your device at all times.</p>
+          <summary>Can I use this timer for cooking, workouts, or presentations?</summary>
+          <p>Absolutely. The timer works for any timed activity: cooking intervals, HIIT workout rounds, exam practice sessions, or conference talk rehearsals. The large display is readable from across a room, the progress bar provides a visual sense of elapsed time, and the audio alert notifies you without requiring you to watch the screen. No app installation, account creation, or internet connection (after initial load) is needed.</p>
         </details>
       </section>
 

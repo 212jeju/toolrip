@@ -340,6 +340,27 @@
           <li><strong>Enter your test string.</strong> Paste or type the text you want to test against. The tool immediately highlights all matches within the test string and updates the match count and capture group details.</li>
           <li><strong>Review matches and groups.</strong> The Matches tab shows your test string with all matches highlighted. Switch to the Capture Groups tab to see a detailed breakdown of each match and its groups. Use the Replace tab to experiment with substitution patterns.</li>
         </ol>
+        <div class="pro-tip"><span class="pro-tip-label">Pro Tip</span><p>Watch out for catastrophic backtracking with nested quantifiers like <code>(a+)+</code> or <code>(.*a){10}</code>. These patterns cause the regex engine to explore an exponential number of paths on non-matching input, freezing your browser or server. Use atomic groups or possessive quantifiers when available.</p></div>
+        <div class="pro-tip mistake"><span class="pro-tip-label">Common Mistake</span><p>Forgetting that the dot (<code>.</code>) matches any character, not a literal period. To match an actual dot (e.g., in domain names or IP addresses), escape it as <code>\.</code>. The pattern <code>example.com</code> also matches "exampleXcom" — use <code>example\.com</code> instead.</p></div>
+      </section>
+
+      <!-- Use Cases -->
+      <section class="mt-4">
+        <h2>Who Uses This Tool</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+          <div class="feature-card">
+            <h3>Full-Stack Developer</h3>
+            <p>Elena validates user input forms with regex patterns for emails, phone numbers, and postal codes. She tests each pattern against edge cases in this tool before embedding them in her React components, catching false positives before they reach production.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Data Engineer</h3>
+            <p>Carlos parses unstructured log files from distributed systems. He builds capture group patterns to extract timestamps, error codes, and stack traces from millions of log lines, prototyping each regex here before deploying it in his ETL pipeline.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Security Analyst</h3>
+            <p>Aisha writes detection rules for SIEM platforms. She crafts regex patterns to identify suspicious SQL injection attempts, XSS payloads, and command injection strings, testing them against known attack samples to minimize false negatives.</p>
+          </div>
+        </div>
       </section>
 
       <!-- About Regex Section -->
@@ -483,11 +504,11 @@
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/json">JSON Formatter</a>
-          <a href="https://toolrip.com/base64">Base64 Encoder</a>
-          <a href="https://toolrip.com/uuid">UUID Generator</a>
-          <a href="https://toolrip.com/word-count">Word Counter</a>
-          <a href="https://toolrip.com/case">Case Converter</a>
+          <a href="https://toolrip.com/json">JSON Formatter <span class="related-desc">— Format, validate, and minify JSON with syntax highlighting</span></a>
+          <a href="https://toolrip.com/base64">Base64 Encoder <span class="related-desc">— Encode and decode Base64 strings for APIs and data URIs</span></a>
+          <a href="https://toolrip.com/uuid">UUID Generator <span class="related-desc">— Generate unique identifiers (v1, v4, v7) for database keys</span></a>
+          <a href="https://toolrip.com/word-count">Word Counter <span class="related-desc">— Count words, characters, sentences, and reading time</span></a>
+          <a href="https://toolrip.com/case">Case Converter <span class="related-desc">— Convert between camelCase, snake_case, kebab-case, and more</span></a>
         </div>
       </section>
 
@@ -500,6 +521,19 @@
 
     <!-- Bottom Ad -->
     <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <section class="sources-section">
+      <h2>Sources &amp; References</h2>
+      <ul class="sources-list">
+        <li><a href="https://developer.mozilla.org/" class="citation-link" target="_blank" rel="noopener">MDN Web Docs</a> — Comprehensive web technology documentation</li>
+        <li><a href="https://datatracker.ietf.org/" class="citation-link" target="_blank" rel="noopener">IETF RFC Standards</a> — Official internet protocol specifications</li>
+        <li><a href="https://owasp.org/" class="citation-link" target="_blank" rel="noopener">OWASP Foundation</a> — Web application security standards and best practices</li>
+      </ul>
+    </section>
+    <div class="credibility-footer">
+      Developer tools follow IETF, W3C, and OWASP standards. Built with vanilla JavaScript and the Web Crypto API.
+      <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

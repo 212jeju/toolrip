@@ -262,6 +262,27 @@
           <li><strong>Review the output.</strong> Formatted and minified results appear on the right panel (or below on mobile). Switch to the <em>Tree View</em> tab to interactively explore nested objects and arrays with expand and collapse controls.</li>
           <li><strong>Copy or continue editing.</strong> Click the <em>Copy</em> button to send the result to your clipboard instantly. If you spot an issue, fix it in the input area and re-format — the tool responds in real time with no page reload required.</li>
         </ol>
+        <div class="pro-tip"><span class="pro-tip-label">Pro Tip</span><p>When debugging minified API responses, paste the entire response body — including headers if copied from DevTools — into the input. The formatter will extract and beautify the JSON portion, making it far easier to trace nested values than scanning a single compressed line.</p></div>
+        <div class="pro-tip mistake"><span class="pro-tip-label">Common Mistake</span><p>Trailing commas are valid in JavaScript object literals but invalid in JSON. A common error is copying a JS object with a trailing comma (e.g., <code>{"a":1, "b":2,}</code>) and expecting it to parse. Always remove the final comma before the closing brace or bracket.</p></div>
+      </section>
+
+      <!-- Use Cases -->
+      <section class="mt-4">
+        <h2>Who Uses This Tool</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+          <div class="feature-card">
+            <h3>Backend Developer</h3>
+            <p>Alex debugs REST API responses daily. He pastes raw JSON payloads from Postman or curl into the formatter to instantly spot missing fields, incorrect nesting, and malformed values before writing integration tests.</p>
+          </div>
+          <div class="feature-card">
+            <h3>DevOps Engineer</h3>
+            <p>Priya manages Kubernetes config files and Terraform state. She uses the tree view to navigate deeply nested infrastructure-as-code JSON, validating that resource definitions are correct before applying changes to production clusters.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Frontend Developer</h3>
+            <p>Marcus works with complex Redux state and GraphQL responses. He minifies JSON fixtures for unit tests and formats API mocks for readability, saving hours of manual formatting every sprint cycle.</p>
+          </div>
+        </div>
       </section>
 
       <!-- FAQ Section -->
@@ -336,11 +357,11 @@
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/base64">Base64 Encoder</a>
-          <a href="https://toolrip.com/uuid">UUID Generator</a>
-          <a href="https://toolrip.com/word-count">Word Counter</a>
-          <a href="https://toolrip.com/case">Case Converter</a>
-          <a href="https://toolrip.com/password">Password Generator</a>
+          <a href="https://toolrip.com/base64">Base64 Encoder <span class="related-desc">— Encode and decode Base64 strings for APIs and data URIs</span></a>
+          <a href="https://toolrip.com/uuid">UUID Generator <span class="related-desc">— Generate unique identifiers (v1, v4, v7) for database keys</span></a>
+          <a href="https://toolrip.com/word-count">Word Counter <span class="related-desc">— Count words, characters, sentences, and reading time</span></a>
+          <a href="https://toolrip.com/case">Case Converter <span class="related-desc">— Convert between camelCase, snake_case, kebab-case, and more</span></a>
+          <a href="https://toolrip.com/password">Password Generator <span class="related-desc">— Create strong, random passwords with custom rules</span></a>
         </div>
       </section>
 
@@ -353,6 +374,19 @@
 
     <!-- Bottom Ad -->
     <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <section class="sources-section">
+      <h2>Sources &amp; References</h2>
+      <ul class="sources-list">
+        <li><a href="https://developer.mozilla.org/" class="citation-link" target="_blank" rel="noopener">MDN Web Docs</a> — Comprehensive web technology documentation</li>
+        <li><a href="https://datatracker.ietf.org/" class="citation-link" target="_blank" rel="noopener">IETF RFC Standards</a> — Official internet protocol specifications</li>
+        <li><a href="https://owasp.org/" class="citation-link" target="_blank" rel="noopener">OWASP Foundation</a> — Web application security standards and best practices</li>
+      </ul>
+    </section>
+    <div class="credibility-footer">
+      Developer tools follow IETF, W3C, and OWASP standards. Built with vanilla JavaScript and the Web Crypto API.
+      <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

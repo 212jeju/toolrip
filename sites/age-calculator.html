@@ -356,38 +356,60 @@
           <li><strong>Choose the target date</strong> — By default this is set to today. Change it to any other date if you want to know your age at a specific point in the past or future.</li>
           <li><strong>View your results</strong> — Your exact age, totals, zodiac signs, generation, birthday countdown, and fun life facts appear instantly. Results update in real time whenever you change either date.</li>
         </ol>
+        <div class="pro-tip">
+          <span class="pro-tip-label">Pro Tip</span>
+          <p>Legal age calculations vary by jurisdiction. In some countries under common law, you legally turn a year older on the day before your birthday. Always verify local regulations for age-sensitive applications like voting eligibility, driving licenses, or retirement benefits.</p>
+        </div>
+        <div class="pro-tip mistake">
+          <span class="pro-tip-label">Common Mistake</span>
+          <p>Using year subtraction alone (2026 - 1990 = 36) without checking whether the birthday has passed this year. Someone born on December 15, 1990 is still 35 in March 2026, not 36. Always compare the full date, not just the year.</p>
+        </div>
+      </section>
+
+      <section class="use-case-section">
+        <h2>Real-World Use Cases</h2>
+        <div class="use-case-cards">
+          <div class="use-case-card">
+            <h3>Parent Checking School Enrollment Eligibility</h3>
+            <p>A parent needs to verify whether their child meets the age cutoff (typically 5 years old by September 1) for kindergarten enrollment. The exact calculation in years, months, and days determines eligibility for the current or following academic year.</p>
+          </div>
+          <div class="use-case-card">
+            <h3>Immigration Attorney Verifying Age Requirements</h3>
+            <p>A lawyer processing visa applications needs to calculate exact ages on specific filing dates. Immigration categories have strict age thresholds, and being even one day over can change eligibility. Precise age calculation prevents costly application rejections.</p>
+          </div>
+          <div class="use-case-card">
+            <h3>Fitness Trainer Adjusting Client Programs</h3>
+            <p>A personal trainer calculates a client's exact age to calibrate heart rate zones, metabolic rate estimates, and exercise intensity recommendations that use age as a variable in standard fitness formulas.</p>
+          </div>
+        </div>
       </section>
 
       <!-- FAQ Section -->
       <section class="faq-section">
         <h2>Frequently Asked Questions</h2>
         <details class="faq-item">
-          <summary>How does the Age Calculator work?</summary>
-          <p>The Age Calculator computes the exact difference between your date of birth and a target date (today by default). It works by first counting the number of full years that have elapsed, then counting full months within the remaining period, and finally counting the leftover days. This approach ensures that the result correctly reflects calendar months of varying lengths — for instance, a month starting on January 31 and ending on February 28 counts as exactly one full month. All arithmetic respects the Gregorian calendar, and every calculation runs entirely in your browser so no personal data ever leaves your device. You can also set a custom target date to find out how old you were — or will be — on any specific day in history or in the future.</p>
+          <summary>How do I calculate my exact age in years, months, and days?</summary>
+          <p>Enter your date of birth using the date picker. The calculator instantly shows your exact age broken down into years, months, and days, along with totals in months, weeks, days, hours, and minutes. By default it calculates your age as of today, but you can change the target date to find your age at any point in the past or future. All calculations use the Gregorian calendar with full leap year support.</p>
         </details>
         <details class="faq-item">
-          <summary>How does the calculator handle leap years?</summary>
-          <p>Leap years are years divisible by 4, with the exception of century years that are not divisible by 400. Under these rules, the year 2000 was a leap year, but 1900 was not, and 2100 will not be either. Our calculator uses the built-in JavaScript Date object, which implements the full Gregorian calendar including leap year rules, so February 29 is counted when it exists. If your birthday falls on February 29, the calculator still increments your age each year — on March 1 during non-leap years. The "leap years lived through" fun fact counts every February 29 that occurred between your date of birth and the target date, giving you a precise tally of those rare extra days you have experienced in your lifetime.</p>
+          <summary>How do I find out how old I was on a specific past date?</summary>
+          <p>Change the "Calculate to" field from today to any date you want. The calculator accepts any valid date combination where the target date is on or after the date of birth. This is useful for checking your age at a life event, verifying eligibility on a historical date, or finding out exactly how old you will be on a future milestone like a retirement date or a 10,000th day alive.</p>
         </details>
         <details class="faq-item">
-          <summary>What zodiac signs does the calculator show?</summary>
-          <p>The calculator displays two zodiac systems. The Western zodiac is based on the position of the sun at the time of your birth and divides the year into twelve signs: Aries, Taurus, Gemini, Cancer, Leo, Virgo, Libra, Scorpio, Sagittarius, Capricorn, Aquarius, and Pisces. Each sign spans roughly 30 days. The Chinese zodiac, on the other hand, follows a 12-year cycle where each year is associated with an animal: Rat, Ox, Tiger, Rabbit, Dragon, Snake, Horse, Goat, Monkey, Rooster, Dog, and Pig. Our calculator uses the Gregorian birth year to determine the Chinese zodiac animal, which is a simplified but widely accepted approximation. Both zodiac results appear instantly alongside your age breakdown.</p>
+          <summary>Does the calculator work correctly for leap year birthdays (February 29)?</summary>
+          <p>Yes. If your birthday falls on February 29, the calculator still increments your age each year. In non-leap years, your age advances on March 1. The "leap years lived through" statistic counts every February 29 that occurred between your birth date and the target date. The built-in JavaScript Date object handles all Gregorian leap year rules, including the century-year exceptions (1900 was not a leap year, but 2000 was).</p>
         </details>
         <details class="faq-item">
-          <summary>How are generations defined in the calculator?</summary>
-          <p>Generational labels are based on commonly used demographic research boundaries. The Greatest Generation includes those born before 1928. The Silent Generation covers 1928 through 1945. Baby Boomers were born between 1946 and 1964, a period marked by a significant increase in birth rates following World War II. Generation X spans 1965 to 1980, often called the "latch-key" generation. Millennials (also known as Generation Y) were born from 1981 to 1996 and came of age during the rise of the internet. Generation Z covers 1997 to 2012 and are considered true digital natives. Generation Alpha, born from 2013 onward, is the newest cohort. These ranges may vary slightly depending on the source, but the boundaries used in this calculator align with the most widely cited definitions from the Pew Research Center and similar organizations.</p>
+          <summary>Which generation do I belong to based on my birth year?</summary>
+          <p>The calculator labels your generation based on widely cited demographic boundaries: Greatest Generation (before 1928), Silent Generation (1928-1945), Baby Boomers (1946-1964), Generation X (1965-1980), Millennials (1981-1996), Generation Z (1997-2012), and Generation Alpha (2013 onward). These ranges align with definitions from the Pew Research Center. The calculator also displays your Western zodiac sign and Chinese zodiac animal alongside the generation label.</p>
         </details>
         <details class="faq-item">
-          <summary>Can I calculate age between two custom dates?</summary>
-          <p>Absolutely. While the calculator defaults the target date to today, you can change it to any date you like. This is useful in many scenarios: checking how old you were when a significant life event occurred, calculating someone else's age at a particular time, or finding out exactly how old you will be on a future date such as a milestone birthday or retirement. Simply select the desired date in the "Calculate to" field and the results update automatically. The calculator works with any valid date combination where the target date is on or after the date of birth.</p>
+          <summary>How are the heartbeat and breath count statistics calculated?</summary>
+          <p>The fun facts use well-established medical averages: approximately 72 heartbeats per minute and 16 breaths per minute at rest. These averages are multiplied by the exact number of minutes you have been alive to produce the totals. Individual variation means your actual counts will differ, but the figures provide a fascinating sense of scale. Leap year counts are precise because they are calculated day-by-day using calendar rules rather than averages.</p>
         </details>
         <details class="faq-item">
-          <summary>Is my data private when using this calculator?</summary>
-          <p>Yes, completely. The Age Calculator runs entirely in your web browser using client-side JavaScript. Your date of birth and any other information you enter never leaves your device — no data is transmitted to our servers or any third party. There are no accounts to create, no cookies that store personal details, and no analytics that capture your birth date. You can verify this by using your browser's developer tools to inspect network requests while using the tool. This privacy-first approach is a core principle across all Toolrip utilities.</p>
-        </details>
-        <details class="faq-item">
-          <summary>How accurate are the fun facts and statistics?</summary>
-          <p>The fun facts use well-established average values from medical and scientific research. For example, the average human heart beats about 72 times per minute, and the average person takes roughly 16 breaths per minute at rest. The total heartbeat and breath counts are approximations based on these averages multiplied by the exact number of minutes you have been alive. Leap year counts are precise because they are calculated day-by-day using calendar rules. While individual variation means the heartbeat and breath numbers will differ from your actual totals, they provide a fascinating and broadly accurate sense of scale for the biological milestones your body has achieved since the day you were born.</p>
+          <summary>Can I use this calculator to verify age eligibility for legal purposes?</summary>
+          <p>The calculator uses the Western international age system (starting at 0 at birth, incrementing on each birthday), which is the standard for legal, medical, and administrative contexts worldwide. However, for official legal purposes you should always verify with the relevant authority, as some jurisdictions have specific rules about when age legally changes. The calculator provides the precise breakdown you need to check eligibility for school enrollment, driving licenses, voting, retirement, and similar age-gated requirements.</p>
         </details>
       </section>
 

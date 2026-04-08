@@ -299,6 +299,17 @@
           <li><strong>Click Remove Duplicates</strong> — Press the button and the tool instantly processes your text. The stats dashboard updates to show total lines, unique lines, and how many duplicates were removed. The output area displays the cleaned result.</li>
           <li><strong>Copy or export</strong> — Click the Copy Result button to place the deduplicated text on your clipboard. You can then paste it into a spreadsheet, text editor, database import tool, email client, or any other application. Click Clear to reset both fields and start over.</li>
         </ol>
+        <div class="pro-tip"><span class="pro-tip-label">Pro Tip</span><p>Invisible Unicode zero-width spaces (U+200B) and zero-width non-joiners (U+200C) can make two lines look identical on screen while being technically different. If your deduplication results seem wrong, paste your data into a hex editor or use a whitespace visualization tool to check for hidden characters.</p></div>
+        <div class="pro-tip mistake"><span class="pro-tip-label">Common Mistake</span><p>Forgetting about case sensitivity when deduplicating can leave near-duplicates in your data. "John Smith" and "john smith" are treated as unique entries in case-sensitive mode. Always decide whether casing matters for your specific dataset before running deduplication, especially with email addresses (which are case-insensitive by specification).</p></div>
+      </section>
+
+      <section class="use-case-section">
+        <h2>Real-World Use Cases</h2>
+        <div class="use-case-cards">
+          <div class="use-case-card"><h3>Data Analyst Cleaning CSV</h3><p>A data analyst removes duplicate rows from a customer export file before importing into a CRM, preventing double-counted records that would skew sales reports and trigger duplicate marketing emails.</p></div>
+          <div class="use-case-card"><h3>SEO Specialist</h3><p>An SEO manager deduplicates a combined keyword list from multiple research tools, eliminating overlapping terms to create a clean, consolidated keyword strategy without inflated volume estimates.</p></div>
+          <div class="use-case-card"><h3>System Administrator</h3><p>A sysadmin removes duplicate log entries from merged server logs across multiple nodes, reducing noise before feeding the cleaned output into a monitoring dashboard for accurate error rate calculations.</p></div>
+        </div>
       </section>
 
       <!-- FAQ Section -->
@@ -376,11 +387,11 @@
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/word-count">Word Counter</a>
-          <a href="https://toolrip.com/case">Case Converter</a>
-          <a href="https://toolrip.com/json">JSON Formatter</a>
-          <a href="https://toolrip.com/uuid">UUID Generator</a>
-          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+          <a href="https://toolrip.com/word-count"><strong>Word Counter</strong> <span>Count words, characters, sentences, and reading time</span></a>
+          <a href="https://toolrip.com/case"><strong>Case Converter</strong> <span>Transform text between uppercase, lowercase, title case, and more</span></a>
+          <a href="https://toolrip.com/json"><strong>JSON Formatter</strong> <span>Format, validate, and beautify JSON data instantly</span></a>
+          <a href="https://toolrip.com/uuid"><strong>UUID Generator</strong> <span>Generate universally unique identifiers instantly</span></a>
+          <a href="https://toolrip.com/base64"><strong>Base64 Encoder</strong> <span>Encode and decode Base64 strings online</span></a>
         </div>
       </section>
 
@@ -393,6 +404,19 @@
 
     <!-- Bottom Ad -->
     <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <section class="sources-section">
+      <h2>Sources &amp; References</h2>
+      <ul class="sources-list">
+        <li><a href="https://www.unicode.org/" class="citation-link" target="_blank" rel="noopener">Unicode Consortium</a> — International standard for text encoding and character sets</li>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="citation-link" target="_blank" rel="noopener">MDN String Reference</a> — JavaScript string methods used in these tools</li>
+        <li><a href="https://developers.google.com/search/docs/fundamentals/seo-starter-guide" class="citation-link" target="_blank" rel="noopener">Google SEO Starter Guide</a> — Best practices for URL structure and content optimization</li>
+      </ul>
+    </section>
+    <div class="credibility-footer">
+      Text processing tools handle Unicode correctly following W3C internationalization standards.
+      <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

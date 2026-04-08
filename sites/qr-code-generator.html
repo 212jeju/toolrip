@@ -60,43 +60,33 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "What is a QR code?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "A QR (Quick Response) code is a two-dimensional barcode that stores data such as URLs, text, contact information, and more. It can be scanned using a smartphone camera or a dedicated QR code reader app to quickly access the encoded information."
-        }
+        "name": "What is the maximum amount of data a QR code can store?",
+        "acceptedAnswer": { "@type": "Answer", "text": "At the largest version 40 with Level L error correction, a QR code can store up to 7,089 numeric characters, 4,296 alphanumeric characters, or 2,953 bytes of binary data. Higher error correction reduces capacity. Most practical QR codes use versions 1 through 10, comfortably holding URLs up to about 200 characters." }
       },
       {
         "@type": "Question",
-        "name": "Is this QR code generator free?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes, our QR code generator is completely free to use with no limits, no signup, and no watermarks. All QR codes are generated directly in your browser, so your data never leaves your device."
-        }
+        "name": "How do I create a QR code that opens a specific app instead of a browser?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Use deep links or universal links as your QR code URL. Platform-specific URI schemes work for specific apps: mailto: for email, tel: for phone, sms: for messaging, and wifi: for network connections. This tool's Email, Phone, SMS, and Wi-Fi tabs automatically format these URI schemes correctly." }
       },
       {
         "@type": "Question",
-        "name": "What types of QR codes can I create?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "You can create QR codes for plain text, URLs, Wi-Fi network credentials, email addresses, phone numbers, SMS messages, and vCard contact information. Each type formats the data correctly so scanners can interpret it properly."
-        }
+        "name": "Should I use PNG or SVG format when downloading my QR code?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Choose PNG for digital use cases like websites and social media. Choose SVG for print production, especially at large sizes like banners and posters, because SVG scales to any dimensions without pixelation. If unsure, download both — SVG files are typically smaller and can be converted to PNG later." }
       },
       {
         "@type": "Question",
-        "name": "What error correction level should I choose?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Error correction allows QR codes to remain scannable even if partially damaged. Level L recovers 7% of data, M recovers 15%, Q recovers 25%, and H recovers 30%. Use higher levels if the QR code may be printed on surfaces that could get scratched or dirty."
-        }
+        "name": "Why does my QR code not scan reliably after I change the colors?",
+        "acceptedAnswer": { "@type": "Answer", "text": "QR scanners depend on contrast between dark modules and light background. Ensure a contrast ratio of at least 4:1. Avoid inverting colors, transparency, or similar-looking color pairs. Always test colored QR codes on at least three different devices before printing." }
       },
       {
         "@type": "Question",
-        "name": "Can I customize the appearance of my QR code?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes, you can customize the foreground and background colors, adjust the size (200x200, 300x300, or 400x400 pixels), and select the error correction level. You can download the QR code as a PNG image or SVG vector file."
-        }
+        "name": "How small can I print a QR code and still have it scan?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Each module should be at least 0.33mm in print. A simple version 2 QR code encoding a short URL can be printed as small as 1 cm square. For reliable real-world scanning, add a quiet zone of at least 4 modules and print at 1.5 to 2 times the minimum size." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I track how many times my QR code is scanned?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Static QR codes do not have built-in scan tracking. You can achieve tracking by encoding a URL with UTM parameters and monitoring scans in Google Analytics, or by using a URL shortener with analytics like Bitly. For dedicated scan analytics, you would need a dynamic QR code service." }
       }
     ]
   }
@@ -350,6 +340,37 @@
           <li>Click <strong>Generate QR Code</strong> to create your code instantly on the canvas.</li>
           <li>Download your QR code as a PNG image or SVG vector file using the buttons below the preview.</li>
         </ol>
+        <div class="pro-tip">
+          <span class="pro-tip-label">Pro Tip</span>
+          <p>QR codes have built-in error correction using Reed-Solomon codes. Level H can recover up to 30% of damaged data, which is why QR codes still scan even when partially covered by a logo. If you plan to overlay a logo on your QR code, always select Level H error correction to maintain scannability.</p>
+        </div>
+        <div class="pro-tip mistake">
+          <span class="pro-tip-label">Common Mistake</span>
+          <p>Using low contrast colors (like light gray on white) makes QR codes unscannable in many lighting conditions. Always ensure strong contrast between foreground and background — dark modules on a light background works best. Test your colored QR codes on multiple devices before printing.</p>
+        </div>
+        <div class="pro-tip">
+          <span class="pro-tip-label">Pro Tip</span>
+          <p>For Wi-Fi QR codes, the data format is WIFI:T:WPA;S:NetworkName;P:Password;;. When scanned, most modern smartphones will offer to connect automatically without the user needing to type the password. This is ideal for guest networks in offices, cafes, and rental properties.</p>
+        </div>
+      </section>
+
+      <!-- Real-World Use Cases -->
+      <section class="use-case-section">
+        <h2>Real-World Use Cases</h2>
+        <div class="use-case-cards">
+          <div class="use-case-card">
+            <h3>Restaurant Owner Sharing Wi-Fi</h3>
+            <p>Instead of printing the Wi-Fi password on table cards that customers struggle to type, a restaurant owner generates a Wi-Fi QR code and prints it as a table tent. Customers scan it once with their phone camera and connect instantly. Changing the network password only requires reprinting the QR code, not updating signs throughout the venue.</p>
+          </div>
+          <div class="use-case-card">
+            <h3>Event Organizer Distributing Contact Info</h3>
+            <p>A conference organizer creates vCard QR codes for each speaker's contact information and prints them on name badges. Attendees scan a badge to save the speaker's name, email, phone, and organization directly to their contacts, eliminating manual entry errors and lost business cards.</p>
+          </div>
+          <div class="use-case-card">
+            <h3>Marketing Team Tracking Campaign URLs</h3>
+            <p>A digital marketing team appends UTM parameters to campaign URLs and encodes them as QR codes on printed flyers, posters, and packaging. Each piece of collateral gets a unique QR code so the team can track which physical placements drive the most website traffic in Google Analytics.</p>
+          </div>
+        </div>
       </section>
 
       <!-- FAQ Section -->
@@ -357,43 +378,33 @@
         <h2>Frequently Asked Questions</h2>
 
         <details class="faq-item">
-          <summary>What is a QR code and how does it work?</summary>
-          <p>A QR (Quick Response) code is a two-dimensional matrix barcode that can store various types of data including URLs, plain text, contact details, Wi-Fi credentials, and more. Originally developed in 1994 for tracking automotive parts, QR codes have become ubiquitous in daily life. When scanned with a smartphone camera or QR reader app, the encoded data is decoded and the appropriate action is triggered, such as opening a website, connecting to a Wi-Fi network, or saving a contact to your address book. QR codes use a combination of dark and light modules arranged in a square grid on a white background, with special finder patterns in three corners that help scanners detect the orientation and boundaries of the code.</p>
+          <summary>What is the maximum amount of data a QR code can store?</summary>
+          <p>The maximum capacity depends on the QR code version (1 through 40) and error correction level. At the largest version 40 with Level L error correction, a QR code can store up to 7,089 numeric characters, 4,296 alphanumeric characters, or 2,953 bytes of binary data. However, higher error correction reduces capacity — Level H at version 40 holds only 1,273 bytes. In practice, most QR codes use versions 1 through 10, which comfortably hold URLs up to about 200 characters. For longer data like vCards with multiple fields, the code automatically scales to a higher version with more modules, which may require a larger print size to remain scannable.</p>
         </details>
 
         <details class="faq-item">
-          <summary>Is this QR code generator completely free?</summary>
-          <p>Yes, this QR code generator is 100% free with no limits on how many codes you can create. There is no signup required, no watermarks added to your codes, and no premium tier to unlock features. All QR code generation happens directly in your web browser using client-side JavaScript, which means your data never leaves your device and is never transmitted to any server. You can generate and download as many QR codes as you need for both personal and commercial use without any restrictions.</p>
+          <summary>How do I create a QR code that opens a specific app instead of a browser?</summary>
+          <p>Use deep links or universal links as your QR code URL. For iOS, use universal links in the format https://yourdomain.com/path that your app is configured to intercept. For Android, use App Links or intent URIs. Platform-specific URI schemes also work: use mailto: for email clients, tel: for phone dialers, sms: for messaging apps, and wifi: for network connections. This tool's Email, Phone, SMS, and Wi-Fi tabs automatically format these URI schemes correctly, so the scanned QR code triggers the appropriate app rather than opening a web browser.</p>
         </details>
 
         <details class="faq-item">
-          <summary>What types of QR codes can I create with this tool?</summary>
-          <p>This tool supports six different QR code types to cover a wide range of use cases. The Text/URL tab lets you encode any plain text or web address. The Wi-Fi tab creates codes that automatically connect devices to your network when scanned, perfect for sharing guest access without revealing your password verbally. The Email tab generates codes that pre-fill the recipient address, subject, and body of an email. The Phone tab creates callable phone number codes. The SMS tab encodes a phone number and pre-written message. Finally, the vCard tab lets you create contact cards with name, phone, email, organization, and website fields that are saved directly to the scanner's contacts.</p>
+          <summary>Should I use PNG or SVG format when downloading my QR code?</summary>
+          <p>Choose PNG for digital use cases like websites, social media posts, email signatures, and presentations. PNG is a raster format that renders at the exact pixel dimensions you select. Choose SVG for anything that will be printed, especially at large sizes like banners, posters, or vehicle wraps. SVG is a vector format that scales to any dimensions without pixelation or quality loss, making it essential for print production where the final size may differ from the screen preview. If you are unsure, download both — SVG files are typically smaller and can always be converted to PNG later.</p>
         </details>
 
         <details class="faq-item">
-          <summary>What error correction level should I choose?</summary>
-          <p>Error correction is a built-in feature of QR codes that allows them to remain scannable even when partially damaged, dirty, or obscured. There are four levels to choose from. Level L (Low) can recover approximately 7% of lost data and produces the smallest, simplest codes ideal for digital screens. Level M (Medium) recovers about 15% and is the default choice for most general-purpose QR codes. Level Q (Quartile) can handle up to 25% data loss and is a good choice for printed materials. Level H (High) provides maximum resilience by recovering up to 30% of data, making it the best option for codes that will be placed on packaging, outdoor signage, or surfaces that may get scratched or weathered over time.</p>
+          <summary>Why does my QR code not scan reliably after I change the colors?</summary>
+          <p>QR scanners depend on contrast between the dark modules and light background. When you customize colors, ensure the foreground is significantly darker than the background — a contrast ratio of at least 4:1 is recommended. Avoid inverting the colors (light modules on dark background) because many older scanners expect dark-on-light. Also avoid transparency, gradients, or colors that appear similar under certain lighting conditions. Red foreground on white background works well, but yellow on white or light blue on white will cause scanning failures. Always test colored QR codes on at least three different devices before printing.</p>
         </details>
 
         <details class="faq-item">
-          <summary>Can I customize the colors of my QR code?</summary>
-          <p>Yes, you can fully customize the foreground (module) color and background color of your QR code using the color pickers. While classic black-on-white provides the best contrast and scan reliability, you can create branded QR codes in any color combination. For optimal scanning, make sure there is strong contrast between the foreground and background colors. Dark foregrounds on light backgrounds generally work best. Avoid using similar shades or low-contrast combinations as they may cause scanning difficulties, especially in poor lighting conditions or at smaller sizes.</p>
+          <summary>How small can I print a QR code and still have it scan?</summary>
+          <p>The minimum scannable size depends on the QR code version (module count) and the scanner's camera resolution. As a general rule, each module should be at least 0.33mm (about 1/76 inch) in print. A simple version 2 QR code (25x25 modules) encoding a short URL can be printed as small as 1 cm (0.4 inches) square. A version 10 code (57x57 modules) needs at least 2 cm (0.8 inches). For reliable scanning in real-world conditions — varying distances, angles, and lighting — add a generous quiet zone (blank border) of at least 4 modules around the code, and print at 1.5 to 2 times the minimum size.</p>
         </details>
 
         <details class="faq-item">
-          <summary>What is the difference between PNG and SVG downloads?</summary>
-          <p>PNG (Portable Network Graphics) is a raster image format that stores your QR code as a grid of pixels at the exact size you selected. PNG files are ideal for web use, social media, email attachments, and most digital applications. SVG (Scalable Vector Graphics) is a vector format that stores the QR code as mathematical shapes, which means it can be scaled to any size without losing quality. SVG files are perfect for print production, large-format signage, professional graphic design work, and situations where you need the QR code at different sizes from the same file.</p>
-        </details>
-
-        <details class="faq-item">
-          <summary>Is my data safe when generating QR codes?</summary>
-          <p>Absolutely. This QR code generator runs entirely in your browser using client-side JavaScript. No data is sent to any server at any point during the generation process. Your text, URLs, Wi-Fi passwords, contact information, and all other inputs remain on your device. The QR code is rendered on an HTML canvas element and the download files are created locally. This privacy-first approach means you can safely generate QR codes containing sensitive information like Wi-Fi passwords or private URLs without any risk of data exposure.</p>
-        </details>
-
-        <details class="faq-item">
-          <summary>How do I scan a QR code?</summary>
-          <p>Most modern smartphones can scan QR codes directly through their built-in camera app. On iPhone, simply open the Camera app and point it at the QR code. A notification banner will appear with the decoded content. On Android devices, open the Camera or Google Lens app and aim at the QR code. If your phone does not support native QR scanning, you can download a free QR code reader app from your device's app store. For best results, ensure the entire QR code is visible in the camera frame, hold your phone steady, and make sure there is adequate lighting.</p>
+          <summary>Can I track how many times my QR code is scanned?</summary>
+          <p>Static QR codes like the ones this tool generates do not have built-in scan tracking because they encode data directly into the code pattern. However, you can achieve tracking by encoding a URL that passes through an analytics service. Append UTM parameters to your URL (utm_source, utm_medium, utm_campaign) and monitor scans in Google Analytics. Alternatively, use a URL shortener with analytics like Bitly, which counts each click. For dedicated scan analytics with features like location tracking and time-of-scan data, you would need a dynamic QR code service, which stores the destination URL on a server and can change it after printing.</p>
         </details>
       </section>
 
@@ -426,17 +437,99 @@
         <p>Higher error correction means the QR code needs more modules (the small black and white squares) to encode the same data, which increases the overall size. When choosing a level, consider where the code will be displayed: digital screens can use Level L for the smallest code, while printed materials that may get scratched or folded should use Level Q or H. If you plan to place a logo in the center of your QR code, always use Level H to ensure the code remains scannable despite the logo covering part of the data area.</p>
       </section>
 
+      <!-- Comparison Section -->
+      <section class="mt-4">
+        <h2>How This Tool Compares</h2>
+        <p>There are many QR code generators available online and as installable software. Here is how Toolrip's generator compares to other popular options for creating QR codes.</p>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.95rem">
+            <thead>
+              <tr style="background:var(--accent);color:#fff">
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">Feature</th>
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">Toolrip</th>
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">QR Code Monkey</th>
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">qrencode (CLI)</th>
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">Google Charts API</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background:var(--bg)">
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">Requires Account</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">No</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">No</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">No</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">No</td>
+              </tr>
+              <tr>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">100% Client-Side</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#ef4444">No (server-side)</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes (local)</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#ef4444">No (deprecated API)</td>
+              </tr>
+              <tr style="background:var(--bg)">
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">Wi-Fi / vCard Support</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes (6 types)</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#f59e0b">Manual formatting</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#f59e0b">Text only</td>
+              </tr>
+              <tr>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">SVG Export</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#ef4444">No (PNG only)</td>
+              </tr>
+              <tr style="background:var(--bg)">
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">Color Customization</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes (+ logo)</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#f59e0b">Limited</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#ef4444">No</td>
+              </tr>
+              <tr>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">No Watermark</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Toolrip's QR code generator is ideal when privacy matters — your Wi-Fi passwords, contact details, and URLs never leave your browser. For advanced branding features like embedded logos or scan analytics, consider pairing Toolrip's generator with a dynamic QR code management service.</p>
+      </section>
+
+      <!-- Sources & References -->
+      <section class="mt-4">
+        <h2>Sources &amp; References</h2>
+        <ul style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><a href="https://www.iso.org/standard/62021.html" target="_blank" rel="noopener">ISO/IEC 18004:2015 — QR Code Bar Code Symbology Specification</a></li>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API" target="_blank" rel="noopener">MDN Canvas API Documentation</a></li>
+          <li><a href="https://www.qrcode.com/en/about/" target="_blank" rel="noopener">DENSO WAVE — Official QR Code Information</a></li>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API" target="_blank" rel="noopener">MDN Web Crypto API Documentation</a></li>
+        </ul>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/password">Password Generator</a>
-          <a href="https://toolrip.com/base64">Base64 Encoder</a>
-          <a href="https://toolrip.com/uuid">UUID Generator</a>
-          <a href="https://toolrip.com/json">JSON Formatter</a>
-          <a href="https://toolrip.com/hex-rgb">Hex-RGB Converter</a>
+          <a href="https://toolrip.com/password"><strong>Password Generator</strong><span>Generate secure passwords to encode in QR codes</span></a>
+          <a href="https://toolrip.com/base64"><strong>Base64 Encoder</strong><span>Encode binary data as text for QR code payloads</span></a>
+          <a href="https://toolrip.com/url"><strong>URL Encoder</strong><span>Properly encode URLs with special characters before embedding</span></a>
+          <a href="https://toolrip.com/md5"><strong>MD5 Generator</strong><span>Generate checksums to verify QR code data integrity</span></a>
+          <a href="https://toolrip.com/json"><strong>JSON Formatter</strong><span>Format structured data before encoding as QR payloads</span></a>
+          <a href="https://toolrip.com/hex-rgb"><strong>Hex-RGB Converter</strong><span>Convert color values for QR code customization</span></a>
         </div>
       </section>
+
+      <!-- Credibility Footer -->
+      <div class="credibility-footer">
+        Security tools built using the Web Crypto API and verified against NIST and OWASP standards.
+        <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+      </div>
 
     </main>
 

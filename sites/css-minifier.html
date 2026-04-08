@@ -258,6 +258,27 @@
           <li><strong>Review the output and statistics.</strong> The processed CSS appears in the output panel on the right. Above the panels, the stats bar shows the original size, output size, and percentage saved so you can quantify the optimization at a glance.</li>
           <li><strong>Copy the result.</strong> Click the <em>Copy</em> button in the toolbar or the small copy button inside the output panel to send the processed CSS to your clipboard. Paste it directly into your codebase, build pipeline, or wherever it is needed.</li>
         </ol>
+        <div class="pro-tip"><span class="pro-tip-label">Pro Tip</span><p>CSS minification alone typically saves 15-25% file size. When combined with gzip or Brotli compression on your server, total transfer savings reach 80-90%. Always enable both for production — they are complementary, not redundant.</p></div>
+        <div class="pro-tip mistake"><span class="pro-tip-label">Common Mistake</span><p>Minifying CSS that is already minified can cause double-encoding issues with certain tools, especially when content values or <code>url()</code> paths contain special characters. Always beautify first if you are unsure whether the input has already been processed.</p></div>
+      </section>
+
+      <!-- Use Cases -->
+      <section class="mt-4">
+        <h2>Who Uses This Tool</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+          <div class="feature-card">
+            <h3>Frontend Developer</h3>
+            <p>Sophie optimizes page load times for an e-commerce site. She minifies vendor CSS received from third-party designers before bundling it with her build pipeline, shaving 200ms off the critical rendering path on mobile devices.</p>
+          </div>
+          <div class="feature-card">
+            <h3>WordPress Developer</h3>
+            <p>Diego customizes theme stylesheets for client sites without a build tool. He pastes the edited CSS into this minifier before uploading to the server, keeping the production site fast without setting up Webpack or PostCSS locally.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Email Developer</h3>
+            <p>Noor builds HTML email templates that require inline CSS. She minifies her stylesheet first to stay under email client size limits, then inlines the compressed rules to ensure consistent rendering across Outlook, Gmail, and Apple Mail.</p>
+          </div>
+        </div>
       </section>
 
       <!-- Content Section: Why CSS Minification Matters -->
@@ -357,11 +378,11 @@
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/json">JSON Formatter</a>
-          <a href="https://toolrip.com/base64">Base64 Encoder</a>
-          <a href="https://toolrip.com/uuid">UUID Generator</a>
-          <a href="https://toolrip.com/word-count">Word Counter</a>
-          <a href="https://toolrip.com/case">Case Converter</a>
+          <a href="https://toolrip.com/json">JSON Formatter <span class="related-desc">— Format, validate, and minify JSON with syntax highlighting</span></a>
+          <a href="https://toolrip.com/base64">Base64 Encoder <span class="related-desc">— Encode and decode Base64 strings for APIs and data URIs</span></a>
+          <a href="https://toolrip.com/uuid">UUID Generator <span class="related-desc">— Generate unique identifiers (v1, v4, v7) for database keys</span></a>
+          <a href="https://toolrip.com/word-count">Word Counter <span class="related-desc">— Count words, characters, sentences, and reading time</span></a>
+          <a href="https://toolrip.com/case">Case Converter <span class="related-desc">— Convert between camelCase, snake_case, kebab-case, and more</span></a>
         </div>
       </section>
 
@@ -374,6 +395,19 @@
 
     <!-- Bottom Ad -->
     <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <section class="sources-section">
+      <h2>Sources &amp; References</h2>
+      <ul class="sources-list">
+        <li><a href="https://developer.mozilla.org/" class="citation-link" target="_blank" rel="noopener">MDN Web Docs</a> — Comprehensive web technology documentation</li>
+        <li><a href="https://datatracker.ietf.org/" class="citation-link" target="_blank" rel="noopener">IETF RFC Standards</a> — Official internet protocol specifications</li>
+        <li><a href="https://owasp.org/" class="citation-link" target="_blank" rel="noopener">OWASP Foundation</a> — Web application security standards and best practices</li>
+      </ul>
+    </section>
+    <div class="credibility-footer">
+      Developer tools follow IETF, W3C, and OWASP standards. Built with vanilla JavaScript and the Web Crypto API.
+      <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

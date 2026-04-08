@@ -313,6 +313,8 @@
           <li><strong>Choose your options</strong> — Select a separator (hyphen, underscore, or dot) from the dropdown menu. Use the checkboxes to toggle lowercase conversion, special character removal, and edge trimming. Each change is reflected immediately in the output so you can compare different configurations.</li>
           <li><strong>Copy the result</strong> — Click the "Copy Result" button to place the generated slug on your clipboard. For bulk conversions, switch to Bulk Mode, paste multiple lines of text, and copy all generated slugs at once. Use the "Clear" button to reset the input and output and start over.</li>
         </ol>
+        <div class="pro-tip"><span class="pro-tip-label">Pro Tip</span><p>Keep URL slugs under 60-80 characters and remove stop words like "a," "the," "and," "of," and "is." A slug like "best-running-shoes" outperforms "the-best-running-shoes-for-beginners" because it is shorter, easier to share, and concentrates keyword relevance in fewer terms.</p></div>
+        <div class="pro-tip mistake"><span class="pro-tip-label">Common Mistake</span><p>Using special characters or spaces in URLs causes them to be percent-encoded (e.g., spaces become %20, ampersands become %26), creating ugly, unreadable links that look untrustworthy to users and dilute SEO keyword signals. Always strip non-alphanumeric characters and use hyphens as word separators.</p></div>
       </section>
 
       <!-- Understanding URL Slugs -->
@@ -326,6 +328,15 @@
         <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-2)">The most effective slugs follow a consistent set of principles that balance readability, SEO value, and technical compatibility. First, always use lowercase letters. Mixed-case URLs can cause duplicate content issues on case-sensitive servers and confuse users who type addresses manually. Second, use hyphens as word separators rather than underscores or spaces. Google explicitly treats hyphens as word delimiters, while underscores join words into a single token, reducing keyword recognition. Encoded spaces produce ugly percent-20 sequences that harm both readability and aesthetics.</p>
         <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-2)">Third, strip all special characters, accents, and non-ASCII symbols from your slugs. Accented characters like those found in French, Spanish, and German words should be transliterated to their ASCII equivalents so that the URL works reliably across every browser, operating system, and email client. Fourth, keep slugs concise by removing stop words that do not contribute to meaning. Words like the, and, of, is, and it rarely add search value and can be dropped without changing what the URL communicates to readers or crawlers.</p>
         <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-2)">Fifth, never change a slug after publication unless you set up a proper 301 redirect from the old URL to the new one. Broken links damage your search rankings, create poor user experiences, and waste the link equity that the original URL accumulated over time. Planning your slugs carefully before publishing eliminates the need for retroactive changes and keeps your link profile clean and authoritative over the long term.</p>
+      </section>
+
+      <section class="use-case-section">
+        <h2>Real-World Use Cases</h2>
+        <div class="use-case-cards">
+          <div class="use-case-card"><h3>SEO Specialist</h3><p>An SEO manager generates clean slugs for hundreds of blog post titles during a site migration, using bulk mode to produce consistent, keyword-rich URLs that preserve search rankings across the new domain.</p></div>
+          <div class="use-case-card"><h3>E-Commerce Manager</h3><p>A product catalog manager converts thousands of product names into URL-friendly slugs for a Shopify store, ensuring every product page has a readable, descriptive URL that improves click-through rates from search results.</p></div>
+          <div class="use-case-card"><h3>Developer</h3><p>A backend developer generates route identifiers from user-submitted page titles in a CMS, using the slug generator to handle Unicode transliteration and special character removal before storing clean URLs in the database.</p></div>
+        </div>
       </section>
 
       <!-- FAQ Section -->
@@ -451,11 +462,11 @@
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/word-count">Word Counter</a>
-          <a href="https://toolrip.com/case">Case Converter</a>
-          <a href="https://toolrip.com/json">JSON Formatter</a>
-          <a href="https://toolrip.com/uuid">UUID Generator</a>
-          <a href="https://toolrip.com/password">Password Generator</a>
+          <a href="https://toolrip.com/word-count"><strong>Word Counter</strong> <span>Count words, characters, sentences, and reading time</span></a>
+          <a href="https://toolrip.com/case"><strong>Case Converter</strong> <span>Transform text between uppercase, lowercase, title case, and more</span></a>
+          <a href="https://toolrip.com/json"><strong>JSON Formatter</strong> <span>Format, validate, and beautify JSON data instantly</span></a>
+          <a href="https://toolrip.com/uuid"><strong>UUID Generator</strong> <span>Generate universally unique identifiers instantly</span></a>
+          <a href="https://toolrip.com/password"><strong>Password Generator</strong> <span>Create strong, secure passwords with custom rules</span></a>
         </div>
       </section>
 
@@ -468,6 +479,19 @@
 
     <!-- Bottom Ad -->
     <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <section class="sources-section">
+      <h2>Sources &amp; References</h2>
+      <ul class="sources-list">
+        <li><a href="https://www.unicode.org/" class="citation-link" target="_blank" rel="noopener">Unicode Consortium</a> — International standard for text encoding and character sets</li>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="citation-link" target="_blank" rel="noopener">MDN String Reference</a> — JavaScript string methods used in these tools</li>
+        <li><a href="https://developers.google.com/search/docs/fundamentals/seo-starter-guide" class="citation-link" target="_blank" rel="noopener">Google SEO Starter Guide</a> — Best practices for URL structure and content optimization</li>
+      </ul>
+    </section>
+    <div class="credibility-footer">
+      Text processing tools handle Unicode correctly following W3C internationalization standards.
+      <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

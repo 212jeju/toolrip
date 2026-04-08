@@ -360,6 +360,14 @@
           <li><strong>Click Convert</strong> — The converted date and time appear instantly below the inputs, along with details about the UTC offsets of both timezones and the time difference between them. Results update in real time whenever you change any input.</li>
           <li><strong>Check world clocks</strong> — Scroll down within the tool to see the current time in ten major cities, updated every second. Use this to quickly reference what time it is anywhere in the world right now.</li>
         </ol>
+        <div class="pro-tip">
+          <span class="pro-tip-label">Pro Tip</span>
+          <p>Daylight Saving Time shifts happen on different dates worldwide. The US springs forward in March, the EU in late March, and Australia in October. Always use IANA timezone identifiers (like America/New_York) instead of fixed UTC offsets, which do not account for DST transitions.</p>
+        </div>
+        <div class="pro-tip mistake">
+          <span class="pro-tip-label">Common Mistake</span>
+          <p>Assuming EST means the same as Eastern Time. EST (UTC-5) is the fixed offset for winter only. During summer, Eastern Time becomes EDT (UTC-4). Using "EST" year-round causes meetings to be off by one hour for half the year.</p>
+        </div>
       </section>
 
       <!-- Informational Content -->
@@ -373,36 +381,50 @@
         <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">When scheduling international meetings or planning travel across timezones, a few practical tips can help you avoid confusion. Always specify the timezone when communicating times — saying "3 PM ET" is much clearer than just "3 PM." Use UTC as a common reference when coordinating between more than two timezones. Be aware of DST transitions, which typically occur in March and November in the Northern Hemisphere and at opposite times in the Southern Hemisphere. Finally, remember that not all timezones are whole-hour offsets from UTC — India operates at UTC+5:30, Nepal at UTC+5:45, and several other regions use half-hour or quarter-hour offsets.</p>
       </section>
 
+      <section class="use-case-section">
+        <h2>Real-World Use Cases</h2>
+        <div class="use-case-cards">
+          <div class="use-case-card">
+            <h3>Remote Team Scheduling a Global Standup</h3>
+            <p>A distributed team with members in New York, London, and Tokyo needs to find a meeting time that falls within business hours for all three locations. The converter reveals that 9 AM ET is 2 PM GMT and 11 PM JST — making it clear they need to rotate meeting times.</p>
+          </div>
+          <div class="use-case-card">
+            <h3>Trader Monitoring Market Opening Times</h3>
+            <p>A forex trader tracks opening and closing times of exchanges in different time zones. The Tokyo, London, and New York sessions overlap at specific hours that create the highest liquidity and volatility windows.</p>
+          </div>
+          <div class="use-case-card">
+            <h3>Traveler Planning International Calls</h3>
+            <p>Someone traveling from San Francisco to Berlin needs to know when they can call family back home without waking them up. With a 9-hour difference, they check which hours overlap between their evening in Europe and morning on the West Coast.</p>
+          </div>
+        </div>
+      </section>
+
       <!-- FAQ Section -->
       <section class="faq-section">
         <h2>Frequently Asked Questions</h2>
         <details class="faq-item">
-          <summary>What is the difference between UTC and GMT?</summary>
-          <p>UTC (Coordinated Universal Time) and GMT (Greenwich Mean Time) display the same time for everyday purposes, but they are defined differently. GMT is a timezone originally based on mean solar time observed at the Royal Observatory in Greenwich, London. UTC is a time standard maintained by a global network of atomic clocks and serves as the foundation for civil timekeeping worldwide. UTC does not observe daylight saving time. While GMT is sometimes used informally as a timezone label (especially in the United Kingdom during winter), UTC is the scientifically precise standard used in aviation, computing, navigation, and international agreements. When converting between timezones, UTC serves as the universal reference point from which all offsets are measured, such as UTC-5 for Eastern Standard Time or UTC+9 for Japan Standard Time.</p>
+          <summary>How do I convert a time from one timezone to another?</summary>
+          <p>Enter the date and time you want to convert, select the source timezone from the "From" dropdown, and select the target timezone from the "To" dropdown. Click Convert and the result appears instantly, showing the converted time along with the UTC offsets of both timezones and the time difference between them. Use the swap button to quickly reverse the conversion direction. The converter uses IANA timezone identifiers and your browser's built-in timezone database for accuracy.</p>
         </details>
         <details class="faq-item">
-          <summary>What is daylight saving time and which countries observe it?</summary>
-          <p>Daylight saving time is the seasonal practice of setting clocks forward by one hour in spring and back by one hour in autumn, intended to make better use of natural daylight during longer summer days. Approximately 70 countries observe DST, including most of the United States and Canada, European Union member states, parts of Australia, New Zealand, and several countries in South America and the Middle East. Countries near the equator typically do not observe DST because their daylight hours remain relatively constant throughout the year. The specific dates when clocks change vary by region. In the United States, DST begins on the second Sunday of March and ends on the first Sunday of November. In the European Union, it begins on the last Sunday of March and ends on the last Sunday of October. This converter automatically accounts for DST when you select a specific date and timezone.</p>
+          <summary>How do I find a meeting time that works across multiple timezones?</summary>
+          <p>Convert your preferred meeting time from your local timezone to each participant's timezone. Check whether the converted time falls within business hours (typically 9 AM to 6 PM) for all locations. The world clocks section at the bottom shows current times in ten major cities for quick reference. If no single time works, consider rotating meeting times across weeks so no single timezone consistently bears the inconvenience of early or late calls.</p>
         </details>
         <details class="faq-item">
-          <summary>How many timezones exist in the world?</summary>
-          <p>The Earth is divided into 24 primary timezone bands based on 15-degree increments of longitude, each representing a one-hour offset from UTC. In practice, however, there are more than 37 distinct UTC offsets in use because several countries and territories adopt half-hour or quarter-hour offsets. India operates on UTC+5:30, Nepal uses UTC+5:45, the Chatham Islands in New Zealand use UTC+12:45, and Myanmar uses UTC+6:30. When you include historical timezone changes and daylight saving time variations, the IANA timezone database tracks over 400 unique timezone identifiers worldwide. Political decisions, not just geography, determine timezone boundaries — China, for instance, spans five geographical timezone bands but uses a single timezone (UTC+8) across the entire country.</p>
+          <summary>Does this converter automatically handle daylight saving time changes?</summary>
+          <p>Yes. The converter uses the JavaScript Intl.DateTimeFormat API with IANA timezone identifiers like America/New_York and Europe/London. Your browser's timezone database contains complete DST rules, including historical changes and future transitions. When you enter a date, the converter applies the correct UTC offset for that exact moment. A July conversion from New York uses EDT (UTC-4), while a January conversion uses EST (UTC-5). You never need to manually adjust for DST.</p>
         </details>
         <details class="faq-item">
-          <summary>What does IST stand for in timezones?</summary>
-          <p>IST is an ambiguous timezone abbreviation that refers to three entirely different timezones depending on context. Indian Standard Time (UTC+5:30) is the most commonly referenced IST and covers the entire country of India year-round without any daylight saving adjustment. Irish Standard Time (UTC+1) is the name Ireland uses during its summer daylight saving period. Israel Standard Time (UTC+2) refers to the standard time in Israel before its daylight saving period begins. Because of this triple ambiguity, timezone professionals and software developers strongly recommend using IANA timezone names instead of abbreviations. Asia/Kolkata unambiguously identifies Indian Standard Time, Europe/Dublin identifies Irish time, and Asia/Jerusalem identifies Israeli time. This converter uses IANA names internally to ensure every conversion is precise and unambiguous.</p>
+          <summary>Why should I use IANA timezone names instead of abbreviations like EST or IST?</summary>
+          <p>Timezone abbreviations are ambiguous. IST can mean Indian Standard Time (UTC+5:30), Irish Standard Time (UTC+1), or Israel Standard Time (UTC+2). CST could be Central Standard Time (US), China Standard Time, or Cuba Standard Time. IANA names like Asia/Kolkata, Europe/Dublin, and America/Chicago are globally unique and also encode DST rules automatically. This converter uses IANA names internally to ensure every conversion is precise and unambiguous.</p>
         </details>
         <details class="faq-item">
-          <summary>What is the International Date Line?</summary>
-          <p>The International Date Line is an imaginary boundary that runs roughly along the 180th meridian in the Pacific Ocean, separating two consecutive calendar dates. When you cross the date line traveling westward (toward Asia and Australia), you advance one calendar day — Monday becomes Tuesday. When you cross it traveling eastward (toward the Americas), you go back one calendar day — Tuesday becomes Monday. The line does not follow the 180th meridian exactly; it zigzags to avoid splitting countries and island groups across two different dates. Notable deviations include Kiribati, which moved the date line eastward in 1995 so that all of its islands would share the same date, and Samoa, which jumped across the date line in 2011 to align its business week with major trading partners Australia and New Zealand, skipping December 30 entirely that year.</p>
+          <summary>How do half-hour and quarter-hour timezone offsets work?</summary>
+          <p>Not all timezones use whole-hour offsets from UTC. India operates at UTC+5:30, Nepal at UTC+5:45, Myanmar at UTC+6:30, and the Chatham Islands at UTC+12:45. These non-standard offsets exist because countries chose to split the difference between adjacent timezone bands for geographic or political reasons. The converter handles all of these offsets correctly through the IANA timezone database, which tracks over 400 unique timezone identifiers worldwide.</p>
         </details>
         <details class="faq-item">
-          <summary>How does this converter handle daylight saving time?</summary>
-          <p>This timezone converter uses the JavaScript Intl.DateTimeFormat API with IANA timezone identifiers such as America/New_York and Europe/London. Your browser's built-in timezone database contains the complete rules for when each region enters and exits daylight saving time, including historical changes and future scheduled transitions. When you enter a specific date and time, the converter determines whether DST is in effect for that exact moment in both the source and target timezones and applies the correct UTC offsets accordingly. For example, converting a date in July from New York to London will use EDT (UTC-4) for New York and BST (UTC+1) for London, while a January conversion will use EST (UTC-5) and GMT (UTC+0). You never need to manually account for DST — the converter handles it entirely behind the scenes.</p>
-        </details>
-        <details class="faq-item">
-          <summary>Is my data private when using this timezone converter?</summary>
-          <p>Absolutely. The Timezone Converter runs entirely in your web browser using client-side JavaScript and the built-in Intl API. No dates, times, or timezone selections are transmitted to our servers or any third-party service. There are no user accounts, no cookies that store your conversion history, and no server-side processing involved in any calculation. All timezone logic is executed locally on your device using data already present in your browser. You can verify this by opening your browser's developer tools and monitoring the network tab while using the tool — you will see no outbound requests related to your conversions. This privacy-first design applies to all Toolrip utilities.</p>
+          <summary>Can I see the current time in multiple cities at once?</summary>
+          <p>Yes. Scroll down within the tool to the world clocks section, which displays the current time in ten major cities updated every second. Cities include New York, London, Tokyo, Sydney, Dubai, and more. This live reference makes it easy to check what time it is anywhere in the world right now without performing individual conversions. All clock data comes from your browser's built-in timezone support — no external API calls are made.</p>
         </details>
       </section>
 

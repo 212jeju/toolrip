@@ -354,6 +354,27 @@
           <li><strong>Enter your content.</strong> Type or paste your text, HTML markup, or entity-encoded string into the input textarea. The character count updates in real time as you type. You can paste entire HTML documents, code snippets, or any text that contains special characters needing conversion.</li>
           <li><strong>Process and copy.</strong> Click the <em>Encode</em> or <em>Decode</em> button to transform your content. The result appears instantly in the output area along with a character count. Click <em>Copy Output</em> or the <em>Copy</em> button inside the output area to send the result to your clipboard for pasting into your HTML source code, template files, database entries, or any other destination.</li>
         </ol>
+        <div class="pro-tip"><span class="pro-tip-label">Pro Tip</span><p>You only need to memorize four essential HTML entities for everyday development: <code>&amp;amp;</code> (ampersand), <code>&amp;lt;</code> (less-than), <code>&amp;gt;</code> (greater-than), and <code>&amp;quot;</code> (double quote). These four cover 99% of encoding needs for preventing XSS and rendering issues.</p></div>
+        <div class="pro-tip mistake"><span class="pro-tip-label">Common Mistake</span><p>Double-encoding entities — writing <code>&amp;amp;amp;</code> instead of <code>&amp;amp;</code>. This happens when you encode content that has already been encoded, resulting in visible entity codes in the rendered page instead of the intended characters. Always check whether your framework auto-encodes output before manually encoding.</p></div>
+      </section>
+
+      <!-- Use Cases -->
+      <section class="mt-4">
+        <h2>Who Uses This Tool</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+          <div class="feature-card">
+            <h3>Web Developer</h3>
+            <p>Paulo sanitizes user-generated content before rendering it in HTML templates. He encodes forum posts and comments to prevent XSS attacks, ensuring that angle brackets and quotes are displayed as text rather than interpreted as markup.</p>
+          </div>
+          <div class="feature-card">
+            <h3>CMS Administrator</h3>
+            <p>Hannah migrates content between WordPress and a custom CMS. She decodes legacy entity-encoded content back to readable characters, then re-encodes only the necessary reserved characters for the new platform's template engine.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Email Developer</h3>
+            <p>Kofi builds HTML email templates that must render across dozens of email clients. He encodes special characters and symbols as named entities to guarantee consistent display in clients that don't fully support UTF-8 character encoding.</p>
+          </div>
+        </div>
       </section>
 
       <!-- Content Section -->
@@ -450,11 +471,11 @@
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/json">JSON Formatter</a>
-          <a href="https://toolrip.com/base64">Base64 Encoder</a>
-          <a href="https://toolrip.com/uuid">UUID Generator</a>
-          <a href="https://toolrip.com/word-count">Word Counter</a>
-          <a href="https://toolrip.com/case">Case Converter</a>
+          <a href="https://toolrip.com/json">JSON Formatter <span class="related-desc">— Format, validate, and minify JSON with syntax highlighting</span></a>
+          <a href="https://toolrip.com/base64">Base64 Encoder <span class="related-desc">— Encode and decode Base64 strings for APIs and data URIs</span></a>
+          <a href="https://toolrip.com/uuid">UUID Generator <span class="related-desc">— Generate unique identifiers (v1, v4, v7) for database keys</span></a>
+          <a href="https://toolrip.com/word-count">Word Counter <span class="related-desc">— Count words, characters, sentences, and reading time</span></a>
+          <a href="https://toolrip.com/case">Case Converter <span class="related-desc">— Convert between camelCase, snake_case, kebab-case, and more</span></a>
         </div>
       </section>
 
@@ -467,6 +488,19 @@
 
     <!-- Bottom Ad -->
     <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <section class="sources-section">
+      <h2>Sources &amp; References</h2>
+      <ul class="sources-list">
+        <li><a href="https://developer.mozilla.org/" class="citation-link" target="_blank" rel="noopener">MDN Web Docs</a> — Comprehensive web technology documentation</li>
+        <li><a href="https://datatracker.ietf.org/" class="citation-link" target="_blank" rel="noopener">IETF RFC Standards</a> — Official internet protocol specifications</li>
+        <li><a href="https://owasp.org/" class="citation-link" target="_blank" rel="noopener">OWASP Foundation</a> — Web application security standards and best practices</li>
+      </ul>
+    </section>
+    <div class="credibility-footer">
+      Developer tools follow IETF, W3C, and OWASP standards. Built with vanilla JavaScript and the Web Crypto API.
+      <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

@@ -198,6 +198,27 @@
           <li><strong>Review the highlighted output.</strong> The output panel displays your formatted SQL with color-coded syntax highlighting. Keywords appear in blue, strings in green, numbers in yellow, and comments in gray italic text.</li>
           <li><strong>Copy or minify.</strong> Click <em>Copy</em> to send the result to your clipboard. Click <em>Minify</em> to compress the query into a single line for embedding in code or configuration files.</li>
         </ol>
+        <div class="pro-tip"><span class="pro-tip-label">Pro Tip</span><p>Consistent formatting makes it easy to catch missing <code>ON</code> clauses in JOIN statements. When each JOIN is on its own indented line with its condition, an accidental Cartesian product becomes visually obvious during code review.</p></div>
+        <div class="pro-tip mistake"><span class="pro-tip-label">Common Mistake</span><p>Worrying that formatting changes SQL semantics. It never does. The database engine ignores all whitespace and line breaks — formatting is purely cosmetic. You can safely format, minify, and reformat without any risk of altering query behavior.</p></div>
+      </section>
+
+      <!-- Use Cases -->
+      <section class="mt-4">
+        <h2>Who Uses This Tool</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+          <div class="feature-card">
+            <h3>Database Administrator</h3>
+            <p>Viktor receives raw queries from application logs that span hundreds of characters on a single line. He pastes them into the formatter to instantly see the JOIN structure, WHERE conditions, and subqueries before analyzing execution plans.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Data Analyst</h3>
+            <p>Maya writes complex analytical queries with multiple CTEs and window functions. She formats her SQL before sharing it in Confluence documentation so that her teammates can understand the logic without asking for a walkthrough.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Backend Developer</h3>
+            <p>Chen debugs ORM-generated queries from Django and Rails. He copies the raw SQL from debug logs, formats it here to identify redundant joins and missing indexes, then optimizes the ORM calls back in his application code.</p>
+          </div>
+        </div>
       </section>
 
       <!-- About SQL Formatting -->
@@ -298,11 +319,11 @@ LIMIT 20;</code></pre>
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/json">JSON Formatter</a>
-          <a href="https://toolrip.com/base64">Base64 Encoder</a>
-          <a href="https://toolrip.com/uuid">UUID Generator</a>
-          <a href="https://toolrip.com/word-count">Word Counter</a>
-          <a href="https://toolrip.com/case">Case Converter</a>
+          <a href="https://toolrip.com/json">JSON Formatter <span class="related-desc">— Format, validate, and minify JSON with syntax highlighting</span></a>
+          <a href="https://toolrip.com/base64">Base64 Encoder <span class="related-desc">— Encode and decode Base64 strings for APIs and data URIs</span></a>
+          <a href="https://toolrip.com/uuid">UUID Generator <span class="related-desc">— Generate unique identifiers (v1, v4, v7) for database keys</span></a>
+          <a href="https://toolrip.com/word-count">Word Counter <span class="related-desc">— Count words, characters, sentences, and reading time</span></a>
+          <a href="https://toolrip.com/case">Case Converter <span class="related-desc">— Convert between camelCase, snake_case, kebab-case, and more</span></a>
         </div>
       </section>
 
@@ -315,6 +336,19 @@ LIMIT 20;</code></pre>
 
     <!-- Bottom Ad -->
     <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <section class="sources-section">
+      <h2>Sources &amp; References</h2>
+      <ul class="sources-list">
+        <li><a href="https://developer.mozilla.org/" class="citation-link" target="_blank" rel="noopener">MDN Web Docs</a> — Comprehensive web technology documentation</li>
+        <li><a href="https://datatracker.ietf.org/" class="citation-link" target="_blank" rel="noopener">IETF RFC Standards</a> — Official internet protocol specifications</li>
+        <li><a href="https://owasp.org/" class="citation-link" target="_blank" rel="noopener">OWASP Foundation</a> — Web application security standards and best practices</li>
+      </ul>
+    </section>
+    <div class="credibility-footer">
+      Developer tools follow IETF, W3C, and OWASP standards. Built with vanilla JavaScript and the Web Crypto API.
+      <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

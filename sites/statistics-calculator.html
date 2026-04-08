@@ -72,10 +72,34 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "What is the difference between mean, median, and mode?",
+        "name": "When should I use median instead of mean?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The mean is the arithmetic average calculated by summing all values and dividing by the count. The median is the middle value when data is sorted in order; if the count is even, it is the average of the two middle values. The mode is the value that appears most frequently. A data set can have no mode, one mode, or multiple modes. Each measure describes the center of a data set differently and is useful in different situations."
+          "text": "Use the median when your data is skewed or contains extreme outliers. The mean is pulled toward outliers, while the median depends only on the middle position. Income data, real estate prices, and response times are classic cases where the median is more representative."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I know if my sample size is large enough?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sample size depends on your desired margin of error, confidence level, and population variability. A common minimum is 30 observations for the Central Limit Theorem to apply, but highly variable data may require hundreds or thousands of samples."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What does a large standard deviation tell me about my data?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A large standard deviation means your data points are spread widely around the mean, indicating high variability. Use the coefficient of variation (standard deviation divided by the mean) to compare variability across datasets with different scales."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I identify and handle outliers?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The most common method is the IQR rule: flag any value below Q1 minus 1.5 times IQR or above Q3 plus 1.5 times IQR. Another approach is the z-score method, flagging values more than 2 or 3 standard deviations from the mean. Always investigate outliers before removing them."
         }
       },
       {
@@ -83,47 +107,7 @@
         "name": "What is the difference between population and sample standard deviation?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Population standard deviation divides the sum of squared deviations by N (the total number of values), while sample standard deviation divides by N minus 1. The N minus 1 correction, known as Bessel's correction, compensates for the fact that a sample tends to underestimate the variability of the full population. Use population standard deviation when your data includes every member of the group you are studying, and sample standard deviation when your data is a subset drawn from a larger population."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "When should I use the mean versus the median?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Use the mean when your data is roughly symmetric and free of extreme outliers, because it takes every value into account and provides a balanced center. Use the median when your data is skewed or contains outliers, because the median is resistant to extreme values and better represents the typical observation. For example, median household income is preferred over mean income because a few extremely high earners can inflate the average."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How do outliers affect statistical measures?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Outliers are data points that fall far from the rest of the data. They can dramatically shift the mean toward the extreme value, increase variance and standard deviation, and widen the range. The median and mode are resistant to outliers because they depend on data position or frequency rather than magnitude. When outliers are present, reporting both the mean and the median gives a clearer picture of the data distribution."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What is variance and how is it related to standard deviation?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Variance measures how far each data point is from the mean, on average, in squared units. It is calculated by averaging the squared differences between each value and the mean. Standard deviation is the square root of variance and is expressed in the same units as the original data, making it easier to interpret. A low standard deviation means the data points cluster closely around the mean, while a high standard deviation means the data is spread out over a wider range."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Can this calculator handle negative numbers and decimals?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes, this statistics calculator accepts negative numbers, decimals, and integers in any combination. You can enter values separated by commas, spaces, or newlines, and even mix delimiters in the same input. The parser automatically filters out empty entries and non-numeric characters so you can paste data directly from spreadsheets or text files without manual cleanup."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Is this statistics calculator free to use?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes, this statistics calculator is completely free with no signup or account required. All calculations run entirely in your browser using JavaScript, so your data stays private and is never uploaded to a server. There are no usage limits, and the tool works on any device with a modern web browser. After the initial page load, calculations work offline since all the math is performed locally."
+          "text": "Population standard deviation divides by N, while sample standard deviation divides by N minus 1 (Bessel's correction). Use population when your data includes every member of the group. Use sample when your data is a subset drawn from a larger population."
         }
       }
     ]
@@ -442,6 +426,14 @@
           <li>Check the frequency distribution table to see how often each unique value occurs, its relative percentage, and a visual bar representing its proportion.</li>
           <li>Click the Copy All button to copy a formatted summary of all statistics to your clipboard, ready to paste into a document, email, or spreadsheet.</li>
         </ol>
+
+        <div class="pro-tip">
+          <strong>Pro Tip:</strong> Standard deviation tells you how spread out your data is, but it is sensitive to outliers. For skewed datasets, the interquartile range (IQR) is more robust because it only considers the middle 50% of values.
+        </div>
+
+        <div class="common-mistake">
+          <strong>Common Mistake:</strong> Using the mean to summarize skewed data. If a dataset has extreme outliers (like income data where a few people earn millions), the median gives a more accurate picture of the typical value.
+        </div>
       </section>
 
       <!-- Understanding Statistics -->
@@ -452,48 +444,87 @@
         <p style="color:var(--text-muted);line-height:1.8;margin-top:var(--sp-3)">The mode identifies the most frequently occurring value in the data set. Unlike the mean and median, the mode can be used with categorical as well as numerical data. A data set may have no mode if all values are unique, one mode (unimodal), two modes (bimodal), or more than two modes (multimodal). In real-world applications, the mode is useful for identifying the most popular product size, the most common test score, or the peak hour in traffic data. Understanding when to use each measure of central tendency is essential for accurate data interpretation. Business analysts rely on these measures to summarize sales performance, educators use them to evaluate student achievement, healthcare researchers apply them to clinical trial results, and engineers depend on them for quality control in manufacturing processes.</p>
       </section>
 
+      <!-- Use Cases -->
+      <section class="use-cases-section mt-4">
+        <h2>Who Uses a Statistics Calculator?</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Data Analysts &amp; Researchers</h3>
+            <p>Data analysts use descriptive statistics to summarize survey results, identify trends, and communicate findings to stakeholders. Quickly computing mean, median, and standard deviation from raw data helps analysts decide which visualization to use and whether the data requires further cleaning before modeling.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Quality Control Engineers</h3>
+            <p>Manufacturing quality control relies on monitoring tolerances and process variability. Engineers track standard deviation and variance across production batches to detect drift before defects occur, using statistical process control charts built on these foundational measures.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Teachers &amp; Students</h3>
+            <p>Teachers analyze test score distributions to identify struggling students and adjust instruction. Students use statistics calculators to check homework, understand how changing a single data point affects the mean versus the median, and build intuition about data spread and central tendency.</p>
+          </div>
+        </div>
+      </section>
+
       <!-- FAQ Section -->
       <section class="faq-section">
         <h2>Frequently Asked Questions</h2>
         <details class="faq-item">
-          <summary>What is the difference between mean, median, and mode?</summary>
-          <p>The mean is the arithmetic average, found by summing all values and dividing by the count. It takes every data point into account but is sensitive to outliers. The median is the middle value in a sorted data set. For an even number of values, it is the average of the two middle entries. The median is resistant to extreme values, making it a better measure of center for skewed data. The mode is the value that occurs most frequently. A data set can have zero, one, or multiple modes. In practice, the mean is used when data is symmetric, the median when data is skewed, and the mode when you need the most common category or observation.</p>
+          <summary>When should I use median instead of mean?</summary>
+          <p>Use the median when your data is skewed or contains extreme outliers. The mean is pulled toward outliers because it factors in every value, while the median only depends on the middle position. For example, in a neighborhood where nine homes are worth $300,000 and one mansion is worth $5,000,000, the mean home price is $770,000 but the median is $300,000. The median better represents a typical home. Income data, real estate prices, and response times are classic cases where the median outperforms the mean as a measure of center.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do I know if my sample size is large enough?</summary>
+          <p>Sample size depends on your desired margin of error, confidence level, and population variability. A common rule of thumb is that 30 observations is a minimum for the Central Limit Theorem to apply, but highly variable data or narrow confidence intervals may require hundreds or thousands of samples. For surveys, the formula n = (Z squared times p times (1-p)) / E squared gives the required sample size, where Z is the z-score for your confidence level, p is the estimated proportion, and E is the margin of error. Online sample size calculators and power analysis tools can help you determine the exact number for your study design.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What does a large standard deviation tell me about my data?</summary>
+          <p>A large standard deviation means your data points are spread widely around the mean. In practical terms, this indicates high variability — the individual values differ substantially from the average. For manufacturing, a large standard deviation signals inconsistent product quality. For test scores, it means student performance varies widely. Context matters: a standard deviation of 5 is large if the mean is 10 but small if the mean is 10,000. The coefficient of variation (standard deviation divided by the mean, expressed as a percentage) lets you compare variability across datasets with different scales.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do I identify and handle outliers?</summary>
+          <p>The most common method is the IQR rule: calculate the interquartile range (Q3 minus Q1), then flag any value below Q1 minus 1.5 times IQR or above Q3 plus 1.5 times IQR as an outlier. Another approach is the z-score method, which flags values more than 2 or 3 standard deviations from the mean. Once identified, investigate whether the outlier is a data entry error (fix it), a measurement anomaly (note it), or a genuine extreme value (keep it but report both with and without it). Never automatically delete outliers without understanding their source, as they may carry important information about your data.</p>
         </details>
         <details class="faq-item">
           <summary>What is the difference between population and sample standard deviation?</summary>
-          <p>Population standard deviation uses N (the total count) in the denominator of the variance formula because you have data for every member of the group. Sample standard deviation uses N minus 1, a correction known as Bessel's correction, because a sample drawn from a larger population tends to underestimate the true variability. Dividing by N minus 1 produces an unbiased estimate of the population variance. If your data set represents an entire population (for example, all employees in a company or every student in a class), use the population formula. If your data is a random sample from a larger group, use the sample formula for more accurate inference.</p>
+          <p>Population standard deviation divides the sum of squared deviations by N (the total count), while sample standard deviation divides by N minus 1. The N minus 1 correction, called Bessel's correction, compensates for the fact that a sample underestimates the true population variability. Use population standard deviation when your data includes every member of the group (all students in a class, all products in a batch). Use sample standard deviation when your data is a subset drawn from a larger group (a survey of 200 customers out of 50,000). In most real-world research, you are working with samples, so N minus 1 is the default choice.</p>
         </details>
-        <details class="faq-item">
-          <summary>When should I use the mean versus the median?</summary>
-          <p>Use the mean when your data is roughly symmetric and does not contain extreme outliers, because it incorporates every value and provides a mathematically balanced center. Use the median when your data is skewed or contains outliers, because the median is not affected by extreme values. For example, if you have income data where a few individuals earn far more than the rest, the mean income will be inflated while the median income will more accurately represent the typical earner. In general, reporting both the mean and median gives the most complete picture of your data's central tendency.</p>
-        </details>
-        <details class="faq-item">
-          <summary>How do outliers affect statistical measures?</summary>
-          <p>Outliers are data points that deviate significantly from the rest of the data. They can pull the mean toward the extreme end, inflate the variance and standard deviation, and widen the range. However, the median and mode are resistant to outliers because they depend on position or frequency rather than value magnitude. When outliers are present, it is good practice to report both the mean and the median so readers can assess how much the extreme values affect the average. You should also investigate whether outliers result from data entry errors, measurement anomalies, or genuinely unusual observations before deciding to include or exclude them from your analysis.</p>
-        </details>
-        <details class="faq-item">
-          <summary>What is variance and how is it related to standard deviation?</summary>
-          <p>Variance measures the average squared distance of each data point from the mean. Because it involves squaring, variance is expressed in squared units of the original data, which can be difficult to interpret directly. Standard deviation is the square root of variance and is expressed in the same units as the data, making it much more intuitive. For example, if your data is in centimeters, the standard deviation is also in centimeters. A small standard deviation means data points cluster tightly around the mean, while a large standard deviation indicates the data is widely spread out. Together, variance and standard deviation quantify the dispersion or variability within a data set.</p>
-        </details>
-        <details class="faq-item">
-          <summary>Can this calculator handle negative numbers and decimals?</summary>
-          <p>Yes, this statistics calculator fully supports negative numbers, positive numbers, decimals, and integers in any combination. You can enter values separated by commas, spaces, newlines, tabs, or a mix of these delimiters. The input parser is designed to be flexible: it strips out empty entries and non-numeric text automatically, so you can paste data directly from a spreadsheet column or a text file without needing to reformat it first. If the input contains no valid numbers after parsing, the calculator will display a clear error message asking you to check your data.</p>
-        </details>
-        <details class="faq-item">
-          <summary>Is this statistics calculator free to use?</summary>
-          <p>Yes, this statistics calculator is completely free, requires no account or signup, and has no usage limits. All calculations run entirely in your browser using JavaScript, which means your data is never uploaded to a server and remains completely private on your device. The tool works on desktops, laptops, tablets, and smartphones with any modern web browser. You can bookmark this page for instant access whenever you need to analyze data for school, work, or research. After the initial page load, the calculator even works offline because all computations are performed locally.</p>
-        </details>
+      </section>
+
+      <!-- Comparison Section -->
+      <section class="comparison-section mt-4">
+        <h2>How Toolrip Compares to Other Statistics Tools</h2>
+        <table class="comparison-table">
+          <thead>
+            <tr><th>Feature</th><th>Toolrip</th><th>Wolfram Alpha</th><th>Symbolab</th><th>Desmos</th><th>TI-84 Calculator</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Descriptive Statistics</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Limited</td><td>Yes</td></tr>
+            <tr><td>Frequency Distribution</td><td>Yes</td><td>Yes</td><td>No</td><td>No</td><td>Yes</td></tr>
+            <tr><td>No Signup Required</td><td>Yes</td><td>Yes</td><td>No</td><td>Yes</td><td>N/A</td></tr>
+            <tr><td>Works Offline</td><td>Yes</td><td>No</td><td>No</td><td>No</td><td>Yes</td></tr>
+            <tr><td>Copy Results</td><td>Yes</td><td>Limited</td><td>Limited</td><td>No</td><td>No</td></tr>
+            <tr><td>Cost</td><td>Free</td><td>Free / Pro</td><td>Free / Premium</td><td>Free</td><td>$100+</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Sources Section -->
+      <section class="sources-section">
+        <h2>Sources &amp; References</h2>
+        <ul class="sources-list">
+          <li><a href="https://mathworld.wolfram.com/" class="citation-link" target="_blank" rel="noopener">Wolfram MathWorld</a> — Comprehensive mathematics reference with proofs and definitions</li>
+          <li><a href="https://www.khanacademy.org/math" class="citation-link" target="_blank" rel="noopener">Khan Academy Mathematics</a> — Free educational resources with worked examples</li>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math" class="citation-link" target="_blank" rel="noopener">MDN Math Reference</a> — JavaScript Math object documentation used in this calculator</li>
+        </ul>
       </section>
 
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/fraction">Fraction Calculator</a>
-          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
-          <a href="https://toolrip.com/bmi">BMI Calculator</a>
-          <a href="https://toolrip.com/age">Age Calculator</a>
-          <a href="https://toolrip.com/compound-interest">Compound Interest Calculator</a>
+          <a href="https://toolrip.com/fraction"><strong>Fraction Calculator</strong><span>Work with fractional data values and convert results between formats</span></a>
+          <a href="https://toolrip.com/percentage"><strong>Percentage Calculator</strong><span>Convert statistical proportions to percentages for reporting</span></a>
+          <a href="https://toolrip.com/gcf-lcm"><strong>GCF &amp; LCM Calculator</strong><span>Find common factors useful in grouping and frequency analysis</span></a>
+          <a href="https://toolrip.com/scientific-notation"><strong>Scientific Notation Converter</strong><span>Express very large or small statistical values compactly</span></a>
+          <a href="https://toolrip.com/compound-interest"><strong>Compound Interest Calculator</strong><span>Apply statistical growth models to financial projections</span></a>
         </div>
       </section>
 
@@ -506,6 +537,12 @@
 
     <!-- Bottom Ad -->
     <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <!-- Credibility Footer -->
+    <div class="credibility-footer">
+      Mathematical calculations verified against standard formulas from authoritative references including Wolfram MathWorld.
+      <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

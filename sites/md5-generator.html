@@ -103,38 +103,33 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "What is an MD5 hash?",
-        "acceptedAnswer": { "@type": "Answer", "text": "MD5 (Message Digest Algorithm 5) is a cryptographic hash function that produces a fixed 128-bit (32-character hexadecimal) digest from any input data. It was designed by Ronald Rivest in 1991 and became one of the most widely used hash functions for verifying data integrity." }
+        "name": "Why do security experts say I should never use MD5 for password hashing?",
+        "acceptedAnswer": { "@type": "Answer", "text": "MD5 was designed for speed. A modern GPU can compute over 50 billion MD5 hashes per second, meaning an 8-character password can be brute-forced in under 2 hours. Massive rainbow tables exist for instant password lookups. Use bcrypt, scrypt, or Argon2 for password hashing instead." }
       },
       {
         "@type": "Question",
-        "name": "Is MD5 still secure?",
-        "acceptedAnswer": { "@type": "Answer", "text": "No, MD5 is no longer considered cryptographically secure. Researchers demonstrated practical collision attacks in 2004, and generating MD5 collisions can now be done in seconds on modern hardware. MD5 should not be used for digital signatures, SSL certificates, or password hashing." }
+        "name": "How can I verify a file download using its MD5 checksum?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Download the file, compute its MD5 hash using this tool or a command-line utility, then compare the computed hash with the published checksum character by character. If even one character differs, the file was corrupted or tampered with. For tamper-resistant verification, use SHA-256 with GPG signatures." }
       },
       {
         "@type": "Question",
-        "name": "What is the difference between MD5 and SHA-256?",
-        "acceptedAnswer": { "@type": "Answer", "text": "MD5 produces a 128-bit hash (32 hex characters) while SHA-256 produces a 256-bit hash (64 hex characters). SHA-256 is part of the SHA-2 family and offers significantly stronger collision resistance. SHA-256 is recommended for all security-sensitive applications." }
+        "name": "Is it possible to reverse an MD5 hash back to the original text?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No, hash functions are mathematically one-way by design. However, attackers use rainbow tables, brute-force attacks, and dictionary attacks to find inputs matching a known hash. For short predictable inputs like passwords, these techniques succeed quickly. For arbitrary data of reasonable length, reversal is computationally infeasible." }
       },
       {
         "@type": "Question",
-        "name": "Can you reverse an MD5 hash?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Hash functions are mathematically one-way functions, meaning you cannot directly reverse an MD5 hash to recover the original input. However, attackers use rainbow tables and brute-force methods to find inputs that match known hashes, which is why MD5 is unsuitable for password storage." }
+        "name": "How does this tool generate MD5 hashes if the Web Crypto API does not support MD5?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The Web Crypto API deliberately excludes MD5. This tool implements MD5 using a pure JavaScript adaptation of RFC 1321. For SHA-1, SHA-256, and SHA-512, the tool uses the native Web Crypto API via crypto.subtle.digest() for maximum performance. All computation happens locally in your browser." }
       },
       {
         "@type": "Question",
-        "name": "What is a hash collision?",
-        "acceptedAnswer": { "@type": "Answer", "text": "A hash collision occurs when two different inputs produce the same hash output. For MD5, researchers have shown that collisions can be deliberately generated, which means an attacker could create a malicious file with the same MD5 checksum as a legitimate file." }
+        "name": "When is MD5 still acceptable to use in 2026?",
+        "acceptedAnswer": { "@type": "Answer", "text": "MD5 is acceptable for non-security purposes: cache keys, non-sensitive identifiers, checksums for accidental corruption detection within trusted networks, and content-addressable storage deduplication. It must never be used for password hashing, digital signatures, or any context involving intentional tampering." }
       },
       {
         "@type": "Question",
-        "name": "When should I use MD5 vs SHA-256 vs SHA-512?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Use SHA-256 or SHA-512 for any security-sensitive purpose including digital signatures and certificate validation. MD5 is acceptable only for non-security uses like checksums for file transfer verification or generating non-sensitive unique identifiers. For password hashing, use specialized algorithms like bcrypt or Argon2 instead." }
-      },
-      {
-        "@type": "Question",
-        "name": "Is my data safe when using this hash generator?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes, all hashing is performed entirely in your browser using JavaScript. No data is transmitted to any server, stored, or logged. The tool uses the Web Crypto API for SHA hashes and a client-side JavaScript implementation for MD5." }
+        "name": "How do MD5 collision attacks actually work in practice?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Collision attacks exploit weaknesses in MD5's compression function to find differential paths where bit differences cancel out after processing. In 2008, researchers used this to forge a Certificate Authority certificate. Today, tools like HashClash generate MD5 collisions on a standard laptop in under a second." }
       }
     ]
   }
@@ -240,6 +235,37 @@
           <li><strong>View the results.</strong> The MD5, SHA-1, SHA-256, and SHA-512 hashes appear instantly below the input area. Each hash is displayed with its algorithm name, bit length badge, and the full hexadecimal digest. You can also click the <em>Generate Hashes</em> button to explicitly trigger computation, which is useful if you have pasted a large block of text and want to confirm the final result.</li>
           <li><strong>Copy and use.</strong> Click the <em>Copy</em> button next to any hash result to copy that specific digest to your clipboard. Use the copied hash for checksum verification, data integrity checks, database lookups, or any other purpose. Click <em>Clear</em> to reset the input and all hash outputs when you are ready to process a new string.</li>
         </ol>
+        <div class="pro-tip">
+          <span class="pro-tip-label">Pro Tip</span>
+          <p>MD5 produces a fixed 128-bit (32 hex character) hash regardless of input size. This makes it useful for checksums and file verification, but its collision vulnerabilities make it unsuitable for security-critical applications like password storage. Always use SHA-256 or bcrypt when security matters.</p>
+        </div>
+        <div class="pro-tip mistake">
+          <span class="pro-tip-label">Common Mistake</span>
+          <p>Using MD5 to hash passwords before storing them in a database. Modern GPUs can compute over 50 billion MD5 hashes per second, meaning an 8-character password can be brute-forced in minutes. Use bcrypt or Argon2 for password hashing — they are deliberately slow and include salting by design.</p>
+        </div>
+        <div class="pro-tip">
+          <span class="pro-tip-label">Pro Tip</span>
+          <p>When verifying file downloads, compare the full 32-character hex string rather than just eyeballing the first few characters. A single-character difference means completely different data. Copy both hashes into a text comparison tool or use this tool's output to check programmatically.</p>
+        </div>
+      </section>
+
+      <!-- Real-World Use Cases -->
+      <section class="use-case-section">
+        <h2>Real-World Use Cases</h2>
+        <div class="use-case-cards">
+          <div class="use-case-card">
+            <h3>QA Tester Verifying File Integrity</h3>
+            <p>A QA engineer downloads build artifacts from a CI pipeline and needs to verify that files were not corrupted during transfer. By comparing the MD5 checksum of the downloaded file against the checksum published by the build system, they can confirm bit-perfect delivery in seconds. MD5 is acceptable here because the threat model is accidental corruption, not malicious tampering.</p>
+          </div>
+          <div class="use-case-card">
+            <h3>Database Developer Generating Cache Keys</h3>
+            <p>A backend developer needs to create deterministic cache keys from complex query parameters. Hashing the normalized query string with MD5 produces a compact, fixed-length key that works well as a cache identifier in Redis or Memcached. Since the key does not protect sensitive data, MD5's speed is an advantage rather than a liability.</p>
+          </div>
+          <div class="use-case-card">
+            <h3>Data Engineer Deduplicating Records</h3>
+            <p>When processing millions of records from multiple data sources, a data engineer hashes each record's content with MD5 to generate a fingerprint. Identical records produce identical hashes, enabling fast deduplication without character-by-character comparison. The 128-bit output space makes accidental collisions statistically negligible for datasets under billions of records.</p>
+          </div>
+        </div>
       </section>
 
       <!-- Understanding Hash Functions -->
@@ -258,32 +284,28 @@
       <section class="faq-section">
         <h2>Frequently Asked Questions</h2>
         <details class="faq-item">
-          <summary>What is an MD5 hash?</summary>
-          <p>MD5 (Message Digest Algorithm 5) is a cryptographic hash function that takes any input data and produces a fixed-size 128-bit digest, represented as a 32-character hexadecimal string. It was designed by Ronald Rivest in 1991 as an improvement over the earlier MD4 algorithm. MD5 works by processing the input in 512-bit blocks through four rounds of mathematical operations, each consisting of 16 steps with different nonlinear functions. The resulting hash is deterministic, meaning the same input always produces the same output, and even a single bit change in the input produces a completely different hash value. This avalanche effect made MD5 popular for verifying file integrity, generating unique identifiers, and data deduplication. Despite being cryptographically broken for security purposes, MD5 remains one of the most recognized hash algorithms and is still used in many non-security contexts across the software industry.</p>
+          <summary>Why do security experts say I should never use MD5 for password hashing?</summary>
+          <p>MD5 was designed for speed, not for protecting passwords. A modern GPU like the NVIDIA RTX 4090 can compute over 50 billion MD5 hashes per second using tools like Hashcat. At that rate, an 8-character password using all printable ASCII characters can be exhaustively searched in under 2 hours. Additionally, massive rainbow tables exist for MD5 that enable instant password lookups for common strings. Password hashing requires algorithms that are deliberately slow and resource-intensive, such as bcrypt (which takes roughly 100ms per hash at cost 10), scrypt, or Argon2. These algorithms also incorporate unique salts per password, preventing precomputed table attacks entirely. If you discover an application that still uses unsalted MD5 for passwords, it should be considered a critical security vulnerability requiring immediate remediation.</p>
         </details>
         <details class="faq-item">
-          <summary>Is MD5 still secure for hashing passwords?</summary>
-          <p>No, MD5 is absolutely not secure for hashing passwords and should never be used for this purpose. MD5 has multiple critical vulnerabilities that make it unsuitable for password security. First, it is extremely fast to compute, which means an attacker with modern hardware can test billions of MD5 hashes per second in a brute-force attack. Second, collision vulnerabilities allow attackers to generate different inputs that produce the same hash. Third, massive precomputed rainbow tables exist for MD5, enabling instant lookups of common passwords and their MD5 hashes. For password hashing, you should use purpose-built algorithms like bcrypt, scrypt, or Argon2, which incorporate salting and configurable work factors to make brute-force attacks computationally expensive. If you discover a system that still uses MD5 for password storage, it should be upgraded immediately to a secure password hashing algorithm.</p>
+          <summary>How can I verify a file download using its MD5 checksum?</summary>
+          <p>Many software distributors publish MD5 checksums alongside their download files. To verify integrity, download the file, then compute its MD5 hash using this tool or a command-line utility (md5sum on Linux, md5 on macOS, or certutil -hashfile on Windows). Compare the computed hash with the published checksum character by character — they must match exactly. If even one character differs, the file was corrupted during transfer or has been tampered with. Note that MD5 checksums only protect against accidental corruption, not deliberate tampering, because an attacker who controls the download could also forge the checksum. For tamper-resistant verification, use SHA-256 checksums combined with GPG signatures.</p>
         </details>
         <details class="faq-item">
-          <summary>What is the difference between MD5 and SHA-256?</summary>
-          <p>MD5 and SHA-256 are both cryptographic hash functions, but they differ significantly in security, output size, and suitability for modern applications. MD5 produces a 128-bit hash (32 hexadecimal characters), while SHA-256 produces a 256-bit hash (64 hexadecimal characters). The larger output size of SHA-256 provides exponentially greater collision resistance. MD5 has been cryptographically broken since 2004, with practical collision attacks that can be performed in seconds on standard hardware. SHA-256, part of the SHA-2 family designed by the NSA, has no known practical attacks against its collision resistance as of today. SHA-256 is slightly slower to compute than MD5, but this is negligible for most applications and actually beneficial for security purposes. In terms of usage, SHA-256 is the standard for TLS certificates, blockchain technology, code signing, and data integrity in security-sensitive systems. MD5 should only be used where backward compatibility is required or where security is not a concern.</p>
+          <summary>Is it possible to reverse an MD5 hash back to the original text?</summary>
+          <p>No, hash functions are mathematically one-way by design — the process deliberately discards information, making direct reversal impossible. However, attackers use indirect methods to find inputs matching a known hash. Rainbow tables are precomputed databases containing billions of input-hash pairs for instant lookup. Brute-force attacks systematically try every possible input. Dictionary attacks test common words and patterns. For short, predictable inputs like common passwords, these techniques succeed quickly. For arbitrary data of reasonable length, finding the original input is computationally infeasible. This distinction is why MD5 is dangerous for passwords (short, often predictable) but still functional for file checksums (long, arbitrary binary data).</p>
         </details>
         <details class="faq-item">
-          <summary>Can you reverse an MD5 hash to get the original text?</summary>
-          <p>Hash functions are mathematically one-way functions by design, which means there is no algorithmic method to directly reverse an MD5 hash and recover the exact original input. The hashing process deliberately discards information during computation, making it impossible to reconstruct the input from the output alone. However, there are indirect methods that attackers use to find inputs that match a known hash. Rainbow tables are precomputed databases containing millions or billions of input-hash pairs that allow instant lookup of common strings. Brute-force attacks systematically try every possible input until a match is found. Dictionary attacks test common words, phrases, and known passwords against target hashes. These methods do not technically reverse the hash but rather find an input that produces the same hash output. This is precisely why MD5 is dangerous for password storage: attackers can use these techniques to recover passwords from stolen MD5 hash databases with high success rates in a matter of hours.</p>
+          <summary>How does this tool generate MD5 hashes if the Web Crypto API does not support MD5?</summary>
+          <p>The Web Crypto API deliberately excludes MD5 because browser vendors do not want to encourage its use for security purposes. This tool implements MD5 using a well-established pure JavaScript adaptation of the algorithm defined in RFC 1321. The implementation processes input through the standard four-round, 64-step Merkle-Damgard construction with the correct initialization vectors and per-round constants. For SHA-1, SHA-256, and SHA-512, the tool uses the native Web Crypto API via <code>crypto.subtle.digest()</code>, which runs the browser's optimized C/C++ implementation for maximum performance. All computation happens locally in your browser regardless of which algorithm is used.</p>
         </details>
         <details class="faq-item">
-          <summary>What is a hash collision and why does it matter?</summary>
-          <p>A hash collision occurs when two different inputs produce exactly the same hash output. Because hash functions map an infinite set of possible inputs to a fixed-size output space, collisions are mathematically guaranteed to exist for every hash function by the pigeonhole principle. However, what matters for security is how difficult it is to deliberately find or create collisions. For a strong hash function, finding a collision should require approximately 2^(n/2) operations, where n is the bit length of the hash (the birthday attack bound). For MD5 with its 128-bit output, this theoretical limit is 2^64, but actual attacks have reduced this dramatically. In 2004, researchers demonstrated that MD5 collisions could be found in minutes, and modern attacks can generate them in seconds. This has serious real-world implications: attackers have used MD5 collisions to forge digital certificates, create malicious software that passes checksum verification, and undermine document authenticity systems that rely on MD5. SHA-256, with its 256-bit output and no known shortcut attacks, requires approximately 2^128 operations for a collision, making it secure against such threats.</p>
+          <summary>When is MD5 still acceptable to use in 2026?</summary>
+          <p>MD5 remains acceptable for non-security purposes where the threat model does not include intentional tampering. Common legitimate uses include: generating cache keys in Redis or Memcached from query parameters, creating non-sensitive unique identifiers for database records, computing checksums for detecting accidental file corruption during transfers within trusted networks, content-addressable storage deduplication, and interoperating with legacy systems that only support MD5. MD5 must never be used for password hashing, digital signatures, SSL certificates, code signing, or any context where an adversary could exploit collision vulnerabilities. When in doubt, use SHA-256 instead — it is fast enough for virtually all non-security applications and provides genuine collision resistance as a bonus.</p>
         </details>
         <details class="faq-item">
-          <summary>When should I use MD5 vs SHA-256 vs SHA-512?</summary>
-          <p>The choice of hash algorithm depends on your specific use case and security requirements. Use SHA-256 as your default choice for most purposes, including data integrity verification, digital signatures, certificate validation, and any application where security matters. SHA-256 provides strong collision resistance, is widely supported across all platforms and programming languages, and is the standard for most modern security protocols. Use SHA-512 when you need a larger digest size, when working on 64-bit systems where SHA-512 may actually be faster than SHA-256 due to its use of 64-bit internal operations, or when you want additional security margin for long-term data protection. Use MD5 only for non-security purposes where backward compatibility is required, such as comparing file checksums during transfers where tampering is not a concern, generating cache keys, creating non-sensitive unique identifiers, or interoperating with legacy systems that only support MD5. Never use MD5 or SHA-1 for password hashing, digital signatures, or any context where an adversary could exploit collision vulnerabilities.</p>
-        </details>
-        <details class="faq-item">
-          <summary>Is my data safe when using this hash generator?</summary>
-          <p>Yes, your data is completely safe. This hash generator runs entirely in your web browser using client-side JavaScript. For SHA-family hashes (SHA-1, SHA-256, SHA-512), the tool uses the Web Crypto API, which is a built-in browser standard for cryptographic operations. For MD5, the tool uses a well-established pure JavaScript implementation since the Web Crypto API does not include MD5. In all cases, your input text is processed locally on your device and is never transmitted over the network, stored in any database, logged on any server, or accessible to any third party. You can verify this by opening your browser's developer tools, switching to the network tab, and observing that no requests are made when you generate hashes. The tool continues to function normally even when you are completely offline, because it has no server-side dependencies. We designed this tool with privacy as a core principle, ensuring that your sensitive data stays exactly where it belongs: on your own device.</p>
+          <summary>How do MD5 collision attacks actually work in practice?</summary>
+          <p>In 2004, Xiaoyun Wang's team demonstrated the first practical MD5 collision attack, finding two different inputs producing the same hash in about an hour. By 2006, the technique was refined to generate collisions in seconds. The attack exploits weaknesses in MD5's compression function to find differential paths — specific patterns of bit differences between two inputs that cancel out after processing through all four rounds. In 2008, researchers used this technique to create a rogue Certificate Authority certificate, demonstrating that MD5 collisions could forge the trust infrastructure of the internet. Today, tools like HashClash can generate MD5 collisions on a standard laptop in under a second, making MD5 completely unsuitable for any application requiring collision resistance.</p>
         </details>
       </section>
 
@@ -345,17 +367,92 @@
         <p>For password storage, always use a purpose-built key derivation function like bcrypt, scrypt, or Argon2. These algorithms are deliberately slow and memory-intensive, making brute-force attacks orders of magnitude more expensive. For data integrity and digital signatures, SHA-256 is the current industry standard and is used throughout TLS, code signing, and blockchain technology.</p>
       </section>
 
+      <!-- Comparison Section -->
+      <section class="mt-4">
+        <h2>How This Tool Compares</h2>
+        <p>Multiple tools can generate MD5 hashes, from command-line utilities to programming libraries. Here is how Toolrip's hash generator compares to common alternatives for day-to-day hash computation.</p>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.95rem">
+            <thead>
+              <tr style="background:var(--accent);color:#fff">
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">Feature</th>
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">Toolrip</th>
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">md5sum (Linux CLI)</th>
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">Python hashlib</th>
+                <th style="padding:0.75rem 1rem;text-align:left;border:1px solid var(--border)">openssl dgst</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background:var(--bg)">
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">No Install Required</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#f59e0b">Pre-installed on Linux</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#ef4444">Requires Python</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#ef4444">Requires OpenSSL</td>
+              </tr>
+              <tr>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">Multiple Algorithms</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">MD5 + SHA-1/256/512</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#ef4444">MD5 only</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">All algorithms</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">All algorithms</td>
+              </tr>
+              <tr style="background:var(--bg)">
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">Real-Time Output</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes (as you type)</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#ef4444">No</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#ef4444">No</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#ef4444">No</td>
+              </tr>
+              <tr>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">No Data Sent to Server</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes (local)</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes (local)</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes (local)</td>
+              </tr>
+              <tr style="background:var(--bg)">
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);font-weight:600">File Hashing</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#ef4444">Text input only</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes</td>
+                <td style="padding:0.75rem 1rem;border:1px solid var(--border);color:#10b981">Yes</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Toolrip's hash generator excels at quick text hashing with instant visual feedback across four algorithms simultaneously. For hashing large files, command-line tools like md5sum or openssl are more appropriate since they stream data from disk without loading it entirely into memory.</p>
+      </section>
+
+      <!-- Sources & References -->
+      <section class="mt-4">
+        <h2>Sources &amp; References</h2>
+        <ul style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
+          <li><a href="https://datatracker.ietf.org/doc/html/rfc1321" target="_blank" rel="noopener">RFC 1321 — The MD5 Message-Digest Algorithm</a></li>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API" target="_blank" rel="noopener">MDN Web Crypto API Documentation</a></li>
+          <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html" target="_blank" rel="noopener">OWASP Password Storage Cheat Sheet</a></li>
+          <li><a href="https://pages.nist.gov/800-63-3/sp800-63b.html" target="_blank" rel="noopener">NIST SP 800-63B — Digital Identity Guidelines</a></li>
+        </ul>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/password">Password Generator</a>
-          <a href="https://toolrip.com/qr">QR Code Generator</a>
-          <a href="https://toolrip.com/base64">Base64 Encoder</a>
-          <a href="https://toolrip.com/uuid">UUID Generator</a>
-          <a href="https://toolrip.com/json">JSON Formatter</a>
+          <a href="https://toolrip.com/sha256"><strong>SHA-256 Generator</strong><span>Generate SHA-256 hashes for security-critical integrity checks</span></a>
+          <a href="https://toolrip.com/bcrypt"><strong>Bcrypt Generator</strong><span>Hash passwords securely with adjustable cost factor</span></a>
+          <a href="https://toolrip.com/password"><strong>Password Generator</strong><span>Create strong random passwords before hashing them</span></a>
+          <a href="https://toolrip.com/base64"><strong>Base64 Encoder</strong><span>Encode hash outputs for embedding in URLs and APIs</span></a>
+          <a href="https://toolrip.com/rot13"><strong>ROT13 Encoder</strong><span>Simple text obfuscation for non-security use cases</span></a>
+          <a href="https://toolrip.com/jwt"><strong>JWT Decoder</strong><span>Inspect tokens that use HMAC-SHA256 signature verification</span></a>
         </div>
       </section>
+
+      <!-- Credibility Footer -->
+      <div class="credibility-footer">
+        Security tools built using the Web Crypto API and verified against NIST and OWASP standards.
+        <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+      </div>
 
     </main>
 

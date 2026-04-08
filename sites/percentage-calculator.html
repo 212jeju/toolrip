@@ -71,46 +71,11 @@
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "How do I calculate what X percent of a number is?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "To find X% of Y, multiply Y by X and divide by 100. For example, 15% of 200 is 200 × 15 ÷ 100 = 30. This calculator does the math for you instantly as you type."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How do I find what percentage one number is of another?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Divide the part by the whole and multiply by 100. For example, 30 is what percent of 200? The answer is (30 ÷ 200) × 100 = 15%. Use the second calculator mode to compute this automatically."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How do I calculate percentage change between two numbers?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Subtract the old value from the new value, divide by the old value, and multiply by 100. If the result is positive the value increased; if negative it decreased. For example, going from 80 to 100 is a 25% increase."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What is the reverse percentage formula?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "If X is Y% of some unknown base number, divide X by Y and multiply by 100. For example, if 45 is 30% of something, the base is 45 ÷ 30 × 100 = 150."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Is this percentage calculator free?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes, it is completely free with no signup required. All calculations run in your browser so your data stays private. There are no usage limits or premium tiers."
-        }
-      }
+      {"@type": "Question", "name": "How do I calculate a discount or sale price using percentages?", "acceptedAnswer": {"@type": "Answer", "text": "Multiply the original price by (1 - discount/100). For a $120 item at 25% off: $120 x (1 - 0.25) = $120 x 0.75 = $90. You can also find the discount amount first ($120 x 0.25 = $30) and subtract it. Use the first calculator mode to find the dollar amount of any discount, or the percentage change mode to verify a store's advertised savings are accurate."}},
+      {"@type": "Question", "name": "How do I calculate percentage change to track investment or business performance?", "acceptedAnswer": {"@type": "Answer", "text": "Use the formula: ((New Value - Old Value) / Old Value) x 100. If your portfolio grew from $12,000 to $14,400, the change is ((14,400 - 12,000) / 12,000) x 100 = 20% gain. Be careful: a 50% gain followed by a 50% loss does NOT return you to breakeven — $100 becomes $150 then $75. Always divide by the original value, not the new value, when calculating percentage change."}},
+      {"@type": "Question", "name": "How do I find the original price before a discount was applied?", "acceptedAnswer": {"@type": "Answer", "text": "Use the reverse percentage formula: Original = Sale Price / (1 - Discount/100). If you paid $67.50 after a 25% discount, the original price was $67.50 / 0.75 = $90. This also works for back-calculating tax-inclusive prices: if a $108 total includes 8% tax, the pre-tax price is $108 / 1.08 = $100."}},
+      {"@type": "Question", "name": "Why does a 50% increase followed by a 50% decrease not equal zero change?", "acceptedAnswer": {"@type": "Answer", "text": "Because each percentage is calculated on a different base. Starting at $100, a 50% increase adds $50 (50% of $100), bringing you to $150. Then a 50% decrease subtracts $75 (50% of $150), leaving you at $75 — a net 25% loss. This is one of the most common percentage errors. To return to $100 from $150, you need a 33.3% decrease, not 50%. This concept is critical for understanding investment returns and inflation adjustments."}},
+      {"@type": "Question", "name": "How do I calculate a percentage of a percentage (compound percentages)?", "acceptedAnswer": {"@type": "Answer", "text": "Multiply the percentages as decimals. If a store offers 20% off and then an additional 10% off the sale price, the combined discount is NOT 30%. Instead: 0.80 x 0.90 = 0.72, meaning you pay 72% of the original — a 28% total discount. On a $200 item, that is $144 instead of the $140 you would expect from a simple 30% discount. This stacking principle applies to tax rates, commission structures, and any scenario with sequential percentage adjustments."}}
     ]
   }
   </script>
@@ -477,38 +442,62 @@
           <li>Click the Copy button next to any result to copy the answer to your clipboard for use in spreadsheets, documents, or messages.</li>
           <li>Scroll down to the reference table for quick fraction-to-percentage lookups, or use the converter to turn any custom percentage into a decimal and simplified fraction.</li>
         </ol>
+
+        <div class="pro-tip">
+          <span class="pro-tip-label">Pro Tip</span>
+          <p>Percentages are commutative: 8% of 50 equals 50% of 8, which is obviously 4. When one of the numbers is easier to work with, flip the calculation. This mental math shortcut works because (A x B) / 100 = (B x A) / 100.</p>
+        </div>
+        <div class="pro-tip mistake">
+          <span class="pro-tip-label">Common Mistake</span>
+          <p>A 50% increase followed by a 50% decrease does NOT return you to the starting value. $100 increased by 50% is $150, but $150 decreased by 50% is $75 — a net 25% loss. Each percentage applies to a different base, and this trap catches people in investment returns, pricing, and statistics.</p>
+        </div>
+        <div class="pro-tip insight">
+          <span class="pro-tip-label">Expert Insight</span>
+          <p>Percentage points and percentages are different. If an interest rate rises from 3% to 5%, it went up by 2 percentage points but increased by 66.7% in relative terms. Confusing these leads to dramatically different interpretations in finance, economics, and political reporting.</p>
+        </div>
+      </section>
+
+      <!-- Real-World Use Cases -->
+      <section class="use-case-section">
+        <h2>Real-World Use Cases</h2>
+        <div class="use-case-cards">
+          <div class="use-case-card">
+            <h3>Shopper Verifying a Store Discount</h3>
+            <p>A store advertises a jacket as "40% off, now $89.99." The shopper uses the reverse percentage calculator to find the original price: $89.99 / (1 - 0.40) = $149.98. She then checks whether the "original" price is realistic by comparing it to other retailers. Percentage calculators help consumers verify that discount claims are genuine and not inflated from artificially high list prices.</p>
+          </div>
+          <div class="use-case-card">
+            <h3>Small Business Owner Tracking Growth</h3>
+            <p>Carlos runs an online store and wants to report quarterly revenue growth to investors. Revenue went from $47,500 in Q1 to $58,200 in Q2. He enters these values in the percentage change calculator and finds a 22.5% increase. He also uses it to calculate that his customer acquisition cost dropped by 14% ($32 to $27.50), giving him two strong data points for his investor update.</p>
+          </div>
+          <div class="use-case-card">
+            <h3>Student Calculating Final Grade</h3>
+            <p>Emma needs to figure out what score she needs on her final exam to get an A in the course. The final is worth 30% of her grade, and her current average on the other 70% is 88. She needs a weighted average of at least 90: using the percentage calculator, she determines she needs (90 - 88 x 0.70) / 0.30 = 95.3% on the final to reach her goal.</p>
+          </div>
+        </div>
       </section>
 
       <!-- FAQ Section -->
       <section class="faq-section">
         <h2>Frequently Asked Questions</h2>
         <details class="faq-item">
-          <summary>How do I calculate what X percent of a number is?</summary>
-          <p>To find X percent of Y, multiply Y by X and then divide by 100. The formula is: result = Y &times; X &divide; 100. For example, to find 15% of 200, compute 200 &times; 15 &divide; 100, which equals 30. This is the most common percentage calculation and appears in everyday situations like figuring out a discount on a product, computing sales tax, or determining a tip. The first calculator card on this page automates this formula for you. Simply type the percentage in the first field and the number in the second field, and the result appears instantly. You can change either value at any time and the answer updates in real time, making it easy to compare different percentages or test multiple scenarios without restarting the calculation.</p>
+          <summary>How do I calculate a discount or sale price using percentages?</summary>
+          <p>Multiply the original price by (1 minus the discount percentage divided by 100). For a $120 item at 25% off, the calculation is $120 times 0.75, which equals $90. You can also compute the discount amount first ($120 times 0.25 = $30) and subtract it from the original price. Use the first calculator mode on this page to find the dollar amount of any discount instantly. To verify a store's advertised savings, enter the sale price into the reverse percentage calculator with the discount percentage to confirm the original price matches what the store claims. Stacked discounts work differently: a 20% off plus an additional 10% off does not equal 30% off — it equals 28% total discount because the second discount applies to the already-reduced price.</p>
         </details>
         <details class="faq-item">
-          <summary>How do I find what percentage one number is of another?</summary>
-          <p>To determine what percentage a part is of a whole, divide the part by the whole and multiply by 100. The formula is: percentage = (part &divide; whole) &times; 100. For instance, if you scored 42 out of 60 on a test, divide 42 by 60 to get 0.7, then multiply by 100 to find that you scored 70%. This calculation is useful for grade percentages, completion rates, market share analysis, and any time you need to express a ratio as a percentage. The second card on this page handles this calculation. Enter the part value in the first field and the whole value in the second field. The percentage result updates live as you type, and you can copy it with a single click.</p>
+          <summary>How do I calculate percentage change to track business or investment performance?</summary>
+          <p>Use the percentage change formula: ((New Value minus Old Value) divided by Old Value) times 100. If your portfolio grew from $12,000 to $14,400, the change is ((14,400 minus 12,000) / 12,000) times 100 = 20% gain. The critical rule is to always divide by the original (old) value, not the new value. This matters because percentage changes are asymmetric: a 20% gain from $12,000 is $2,400, but a 20% loss from $14,400 is $2,880. This asymmetry is why a 50% gain followed by a 50% loss leaves you at 75% of your starting value, not 100%. The third calculator card on this page automates this calculation with a color-coded badge showing whether the change is positive, negative, or zero.</p>
         </details>
         <details class="faq-item">
-          <summary>How do I calculate the percentage change between two numbers?</summary>
-          <p>Percentage change measures how much a value has increased or decreased relative to its original amount. The formula is: percentage change = ((new value &minus; old value) &divide; old value) &times; 100. If the result is positive, the value increased. If the result is negative, the value decreased. For example, if a stock price went from $80 to $100, the change is ((100 &minus; 80) &divide; 80) &times; 100 = 25%, which is a 25% increase. If the price dropped from $100 to $80, the change is ((80 &minus; 100) &divide; 100) &times; 100 = &minus;20%, which is a 20% decrease. The third calculator card on this page computes this automatically and shows a color-coded badge indicating whether the change is an increase, a decrease, or zero.</p>
+          <summary>How do I find the original price before a discount was applied?</summary>
+          <p>Use the reverse percentage formula: Original Price = Sale Price divided by (1 minus Discount Percentage / 100). If you paid $67.50 after a 25% discount, the original price was $67.50 / 0.75 = $90. This same technique works for back-calculating pre-tax prices: if a $108 total includes 8% sales tax, the pre-tax amount is $108 / 1.08 = $100. The fourth calculator card handles this automatically. This formula is useful for verifying advertised discounts, filing expense reports with pre-tax amounts, and calculating wholesale costs from marked-up retail prices. Enter the known value and percentage, and the original base number appears instantly.</p>
         </details>
         <details class="faq-item">
-          <summary>What is the reverse percentage formula?</summary>
-          <p>The reverse percentage formula lets you find the original base number when you know a value and the percentage it represents. If X is Y% of some unknown number, the formula is: base = X &divide; Y &times; 100. For example, if a store says you saved $45 and that was 30% off the original price, the original price was 45 &divide; 30 &times; 100 = $150. This formula is valuable for back-calculating original prices from discounts, finding total populations from sample percentages, or determining full quantities when only a fraction is given. The fourth calculator card handles this automatically. Enter the known value and the percentage, and the base number appears immediately.</p>
+          <summary>Why does a 50% increase followed by a 50% decrease not equal zero change?</summary>
+          <p>Because each percentage is calculated on a different base number, and percentages are not additive across different bases. Starting at $100, a 50% increase adds $50 (50% of $100), bringing you to $150. Then a 50% decrease subtracts $75 (50% of $150), leaving you at $75 — a net 25% loss, not breakeven. To return from $150 to $100, you would need a 33.3% decrease. This concept is critical for understanding investment returns: if a stock drops 40%, it needs a 66.7% gain to recover, not 40%. The same principle applies to inflation adjustments, currency conversions, and any scenario involving sequential percentage changes on changing base values.</p>
         </details>
         <details class="faq-item">
-          <summary>How do I convert a percentage to a fraction?</summary>
-          <p>To convert a percentage to a fraction, write the percentage over 100 and simplify. For example, 75% becomes 75/100, which simplifies to 3/4 by dividing both the numerator and the denominator by their greatest common divisor (25 in this case). For repeating decimals like 33.33%, the closest simple fraction is 1/3. The converter at the bottom of the tool area does this simplification for you. Type any percentage value and it will show the decimal equivalent, the simplified fraction, and the ratio form. This is helpful for cooking recipes, probability problems, and academic work where fractions are preferred over percentages.</p>
-        </details>
-        <details class="faq-item">
-          <summary>What are some common percentage mistakes to avoid?</summary>
-          <p>One of the most frequent mistakes is confusing the base when calculating percentage change. Always divide by the original value, not the new value, when determining how much something has increased or decreased. Another common error is thinking that a 50% increase followed by a 50% decrease returns you to the starting number. In reality, if you start at 100, a 50% increase brings you to 150, and a 50% decrease of 150 brings you to 75, not 100. A third pitfall is adding percentages of different bases as if they were absolute numbers. For instance, 10% of 200 and 10% of 300 are different amounts (20 and 30), so combining them requires working with the actual values rather than the percentages. This calculator helps you avoid these errors by computing exact results so you never have to rely on mental math shortcuts that can lead to mistakes.</p>
-        </details>
-        <details class="faq-item">
-          <summary>Is this percentage calculator free to use?</summary>
-          <p>Yes, this tool is completely free with no account required and no usage limits. All calculations run entirely in your browser using JavaScript, which means nothing is sent to a server and your data stays private on your device. You can use it on any device with a web browser, including smartphones, tablets, laptops, and desktops. Bookmark this page for quick access whenever you need percentage calculations for school, work, shopping, or personal finance. The tool works offline after the initial page load since all the math happens locally in your browser without requiring an internet connection for subsequent calculations.</p>
+          <summary>How do I calculate compound (stacked) percentages correctly?</summary>
+          <p>Multiply the percentages as decimals rather than adding them. If a store offers 20% off and then an additional 10% off the sale price, the total discount is not 30%. Instead, you pay 80% of the original after the first discount, then 90% of that result: 0.80 times 0.90 = 0.72, meaning you pay 72% of the original price — a 28% total discount. On a $200 item, that is $144 instead of the $140 you would get from a flat 30% off. This stacking principle applies to tax-inclusive pricing, commission structures, multi-step markups, and any scenario where percentages apply sequentially. For parallel percentages (like splitting costs), add the percentages directly since they share the same base.</p>
         </details>
       </section>
 
@@ -546,15 +535,57 @@
         <p style="color:var(--text-muted);font-size:.85rem;margin-top:var(--sp-3)">A common mistake is confusing percentage points with percentages. If an interest rate rises from 3% to 5%, it increased by 2 percentage points but by 66.7% in relative terms. This distinction matters in finance and economics, where misinterpreting these figures can lead to significantly different conclusions.</p>
       </section>
 
+      <!-- How This Calculator Compares -->
+      <section class="comparison-section">
+        <h2>How This Calculator Compares</h2>
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Toolrip</th>
+              <th>Google Search</th>
+              <th>Calculator.net</th>
+              <th>Excel / Google Sheets</th>
+              <th>Phone Calculator</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Four calculation modes in one page</td><td>Yes</td><td>One at a time</td><td>Separate pages</td><td>Manual formulas</td><td>Manual</td></tr>
+            <tr><td>Reverse percentage solver</td><td>Yes</td><td>No</td><td>Yes</td><td>Manual</td><td>No</td></tr>
+            <tr><td>Fraction/decimal converter</td><td>Yes</td><td>No</td><td>Separate tool</td><td>Manual</td><td>No</td></tr>
+            <tr><td>Reference table (common fractions)</td><td>Yes</td><td>No</td><td>No</td><td>No</td><td>No</td></tr>
+            <tr><td>One-click copy results</td><td>Yes</td><td>Yes</td><td>No</td><td>N/A</td><td>Yes</td></tr>
+            <tr><td>Privacy (no data sent to server)</td><td>Yes — all client-side</td><td>No</td><td>No</td><td>Local file</td><td>Local</td></tr>
+            <tr><td>Mobile-optimized</td><td>Yes</td><td>Yes</td><td>Limited</td><td>Limited</td><td>Yes</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Sources & References -->
+      <section class="sources-section">
+        <h2>Sources &amp; References</h2>
+        <ul>
+          <li><a href="https://www.investopedia.com/terms/p/percentage-change.asp" target="_blank" rel="noopener">Investopedia — Percentage Change: Formula and Calculation</a></li>
+          <li><a href="https://www.consumerfinance.gov/" target="_blank" rel="noopener">CFPB — Consumer Financial Protection Bureau</a></li>
+          <li><a href="https://www.bls.gov/cpi/" target="_blank" rel="noopener">Bureau of Labor Statistics — Consumer Price Index (percentage-based inflation tracking)</a></li>
+          <li><a href="https://www.investor.gov/financial-tools-calculators" target="_blank" rel="noopener">SEC Investor.gov — Financial Tools and Calculators</a></li>
+        </ul>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/tip">Tip Calculator</a>
-          <a href="https://toolrip.com/compound-interest">Compound Interest Calculator</a>
-          <a href="https://toolrip.com/fraction">Fraction Calculator</a>
-          <a href="https://toolrip.com/salary">Salary Calculator</a>
-          <a href="https://toolrip.com/mortgage">Mortgage Calculator</a>
+          <a href="https://toolrip.com/tip">Tip Calculator — apply percentage-based tips to any bill amount</a>
+          <a href="https://toolrip.com/sales-tax">Sales Tax Calculator — compute tax percentages on purchases</a>
+          <a href="https://toolrip.com/profit-margin">Profit Margin Calculator — find gross and net margin percentages</a>
+          <a href="https://toolrip.com/roi">ROI Calculator — measure investment return as a percentage</a>
+          <a href="https://toolrip.com/compound-interest">Compound Interest Calculator — see how percentage rates compound over time</a>
+          <a href="https://toolrip.com/fraction">Fraction Calculator — convert between fractions, decimals, and percentages</a>
+        </div>
+        <div class="credibility-footer">
+          Financial calculators use standard industry formulas verified against CFPB and Federal Reserve documentation. These tools provide estimates and are not financial advice.
+          <a href="https://toolrip.com/about">Learn more about our methodology</a>.
         </div>
       </section>
 

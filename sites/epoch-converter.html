@@ -411,6 +411,14 @@
           <li><strong>Convert date to epoch</strong> — Use the date and time pickers in the "Date to Epoch" section. Select any date and time, then click Convert to see the corresponding epoch value in both seconds and milliseconds. Click "Now" to instantly populate the current date and time.</li>
           <li><strong>Use quick shortcuts</strong> — Click any quick timestamp button to generate a commonly needed value. Each shortcut shows the full date alongside the epoch in seconds and milliseconds, ready to copy into your application, database query, or configuration file.</li>
         </ol>
+        <div class="pro-tip">
+          <span class="pro-tip-label">Pro Tip</span>
+          <p>JavaScript's Date.now() returns milliseconds since epoch, while Unix timestamps in most server languages (Python, PHP, Ruby) use seconds. Forgetting to divide by 1000 is the most common cause of dates displaying as the year 53000+ in cross-platform applications.</p>
+        </div>
+        <div class="pro-tip mistake">
+          <span class="pro-tip-label">Common Mistake</span>
+          <p>The Unix epoch (January 1, 1970) is not arbitrary — it was chosen because Unix was being developed around that time and needed a recent, round reference point. Timestamps before this date are negative numbers, which some systems handle incorrectly or reject entirely.</p>
+        </div>
       </section>
 
       <!-- Guide Section -->
@@ -423,36 +431,50 @@
         <p style="color:var(--text-muted);line-height:1.7">Not all computing platforms share the same epoch. Classic Mac OS used January 1, 1904. Microsoft Windows FILETIME counts 100-nanosecond intervals from January 1, 1601. The Network Time Protocol (NTP) uses January 1, 1900. Apple's Cocoa framework and Swift language reference January 1, 2001. GPS time began on January 6, 1980, and does not account for leap seconds, creating a growing offset from UTC. Despite these variations, the Unix epoch remains the dominant standard on the web and in server-side development. Converting between epoch systems is simply a matter of adding or subtracting a fixed offset, making cross-platform interoperability reliable once you know which epoch each system uses.</p>
       </section>
 
+      <section class="use-case-section">
+        <h2>Real-World Use Cases</h2>
+        <div class="use-case-cards">
+          <div class="use-case-card">
+            <h3>Backend Developer Debugging API Timestamps</h3>
+            <p>A developer receives a 1711814400 value in an API response and needs to verify it represents the expected date. They paste the timestamp to confirm it decodes to March 31, 2024 — catching that the API is returning last year's data instead of current results.</p>
+          </div>
+          <div class="use-case-card">
+            <h3>Data Analyst Converting Database Timestamps</h3>
+            <p>An analyst exporting data from PostgreSQL finds timestamps stored as epoch integers. They need to convert thousands of values to human-readable dates for a report. The converter helps verify the format (seconds vs. milliseconds) before writing the batch conversion query.</p>
+          </div>
+          <div class="use-case-card">
+            <h3>DevOps Engineer Investigating Log Entries</h3>
+            <p>An engineer triaging a production incident needs to correlate log entries from different systems that use Unix timestamps. Converting timestamps to local time helps build an accurate incident timeline across services running in different regions.</p>
+          </div>
+        </div>
+      </section>
+
       <!-- FAQ Section -->
       <section class="faq-section">
         <h2>Frequently Asked Questions</h2>
         <details class="faq-item">
-          <summary>What is a Unix epoch timestamp?</summary>
-          <p>A Unix epoch timestamp is a single number that represents a specific moment in time by counting the seconds (or milliseconds) that have elapsed since January 1, 1970, at 00:00:00 Coordinated Universal Time (UTC). This reference point is called the Unix epoch. Because it is a plain integer with no timezone information baked in, it provides a universal, unambiguous way to store and transmit time data. Virtually every programming language, operating system, and database supports epoch timestamps. For example, the value 1700000000 corresponds to November 14, 2023, at 22:13:20 UTC. Millisecond-precision timestamps are 13 digits long and are used by JavaScript, Java, and many web APIs, while second-precision timestamps are 10 digits and are the standard in Python, PHP, and Unix shell commands.</p>
+          <summary>How do I convert a Unix timestamp to a human-readable date?</summary>
+          <p>Paste the numeric timestamp into the "Epoch to Date" input field and click Convert. The tool automatically detects whether the value is in seconds (10 digits) or milliseconds (13 digits) and displays the result in four formats: UTC, your local timezone, ISO 8601, and relative time (e.g., "3 days ago"). For example, entering 1700000000 shows November 14, 2023, at 22:13:20 UTC. All conversions run in your browser — no data is sent to any server.</p>
         </details>
         <details class="faq-item">
-          <summary>Why does the Unix epoch start on January 1, 1970?</summary>
-          <p>The Unix epoch was set to January 1, 1970, by the engineers who developed the early Unix operating system at Bell Labs. When they redesigned the system around 1971, they needed a fixed, compact reference point for their time-keeping function. The original epoch was actually January 1, 1971, but it was soon shifted to 1970 to give a rounder number and ensure the 32-bit counter would cover a useful range of dates. There is no special scientific or historical reason behind the date — it was a pragmatic engineering decision. The simplicity of a single integer counting from a fixed origin made time arithmetic fast and portable across hardware platforms, which is why the convention endured and spread to virtually every computing environment in use today.</p>
+          <summary>How do I tell if a timestamp is in seconds or milliseconds?</summary>
+          <p>Count the digits. A seconds-based Unix timestamp for current dates is 10 digits (e.g., 1700000000), while a millisecond timestamp is 13 digits (e.g., 1700000000000). This converter detects the format automatically. If you are working with code, JavaScript's Date.now() and Java's System.currentTimeMillis() return milliseconds, while Python's time.time(), PHP's time(), and most SQL UNIX_TIMESTAMP() functions return seconds. To convert between them, multiply seconds by 1,000 or divide milliseconds by 1,000.</p>
         </details>
         <details class="faq-item">
-          <summary>What is the Year 2038 problem (Y2K38)?</summary>
-          <p>The Year 2038 problem is a software limitation that affects systems storing Unix time as a 32-bit signed integer. The maximum value such an integer can hold is 2,147,483,647, which corresponds to January 19, 2038, at 03:14:07 UTC. One second after that, the integer overflows and wraps to a large negative number, causing the system clock to jump backward to December 13, 1901. The fix is to use a 64-bit integer for time storage, which extends the representable range to approximately 292 billion years. Most modern operating systems and programming languages have already made this transition. However, legacy embedded systems, older firmware, certain file formats, and some database schemas may still rely on 32-bit time values and remain vulnerable unless they are updated before 2038.</p>
+          <summary>How do I convert a specific date and time to a Unix timestamp?</summary>
+          <p>Use the "Date to Epoch" section. Select any date and time using the pickers, then click Convert to see the corresponding epoch value in both seconds and milliseconds. Click the "Now" button to instantly populate the current date and time. The resulting values are ready to paste into your application, database query, API request, or configuration file.</p>
         </details>
         <details class="faq-item">
-          <summary>Can Unix epoch timestamps be negative?</summary>
-          <p>Yes, negative epoch timestamps are valid and represent dates before January 1, 1970, 00:00:00 UTC. For instance, the timestamp -86400 means exactly one day before the epoch, which is December 31, 1969. The timestamp -62135596800 represents January 1, year 1 AD in the proleptic Gregorian calendar. Most programming languages handle negative timestamps correctly. JavaScript's Date object, Python's datetime module, and Java's Instant class all accept negative values. The practical lower limit depends on the integer size: a 32-bit signed integer can go back to December 13, 1901, while a 64-bit integer can represent dates billions of years in the past. Negative timestamps are commonly encountered when working with historical data, astronomical calculations, or legacy records.</p>
+          <summary>Can I use negative timestamps for dates before 1970?</summary>
+          <p>Yes. Negative epoch timestamps represent dates before January 1, 1970, 00:00:00 UTC. The timestamp -86400 means December 31, 1969 (one day before the epoch). Most programming languages handle negative values correctly — JavaScript's Date object, Python's datetime module, and Java's Instant class all accept them. The practical lower limit depends on whether the system uses 32-bit integers (back to December 1901) or 64-bit integers (billions of years).</p>
         </details>
         <details class="faq-item">
-          <summary>What is the difference between seconds and milliseconds in epoch timestamps?</summary>
-          <p>The difference is purely one of precision and scale. A seconds-based Unix timestamp is typically 10 digits for dates in the current era (for example, 1700000000), while a millisecond timestamp is 13 digits (1700000000000) because it includes three extra digits representing the fractional second. Seconds-based timestamps are the traditional Unix standard, used by Python's time.time(), PHP's time(), Unix shell date commands, and most SQL databases. Millisecond timestamps are standard in JavaScript (Date.now()), Java (System.currentTimeMillis()), and many REST APIs. To convert between them, multiply seconds by 1,000 to get milliseconds, or divide milliseconds by 1,000 and take the floor to get seconds. This converter detects the format automatically based on digit count, so you never need to guess which unit was used.</p>
+          <summary>Will my system be affected by the Year 2038 problem?</summary>
+          <p>The Y2K38 problem affects systems storing Unix time as a 32-bit signed integer, which overflows on January 19, 2038, at 03:14:07 UTC. Most modern operating systems, programming languages, and browsers have migrated to 64-bit timestamps (good for 292 billion years). However, legacy embedded systems, older database columns (like MySQL's TIMESTAMP type before 8.0.28), IoT firmware, and some file format headers may still be vulnerable. Use this converter to test timestamps near the 2,147,483,647 boundary and verify your applications handle them correctly.</p>
         </details>
         <details class="faq-item">
-          <summary>How do I get the current epoch time in JavaScript?</summary>
-          <p>JavaScript provides several ways to retrieve the current epoch time. The most direct is Date.now(), which returns the current time as milliseconds since January 1, 1970, UTC. To get seconds, divide by 1,000 and round down: Math.floor(Date.now() / 1000). You can also instantiate a Date object and call getTime(): new Date().getTime() returns the same millisecond value. To convert a date string to epoch, pass it to the Date constructor: new Date('2024-06-15T12:00:00Z').getTime(). For higher-precision timing (sub-millisecond), use performance.now(), but note that it measures elapsed time from page load rather than from the Unix epoch. All these methods work in every modern browser and in Node.js without any external dependencies.</p>
-        </details>
-        <details class="faq-item">
-          <summary>Do different operating systems use different epoch dates?</summary>
-          <p>Yes, although Unix epoch (January 1, 1970) is by far the most common standard on the web and in server-side development, other platforms define their own reference dates. Classic Mac OS used January 1, 1904. Microsoft's Win32 FILETIME structure counts 100-nanosecond intervals from January 1, 1601. The Network Time Protocol (NTP) uses January 1, 1900. Apple's Cocoa framework and Swift use January 1, 2001, as their reference date. GPS time started on January 6, 1980, and notably does not include leap second corrections, so it currently differs from UTC by a fixed number of seconds. Converting between these systems is straightforward — you simply add or subtract the constant offset in seconds between the two epoch points. This converter focuses on the Unix epoch, which is the standard for web development and the vast majority of APIs and databases you will encounter.</p>
+          <summary>How do I get the current epoch time in different programming languages?</summary>
+          <p>JavaScript: Date.now() returns milliseconds; Math.floor(Date.now() / 1000) for seconds. Python: time.time() returns seconds as a float. PHP: time() returns seconds. Java/Kotlin: System.currentTimeMillis() returns milliseconds. Ruby: Time.now.to_i returns seconds. In SQL, MySQL uses UNIX_TIMESTAMP() and PostgreSQL uses EXTRACT(EPOCH FROM NOW()). The live clock at the top of this tool shows the current epoch updating every second for quick reference.</p>
         </details>
       </section>
 

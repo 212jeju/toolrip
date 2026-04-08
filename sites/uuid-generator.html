@@ -338,6 +338,27 @@
           <li><strong>Pick your format and generate.</strong> Select from five output formats: standard with dashes, no dashes, uppercase, braces, or URN notation. Then click the Generate UUID button to create a single identifier, or use the Bulk Generation section to produce up to 1000 UUIDs at once. All formats are applied in real time.</li>
           <li><strong>Copy, validate, or decode.</strong> Click Copy to send the UUID to your clipboard instantly. Use the Validator to check whether any string is a valid UUID and identify its version. Use the Decoder to extract embedded information such as timestamps from v1-like UUIDs. The last 10 generated UUIDs are saved in the History section for easy access.</li>
         </ol>
+        <div class="pro-tip"><span class="pro-tip-label">Pro Tip</span><p>UUID v7 (timestamp-ordered) is better for database primary keys than v4 (random) because its time-sorted structure keeps B-tree indexes sequential, dramatically reducing page splits and improving INSERT performance in PostgreSQL, MySQL, and other relational databases.</p></div>
+        <div class="pro-tip mistake"><span class="pro-tip-label">Common Mistake</span><p>Assuming all UUIDs are always unique without checking the version. UUID v1 includes a MAC address and timestamp but can collide if the clock is reset. UUID v4 relies on random number quality. Always verify your generator uses a cryptographically secure random source (e.g., <code>crypto.getRandomValues</code>).</p></div>
+      </section>
+
+      <!-- Use Cases -->
+      <section class="mt-4">
+        <h2>Who Uses This Tool</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+          <div class="feature-card">
+            <h3>Database Architect</h3>
+            <p>Tomasz designs distributed PostgreSQL schemas across multiple regions. He generates UUID v7 primary keys to maintain sort order while avoiding the coordination overhead of sequential integer IDs across write replicas.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Mobile App Developer</h3>
+            <p>Keiko builds offline-first iOS apps that sync to a cloud backend. She generates UUIDs on-device for new records so they can be created without network connectivity and merged later without primary key conflicts.</p>
+          </div>
+          <div class="feature-card">
+            <h3>QA Engineer</h3>
+            <p>Raj writes automated test suites that need unique identifiers for each test run. He bulk-generates hundreds of UUIDs to seed test databases with non-colliding records, ensuring deterministic and isolated test environments.</p>
+          </div>
+        </div>
       </section>
 
       <!-- FAQ Section -->
@@ -425,11 +446,11 @@
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/json">JSON Formatter</a>
-          <a href="https://toolrip.com/password">Password Generator</a>
-          <a href="https://toolrip.com/base64">Base64 Encoder/Decoder</a>
-          <a href="https://toolrip.com/qr">QR Code Generator</a>
-          <a href="https://toolrip.com/hex-rgb">Hex-RGB Converter</a>
+          <a href="https://toolrip.com/json">JSON Formatter <span class="related-desc">— Format, validate, and minify JSON with syntax highlighting</span></a>
+          <a href="https://toolrip.com/password">Password Generator <span class="related-desc">— Create strong, random passwords with custom rules</span></a>
+          <a href="https://toolrip.com/base64">Base64 Encoder/Decoder <span class="related-desc">— Encode and decode Base64 strings for APIs and data URIs</span></a>
+          <a href="https://toolrip.com/qr">QR Code Generator <span class="related-desc">— Generate QR codes for URLs, text, and contact info</span></a>
+          <a href="https://toolrip.com/hex-rgb">Hex-RGB Converter <span class="related-desc">— Convert between hex color codes and RGB values</span></a>
         </div>
       </section>
 
@@ -442,6 +463,19 @@
 
     <!-- Bottom Ad -->
     <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <section class="sources-section">
+      <h2>Sources &amp; References</h2>
+      <ul class="sources-list">
+        <li><a href="https://developer.mozilla.org/" class="citation-link" target="_blank" rel="noopener">MDN Web Docs</a> — Comprehensive web technology documentation</li>
+        <li><a href="https://datatracker.ietf.org/" class="citation-link" target="_blank" rel="noopener">IETF RFC Standards</a> — Official internet protocol specifications</li>
+        <li><a href="https://owasp.org/" class="citation-link" target="_blank" rel="noopener">OWASP Foundation</a> — Web application security standards and best practices</li>
+      </ul>
+    </section>
+    <div class="credibility-footer">
+      Developer tools follow IETF, W3C, and OWASP standards. Built with vanilla JavaScript and the Web Crypto API.
+      <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

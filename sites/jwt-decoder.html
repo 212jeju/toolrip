@@ -243,6 +243,27 @@
           <li><strong>Review the decoded output.</strong> The tool automatically splits the token into its three parts and displays them with color coding. The header section shows the signing algorithm and token type, the payload section reveals all claims and user data, and the signature section displays the raw signature bytes. Check the expiration badge to see if the token is still valid.</li>
           <li><strong>Copy and use the data.</strong> Click the <em>Copy</em> button on any decoded section to copy the formatted JSON to your clipboard. Use the claims table to quickly reference registered claims like <code>iss</code>, <code>sub</code>, <code>aud</code>, and <code>exp</code> with their human-readable descriptions and converted timestamp values.</li>
         </ol>
+        <div class="pro-tip"><span class="pro-tip-label">Pro Tip</span><p>JWT payloads are Base64-encoded, not encrypted. Anyone with access to the token can decode and read the claims. Never store sensitive data like passwords, credit card numbers, or PII in JWT payloads. Use JWE (JSON Web Encryption) if you need encrypted tokens.</p></div>
+        <div class="pro-tip mistake"><span class="pro-tip-label">Common Mistake</span><p>Using expired JWTs without checking the <code>exp</code> claim. Always validate expiration on the server side before granting access. Relying solely on client-side checks is insecure because attackers can modify client code to skip expiration validation.</p></div>
+      </section>
+
+      <!-- Use Cases -->
+      <section class="mt-4">
+        <h2>Who Uses This Tool</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+          <div class="feature-card">
+            <h3>Backend Developer</h3>
+            <p>Anya debugs authentication flows in her Node.js microservices. She decodes JWTs from failing API requests to verify that the issuer, audience, and expiration claims are set correctly before tracing the issue to the identity provider configuration.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Security Auditor</h3>
+            <p>Dario inspects tokens during penetration testing engagements. He decodes JWTs to check for overly permissive claims, missing expiration times, and sensitive data exposed in the payload, documenting findings for the security assessment report.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Mobile Developer</h3>
+            <p>Mei implements OAuth 2.0 flows in her React Native app. She decodes access and refresh tokens to verify that scopes match the requested permissions and that token lifetimes align with the app's session management strategy.</p>
+          </div>
+        </div>
       </section>
 
       <!-- Understanding JWT Section -->
@@ -347,11 +368,11 @@
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/json">JSON Formatter</a>
-          <a href="https://toolrip.com/base64">Base64 Encoder</a>
-          <a href="https://toolrip.com/uuid">UUID Generator</a>
-          <a href="https://toolrip.com/password">Password Generator</a>
-          <a href="https://toolrip.com/qr">QR Code Generator</a>
+          <a href="https://toolrip.com/json">JSON Formatter <span class="related-desc">— Format, validate, and minify JSON with syntax highlighting</span></a>
+          <a href="https://toolrip.com/base64">Base64 Encoder <span class="related-desc">— Encode and decode Base64 strings for APIs and data URIs</span></a>
+          <a href="https://toolrip.com/uuid">UUID Generator <span class="related-desc">— Generate unique identifiers (v1, v4, v7) for database keys</span></a>
+          <a href="https://toolrip.com/password">Password Generator <span class="related-desc">— Create strong, random passwords with custom rules</span></a>
+          <a href="https://toolrip.com/qr">QR Code Generator <span class="related-desc">— Generate QR codes for URLs, text, and contact info</span></a>
         </div>
       </section>
 
@@ -364,6 +385,19 @@
 
     <!-- Bottom Ad -->
     <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <section class="sources-section">
+      <h2>Sources &amp; References</h2>
+      <ul class="sources-list">
+        <li><a href="https://developer.mozilla.org/" class="citation-link" target="_blank" rel="noopener">MDN Web Docs</a> — Comprehensive web technology documentation</li>
+        <li><a href="https://datatracker.ietf.org/" class="citation-link" target="_blank" rel="noopener">IETF RFC Standards</a> — Official internet protocol specifications</li>
+        <li><a href="https://owasp.org/" class="citation-link" target="_blank" rel="noopener">OWASP Foundation</a> — Web application security standards and best practices</li>
+      </ul>
+    </section>
+    <div class="credibility-footer">
+      Developer tools follow IETF, W3C, and OWASP standards. Built with vanilla JavaScript and the Web Crypto API.
+      <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

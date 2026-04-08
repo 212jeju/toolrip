@@ -225,6 +225,8 @@
           <li><strong>Select a reverse mode</strong> — Click one of the five mode buttons to transform your text. The active mode is highlighted and the result appears instantly in the output area. Switch between modes at any time to compare different reversal styles without retyping your input.</li>
           <li><strong>Copy or download</strong> — Click "Copy Result" to place the reversed text on your clipboard for pasting elsewhere, or click "Download .txt" to save it as a plain text file. Use "Clear" to reset both fields and start over with new text.</li>
         </ol>
+        <div class="pro-tip"><span class="pro-tip-label">Pro Tip</span><p>Unicode combining characters (like accents and diacritics) and surrogate pairs (used for emoji) are separate code points that attach to the preceding base character. A proper text reversal must keep these sequences together using grapheme cluster segmentation, or the accents will detach and land on the wrong characters.</p></div>
+        <div class="pro-tip mistake"><span class="pro-tip-label">Common Mistake</span><p>Reversing text at the byte level instead of the character level breaks multi-byte UTF-8 characters. A 4-byte emoji reversed byte-by-byte produces four invalid bytes that render as garbled replacement characters. Always use Unicode-aware string reversal functions that operate on code points or grapheme clusters.</p></div>
       </section>
 
       <!-- Reverse Modes Explained -->
@@ -281,6 +283,15 @@
         <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">
           In data processing and software engineering, word-order reversal is a common transformation used in natural language processing pipelines, search index construction, and localization testing. Reversing the order of words in a sentence helps developers verify that their layout engines handle right-to-left text correctly and that word-wrapping algorithms remain robust under different content structures. It is also used in linguistic research to study how word order affects comprehension and readability across different languages.
         </p>
+      </section>
+
+      <section class="use-case-section">
+        <h2>Real-World Use Cases</h2>
+        <div class="use-case-cards">
+          <div class="use-case-card"><h3>Student</h3><p>A computer science student uses the reverse text tool to verify their palindrome-checking algorithm by comparing manual reversal output against their code's result, debugging edge cases with Unicode characters and mixed-case inputs.</p></div>
+          <div class="use-case-card"><h3>Social Media Creator</h3><p>A content creator generates upside-down and mirrored text for eye-catching Instagram bios, TikTok captions, and Discord usernames that stand out in crowded feeds and comment sections.</p></div>
+          <div class="use-case-card"><h3>QA Tester</h3><p>A QA engineer generates reversed strings to test application input validation, ensuring that forms, search bars, and APIs handle unusual character sequences gracefully without crashing or producing security vulnerabilities.</p></div>
+        </div>
       </section>
 
       <!-- FAQ Section -->
@@ -367,11 +378,11 @@
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/word-count">Word Counter</a>
-          <a href="https://toolrip.com/case">Case Converter</a>
-          <a href="https://toolrip.com/json">JSON Formatter</a>
-          <a href="https://toolrip.com/uuid">UUID Generator</a>
-          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+          <a href="https://toolrip.com/word-count"><strong>Word Counter</strong> <span>Count words, characters, sentences, and reading time</span></a>
+          <a href="https://toolrip.com/case"><strong>Case Converter</strong> <span>Transform text between uppercase, lowercase, title case, and more</span></a>
+          <a href="https://toolrip.com/json"><strong>JSON Formatter</strong> <span>Format, validate, and beautify JSON data instantly</span></a>
+          <a href="https://toolrip.com/uuid"><strong>UUID Generator</strong> <span>Generate universally unique identifiers instantly</span></a>
+          <a href="https://toolrip.com/base64"><strong>Base64 Encoder</strong> <span>Encode and decode Base64 strings online</span></a>
         </div>
       </section>
 
@@ -384,6 +395,19 @@
 
     <!-- Bottom Ad -->
     <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <section class="sources-section">
+      <h2>Sources &amp; References</h2>
+      <ul class="sources-list">
+        <li><a href="https://www.unicode.org/" class="citation-link" target="_blank" rel="noopener">Unicode Consortium</a> — International standard for text encoding and character sets</li>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="citation-link" target="_blank" rel="noopener">MDN String Reference</a> — JavaScript string methods used in these tools</li>
+        <li><a href="https://developers.google.com/search/docs/fundamentals/seo-starter-guide" class="citation-link" target="_blank" rel="noopener">Google SEO Starter Guide</a> — Best practices for URL structure and content optimization</li>
+      </ul>
+    </section>
+    <div class="credibility-footer">
+      Text processing tools handle Unicode correctly following W3C internationalization standards.
+      <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

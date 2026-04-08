@@ -270,6 +270,27 @@
           <li><strong>Click Convert.</strong> The tool parses your input and displays a formatted JSON array in the output panel. If headers are enabled, each row becomes an object with header names as keys. If headers are disabled, you get a two-dimensional array of arrays. Stats below the output show the total number of rows, columns, and fields processed.</li>
           <li><strong>Copy or continue editing.</strong> Click the <em>Copy Output</em> button to send the result to your clipboard. Switch to the JSON to CSV tab to perform the reverse conversion. All processing happens instantly with no page reload.</li>
         </ol>
+        <div class="pro-tip"><span class="pro-tip-label">Pro Tip</span><p>RFC 4180 is the de facto standard for CSV formatting. It specifies that fields containing commas, double quotes, or newlines must be enclosed in double quotes, and double quotes within a field must be escaped by doubling them (<code>""</code>). Following this standard prevents most parsing errors.</p></div>
+        <div class="pro-tip mistake"><span class="pro-tip-label">Common Mistake</span><p>Not quoting fields that contain the delimiter character. If a field value includes a comma (e.g., "New York, NY") and is not enclosed in double quotes, the parser will split it into two separate columns, silently corrupting every subsequent field in that row.</p></div>
+      </section>
+
+      <!-- Use Cases -->
+      <section class="mt-4">
+        <h2>Who Uses This Tool</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+          <div class="feature-card">
+            <h3>Data Analyst</h3>
+            <p>Grace exports sales data from Google Sheets as CSV and converts it to JSON for a dashboard API. She verifies that date fields and currency values survive the conversion correctly before feeding the data into her D3.js visualizations.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Backend Developer</h3>
+            <p>Mateo builds a bulk import endpoint that accepts JSON but receives CSV files from non-technical stakeholders. He converts their spreadsheets to JSON here to test the API, then implements the same parsing logic in his Python service.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Data Engineer</h3>
+            <p>Aiko migrates legacy flat-file data into a MongoDB document store. She converts million-row CSV exports to JSON arrays, validates the structure matches her schema, and then bulk-inserts them using <code>mongoimport</code>.</p>
+          </div>
+        </div>
       </section>
 
       <!-- About CSV and JSON -->
@@ -395,11 +416,11 @@
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/json">JSON Formatter</a>
-          <a href="https://toolrip.com/base64">Base64 Encoder</a>
-          <a href="https://toolrip.com/uuid">UUID Generator</a>
-          <a href="https://toolrip.com/word-count">Word Counter</a>
-          <a href="https://toolrip.com/case">Case Converter</a>
+          <a href="https://toolrip.com/json">JSON Formatter <span class="related-desc">— Format, validate, and minify JSON with syntax highlighting</span></a>
+          <a href="https://toolrip.com/base64">Base64 Encoder <span class="related-desc">— Encode and decode Base64 strings for APIs and data URIs</span></a>
+          <a href="https://toolrip.com/uuid">UUID Generator <span class="related-desc">— Generate unique identifiers (v1, v4, v7) for database keys</span></a>
+          <a href="https://toolrip.com/word-count">Word Counter <span class="related-desc">— Count words, characters, sentences, and reading time</span></a>
+          <a href="https://toolrip.com/case">Case Converter <span class="related-desc">— Convert between camelCase, snake_case, kebab-case, and more</span></a>
         </div>
       </section>
 
@@ -412,6 +433,19 @@
 
     <!-- Bottom Ad -->
     <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <section class="sources-section">
+      <h2>Sources &amp; References</h2>
+      <ul class="sources-list">
+        <li><a href="https://developer.mozilla.org/" class="citation-link" target="_blank" rel="noopener">MDN Web Docs</a> — Comprehensive web technology documentation</li>
+        <li><a href="https://datatracker.ietf.org/" class="citation-link" target="_blank" rel="noopener">IETF RFC Standards</a> — Official internet protocol specifications</li>
+        <li><a href="https://owasp.org/" class="citation-link" target="_blank" rel="noopener">OWASP Foundation</a> — Web application security standards and best practices</li>
+      </ul>
+    </section>
+    <div class="credibility-footer">
+      Developer tools follow IETF, W3C, and OWASP standards. Built with vanilla JavaScript and the Web Crypto API.
+      <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

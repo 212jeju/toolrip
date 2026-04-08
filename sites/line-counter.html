@@ -269,6 +269,8 @@
           <li><strong>Apply transformations</strong> — Use the options bar to sort lines alphabetically or by length, remove empty lines, or prepend line numbers. The text area updates in place so you can immediately see and copy the transformed result.</li>
           <li><strong>Copy and export</strong> — Click "Copy Result" to copy the processed text (with any active transformations applied) or click "Copy Stats" to copy the full statistics summary to your clipboard for use in reports, documentation, or messages.</li>
         </ol>
+        <div class="pro-tip"><span class="pro-tip-label">Pro Tip</span><p>Line endings differ across operating systems: Windows uses CRLF (\r\n), Unix/Linux/macOS uses LF (\n), and classic Mac OS used CR (\r). When comparing line counts between tools, ensure they handle the same line ending convention, or normalize first to avoid off-by-one discrepancies.</p></div>
+        <div class="pro-tip mistake"><span class="pro-tip-label">Common Mistake</span><p>An empty last line (trailing newline) is counted differently by different tools. The Unix "wc -l" command counts newline characters, so a file ending without a trailing newline reports one fewer line than expected. Always check whether your tool counts terminators or separators to avoid confusion in scripts and CI pipelines.</p></div>
       </section>
 
       <!-- Long-form Content Section -->
@@ -289,6 +291,15 @@
         <p style="color:var(--text-muted);line-height:1.8">
           Our line counter runs entirely in your browser, ensuring that sensitive code, proprietary log data, and confidential text never leave your device. There is no server-side processing, no upload, and no storage. This makes it safe for use with production logs containing IP addresses, internal configuration files with environment variables, or unreleased source code that must remain confidential. Every calculation is performed in real time using JavaScript, so results appear as fast as you can type.
         </p>
+      </section>
+
+      <section class="use-case-section">
+        <h2>Real-World Use Cases</h2>
+        <div class="use-case-cards">
+          <div class="use-case-card"><h3>Developer</h3><p>A software engineer counts lines of code across module files to identify oversized components that should be refactored, using the duplicate line count to spot copy-pasted code blocks that could be extracted into shared utilities.</p></div>
+          <div class="use-case-card"><h3>Data Analyst</h3><p>A data analyst counts rows in a CSV export to verify that the record count matches the database query result, catching truncated exports or encoding errors that silently drop rows during file generation.</p></div>
+          <div class="use-case-card"><h3>DevOps Engineer</h3><p>A DevOps engineer counts lines in server access logs to calculate request rates per hour, using the empty line removal feature to clean up malformed log entries before feeding data into a monitoring dashboard.</p></div>
+        </div>
       </section>
 
       <!-- FAQ Section -->
@@ -397,11 +408,11 @@
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/word-count">Word Counter</a>
-          <a href="https://toolrip.com/case">Case Converter</a>
-          <a href="https://toolrip.com/json">JSON Formatter</a>
-          <a href="https://toolrip.com/uuid">UUID Generator</a>
-          <a href="https://toolrip.com/base64">Base64 Encoder</a>
+          <a href="https://toolrip.com/word-count"><strong>Word Counter</strong> <span>Count words, characters, sentences, and reading time</span></a>
+          <a href="https://toolrip.com/case"><strong>Case Converter</strong> <span>Transform text between uppercase, lowercase, title case, and more</span></a>
+          <a href="https://toolrip.com/json"><strong>JSON Formatter</strong> <span>Format, validate, and beautify JSON data instantly</span></a>
+          <a href="https://toolrip.com/uuid"><strong>UUID Generator</strong> <span>Generate universally unique identifiers instantly</span></a>
+          <a href="https://toolrip.com/base64"><strong>Base64 Encoder</strong> <span>Encode and decode Base64 strings online</span></a>
         </div>
       </section>
 
@@ -414,6 +425,19 @@
 
     <!-- Bottom Ad -->
     <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <section class="sources-section">
+      <h2>Sources &amp; References</h2>
+      <ul class="sources-list">
+        <li><a href="https://www.unicode.org/" class="citation-link" target="_blank" rel="noopener">Unicode Consortium</a> — International standard for text encoding and character sets</li>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="citation-link" target="_blank" rel="noopener">MDN String Reference</a> — JavaScript string methods used in these tools</li>
+        <li><a href="https://developers.google.com/search/docs/fundamentals/seo-starter-guide" class="citation-link" target="_blank" rel="noopener">Google SEO Starter Guide</a> — Best practices for URL structure and content optimization</li>
+      </ul>
+    </section>
+    <div class="credibility-footer">
+      Text processing tools handle Unicode correctly following W3C internationalization standards.
+      <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

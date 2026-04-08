@@ -298,6 +298,8 @@
           <li><strong>Click Compare</strong> — Press the Compare button to generate the diff. The tool splits both texts into lines, runs the LCS algorithm, and renders a side-by-side comparison below the input areas. Green-highlighted lines are additions, red-highlighted lines are deletions, and plain lines are unchanged.</li>
           <li><strong>Review the results</strong> — Scroll through the diff output to examine each change. The statistics bar shows the total count of added, removed, and unchanged lines for a quick summary. Use the Swap button to reverse the comparison direction or Copy Diff to export the results.</li>
         </ol>
+        <div class="pro-tip"><span class="pro-tip-label">Pro Tip</span><p>Character-level diff is invaluable for catching subtle swaps like the digit zero (0) versus the letter O, or the digit one (1) versus the lowercase letter l. These visually identical substitutions are common in credentials, serial numbers, and configuration values, and a line-level diff alone may not make them obvious.</p></div>
+        <div class="pro-tip mistake"><span class="pro-tip-label">Common Mistake</span><p>Comparing files with different line endings (CRLF on Windows vs LF on Unix) can produce false positives where every single line appears changed even though the actual content is identical. Always normalize line endings before comparing, or use a diff tool that handles mixed line endings transparently.</p></div>
       </section>
 
       <!-- Understanding Text Diffs -->
@@ -312,6 +314,15 @@
         <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">There are several levels of granularity at which text comparison can operate. Line-level diffs, which this tool performs, treat each line as an atomic unit and are the standard for code review, configuration auditing, and document versioning. Word-level diffs break lines into individual words and highlight exactly which terms changed within a line. Character-level diffs go even further, pinpointing individual character modifications. Each granularity level trades off between readability and precision, and line-level diffing strikes the best balance for general-purpose text comparison.</p>
 
         <p style="color:var(--text-muted);line-height:1.7;margin-bottom:var(--sp-3)">Common use cases for text diff tools span many disciplines. Developers use diffs during code review to verify that pull requests contain only the intended modifications. System administrators compare configuration files before and after deployments to catch unintended changes. Writers and editors track revisions across document drafts to ensure that feedback has been incorporated correctly. Legal professionals compare contract versions to identify altered clauses or terms. Data engineers validate migration scripts by diffing database exports before and after transformations. Quality assurance teams compare API responses across different environments to detect regressions. In every case, a reliable diff tool saves time, reduces errors, and provides confidence that changes are correct and complete.</p>
+      </section>
+
+      <section class="use-case-section">
+        <h2>Real-World Use Cases</h2>
+        <div class="use-case-cards">
+          <div class="use-case-card"><h3>Developer Comparing Configs</h3><p>A DevOps engineer pastes production and staging NGINX config files side by side to identify which directives were changed during a deployment, catching unintended modifications before they affect live traffic.</p></div>
+          <div class="use-case-card"><h3>Technical Writer</h3><p>A documentation writer compares two versions of an API reference to verify that all reviewer feedback has been incorporated, using the diff output as a checklist for the editorial sign-off process.</p></div>
+          <div class="use-case-card"><h3>QA Tester</h3><p>A QA engineer compares API response bodies from two different environments to detect regressions, ensuring that a new release returns identical JSON structures and values as the previous stable version.</p></div>
+        </div>
       </section>
 
       <!-- FAQ Section -->
@@ -402,11 +413,11 @@
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/word-count">Word Counter</a>
-          <a href="https://toolrip.com/case">Case Converter</a>
-          <a href="https://toolrip.com/json">JSON Formatter</a>
-          <a href="https://toolrip.com/base64">Base64 Encoder</a>
-          <a href="https://toolrip.com/uuid">UUID Generator</a>
+          <a href="https://toolrip.com/word-count"><strong>Word Counter</strong> <span>Count words, characters, sentences, and reading time</span></a>
+          <a href="https://toolrip.com/case"><strong>Case Converter</strong> <span>Transform text between uppercase, lowercase, title case, and more</span></a>
+          <a href="https://toolrip.com/json"><strong>JSON Formatter</strong> <span>Format, validate, and beautify JSON data instantly</span></a>
+          <a href="https://toolrip.com/base64"><strong>Base64 Encoder</strong> <span>Encode and decode Base64 strings online</span></a>
+          <a href="https://toolrip.com/uuid"><strong>UUID Generator</strong> <span>Generate universally unique identifiers instantly</span></a>
         </div>
       </section>
 
@@ -419,6 +430,19 @@
 
     <!-- Bottom Ad -->
     <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+
+    <section class="sources-section">
+      <h2>Sources &amp; References</h2>
+      <ul class="sources-list">
+        <li><a href="https://www.unicode.org/" class="citation-link" target="_blank" rel="noopener">Unicode Consortium</a> — International standard for text encoding and character sets</li>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="citation-link" target="_blank" rel="noopener">MDN String Reference</a> — JavaScript string methods used in these tools</li>
+        <li><a href="https://developers.google.com/search/docs/fundamentals/seo-starter-guide" class="citation-link" target="_blank" rel="noopener">Google SEO Starter Guide</a> — Best practices for URL structure and content optimization</li>
+      </ul>
+    </section>
+    <div class="credibility-footer">
+      Text processing tools handle Unicode correctly following W3C internationalization standards.
+      <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

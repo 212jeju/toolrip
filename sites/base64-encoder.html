@@ -258,6 +258,27 @@
           <li><strong>Enter your data.</strong> Type or paste your content into the input textarea. For file encoding, drag and drop any file onto the upload zone or click to browse. The tool accepts all file types including images, PDFs, documents, and binary files. The byte size of your input updates in real time as you type.</li>
           <li><strong>Process and copy.</strong> Click the <em>Encode</em> or <em>Decode</em> button to transform your data. The result appears instantly in the output area along with byte size statistics and the encoding ratio. Click <em>Copy Output</em> or the <em>Copy</em> button in the output area to send the result to your clipboard for use in your code, configuration, or any other application.</li>
         </ol>
+        <div class="pro-tip"><span class="pro-tip-label">Pro Tip</span><p>Base64 encoding increases data size by exactly 33% — every 3 bytes of input become 4 characters of output. Keep this overhead in mind when embedding images or files as data URIs, and prefer this technique only for assets under a few kilobytes.</p></div>
+        <div class="pro-tip mistake"><span class="pro-tip-label">Common Mistake</span><p>Base64 is encoding, not encryption. It provides zero security — anyone can decode a Base64 string instantly. Never use Base64 to "protect" passwords, API keys, or sensitive data. Use proper encryption (AES, RSA) or hashing (bcrypt, Argon2) instead.</p></div>
+      </section>
+
+      <!-- Use Cases -->
+      <section class="mt-4">
+        <h2>Who Uses This Tool</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+          <div class="feature-card">
+            <h3>API Developer</h3>
+            <p>Sarah builds microservices that exchange binary payloads over JSON APIs. She encodes images and PDF attachments to Base64 before embedding them in request bodies, ensuring binary data survives text-only transport layers without corruption.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Email Template Designer</h3>
+            <p>James creates HTML email campaigns with inline images. He converts small logos and icons to Base64 data URIs so they display reliably across email clients without requiring external image hosting or dealing with blocked remote images.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Security Engineer</h3>
+            <p>Lin inspects JWT tokens and HTTP Basic Auth headers daily. She decodes Base64 payloads to verify token claims, check expiration times, and audit authentication flows during penetration testing engagements.</p>
+          </div>
+        </div>
       </section>
 
       <!-- FAQ Section -->
@@ -331,11 +352,11 @@
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/json">JSON Formatter</a>
-          <a href="https://toolrip.com/uuid">UUID Generator</a>
-          <a href="https://toolrip.com/password">Password Generator</a>
-          <a href="https://toolrip.com/qr">QR Code Generator</a>
-          <a href="https://toolrip.com/hex-rgb">Hex-RGB Converter</a>
+          <a href="https://toolrip.com/json">JSON Formatter <span class="related-desc">— Format, validate, and minify JSON with syntax highlighting</span></a>
+          <a href="https://toolrip.com/uuid">UUID Generator <span class="related-desc">— Generate unique identifiers (v1, v4, v7) for database keys</span></a>
+          <a href="https://toolrip.com/password">Password Generator <span class="related-desc">— Create strong, random passwords with custom rules</span></a>
+          <a href="https://toolrip.com/qr">QR Code Generator <span class="related-desc">— Generate QR codes for URLs, text, and contact info</span></a>
+          <a href="https://toolrip.com/hex-rgb">Hex-RGB Converter <span class="related-desc">— Convert between hex color codes and RGB values</span></a>
         </div>
       </section>
 
@@ -348,6 +369,19 @@
 
     <!-- Bottom Ad -->
     <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <section class="sources-section">
+      <h2>Sources &amp; References</h2>
+      <ul class="sources-list">
+        <li><a href="https://developer.mozilla.org/" class="citation-link" target="_blank" rel="noopener">MDN Web Docs</a> — Comprehensive web technology documentation</li>
+        <li><a href="https://datatracker.ietf.org/" class="citation-link" target="_blank" rel="noopener">IETF RFC Standards</a> — Official internet protocol specifications</li>
+        <li><a href="https://owasp.org/" class="citation-link" target="_blank" rel="noopener">OWASP Foundation</a> — Web application security standards and best practices</li>
+      </ul>
+    </section>
+    <div class="credibility-footer">
+      Developer tools follow IETF, W3C, and OWASP standards. Built with vanilla JavaScript and the Web Crypto API.
+      <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

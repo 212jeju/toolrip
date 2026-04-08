@@ -345,42 +345,50 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "What is the difference between BMR and TDEE?",
+        "name": "How do I calculate my calorie deficit without losing muscle mass?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "BMR (Basal Metabolic Rate) is the number of calories your body burns at complete rest just to maintain basic life-sustaining functions like breathing, circulation, and cell production. TDEE (Total Daily Energy Expenditure) is your BMR multiplied by an activity factor that accounts for all physical activity throughout the day, giving you the total calories you actually burn in a 24-hour period."
+          "text": "Set your deficit at 500 calories below your TDEE and keep protein intake at 1.6-2.2 g per kg of body weight. Add resistance training 2-3 times per week to signal your body to retain muscle. Avoid deficits larger than 750 calories unless supervised by a dietitian."
         }
       },
       {
         "@type": "Question",
-        "name": "What is the Mifflin-St Jeor equation?",
+        "name": "Why does my weight loss stall even though I am eating below my TDEE?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The Mifflin-St Jeor equation is a formula developed in 1990 that is widely considered the most accurate method for estimating BMR. For men: BMR = 10 × weight(kg) + 6.25 × height(cm) - 5 × age + 5. For women: BMR = 10 × weight(kg) + 6.25 × height(cm) - 5 × age - 161."
+          "text": "Your TDEE decreases as you lose weight because a lighter body has a lower BMR. Recalculate your TDEE at your current weight, add a refeed day at maintenance calories once per week, and increase non-exercise activity like walking to break through plateaus."
         }
       },
       {
         "@type": "Question",
-        "name": "How many calories should I eat to lose weight?",
+        "name": "How do I pick the right activity level if I have a desk job but exercise daily?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "To lose weight safely, most health professionals recommend a caloric deficit of 500 calories per day below your TDEE, which results in approximately one pound of weight loss per week. A milder deficit of 250 calories produces slower but more sustainable results, while extreme deficits of 1000 calories should only be undertaken with medical supervision."
+          "text": "Most people with sedentary jobs who exercise 30-60 minutes per day should select Lightly Active. The activity multiplier accounts for total daily movement, not just gym time. Start with the lower estimate, track your weight for two weeks, and adjust upward if losing faster than planned."
         }
       },
       {
         "@type": "Question",
-        "name": "How accurate is a TDEE calculator?",
+        "name": "How many extra calories do I need to build muscle without gaining excess fat?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "TDEE calculators provide a scientifically-based estimate that is accurate within approximately 10% for most people. Individual variations in metabolism, genetics, body composition, and daily activity levels mean the calculated value should be treated as a starting point. Track your weight and adjust your calorie intake over 2-4 weeks for more precise results."
+          "text": "A caloric surplus of 200-350 calories above your TDEE is sufficient for most natural lifters. Combine with progressive resistance training and 1.6-2.0 g protein per kg of body weight to optimize the muscle-to-fat gain ratio."
         }
       },
       {
         "@type": "Question",
-        "name": "What activity level should I choose?",
+        "name": "Should I eat back the calories burned during exercise?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Choose Sedentary if you have a desk job and do little to no exercise. Lightly Active fits if you exercise 1-3 days per week. Moderately Active is for those exercising 3-5 days per week. Very Active covers intense exercise 6-7 days per week. Extra Active is reserved for athletes training twice daily or those with extremely physical jobs."
+          "text": "Partially, but not fully. Calorie burn estimates from fitness trackers overestimate actual expenditure by 20-50%. If your TDEE already includes your activity level, exercise calories are already factored in. Eat back about half on heavy training days and adjust based on weekly weight trends."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I adjust my calorie intake for intermittent fasting?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Intermittent fasting changes when you eat, not how much. Your total daily calorie target remains the same regardless of your eating window. Plan for 3 meals with 30-40 g of protein each within your eating window to ensure adequate protein intake."
         }
       }
     ]
@@ -576,6 +584,14 @@
           <li><strong>Choose your activity level</strong> — Be honest about your typical weekly activity. Overestimating activity is the most common mistake people make when using a TDEE calculator. If in doubt, choose one level lower than you think.</li>
           <li><strong>Click "Calculate" and review results</strong> — Your BMR, TDEE, and goal-based calorie targets will appear instantly along with a visual comparison chart and macronutrient breakdown for each goal. Use the maintenance calories as your baseline and adjust based on your fitness objective.</li>
         </ol>
+<div class="pro-tip">
+  <span class="pro-tip-label">Pro Tip</span>
+  <p>The Mifflin-St Jeor equation used in this calculator is the most accurate for estimating resting metabolic rate, according to a review by the American Dietetic Association. It replaced the older Harris-Benedict equation as the clinical standard.</p>
+</div>
+<div class="pro-tip mistake">
+  <span class="pro-tip-label">Common Mistake</span>
+  <p>Setting an aggressive calorie deficit below your BMR. Eating less than your basal metabolic rate can trigger metabolic adaptation, where your body lowers its energy expenditure. A deficit of 500 calories below your TDEE — not your BMR — is the recommended approach for sustainable weight loss of about 0.5 kg per week.</p>
+</div>
       </section>
 
       <!-- Understanding TDEE -->
@@ -587,38 +603,57 @@
         <p style="color:var(--text-muted);line-height:1.8">Once you know your TDEE, managing your weight becomes a matter of energy balance. Eating fewer calories than your TDEE creates a caloric deficit that forces your body to draw on stored energy reserves, leading to weight loss over time. Conversely, eating more than your TDEE provides a caloric surplus that supports muscle growth when paired with resistance training. A moderate deficit of 500 calories per day typically produces about one pound of weight loss per week, which is widely regarded as a safe and sustainable rate. For muscle gain, a surplus of 250 to 500 calories is generally sufficient to support hypertrophy without excessive fat accumulation.</p>
       </section>
 
+      <!-- Use Cases -->
+      <section class="mt-4">
+        <h2>Who Uses a Calorie Calculator?</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Dietitian Creating Client Meal Plans</h3>
+            <p>A registered dietitian calculates each client's TDEE as the first step in building a personalized meal plan. By knowing the exact calorie budget, they can distribute macronutrients across five to six meals, ensuring adequate protein for muscle preservation while creating a manageable deficit. The TDEE serves as the scientific foundation that separates evidence-based nutrition counseling from generic diet advice.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Athlete in Competition Prep</h3>
+            <p>A competitive bodybuilder or combat sport athlete uses TDEE tracking during 12-16 week contest prep phases. They start at maintenance calories, then progressively reduce intake by 10-15% every few weeks while monitoring weight loss rate. Knowing their exact TDEE prevents the common mistake of cutting calories too aggressively, which leads to muscle loss and metabolic slowdown before competition day.</p>
+          </div>
+          <div class="feature-card">
+            <h3>New Parent Managing Postpartum Nutrition</h3>
+            <p>A new parent recovering from pregnancy needs accurate calorie targets that account for the energy demands of breastfeeding (an additional 300-500 calories per day) and disrupted sleep patterns. Calculating TDEE with the correct activity level helps avoid undereating during recovery while supporting gradual return to pre-pregnancy weight without compromising milk supply or energy levels.</p>
+          </div>
+        </div>
+      </section>
+
       <!-- FAQ Section -->
       <section class="faq-section">
         <h2>Frequently Asked Questions</h2>
 
         <details class="faq-item">
-          <summary>What is the difference between BMR and TDEE?</summary>
-          <p>Basal Metabolic Rate (BMR) is the number of calories your body needs to sustain basic life functions while at complete rest. This includes processes such as breathing, blood circulation, cell production, nutrient processing, and maintaining body temperature. BMR represents the minimum energy requirement for survival if you were to stay in bed all day without any physical movement. Total Daily Energy Expenditure (TDEE), on the other hand, takes your BMR and multiplies it by an activity factor to account for all the additional calories burned through daily activities, exercise, and the thermic effect of digesting food. In practical terms, TDEE is the number you should use when planning your daily calorie intake because it reflects your actual energy needs throughout a normal day, not just the baseline resting metabolism. For most people, TDEE is anywhere from 20 to 90 percent higher than their BMR depending on how physically active they are throughout the week.</p>
+          <summary>How do I calculate my calorie deficit without losing muscle mass?</summary>
+          <p>Set your deficit at 500 calories below your TDEE (not your BMR) and keep protein intake at 1.6-2.2 g per kg of body weight. Research in the Journal of the International Society of Sports Nutrition shows that high-protein diets preserve lean mass during calorie restriction. Add resistance training 2-3 times per week to signal your body to retain muscle. Avoid deficits larger than 750 calories unless supervised by a dietitian, as aggressive cuts increase cortisol levels that promote muscle breakdown. Track your weight weekly — losing more than 1% of body weight per week usually means you are losing muscle along with fat.</p>
         </details>
 
         <details class="faq-item">
-          <summary>What is the Mifflin-St Jeor equation and why do you use it?</summary>
-          <p>The Mifflin-St Jeor equation is a mathematical formula published in 1990 by Dr. Mark Mifflin and Dr. Sachiko St Jeor for estimating Basal Metabolic Rate. The formula for men is BMR = (10 times weight in kilograms) + (6.25 times height in centimeters) minus (5 times age in years) + 5, and for women the same calculation minus 161 instead of plus 5. We use this equation because it has been extensively validated in clinical research and is recommended by the American Dietetic Association as the most accurate predictive equation for estimating resting metabolic rate in healthy non-obese and obese adults. Compared to the older Harris-Benedict equation from 1919, which was based on data from a less diverse population and tends to overestimate calorie needs by 5 to 15 percent, the Mifflin-St Jeor equation provides more accurate results for modern populations with varying body compositions and lifestyles.</p>
+          <summary>Why does my weight loss stall even though I am eating below my TDEE?</summary>
+          <p>Weight loss plateaus occur because your TDEE decreases as you lose weight. A person who has lost 10 kg has a lower BMR than before, so the same calorie intake that created a deficit three months ago may now be at maintenance. Additionally, metabolic adaptation can reduce energy expenditure by 5-15% beyond what weight loss alone predicts. To break through: recalculate your TDEE at your current weight, add a refeed day at maintenance calories once per week to reset hunger hormones, and increase non-exercise activity like walking. Water retention from stress or high sodium can also mask fat loss for 2-3 weeks at a time.</p>
         </details>
 
         <details class="faq-item">
-          <summary>How many calories should I eat to lose weight?</summary>
-          <p>To lose weight, you need to create a caloric deficit by consuming fewer calories than your TDEE. A deficit of 500 calories per day below your TDEE is the most commonly recommended target, as it typically results in approximately one pound (0.45 kilograms) of weight loss per week. This rate is considered safe and sustainable by most health organizations. For those who prefer a gentler approach, a mild deficit of 250 calories produces slower but often more adherent results, reducing the feelings of hunger and fatigue that can accompany larger deficits. Extreme deficits of 1000 calories per day can lead to faster initial weight loss but carry higher risks of muscle loss, nutritional deficiencies, metabolic slowdown, and are generally difficult to maintain long-term. Regardless of the deficit size you choose, it is important to consume adequate protein (at least 0.7 to 1 gram per pound of body weight) to preserve lean muscle mass during the weight loss process.</p>
+          <summary>How do I pick the right activity level if I have a desk job but exercise daily?</summary>
+          <p>Most people with sedentary jobs who exercise 30-60 minutes per day should select "Lightly Active" rather than "Moderately Active." The activity multiplier accounts for total daily movement, not just gym time. Sitting 8-10 hours at a desk dramatically reduces your non-exercise activity thermogenesis (NEAT), which can account for 15-50% of daily calorie burn. If your step count is below 7,000 on non-exercise days, "Lightly Active" is likely more accurate. Start with the lower estimate, track your weight for two weeks, and adjust upward by 100-200 calories if you are losing faster than planned.</p>
         </details>
 
         <details class="faq-item">
-          <summary>How accurate is a TDEE calculator?</summary>
-          <p>TDEE calculators provide a scientifically-grounded estimate that serves as an excellent starting point for nutrition planning. Research shows the Mifflin-St Jeor equation predicts resting metabolic rate within 10 percent accuracy for approximately 80 percent of the general population. However, individual metabolic rates can vary significantly due to factors such as genetics, body composition (specifically the ratio of muscle to fat), hormonal status, sleep quality, stress levels, ambient temperature, and even gut microbiome composition. The activity multiplier introduces additional variability because self-reported activity levels are inherently subjective. For these reasons, the calculated TDEE should be treated as a starting estimate rather than an absolute number. The most effective approach is to use your calculated TDEE for two to four weeks while tracking your weight changes, then adjust your intake up or down by 100 to 200 calories based on real-world results until you find the intake that matches your goals.</p>
+          <summary>How many extra calories do I need to build muscle without gaining excess fat?</summary>
+          <p>A caloric surplus of 200-350 calories above your TDEE is sufficient for most natural lifters to maximize muscle protein synthesis without excessive fat gain. The common advice of "eating big to get big" with 500+ calorie surpluses results in unnecessary fat accumulation, especially for intermediate and advanced trainees whose rate of muscle gain slows over time. Beginners can gain roughly 1 kg of muscle per month, so a moderate surplus combined with progressive resistance training and 1.6-2.0 g protein per kg of body weight optimizes the muscle-to-fat gain ratio. Track your waist circumference alongside body weight to ensure most gains are lean tissue.</p>
         </details>
 
         <details class="faq-item">
-          <summary>What activity level should I choose?</summary>
-          <p>Selecting the correct activity level is crucial for an accurate TDEE estimate. Sedentary (multiplier of 1.2) applies to people with desk jobs who perform little to no intentional exercise and primarily commute by car. Lightly Active (1.375) describes someone who performs light exercise such as walking or yoga one to three days per week in addition to normal daily activities. Moderately Active (1.55) fits individuals who engage in moderate exercise like jogging, cycling, or swimming three to five days per week. Very Active (1.725) is appropriate for people who participate in hard exercise or sports six to seven days per week and may also have somewhat physical jobs. Extra Active (1.9) is reserved for professional athletes, military personnel in training, or individuals who perform very hard exercise twice per day. A common mistake is overestimating activity level; if you are unsure, it is better to select one level below your initial estimate and adjust upward based on real-world weight trends over time.</p>
+          <summary>Should I eat back the calories burned during exercise?</summary>
+          <p>Partially, but not fully. Calorie burn estimates from fitness trackers and gym machines overestimate actual expenditure by 20-50% according to Stanford University research. If your TDEE already includes your activity level, exercise calories are already factored in — eating them back creates a surplus. The exception is endurance athletes doing 90+ minutes of intense training, who need additional fuel to prevent performance decline. For most people, a practical approach is to eat back about half of estimated exercise calories on heavy training days and none on rest days, then adjust based on weekly weight trends.</p>
         </details>
 
         <details class="faq-item">
-          <summary>What are macronutrients and why do they matter?</summary>
-          <p>Macronutrients are the three main categories of nutrients that provide calories and energy to your body: protein, carbohydrates, and fat. Protein (4 calories per gram) is essential for building and repairing muscle tissue, supporting immune function, and producing enzymes and hormones. Carbohydrates (4 calories per gram) are the body's preferred energy source for high-intensity physical activity and brain function. Fat (9 calories per gram) supports hormone production, nutrient absorption, cell membrane integrity, and provides a concentrated source of energy. The macronutrient split used in this calculator is 30 percent protein, 40 percent carbohydrates, and 30 percent fat, which represents a balanced distribution suitable for most general fitness and health goals. However, optimal macro ratios can vary based on individual factors such as training intensity, body composition goals, metabolic conditions, and personal dietary preferences, so you may wish to adjust these ratios in consultation with a nutrition professional.</p>
+          <summary>How do I adjust my calorie intake for intermittent fasting?</summary>
+          <p>Intermittent fasting changes when you eat, not how much. Your total daily calorie target remains the same regardless of your eating window. A person with a TDEE of 2,200 calories using a 16:8 fasting protocol still needs 2,200 calories — just consumed within 8 hours. The practical challenge is fitting adequate protein across fewer meals. Plan for 3 meals with 30-40 g of protein each within your eating window. Avoid compensating for fasting hours by eating calorie-dense, low-nutrient foods. If you feel excessively hungry or fatigued, your eating window may be too narrow for your activity level.</p>
         </details>
       </section>
 
@@ -672,17 +707,54 @@
         <p style="font-size:0.85em;color:var(--text);opacity:0.7;margin-top:var(--sp-3)"><em>Disclaimer: Calorie estimates are approximations. Individual needs vary based on genetics, body composition, hormones, and medical conditions. Consult a registered dietitian for personalized guidance.</em></p>
       </section>
 
+      <!-- Comparison Section -->
+      <section class="mt-4">
+        <h2>How This Calorie Calculator Compares</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <h3>Toolrip vs. MyFitnessPal</h3>
+            <p>MyFitnessPal requires account creation and is designed as a full food-logging platform. Toolrip gives you instant TDEE and BMR results with macronutrient breakdowns across six goal scenarios without sign-up, app installation, or daily logging commitment. For users who need a quick calorie target without adopting a tracking ecosystem, Toolrip is faster and more private.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Toolrip vs. Fitbit / Apple Health</h3>
+            <p>Wearable ecosystems estimate calorie burn from sensor data but lock results behind proprietary apps and require hardware purchases. Toolrip uses the clinically validated Mifflin-St Jeor equation to calculate TDEE from any browser, provides goal-specific calorie targets with macro splits, and works on any device without subscriptions or syncing requirements.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Toolrip vs. NHS Calorie Checker</h3>
+            <p>The NHS calorie tools provide trustworthy guidance but spread information across multiple pages and offer limited customization for fitness goals. Toolrip delivers BMR, TDEE, six calorie targets from extreme weight loss to lean bulk, visual bar charts, and full macronutrient breakdowns — all on a single page with no geographic restrictions.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sources Section -->
+      <section class="mt-4">
+        <h2>Sources and References</h2>
+        <ul style="color:var(--text-muted);line-height:2;padding-left:1.25rem;font-size:0.95rem">
+          <li><a href="https://www.who.int/" target="_blank" rel="noopener">World Health Organization (WHO)</a> — Global dietary energy requirements and nutrition guidelines</li>
+          <li><a href="https://www.cdc.gov/" target="_blank" rel="noopener">Centers for Disease Control and Prevention (CDC)</a> — Healthy weight management and calorie balance recommendations</li>
+          <li><a href="https://www.mayoclinic.org/" target="_blank" rel="noopener">Mayo Clinic</a> — Calorie counting, weight management strategies, and metabolic rate information</li>
+          <li><a href="https://www.acsm.org/" target="_blank" rel="noopener">American College of Sports Medicine (ACSM)</a> — Exercise energy expenditure and activity level classification guidelines</li>
+          <li><a href="https://www.heart.org/" target="_blank" rel="noopener">American Heart Association</a> — Dietary recommendations for cardiovascular health and weight management</li>
+        </ul>
+      </section>
+
       <!-- Related Tools -->
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
+          <a href="https://toolrip.com/bmr">BMR Calculator</a>
+          <a href="https://toolrip.com/macro">Macro Calculator</a>
           <a href="https://toolrip.com/bmi">BMI Calculator</a>
-          <a href="https://toolrip.com/percentage">Percentage Calculator</a>
-          <a href="https://toolrip.com/fraction">Fraction Calculator</a>
-          <a href="https://toolrip.com/age">Age Calculator</a>
-          <a href="https://toolrip.com/length">Length Converter</a>
+          <a href="https://toolrip.com/body-fat">Body Fat Calculator</a>
+          <a href="https://toolrip.com/ideal-weight">Ideal Weight Calculator</a>
+          <a href="https://toolrip.com/water-intake">Water Intake Calculator</a>
         </div>
       </section>
+
+      <div class="credibility-footer">
+        Health calculators reference guidelines from WHO, CDC, and the American College of Sports Medicine. These tools provide estimates and are not a substitute for professional medical advice.
+        <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+      </div>
 
     </main>
 

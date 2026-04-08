@@ -301,6 +301,27 @@
           <li><strong>Enter your data.</strong> Type or paste your text, URL, or query string into the input textarea. The character and byte counts update in real time as you type. For encoding, enter the raw unencoded text. For decoding, paste the percent-encoded string you want to convert back to human-readable form.</li>
           <li><strong>Process and copy.</strong> Click the <em>Encode</em> or <em>Decode</em> button to transform your data. The result appears instantly in the output panel along with character count statistics and the size increase ratio. Click <em>Copy Output</em> or the <em>Copy</em> button in the output panel to send the result to your clipboard for use in your code, API calls, or browser address bar.</li>
         </ol>
+        <div class="pro-tip"><span class="pro-tip-label">Pro Tip</span><p>Spaces are encoded differently depending on context: use <code>%20</code> in URL path segments and <code>+</code> in query string parameters (application/x-www-form-urlencoded). In JavaScript, <code>encodeURIComponent()</code> produces <code>%20</code>, while form submissions use <code>+</code>. Know which one your API expects.</p></div>
+        <div class="pro-tip mistake"><span class="pro-tip-label">Common Mistake</span><p>Double-encoding URLs that are already encoded. Encoding <code>%20</code> again produces <code>%2520</code>, which the server interprets as a literal <code>%20</code> string instead of a space. Always check if your input is already percent-encoded before running it through the encoder.</p></div>
+      </section>
+
+      <!-- Use Cases -->
+      <section class="mt-4">
+        <h2>Who Uses This Tool</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+          <div class="feature-card">
+            <h3>API Developer</h3>
+            <p>Nina builds RESTful APIs that accept search queries with special characters in URL parameters. She encodes test strings here to verify her backend correctly decodes multi-byte Unicode characters, spaces, and ampersands in query values.</p>
+          </div>
+          <div class="feature-card">
+            <h3>SEO Specialist</h3>
+            <p>Tariq debugs crawl errors from Google Search Console caused by improperly encoded URLs. He decodes the error URLs to identify which characters broke the link, then provides the correctly encoded version to the development team.</p>
+          </div>
+          <div class="feature-card">
+            <h3>QA Engineer</h3>
+            <p>Hana tests web applications by injecting special characters into URL parameters. She encodes payloads containing quotes, angle brackets, and Unicode characters to verify the application handles edge cases without breaking or exposing vulnerabilities.</p>
+          </div>
+        </div>
       </section>
 
       <!-- Reference Table -->
@@ -458,11 +479,11 @@
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/base64">Base64 Encoder</a>
-          <a href="https://toolrip.com/json">JSON Formatter</a>
-          <a href="https://toolrip.com/uuid">UUID Generator</a>
-          <a href="https://toolrip.com/password">Password Generator</a>
-          <a href="https://toolrip.com/case">Case Converter</a>
+          <a href="https://toolrip.com/base64">Base64 Encoder <span class="related-desc">— Encode and decode Base64 strings for APIs and data URIs</span></a>
+          <a href="https://toolrip.com/json">JSON Formatter <span class="related-desc">— Format, validate, and minify JSON with syntax highlighting</span></a>
+          <a href="https://toolrip.com/uuid">UUID Generator <span class="related-desc">— Generate unique identifiers (v1, v4, v7) for database keys</span></a>
+          <a href="https://toolrip.com/password">Password Generator <span class="related-desc">— Create strong, random passwords with custom rules</span></a>
+          <a href="https://toolrip.com/case">Case Converter <span class="related-desc">— Convert between camelCase, snake_case, kebab-case, and more</span></a>
         </div>
       </section>
 
@@ -475,6 +496,19 @@
 
     <!-- Bottom Ad -->
     <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <section class="sources-section">
+      <h2>Sources &amp; References</h2>
+      <ul class="sources-list">
+        <li><a href="https://developer.mozilla.org/" class="citation-link" target="_blank" rel="noopener">MDN Web Docs</a> — Comprehensive web technology documentation</li>
+        <li><a href="https://datatracker.ietf.org/" class="citation-link" target="_blank" rel="noopener">IETF RFC Standards</a> — Official internet protocol specifications</li>
+        <li><a href="https://owasp.org/" class="citation-link" target="_blank" rel="noopener">OWASP Foundation</a> — Web application security standards and best practices</li>
+      </ul>
+    </section>
+    <div class="credibility-footer">
+      Developer tools follow IETF, W3C, and OWASP standards. Built with vanilla JavaScript and the Web Crypto API.
+      <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

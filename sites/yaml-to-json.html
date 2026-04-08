@@ -220,6 +220,27 @@
           <li><strong>Click Convert.</strong> Press the <em>Convert</em> button to process your input. If the input is valid, the converted output appears in the panel on the right. If there are errors, a message describes the problem so you can fix it.</li>
           <li><strong>Copy the result.</strong> Click <em>Copy Output</em> in the toolbar or the <em>Copy</em> button on the output panel to send the result to your clipboard. Paste it directly into your editor, terminal, or configuration file.</li>
         </ol>
+        <div class="pro-tip"><span class="pro-tip-label">Pro Tip</span><p>Beware the "Norway problem" in YAML: the country code <code>NO</code> is parsed as boolean <code>false</code> by YAML 1.1 parsers. Similarly, <code>YES</code>, <code>on</code>, and <code>off</code> are interpreted as booleans. Always quote string values that could be misinterpreted: <code>"NO"</code> instead of <code>NO</code>.</p></div>
+        <div class="pro-tip mistake"><span class="pro-tip-label">Common Mistake</span><p>Using tabs for indentation in YAML. Unlike most programming languages, YAML strictly forbids tab characters for indentation and only allows spaces. Mixing tabs and spaces causes cryptic parsing errors that are hard to debug because they look identical in many editors.</p></div>
+      </section>
+
+      <!-- Use Cases -->
+      <section class="mt-4">
+        <h2>Who Uses This Tool</h2>
+        <div class="feature-cards" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+          <div class="feature-card">
+            <h3>DevOps Engineer</h3>
+            <p>Sven converts Kubernetes manifests between YAML and JSON when debugging Helm charts. He pastes the YAML output of <code>kubectl get</code> into the converter to produce JSON for jq-based scripting and automated pipeline processing.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Cloud Architect</h3>
+            <p>Amira translates AWS CloudFormation templates from YAML to JSON for teams that prefer JSON syntax. She validates the structure after conversion to ensure nested references and intrinsic functions survived the format change intact.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Full-Stack Developer</h3>
+            <p>Jake converts API configuration from YAML (used in Docker Compose and CI/CD pipelines) to JSON (consumed by his Node.js application). He uses the tool to quickly verify that complex nested structures map correctly between the two formats.</p>
+          </div>
+        </div>
       </section>
 
       <!-- FAQ Section -->
@@ -294,11 +315,11 @@
       <section class="mt-4">
         <h2>Related Tools</h2>
         <div class="related-tools">
-          <a href="https://toolrip.com/json">JSON Formatter</a>
-          <a href="https://toolrip.com/base64">Base64 Encoder</a>
-          <a href="https://toolrip.com/uuid">UUID Generator</a>
-          <a href="https://toolrip.com/word-count">Word Counter</a>
-          <a href="https://toolrip.com/case">Case Converter</a>
+          <a href="https://toolrip.com/json">JSON Formatter <span class="related-desc">— Format, validate, and minify JSON with syntax highlighting</span></a>
+          <a href="https://toolrip.com/base64">Base64 Encoder <span class="related-desc">— Encode and decode Base64 strings for APIs and data URIs</span></a>
+          <a href="https://toolrip.com/uuid">UUID Generator <span class="related-desc">— Generate unique identifiers (v1, v4, v7) for database keys</span></a>
+          <a href="https://toolrip.com/word-count">Word Counter <span class="related-desc">— Count words, characters, sentences, and reading time</span></a>
+          <a href="https://toolrip.com/case">Case Converter <span class="related-desc">— Convert between camelCase, snake_case, kebab-case, and more</span></a>
         </div>
       </section>
 
@@ -311,6 +332,19 @@
 
     <!-- Bottom Ad -->
     <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+
+    <section class="sources-section">
+      <h2>Sources &amp; References</h2>
+      <ul class="sources-list">
+        <li><a href="https://developer.mozilla.org/" class="citation-link" target="_blank" rel="noopener">MDN Web Docs</a> — Comprehensive web technology documentation</li>
+        <li><a href="https://datatracker.ietf.org/" class="citation-link" target="_blank" rel="noopener">IETF RFC Standards</a> — Official internet protocol specifications</li>
+        <li><a href="https://owasp.org/" class="citation-link" target="_blank" rel="noopener">OWASP Foundation</a> — Web application security standards and best practices</li>
+      </ul>
+    </section>
+    <div class="credibility-footer">
+      Developer tools follow IETF, W3C, and OWASP standards. Built with vanilla JavaScript and the Web Crypto API.
+      <a href="https://toolrip.com/about">Learn more about our methodology</a>.
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
