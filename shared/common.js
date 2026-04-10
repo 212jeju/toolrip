@@ -97,7 +97,7 @@ function initTabs() {
 
 /* --- FAQ Accordion (smooth) --- */
 function initFaq() {
-  document.querySelectorAll('details.faq-item').forEach(function (details) {
+  document.querySelectorAll('details.faq-item,details.qa-item,details.question-block').forEach(function (details) {
     var content = details.querySelector('p');
     if (!content) return;
 
@@ -196,7 +196,7 @@ function initEventTracking() {
   });
 
   // Track FAQ interactions
-  document.querySelectorAll('details.faq-item summary').forEach(function (summary) {
+  document.querySelectorAll('details.faq-item,details.qa-item,details.question-block summary').forEach(function (summary) {
     summary.addEventListener('click', function () {
       trackEvent('faq_open', { tool_name: toolName, question: summary.textContent.trim().substring(0, 80) });
     });

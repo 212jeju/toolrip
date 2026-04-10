@@ -89,35 +89,39 @@ a:hover{text-decoration:underline}
 .breadcrumb{font-size:.8rem;color:var(--text-muted);margin-bottom:var(--sp-3);display:flex;flex-wrap:wrap;gap:var(--sp-1)}
 .breadcrumb a{color:var(--text-muted)}
 .breadcrumb span{opacity:.5}
-.faq-section{margin-top:var(--sp-5)}
-.faq-section h2{font-size:1.25rem;margin-bottom:var(--sp-3)}
-.faq-item{border-bottom:1px solid var(--border)}
-.faq-item summary{padding:var(--sp-3) 0;cursor:pointer;font-weight:500;list-style:none;display:flex;
+.faq-section,.qa-section,.questions-section{margin-top:var(--sp-5)}
+.faq-section h2,.qa-section h2,.questions-section h2{font-size:1.25rem;margin-bottom:var(--sp-3)}
+.faq-item,.qa-item,.question-block{border-bottom:1px solid var(--border)}
+.faq-item summary,.qa-item summary,.question-block summary{padding:var(--sp-3) 0;cursor:pointer;font-weight:500;list-style:none;display:flex;
   justify-content:space-between;align-items:center}
-.faq-item summary::after{content:"+";font-size:1.2rem;color:var(--text-muted);transition:transform .2s}
-.faq-item[open] summary::after{content:"\2212"}
-.faq-item p{padding:0 0 var(--sp-3);color:var(--text-muted);font-size:.9375rem;line-height:1.7}
-.feature-cards{display:grid;grid-template-columns:1fr;gap:var(--sp-3);margin:var(--sp-4) 0}
-.feature-card{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-4)}
-.feature-card h3{font-size:1rem;margin-bottom:var(--sp-2)}
-.feature-card p{font-size:.875rem;color:var(--text-muted)}
-.related-tools{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--sp-2);margin:var(--sp-4) 0}
-.related-tools a{display:block;padding:var(--sp-2) var(--sp-3);background:var(--bg-surface);
+.faq-item summary::after,.qa-item summary::after,.question-block summary::after{content:"+";font-size:1.2rem;color:var(--text-muted);transition:transform .2s}
+.faq-item[open] summary::after,.qa-item[open] summary::after,.question-block[open] summary::after{content:"\2212"}
+.faq-item p,.qa-item p,.question-block p{padding:0 0 var(--sp-3);color:var(--text-muted);font-size:.9375rem;line-height:1.7}
+.feature-cards,.feature-grid,.highlights-grid,.capability-cards{display:grid;grid-template-columns:1fr;gap:var(--sp-3);margin:var(--sp-4) 0}
+.feature-card,.feature-item,.highlight-card,.cap-card{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-4)}
+.feature-card h3,.feature-item h3,.highlight-card h3,.cap-card h3{font-size:1rem;margin-bottom:var(--sp-2)}
+.feature-card p,.feature-item p,.highlight-card p,.cap-card p{font-size:.875rem;color:var(--text-muted)}
+.related-tools,.similar-tools,.explore-tools{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--sp-2);margin:var(--sp-4) 0}
+.related-tools a,.similar-tools a,.explore-tools a{display:block;padding:var(--sp-2) var(--sp-3);background:var(--bg-surface);
   border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.875rem;color:var(--text);transition:border-color .15s}
-.related-tools a:hover{border-color:var(--accent);text-decoration:none}
-.related-tools a strong{display:block;font-size:.875rem;margin-bottom:var(--sp-1)}
-.related-tools a span{display:block;font-size:.75rem;color:var(--text-muted);font-weight:400}
+.related-tools a:hover,.similar-tools a:hover,.explore-tools a:hover{border-color:var(--accent);text-decoration:none}
+.related-tools a strong,.similar-tools a strong,.explore-tools a strong{display:block;font-size:.875rem;margin-bottom:var(--sp-1)}
+.related-tools a span,.similar-tools a span,.explore-tools a span{display:block;font-size:.75rem;color:var(--text-muted);font-weight:400}
+/* Inline Q&A variant (no details/summary) */
+.qa-inline .qa-pair{margin-bottom:var(--sp-4)}
+.qa-inline .qa-pair h3{font-size:1rem;margin-bottom:var(--sp-2);color:var(--text)}
+.qa-inline .qa-pair p{font-size:.9375rem;color:var(--text-muted);line-height:1.7}
 
 /* --- Pro Tips & Expert Notes --- */
-.pro-tip{background:var(--bg-surface);border-left:3px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;
+.pro-tip,.callout-box,.expert-note{background:var(--bg-surface);border-left:3px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;
   padding:var(--sp-3) var(--sp-4);margin:var(--sp-3) 0}
-.pro-tip-label{display:inline-block;font-size:.75rem;font-weight:700;text-transform:uppercase;
+.pro-tip-label,.callout-label,.note-label{display:inline-block;font-size:.75rem;font-weight:700;text-transform:uppercase;
   color:var(--accent);letter-spacing:.03em;margin-bottom:var(--sp-1)}
-.pro-tip p{font-size:.875rem;color:var(--text-muted);line-height:1.7;margin:0}
-.pro-tip.mistake .pro-tip-label{color:var(--security)}
-.pro-tip.mistake{border-left-color:var(--security)}
-.pro-tip.insight .pro-tip-label{color:var(--conversion)}
-.pro-tip.insight{border-left-color:var(--conversion)}
+.pro-tip p,.callout-box p,.expert-note p{font-size:.875rem;color:var(--text-muted);line-height:1.7;margin:0}
+.pro-tip.mistake .pro-tip-label,.callout-box.mistake .callout-label,.expert-note.mistake .note-label{color:var(--security)}
+.pro-tip.mistake,.callout-box.mistake,.expert-note.mistake{border-left-color:var(--security)}
+.pro-tip.insight .pro-tip-label,.callout-box.insight .callout-label,.expert-note.insight .note-label{color:var(--conversion)}
+.pro-tip.insight,.callout-box.insight,.expert-note.insight{border-left-color:var(--conversion)}
 
 /* --- Use Cases --- */
 .use-case-section{margin:var(--sp-5) 0}
@@ -152,8 +156,8 @@ a:hover{text-decoration:underline}
 
 /* --- 6. Responsive --- */
 @media(min-width:640px){
-  .feature-cards{grid-template-columns:repeat(2,1fr)}
-  .related-tools{grid-template-columns:repeat(3,1fr)}
+  .feature-cards,.feature-grid,.highlights-grid,.capability-cards{grid-template-columns:repeat(2,1fr)}
+  .related-tools,.similar-tools,.explore-tools{grid-template-columns:repeat(3,1fr)}
   .use-case-cards{grid-template-columns:repeat(2,1fr)}
 }
 @media(min-width:1024px){
@@ -163,8 +167,8 @@ a:hover{text-decoration:underline}
   .main{grid-area:mn;max-width:none}
   .sidebar{display:block;grid-area:sb;padding:var(--sp-4)}
   .footer{grid-area:ft}
-  .feature-cards{grid-template-columns:repeat(3,1fr)}
-  .related-tools{grid-template-columns:repeat(4,1fr)}
+  .feature-cards,.feature-grid,.highlights-grid,.capability-cards{grid-template-columns:repeat(3,1fr)}
+  .related-tools,.similar-tools,.explore-tools{grid-template-columns:repeat(4,1fr)}
   .use-case-cards{grid-template-columns:repeat(3,1fr)}
 }
 

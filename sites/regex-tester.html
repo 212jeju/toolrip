@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Regex Tester Online — Free, Fast, No Signup</title>
+  <title>Regex Tester — Transform in Seconds</title>
   <meta name="description" content="Test and debug regular expressions online for free. Real-time match highlighting, capture groups, replace mode, and patterns reference. No signup.">
   <link rel="canonical" href="https://toolrip.com/regex">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -12,8 +12,8 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Regex Tester Online — Free, Fast, No Signup">
-  <meta property="og:description" content="Test and debug regular expressions online for free. Real-time match highlighting, capture groups, replace mode, and patterns reference. No signup.">
+  <meta property="og:title" content="Regex Tester — Free Online Tool | Toolrip">
+  <meta property="og:description" content="Test and debug regular expressions online for free. Try Regex Tester free on Toolrip.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://toolrip.com/regex">
   <meta property="og:site_name" content="Toolrip">
@@ -24,8 +24,8 @@
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Regex Tester Online — Free, Fast, No Signup">
-  <meta name="twitter:description" content="Test and debug regular expressions online for free. Real-time match highlighting, capture groups, replace mode, and patterns reference. No signup.">
+  <meta name="twitter:title" content="Regex Tester | Toolrip">
+  <meta name="twitter:description" content="Test and debug regular expressions online for free. Real-time match... Free on Toolrip.">
   <meta name="twitter:image" content="https://toolrip.com/og-image.png">
 
   <!-- Styles -->
@@ -195,15 +195,14 @@
       <a href="https://toolrip.com" class="logo">Toolrip</a>
       <nav>
         <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/#developer">Dev Tools</a>
         <a href="https://toolrip.com/about">About</a>
         <a href="https://toolrip.com/contact">Contact</a>
       </nav>
     </header>
 
     <!-- Top Ad -->
-    <div class="ad-slot ad-top" data-ad-slot="">Ad</div>
-
-    <!-- Main -->
+    <div class="ad-slot ad-top" data-ad-slot=""></div><!-- Main -->
     <main class="main">
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <a href="https://toolrip.com">Home</a>
@@ -292,9 +291,7 @@
       <!-- ===== TOOL UI END ===== -->
 
       <!-- In-Content Ad -->
-      <div class="ad-slot ad-in-content" data-ad-slot="">Ad</div>
-
-      <!-- Common Patterns Reference -->
+      <div class="ad-slot ad-in-content" data-ad-slot=""></div><!-- Common Patterns Reference -->
       <section class="mt-4">
         <h2>Common Regex Patterns Reference</h2>
         <div style="overflow-x:auto">
@@ -310,21 +307,21 @@
 
       <!-- Feature Cards -->
       <section class="mt-4">
-        <h2>Key Features</h2>
-        <div class="feature-cards" style="grid-template-columns:repeat(2,1fr)">
-          <div class="feature-card">
+        <h2>Built-In Features</h2>
+        <div class="feature-grid" style="grid-template-columns:repeat(2,1fr)">
+          <div class="feature-item">
             <h3>Real-Time Match Highlighting</h3>
             <p>See your matches highlighted instantly as you type your regular expression and test string. Every match is color-coded directly within the test string so you can visually verify that your pattern is capturing exactly the right content. The highlighting updates in real time with no button clicks required, making it effortless to iterate on your pattern until it is correct. Alternating highlight colors help distinguish adjacent matches that would otherwise blend together.</p>
           </div>
-          <div class="feature-card">
+          <div class="feature-item">
             <h3>Capture Group Inspector</h3>
             <p>When your regex contains capturing groups defined by parentheses, this tool displays every group for every match in a structured table. You can see the full match alongside each numbered or named group, making it simple to verify that your groups are extracting the intended substrings. This is invaluable when building patterns for data extraction tasks where you need to pull specific fields out of a larger string, such as parsing log files or extracting components from URLs.</p>
           </div>
-          <div class="feature-card">
+          <div class="feature-item">
             <h3>Find and Replace Mode</h3>
             <p>Go beyond matching by using the replace tab to apply substitution patterns to your test string. Enter a replacement pattern using standard JavaScript replacement tokens like $1 for the first capture group, $&amp; for the entire match, or $` and $' for text before and after the match. The replaced text appears instantly so you can experiment with different replacement strategies. This is perfect for prototyping text transformations before integrating them into your code.</p>
           </div>
-          <div class="feature-card">
+          <div class="feature-item">
             <h3>Flag Controls and Error Handling</h3>
             <p>Toggle regex flags with a single click to change matching behavior without rewriting your pattern. The global flag finds all occurrences, case-insensitive mode ignores letter casing, multiline mode changes how anchors work, dotAll mode lets the dot match newlines, and Unicode mode enables full Unicode support. If your regex contains a syntax error, a clear message tells you exactly what went wrong so you can fix it immediately. Invalid patterns never crash the tool — they are caught and reported gracefully.</p>
           </div>
@@ -333,30 +330,30 @@
 
       <!-- How to Use -->
       <section class="mt-4">
-        <h2>How to Use the Regex Tester</h2>
+        <h2>Using Regex Tester in 4 Steps</h2>
         <ol style="color:var(--text-muted);line-height:2;padding-left:1.25rem">
           <li><strong>Enter your regular expression.</strong> Type or paste your pattern into the regex input field at the top. The field uses a monospace font and displays your pattern between forward-slash delimiters for clarity. You do not need to include the delimiters yourself — just enter the raw pattern.</li>
           <li><strong>Set your flags.</strong> Click the flag buttons to toggle options. The <code>g</code> flag is enabled by default so all matches are found. Toggle <code>i</code> for case-insensitive matching, <code>m</code> for multiline mode, <code>s</code> to make the dot match newlines, or <code>u</code> for Unicode mode.</li>
           <li><strong>Enter your test string.</strong> Paste or type the text you want to test against. The tool immediately highlights all matches within the test string and updates the match count and capture group details.</li>
           <li><strong>Review matches and groups.</strong> The Matches tab shows your test string with all matches highlighted. Switch to the Capture Groups tab to see a detailed breakdown of each match and its groups. Use the Replace tab to experiment with substitution patterns.</li>
         </ol>
-        <div class="pro-tip"><span class="pro-tip-label">Pro Tip</span><p>Watch out for catastrophic backtracking with nested quantifiers like <code>(a+)+</code> or <code>(.*a){10}</code>. These patterns cause the regex engine to explore an exponential number of paths on non-matching input, freezing your browser or server. Use atomic groups or possessive quantifiers when available.</p></div>
-        <div class="pro-tip mistake"><span class="pro-tip-label">Common Mistake</span><p>Forgetting that the dot (<code>.</code>) matches any character, not a literal period. To match an actual dot (e.g., in domain names or IP addresses), escape it as <code>\.</code>. The pattern <code>example.com</code> also matches "exampleXcom" — use <code>example\.com</code> instead.</p></div>
+        <div class="callout-box"><span class="callout-label">Pro Tip</span><p>Watch out for catastrophic backtracking with nested quantifiers like <code>(a+)+</code> or <code>(.*a){10}</code>. These patterns cause the regex engine to explore an exponential number of paths on non-matching input, freezing your browser or server. Use atomic groups or possessive quantifiers when available.</p></div>
+        <div class="callout-box mistake"><span class="callout-label">Common Mistake</span><p>Forgetting that the dot (<code>.</code>) matches any character, not a literal period. To match an actual dot (e.g., in domain names or IP addresses), escape it as <code>\.</code>. The pattern <code>example.com</code> also matches "exampleXcom" — use <code>example\.com</code> instead.</p></div>
       </section>
 
       <!-- Use Cases -->
       <section class="mt-4">
         <h2>Who Uses This Tool</h2>
-        <div class="feature-cards" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
-          <div class="feature-card">
+        <div class="feature-grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+          <div class="feature-item">
             <h3>Full-Stack Developer</h3>
             <p>Elena validates user input forms with regex patterns for emails, phone numbers, and postal codes. She tests each pattern against edge cases in this tool before embedding them in her React components, catching false positives before they reach production.</p>
           </div>
-          <div class="feature-card">
+          <div class="feature-item">
             <h3>Data Engineer</h3>
             <p>Carlos parses unstructured log files from distributed systems. He builds capture group patterns to extract timestamps, error codes, and stack traces from millions of log lines, prototyping each regex here before deploying it in his ETL pipeline.</p>
           </div>
-          <div class="feature-card">
+          <div class="feature-item">
             <h3>Security Analyst</h3>
             <p>Aisha writes detection rules for SIEM platforms. She crafts regex patterns to identify suspicious SQL injection attempts, XSS payloads, and command injection strings, testing them against known attack samples to minimize false negatives.</p>
           </div>
@@ -373,33 +370,33 @@
       </section>
 
       <!-- FAQ Section -->
-      <section class="faq-section">
-        <h2>Frequently Asked Questions</h2>
-        <details class="faq-item">
+      <section class="qa-section">
+        <h2>FAQ</h2>
+        <details class="qa-item">
           <summary>What is a regular expression (regex)?</summary>
           <p>A regular expression is a sequence of characters that defines a search pattern. Regular expressions are used for string matching, searching, and text manipulation in virtually every programming language. They provide a concise and flexible way to identify strings of text such as particular characters, words, or patterns of characters. At their simplest, they match literal text, but they become powerful when combined with metacharacters that represent classes of characters, repetition, positioning, and grouping. Learning regex is a worthwhile investment because the same syntax applies across dozens of languages and tools.</p>
         </details>
-        <details class="faq-item">
+        <details class="qa-item">
           <summary>What do regex flags like g, i, m, s, and u mean?</summary>
           <p>The <code>g</code> (global) flag finds all matches in the string rather than stopping after the first one. The <code>i</code> (case-insensitive) flag causes the engine to ignore the difference between uppercase and lowercase letters during matching. The <code>m</code> (multiline) flag changes the behavior of the <code>^</code> and <code>$</code> anchors so they match the start and end of each line rather than the entire string. The <code>s</code> (dotAll) flag allows the dot metacharacter <code>.</code> to match newline characters, which it does not do by default. The <code>u</code> (unicode) flag enables full Unicode matching so that surrogate pairs and Unicode property escapes work correctly.</p>
         </details>
-        <details class="faq-item">
+        <details class="qa-item">
           <summary>How do I match an email address with regex?</summary>
           <p>A commonly used pattern for basic email validation is <code>[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}</code>. This pattern matches a local part containing alphanumeric characters and certain special symbols, followed by an at sign, a domain name with dots and hyphens, and a top-level domain of at least two characters. Keep in mind that the official specification for email addresses (RFC 5322) is extremely complex and allows many unusual formats that simple patterns will not cover. For most practical purposes, a basic pattern combined with a confirmation email is the best validation strategy.</p>
         </details>
-        <details class="faq-item">
+        <details class="qa-item">
           <summary>What are capture groups and how do they work?</summary>
           <p>Capture groups are portions of a regex pattern enclosed in parentheses <code>()</code>. When the pattern matches, the text matched by each group is captured separately and can be referenced by its index number starting from 1. For example, the pattern <code>(\d{4})-(\d{2})-(\d{2})</code> matching against "2026-03-17" captures "2026" as group 1, "03" as group 2, and "17" as group 3. Named capture groups use the syntax <code>(?&lt;name&gt;...)</code> and let you refer to groups by meaningful names. Non-capturing groups <code>(?:...)</code> group patterns for quantifiers without capturing the matched text.</p>
         </details>
-        <details class="faq-item">
+        <details class="qa-item">
           <summary>What is the difference between PCRE and JavaScript regex?</summary>
           <p>PCRE (Perl Compatible Regular Expressions) is a widely used regex library that supports advanced features like variable-length lookbehind, recursive patterns, atomic groups, possessive quantifiers, conditional patterns, and subroutine calls. JavaScript regex historically lacked many of these features but has been catching up in recent years. Modern JavaScript supports fixed-length and variable-length lookbehind, named capture groups, Unicode property escapes with the <code>u</code> flag, and the dotAll <code>s</code> flag. However, JavaScript still does not support recursive patterns, atomic groups, or possessive quantifiers. This tool uses your browser's built-in JavaScript RegExp engine.</p>
         </details>
-        <details class="faq-item">
+        <details class="qa-item">
           <summary>What are lookahead and lookbehind assertions?</summary>
           <p>Lookahead and lookbehind are zero-width assertions that match a position in the string rather than consuming characters. Positive lookahead <code>(?=...)</code> asserts that the text immediately following the current position matches the given pattern. Negative lookahead <code>(?!...)</code> asserts the opposite — that the following text does not match. Positive lookbehind <code>(?&lt;=...)</code> asserts that the text immediately before the current position matches, and negative lookbehind <code>(?&lt;!...)</code> asserts it does not. These assertions are powerful for matching patterns based on their surrounding context without including that context in the match result.</p>
         </details>
-        <details class="faq-item">
+        <details class="qa-item">
           <summary>How do I use backreferences and replacement patterns?</summary>
           <p>Backreferences allow you to refer to previously captured groups within the same regex using <code>\1</code>, <code>\2</code>, and so on. This is useful for matching repeated content, such as <code>(\w+)\s+\1</code> to find duplicated words. In replacement strings, you use <code>$1</code>, <code>$2</code> to insert the value of the corresponding capture group. Named groups can be referenced with <code>$&lt;name&gt;</code>. The token <code>$&amp;</code> inserts the entire match, <code>$`</code> inserts the text before the match, and <code>$'</code> inserts the text after the match. A literal dollar sign is written as <code>$$</code>. These replacement tokens make regex a powerful text transformation tool.</p>
         </details>
@@ -502,8 +499,8 @@
 
       <!-- Related Tools -->
       <section class="mt-4">
-        <h2>Related Tools</h2>
-        <div class="related-tools">
+        <h2>Tools That Pair Well</h2>
+        <div class="similar-tools">
           <a href="https://toolrip.com/json">JSON Formatter <span class="related-desc">— Format, validate, and minify JSON with syntax highlighting</span></a>
           <a href="https://toolrip.com/base64">Base64 Encoder <span class="related-desc">— Encode and decode Base64 strings for APIs and data URIs</span></a>
           <a href="https://toolrip.com/uuid">UUID Generator <span class="related-desc">— Generate unique identifiers (v1, v4, v7) for database keys</span></a>
@@ -516,14 +513,14 @@
 
     <!-- Sidebar (Desktop) -->
     <aside class="sidebar">
-      <div class="ad-slot ad-sidebar" data-ad-slot="">Ad</div>
+      <div class="ad-slot ad-sidebar" data-ad-slot=""></div>
     </aside>
 
     <!-- Bottom Ad -->
-    <div class="ad-slot ad-bottom" data-ad-slot="">Ad</div>
+    <div class="ad-slot ad-bottom" data-ad-slot=""></div>
 
     <section class="sources-section">
-      <h2>Sources &amp; References</h2>
+      <h2>Citations &amp; Resources</h2>
       <ul class="sources-list">
         <li><a href="https://developer.mozilla.org/" class="citation-link" target="_blank" rel="noopener">MDN Web Docs</a> — Comprehensive web technology documentation</li>
         <li><a href="https://datatracker.ietf.org/" class="citation-link" target="_blank" rel="noopener">IETF RFC Standards</a> — Official internet protocol specifications</li>
@@ -539,12 +536,17 @@
     <footer class="footer">
       <p>
         <a href="https://toolrip.com">Home</a>
-        <a href="https://toolrip.com/about">About</a>
-        <a href="https://toolrip.com/privacy">Privacy Policy</a>
-        <a href="https://toolrip.com/terms">Terms of Service</a>
-        <a href="https://toolrip.com/contact">Contact</a>
-      </p>
-      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+      <a href="https://toolrip.com/#developer">Dev Tools</a>
+      <a href="https://toolrip.com/about">About</a>
+      <a href="https://toolrip.com/privacy">Privacy Policy</a>
+      <a href="https://toolrip.com/terms">Terms of Service</a>
+      <a href="https://toolrip.com/contact">Contact</a>
+    </p>
+    <p style="margin-top:.5rem;font-size:.75rem">Popular:
+      <a href="https://toolrip.com/json">JSON Formatter</a>
+      <a href="https://toolrip.com/base64">Base64 Encoder</a>
+    </p>
+    <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
     </footer>
 
   </div>
