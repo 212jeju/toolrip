@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What Is a JWT Token? A Developer's Guide to JSON Web Tokens — Toolrip</title>
+  <meta name="description" content="Learn how JSON Web Tokens work, from the three-part structure to real-world auth flows. Covers JWT security pitfalls, best practices, and when to use them.">
+  <link rel="canonical" href="https://toolrip.com/blog/what-is-jwt">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta property="og:title" content="What Is a JWT Token? A Developer's Guide to JSON Web Tokens — Toolrip">
+  <meta property="og:description" content="Understand JWT structure, authentication flows, and security best practices for modern web development.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://toolrip.com/blog/what-is-jwt">
+  <meta property="og:site_name" content="Toolrip">
+  <meta property="og:image" content="https://toolrip.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="What Is a JWT Token? A Developer's Guide to JSON Web Tokens — Toolrip">
+  <meta name="twitter:description" content="Understand JWT structure, authentication flows, and security best practices for modern web development.">
+  <meta name="twitter:image" content="https://toolrip.com/og-image.png">
+  <meta name="robots" content="index, follow">
+  <link rel="preload" href="/shared/style.css" as="style">
+  <link rel="stylesheet" href="/shared/style.css">
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="manifest" href="/manifest.json">
+  <style>:root{--accent:var(--developer)}</style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "What Is a JWT Token? A Developer's Guide to JSON Web Tokens",
+    "description": "Learn how JSON Web Tokens work, from the three-part structure to real-world auth flows. Covers JWT security pitfalls, best practices, and when to use them.",
+    "url": "https://toolrip.com/blog/what-is-jwt",
+    "datePublished": "2026-04-16",
+    "dateModified": "2026-04-16",
+    "author": {"@type": "Organization", "name": "Toolrip", "url": "https://toolrip.com/about", "description": "A team of software engineers and domain specialists building free online tools"},
+    "publisher": {"@type": "Organization", "name": "Toolrip", "url": "https://toolrip.com", "logo": {"@type": "ImageObject", "url": "https://toolrip.com/og-image.png"}},
+    "image": "https://toolrip.com/og-image.png",
+    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://toolrip.com/blog/what-is-jwt"}
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com/"},
+      {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://toolrip.com/blog"},
+      {"@type": "ListItem", "position": 3, "name": "What Is a JWT Token?", "item": "https://toolrip.com/blog/what-is-jwt"}
+    ]
+  }
+  </script>
+  <style>
+    .article-body { line-height: 1.8; font-size: 1.0625rem; }
+    .article-body h2 { font-size: 1.5rem; font-weight: 700; margin: var(--sp-5) 0 var(--sp-3); color: var(--text); border-bottom: 1px solid var(--border); padding-bottom: var(--sp-2); }
+    .article-body h3 { font-size: 1.15rem; font-weight: 600; margin: var(--sp-4) 0 var(--sp-2); color: var(--accent); }
+    .article-body p { margin-bottom: var(--sp-3); color: var(--text-muted); }
+    .article-body ul, .article-body ol { margin-bottom: var(--sp-3); padding-left: 1.5rem; color: var(--text-muted); }
+    .article-body li { margin-bottom: var(--sp-2); }
+    .article-body a { color: var(--accent); font-weight: 500; }
+    .article-body a:hover { text-decoration: underline; }
+    .article-body strong { color: var(--text); }
+    .article-meta { font-size: .875rem; color: var(--text-muted); margin-bottom: var(--sp-4); }
+    .tool-highlight { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--sp-4); margin: var(--sp-3) 0; }
+    .tool-highlight h3 { margin-top: 0; }
+    .tool-highlight .tool-link { display: inline-flex; align-items: center; gap: var(--sp-2); padding: var(--sp-2) var(--sp-3); background: var(--accent); color: #fff; border-radius: var(--radius); font-size: .875rem; font-weight: 600; margin-top: var(--sp-2); transition: opacity .15s; }
+    .tool-highlight .tool-link:hover { opacity: .88; text-decoration: none; }
+    .cta-box { background: var(--bg-elevated); border: 2px solid var(--accent); border-radius: var(--radius-lg); padding: var(--sp-5); text-align: center; margin: var(--sp-5) 0; }
+    .cta-box h2 { border: none; padding: 0; margin-bottom: var(--sp-2); }
+    .cta-box p { margin-bottom: var(--sp-3); }
+    .cta-box .btn-primary { display: inline-flex; padding: var(--sp-3) var(--sp-5); font-size: 1rem; text-decoration: none; }
+    .category-label { display: inline-block; font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); padding: var(--sp-1) var(--sp-2); border-radius: var(--radius-sm); margin-bottom: var(--sp-3); }
+    .toc { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--sp-4); margin-bottom: var(--sp-4); }
+    .toc h2 { font-size: 1rem; font-weight: 600; margin: 0 0 var(--sp-2); border: none; padding: 0; }
+    .toc ol { padding-left: 1.25rem; margin: 0; }
+    .toc li { margin-bottom: var(--sp-1); font-size: .9375rem; }
+    .toc a { color: var(--text-muted); }
+    .toc a:hover { color: var(--accent); }
+    code.inline { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: .1em .4em; font-size: .9em; font-family: monospace; }
+    pre.code-block { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp-3); overflow-x: auto; font-size: .875rem; line-height: 1.6; margin-bottom: var(--sp-3); }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1801576841825156" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/blog">Blog</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+    <div class="ad-slot ad-top" data-ad-slot="top">Ad</div>
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com/">Home</a> <span>/</span>
+        <a href="https://toolrip.com/blog">Blog</a> <span>/</span>
+        <span>What Is a JWT Token?</span>
+      </nav>
+      <article class="article-body">
+        <span class="category-label">Developer</span>
+        <h1>What Is a JWT Token? A Developer's Guide to JSON Web Tokens</h1>
+        <p class="article-meta">Published on April 16, 2026 &middot; 10 min read</p>
+
+        <div class="toc">
+          <h2>Table of Contents</h2>
+          <ol>
+            <li><a href="#what-is-jwt">What Exactly Is a JWT?</a></li>
+            <li><a href="#three-parts">The Three Parts of a JWT</a></li>
+            <li><a href="#how-auth-works">How JWT Authentication Works</a></li>
+            <li><a href="#signing-algorithms">Signing Algorithms: HMAC vs. RSA vs. ECDSA</a></li>
+            <li><a href="#when-to-use">When Should You Use JWTs?</a></li>
+            <li><a href="#security-pitfalls">Common Security Pitfalls</a></li>
+            <li><a href="#best-practices">Best Practices for Production</a></li>
+            <li><a href="#jwt-vs-sessions">JWTs vs. Server-Side Sessions</a></li>
+            <li><a href="#debugging">Debugging and Inspecting JWTs</a></li>
+          </ol>
+        </div>
+
+        <p>If you have built any web application in the last decade, you have almost certainly encountered JSON Web Tokens. They appear in authorization headers, get stored in cookies, and form the backbone of stateless authentication for APIs worldwide. Yet many developers use JWTs without fully understanding what happens beneath the surface. This guide breaks down every layer of a JWT so you can make informed architectural decisions and avoid the security mistakes that plague production systems.</p>
+
+        <h2 id="what-is-jwt">What Exactly Is a JWT?</h2>
+
+        <p>A <strong>JSON Web Token (JWT)</strong> is a compact, URL-safe string that represents a set of claims between two parties. Defined by <strong>RFC 7519</strong>, a JWT allows a server to encode information (such as a user's identity and permissions) into a token that the client can carry with every subsequent request. The server can later verify that token without querying a database, because the token itself contains all the information needed, plus a cryptographic signature that proves it has not been tampered with.</p>
+
+        <p>At its core, a JWT is just a string of three Base64URL-encoded segments separated by dots. It looks something like this:</p>
+
+        <pre class="code-block">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkphbmUgRG9lIiwiaWF0IjoxNjE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c</pre>
+
+        <p>That looks like random gibberish at first glance, but each dot-separated segment has a specific purpose. Understanding those three parts is the key to understanding everything about JWTs.</p>
+
+        <h2 id="three-parts">The Three Parts of a JWT</h2>
+
+        <p>Every JWT consists of a <strong>header</strong>, a <strong>payload</strong>, and a <strong>signature</strong>. Let's examine each one in detail.</p>
+
+        <h3>1. The Header</h3>
+
+        <p>The header is a JSON object that typically contains two fields: the signing algorithm being used (<code class="inline">alg</code>) and the token type (<code class="inline">typ</code>). When Base64URL-decoded, a typical header looks like this:</p>
+
+        <pre class="code-block">{
+  "alg": "HS256",
+  "typ": "JWT"
+}</pre>
+
+        <p>The <code class="inline">alg</code> field tells the recipient which cryptographic algorithm was used to create the signature. Common values include <code class="inline">HS256</code> (HMAC with SHA-256), <code class="inline">RS256</code> (RSA with SHA-256), and <code class="inline">ES256</code> (ECDSA with P-256 curve). This field is critical to security, as we will discuss in the pitfalls section below.</p>
+
+        <h3>2. The Payload (Claims)</h3>
+
+        <p>The payload is where the actual data lives. It contains <strong>claims</strong>, which are statements about the user or any other entity. Claims fall into three categories:</p>
+
+        <ul>
+          <li><strong>Registered claims</strong> are predefined by the JWT spec. They include <code class="inline">iss</code> (issuer), <code class="inline">sub</code> (subject), <code class="inline">aud</code> (audience), <code class="inline">exp</code> (expiration time), <code class="inline">nbf</code> (not before), <code class="inline">iat</code> (issued at), and <code class="inline">jti</code> (JWT ID). None of these are mandatory, but they provide interoperability between different systems.</li>
+          <li><strong>Public claims</strong> are defined by you but should be registered in the IANA JSON Web Token Claims registry (or use collision-resistant names like URIs) to avoid naming conflicts with other organizations.</li>
+          <li><strong>Private claims</strong> are custom key-value pairs agreed upon between the producer and consumer of the token. For example, <code class="inline">"role": "admin"</code> or <code class="inline">"org_id": "42"</code>.</li>
+        </ul>
+
+        <p>A decoded payload might look like this:</p>
+
+        <pre class="code-block">{
+  "sub": "user_8374",
+  "name": "Jane Doe",
+  "role": "editor",
+  "iat": 1713272400,
+  "exp": 1713276000
+}</pre>
+
+        <p>One crucial thing to understand: <strong>the payload is encoded, not encrypted</strong>. Anyone who has the token can decode the payload and read its contents. Never store sensitive data like passwords, credit card numbers, or secret keys inside a JWT payload.</p>
+
+        <div class="tool-highlight">
+          <h3>Decode JWTs Instantly</h3>
+          <p>Paste any JWT into our decoder to see the header, payload, and signature verification status in real time. Useful for debugging authentication flows during development.</p>
+          <a href="https://toolrip.com/jwt" class="tool-link">Open JWT Decoder &rarr;</a>
+        </div>
+
+        <h3>3. The Signature</h3>
+
+        <p>The signature is what makes a JWT trustworthy. It is created by taking the encoded header, the encoded payload, a secret key (or private key), and the algorithm specified in the header, then running them through a cryptographic function. For HMAC-SHA256, the formula is:</p>
+
+        <pre class="code-block">HMACSHA256(
+  base64UrlEncode(header) + "." + base64UrlEncode(payload),
+  secret
+)</pre>
+
+        <p>When the server receives a JWT, it recalculates this signature using its own copy of the secret. If the recalculated signature matches the one in the token, the server knows two things: the token was created by someone who holds the secret, and the header and payload have not been modified since the token was signed. If even a single character of the payload changes, the signature will not match, and the server will reject the token.</p>
+
+        <h2 id="how-auth-works">How JWT Authentication Works</h2>
+
+        <p>Understanding the token structure is important, but what really matters is how JWTs fit into an authentication flow. Here is the typical sequence for a web application:</p>
+
+        <ol>
+          <li><strong>Login:</strong> The user sends credentials (username and password) to the server's login endpoint. The server verifies the credentials against its database.</li>
+          <li><strong>Token creation:</strong> If the credentials are valid, the server creates a JWT containing the user's ID, role, and an expiration timestamp. It signs the token with a secret key and sends it back to the client.</li>
+          <li><strong>Token storage:</strong> The client stores the JWT, typically in an HTTP-only cookie (preferred for web apps) or in memory (for SPAs that need it in the Authorization header).</li>
+          <li><strong>Authenticated requests:</strong> For every subsequent API call, the client includes the JWT, usually in the <code class="inline">Authorization: Bearer &lt;token&gt;</code> header.</li>
+          <li><strong>Token verification:</strong> The server extracts the JWT, verifies the signature, checks that it has not expired, and reads the claims. If everything checks out, the request proceeds.</li>
+        </ol>
+
+        <p>The beauty of this system is that the server never needs to store session data. Every piece of information it needs to authenticate the user is contained within the token itself. This makes JWTs particularly well suited for distributed systems where multiple servers handle requests behind a load balancer.</p>
+
+        <h2 id="signing-algorithms">Signing Algorithms: HMAC vs. RSA vs. ECDSA</h2>
+
+        <p>The choice of signing algorithm has significant implications for your architecture and security posture.</p>
+
+        <h3>HMAC (Symmetric)</h3>
+        <p><strong>HS256, HS384, HS512</strong> use a single shared secret for both signing and verification. This is the simplest approach: the same key that creates the token also verifies it. HMAC is fast and works well when the token issuer and verifier are the same service. The downside is that any service that needs to verify tokens must also hold the signing secret, which means a compromise of any verifier compromises the entire system.</p>
+
+        <h3>RSA (Asymmetric)</h3>
+        <p><strong>RS256, RS384, RS512</strong> use a private key to sign and a public key to verify. This is ideal for microservice architectures where an authentication service signs tokens and many downstream services need to verify them. The downstream services only need the public key, which is safe to distribute widely. RSA keys are larger (2048+ bits) and signing is slower than HMAC, but verification is fast.</p>
+
+        <h3>ECDSA (Asymmetric)</h3>
+        <p><strong>ES256, ES384, ES512</strong> provide the same asymmetric benefits as RSA but with much smaller key sizes and faster operations. A 256-bit ECDSA key offers comparable security to a 3072-bit RSA key. This makes ECDSA popular for mobile and IoT applications where bandwidth and processing power are limited.</p>
+
+        <div class="tool-highlight">
+          <h3>Understand Base64 Encoding</h3>
+          <p>JWTs use Base64URL encoding for their header and payload segments. If you want to manually decode or encode JWT parts, our Base64 tool handles both standard Base64 and URL-safe variants.</p>
+          <a href="https://toolrip.com/base64" class="tool-link">Open Base64 Encoder/Decoder &rarr;</a>
+        </div>
+
+        <h2 id="when-to-use">When Should You Use JWTs?</h2>
+
+        <p>JWTs are not a universal solution. They excel in specific scenarios and introduce unnecessary complexity in others.</p>
+
+        <h3>Good Use Cases</h3>
+        <ul>
+          <li><strong>API authentication for stateless backends:</strong> When you have multiple servers behind a load balancer and want to avoid shared session stores, JWTs let any server verify a request independently.</li>
+          <li><strong>Microservice communication:</strong> An identity service can issue tokens that other services verify using only a public key, with no inter-service calls needed.</li>
+          <li><strong>Single sign-on (SSO):</strong> A centralized auth provider can issue JWTs that multiple applications across different domains accept.</li>
+          <li><strong>Short-lived authorization grants:</strong> Granting temporary, scoped access to a resource (for example, a pre-signed URL for file upload) where the permission details are embedded in the token.</li>
+        </ul>
+
+        <h3>Poor Use Cases</h3>
+        <ul>
+          <li><strong>Long-lived sessions with revocation needs:</strong> If you need to instantly revoke a user's access (ban a user, force logout), JWTs are difficult because they remain valid until expiration. You end up needing a blocklist, which partially negates the stateless advantage.</li>
+          <li><strong>Storing large amounts of data:</strong> Every claim adds to the token size, and the token travels with every request. A JWT with extensive permissions data can bloat headers and degrade performance.</li>
+          <li><strong>Simple monolithic applications:</strong> If your entire app runs on a single server with sticky sessions, a traditional server-side session stored in memory or Redis is simpler and easier to revoke.</li>
+        </ul>
+
+        <h2 id="security-pitfalls">Common Security Pitfalls</h2>
+
+        <p>JWTs can be perfectly secure when implemented correctly, but the history of JWT vulnerabilities is long. Here are the most common traps developers fall into.</p>
+
+        <h3>The "alg: none" Attack</h3>
+        <p>The JWT specification allows for an <code class="inline">"alg": "none"</code> header, which means no signature at all. In the early days, many JWT libraries accepted unsigned tokens if the header said <code class="inline">none</code>. An attacker could simply remove the signature, set the algorithm to <code class="inline">none</code>, and modify the payload at will. Modern libraries reject <code class="inline">alg: none</code> by default, but you should always explicitly specify which algorithms your server accepts.</p>
+
+        <h3>Algorithm Confusion Attacks</h3>
+        <p>This attack exploits servers that use asymmetric algorithms (RS256) but don't properly validate the algorithm header. The attacker takes the server's RSA public key (which is often publicly available), creates a new token signed with HMAC using that public key as the HMAC secret, and sets the header to <code class="inline">HS256</code>. If the server naively reads the algorithm from the token header rather than enforcing a specific algorithm, it will try to verify the HMAC using the public key as the secret, and the signature will match. Always hardcode your expected algorithm on the server side.</p>
+
+        <h3>Missing Expiration</h3>
+        <p>Tokens without an <code class="inline">exp</code> claim live forever. If such a token is ever stolen, the attacker has permanent access. Always set an expiration, and keep it short (5 to 15 minutes for access tokens is common). Use a separate refresh token mechanism for long-lived sessions.</p>
+
+        <h3>Storing Tokens in localStorage</h3>
+        <p>Storing JWTs in the browser's <code class="inline">localStorage</code> makes them accessible to any JavaScript running on the page, including injected scripts from XSS vulnerabilities. A single XSS flaw means the attacker can steal every user's token. HTTP-only cookies are more resilient because JavaScript cannot read them, though they introduce CSRF concerns that require their own mitigations (SameSite attribute, CSRF tokens).</p>
+
+        <h3>Not Validating Claims</h3>
+        <p>Verifying the signature is necessary but not sufficient. You must also validate the <code class="inline">exp</code> (is the token expired?), <code class="inline">iss</code> (did the expected service issue this?), and <code class="inline">aud</code> (was this token intended for this service?). Skipping these checks opens the door to token reuse across unrelated services.</p>
+
+        <div class="tool-highlight">
+          <h3>Explore Hashing Algorithms</h3>
+          <p>JWT signatures rely on cryptographic hash functions like SHA-256. Experiment with different hashing algorithms and see how any change to input data produces a completely different hash output.</p>
+          <a href="https://toolrip.com/hash" class="tool-link">Open Hash Generator &rarr;</a>
+        </div>
+
+        <h2 id="best-practices">Best Practices for Production</h2>
+
+        <p>After understanding the pitfalls, here are the concrete steps you should take when implementing JWTs in a production system.</p>
+
+        <ol>
+          <li><strong>Use short-lived access tokens with refresh tokens.</strong> Access tokens should expire in 5 to 15 minutes. When they expire, the client uses a long-lived refresh token (stored in an HTTP-only, Secure, SameSite cookie) to obtain a new access token. This limits the damage window if an access token is compromised.</li>
+          <li><strong>Hardcode the expected algorithm.</strong> Never trust the <code class="inline">alg</code> header from the token itself. Configure your verification library to accept only the algorithm you chose, such as <code class="inline">RS256</code>.</li>
+          <li><strong>Rotate signing keys regularly.</strong> Use key IDs (<code class="inline">kid</code> in the header) to support multiple active keys during rotation. This allows you to sign new tokens with a new key while old tokens signed with the previous key remain valid until they expire.</li>
+          <li><strong>Keep the payload minimal.</strong> Include only the claims you need: user ID, role, and expiration. Fetch additional data from the database when needed. This reduces token size and limits exposure if a token is leaked.</li>
+          <li><strong>Use HTTPS everywhere.</strong> JWTs sent over unencrypted connections can be intercepted. Enforce TLS for all endpoints that send or receive tokens.</li>
+          <li><strong>Implement token revocation for critical actions.</strong> Maintain a lightweight blocklist (in Redis, for example) of revoked token IDs (<code class="inline">jti</code> claims) for scenarios like password changes, account compromise, or explicit logout. Check this list during verification.</li>
+          <li><strong>Validate all registered claims.</strong> Always check <code class="inline">exp</code>, <code class="inline">iss</code>, <code class="inline">aud</code>, and <code class="inline">nbf</code> during verification. Most JWT libraries have configuration options to enforce these checks automatically.</li>
+        </ol>
+
+        <h2 id="jwt-vs-sessions">JWTs vs. Server-Side Sessions</h2>
+
+        <p>The choice between JWTs and traditional sessions is not about which technology is superior. It is about which trade-offs suit your architecture.</p>
+
+        <p><strong>Server-side sessions</strong> store a session identifier in a cookie and keep the actual session data on the server (in memory, a database, or Redis). The server has full control: it can revoke access instantly by deleting the session, it can update permissions without issuing a new token, and sensitive data never leaves the server. The downside is that every request requires a session lookup, and in distributed systems you need shared storage or sticky sessions.</p>
+
+        <p><strong>JWTs</strong> push the session data to the client. The server does not need to store anything, which simplifies horizontal scaling. Any server can verify any request. However, you lose instant revocation, tokens can grow large, and a stolen token is valid until it expires.</p>
+
+        <p>Many production systems use a <strong>hybrid approach</strong>: JWTs for short-lived access tokens that authorize API calls, combined with server-side refresh token storage that allows revocation. This gives you the scalability of JWTs for the high-frequency access pattern while retaining control over long-lived sessions.</p>
+
+        <div class="tool-highlight">
+          <h3>Encryption and Data Security</h3>
+          <p>While JWTs are signed (not encrypted), there are situations where you need to encrypt sensitive payloads. Learn about symmetric and asymmetric encryption and how they protect data in transit.</p>
+          <a href="https://toolrip.com/encryption" class="tool-link">Open Encryption Tool &rarr;</a>
+        </div>
+
+        <h2 id="debugging">Debugging and Inspecting JWTs</h2>
+
+        <p>During development, you will frequently need to inspect token contents, verify signatures, and troubleshoot authentication failures. Here are practical tips for working with JWTs day-to-day.</p>
+
+        <h3>Reading Token Contents</h3>
+        <p>Since the header and payload are just Base64URL-encoded JSON, you can decode them with any Base64 decoder. Split the token at the dots, decode the first two segments, and you can read the claims directly. This is invaluable when debugging why an API returns 401: is the token expired? Is the audience claim wrong? Is the role missing?</p>
+
+        <h3>Verifying Signatures Locally</h3>
+        <p>For HMAC tokens, you can verify a signature by recalculating it with the secret and comparing. For RSA or ECDSA tokens, you need the public key. Most JWT libraries provide a <code class="inline">verify</code> function that does this automatically and returns either the decoded payload or an error.</p>
+
+        <h3>Common 401 Causes</h3>
+        <ul>
+          <li><strong>Token expired:</strong> Check the <code class="inline">exp</code> claim against the current Unix timestamp. Clock skew between servers can cause tokens to appear expired prematurely; most libraries support a small leeway (30 to 60 seconds).</li>
+          <li><strong>Wrong audience:</strong> The <code class="inline">aud</code> claim does not match what the server expects. This often happens when tokens are accidentally sent to the wrong microservice.</li>
+          <li><strong>Algorithm mismatch:</strong> The server expects RS256 but the token was signed with HS256, or vice versa.</li>
+          <li><strong>Malformed token:</strong> The token string is missing a segment, has extra whitespace, or was URL-encoded twice. Check for encoding issues in your HTTP client.</li>
+        </ul>
+
+        <h3>Security Testing Checklist</h3>
+        <p>When auditing a JWT implementation, test these scenarios:</p>
+        <ul>
+          <li>Send a token with <code class="inline">"alg": "none"</code> and an empty signature. It should be rejected.</li>
+          <li>Modify the payload (change the role to admin) without updating the signature. It should be rejected.</li>
+          <li>Send an expired token. It should be rejected.</li>
+          <li>Send a token with a different <code class="inline">aud</code> claim. It should be rejected.</li>
+          <li>If using asymmetric algorithms, try the algorithm confusion attack (sign with the public key as an HMAC secret). It should be rejected.</li>
+        </ul>
+
+        <div class="cta-box">
+          <h2>Work with JWTs Right in Your Browser</h2>
+          <p>Decode, inspect, and verify JSON Web Tokens without installing anything. Paste a token, see the claims, and check the signature all in one place.</p>
+          <a href="https://toolrip.com/jwt" class="btn-primary">Open JWT Decoder</a>
+        </div>
+
+        <h2>Wrapping Up</h2>
+
+        <p>JSON Web Tokens are a powerful primitive for stateless authentication, but power comes with responsibility. The three-part structure of header, payload, and signature is elegantly simple, yet the security surface area is broad. Choose your signing algorithm based on your architecture (symmetric for monoliths, asymmetric for microservices). Keep tokens short-lived. Never trust the algorithm header from the token itself. Validate every claim. And store tokens in HTTP-only cookies whenever possible.</p>
+
+        <p>Understanding how JWTs work at a fundamental level, rather than treating them as magic strings from a library, puts you in a position to build authentication systems that are both scalable and secure. Whether you are building a small side project or an enterprise platform, the principles covered here will serve as a solid foundation for your auth layer.</p>
+
+      </article>
+    </main>
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+    <footer class="footer">
+      <p><a href="https://toolrip.com">Home</a> <a href="https://toolrip.com/blog">Blog</a> <a href="https://toolrip.com/about">About</a> <a href="https://toolrip.com/privacy">Privacy</a> <a href="https://toolrip.com/terms">Terms</a> <a href="https://toolrip.com/contact">Contact</a></p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+  </div>
+  <script src="/shared/common.js" defer></script>
+</body>
+</html>

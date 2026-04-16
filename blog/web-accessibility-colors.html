@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Accessibility and Colors: A Guide to WCAG Compliance — Toolrip</title>
+  <meta name="description" content="Learn WCAG color contrast requirements, color blindness types, and how to design accessible web interfaces that work for everyone.">
+  <link rel="canonical" href="https://toolrip.com/blog/web-accessibility-colors">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta property="og:title" content="Web Accessibility and Colors: A Guide to WCAG Compliance — Toolrip">
+  <meta property="og:description" content="Learn WCAG color contrast requirements and how to design accessible web interfaces.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://toolrip.com/blog/web-accessibility-colors">
+  <meta property="og:site_name" content="Toolrip">
+  <meta property="og:image" content="https://toolrip.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Web Accessibility and Colors — Toolrip">
+  <meta name="twitter:description" content="Learn WCAG color contrast requirements and how to design accessible web interfaces.">
+  <meta name="twitter:image" content="https://toolrip.com/og-image.png">
+  <meta name="robots" content="index, follow">
+  <link rel="preload" href="/shared/style.css" as="style">
+  <link rel="stylesheet" href="/shared/style.css">
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="manifest" href="/manifest.json">
+  <style>:root{--accent:var(--design)}</style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Web Accessibility and Colors: A Guide to WCAG Compliance",
+    "description": "Learn WCAG color contrast requirements, color blindness types, and how to design accessible web interfaces that work for everyone.",
+    "url": "https://toolrip.com/blog/web-accessibility-colors",
+    "datePublished": "2026-04-16",
+    "dateModified": "2026-04-16",
+    "author": {"@type": "Organization", "name": "Toolrip", "url": "https://toolrip.com/about", "description": "A team of software engineers and domain specialists building free online tools"},
+    "publisher": {"@type": "Organization", "name": "Toolrip", "url": "https://toolrip.com", "logo": {"@type": "ImageObject", "url": "https://toolrip.com/og-image.png"}},
+    "image": "https://toolrip.com/og-image.png",
+    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://toolrip.com/blog/web-accessibility-colors"}
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com/"},
+      {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://toolrip.com/blog"},
+      {"@type": "ListItem", "position": 3, "name": "Web Accessibility and Colors", "item": "https://toolrip.com/blog/web-accessibility-colors"}
+    ]
+  }
+  </script>
+  <style>
+    .article-body { line-height: 1.8; font-size: 1.0625rem; }
+    .article-body h2 { font-size: 1.5rem; font-weight: 700; margin: var(--sp-5) 0 var(--sp-3); color: var(--text); border-bottom: 1px solid var(--border); padding-bottom: var(--sp-2); }
+    .article-body h3 { font-size: 1.15rem; font-weight: 600; margin: var(--sp-4) 0 var(--sp-2); color: var(--accent); }
+    .article-body p { margin-bottom: var(--sp-3); color: var(--text-muted); }
+    .article-body ul, .article-body ol { margin-bottom: var(--sp-3); padding-left: 1.5rem; color: var(--text-muted); }
+    .article-body li { margin-bottom: var(--sp-2); }
+    .article-body a { color: var(--accent); font-weight: 500; }
+    .article-body a:hover { text-decoration: underline; }
+    .article-body strong { color: var(--text); }
+    .article-meta { font-size: .875rem; color: var(--text-muted); margin-bottom: var(--sp-4); }
+    .tool-highlight { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--sp-4); margin: var(--sp-3) 0; }
+    .tool-highlight h3 { margin-top: 0; }
+    .tool-highlight .tool-link { display: inline-flex; align-items: center; gap: var(--sp-2); padding: var(--sp-2) var(--sp-3); background: var(--accent); color: #fff; border-radius: var(--radius); font-size: .875rem; font-weight: 600; margin-top: var(--sp-2); transition: opacity .15s; }
+    .tool-highlight .tool-link:hover { opacity: .88; text-decoration: none; }
+    .cta-box { background: var(--bg-elevated); border: 2px solid var(--accent); border-radius: var(--radius-lg); padding: var(--sp-5); text-align: center; margin: var(--sp-5) 0; }
+    .cta-box h2 { border: none; padding: 0; margin-bottom: var(--sp-2); }
+    .cta-box p { margin-bottom: var(--sp-3); }
+    .cta-box .btn-primary { display: inline-flex; padding: var(--sp-3) var(--sp-5); font-size: 1rem; text-decoration: none; }
+    .category-label { display: inline-block; font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); padding: var(--sp-1) var(--sp-2); border-radius: var(--radius-sm); margin-bottom: var(--sp-3); }
+    .toc { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--sp-4); margin-bottom: var(--sp-4); }
+    .toc h2 { font-size: 1rem; font-weight: 600; margin: 0 0 var(--sp-2); border: none; padding: 0; }
+    .toc ol { padding-left: 1.25rem; margin: 0; }
+    .toc li { margin-bottom: var(--sp-1); font-size: .9375rem; }
+    .toc a { color: var(--text-muted); }
+    .toc a:hover { color: var(--accent); }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1801576841825156" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/blog">Blog</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+    <div class="ad-slot ad-top" data-ad-slot="top">Ad</div>
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com/">Home</a> <span>/</span>
+        <a href="https://toolrip.com/blog">Blog</a> <span>/</span>
+        <span>Web Accessibility and Colors</span>
+      </nav>
+      <article class="article-body">
+        <span class="category-label">Design</span>
+        <h1>Web Accessibility and Colors: A Guide to WCAG Compliance</h1>
+        <div class="article-meta">
+          Published on <time datetime="2026-04-16">April 16, 2026</time> &middot; 10 min read &middot; By the <a href="https://toolrip.com/about">Toolrip Team</a>
+        </div>
+
+        <p>Color is one of the most powerful tools in a designer's arsenal. It guides attention, conveys meaning, establishes hierarchy, and shapes how people feel about a product. But for the roughly 300 million people worldwide living with color vision deficiency, and the millions more with low vision or situational impairments, poorly chosen colors can turn a beautiful interface into an unusable one. That is where the Web Content Accessibility Guidelines, commonly known as WCAG, come in.</p>
+
+        <p>This guide walks through everything you need to know about making color choices that are both visually appealing and accessible to the widest possible audience. Whether you are a designer selecting a palette, a developer implementing a design system, or a project manager evaluating compliance, understanding color accessibility is a fundamental skill for building inclusive products.</p>
+
+        <nav class="toc" aria-label="Table of Contents">
+          <h2>Table of Contents</h2>
+          <ol>
+            <li><a href="#what-is-wcag">What Is WCAG and Why Does It Matter?</a></li>
+            <li><a href="#contrast-ratios">Understanding Contrast Ratios: AA vs AAA</a></li>
+            <li><a href="#color-blindness">Types of Color Blindness</a></li>
+            <li><a href="#testing">How to Test for Color Accessibility</a></li>
+            <li><a href="#design-patterns">Design Patterns That Work for Everyone</a></li>
+            <li><a href="#common-mistakes">Common Mistakes Developers Make</a></li>
+            <li><a href="#building-palettes">Building Accessible Color Palettes</a></li>
+          </ol>
+        </nav>
+
+        <h2 id="what-is-wcag">What Is WCAG and Why Does It Matter?</h2>
+
+        <p>The Web Content Accessibility Guidelines (WCAG) are a set of technical standards published by the World Wide Web Consortium (W3C) through its Web Accessibility Initiative (WAI). These guidelines define how to make web content perceivable, operable, understandable, and robust for people with disabilities. WCAG has been adopted as the legal standard for digital accessibility in dozens of countries, including the United States (through the ADA and Section 508), the European Union (through the European Accessibility Act), and many others.</p>
+
+        <p>WCAG is organized around three conformance levels: <strong>A</strong> (minimum), <strong>AA</strong> (recommended), and <strong>AAA</strong> (enhanced). Most legal requirements and industry best practices target Level AA compliance. When it comes to color, WCAG addresses two critical areas: sufficient contrast between text and its background, and ensuring that color is never the sole means of conveying information.</p>
+
+        <p>The business case for accessibility extends beyond legal compliance. Accessible websites tend to have better SEO performance, reach a larger audience, and provide a superior user experience for everyone. Designing with accessibility in mind from the start is almost always easier and cheaper than retrofitting an existing product.</p>
+
+        <h2 id="contrast-ratios">Understanding Contrast Ratios: AA vs AAA</h2>
+
+        <p>Contrast ratio is a mathematical comparison between the relative luminance of two colors. It ranges from 1:1 (no contrast, identical colors) to 21:1 (maximum contrast, pure black against pure white). WCAG defines specific minimum contrast ratios depending on the conformance level and the size of the text.</p>
+
+        <h3>WCAG Level AA Requirements</h3>
+
+        <p>Level AA is the standard most organizations aim to meet. Its contrast requirements are:</p>
+
+        <ul>
+          <li><strong>Normal text</strong> (under 18pt, or under 14pt bold): minimum contrast ratio of <strong>4.5:1</strong></li>
+          <li><strong>Large text</strong> (18pt and above, or 14pt bold and above): minimum contrast ratio of <strong>3:1</strong></li>
+          <li><strong>UI components and graphical objects</strong> (icons, form borders, focus indicators): minimum contrast ratio of <strong>3:1</strong> against adjacent colors</li>
+        </ul>
+
+        <h3>WCAG Level AAA Requirements</h3>
+
+        <p>Level AAA provides enhanced accessibility and is recommended for content that serves particularly vulnerable audiences, such as government services or healthcare portals. The requirements are stricter:</p>
+
+        <ul>
+          <li><strong>Normal text</strong>: minimum contrast ratio of <strong>7:1</strong></li>
+          <li><strong>Large text</strong>: minimum contrast ratio of <strong>4.5:1</strong></li>
+        </ul>
+
+        <p>To put these numbers in perspective, consider that medium gray (#767676) on white (#FFFFFF) has a contrast ratio of exactly 4.54:1, just barely meeting AA for normal text. A popular design choice like light gray placeholder text (#AAAAAA on white) falls well short at 2.32:1. These seemingly small differences have a real impact on readability, especially for users with low vision, older adults, or anyone using a screen in bright sunlight.</p>
+
+        <h3>How Contrast Ratios Are Calculated</h3>
+
+        <p>The formula uses relative luminance, which accounts for the way human eyes perceive brightness differently across the color spectrum. Green light appears brighter to us than red or blue light of the same intensity. The relative luminance formula weights the RGB channels accordingly: roughly 21% for red, 72% for green, and 7% for blue. The contrast ratio is then calculated by dividing the lighter color's luminance (plus 0.05) by the darker color's luminance (plus 0.05).</p>
+
+        <p>You do not need to do this math by hand. Tools like contrast checkers can calculate the ratio instantly. But understanding the concept helps explain why certain color combinations that look fine to some viewers actually fail accessibility thresholds.</p>
+
+        <div class="tool-highlight">
+          <h3>Build Accessible Palettes with the Color Palette Generator</h3>
+          <p>When selecting colors for your project, start with an accessible foundation. The Color Palette Generator helps you explore harmonious color combinations. Pair it with a contrast checker to verify that your chosen palette meets WCAG requirements before you write a single line of CSS.</p>
+          <a href="https://toolrip.com/color-palette" class="tool-link">Open Color Palette Generator &rarr;</a>
+        </div>
+
+        <h2 id="color-blindness">Types of Color Blindness</h2>
+
+        <p>Color vision deficiency (commonly called color blindness) affects approximately 8% of men and 0.5% of women of Northern European descent, with varying prevalence across other populations. It is not a single condition but a spectrum of conditions that alter how the brain interprets color signals from the retina. Understanding the major types helps designers avoid combinations that become indistinguishable for affected users.</p>
+
+        <h3>Red-Green Color Blindness</h3>
+
+        <p>The most common category, red-green color blindness encompasses two distinct conditions:</p>
+
+        <ul>
+          <li><strong>Protanopia</strong> affects the long-wavelength (red) cone cells. People with protanopia see reds as darker and more muted, and they struggle to distinguish red from green, brown, and certain shades of orange. Red traffic lights may appear dim or nearly black. Protanopia affects about 1% of men.</li>
+          <li><strong>Deuteranopia</strong> affects the medium-wavelength (green) cone cells. It is the most common form of color blindness, affecting roughly 5% of men. People with deuteranopia have difficulty distinguishing green from red, and greens may appear more beige or brownish. While the specific colors confused differ slightly from protanopia, the practical impact is similar.</li>
+        </ul>
+
+        <p>Both protanopia and deuteranopia cause significant difficulty with interfaces that rely on red and green to communicate status (such as success/error states, traffic light color coding, or stock market indicators).</p>
+
+        <h3>Blue-Yellow Color Blindness</h3>
+
+        <ul>
+          <li><strong>Tritanopia</strong> affects the short-wavelength (blue) cone cells. It is much rarer than red-green deficiencies, affecting fewer than 0.01% of the population. People with tritanopia confuse blue with green, and yellow with violet. They also have difficulty distinguishing light blues from grays.</li>
+        </ul>
+
+        <h3>Complete Color Blindness</h3>
+
+        <p><strong>Achromatopsia</strong> is an extremely rare condition (roughly 1 in 33,000 people) in which a person sees no color at all, perceiving the world entirely in shades of gray. People with achromatopsia often have additional challenges including light sensitivity and reduced visual acuity, making high contrast especially important.</p>
+
+        <div class="tool-highlight">
+          <h3>See Your Designs Through Different Eyes</h3>
+          <p>The best way to understand how your interface looks to users with color vision deficiency is to simulate it. The Color Blindness Simulator lets you upload images or enter colors and preview how they appear under protanopia, deuteranopia, tritanopia, and other conditions. This is an essential step in any accessibility review.</p>
+          <a href="https://toolrip.com/color-blindness" class="tool-link">Open Color Blindness Simulator &rarr;</a>
+        </div>
+
+        <h2 id="testing">How to Test for Color Accessibility</h2>
+
+        <p>Effective accessibility testing combines automated tools with manual review. Neither approach alone catches everything. Here is a practical workflow for evaluating color accessibility in your projects.</p>
+
+        <h3>Step 1: Audit Contrast Ratios</h3>
+
+        <p>Start by checking every text element against its background. Pay special attention to text on images, gradient backgrounds, and colored surfaces. Automated tools can scan an entire page and flag elements that fail WCAG contrast thresholds. Browser developer tools in Chrome, Firefox, and Edge all include built-in contrast ratio displays when you inspect text elements.</p>
+
+        <h3>Step 2: Simulate Color Blindness</h3>
+
+        <p>Run your interface through a <a href="https://toolrip.com/color-blindness">color blindness simulator</a> for each major type of deficiency. Focus on whether interactive elements remain distinguishable, whether status indicators still communicate their meaning, and whether data visualizations remain readable. Chrome DevTools includes a built-in rendering emulation for various color vision deficiencies under the Rendering panel.</p>
+
+        <h3>Step 3: Check for Color-Only Information</h3>
+
+        <p>Review your interface for any place where color is the sole method of conveying information. Common offenders include form validation that only turns a field border red, charts that distinguish data series purely by color, and links within body text that are differentiated from surrounding text only by color (without an underline or other visual indicator).</p>
+
+        <h3>Step 4: Test in Real Conditions</h3>
+
+        <p>View your interface on different screens and in different lighting conditions. A contrast ratio that technically passes WCAG may still be difficult to read on a low-quality display or in bright ambient light. If possible, include people with disabilities in your usability testing.</p>
+
+        <h2 id="design-patterns">Design Patterns That Work for Everyone</h2>
+
+        <p>Accessible design does not mean sacrificing aesthetics. Many of the best-designed interfaces in the world meet or exceed WCAG requirements. The key is to build accessibility into your design system from the beginning rather than treating it as an afterthought.</p>
+
+        <h3>Use Multiple Visual Cues</h3>
+
+        <p>Never rely on color alone to convey meaning. Pair color with at least one additional visual indicator. For example, error states should combine a red border with an error icon and descriptive text. Success messages should pair green with a checkmark. Links within body text should be underlined (or at minimum have a 3:1 contrast ratio against surrounding text plus a non-color indicator on hover/focus).</p>
+
+        <h3>Design with Semantic Color Tokens</h3>
+
+        <p>Create a color system that separates the purpose of a color from its specific value. Define tokens like <strong>color-danger</strong>, <strong>color-success</strong>, and <strong>color-warning</strong>, then ensure each token has sufficient contrast in both light and dark modes. This makes it easier to adjust for accessibility without redesigning individual components.</p>
+
+        <h3>Provide Sufficient Contrast in Gradients</h3>
+
+        <p>Gradients present a particular challenge because contrast varies across the element. If text sits on a gradient background, the contrast must meet WCAG requirements at every point where the text appears. One approach is to add a semi-transparent overlay between the gradient and the text. When designing <a href="https://toolrip.com/gradient">gradient backgrounds</a>, test the lightest and darkest points of the gradient separately against your text color.</p>
+
+        <h3>Consider Dark Mode Carefully</h3>
+
+        <p>Dark mode introduces its own accessibility challenges. Colors that meet contrast requirements on a white background may fail on a dark one, and vice versa. Saturated colors that look vibrant on dark backgrounds can cause visual fatigue and may vibrate or halo. Desaturate your accent colors slightly for dark mode and verify all contrast ratios in both themes independently.</p>
+
+        <h3>Use Patterns and Textures in Data Visualization</h3>
+
+        <p>Charts and graphs should never rely solely on color to differentiate data series. Add patterns, textures, direct labels, or distinct shapes to ensure the data remains readable for users with any type of color vision deficiency. If you are using a charting library, most support pattern fills as an option.</p>
+
+        <h2 id="common-mistakes">Common Mistakes Developers Make</h2>
+
+        <p>Even well-intentioned development teams frequently make color accessibility errors. Knowing the most common pitfalls helps you avoid them in your own work.</p>
+
+        <h3>Relying on Brand Colors Without Testing</h3>
+
+        <p>A brand's primary color may look stunning in marketing materials, but that does not guarantee it meets accessibility standards when used for interface text or interactive elements. Always check brand colors against their intended backgrounds before using them in a UI. If a brand color fails contrast requirements, create an accessible variant for digital use while keeping the original for decorative purposes.</p>
+
+        <h3>Forgetting About Focus States</h3>
+
+        <p>Keyboard users depend on visible focus indicators to navigate an interface. Removing the default browser focus outline (that familiar blue or dotted ring) without providing a custom alternative is one of the most harmful accessibility mistakes. Custom focus indicators must have at least a 3:1 contrast ratio against adjacent colors and should be clearly visible around interactive elements.</p>
+
+        <h3>Ignoring Disabled State Contrast</h3>
+
+        <p>WCAG does not require disabled elements to meet contrast minimums, but excessively low-contrast disabled states can confuse users who cannot tell whether an element is disabled or simply hard to read. A reasonable practice is to keep disabled text at least somewhat legible while making it visually distinct from active elements through additional cues like opacity or a different text style.</p>
+
+        <h3>Using Color-Only Form Validation</h3>
+
+        <p>Changing an input border from gray to red when validation fails is insufficient. Users who cannot perceive red will not notice the change. Always pair the color change with an error message, an icon, and ideally an <code>aria-invalid</code> attribute. The error message should describe the problem specifically, not just say something generic.</p>
+
+        <h3>Hard-Coding Colors Instead of Using System Tokens</h3>
+
+        <p>Scattering hex values throughout a codebase makes it nearly impossible to maintain accessibility consistently. A single color that gets updated for compliance may exist in dozens of places. Use CSS custom properties or design tokens to define all colors in one location, making it straightforward to adjust for accessibility across the entire product.</p>
+
+        <h3>Neglecting Text on Images</h3>
+
+        <p>Text overlaid on photographs or illustrations is inherently difficult to make accessible because the background varies. User-uploaded content makes this even more unpredictable. Use a solid or semi-transparent backing behind text on images, or apply a gradient overlay that guarantees minimum contrast. Never rely on the content of an image to provide enough contrast for overlaid text.</p>
+
+        <div class="tool-highlight">
+          <h3>Generate Accessible Gradients for Text Overlays</h3>
+          <p>When you need a gradient overlay to ensure text readability on images, the Gradient Generator helps you create smooth transitions with precise control over opacity and color stops. Build gradients that darken backgrounds just enough to make your text meet WCAG contrast ratios without obscuring the image underneath.</p>
+          <a href="https://toolrip.com/gradient" class="tool-link">Open Gradient Generator &rarr;</a>
+        </div>
+
+        <h2 id="building-palettes">Building Accessible Color Palettes</h2>
+
+        <p>Creating a color palette that is both visually cohesive and accessible requires a systematic approach. Start by selecting your base colors, then build a scale of tints and shades for each hue. For every color in the palette, define which backgrounds it can be used against and document the resulting contrast ratios.</p>
+
+        <p>A practical method is to generate a nine-step lightness scale for each hue (from very light to very dark) and mark the contrast boundary for each background. For a white background, you might find that steps 1 through 4 are too light for text but work well as backgrounds or decorative fills, while steps 5 through 9 meet AA or AAA requirements for text. Using the <a href="https://toolrip.com/color-palette">Color Palette Generator</a>, you can explore harmonious starting points and then test each shade for compliance.</p>
+
+        <p>Document your accessible palette with clear usage guidelines. Specify which color combinations are approved for text, which are reserved for backgrounds and decorative elements, and which combinations should never be used together. This documentation becomes a reference for every designer and developer on the team, preventing accessibility regressions as the product evolves.</p>
+
+        <p>Remember that accessibility is not a one-time task but an ongoing practice. As your product grows and your design system evolves, continue testing new color combinations against WCAG requirements. Run your interfaces through a <a href="https://toolrip.com/color-blindness">color blindness simulation</a> with every major design change. Build contrast checking into your design review process and your CI/CD pipeline if possible. The goal is to make accessibility an automatic part of how your team works, not an extra step that gets skipped under deadline pressure.</p>
+
+        <div class="cta-box">
+          <h2>Start Building Accessible Designs Today</h2>
+          <p>Use the Color Blindness Simulator to see how your current designs look to users with color vision deficiency, and catch accessibility issues before they reach production.</p>
+          <a href="https://toolrip.com/color-blindness" class="btn-primary">Try the Color Blindness Simulator</a>
+        </div>
+
+      </article>
+    </main>
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+    <footer class="footer">
+      <p><a href="https://toolrip.com">Home</a> <a href="https://toolrip.com/blog">Blog</a> <a href="https://toolrip.com/about">About</a> <a href="https://toolrip.com/privacy">Privacy</a> <a href="https://toolrip.com/terms">Terms</a> <a href="https://toolrip.com/contact">Contact</a></p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+  </div>
+  <script src="/shared/common.js" defer></script>
+</body>
+</html>

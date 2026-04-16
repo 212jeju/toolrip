@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Theory for Web Developers: A Practical Introduction — Toolrip</title>
+  <meta name="description" content="Learn color theory fundamentals for web development: the color wheel, contrast ratios, WCAG accessibility, and how to build effective palettes for real projects.">
+  <link rel="canonical" href="https://toolrip.com/blog/color-theory-for-developers">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta property="og:title" content="Color Theory for Web Developers: A Practical Introduction — Toolrip">
+  <meta property="og:description" content="Learn color theory fundamentals for web development: the color wheel, contrast ratios, WCAG accessibility, and effective palette building.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://toolrip.com/blog/color-theory-for-developers">
+  <meta property="og:site_name" content="Toolrip">
+  <meta property="og:image" content="https://toolrip.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Color Theory for Web Developers: A Practical Introduction — Toolrip">
+  <meta name="twitter:description" content="Learn color theory fundamentals for web development: the color wheel, contrast ratios, WCAG accessibility, and effective palette building.">
+  <meta name="twitter:image" content="https://toolrip.com/og-image.png">
+  <meta name="robots" content="index, follow">
+  <link rel="preload" href="/shared/style.css" as="style">
+  <link rel="stylesheet" href="/shared/style.css">
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="manifest" href="/manifest.json">
+  <style>:root{--accent:var(--design)}</style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Color Theory for Web Developers: A Practical Introduction",
+    "description": "Learn color theory fundamentals for web development: the color wheel, contrast ratios, WCAG accessibility, and how to build effective palettes for real projects.",
+    "url": "https://toolrip.com/blog/color-theory-for-developers",
+    "datePublished": "2026-04-16",
+    "dateModified": "2026-04-16",
+    "author": {"@type": "Organization", "name": "Toolrip", "url": "https://toolrip.com/about", "description": "A team of software engineers and domain specialists building free online tools"},
+    "publisher": {"@type": "Organization", "name": "Toolrip", "url": "https://toolrip.com", "logo": {"@type": "ImageObject", "url": "https://toolrip.com/og-image.png"}},
+    "image": "https://toolrip.com/og-image.png",
+    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://toolrip.com/blog/color-theory-for-developers"}
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com/"},
+      {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://toolrip.com/blog"},
+      {"@type": "ListItem", "position": 3, "name": "Color Theory for Developers", "item": "https://toolrip.com/blog/color-theory-for-developers"}
+    ]
+  }
+  </script>
+  <style>
+    .article-body { line-height: 1.8; font-size: 1.0625rem; }
+    .article-body h2 { font-size: 1.5rem; font-weight: 700; margin: var(--sp-5) 0 var(--sp-3); color: var(--text); border-bottom: 1px solid var(--border); padding-bottom: var(--sp-2); }
+    .article-body h3 { font-size: 1.15rem; font-weight: 600; margin: var(--sp-4) 0 var(--sp-2); color: var(--accent); }
+    .article-body p { margin-bottom: var(--sp-3); color: var(--text-muted); }
+    .article-body ul, .article-body ol { margin-bottom: var(--sp-3); padding-left: 1.5rem; color: var(--text-muted); }
+    .article-body li { margin-bottom: var(--sp-2); }
+    .article-body a { color: var(--accent); font-weight: 500; }
+    .article-body a:hover { text-decoration: underline; }
+    .article-body strong { color: var(--text); }
+    .article-meta { font-size: .875rem; color: var(--text-muted); margin-bottom: var(--sp-4); }
+    .tool-highlight { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--sp-4); margin: var(--sp-3) 0; }
+    .tool-highlight h3 { margin-top: 0; }
+    .tool-highlight .tool-link { display: inline-flex; align-items: center; gap: var(--sp-2); padding: var(--sp-2) var(--sp-3); background: var(--accent); color: #fff; border-radius: var(--radius); font-size: .875rem; font-weight: 600; margin-top: var(--sp-2); transition: opacity .15s; }
+    .tool-highlight .tool-link:hover { opacity: .88; text-decoration: none; }
+    .cta-box { background: var(--bg-elevated); border: 2px solid var(--accent); border-radius: var(--radius-lg); padding: var(--sp-5); text-align: center; margin: var(--sp-5) 0; }
+    .cta-box h2 { border: none; padding: 0; margin-bottom: var(--sp-2); }
+    .cta-box p { margin-bottom: var(--sp-3); }
+    .cta-box .btn-primary { display: inline-flex; padding: var(--sp-3) var(--sp-5); font-size: 1rem; text-decoration: none; }
+    .category-label { display: inline-block; font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); padding: var(--sp-1) var(--sp-2); border-radius: var(--radius-sm); margin-bottom: var(--sp-3); }
+    .toc { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--sp-4); margin-bottom: var(--sp-4); }
+    .toc h2 { font-size: 1rem; font-weight: 600; margin: 0 0 var(--sp-2); border: none; padding: 0; }
+    .toc ol { padding-left: 1.25rem; margin: 0; }
+    .toc li { margin-bottom: var(--sp-1); font-size: .9375rem; }
+    .toc a { color: var(--text-muted); }
+    .toc a:hover { color: var(--accent); }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1801576841825156" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/blog">Blog</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+    <div class="ad-slot ad-top" data-ad-slot="top">Ad</div>
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com/">Home</a> <span>/</span>
+        <a href="https://toolrip.com/blog">Blog</a> <span>/</span>
+        <span>Color Theory for Developers</span>
+      </nav>
+      <article class="article-body">
+        <span class="category-label">Design</span>
+        <h1>Color Theory for Web Developers: A Practical Introduction</h1>
+        <p class="article-meta">Published on April 16, 2026 &middot; 11 min read</p>
+
+        <div class="toc">
+          <h2>Table of Contents</h2>
+          <ol>
+            <li><a href="#why-color-matters">Why Color Matters in Web Development</a></li>
+            <li><a href="#color-wheel">The Color Wheel and Color Models</a></li>
+            <li><a href="#harmony">Color Harmony: Schemes That Work</a></li>
+            <li><a href="#contrast">Contrast Ratios and Readability</a></li>
+            <li><a href="#accessibility">WCAG Accessibility Standards</a></li>
+            <li><a href="#color-blindness">Designing for Color Blindness</a></li>
+            <li><a href="#building-palettes">Building Palettes for Real Projects</a></li>
+            <li><a href="#css-color">Modern CSS Color Features</a></li>
+          </ol>
+        </div>
+
+        <p>Most web development tutorials treat color as an afterthought -- pick a nice blue, find a matching gray, and move on. But color is one of the most powerful tools in your interface design toolkit. It directs attention, communicates meaning, establishes hierarchy, and shapes emotional responses, all before a user reads a single word. The difference between an interface that feels professional and one that feels amateurish often comes down to color choices.</p>
+
+        <p>The good news is that effective use of color does not require artistic talent. It requires understanding a handful of principles grounded in physics, perception, and accessibility standards. This guide covers those principles with a developer-first perspective: concrete rules, specific numbers, and practical techniques you can apply to your next project.</p>
+
+        <h2 id="why-color-matters">Why Color Matters in Web Development</h2>
+
+        <p>Color serves several functional roles in an interface beyond aesthetics:</p>
+        <ul>
+          <li><strong>Hierarchy and attention.</strong> A bright accent color on a muted background pulls the eye to primary actions. Users should be able to identify the most important element on any screen within the first second.</li>
+          <li><strong>State communication.</strong> Red for errors, green for success, yellow for warnings -- these conventions are deeply ingrained and violating them confuses users. Color is often the fastest channel for communicating system state.</li>
+          <li><strong>Brand identity.</strong> Consistent color usage builds recognition. Users should be able to identify your product from a thumbnail.</li>
+          <li><strong>Grouping and separation.</strong> Subtle background color shifts can group related content and separate distinct sections without adding visible borders or dividers.</li>
+          <li><strong>Accessibility.</strong> Roughly 8% of men and 0.5% of women have some form of color vision deficiency. Your color choices determine whether your product is usable by everyone or excludes millions of potential users.</li>
+        </ul>
+
+        <h2 id="color-wheel">The Color Wheel and Color Models</h2>
+
+        <p>The color wheel is the foundational tool for understanding color relationships. It arranges hues in a circle based on their wavelength relationships, placing complementary colors opposite each other and analogous colors adjacent.</p>
+
+        <h3>Primary, Secondary, and Tertiary Colors</h3>
+        <p>In the traditional RYB (red-yellow-blue) model used in art, primary colors cannot be created by mixing. In the RGB model used in digital displays, the primaries are <strong>red, green, and blue</strong> -- light-based rather than pigment-based. Mixing two primaries produces a secondary color (cyan, magenta, yellow), and mixing a primary with an adjacent secondary produces a tertiary color.</p>
+
+        <h3>HSL vs. RGB vs. Hex</h3>
+        <p>As a developer, you will encounter multiple color models. Each has strengths:</p>
+        <ul>
+          <li><strong>Hex (#FF5733)</strong> is compact and universal but opaque to humans -- looking at a hex code tells you nothing about the color without experience.</li>
+          <li><strong>RGB (rgb(255, 87, 51))</strong> maps directly to hardware (each channel controls one of the three sub-pixels in your display) but is unintuitive for design work.</li>
+          <li><strong>HSL (hsl(14, 100%, 60%))</strong> maps to how humans think about color: <strong>Hue</strong> is the color itself (0-360 on the color wheel), <strong>Saturation</strong> is the intensity (0-100%), and <strong>Lightness</strong> controls how light or dark it is (0-100%). HSL is far easier to manipulate programmatically when you want to create variations of a base color.</li>
+        </ul>
+
+        <p>When building a design system, <strong>HSL is your best friend</strong>. Need a darker version of your primary color? Reduce lightness by 15%. Need a muted version? Drop saturation by 20%. These operations are intuitive in HSL but involve arcane math in RGB or Hex.</p>
+
+        <h3>The Perceptual Problem</h3>
+        <p>Neither RGB nor HSL accounts for how humans actually perceive brightness. A pure yellow (hsl(60, 100%, 50%)) and a pure blue (hsl(240, 100%, 50%)) have the same HSL lightness value, but yellow appears dramatically brighter to the human eye. Newer color spaces like <strong>OKLCH</strong> and <strong>OKLAB</strong> (now supported in modern CSS) solve this by being perceptually uniform -- equal numerical changes produce equal perceived changes. If you are building a sophisticated design system, these spaces are worth investigating.</p>
+
+        <div class="tool-highlight">
+          <h3>Build Color Palettes Visually</h3>
+          <p>Experiment with hue, saturation, and lightness interactively. Our color palette generator shows you complementary, analogous, and triadic schemes in real time as you adjust your base color.</p>
+          <a href="https://toolrip.com/color-palette" class="tool-link">Open Color Palette Generator &rarr;</a>
+        </div>
+
+        <h2 id="harmony">Color Harmony: Schemes That Work</h2>
+
+        <p>Color harmony refers to combinations of colors that are aesthetically pleasing and functional. These are not arbitrary -- they are based on geometric relationships on the color wheel that create visual balance.</p>
+
+        <h3>Complementary Colors</h3>
+        <p>Two colors directly opposite each other on the wheel (e.g., blue and orange). Complementary pairs create maximum contrast and visual energy. They work well for call-to-action buttons against a contrasting background, but using them in equal proportions creates visual vibration that is hard on the eyes. The standard approach is to use one as the dominant color and the other sparingly as an accent.</p>
+
+        <h3>Analogous Colors</h3>
+        <p>Three to five colors adjacent on the wheel (e.g., blue, blue-green, green). Analogous schemes feel harmonious and cohesive because the colors share underlying hues. They are excellent for creating calm, unified interfaces but can lack contrast. Add a neutral tone (white, gray, or black) and use the outermost color in the range as your accent to create sufficient visual hierarchy.</p>
+
+        <h3>Triadic Colors</h3>
+        <p>Three colors equally spaced around the wheel (e.g., red, yellow, blue). Triadic schemes are vibrant and balanced. They are harder to execute well -- the key is to let one color dominate (about 60% of the visual space), use a second for support (30%), and reserve the third for accents (10%). This 60-30-10 rule is borrowed from interior design and works remarkably well for interfaces.</p>
+
+        <h3>Split-Complementary</h3>
+        <p>Instead of the direct complement, use the two colors flanking it. For example, if your base is blue, instead of orange, use red-orange and yellow-orange. This provides the visual tension of complementary colors with less risk of clashing. It is one of the most forgiving schemes for developers without design training.</p>
+
+        <h2 id="contrast">Contrast Ratios and Readability</h2>
+
+        <p>Contrast ratio is the single most important number in color accessibility. It measures the relative luminance difference between two colors, expressed as a ratio from 1:1 (identical colors) to 21:1 (black on white).</p>
+
+        <h3>How Contrast Ratios Are Calculated</h3>
+        <p>The formula uses relative luminance -- a measure of the perceived brightness of a color. Each RGB channel is first linearized (converting from sRGB gamma encoding to linear light), then weighted according to human eye sensitivity: green contributes most (0.7152), red next (0.2126), and blue least (0.0722). The contrast ratio is then (L1 + 0.05) / (L2 + 0.05), where L1 is the lighter color's luminance.</p>
+
+        <p>You do not need to calculate this by hand. The important thing is understanding what the numbers mean in practice:</p>
+        <ul>
+          <li><strong>21:1</strong> -- Black on white. Maximum possible contrast.</li>
+          <li><strong>7:1</strong> -- Very high contrast. Comfortable for everyone including users with moderate visual impairments.</li>
+          <li><strong>4.5:1</strong> -- The minimum for normal-size body text (WCAG AA). Readable for most users.</li>
+          <li><strong>3:1</strong> -- The minimum for large text (18pt+ or 14pt+ bold) and non-text elements like icons and borders.</li>
+          <li><strong>2:1</strong> -- Low contrast. Difficult to read for anyone, especially in non-ideal lighting conditions like a sunny outdoor screen.</li>
+        </ul>
+
+        <h3>Common Contrast Mistakes</h3>
+        <p>The most frequent contrast failure is light gray text on a white background. Designers use it for "secondary" text, but a typical light gray (#999999 on #FFFFFF) has a contrast ratio of only 2.85:1 -- below the minimum for any text size. Placeholder text in form fields is another common offender. The desire for visual subtlety often directly conflicts with readability, and readability must win.</p>
+
+        <div class="tool-highlight">
+          <h3>Create Smooth CSS Gradients</h3>
+          <p>Gradients are a practical application of color theory -- blending two or more colors across a surface. Our gradient generator lets you build linear and radial gradients with live CSS output, helping you see how different color combinations transition.</p>
+          <a href="https://toolrip.com/gradient" class="tool-link">Open Gradient Generator &rarr;</a>
+        </div>
+
+        <h2 id="accessibility">WCAG Accessibility Standards</h2>
+
+        <p>The Web Content Accessibility Guidelines (WCAG) provide specific, testable criteria for color accessibility. Understanding these requirements is not optional -- in many jurisdictions, web accessibility is a legal requirement, and even where it is not, excluding users is simply bad business.</p>
+
+        <h3>WCAG 2.1 Color Requirements</h3>
+        <p><strong>Level AA</strong> (the standard compliance target for most organizations):</p>
+        <ul>
+          <li>Normal text: minimum <strong>4.5:1</strong> contrast ratio against its background.</li>
+          <li>Large text (18pt regular or 14pt bold and above): minimum <strong>3:1</strong> contrast ratio.</li>
+          <li>Non-text elements (UI components, icons, graphical objects): minimum <strong>3:1</strong> contrast ratio.</li>
+          <li>Color must <strong>not be the only means</strong> of conveying information. A red error state must also include an icon, text label, or border change.</li>
+        </ul>
+
+        <p><strong>Level AAA</strong> (the enhanced level, recommended for critical content):</p>
+        <ul>
+          <li>Normal text: minimum <strong>7:1</strong> contrast ratio.</li>
+          <li>Large text: minimum <strong>4.5:1</strong> contrast ratio.</li>
+        </ul>
+
+        <h3>Beyond Contrast: The 1.4.1 Rule</h3>
+        <p>WCAG Success Criterion 1.4.1 states that color cannot be the sole indicator of meaning. This is violated more often than any contrast failure. Common examples include:</p>
+        <ul>
+          <li>Form validation that only turns the field border red without adding error text.</li>
+          <li>Links that are distinguished from surrounding text only by color (they should also be underlined or otherwise differentiated).</li>
+          <li>Charts and graphs that rely solely on color to distinguish data series (add patterns, labels, or different line styles).</li>
+          <li>Status indicators that are only colored dots (add text labels or distinct shapes).</li>
+        </ul>
+
+        <h2 id="color-blindness">Designing for Color Blindness</h2>
+
+        <p>Color vision deficiency (CVD) affects approximately 1 in 12 men and 1 in 200 women worldwide. There are several types, each affecting different wavelength ranges:</p>
+
+        <ul>
+          <li><strong>Deuteranopia / Deuteranomaly</strong> (green-weak or green-blind) -- the most common form, affecting about 6% of men. Red and green become difficult to distinguish.</li>
+          <li><strong>Protanopia / Protanomaly</strong> (red-weak or red-blind) -- affects about 2% of men. Similar to deuteranopia but with additional reduced sensitivity to red brightness.</li>
+          <li><strong>Tritanopia / Tritanomaly</strong> (blue-weak or blue-blind) -- rare, affecting under 0.01% of people. Blue and yellow become confused.</li>
+          <li><strong>Achromatopsia</strong> (complete color blindness) -- extremely rare. The world appears in grayscale.</li>
+        </ul>
+
+        <h3>Practical Guidelines</h3>
+        <p>Designing for color blindness does not mean avoiding color -- it means ensuring that color is never the only information channel:</p>
+        <ul>
+          <li><strong>Avoid relying on red/green distinctions alone.</strong> The classic problem. Use blue/orange instead, or supplement color with icons and text.</li>
+          <li><strong>Test your design in simulation mode.</strong> Tools that simulate different types of CVD reveal problems you would never catch otherwise.</li>
+          <li><strong>Use sufficient luminance contrast between colors that must be distinguished.</strong> Even with CVD, most people can perceive lightness differences. If your red and green also differ significantly in lightness, they remain distinguishable.</li>
+          <li><strong>Add redundant visual indicators.</strong> Checkmarks for success, X marks for errors, patterns in charts, underlines on links -- these work regardless of color perception.</li>
+        </ul>
+
+        <div class="tool-highlight">
+          <h3>Simulate Color Blindness</h3>
+          <p>See your color choices through the eyes of users with different types of color vision deficiency. Our color blindness simulator transforms any color into its deuteranopia, protanopia, and tritanopia equivalents so you can spot accessibility issues early.</p>
+          <a href="https://toolrip.com/color-blindness" class="tool-link">Open Color Blindness Simulator &rarr;</a>
+        </div>
+
+        <h2 id="building-palettes">Building Palettes for Real Projects</h2>
+
+        <p>Theory is useful, but you need a practical process for building a color palette that actually works in production. Here is a step-by-step approach that scales from a single-page site to a full design system.</p>
+
+        <h3>Step 1: Start with a Single Brand Color</h3>
+        <p>Every palette begins with one color that represents the brand or product identity. This is your primary color. If you do not have one, consider the psychological associations: blue conveys trust and stability, green suggests growth and health, purple implies creativity and luxury, and orange communicates energy and warmth. Choose based on your product's personality, not personal preference.</p>
+
+        <h3>Step 2: Generate a Lightness Scale</h3>
+        <p>From your primary color, create a scale of 9 to 11 shades ranging from near-white to near-black. In HSL terms, keep the hue and saturation roughly constant while varying lightness from about 95% down to about 10%. These shades give you backgrounds, borders, hover states, and text colors all derived from a single source, ensuring visual cohesion.</p>
+
+        <h3>Step 3: Add a Neutral Scale</h3>
+        <p>Pure gray is surprisingly rare in professional designs. Instead, most palettes use a "warm gray" or "cool gray" -- a neutral with a hint of the primary hue mixed in. Generate a gray scale from near-white to near-black, but add about 5-10% of your primary hue's saturation. This subtle tint ties the entire interface together.</p>
+
+        <h3>Step 4: Define Semantic Colors</h3>
+        <p>Every interface needs colors for success, warning, error, and informational states. These should be distinct from your primary color and from each other, even for users with CVD. A safe set: green for success (but not the same green as your primary if that is green), amber/yellow for warnings, red for errors, and blue for informational messages. Test each against your background colors for sufficient contrast.</p>
+
+        <h3>Step 5: Choose an Accent</h3>
+        <p>If your primary color is used heavily (navigation, headers, links), you may need a secondary accent for call-to-action buttons and interactive highlights. Choose this using one of the harmony schemes discussed above -- split-complementary is often the safest choice.</p>
+
+        <h3>Step 6: Test Everything</h3>
+        <p>Before finalizing, test your palette against these criteria:</p>
+        <ul>
+          <li>Does every text/background combination meet WCAG AA contrast minimums?</li>
+          <li>Can you distinguish all semantic states in a color blindness simulator?</li>
+          <li>Does the palette work in both light mode and dark mode (if applicable)?</li>
+          <li>Does it reproduce well on different screens (check on a phone, a laptop, and an external monitor)?</li>
+        </ul>
+
+        <h2 id="css-color">Modern CSS Color Features</h2>
+
+        <p>CSS has evolved significantly in its color capabilities. Modern features let you implement sophisticated color systems directly in your stylesheets.</p>
+
+        <h3>CSS Custom Properties for Theming</h3>
+        <p>Define your palette as CSS custom properties on the <strong>:root</strong> element, then reference them throughout your stylesheet. This makes theme switching (light mode to dark mode, or brand customization) as simple as swapping a set of variable values. Structure your variables semantically -- <strong>--color-text-primary</strong> rather than <strong>--dark-gray</strong> -- so that the values can change without the names becoming misleading.</p>
+
+        <h3>The color-mix() Function</h3>
+        <p>CSS now supports <strong>color-mix()</strong>, which blends two colors in a specified color space. This is transformative for creating hover states, disabled states, and tonal variations without pre-calculating dozens of hex codes. For example, <strong>color-mix(in srgb, var(--primary) 80%, black)</strong> gives you a darkened version of your primary color. Using OKLCH as the interpolation space produces more perceptually uniform results.</p>
+
+        <h3>Relative Color Syntax</h3>
+        <p>The relative color syntax lets you derive new colors by modifying components of an existing one. Write <strong>hsl(from var(--primary) h s calc(l - 20%))</strong> to create a variant that is 20% darker while preserving the exact hue and saturation. This eliminates the need to maintain separate variables for every shade -- you can compute them on the fly.</p>
+
+        <p>These CSS features mean that your color palette in code can be as minimal as three or four base colors, with all variations derived programmatically. This is easier to maintain, ensures consistency, and reduces the chance of "color drift" where slightly-off values accumulate across a large codebase.</p>
+
+        <div class="cta-box">
+          <h2>Put Color Theory Into Practice</h2>
+          <p>Build accessible palettes, test for color blindness, and generate production-ready CSS gradients -- all free in your browser.</p>
+          <a href="https://toolrip.com/color-palette" class="btn-primary">Start Building a Palette &rarr;</a>
+        </div>
+      </article>
+    </main>
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+    <footer class="footer">
+      <p><a href="https://toolrip.com">Home</a> <a href="https://toolrip.com/blog">Blog</a> <a href="https://toolrip.com/about">About</a> <a href="https://toolrip.com/privacy">Privacy</a> <a href="https://toolrip.com/terms">Terms</a> <a href="https://toolrip.com/contact">Contact</a></p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+  </div>
+  <script src="/shared/common.js" defer></script>
+</body>
+</html>
