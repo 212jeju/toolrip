@@ -120,7 +120,14 @@ const TOOL_MAP = {
   'og-preview': 'og-preview'
 };
 
-const LEGAL_PATHS = ['about', 'privacy', 'terms', 'contact'];
+const LEGAL_PATHS = ['about', 'privacy', 'terms', 'contact', 'editorial-policy', 'methodology', 'faq', 'changelog'];
+
+const AUTHOR_MAP = {
+  'authors/marcus-chen': 'author-marcus-chen',
+  'authors/sarah-williams': 'author-sarah-williams',
+  'authors/david-park': 'author-david-park',
+  'authors/elena-ruiz': 'author-elena-ruiz'
+};
 
 const BLOG_MAP = {
   'blog': 'index',
@@ -128,7 +135,25 @@ const BLOG_MAP = {
   'blog/essential-developer-tools': 'essential-developer-tools',
   'blog/health-fitness-calculators': 'health-fitness-calculators',
   'blog/unit-conversion-guide': 'unit-conversion-guide',
-  'blog/free-security-tools': 'free-security-tools'
+  'blog/free-security-tools': 'free-security-tools',
+  'blog/how-compound-interest-works': 'how-compound-interest-works',
+  'blog/regex-guide-for-beginners': 'regex-guide-for-beginners',
+  'blog/understanding-bmi': 'understanding-bmi',
+  'blog/password-security-guide': 'password-security-guide',
+  'blog/color-theory-for-developers': 'color-theory-for-developers',
+  'blog/json-guide': 'json-guide',
+  'blog/what-is-jwt': 'what-is-jwt',
+  'blog/calorie-deficit-explained': 'calorie-deficit-explained',
+  'blog/mortgage-guide-first-time-buyers': 'mortgage-guide-first-time-buyers',
+  'blog/base64-encoding-explained': 'base64-encoding-explained',
+  'blog/sleep-science-guide': 'sleep-science-guide',
+  'blog/web-accessibility-colors': 'web-accessibility-colors',
+  'blog/cron-expression-tutorial': 'cron-expression-tutorial',
+  'blog/inflation-and-your-money': 'inflation-and-your-money',
+  'blog/running-pace-training-guide': 'running-pace-training-guide',
+  'blog/why-i-stopped-trusting-bmi': 'why-i-stopped-trusting-bmi',
+  'blog/the-one-password-mistake-i-see-everywhere': 'the-one-password-mistake-i-see-everywhere',
+  'blog/mortgage-myths-i-hear-from-first-time-buyers': 'mortgage-myths-i-hear-from-first-time-buyers'
 };
 
 export default {
@@ -156,9 +181,25 @@ export default {
       return response;
     }
 
-    // Legal pages: /about, /privacy, /terms, /contact
+    // Legal pages: /about, /privacy, /terms, /contact, /methodology, etc.
     if (LEGAL_PATHS.includes(path)) {
       const response = await fetchAsset(`/legal/${path}.html`);
+      if (response.ok) {
+        return new Response(response.body, {
+          status: 200,
+          headers: {
+            ...Object.fromEntries(response.headers),
+            'Content-Type': 'text/html;charset=UTF-8',
+            'Cache-Control': 'public, max-age=3600, s-maxage=86400'
+          }
+        });
+      }
+    }
+
+    // Author pages: /authors/marcus-chen, etc.
+    const authorSlug = AUTHOR_MAP[path];
+    if (authorSlug) {
+      const response = await fetchAsset(`/legal/${authorSlug}.html`);
       if (response.ok) {
         return new Response(response.body, {
           status: 200,

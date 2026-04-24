@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Changelog &amp; Release Notes — Toolrip</title>
+  <meta name="description" content="A dated log of every meaningful release on Toolrip — new tools, articles, bug fixes, and policy updates from launch in September 2025 to today.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="canonical" href="https://toolrip.com/changelog">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Changelog &amp; Release Notes — Toolrip">
+  <meta property="og:description" content="A dated log of every meaningful release on Toolrip — new tools, articles, bug fixes, and policy updates from launch in September 2025 to today.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/changelog">
+  <meta property="og:site_name" content="Toolrip">
+  <meta property="og:image" content="https://toolrip.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Changelog &amp; Release Notes — Toolrip">
+  <meta name="twitter:description" content="A dated log of every meaningful release on Toolrip — new tools, articles, bug fixes, and policy updates from launch in September 2025 to today.">
+  <meta name="twitter:image" content="https://toolrip.com/og-image.png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    .hero { text-align: center; padding: var(--sp-6) var(--sp-3); margin-bottom: var(--sp-4); }
+    .hero h1 { font-size: 2.25rem; line-height: 1.2; margin-bottom: var(--sp-3); }
+    .hero .tagline { font-size: 1.0625rem; color: var(--text-muted); max-width: 680px; margin: 0 auto; line-height: 1.7; }
+
+    .legend { display: flex; flex-wrap: wrap; gap: var(--sp-2); justify-content: center; margin-bottom: var(--sp-5); font-size: .875rem; color: var(--text-muted); }
+    .legend span { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); padding: .25rem .625rem; }
+
+    .timeline { position: relative; padding-left: var(--sp-4); border-left: 2px solid var(--border); margin-left: var(--sp-2); }
+    .release { position: relative; margin-bottom: var(--sp-5); background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--sp-4); }
+    .release::before { content: ""; position: absolute; left: calc(-1 * var(--sp-4) - 6px); top: var(--sp-4); width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px var(--bg); }
+    .release-header { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-2); margin-bottom: var(--sp-2); }
+    .release-date { font-size: .875rem; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+    .release-version { font-size: .875rem; font-weight: 700; color: var(--accent); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .release-tag { font-size: .75rem; font-weight: 600; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: .125rem .5rem; }
+    .release-tag.launch { color: #10b981; border-color: #10b98155; }
+    .release-tag.feature { color: #3b82f6; border-color: #3b82f655; }
+    .release-tag.fix { color: #ef4444; border-color: #ef444455; }
+    .release-tag.content { color: #8b5cf6; border-color: #8b5cf655; }
+    .release-tag.update { color: #f59e0b; border-color: #f59e0b55; }
+    .release h3 { font-size: 1.125rem; margin: 0 0 var(--sp-2); }
+    .release ul { padding-left: 1.25rem; margin: 0; color: var(--text-muted); line-height: 1.8; font-size: .9375rem; }
+    .release ul li { margin-bottom: .25rem; }
+
+    .subscribe-cta { text-align: center; padding: var(--sp-5); background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-top: var(--sp-5); }
+    .subscribe-cta p { color: var(--text-muted); margin: var(--sp-2) 0 var(--sp-3); }
+
+    @media (min-width: 1024px) { .hero h1 { font-size: 2.75rem; } }
+  </style>
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Toolrip Changelog",
+    "url": "https://toolrip.com/changelog",
+    "description": "A dated log of every meaningful release on Toolrip — new tools, articles, bug fixes, and policy updates from launch in September 2025 to today.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Toolrip",
+      "url": "https://toolrip.com"
+    }
+  }
+  </script>
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1801576841825156" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/blog">Blog</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/faq">FAQ</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <span>Changelog</span>
+      </nav>
+
+      <!-- Hero -->
+      <section class="hero">
+        <h1>Changelog &amp; Release Notes</h1>
+        <p class="tagline">
+          Toolrip grows in small, frequent steps — a new tool here, a content refresh there, a bug fix
+          the next day. This page is a running record of everything we ship, from the September 2025
+          launch to today. Entries are newest-first.
+        </p>
+      </section>
+
+      <!-- Legend -->
+      <div class="legend" aria-label="Changelog tag legend">
+        <span>🚀 Launch</span>
+        <span>✨ Feature</span>
+        <span>🐛 Fix</span>
+        <span>📝 Content</span>
+        <span>🔧 Update</span>
+      </div>
+
+      <!-- Timeline -->
+      <div class="timeline">
+
+        <!-- v1.8.0 -->
+        <article class="release">
+          <div class="release-header">
+            <span class="release-date">2026-04-18</span>
+            <span class="release-version">v1.8.0</span>
+            <span class="release-tag content">📝 Content</span>
+          </div>
+          <h3>Fifteen educational blog posts and cross-linked tool pages</h3>
+          <ul>
+            <li>Published fifteen long-form guides covering JSON best practices, mortgage amortization math, password entropy, and CSS gradient theory.</li>
+            <li>Added contextual cross-links from every tool page to the relevant blog post, and vice versa, to help readers go deeper without hunting through the catalog.</li>
+            <li>Submitted the updated sitemap to Google Search Console.</li>
+          </ul>
+        </article>
+
+        <!-- v1.7.2 -->
+        <article class="release">
+          <div class="release-header">
+            <span class="release-date">2026-04-05</span>
+            <span class="release-version">v1.7.2</span>
+            <span class="release-tag update">🔧 Update</span>
+          </div>
+          <h3>Diversified page structure across all 100 tools</h3>
+          <ul>
+            <li>Rewrote the supporting sections on every tool page so no two pages share the same structural template — addressing reader feedback and AdSense content-quality guidance.</li>
+            <li>Introduced category-specific "use cases" and "common mistakes" blocks tailored to finance, developer, health, and design tools.</li>
+          </ul>
+        </article>
+
+        <!-- v1.7.0 -->
+        <article class="release">
+          <div class="release-header">
+            <span class="release-date">2026-03-22</span>
+            <span class="release-version">v1.7.0</span>
+            <span class="release-tag content">📝 Content</span>
+          </div>
+          <h3>E-E-A-T signals, expert tips, and external citations</h3>
+          <ul>
+            <li>Added byline-level author attribution, expert commentary, and real-world use-case boxes to every tool page.</li>
+            <li>Linked every factual claim in health and finance tools to a primary source (WHO, CDC, CFPB, IRS, NIST).</li>
+            <li>Published a new <a href="https://toolrip.com/editorial-policy">Editorial Policy</a> page documenting review standards.</li>
+          </ul>
+        </article>
+
+        <!-- v1.6.0 -->
+        <article class="release">
+          <div class="release-header">
+            <span class="release-date">2026-03-08</span>
+            <span class="release-version">v1.6.0</span>
+            <span class="release-tag feature">✨ Feature</span>
+          </div>
+          <h3>Methodology page and calculation transparency</h3>
+          <ul>
+            <li>Launched the <a href="https://toolrip.com/methodology">Methodology</a> page explaining the formula and reference source behind every calculator.</li>
+            <li>Added a "How this calculator works" expandable section to the top twenty finance and health tools.</li>
+          </ul>
+        </article>
+
+        <!-- v1.5.3 -->
+        <article class="release">
+          <div class="release-header">
+            <span class="release-date">2026-02-19</span>
+            <span class="release-version">v1.5.3</span>
+            <span class="release-tag fix">🐛 Fix</span>
+          </div>
+          <h3>Mortgage calculator rounding and timezone converter DST</h3>
+          <ul>
+            <li>Fixed a rounding error in the mortgage amortization schedule that produced a one-cent discrepancy on the final payment for loans with non-integer interest rates. Reported by a reader; thank you.</li>
+            <li>Corrected the timezone converter's handling of March and November DST transitions for the US Eastern zone.</li>
+          </ul>
+        </article>
+
+        <!-- v1.5.0 -->
+        <article class="release">
+          <div class="release-header">
+            <span class="release-date">2026-02-01</span>
+            <span class="release-version">v1.5.0</span>
+            <span class="release-tag feature">✨ Feature</span>
+          </div>
+          <h3>Ten new SEO tools</h3>
+          <ul>
+            <li>Added meta tag generator, Open Graph previewer, sitemap generator, robots.txt tester, structured data validator, and five more to the SEO category.</li>
+            <li>All SEO tools run client-side and respect the same no-data-stored guarantee as the rest of the catalog.</li>
+          </ul>
+        </article>
+
+        <!-- v1.4.1 -->
+        <article class="release">
+          <div class="release-header">
+            <span class="release-date">2026-01-24</span>
+            <span class="release-version">v1.4.1</span>
+            <span class="release-tag fix">🐛 Fix</span>
+          </div>
+          <h3>JSON formatter large-file performance</h3>
+          <ul>
+            <li>Replaced the recursive pretty-printer in the JSON formatter with an iterative implementation, cutting parse time on 10 MB inputs from roughly 4 seconds to under 600 ms.</li>
+            <li>Added a file-size warning banner for inputs over 25 MB.</li>
+          </ul>
+        </article>
+
+        <!-- v1.4.0 -->
+        <article class="release">
+          <div class="release-header">
+            <span class="release-date">2026-01-10</span>
+            <span class="release-version">v1.4.0</span>
+            <span class="release-tag content">📝 Content</span>
+          </div>
+          <h3>Design category launched with color theory guide</h3>
+          <ul>
+            <li>Opened the Design category with ten tools: color picker, gradient generator, box shadow creator, font pair previewer, contrast checker, and more.</li>
+            <li>Published a long-form color theory guide covering hue, saturation, lightness, accessibility contrast ratios, and practical palette construction.</li>
+          </ul>
+        </article>
+
+        <!-- v1.3.2 -->
+        <article class="release">
+          <div class="release-header">
+            <span class="release-date">2025-12-29</span>
+            <span class="release-version">v1.3.2</span>
+            <span class="release-tag update">🔧 Update</span>
+          </div>
+          <h3>Privacy policy and cookie consent refresh</h3>
+          <ul>
+            <li>Rewrote the <a href="https://toolrip.com/privacy">Privacy Policy</a> in plain language and aligned it with the latest IAB Transparency and Consent Framework.</li>
+            <li>Deployed a region-aware cookie consent banner for EU, UK, and Brazil visitors.</li>
+          </ul>
+        </article>
+
+        <!-- v1.3.0 -->
+        <article class="release">
+          <div class="release-header">
+            <span class="release-date">2025-12-18</span>
+            <span class="release-version">v1.3.0</span>
+            <span class="release-tag feature">✨ Feature</span>
+          </div>
+          <h3>Fifteen finance calculators added</h3>
+          <ul>
+            <li>Shipped mortgage calculator, compound interest, loan amortization, auto loan, credit card payoff, retirement savings, ROI, inflation adjuster, tip calculator, and six more.</li>
+            <li>All finance formulas verified against CFPB and Federal Reserve published examples.</li>
+          </ul>
+        </article>
+
+        <!-- v1.2.1 -->
+        <article class="release">
+          <div class="release-header">
+            <span class="release-date">2025-12-02</span>
+            <span class="release-version">v1.2.1</span>
+            <span class="release-tag fix">🐛 Fix</span>
+          </div>
+          <h3>Regex tester Safari flag handling</h3>
+          <ul>
+            <li>Fixed a bug where the regex tester silently ignored the <code>d</code> (hasIndices) flag on Safari versions below 16.4.</li>
+            <li>Added a graceful fallback that disables the flag and shows a version-notice message instead of failing silently.</li>
+          </ul>
+        </article>
+
+        <!-- v1.2.0 -->
+        <article class="release">
+          <div class="release-header">
+            <span class="release-date">2025-11-20</span>
+            <span class="release-version">v1.2.0</span>
+            <span class="release-tag feature">✨ Feature</span>
+          </div>
+          <h3>Health &amp; fitness category — twelve new tools</h3>
+          <ul>
+            <li>Added BMI calculator, calorie counter, body fat estimator, macro calculator, ideal weight, water intake, pace calculator, and five more.</li>
+            <li>All health tools reviewed against WHO, CDC, and ACSM published guidelines.</li>
+          </ul>
+        </article>
+
+        <!-- v1.1.5 -->
+        <article class="release">
+          <div class="release-header">
+            <span class="release-date">2025-11-02</span>
+            <span class="release-version">v1.1.5</span>
+            <span class="release-tag content">📝 Content</span>
+          </div>
+          <h3>JWT guide by Marcus Chen</h3>
+          <ul>
+            <li>Published a 3,000-word guide on JSON Web Tokens — structure, signing, verification, common pitfalls — by guest contributor Marcus Chen.</li>
+            <li>Linked the guide from the JWT decoder tool for reader context.</li>
+          </ul>
+        </article>
+
+        <!-- v1.1.0 -->
+        <article class="release">
+          <div class="release-header">
+            <span class="release-date">2025-10-05</span>
+            <span class="release-version">v1.1.0</span>
+            <span class="release-tag feature">✨ Feature</span>
+          </div>
+          <h3>Blog launched with first developer guide</h3>
+          <ul>
+            <li>Opened the Toolrip blog with an opening article on "Ten Browser Utilities Every Developer Wishes They'd Known Sooner."</li>
+            <li>Established RSS feed and article archive at <code>/blog</code>.</li>
+          </ul>
+        </article>
+
+        <!-- v1.0.2 -->
+        <article class="release">
+          <div class="release-header">
+            <span class="release-date">2025-09-28</span>
+            <span class="release-version">v1.0.2</span>
+            <span class="release-tag fix">🐛 Fix</span>
+          </div>
+          <h3>Mobile layout and clipboard polyfill</h3>
+          <ul>
+            <li>Fixed a viewport overflow issue that caused tool inputs to extend off-screen on iPhone SE and other narrow devices.</li>
+            <li>Added a clipboard polyfill for browsers that do not yet support <code>navigator.clipboard.writeText</code>.</li>
+          </ul>
+        </article>
+
+        <!-- v1.0.1 -->
+        <article class="release">
+          <div class="release-header">
+            <span class="release-date">2025-09-22</span>
+            <span class="release-version">v1.0.1</span>
+            <span class="release-tag update">🔧 Update</span>
+          </div>
+          <h3>Legal pages and ads.txt</h3>
+          <ul>
+            <li>Published <a href="https://toolrip.com/privacy">Privacy Policy</a>, <a href="https://toolrip.com/terms">Terms of Service</a>, <a href="https://toolrip.com/about">About</a>, and <a href="https://toolrip.com/contact">Contact</a> pages ahead of the AdSense application.</li>
+            <li>Added <code>ads.txt</code> at the domain root for AdSense publisher verification.</li>
+          </ul>
+        </article>
+
+        <!-- v1.0.0 -->
+        <article class="release">
+          <div class="release-header">
+            <span class="release-date">2025-09-15</span>
+            <span class="release-version">v1.0.0</span>
+            <span class="release-tag launch">🚀 Launch</span>
+          </div>
+          <h3>Initial release with 20 free tools</h3>
+          <ul>
+            <li>Toolrip launched publicly with an initial catalog of twenty tools across developer, text, conversion, math, datetime, and security categories.</li>
+            <li>Deployed to Cloudflare Pages behind a wildcard <code>*.toolrip.com</code> DNS, with every tool served as a standalone single-file HTML subdomain.</li>
+            <li>Shipped the shared dark-mode CSS theme, category accent colors, and baseline SEO metadata across all pages.</li>
+          </ul>
+        </article>
+
+      </div>
+
+      <!-- Subscribe CTA -->
+      <section class="subscribe-cta">
+        <h2>Want to know what's coming next?</h2>
+        <p>
+          We don't run a newsletter, but our roadmap is driven by reader requests.
+          If there's a tool or article you'd like to see next, send us a note —
+          popular requests ship within a few weeks.
+        </p>
+        <a href="https://toolrip.com/contact" class="btn-primary">Suggest a Tool</a>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/blog">Blog</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/methodology">Methodology</a>
+        <a href="https://toolrip.com/editorial-policy">Editorial Policy</a>
+        <a href="https://toolrip.com/faq">FAQ</a>
+        <a href="https://toolrip.com/changelog">Changelog</a>
+        <a href="https://toolrip.com/privacy">Privacy</a>
+        <a href="https://toolrip.com/terms">Terms</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <script src="/shared/common.js"></script>
+</body>
+</html>

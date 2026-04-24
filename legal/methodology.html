@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Methodology — How Toolrip Builds Accurate Calculators and Tools</title>
+  <meta name="description" content="Technical methodology behind every Toolrip tool. Which formulas we use, which standards we follow, how we verify accuracy, and how we handle your data.">
+  <link rel="canonical" href="https://toolrip.com/methodology">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <meta property="og:title" content="Methodology — Toolrip">
+  <meta property="og:description" content="Technical methodology behind every Toolrip tool.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/methodology">
+  <meta property="og:site_name" content="Toolrip">
+  <meta property="og:image" content="https://toolrip.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    .method-hero { text-align:center; padding: var(--sp-5) var(--sp-3) var(--sp-3); }
+    .method-hero h1 { font-size:2rem; margin-bottom:var(--sp-2); }
+    .method-hero .tagline { color:var(--text-muted); max-width:640px; margin:0 auto; line-height:1.7; }
+    .method-content { max-width: 900px; margin: 0 auto; padding: 0 var(--sp-3); }
+    .method-content h2 { font-size: 1.35rem; margin: var(--sp-5) 0 var(--sp-3); padding-bottom: var(--sp-2); border-bottom: 1px solid var(--border); }
+    .method-content h3 { font-size: 1.05rem; margin: var(--sp-4) 0 var(--sp-2); color: var(--accent); }
+    .method-content p, .method-content li { color: var(--text-muted); line-height: 1.8; font-size: .9375rem; }
+    .method-content ul, .method-content ol { padding-left: 1.5rem; margin-bottom: var(--sp-3); }
+    .method-content li { margin-bottom: var(--sp-2); }
+    .method-content strong { color: var(--text); }
+    .method-content code { background: var(--bg-surface); padding: 2px 6px; border-radius: 3px; font-size: .875em; color: var(--text); }
+    .formula-box { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp-3); margin: var(--sp-3) 0; font-family: monospace; color: var(--text); }
+    .standards-table { width: 100%; border-collapse: collapse; margin: var(--sp-3) 0; font-size: .875rem; }
+    .standards-table th, .standards-table td { padding: var(--sp-2) var(--sp-3); text-align: left; border-bottom: 1px solid var(--border); }
+    .standards-table th { background: var(--bg-surface); color: var(--text); font-weight: 600; }
+    .standards-table td { color: var(--text-muted); }
+    .standards-table td a { color: var(--accent); }
+    .category-block { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--sp-4); margin: var(--sp-3) 0; }
+    .category-block h3 { margin-top: 0; }
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Methodology",
+    "url": "https://toolrip.com/methodology",
+    "description": "Technical methodology behind every Toolrip tool.",
+    "publisher": { "@type": "Organization", "name": "Toolrip", "url": "https://toolrip.com" }
+  }
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/blog">Blog</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <main class="main">
+
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a> <span>/</span> <span>Methodology</span>
+      </nav>
+
+      <section class="method-hero">
+        <h1>Our Methodology</h1>
+        <p class="tagline">
+          A transparent, technical look at how every calculator and tool on Toolrip is built,
+          which standards we follow, and how we verify that the results you see are correct.
+        </p>
+      </section>
+
+      <div class="method-content">
+
+        <h2>Core Engineering Principles</h2>
+        <p>
+          Every tool on Toolrip is built around four non-negotiable engineering principles. These
+          principles drive decisions about architecture, algorithms, dependencies, and data handling.
+        </p>
+
+        <h3>Client-side only</h3>
+        <p>
+          Every calculation runs entirely in your browser using standard JavaScript. We do not
+          transmit any user input to any server for processing. This architecture has three direct
+          consequences. First, your data never leaves your device. Second, the tools continue to
+          work after the initial page load even if your connection drops. Third, we physically
+          cannot log, store, or share your inputs because we never receive them.
+        </p>
+
+        <h3>Zero third-party runtime dependencies</h3>
+        <p>
+          Our tools do not load external JavaScript libraries or frameworks at runtime. We use
+          vanilla JavaScript, the standard Web APIs (Web Crypto, Intl, Canvas, and similar built-ins),
+          and custom code we maintain ourselves. Third-party runtime dependencies introduce supply-chain
+          risk, performance cost, and privacy leakage. We avoid them entirely. The only external
+          scripts loaded on our pages are our advertising provider (Google AdSense) and our analytics
+          provider, both of which are clearly disclosed in our privacy policy.
+        </p>
+
+        <h3>Deterministic and reproducible</h3>
+        <p>
+          Given the same inputs, every tool produces the same outputs, every time. We document the
+          exact formulas and algorithms each tool uses so that you can reproduce our results by hand
+          or with alternative software. When a calculation depends on assumptions (such as the
+          compounding frequency on a loan), we expose the assumption as a user-controllable input
+          rather than hiding it.
+        </p>
+
+        <h3>Tested against authoritative reference implementations</h3>
+        <p>
+          We validate our tools against reference implementations published by authoritative sources.
+          Our mortgage calculator is spot-checked against CFPB calculator outputs. Our BMI calculator
+          is verified against NIH and CDC calculator results. Our JSON formatter is tested against
+          the reference implementations documented in RFC 8259. When our output disagrees with an
+          authoritative reference, we treat that as a defect and fix it before release.
+        </p>
+
+        <h2>Financial Tools Methodology</h2>
+
+        <div class="category-block">
+          <h3>Compound interest calculator</h3>
+          <p>
+            We compute future value using the standard compound interest formula:
+          </p>
+          <div class="formula-box">A = P × (1 + r/n)^(n × t)</div>
+          <p>
+            Where A is the future value, P is the principal, r is the annual interest rate
+            expressed as a decimal, n is the number of compounding periods per year, and t is the
+            number of years. For continuous compounding, we use A = P × e^(r × t). All calculations
+            are performed using IEEE 754 double-precision floating-point arithmetic with appropriate
+            rounding for display. The methodology matches the standard approach documented by the
+            U.S. Securities and Exchange Commission on <a href="https://www.investor.gov" target="_blank" rel="noopener">investor.gov</a>.
+          </p>
+        </div>
+
+        <div class="category-block">
+          <h3>Mortgage calculator</h3>
+          <p>
+            We use the standard amortization formula for fixed-rate mortgages:
+          </p>
+          <div class="formula-box">M = P × [r(1 + r)^n] / [(1 + r)^n − 1]</div>
+          <p>
+            Where M is the monthly payment, P is the loan principal, r is the monthly interest rate
+            (annual rate divided by 12), and n is the total number of payments. For each month of
+            the amortization schedule, we compute the interest portion as (remaining balance × r)
+            and the principal portion as (M − interest). We do not include property taxes,
+            homeowner's insurance, or private mortgage insurance in the base calculation unless you
+            explicitly enter those values. This matches the methodology documented by the Consumer
+            Financial Protection Bureau.
+          </p>
+        </div>
+
+        <div class="category-block">
+          <h3>APR calculator</h3>
+          <p>
+            We compute APR as the rate that, when applied to the loan amount over the loan term,
+            produces a present value equal to the actual amount disbursed after fees. We solve the
+            equation iteratively using Newton's method, matching the approach specified in Appendix J
+            of Regulation Z (Truth in Lending Act). Our implementation converges to within 0.001% of
+            the true rate in all tested cases.
+          </p>
+        </div>
+
+        <h2>Health Tools Methodology</h2>
+
+        <div class="category-block">
+          <h3>BMI calculator</h3>
+          <p>
+            We compute BMI using the standard WHO formula:
+          </p>
+          <div class="formula-box">BMI = weight (kg) / [height (m)]²</div>
+          <p>
+            For imperial inputs, we convert weight to kilograms (1 lb = 0.45359237 kg) and height to
+            meters (1 in = 0.0254 m) before applying the formula. Classification uses the standard
+            WHO thresholds: underweight (&lt;18.5), normal (18.5-24.9), overweight (25.0-29.9), and
+            obese (≥30.0). We also offer the Asian-specific classification thresholds published by
+            the WHO Expert Consultation, which reflect lower risk thresholds observed in Asian
+            populations.
+          </p>
+        </div>
+
+        <div class="category-block">
+          <h3>BMR and TDEE calculators</h3>
+          <p>
+            We use the Mifflin-St Jeor equation as our primary BMR formula, published in 1990 and
+            widely regarded as the most accurate for modern populations:
+          </p>
+          <div class="formula-box">
+            Male BMR = (10 × weight_kg) + (6.25 × height_cm) − (5 × age) + 5<br>
+            Female BMR = (10 × weight_kg) + (6.25 × height_cm) − (5 × age) − 161
+          </div>
+          <p>
+            TDEE is computed by multiplying BMR by an activity factor: 1.2 (sedentary), 1.375
+            (lightly active), 1.55 (moderately active), 1.725 (very active), 1.9 (extra active).
+            These multipliers match those used in ACSM exercise prescription guidelines.
+          </p>
+        </div>
+
+        <div class="category-block">
+          <h3>Body fat calculator</h3>
+          <p>
+            We implement the U.S. Navy body fat formula, which uses circumference measurements
+            at the neck, waist, and hips (for women). The formula is documented in the Navy's
+            body composition assessment regulations and produces estimates within 3-4 percentage
+            points of hydrostatic weighing for most adults. We clearly note that body fat
+            percentage is an estimate and recommend DEXA scanning for clinical-grade accuracy.
+          </p>
+        </div>
+
+        <h2>Developer Tools Methodology</h2>
+
+        <div class="category-block">
+          <h3>JSON formatter and validator</h3>
+          <p>
+            We parse JSON using the browser's native <code>JSON.parse()</code> implementation,
+            which is compliant with RFC 8259. Our formatter produces output that round-trips through
+            <code>JSON.parse() → JSON.stringify()</code> without data loss, preserving the exact
+            semantic content while adjusting whitespace to match the selected indentation level.
+            Validation errors report the exact byte offset and line number of the first syntactic
+            error, using the error information provided by the native parser.
+          </p>
+        </div>
+
+        <div class="category-block">
+          <h3>Base64 encoder and decoder</h3>
+          <p>
+            We implement the Base64 encoding specified in RFC 4648. For strings containing non-ASCII
+            characters, we first encode to UTF-8 using <code>TextEncoder</code>, then Base64-encode
+            the resulting byte sequence. This matches the behavior of <code>btoa()</code> when
+            applied to UTF-8-encoded input and is compatible with standard server-side
+            implementations in Python, Node.js, Java, and Go.
+          </p>
+        </div>
+
+        <div class="category-block">
+          <h3>Hash generators</h3>
+          <p>
+            SHA-1, SHA-256, SHA-384, and SHA-512 hashes are computed using the Web Crypto API
+            (<code>crypto.subtle.digest</code>), which uses the platform's native cryptographic
+            implementation. For MD5, which is not provided by Web Crypto, we use a maintained
+            pure-JavaScript implementation that passes the RFC 1321 test vectors. We clearly label
+            MD5 as cryptographically broken and not suitable for security use cases.
+          </p>
+        </div>
+
+        <div class="category-block">
+          <h3>Password generator</h3>
+          <p>
+            All random selections use <code>crypto.getRandomValues()</code>, which provides
+            cryptographically secure random values. We avoid <code>Math.random()</code> for any
+            security-sensitive generation because its output is predictable. Character classes
+            (uppercase, lowercase, digits, symbols) are configurable, and we display the Shannon
+            entropy of each generated password so you can verify it meets your security requirements.
+          </p>
+        </div>
+
+        <h2>Standards We Follow</h2>
+        <p>
+          The following table summarizes the authoritative standards and references we use
+          across all Toolrip tools.
+        </p>
+
+        <table class="standards-table">
+          <thead>
+            <tr><th>Category</th><th>Primary Standards</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Financial</strong></td>
+              <td>CFPB calculation standards, Federal Reserve H.15 rate data, Regulation Z (Truth in Lending), IRS publications</td>
+            </tr>
+            <tr>
+              <td><strong>Health</strong></td>
+              <td>WHO BMI classification, CDC growth charts, ACSM exercise guidelines, Mifflin-St Jeor (1990), NIH body composition</td>
+            </tr>
+            <tr>
+              <td><strong>Cryptography</strong></td>
+              <td>NIST SP 800-63B (authentication), NIST SP 800-132 (password-based key derivation), OWASP Password Storage Cheat Sheet</td>
+            </tr>
+            <tr>
+              <td><strong>Data formats</strong></td>
+              <td>RFC 8259 (JSON), RFC 4648 (Base64), RFC 3629 (UTF-8), RFC 7519 (JWT), ECMA-404 (JSON)</td>
+            </tr>
+            <tr>
+              <td><strong>Web</strong></td>
+              <td>W3C specifications (HTML, CSS, Web APIs), WCAG 2.1 accessibility guidelines, MDN reference documentation</td>
+            </tr>
+            <tr>
+              <td><strong>Units and measurements</strong></td>
+              <td>NIST SP 811 (metric guide), BIPM SI definitions, IEC 80000 (quantities and units)</td>
+            </tr>
+            <tr>
+              <td><strong>Date and time</strong></td>
+              <td>ISO 8601 (date representation), IANA Time Zone Database, RFC 3339 (timestamps)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Quality Assurance Process</h2>
+        <p>
+          Every tool goes through three stages of testing before it is published to toolrip.com.
+        </p>
+        <ol>
+          <li>
+            <strong>Unit tests against known values.</strong> For every numerical calculator, we
+            prepare a set of test cases with inputs and expected outputs derived from published
+            references. The calculator must produce the expected output for every test case before
+            it is released. These test cases are preserved so that any future change to the tool
+            can be verified against the same expectations.
+          </li>
+          <li>
+            <strong>Cross-validation against reference implementations.</strong> We run identical
+            inputs through at least one authoritative reference implementation (a government
+            calculator, published spreadsheet, or well-known software package) and confirm that
+            our output matches within acceptable rounding tolerance.
+          </li>
+          <li>
+            <strong>Edge-case and input-validation testing.</strong> We test each tool with boundary
+            inputs (zero, negative, extremely large values, malformed input) to ensure that the tool
+            either produces a correct result or returns a clear error message. We do not tolerate
+            silent failures where a tool produces plausible-looking but incorrect output for invalid
+            inputs.
+          </li>
+        </ol>
+
+        <h2>Data Handling and Privacy</h2>
+        <p>
+          Because our tools run entirely client-side, we never receive your inputs. This is not a
+          policy choice; it is an architectural guarantee. You can verify this claim directly by
+          opening your browser's developer tools (DevTools → Network tab) and using any of our
+          tools. You will see that no network requests carry your input data. The only network
+          activity is the initial page load, static assets (CSS, JS, images), and the
+          advertising and analytics requests documented in our
+          <a href="https://toolrip.com/privacy">privacy policy</a>.
+        </p>
+
+        <h2>Known Limitations</h2>
+        <p>
+          We are transparent about what our tools cannot do. Common limitations include:
+        </p>
+        <ul>
+          <li>
+            <strong>Calculators are not professional advice.</strong> Our financial calculators do
+            not account for taxes, regulatory changes, or individual circumstances. Our health
+            calculators are general-purpose estimates and not a substitute for professional medical
+            evaluation.
+          </li>
+          <li>
+            <strong>Floating-point limitations.</strong> Very large or very small numbers may
+            exhibit floating-point rounding effects in the last few decimal places. Where this
+            matters (for example, financial calculations with cent-level precision), we document
+            the limitation and offer appropriate rounding.
+          </li>
+          <li>
+            <strong>Browser compatibility.</strong> Some tools rely on modern Web APIs
+            (<code>BigInt</code>, Web Crypto) that are not available in older browsers. We support
+            the two most recent versions of Chrome, Firefox, Safari, and Edge.
+          </li>
+          <li>
+            <strong>Historical data.</strong> Tools that depend on changing data (currency rates,
+            interest rates, tax brackets) use static reference values unless explicitly labeled
+            otherwise. We update these periodically, and the relevant page notes the last update date.
+          </li>
+        </ul>
+
+        <h2>Reporting Issues</h2>
+        <p>
+          If you believe a tool is producing an incorrect result, please report it through our
+          <a href="https://toolrip.com/contact">contact page</a>. Include the exact inputs you used,
+          the output you received, and the expected output with a reference to the source you are
+          comparing against. We investigate every report and publish corrections when we confirm a
+          defect. Historical corrections and update notes are documented in the source repository
+          for our tools.
+        </p>
+
+        <h2>Open Source Philosophy</h2>
+        <p>
+          While Toolrip itself is not currently open source, we believe in building on and
+          contributing to open standards. The algorithms and formulas documented on this page
+          are all publicly available, and we provide sufficient detail in our tool descriptions
+          that a capable developer could reimplement any of our calculators. We consider this
+          transparency essential to the trust readers place in our tools.
+        </p>
+
+      </div>
+
+    </main>
+
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/blog">Blog</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/methodology">Methodology</a>
+        <a href="https://toolrip.com/editorial-policy">Editorial Policy</a>
+        <a href="https://toolrip.com/faq">FAQ</a>
+        <a href="https://toolrip.com/changelog">Changelog</a>
+        <a href="https://toolrip.com/privacy">Privacy</a>
+        <a href="https://toolrip.com/terms">Terms</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+  <script src="/shared/common.js"></script>
+</body>
+</html>

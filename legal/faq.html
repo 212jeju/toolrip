@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frequently Asked Questions — Toolrip</title>
+  <meta name="description" content="Answers to common questions about Toolrip's free online tools: privacy, accuracy, commercial use, embedding, API access, browser support, and more.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="canonical" href="https://toolrip.com/faq">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Frequently Asked Questions — Toolrip">
+  <meta property="og:description" content="Answers to common questions about Toolrip's free online tools: privacy, accuracy, commercial use, embedding, API access, browser support, and more.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/faq">
+  <meta property="og:site_name" content="Toolrip">
+  <meta property="og:image" content="https://toolrip.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Frequently Asked Questions — Toolrip">
+  <meta name="twitter:description" content="Answers to common questions about Toolrip's free online tools: privacy, accuracy, commercial use, embedding, API access, browser support, and more.">
+  <meta name="twitter:image" content="https://toolrip.com/og-image.png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/style.css">
+  <style>
+    .hero { text-align: center; padding: var(--sp-6) var(--sp-3); margin-bottom: var(--sp-4); }
+    .hero h1 { font-size: 2.25rem; line-height: 1.2; margin-bottom: var(--sp-3); }
+    .hero .tagline { font-size: 1.0625rem; color: var(--text-muted); max-width: 680px; margin: 0 auto; line-height: 1.7; }
+    .toc { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--sp-4); margin-bottom: var(--sp-5); }
+    .toc h2 { font-size: 1.125rem; margin-bottom: var(--sp-2); }
+    .toc ul { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr; gap: var(--sp-1); }
+    .toc a { color: var(--accent); text-decoration: none; font-size: .9375rem; }
+    .toc a:hover { text-decoration: underline; }
+    .faq-category { margin-bottom: var(--sp-6); scroll-margin-top: 80px; }
+    .faq-category h2 { font-size: 1.5rem; margin-bottom: var(--sp-3); padding-bottom: var(--sp-2); border-bottom: 2px solid var(--accent); }
+    details.faq-item { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); padding: var(--sp-3) var(--sp-4); margin-bottom: var(--sp-2); }
+    details.faq-item[open] { border-color: var(--accent); }
+    details.faq-item summary { font-weight: 600; font-size: 1rem; cursor: pointer; list-style: none; padding: var(--sp-1) 0; color: var(--text); }
+    details.faq-item summary::-webkit-details-marker { display: none; }
+    details.faq-item summary::before { content: "+"; display: inline-block; width: 1.25rem; color: var(--accent); font-weight: 700; }
+    details.faq-item[open] summary::before { content: "–"; }
+    details.faq-item .answer { color: var(--text-muted); font-size: .9375rem; line-height: 1.75; padding: var(--sp-2) 0 var(--sp-1) 1.25rem; }
+    details.faq-item .answer p { margin-bottom: var(--sp-2); }
+    details.faq-item .answer p:last-child { margin-bottom: 0; }
+    .contact-cta { text-align: center; padding: var(--sp-5); background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-top: var(--sp-5); }
+    @media (min-width: 640px) { .toc ul { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .toc ul { grid-template-columns: repeat(3, 1fr); } .hero h1 { font-size: 2.75rem; } }
+  </style>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {"@type": "Question", "name": "Is Toolrip really free to use?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Every tool, calculator, and article on Toolrip is free to use with no limits, no trial period, and no premium tier. We sustain the site with display advertising from Google AdSense, which means our readers never have to pay."}},
+      {"@type": "Question", "name": "Do you store my data or inputs?", "acceptedAnswer": {"@type": "Answer", "text": "No. Every tool on Toolrip runs entirely inside your browser. The values you enter are processed locally in JavaScript and are never sent to a Toolrip server, logged, or saved. Once you close the tab, the data is gone."}},
+      {"@type": "Question", "name": "How do you make money if everything is free?", "acceptedAnswer": {"@type": "Answer", "text": "Toolrip is monetized through Google AdSense display advertising. Ads are shown on tool and article pages, and a portion of ad revenue funds the hosting, development, and editorial work."}},
+      {"@type": "Question", "name": "How accurate are Toolrip's calculators?", "acceptedAnswer": {"@type": "Answer", "text": "We build each calculator using formulas sourced from authoritative references — CFPB amortization schedules for loans, WHO BMI thresholds for health metrics, NIST constants for unit conversions, and IETF RFCs for developer tools. We document every formula on our Methodology page and cross-check results against at least two independent references before a tool ships."}},
+      {"@type": "Question", "name": "Can I use Toolrip's tools for commercial or professional work?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. You are free to use the output of our tools for commercial projects, client work, and professional documents. However, for high-stakes decisions (legal filings, medical diagnoses, structural engineering, tax returns), we strongly recommend verifying results with a licensed professional."}}
+    ]
+  }
+  </script>
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1801576841825156" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/blog">Blog</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/faq">FAQ</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <span>FAQ</span>
+      </nav>
+
+      <!-- Hero Section -->
+      <section class="hero">
+        <h1>Frequently Asked Questions</h1>
+        <p class="tagline">
+          Everything you wanted to know about Toolrip — how we handle your data, how our calculators work,
+          whether you can embed or monetize our tools, and how we keep the site free.
+          Can't find an answer? <a href="https://toolrip.com/contact">Get in touch</a>.
+        </p>
+      </section>
+
+      <!-- Table of Contents -->
+      <nav class="toc" aria-label="FAQ categories">
+        <h2>Jump to a category</h2>
+        <ul>
+          <li><a href="#getting-started">Getting Started</a></li>
+          <li><a href="#privacy-data">Privacy &amp; Data</a></li>
+          <li><a href="#tools-calculators">Tools &amp; Calculators</a></li>
+          <li><a href="#accounts-pricing">Accounts &amp; Pricing</a></li>
+          <li><a href="#technical-issues">Technical Issues</a></li>
+          <li><a href="#editorial-content">Editorial &amp; Content</a></li>
+          <li><a href="#advertising">Advertising</a></li>
+        </ul>
+      </nav>
+
+      <!-- Getting Started -->
+      <section class="faq-category" id="getting-started">
+        <h2>Getting Started</h2>
+
+        <details class="faq-item">
+          <summary>What is Toolrip?</summary>
+          <div class="answer">
+            <p>Toolrip is a catalog of more than one hundred free, browser-based utility tools organized into ten categories: developer, finance, health, text, conversion, math, datetime, security, design, and SEO. Each tool is a focused single-purpose page — a JSON formatter, a mortgage calculator, a color picker — that loads instantly and performs its work without sending anything back to our servers.</p>
+            <p>We started Toolrip because the web is flooded with tool sites that demand logins, bury functionality under ads, or gate basic features behind "Pro" paywalls. Our goal was to build a place where the simple utilities people reach for every day — the ones a developer needs at 2 AM or a student needs the night before a deadline — just work, immediately, without friction. Everything is free, nothing requires an account, and every tool page also includes an educational article so you can understand what the calculator is actually doing.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>How do I start using a tool?</summary>
+          <div class="answer">
+            <p>Open the tool's page directly — for example, <code>json.toolrip.com</code> for the JSON formatter or <code>bmi.toolrip.com</code> for the BMI calculator — and type your input. Results appear live as you type, or after you click the primary action button. There is no onboarding, no tour, and no sign-up prompt.</p>
+            <p>If you aren't sure which tool you need, start at the <a href="https://toolrip.com">home page</a>, where every tool is indexed by category and purpose. A short description accompanies each entry so you can pick the right one without opening five tabs.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Why don't you require signups?</summary>
+          <div class="answer">
+            <p>Because signups add friction without adding value. Our tools don't need to remember who you are. A BMI calculator doesn't care about your email address. A JSON formatter doesn't need to associate its output with your identity. Asking for a login would slow you down, create a privacy liability for us to maintain, and give us a database we have no reason to keep.</p>
+            <p>Skipping accounts also keeps Toolrip honest. We cannot build a "Pro tier" that locks features behind a paywall if there is no account system to gate access with. Every visitor gets the same full-featured tools, and we intend to keep it that way for as long as the site exists.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>What devices and platforms does Toolrip work on?</summary>
+          <div class="answer">
+            <p>Any device with a modern web browser — desktop, laptop, tablet, or phone. Toolrip uses responsive layouts, so tools reflow to fit narrow screens. Most tools are fully usable on a phone; a handful of tools that rely on large editing areas (regex tester, text diff) are noticeably more comfortable on a tablet or larger.</p>
+            <p>We test on iOS Safari, Android Chrome, desktop Chrome, Firefox, Edge, and Safari before each release. If you encounter a layout bug on a device we don't cover, please <a href="https://toolrip.com/contact">send us a screenshot</a> and we'll fix it.</p>
+          </div>
+        </details>
+      </section>
+
+      <!-- Privacy & Data -->
+      <section class="faq-category" id="privacy-data">
+        <h2>Privacy &amp; Data</h2>
+
+        <details class="faq-item">
+          <summary>Do you store my data? What happens to my inputs?</summary>
+          <div class="answer">
+            <p>No, we do not store your inputs. Every tool on Toolrip performs its calculation entirely in your browser using JavaScript that ships with the page. When you type a password into the password strength checker, paste JSON into the formatter, or enter your weight into the BMI calculator, that text is processed in your browser's memory and is never transmitted to a Toolrip server. When you close the tab, the data is discarded along with the tab itself.</p>
+            <p>The only information we receive is what every website receives by default — a standard HTTP request log containing your IP address, user agent, and the URL you requested. We use this solely to serve pages and to understand aggregate traffic patterns via Cloudflare Web Analytics and Google Analytics 4. These aggregate logs are not linked to the contents of any calculator field.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>What personal information do you collect?</summary>
+          <div class="answer">
+            <p>Directly, almost none. We don't ask for your name, email, phone, or any account information, because we don't have accounts. Our analytics providers (Cloudflare and Google) collect standard server-side telemetry — IP, country, browser, referrer — which is aggregated and anonymized. Advertising partners (Google AdSense) may set cookies to personalize ads, as described on our <a href="https://toolrip.com/privacy">Privacy Policy</a> page.</p>
+            <p>If you contact us via the <a href="https://toolrip.com/contact">contact form</a>, we receive whatever you voluntarily send — typically your email address and your message. We use that information only to reply to you, and we do not add you to a mailing list.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Do your tools work offline?</summary>
+          <div class="answer">
+            <p>Partially, yes. Because every tool runs client-side, once a tool's page has finished loading, the calculation engine no longer needs the network. You can put your laptop in airplane mode and most tools will keep working — typing, calculating, and copying results — as long as you do not navigate away from the page.</p>
+            <p>What will not work offline is navigating to a new tool, loading a new article, or seeing advertisements. We have not built a full Progressive Web App or service worker yet, which means the browser's default cache is what keeps a tool working when the network drops. If offline use is important for your workflow, please <a href="https://toolrip.com/contact">let us know</a> — it helps us prioritize a proper PWA build.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Is it safe to paste sensitive data into your tools?</summary>
+          <div class="answer">
+            <p>For tools that run 100% client-side — which is effectively all of our calculators, formatters, encoders, and generators — yes. Your data never leaves your browser, so the risk of it being intercepted, logged, or leaked from our side is zero. Many security professionals use our JWT decoder and hash generator for exactly this reason.</p>
+            <p>That said, general browser hygiene still applies. If you are working on a shared computer, use a private browsing window so that nothing is saved to local history. Be mindful of browser extensions you have installed, because a malicious extension can read the contents of any page, including ours. And for truly sensitive material — production secrets, patient data, legal discovery — we recommend using an offline tool you control end-to-end.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Do you use cookies?</summary>
+          <div class="answer">
+            <p>Yes, but minimally. Toolrip itself sets a small number of functional cookies — for remembering dark mode preferences or whether you have dismissed a notification. Our analytics and advertising partners (Google, Cloudflare) set additional cookies described on the <a href="https://toolrip.com/privacy">Privacy Policy</a>. In jurisdictions where consent is required (EU, UK), you will see a consent banner the first time you visit.</p>
+          </div>
+        </details>
+      </section>
+
+      <!-- Tools & Calculators -->
+      <section class="faq-category" id="tools-calculators">
+        <h2>Tools &amp; Calculators</h2>
+
+        <details class="faq-item">
+          <summary>How accurate are your calculators?</summary>
+          <div class="answer">
+            <p>We design every calculator to match the formulas used by recognized authorities in its domain. Loan calculators use the standard amortization formula referenced by the Consumer Financial Protection Bureau. Health calculators (BMI, BMR, TDEE) follow published equations from the World Health Organization, the Mifflin-St Jeor revision, and the American College of Sports Medicine. Unit conversions use constants published by NIST and the Bureau International des Poids et Mesures. Developer tools implement the relevant IETF RFC or W3C specification directly.</p>
+            <p>Where a calculator produces a numeric result, that result should match a reference implementation to at least six significant digits. We document our formula sources on the <a href="https://toolrip.com/methodology">Methodology</a> page so you can verify the math yourself. If you find a result that disagrees with an authoritative source, that is a bug and we want to hear about it.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Are your calculators suitable for legal, medical, or financial decisions?</summary>
+          <div class="answer">
+            <p>They are suitable for education, planning, and estimation — not as a substitute for professional advice. A BMI calculator can help you understand a concept, but it cannot diagnose obesity, anorexia, or any medical condition; that is the job of a physician who can evaluate your body composition and medical history. A mortgage calculator can help you compare loan scenarios, but it does not replace a loan officer who underwrites the actual offer. A tax calculator can estimate withholding, but it is not a return.</p>
+            <p>For anything with legal, medical, or significant financial consequences, use our tools to get oriented, then consult a licensed professional before acting. We are transparent about this limitation on the footer of every calculator page.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>How do I verify your calculations are correct?</summary>
+          <div class="answer">
+            <p>Three ways. First, most tool pages include a "How this calculator works" section that walks through the formula and gives a worked example you can check by hand or with a scientific calculator. Second, the <a href="https://toolrip.com/methodology">Methodology</a> page lists the primary source for each domain — CFPB, WHO, NIST, IETF — so you can compare our output to the canonical reference. Third, you can cross-check us against another reputable tool; if our answer disagrees with a calculator published by a government agency or a major financial institution, we are wrong and we will fix it.</p>
+            <p>We have also open-sourced the calculation logic for several tools. If a bit of math is hidden behind obfuscated code, it isn't verifiable — so we keep the relevant functions readable in the page source.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Can I use your tools for commercial or professional purposes?</summary>
+          <div class="answer">
+            <p>Yes. There is no restriction on using the output of a Toolrip tool in commercial projects, client deliverables, internal reports, or published work. Format some JSON for a production API, calculate a payment schedule for a client, generate a gradient for a billboard — all fine.</p>
+            <p>The only things we ask are: don't scrape our pages to rebuild a competing tool site, don't republish our article text without attribution, and don't hotlink our assets from a high-traffic property (we'll block you at the edge if bandwidth becomes an issue). Full terms are on the <a href="https://toolrip.com/terms">Terms of Service</a> page.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Do you have an API?</summary>
+          <div class="answer">
+            <p>Not yet. Toolrip is designed as a client-side utility site, so there is no server-side computation to expose through an API. Every calculator you see is implemented in JavaScript that runs in your browser, which means the "API" is effectively the page itself.</p>
+            <p>We have had enough requests for a programmable interface that we are evaluating a small, rate-limited public API for the most-used tools (hashing, encoding, conversions, formatting). If that would be useful to you, please <a href="https://toolrip.com/contact">let us know which tools you'd want to call</a>. Demand drives the roadmap.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Can I embed your tools on my website?</summary>
+          <div class="answer">
+            <p>Not via an official embed widget — we don't publish iframes or script tags for third-party embedding at this time. The reason is that our tools share CSS, fonts, and ad slots with the host page, and letting them load inside an arbitrary third-party site creates brittle display issues we can't support.</p>
+            <p>What you <em>can</em> do is link to a tool. Deep links to every tool are stable (for example, <code>json.toolrip.com</code> will always be the JSON formatter), and we encourage teachers, bootcamps, and documentation authors to link directly. If an embeddable widget would genuinely help your use case — a school, a course, an internal wiki — write to us and we'll see what we can do.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>How do I request a new tool?</summary>
+          <div class="answer">
+            <p>Send us a note through the <a href="https://toolrip.com/contact">contact page</a> with the tool idea and a short description of what it should do. The more specific you are — "a calculator that estimates container spacing for CSS grid" is far more actionable than "a CSS tool" — the faster we can scope it.</p>
+            <p>We prioritize requests that match our categories (developer, finance, health, text, conversion, math, datetime, security, design, SEO), that don't require a backend, and that we can't already meet with an existing tool. A popular request usually ships within four to six weeks; a niche one may take longer or be declined politely.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Why do some tools require JavaScript?</summary>
+          <div class="answer">
+            <p>Because the calculation itself is written in JavaScript. Without a script engine, a "calculator" page is just static text — the inputs won't compute, the outputs won't update, and the copy-to-clipboard button won't work. This is a direct consequence of our privacy model: if we wanted the tools to work without JavaScript, we'd have to send your data to a server and run the logic there, which is exactly what we refuse to do.</p>
+            <p>Every modern browser ships with JavaScript enabled by default. If you have disabled it via an extension like NoScript, you'll need to allow <code>toolrip.com</code> (and its subdomains) to run scripts. We do not load any third-party JavaScript beyond Google AdSense and analytics.</p>
+          </div>
+        </details>
+      </section>
+
+      <!-- Accounts & Pricing -->
+      <section class="faq-category" id="accounts-pricing">
+        <h2>Accounts &amp; Pricing</h2>
+
+        <details class="faq-item">
+          <summary>Is Toolrip really free? How do you make money?</summary>
+          <div class="answer">
+            <p>Yes, 100% free — no trial, no freemium, no feature gates. The entire catalog of tools is available to every visitor with no account required. We make money through Google AdSense display advertising. A small number of banner and in-content ad slots appear on tool and article pages, and the revenue from those ads pays for hosting, domain renewals, editorial work, and the time spent building new tools.</p>
+            <p>This model keeps incentives aligned: the more people use our tools, the more ads are served, and the more we can invest in building tools people want to use. We have no reason to lock features behind a paywall or degrade the experience to push anyone toward a "Pro" plan, because we don't have one.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Will you ever add paid plans?</summary>
+          <div class="answer">
+            <p>We have no plans to. If we ever did introduce a paid offering, it would be for features that genuinely require us to run servers on your behalf — a hypothetical saved-history sync across devices, for example — and the core tool catalog would stay free and full-featured forever. We believe that "bait and switch" pricing, where a free tool is rebranded as premium once users depend on it, is a breach of trust. Toolrip will not do that.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Do I need an account to save my work?</summary>
+          <div class="answer">
+            <p>No. Since our tools run in your browser, you can copy the output and paste it into a document, email, or note of your choosing. A few tools also offer a "Download as .txt" or "Download as .json" button for larger outputs. We intentionally do not store your work, which means there is nothing to log into.</p>
+            <p>If you want a persistent record, bookmarking the tool's page and pasting your results into your own notes app is the lowest-friction approach. That way your data stays under your control, on your device, with the note-taking tool you already trust.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Can I donate or support Toolrip?</summary>
+          <div class="answer">
+            <p>The most impactful thing you can do is share tools you found useful, link to our articles if you run a blog or a course, and avoid blocking our ads on pages where you find value. Word-of-mouth traffic is what lets a small, independent utility site survive in a niche dominated by large aggregators.</p>
+            <p>We do not currently accept direct donations. If that changes, we will announce it on the <a href="https://toolrip.com/changelog">changelog</a>.</p>
+          </div>
+        </details>
+      </section>
+
+      <!-- Technical Issues -->
+      <section class="faq-category" id="technical-issues">
+        <h2>Technical Issues</h2>
+
+        <details class="faq-item">
+          <summary>What browsers do you support?</summary>
+          <div class="answer">
+            <p>Toolrip officially supports the two most recent major versions of Chrome, Firefox, Edge, and Safari on desktop, plus iOS Safari and Android Chrome on mobile. In practice our tools also work on older browsers going back roughly four years, because we write to standard web APIs and avoid bleeding-edge features that require polyfills.</p>
+            <p>If you are on an unsupported browser — Internet Explorer 11, a legacy Android WebView, or a heavily locked-down corporate environment — some tools may display incorrectly or fail silently. In that case, please try a modern browser or <a href="https://toolrip.com/contact">tell us what you're on</a> so we can decide whether to add support.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>A tool is broken or giving me the wrong result. How do I report a bug?</summary>
+          <div class="answer">
+            <p>Please report it. Accuracy is the one thing we cannot compromise on, so bug reports go straight to the top of the queue. The fastest way to report is through the <a href="https://toolrip.com/contact">contact form</a>. Include: the exact URL of the tool, the input you entered, the result you got, and the result you expected. A screenshot is helpful but not required.</p>
+            <p>If the report involves a calculation disagreement, we will re-derive the formula, compare against at least one authoritative reference, and either fix the tool or explain in our reply why the current answer is actually correct (sometimes the disagreement is between two legitimate conventions — there are multiple valid BMI categories, for example). Either way, you will get a response within a few business days.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>A tool is slow or unresponsive. What can I do?</summary>
+          <div class="answer">
+            <p>Most Toolrip tools should respond in well under a second. If something feels slow, the usual causes are a very large input (a 50 MB JSON file will visibly lag any in-browser formatter), an ad that is slow to load and is blocking the render path, or a browser extension that is injecting its own scripts into the page. Try reloading with extensions disabled, or open the tool in an incognito window.</p>
+            <p>If the tool is consistently slow on a reasonable input, that is a performance bug. Tell us the URL, the input size, and your device and browser so we can reproduce and fix it.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>My copy-to-clipboard button isn't working.</summary>
+          <div class="answer">
+            <p>Clipboard access requires a secure context (HTTPS, which we always serve) and, on some browsers, a user gesture. If you click the copy button and nothing happens, check whether your browser has blocked clipboard permissions for <code>toolrip.com</code> — some privacy extensions disable the Clipboard API by default. Re-enabling it for our domain typically fixes the issue.</p>
+            <p>As a fallback, every output field on Toolrip is selectable and copyable with <kbd>Ctrl</kbd>+<kbd>C</kbd> (or <kbd>Cmd</kbd>+<kbd>C</kbd> on Mac). Triple-click to select the full line, then copy as usual.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>The page layout looks wrong on my device.</summary>
+          <div class="answer">
+            <p>We test the site on recent desktop and mobile browsers, but there are always corners we miss — a very wide ultrawide monitor, an unusual Android WebView, a browser zoom level above 200%. If something is overlapping, cut off, or unreadable, please send us a screenshot along with your browser and window size. Layout bugs are usually a quick CSS fix once we can see what you see.</p>
+          </div>
+        </details>
+      </section>
+
+      <!-- Editorial & Content -->
+      <section class="faq-category" id="editorial-content">
+        <h2>Editorial &amp; Content</h2>
+
+        <details class="faq-item">
+          <summary>Who writes your content?</summary>
+          <div class="answer">
+            <p>Toolrip articles and tool explainers are written by a small editorial team with backgrounds in the domains they cover. Finance articles are reviewed by a contributor with mortgage-industry experience; health articles are reviewed against WHO, CDC, and Mayo Clinic guidelines; developer content is written by working software engineers; and security articles are reviewed against NIST and OWASP. Our <a href="https://toolrip.com/editorial-policy">Editorial Policy</a> lists the standards each category follows, and many articles now carry a byline so you can see who wrote them.</p>
+            <p>Our goal with the surrounding content — the FAQs, the "how this works" explainers, the longer articles — is to save you a round trip to Google. Instead of using a tool and then searching "what does this number actually mean," you should be able to scroll and get a clear, accurate answer from a writer who has worked in that field.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Do you use AI to write content?</summary>
+          <div class="answer">
+            <p>We use AI as a drafting assistant the same way an editor uses an outline. A human editor always sets the scope, sources the references, reviews the draft line by line, and rewrites whatever is factually weak, generic, or misleading. Numbers, formulas, citations, and any claim about health, money, or law are checked against a primary source — not accepted on the strength of an AI output. Nothing ships to a live page without a human reviewer signing off.</p>
+            <p>We don't hide this workflow, because the quality standard is what matters: does the article accurately explain the underlying topic, does it cite its sources, and would a reader with domain expertise find anything wrong with it? Those are the questions we ask of every page, regardless of how the first draft was produced.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>How often do you update tools and articles?</summary>
+          <div class="answer">
+            <p>Tools are reviewed and adjusted whenever an underlying formula, specification, or best practice changes — a new IRS tax bracket, an updated IETF RFC, a revised WHO threshold. That typically produces a handful of content updates per month. Articles are revisited at least once a year for accuracy, or sooner if a reader flags a problem.</p>
+            <p>You can see a running history on our <a href="https://toolrip.com/changelog">changelog</a> page, where every significant tool launch, content update, and bug fix is dated and tagged.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Can I suggest corrections to an article?</summary>
+          <div class="answer">
+            <p>Absolutely, and we appreciate it. The fastest way is the <a href="https://toolrip.com/contact">contact form</a>. Include the article URL, the sentence or paragraph you think is incorrect, and — if possible — a link to an authoritative source that contradicts it. We prioritize factual corrections over stylistic preferences, and we will update the page within a few days if the correction checks out. Significant changes are logged on the changelog.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Can I reprint or translate a Toolrip article?</summary>
+          <div class="answer">
+            <p>Short quotations with attribution and a link back are fine under normal fair-use conventions. Full-article reprints or translations require permission; write to us and we will usually say yes for educational, non-commercial use with a clear byline and canonical link back to the original. We do not permit scraped AI-training use of our articles.</p>
+          </div>
+        </details>
+      </section>
+
+      <!-- Advertising -->
+      <section class="faq-category" id="advertising">
+        <h2>Advertising</h2>
+
+        <details class="faq-item">
+          <summary>Why do I see ads and how do they work?</summary>
+          <div class="answer">
+            <p>Advertising is how Toolrip pays the bills. Since we charge nothing for the tools and require no account, a small number of display ads on each page fund the hosting, the domain, the editorial team, and the time spent building new tools. The ad slots are positioned above the tool, between the tool and the FAQ, and near the bottom of each page. We avoid pop-ups, auto-playing video, and interstitials because they damage the experience.</p>
+            <p>Ads are served by Google AdSense. Google selects which ad to show based on a combination of page context (what tool or article you're viewing) and, in some regions, your ad personalization settings with Google. Toolrip itself does not pick which ad you see, nor do we share your calculator inputs with advertisers.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>What is your relationship with Google AdSense?</summary>
+          <div class="answer">
+            <p>Toolrip is a registered AdSense publisher. That means Google serves ads on our pages and pays us a revenue share; in exchange, we agree to follow Google's program policies, which include things like not clicking our own ads, not placing ads on prohibited content, and disclosing how data is collected. Our <a href="https://toolrip.com/privacy">Privacy Policy</a> explains the cookies and identifiers AdSense uses in more detail.</p>
+            <p>We are not otherwise affiliated with Google — we are just one of millions of small publishers who use AdSense to monetize free content. If you have a concern about a specific ad you saw on Toolrip, please include the ad's advertiser name (usually visible in the corner of the ad) when you <a href="https://toolrip.com/contact">contact us</a>, and we can often block it directly.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Do you accept direct advertisers or sponsorships?</summary>
+          <div class="answer">
+            <p>Not at the moment. All of our advertising is served programmatically through Google AdSense, which means we do not take direct placements, sponsored posts, or "review" content from vendors. Our editorial content is independent of any advertiser relationship — no advertiser gets a mention in an article in exchange for payment, and no advertiser sees editorial copy before publication.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Can I use an ad blocker?</summary>
+          <div class="answer">
+            <p>You can, and we don't detect or shame you for it. Ad-blocking is a legitimate choice, especially on slow connections or older devices. If you appreciate the tools and have no objection to seeing a few unobtrusive ads, disabling your blocker for <code>toolrip.com</code> is the most direct way to support the site. If you prefer to block, everything still works, and we harbor no ill will.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>How do I opt out of personalized advertising?</summary>
+          <div class="answer">
+            <p>Personalized ads are controlled by Google, not by Toolrip. You can adjust or disable personalization at <a href="https://adssettings.google.com" rel="noopener" target="_blank">Google Ad Settings</a>, which affects ads across the entire Google network (including Toolrip). In the EU and UK, we display a consent banner that offers a one-click rejection of non-essential tracking. Our <a href="https://toolrip.com/privacy">Privacy Policy</a> describes the opt-out flow in more detail.</p>
+          </div>
+        </details>
+      </section>
+
+      <!-- Contact CTA -->
+      <section class="contact-cta">
+        <h2>Still have questions?</h2>
+        <p style="color:var(--text-muted);margin:var(--sp-2) 0 var(--sp-3);">
+          Send us a note — we read every message and reply personally.
+        </p>
+        <a href="https://toolrip.com/contact" class="btn-primary">Contact Us</a>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/blog">Blog</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/methodology">Methodology</a>
+        <a href="https://toolrip.com/editorial-policy">Editorial Policy</a>
+        <a href="https://toolrip.com/faq">FAQ</a>
+        <a href="https://toolrip.com/changelog">Changelog</a>
+        <a href="https://toolrip.com/privacy">Privacy</a>
+        <a href="https://toolrip.com/terms">Terms</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <script src="/shared/common.js"></script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marcus Chen — Developer & Technical Lead at Toolrip</title>
+  <meta name="description" content="Marcus Chen is a backend engineer with 10+ years building payment systems. He writes Toolrip's developer content on JSON, regex, JWT, and cryptography.">
+  <link rel="canonical" href="https://toolrip.com/authors/marcus-chen">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/shared/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Marcus Chen",
+    "jobTitle": "Developer & Technical Lead",
+    "url": "https://toolrip.com/authors/marcus-chen",
+    "worksFor": { "@type": "Organization", "name": "Toolrip", "url": "https://toolrip.com" },
+    "description": "Backend engineer with a decade in fintech. Writes developer-focused content on JSON, APIs, cryptography, and tooling."
+  }
+  </script>
+  <style>
+    :root{--accent:var(--developer)}
+    .author-hero { display:flex; gap:var(--sp-4); align-items:center; padding:var(--sp-5) var(--sp-3); border-bottom:1px solid var(--border); margin-bottom:var(--sp-4); }
+    .author-avatar { width:120px; height:120px; border-radius:50%; background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 60%, black)); display:flex; align-items:center; justify-content:center; font-size:2.5rem; font-weight:700; color:#fff; flex-shrink:0; }
+    .author-meta h1 { font-size:1.75rem; margin:0 0 .25rem; }
+    .author-role { color:var(--accent); font-weight:600; font-size:1rem; margin-bottom:.5rem; }
+    .author-tagline { color:var(--text-muted); font-size:.9375rem; line-height:1.6; }
+    .author-section { max-width:800px; margin:0 auto var(--sp-5); padding:0 var(--sp-3); }
+    .author-section h2 { font-size:1.25rem; margin:var(--sp-4) 0 var(--sp-2); border-bottom:1px solid var(--border); padding-bottom:var(--sp-1); }
+    .author-section p, .author-section li { color:var(--text-muted); line-height:1.8; font-size:.9375rem; }
+    .author-section ul { padding-left:1.5rem; }
+    .author-section li { margin-bottom:var(--sp-2); }
+    .credential-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:var(--sp-3); margin:var(--sp-3) 0; }
+    .credential-card { background:var(--bg-surface); border:1px solid var(--border); border-radius:var(--radius); padding:var(--sp-3); }
+    .credential-card strong { color:var(--text); display:block; margin-bottom:var(--sp-1); font-size:.9375rem; }
+    .credential-card span { color:var(--text-muted); font-size:.8125rem; }
+    .article-list { list-style:none; padding:0; }
+    .article-list li { padding:var(--sp-2) 0; border-bottom:1px solid var(--border); }
+    .article-list li:last-child { border:none; }
+    .article-list a { color:var(--accent); font-weight:500; }
+    .last-reviewed { background:var(--bg-surface); padding:var(--sp-2) var(--sp-3); border-radius:var(--radius); font-size:.8125rem; color:var(--text-muted); margin-top:var(--sp-4); }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/blog">Blog</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+    <main class="main">
+      <nav class="breadcrumb"><a href="https://toolrip.com">Home</a> <span>/</span> <a href="https://toolrip.com/about">About</a> <span>/</span> <span>Marcus Chen</span></nav>
+
+      <section class="author-hero">
+        <div class="author-avatar">MC</div>
+        <div class="author-meta">
+          <h1>Marcus Chen</h1>
+          <div class="author-role">Developer &amp; Technical Lead</div>
+          <p class="author-tagline">Backend engineer, reluctant regex enthusiast, and the guy who explains JWT to anyone who'll listen.</p>
+        </div>
+      </section>
+
+      <div class="author-section">
+        <h2>About Marcus</h2>
+        <p>Marcus has been writing backend code professionally since 2014, which — depending on how you count internships and the one questionable PHP project he did for a friend's laundromat — is somewhere north of eleven years. He spent most of that time in fintech, which is a polite way of saying he has opinions about timezone handling, idempotency keys, and why you should never, ever represent currency as a floating-point number.</p>
+        <p>His first real engineering job was at a Seattle-based payments startup that no longer exists (acquired, then quietly shut down). He joined as the fourth backend hire and left four years later having touched pretty much every part of the stack: transaction processing, webhook delivery, the KYC pipeline, and an internal tool for reconciling settlement reports that he still thinks about at 2 a.m. sometimes. After that, he moved to a mid-sized lending platform in Austin where he led the API platform team — roughly twelve engineers — and shipped the third major rewrite of their public API. The second rewrite was his fault. The third one fixed it.</p>
+        <p>These days Marcus works as a staff engineer at a B2B fintech focused on treasury management. His day job is mostly design review, mentoring, and the kind of cross-team politics you don't learn about in school. He writes for Toolrip on nights and weekends, partly because he genuinely enjoys explaining things, and partly because the tools here — the JSON formatter especially — are ones he uses constantly. At this point he's probably pasted a JSON blob into Toolrip more times than he's committed to his own repo.</p>
+        <p>He's also a certified AWS Solutions Architect (Professional, renewed 2024) and spends an embarrassing amount of his free time on side projects that he will eventually open-source. He will not. He says he will, but he won't. His GitHub is a graveyard of half-finished CLI utilities and one surprisingly popular regex debugger that he hasn't touched since 2021.</p>
+        <p>Marcus cares about a few things with unreasonable intensity: clear error messages, sensible defaults, documentation that actually explains the "why," and UTF-8. He's the one on Toolrip's editorial team who insists that every developer article includes runnable examples, not just screenshots. If an article of his has a code block, you can copy-paste it and it will work. That's the bar.</p>
+        <p>Outside of engineering, he cooks aggressively mediocre ramen, plays bass badly, and is slowly restoring a 1994 Miata that his wife tolerates with grace. He lives in Austin with said wife, a rescue cat named Segfault, and far too many mechanical keyboards.</p>
+
+        <h2>Areas of Expertise</h2>
+        <ul>
+          <li>JSON, JSON Schema, and API payload design</li>
+          <li>Regular expressions (PCRE, ECMAScript, and the cursed edge cases of both)</li>
+          <li>JWT, OAuth 2.0, and practical authentication architecture</li>
+          <li>Base64, hashing, and applied cryptography fundamentals</li>
+          <li>Cron expressions and job scheduling at scale</li>
+          <li>Developer tooling, CLI ergonomics, and local dev environment setup</li>
+          <li>Backend systems in Go, Python, and (begrudgingly) Node.js</li>
+        </ul>
+
+        <h2>Education &amp; Credentials</h2>
+        <div class="credential-grid">
+          <div class="credential-card"><strong>B.S. Computer Science</strong><span>University of Washington, 2013</span></div>
+          <div class="credential-card"><strong>AWS Certified Solutions Architect — Professional</strong><span>Amazon Web Services, 2019 (renewed 2024)</span></div>
+          <div class="credential-card"><strong>Certified Kubernetes Application Developer (CKAD)</strong><span>CNCF, 2021</span></div>
+          <div class="credential-card"><strong>11+ years backend engineering</strong><span>Fintech and payments infrastructure</span></div>
+        </div>
+
+        <h2>Recent Articles</h2>
+        <ul class="article-list">
+          <li><a href="https://toolrip.com/blog/json-guide">JSON Explained: Everything Developers Need to Know</a></li>
+          <li><a href="https://toolrip.com/blog/regex-guide-for-beginners">Regular Expressions Explained: A Practical Guide for Beginners</a></li>
+          <li><a href="https://toolrip.com/blog/what-is-jwt">What Is a JWT Token? A Developer's Guide to JSON Web Tokens</a></li>
+          <li><a href="https://toolrip.com/blog/base64-encoding-explained">Base64 Encoding Explained</a></li>
+          <li><a href="https://toolrip.com/blog/cron-expression-tutorial">Cron Expressions Demystified</a></li>
+          <li><a href="https://toolrip.com/blog/essential-developer-tools">20 Essential Free Developer Tools</a></li>
+        </ul>
+
+        <h2>Contact</h2>
+        <p>Readers can reach Marcus through the <a href="https://toolrip.com/contact">Toolrip contact form</a>. For corrections, questions about published articles, or article suggestions in their areas of coverage, use "Attn: Marcus" in your message subject. He reads everything, replies to most things, and particularly welcomes bug reports on the developer tools — if something is broken, he wants to know about it before his morning coffee wears off.</p>
+
+        <div class="last-reviewed"><strong>Profile last reviewed:</strong> April 22, 2026</div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/blog">Blog</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/methodology">Methodology</a>
+        <a href="https://toolrip.com/editorial-policy">Editorial Policy</a>
+        <a href="https://toolrip.com/faq">FAQ</a>
+        <a href="https://toolrip.com/changelog">Changelog</a>
+        <a href="https://toolrip.com/privacy">Privacy</a>
+        <a href="https://toolrip.com/terms">Terms</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+  </div>
+  <script src="/shared/common.js"></script>
+</body>
+</html>
