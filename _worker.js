@@ -153,7 +153,8 @@ const BLOG_MAP = {
   'blog/running-pace-training-guide': 'running-pace-training-guide',
   'blog/why-i-stopped-trusting-bmi': 'why-i-stopped-trusting-bmi',
   'blog/the-one-password-mistake-i-see-everywhere': 'the-one-password-mistake-i-see-everywhere',
-  'blog/mortgage-myths-i-hear-from-first-time-buyers': 'mortgage-myths-i-hear-from-first-time-buyers'
+  'blog/mortgage-myths-i-hear-from-first-time-buyers': 'mortgage-myths-i-hear-from-first-time-buyers',
+  'blog/loan-amortization-schedule-guide': 'loan-amortization-schedule-guide'
 };
 
 export default {
