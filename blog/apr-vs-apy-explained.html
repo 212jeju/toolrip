@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Understanding APR vs APY: Why the Numbers Are Different — Toolrip</title>
+  <meta name="description" content="A former CFP explains the actual difference between APR and APY, why a 6.50% loan and a 6.50% savings rate are not the same number, and how to compare offers honestly.">
+  <link rel="canonical" href="https://toolrip.com/blog/apr-vs-apy-explained">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta property="og:title" content="Understanding APR vs APY: Why the Numbers Are Different — Toolrip">
+  <meta property="og:description" content="A former CFP explains why APR and APY are not the same number, and how to compare offers honestly.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://toolrip.com/blog/apr-vs-apy-explained">
+  <meta property="og:site_name" content="Toolrip">
+  <meta property="og:image" content="https://toolrip.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Understanding APR vs APY: Why the Numbers Are Different — Toolrip">
+  <meta name="twitter:description" content="A former CFP explains why APR and APY are not the same number, and how to compare offers honestly.">
+  <meta name="twitter:image" content="https://toolrip.com/og-image.png">
+  <meta name="robots" content="index, follow">
+  <link rel="preload" href="/shared/style.css" as="style">
+  <link rel="stylesheet" href="/shared/style.css">
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="manifest" href="/manifest.json">
+  <style>:root{--accent:var(--finance)}</style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Understanding APR vs APY: Why the Numbers Are Different",
+    "description": "A former CFP explains the actual difference between APR and APY, why a 6.50% loan and a 6.50% savings rate are not the same number, and how to compare offers honestly.",
+    "url": "https://toolrip.com/blog/apr-vs-apy-explained",
+    "datePublished": "2026-05-08",
+    "dateModified": "2026-05-08",
+    "author": {"@type": "Person", "name": "David Park", "url": "https://toolrip.com/authors/david-park"},
+    "publisher": {"@type": "Organization", "name": "Toolrip", "url": "https://toolrip.com", "logo": {"@type": "ImageObject", "url": "https://toolrip.com/og-image.png"}},
+    "image": "https://toolrip.com/og-image.png",
+    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://toolrip.com/blog/apr-vs-apy-explained"}
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://toolrip.com/"},
+      {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://toolrip.com/blog"},
+      {"@type": "ListItem", "position": 3, "name": "APR vs APY Explained", "item": "https://toolrip.com/blog/apr-vs-apy-explained"}
+    ]
+  }
+  </script>
+  <style>
+    .article-body { line-height: 1.8; font-size: 1.0625rem; }
+    .article-body h2 { font-size: 1.5rem; font-weight: 700; margin: var(--sp-5) 0 var(--sp-3); color: var(--text); border-bottom: 1px solid var(--border); padding-bottom: var(--sp-2); }
+    .article-body h3 { font-size: 1.15rem; font-weight: 600; margin: var(--sp-4) 0 var(--sp-2); color: var(--accent); }
+    .article-body p { margin-bottom: var(--sp-3); color: var(--text-muted); }
+    .article-body ul, .article-body ol { margin-bottom: var(--sp-3); padding-left: 1.5rem; color: var(--text-muted); }
+    .article-body li { margin-bottom: var(--sp-2); }
+    .article-body a { color: var(--accent); font-weight: 500; }
+    .article-body a:hover { text-decoration: underline; }
+    .article-body strong { color: var(--text); }
+    .article-meta { font-size: .875rem; color: var(--text-muted); margin-bottom: var(--sp-4); }
+    .tool-highlight { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--sp-4); margin: var(--sp-3) 0; }
+    .tool-highlight h3 { margin-top: 0; }
+    .tool-highlight .tool-link { display: inline-flex; align-items: center; gap: var(--sp-2); padding: var(--sp-2) var(--sp-3); background: var(--accent); color: #fff; border-radius: var(--radius); font-size: .875rem; font-weight: 600; margin-top: var(--sp-2); transition: opacity .15s; }
+    .tool-highlight .tool-link:hover { opacity: .88; text-decoration: none; }
+    .cta-box { background: var(--bg-elevated); border: 2px solid var(--accent); border-radius: var(--radius-lg); padding: var(--sp-5); text-align: center; margin: var(--sp-5) 0; }
+    .cta-box h2 { border: none; padding: 0; margin-bottom: var(--sp-2); }
+    .cta-box p { margin-bottom: var(--sp-3); }
+    .cta-box .btn-primary { display: inline-flex; padding: var(--sp-3) var(--sp-5); font-size: 1rem; text-decoration: none; }
+    .category-label { display: inline-block; font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); padding: var(--sp-1) var(--sp-2); border-radius: var(--radius-sm); margin-bottom: var(--sp-3); }
+    .toc { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--sp-4); margin-bottom: var(--sp-4); }
+    .toc h2 { font-size: 1rem; font-weight: 600; margin: 0 0 var(--sp-2); border: none; padding: 0; }
+    .toc ol { padding-left: 1.25rem; margin: 0; }
+    .toc li { margin-bottom: var(--sp-1); font-size: .9375rem; }
+    .toc a { color: var(--text-muted); }
+    .toc a:hover { color: var(--accent); }
+    .pull-quote { border-left: 4px solid var(--accent); padding: var(--sp-2) var(--sp-4); margin: var(--sp-4) 0; font-size: 1.15rem; font-style: italic; color: var(--text); line-height: 1.6; background: color-mix(in srgb, var(--accent) 6%, transparent); border-radius: 0 var(--radius) var(--radius) 0; }
+    .pull-quote cite { display: block; margin-top: var(--sp-2); font-size: .875rem; font-style: normal; color: var(--text-muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin: var(--sp-3) 0; font-size: .9375rem; }
+    .compare-table th, .compare-table td { padding: var(--sp-2); border-bottom: 1px solid var(--border); text-align: right; }
+    .compare-table th:first-child, .compare-table td:first-child { text-align: left; }
+    .compare-table th { background: var(--bg-surface); color: var(--text); font-weight: 600; }
+    .compare-table td { color: var(--text-muted); }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1801576841825156" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <a href="https://toolrip.com" class="logo">Toolrip</a>
+      <nav>
+        <a href="https://toolrip.com">Home</a>
+        <a href="https://toolrip.com/blog">Blog</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/contact">Contact</a>
+      </nav>
+    </header>
+    <div class="ad-slot ad-top" data-ad-slot="top">Ad</div>
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com/">Home</a> <span>/</span>
+        <a href="https://toolrip.com/blog">Blog</a> <span>/</span>
+        <span>APR vs APY Explained</span>
+      </nav>
+      <article class="article-body">
+        <span class="category-label">Finance</span>
+        <h1>Understanding APR vs APY: Why the Numbers Are Different</h1>
+        <p class="article-meta">Published on May 8, 2026 &middot; 12 min read</p>
+
+        <div class="author-byline" style="display:flex;align-items:center;gap:var(--sp-3);margin:var(--sp-3) 0;padding:var(--sp-3);background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius)">
+          <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 60%, black));display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;flex-shrink:0;font-size:.9375rem">DP</div>
+          <div>
+            <strong style="font-size:.9375rem">David Park</strong>
+            <p style="font-size:.8125rem;color:var(--text-muted);margin:var(--sp-1) 0 0"><a href="https://toolrip.com/authors/david-park" style="color:var(--accent)">Personal Finance Editor</a> — Former Certified Financial Planner with 12 years in banking and wealth advisory. Reviewed by the Toolrip editorial team.</p>
+          </div>
+        </div>
+
+        <p>Here's a moment that used to play out across my desk roughly twice a month for twelve years. A client would come in, slide a printout across the table, and say something like, "Okay, the credit union savings account is offering 4.50%, and the new credit card has a 17.99% rate. So my savings is earning a little more than a quarter of what the card costs me, right?"</p>
+
+        <p>Almost. Sort of. Not really. The two numbers on that printout — even though they were both expressed as percentages — were not the same kind of number. One was an APR. The other was an APY. And if you don't know which is which, you can't actually compare them honestly, because they're measuring different things.</p>
+
+        <p>This piece is going to fix that. We're going to walk through what APR is, what APY is, why they're not interchangeable, and the specific situations in which the difference between them quietly costs people real money. I'll also show you the formula — it's easier than you think — and walk through the times in my old advisory practice when this confusion mattered most.</p>
+
+        <p><em>Standard disclaimer: this is educational, not personal financial advice. Specific products have specific disclosures, and the right move for you depends on your situation. Always read the fine print on the actual offer in front of you.</em></p>
+
+        <div class="toc">
+          <h2>Table of Contents</h2>
+          <ol>
+            <li><a href="#definitions">The One-Sentence Definitions</a></li>
+            <li><a href="#why-different">Why the Numbers Are Actually Different</a></li>
+            <li><a href="#math">The Math (It's Honestly Not Bad)</a></li>
+            <li><a href="#loans">APR on Loans: What It Includes and What It Doesn't</a></li>
+            <li><a href="#savings">APY on Savings: Why Daily Compounding Matters Less Than You Think</a></li>
+            <li><a href="#credit-cards">Credit Cards: The Worst Offender</a></li>
+            <li><a href="#comparing">How to Actually Compare Two Offers</a></li>
+            <li><a href="#mistakes">Real Mistakes I Watched People Make</a></li>
+            <li><a href="#takeaway">The Takeaway</a></li>
+          </ol>
+        </div>
+
+        <h2 id="definitions">The One-Sentence Definitions</h2>
+
+        <p>Before anything else, the basic definitions, in plain English:</p>
+
+        <p><strong>APR</strong> — Annual Percentage Rate — is the cost of borrowing money expressed as a yearly rate. On most consumer loans, the APR includes the stated interest rate <em>plus</em> certain mandatory fees, expressed as if those costs were paid evenly across the life of the loan. APR does <em>not</em> account for compounding.</p>
+
+        <p><strong>APY</strong> — Annual Percentage Yield — is the actual amount you'll earn (or pay) over a year, accounting for compounding. APY does <em>not</em> include fees; it's purely about what the money does once it's in the account.</p>
+
+        <p>So APR is the headline cost of a loan, including most fees but ignoring compounding. APY is the headline yield of a deposit, ignoring fees but including compounding. They are not the same animal, even though they are both percentages with three or four digits.</p>
+
+        <p>This single conceptual mismatch — one number includes fees and skips compounding, the other includes compounding and skips fees — is the entire reason this article exists.</p>
+
+        <h2 id="why-different">Why the Numbers Are Actually Different</h2>
+
+        <p>Picture two scenarios.</p>
+
+        <p><strong>Scenario A.</strong> You park $10,000 in a high-yield savings account that advertises a 4.50% APY. Twelve months later, you check the balance. It's roughly $10,450. The interest paid was $450, which is exactly 4.50% of the starting balance. So far so good — APY behaves like a real number you can multiply by your starting balance to get your ending balance.</p>
+
+        <p><strong>Scenario B.</strong> You park the same $10,000 in an account that advertises a 4.50% <em>nominal annual rate</em> compounded monthly. Twelve months later, you check the balance. It's about $10,459.40. You earned $459.40 — slightly more than 4.50% — because each month's interest was added to the balance, and the next month's interest was calculated on that slightly larger number. The APY of this account is actually about 4.594%, even though the stated rate is 4.50%.</p>
+
+        <p>That second scenario is what APY exists to clarify. The APY says, "ignore the funny compounding details, and just tell me what the number actually means in dollars at the end of the year." The reason regulators standardized APY in the first place — the federal Truth in Savings Act of 1991 — is that banks used to advertise stated rates compounded a bunch of different ways and call them all "the rate." Two accounts with the same stated rate would pay out wildly different amounts depending on whether the bank compounded daily, monthly, quarterly, or annually. APY put everyone on the same yardstick.</p>
+
+        <p>APR, meanwhile, was standardized by the Truth in Lending Act and serves the parallel purpose for borrowing. It says, "ignore the marketing rate and tell me what the loan actually costs once you fold in the fees the lender is going to charge me at closing."</p>
+
+        <h2 id="math">The Math (It's Honestly Not Bad)</h2>
+
+        <p>If you can do compounding by hand, you can do APR-to-APY conversion by hand. Here's the formula.</p>
+
+        <p>Let <em>r</em> be the nominal annual rate (the stated interest rate, before compounding) and <em>n</em> be the number of compounding periods per year:</p>
+
+        <p style="background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3);text-align:center;font-size:1.1rem;color:var(--text)"><strong>APY = (1 + r/n)<sup>n</sup> − 1</strong></p>
+
+        <p>That's it. The whole formula. Walk through it for a 6.00% nominal rate compounded monthly:</p>
+
+        <ul>
+          <li>r = 0.06</li>
+          <li>n = 12 (monthly)</li>
+          <li>r/n = 0.005</li>
+          <li>(1 + 0.005)<sup>12</sup> = 1.06168</li>
+          <li>APY = 1.06168 − 1 = 0.06168, or about <strong>6.17%</strong></li>
+        </ul>
+
+        <p>So a 6.00% nominal rate compounded monthly is actually a 6.17% APY. The compounding adds 17 basis points. That's not nothing, but it's also not enormous.</p>
+
+        <p>Daily compounding pushes the gap a little wider:</p>
+
+        <ul>
+          <li>r = 0.06, n = 365</li>
+          <li>(1 + 0.06/365)<sup>365</sup> = 1.06183</li>
+          <li>APY ≈ <strong>6.18%</strong></li>
+        </ul>
+
+        <p>Going from monthly to daily compounding only adds about one extra basis point. And going from daily to "continuous" compounding (which is the theoretical limit) maxes out at about 6.184%. Once you've passed daily compounding, the marginal benefit is essentially zero.</p>
+
+        <div class="pull-quote">
+          "If you remember nothing else from this article, remember this: at typical consumer rates, the difference between APR and APY on the same product is usually 10 to 25 basis points. That's small enough to ignore on a one-year decision and big enough to matter on a 30-year decision."
+          <cite>— David, on the practical scale of the difference</cite>
+        </div>
+
+        <p>Going the other direction — converting an APY to a nominal rate — is just algebra:</p>
+
+        <p style="background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp-3);text-align:center;font-size:1.1rem;color:var(--text)"><strong>r = n × ((1 + APY)<sup>1/n</sup> − 1)</strong></p>
+
+        <p>You'll need this less often. APY-quoted accounts (savings accounts, CDs, money markets) usually post APY directly on the disclosure. Rate-quoted accounts (loans, credit cards, mortgages) usually post the nominal rate and the APR. The two tracks are largely separate.</p>
+
+        <h2 id="loans">APR on Loans: What It Includes and What It Doesn't</h2>
+
+        <p>The APR on a loan is supposed to be the "all-in" cost of borrowing, expressed as an annual rate. In theory, this lets you compare two loans without getting fooled by one having low rate but high fees.</p>
+
+        <p>What it includes (mostly):</p>
+        <ul>
+          <li>The stated interest rate</li>
+          <li>Origination fees and lender-side discount points</li>
+          <li>Mortgage insurance premiums (on mortgages where applicable)</li>
+          <li>Some prepaid finance charges</li>
+        </ul>
+
+        <p>What it does <em>not</em> include:</p>
+        <ul>
+          <li>Third-party closing costs that aren't required by the lender (title insurance, recording fees in some states, etc.)</li>
+          <li>Property taxes and homeowners insurance escrows</li>
+          <li>Compounding effects within the year</li>
+          <li>Late fees, prepayment penalties, or default-related charges</li>
+        </ul>
+
+        <p>This last point is important: APR doesn't account for compounding, so on a credit card or any loan where interest can compound on unpaid interest, the APR <em>understates</em> the real annual cost if you carry a balance. We'll come back to that.</p>
+
+        <p>One more wrinkle: APR is calculated assuming you'll hold the loan to its stated term. For a 30-year mortgage with discount points, the APR amortizes those upfront points over 30 years. But what if you sell the house in five years, the way most Americans do? You paid the full points but only got five years of rate reduction in return. The APR <em>looked</em> better at signing than the rate-only number, but in practice you may have done worse than you would have at a higher-rate, lower-point loan. APR optimizes for the full term, and the full term is rarely what actually happens.</p>
+
+        <div class="tool-highlight">
+          <h3>Run an APR Calculation on a Specific Offer</h3>
+          <p>Punch in the loan amount, rate, term, and any fees you've been quoted. The APR calculator returns the all-in annualized cost so you can compare offers honestly.</p>
+          <a href="https://toolrip.com/apr" class="tool-link">Open APR Calculator &rarr;</a>
+        </div>
+
+        <h2 id="savings">APY on Savings: Why Daily Compounding Matters Less Than You Think</h2>
+
+        <p>If you've been on bank marketing pages lately, you've seen "compounded daily" splashed across savings ads like it's a feature. It's a feature in the literal sense — the money does compound daily — but the practical impact compared to monthly compounding is, as we showed above, about one basis point at consumer rates. On $10,000 at 4.5%, that's roughly $1 per year of difference between daily and monthly compounding.</p>
+
+        <p>What actually matters for your savings yield:</p>
+
+        <ol>
+          <li><strong>The headline APY itself.</strong> A 4.50% APY beats a 4.30% APY beats a 0.05% APY (which is, fun fact, what a lot of big-bank checking accounts still pay in 2026). The compounding frequency is a rounding error compared to picking the right account.</li>
+          <li><strong>Whether the rate is promotional.</strong> Many "high-yield" accounts have a teaser rate that drops after 6 or 12 months. Read the disclosure.</li>
+          <li><strong>Minimum balance requirements and fees.</strong> A 5% APY on an account with a $25 monthly fee is a worse deal than a 4% APY on a no-fee account at most balance levels.</li>
+          <li><strong>Whether interest is paid only at the end of a period.</strong> Some CDs only credit interest at maturity, which means if you withdraw early you may forfeit some or all of it.</li>
+        </ol>
+
+        <p>None of those four things are the compounding frequency. So when you're shopping for a savings vehicle, focus on the APY number itself, the promotional terms, the fee schedule, and the access rules. The "compounded daily" stuff is mostly marketing.</p>
+
+        <h2 id="credit-cards">Credit Cards: The Worst Offender</h2>
+
+        <p>Credit cards are where the APR-vs-APY confusion does the most quiet damage to ordinary people. Here's the structural problem.</p>
+
+        <p>A credit card discloses an APR — typically something like 22.99% in 2026, give or take. But that APR is a nominal annual rate, and credit card interest typically compounds <em>daily</em>. So if you actually carry a balance, the effective rate you pay over a year is the APY of that nominal rate, not the APR.</p>
+
+        <p>Let's run the numbers on a 22.99% APR card with daily compounding:</p>
+
+        <ul>
+          <li>r = 0.2299, n = 365</li>
+          <li>(1 + 0.2299/365)<sup>365</sup> = 1.2585</li>
+          <li>APY ≈ <strong>25.85%</strong></li>
+        </ul>
+
+        <p>The headline APR was 22.99%. The actual annual cost of carrying a balance is closer to 25.85%. That's almost three full percentage points hidden in plain sight by the disclosure convention. On a $5,000 balance carried for a year, that's the difference between owing about $1,150 in interest and owing about $1,290 — roughly $140 per year, just from the gap between the disclosed APR and the realized APY.</p>
+
+        <p>This is one of the few places I'll say something that sounds like financial advice rather than financial education: <strong>do not carry a credit card balance month to month if you can possibly avoid it.</strong> The disclosed APR understates how bad it actually is, and the card's economics are designed around the assumption that you don't fully understand the compounding math.</p>
+
+        <div class="tool-highlight">
+          <h3>See What a Balance Actually Costs Over Time</h3>
+          <p>For a structured payoff plan on a credit card or revolving debt, the debt payoff calculator handles snowball, avalanche, and custom strategies — and shows you the real total interest under each.</p>
+          <a href="https://toolrip.com/debt-payoff" class="tool-link">Open Debt Payoff Calculator &rarr;</a>
+        </div>
+
+        <h2 id="comparing">How to Actually Compare Two Offers</h2>
+
+        <p>Now the practical part. Here is the rule of thumb I gave clients for fifteen years and still give to family members who ask:</p>
+
+        <p><strong>Compare APR to APR. Compare APY to APY. Never compare an APR to an APY directly.</strong></p>
+
+        <p>Here are the rules for various comparison scenarios:</p>
+
+        <h3>Two savings accounts</h3>
+        <p>Compare APY to APY. The bank should disclose both clearly. Higher APY wins, all else equal.</p>
+
+        <h3>Two loans</h3>
+        <p>Compare APR to APR, but with a giant asterisk: APR assumes you hold the loan to term. If you're going to refinance or sell in five years, the APR isn't the right number to optimize for. You want to compare the actual five-year cost (interest paid plus closing costs amortized over five years) of each option. The <a href="https://toolrip.com/blog/loan-amortization-schedule-guide">amortization schedule guide</a> walks through how to do this on a per-loan basis.</p>
+
+        <h3>A loan and a savings opportunity</h3>
+        <p>This is a real comparison: should I pay down my mortgage at 6.50% or invest extra cash in a 4.50% APY savings account? You need to put both on the same footing. Convert the loan APR to APY (or vice versa) and then compare. In this example, a 6.50% mortgage APR with monthly compounding has an APY of about 6.70%. So even before accounting for taxes, paying down the mortgage beats the savings account by a wide margin (6.70% vs 4.50%).</p>
+
+        <h3>A credit card and any other product</h3>
+        <p>The credit card APR is not directly comparable to most savings APYs because of the compounding gap I described above. Convert the credit card APR to its true APY (the formula in the math section will do this) before comparing. A 22.99% APR card is really competing with anything below about 25.85%, not below 22.99%.</p>
+
+        <p>If you want to short-circuit this whole exercise on individual product comparisons, the <a href="https://toolrip.com/compound-interest">compound interest calculator</a> will show you the dollar-denominated outcome side by side without forcing you to reason about which type of percentage you're looking at.</p>
+
+        <h2 id="mistakes">Real Mistakes I Watched People Make</h2>
+
+        <h3>The "I'll Save the Cash Instead" Mistake</h3>
+
+        <p>I had a client around 2014 who came in with a problem that on its face wasn't really a problem. He had $40,000 in cash sitting in a checking account paying essentially nothing, and an old auto loan with about $32,000 left on it at 5.99%. He'd been told by a coworker that with rates rising, he should "lock that cash up in a CD" rather than pay down the car loan. The CD he was looking at paid 4.25% APY.</p>
+
+        <p>On the surface, he was comparing 4.25% (CD) to 5.99% (auto loan) and going, well, the CD pays well, and I keep my flexibility. But the actual comparison — once you converted the auto loan APR to its APY for honest comparison — was something like 4.25% (CD) vs. 6.16% (loan APY). Paying down the loan was about 191 basis points better than the CD, before tax. After tax (the CD interest was taxable, the loan interest wasn't deductible for him), the gap was even bigger. He paid down the loan and ended up about $1,100 better off over the loan's remaining life than he would have with the CD strategy. None of that math is hard. It just requires recognizing that 5.99% APR is not 5.99% in the same units as 4.25% APY.</p>
+
+        <h3>The "These Two Cards Are Basically the Same" Mistake</h3>
+
+        <p>Two credit cards both list a "purchase APR" of 19.99%. Looks the same, right? But they may compound differently — one daily, one monthly — and one may have a 25-day grace period while the other has 21 days. The realized cost of carrying a balance can differ by 30 to 50 basis points between two cards with the same disclosed APR, depending on when in the cycle you make purchases. This isn't a huge deal if you pay in full every month (in which case the APR is irrelevant), but if you ever revolve a balance, it adds up.</p>
+
+        <h3>The Refinance Comparison Without APY Conversion</h3>
+
+        <p>I covered this in the <a href="https://toolrip.com/blog/loan-amortization-schedule-guide">amortization piece a couple of weeks ago</a>, but the short version: a refinance pitch will typically focus on either the new rate or the new monthly payment, neither of which is the right number to compare. You want lifetime cost on each option, in the same units. When you put both loans on a true APY basis and run them across the actual time horizon you'll hold the property, the "obvious" deal sometimes flips.</p>
+
+        <h3>The Promotional APR Surprise</h3>
+
+        <p>A "0% APR for 18 months" balance transfer offer is a real benefit if you actually pay off the balance before the promo ends. But many of these come with a "deferred interest" clause: if there's any balance left at the end of the promotional period, interest is retroactively charged on the <em>original</em> balance, at a high rate, going back to the start of the promo. The disclosed APR during the promo was 0%; the APY you actually paid, if you didn't quite finish, was something like 18% on the original transfer amount. Read the deferred-interest language carefully on any zero-percent offer. The phrase to look for is "deferred interest" — that's the trap. "Waived interest" or "promotional interest forgiven" is the safer language.</p>
+
+        <h2 id="takeaway">The Takeaway</h2>
+
+        <p>The whole APR-vs-APY thing is one of those topics where the technical answer is genuinely simple — there is literally one formula — but the practical implications keep tripping people up because the disclosures are designed by lawyers and regulators rather than by people trying to make comparisons easy.</p>
+
+        <p>A few things to walk away with:</p>
+
+        <p><strong>One:</strong> APR is a loan thing. APY is a deposit thing. APR includes most fees but ignores compounding. APY includes compounding but ignores fees. They live on different tracks and can't be directly compared without conversion.</p>
+
+        <p><strong>Two:</strong> The compounding effect is small at low rates and big at high rates. On a 4% savings account, the gap between APR and APY is maybe 10 basis points. On a 23% credit card, the gap is closer to 290 basis points. The math is the same; the rate just amplifies the effect.</p>
+
+        <p><strong>Three:</strong> When you're comparing a loan to a savings opportunity (the classic "should I pay this down or save it?" question), put both numbers on the same footing first. Either convert the loan APR to its APY, or convert the savings APY back to a nominal rate. The conversion is one line of arithmetic.</p>
+
+        <p><strong>Four:</strong> APR on a loan assumes you'll hold the loan to its full term. For mortgages especially, this is rarely true. For a five- or seven-year holding period, you want to compare actual lifetime cost over that horizon, not the disclosed APR. The <a href="https://toolrip.com/mortgage">mortgage calculator</a> can run the schedule for you.</p>
+
+        <p>And finally, <strong>five</strong>: do not, under any circumstances, mentally treat your credit card's "22.99% APR" as a 22.99% drag on your savings. It's effectively a 25–26% drag once compounding kicks in, plus the opportunity cost of not having that money invested elsewhere. Carrying a credit card balance is the most expensive thing most middle-class Americans regularly do, and the disclosure conventions actively help disguise how expensive it is.</p>
+
+        <p>If you're trying to make a real decision today — pay down a loan, open a CD, choose between two refinance quotes — run the numbers on the actual offer in front of you. Use the <a href="https://toolrip.com/apr">APR calculator</a> for loans, the <a href="https://toolrip.com/compound-interest">compound interest tool</a> for savings comparisons, and the <a href="https://toolrip.com/mortgage">mortgage calculator</a> for any home loan question. The tools handle the conversion math; you just need to know which question you're actually asking.</p>
+
+        <div class="cta-box">
+          <h2>Compare Two Offers Honestly</h2>
+          <p>Plug in the rate, term, and fees on any loan offer to see the true APR. Then convert to APY if you're comparing it to a savings or investment opportunity.</p>
+          <a href="https://toolrip.com/apr" class="btn-primary">Open APR Calculator</a>
+        </div>
+
+      </article>
+    </main>
+    <div class="ad-slot ad-bottom" data-ad-slot="bottom">Ad</div>
+    <footer class="footer">
+      <p><a href="https://toolrip.com/">Home</a>
+        <a href="https://toolrip.com/blog">Blog</a>
+        <a href="https://toolrip.com/about">About</a>
+        <a href="https://toolrip.com/methodology">Methodology</a>
+        <a href="https://toolrip.com/editorial-policy">Editorial Policy</a>
+        <a href="https://toolrip.com/faq">FAQ</a>
+        <a href="https://toolrip.com/changelog">Changelog</a>
+        <a href="https://toolrip.com/privacy">Privacy</a>
+        <a href="https://toolrip.com/terms">Terms</a>
+        <a href="https://toolrip.com/contact">Contact</a></p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+  </div>
+  <script src="/shared/common.js" defer></script>
+</body>
+</html>
