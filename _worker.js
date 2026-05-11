@@ -156,7 +156,8 @@ const BLOG_MAP = {
   'blog/mortgage-myths-i-hear-from-first-time-buyers': 'mortgage-myths-i-hear-from-first-time-buyers',
   'blog/loan-amortization-schedule-guide': 'loan-amortization-schedule-guide',
   'blog/apr-vs-apy-explained': 'apr-vs-apy-explained',
-  'blog/json-parser-performance': 'json-parser-performance'
+  'blog/json-parser-performance': 'json-parser-performance',
+  'blog/strength-training-for-runners': 'strength-training-for-runners'
 };
 
 export default {
