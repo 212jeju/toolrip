@@ -138,7 +138,7 @@
   <!-- Blog -->
   <url><loc>https://toolrip.com/blog</loc><lastmod>2026-05-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://toolrip.com/blog/best-finance-calculators</loc><lastmod>2026-03-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://toolrip.com/blog/essential-developer-tools</loc><lastmod>2026-03-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://toolrip.com/blog/essential-developer-tools</loc><lastmod>2026-05-22</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://toolrip.com/blog/health-fitness-calculators</loc><lastmod>2026-03-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://toolrip.com/blog/unit-conversion-guide</loc><lastmod>2026-03-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://toolrip.com/blog/free-security-tools</loc><lastmod>2026-03-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
@@ -146,14 +146,14 @@
   <url><loc>https://toolrip.com/blog/regex-guide-for-beginners</loc><lastmod>2026-05-08</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://toolrip.com/blog/understanding-bmi</loc><lastmod>2026-05-08</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://toolrip.com/blog/password-security-guide</loc><lastmod>2025-12-22</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://toolrip.com/blog/color-theory-for-developers</loc><lastmod>2026-01-10</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://toolrip.com/blog/color-theory-for-developers</loc><lastmod>2026-05-22</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://toolrip.com/blog/json-guide</loc><lastmod>2025-10-18</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://toolrip.com/blog/what-is-jwt</loc><lastmod>2025-11-02</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://toolrip.com/blog/calorie-deficit-explained</loc><lastmod>2026-04-03</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://toolrip.com/blog/mortgage-guide-first-time-buyers</loc><lastmod>2026-03-10</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://toolrip.com/blog/base64-encoding-explained</loc><lastmod>2025-11-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://toolrip.com/blog/sleep-science-guide</loc><lastmod>2026-04-12</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://toolrip.com/blog/web-accessibility-colors</loc><lastmod>2026-01-25</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://toolrip.com/blog/web-accessibility-colors</loc><lastmod>2026-05-22</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://toolrip.com/blog/cron-expression-tutorial</loc><lastmod>2025-12-08</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://toolrip.com/blog/inflation-and-your-money</loc><lastmod>2026-02-22</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://toolrip.com/blog/running-pace-training-guide</loc><lastmod>2026-04-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
@@ -164,4 +164,5 @@
   <url><loc>https://toolrip.com/blog/apr-vs-apy-explained</loc><lastmod>2026-05-08</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://toolrip.com/blog/json-parser-performance</loc><lastmod>2026-05-08</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://toolrip.com/blog/strength-training-for-runners</loc><lastmod>2026-05-15</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://toolrip.com/blog/choosing-accessible-color-palette</loc><lastmod>2026-05-22</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>

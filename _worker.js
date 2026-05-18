@@ -157,7 +157,8 @@ const BLOG_MAP = {
   'blog/loan-amortization-schedule-guide': 'loan-amortization-schedule-guide',
   'blog/apr-vs-apy-explained': 'apr-vs-apy-explained',
   'blog/json-parser-performance': 'json-parser-performance',
-  'blog/strength-training-for-runners': 'strength-training-for-runners'
+  'blog/strength-training-for-runners': 'strength-training-for-runners',
+  'blog/choosing-accessible-color-palette': 'choosing-accessible-color-palette'
 };
 
 export default {
