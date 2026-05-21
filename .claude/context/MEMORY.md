@@ -1,0 +1,2 @@
+- [일정 질문 시 스케줄된 태스크부터 확인](feedback_check_scheduled_tasks_first.md) — "다음 작업일/일정/언제" 류 질문에는 추측 전에 list_scheduled_tasks부터 호출
+- [toolrip AdSense 재신청 일정 (5/25 확정)](project_toolrip_adsense_timeline.md) — 5/25 월 10시 신청, 색인 60+ 컷오프, 미달 시 6/1 연기
