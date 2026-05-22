@@ -167,23 +167,35 @@ function initEventTracking() {
     ? document.querySelector('h1').textContent.trim() : document.title;
   var category = (document.querySelector('.breadcrumb a:nth-child(2)') || {}).textContent || 'unknown';
 
-  // Track tool_use_complete on primary action buttons
-  document.querySelectorAll('.tool-card button.primary, .tool-card button[onclick]').forEach(function (btn) {
+  // Track tool_use_complete on ANY tool-card button click (broader: primary, btn-primary, onclick, or generic buttons)
+  document.querySelectorAll('.tool-card button').forEach(function (btn) {
     btn.addEventListener('click', function () {
       trackEvent('tool_use_complete', {
         tool_name: toolName,
         tool_category: category.trim(),
-        action: btn.textContent.trim()
+        action: (btn.textContent || btn.getAttribute('aria-label') || 'unlabeled').trim().substring(0, 50)
       });
+    });
+  });
+
+  // Track first form input as engagement signal (proves the user is actually using the tool)
+  var firstInputFired = false;
+  document.querySelectorAll('.tool-card input, .tool-card textarea, .tool-card select').forEach(function (el) {
+    el.addEventListener('input', function () {
+      if (firstInputFired) return;
+      firstInputFired = true;
+      trackEvent('tool_input_first', { tool_name: toolName, tool_category: category.trim() });
     });
   });
 
   // Track copy events
   var origCopy = window.copyToClipboard;
-  window.copyToClipboard = function (text, btn) {
-    trackEvent('copy_result', { tool_name: toolName, content_length: text ? text.length : 0 });
-    return origCopy(text, btn);
-  };
+  if (typeof origCopy === 'function') {
+    window.copyToClipboard = function (text, btn) {
+      trackEvent('copy_result', { tool_name: toolName, content_length: text ? text.length : 0 });
+      return origCopy(text, btn);
+    };
+  }
 
   // Track outbound link clicks
   document.addEventListener('click', function (e) {
@@ -202,10 +214,22 @@ function initEventTracking() {
     });
   });
 
-  // Track time on tool (30s engagement signal)
+  // Track time on tool — lower threshold (15s) so we capture more real users; was 30s
   setTimeout(function () {
-    trackEvent('engaged_user', { tool_name: toolName, seconds: 30 });
-  }, 30000);
+    trackEvent('engaged_user', { tool_name: toolName, seconds: 15 });
+  }, 15000);
+
+  // Track scroll depth (50% and 90%) as content engagement signal
+  var scrollFired = { 50: false, 90: false };
+  window.addEventListener('scroll', function () {
+    var pct = Math.round((window.scrollY + window.innerHeight) / document.documentElement.scrollHeight * 100);
+    [50, 90].forEach(function (threshold) {
+      if (!scrollFired[threshold] && pct >= threshold) {
+        scrollFired[threshold] = true;
+        trackEvent('scroll_depth', { tool_name: toolName, percent: threshold });
+      }
+    });
+  }, { passive: true });
 }
 
 /* --- Init on DOM Ready --- */
