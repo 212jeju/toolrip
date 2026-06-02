@@ -60,10 +60,13 @@ function initGA4() {
   s.async = true;
   s.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
   document.head.appendChild(s);
+  // Expose gtag GLOBALLY so trackEvent() (and any other code) can call it.
+  // Prior to this, gtag was a local function and all custom trackEvent() calls
+  // silently failed because typeof gtag === 'function' was false at module scope.
   window.dataLayer = window.dataLayer || [];
-  function gtag() { window.dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', id);
+  window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+  window.gtag('js', new Date());
+  window.gtag('config', id);
 }
 
 /* --- Cloudflare Web Analytics --- */
@@ -157,8 +160,9 @@ function formatCurrency(n, currency) {
 
 /* --- GA4 Custom Event Tracking --- */
 function trackEvent(eventName, params) {
-  if (typeof gtag === 'function') {
-    gtag('event', eventName, params || {});
+  // Check window.gtag (global) — local-scope gtag check would always be false from this module scope.
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', eventName, params || {});
   }
 }
 
@@ -232,10 +236,72 @@ function initEventTracking() {
   }, { passive: true });
 }
 
+/* --- Cookie Consent Banner (GDPR/AdSense compliance signal) --- */
+function initCookieConsent() {
+  try {
+    if (localStorage.getItem('toolrip_consent')) return;
+  } catch (e) { return; } // localStorage blocked → don't show
+
+  var banner = document.createElement('div');
+  banner.setAttribute('role', 'dialog');
+  banner.setAttribute('aria-label', 'Cookie consent');
+  banner.style.cssText = 'position:fixed;left:0;right:0;bottom:0;z-index:9999;background:var(--bg-elevated,#1a1a1a);color:var(--text,#e5e5e5);border-top:1px solid var(--border,#333);padding:14px 20px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-size:14px;box-shadow:0 -4px 16px rgba(0,0,0,0.3)';
+  banner.innerHTML =
+    '<span style="flex:1;min-width:220px">We use cookies for analytics and to show personalized ads. ' +
+    '<a href="/privacy" style="color:var(--accent,#3b82f6);text-decoration:underline">Read our privacy policy</a>.</span>' +
+    '<button type="button" data-consent="reject" style="padding:8px 16px;border:1px solid var(--border,#444);background:transparent;color:inherit;border-radius:6px;cursor:pointer;font-size:13px">Reject non-essential</button>' +
+    '<button type="button" data-consent="accept" style="padding:8px 16px;border:0;background:var(--accent,#3b82f6);color:#fff;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600">Accept all</button>';
+  document.body.appendChild(banner);
+
+  banner.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-consent]');
+    if (!btn) return;
+    try { localStorage.setItem('toolrip_consent', btn.getAttribute('data-consent')); } catch (err) {}
+    banner.remove();
+  });
+}
+
+/* --- Related Tools (auto-insert at bottom of tool pages) --- */
+function initRelatedTools() {
+  // Only on tool pages: detect by presence of .tool-card
+  if (!document.querySelector('.tool-card')) return;
+  // Skip if a related section already exists
+  if (document.querySelector('[data-related-tools]')) return;
+
+  fetch('/services.json').then(function (r) { return r.ok ? r.json() : null; }).then(function (data) {
+    if (!data || !data.services) return;
+    // Path can be: /bmi (prod) or /sites/bmi-calculator.html (local). Take the basename, strip .html.
+    var raw = window.location.pathname.replace(/\/$/, '');
+    var base = (raw.split('/').pop() || '').replace(/\.html$/, '');
+    var current = data.services.find(function (s) { return s.route === base || s.slug === base; });
+    if (!current) return;
+    var related = data.services
+      .filter(function (s) { return s.category === current.category && s.route !== current.route && s.status === 'live'; })
+      .sort(function () { return 0.5 - Math.random(); })
+      .slice(0, 4);
+    if (!related.length) return;
+
+    var section = document.createElement('section');
+    section.setAttribute('data-related-tools', '');
+    section.style.cssText = 'max-width:900px;margin:32px auto;padding:24px;background:var(--bg-surface,#1a1a1a);border:1px solid var(--border,#333);border-radius:12px';
+    var title = '<h2 style="margin:0 0 16px;font-size:1.25rem;color:var(--text)">Related ' + (current.category.charAt(0).toUpperCase() + current.category.slice(1)) + ' Tools</h2>';
+    var list = '<ul style="list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">' +
+      related.map(function (s) {
+        return '<li><a href="/' + s.route + '" style="display:block;padding:12px 14px;background:var(--bg-elevated,#222);border:1px solid var(--border,#333);border-radius:8px;color:var(--text);text-decoration:none;font-size:14px;font-weight:500">' + s.name + ' →</a></li>';
+      }).join('') + '</ul>';
+    section.innerHTML = title + list;
+
+    var anchor = document.querySelector('main') || document.querySelector('.page') || document.body;
+    anchor.appendChild(section);
+  }).catch(function () {});
+}
+
 /* --- Init on DOM Ready --- */
 document.addEventListener('DOMContentLoaded', function () {
   initTabs();
   initFaq();
+  initCookieConsent();
+  initRelatedTools();
   setTimeout(initAds, 100);
   setTimeout(initGA4, 2000);
   setTimeout(initEventTracking, 2500);
