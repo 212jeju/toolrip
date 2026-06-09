@@ -1,3 +1,4 @@
 - [일정 질문 시 스케줄된 태스크부터 확인](feedback_check_scheduled_tasks_first.md) — "다음 작업일/일정/언제" 류 질문에는 추측 전에 list_scheduled_tasks부터 호출
 - [toolrip AdSense 재신청 일정 (5/26 신청 완료)](project_toolrip_adsense_timeline.md) — 5/26 신청 강행, 6/9~6/26 결과 예상, 매주 월 자동 점검 중
 - [toolrip 계정 분리 (AdSense vs 연결 Gmail)](project_toolrip_accounts.md) — AdSense는 212jeju@gmail.com, 연결 Gmail은 growtogetherlab — 거절 메일 직접 조회 불가, 사용자 복붙 필요
+- [toolrip SEO 색인·트래픽 액션 플랜](seo_indexing_action_plan.md) — 2차 거절 후 병목=색인32/트래픽0, 미색인 64개 배치 목록 + 색인요청 케이던스 + 디렉토리 등재 패키지
