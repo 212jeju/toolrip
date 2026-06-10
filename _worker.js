@@ -124,13 +124,6 @@ const TOOL_MAP = {
 
 const LEGAL_PATHS = ['about', 'privacy', 'terms', 'contact', 'editorial-policy', 'methodology', 'faq', 'changelog'];
 
-const AUTHOR_MAP = {
-  'authors/marcus-chen': 'author-marcus-chen',
-  'authors/sarah-williams': 'author-sarah-williams',
-  'authors/david-park': 'author-david-park',
-  'authors/elena-ruiz': 'author-elena-ruiz'
-};
-
 const BLOG_MAP = {
   'blog': 'index',
   'blog/best-finance-calculators': 'best-finance-calculators',
@@ -203,20 +196,9 @@ export default {
       }
     }
 
-    // Author pages: /authors/marcus-chen, etc.
-    const authorSlug = AUTHOR_MAP[path];
-    if (authorSlug) {
-      const response = await fetchAsset(`/legal/${authorSlug}.html`);
-      if (response.ok) {
-        return new Response(response.body, {
-          status: 200,
-          headers: {
-            ...Object.fromEntries(response.headers),
-            'Content-Type': 'text/html;charset=UTF-8',
-            'Cache-Control': 'public, max-age=3600, s-maxage=86400'
-          }
-        });
-      }
+    // Author pages retired → consolidated into a single editorial identity at /about
+    if (path === 'authors' || path.startsWith('authors/')) {
+      return Response.redirect(`${url.origin}/about`, 301);
     }
 
     // Blog pages: /blog, /blog/best-finance-calculators, etc.
