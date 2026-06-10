@@ -14,10 +14,15 @@ type: project
 - `_worker.js`에 `/finance` 라우트, sitemap 등록(priority 0.9), 홈 네비에 Finance, **15개 파이낸스 도구 breadcrumb를 허브로 상향링크**(/#finance→/finance) = 클러스터 형성
 - 라이브 200 확인, 회귀 없음. sitemap 재제출(발견 143), /finance 색인요청 완료
 
-**Phase 2 (다음):**
-- 플래그십 파이낸스 도구 3~5개(/mortgage, /compound-interest, /retirement, /apr, /loan-compare)의 템플릿 FAQ를 **오리지널 전문 콘텐츠로 교체** (구글이 "SEO 채우기"로 보는 부분 제거)
-- 파이낸스 가이드(블로그) 2~3개 추가 — 허브에서 링크
-- 홈 hero에서 파이낸스 클러스터를 1차로 부각 검토
+**Phase 2 완료 (2026-06-10, 라이브):**
+- ✅ 가짜 4인 저자 페르소나 전면 폐기 → 정직한 단일 "Toolrip Editorial Team"/1인 메이커 about (커밋 96b7ded, f53fdd7). /authors/* 301→/about
+- ✅ 홈페이지 finance-first 재포지셔닝: hero·title·meta가 파이낸스 계산기 전면, /finance CTA, 100도구 카탈로그는 아래 보존 (커밋 fc69acb)
+- ✅ 파이낸스 허브 고유 콘텐츠 심화: "계산기 선택 가이드" + 공식검증 worked examples 3개(모기지/복리/APR vs APY) + 용어집 (~500단어, 커밋 fc69acb)
+- ✅ sitemap 재제출(143)·홈 색인요청 완료
+
+**Phase 2 잔여 (선택/사용자 필요):**
+- **실명 운영자 정체성** — 최대 E-E-A-T엔 사용자 실명/약력 필요(PII라 사용자 승인 필수). 지금은 정직한 익명 1인 메이커까지 완료.
+- 플래그십 파이낸스 도구 개별 페이지 템플릿 FAQ 심화 (복잡 JS라 신중히, 선택)
 
 **Phase 3 (트래픽 붙은 뒤):**
 - 비파이낸스 도구 정리/후순위화 또는 2차 클러스터(개발 도구 20개) 구축 판단
