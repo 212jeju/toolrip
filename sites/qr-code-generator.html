@@ -1153,7 +1153,7 @@ var qrcode = function() {
     _this.getRSBlocks = function(typeNumber, errorCorrectionLevel) {
       var rsBlock = getRsBlockTable(typeNumber, errorCorrectionLevel);
       if (typeof rsBlock == 'undefined') {
-        throw 'bad rs block @ typeNumber:' + typeNumber + '/errorCorrectionLevel:' + errorCorrectionLevel;
+        throw 'bad rs block @ typeNumber:' + typeNumber + ', errorCorrectionLevel:' + errorCorrectionLevel;
       }
       var length = rsBlock.length / 3;
       var list = [];
