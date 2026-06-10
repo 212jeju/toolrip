@@ -13,3 +13,6 @@ __pycache__/
 .venv/
 .wrangler/
 .dev.vars
+
+# git worktrees (local only)
+.claude/worktrees/
