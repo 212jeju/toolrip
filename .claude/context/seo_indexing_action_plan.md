@@ -6,6 +6,27 @@ type: project
 
 # toolrip 승인 공략 — 색인·트래픽 액션 플랜
 
+## ⭐ 2026-06-10 전략 피벗: 파이낸스 전문점화 (사용자 결정)
+"low value" 근본 원인 = commodity·무포커스·무트래픽. 증상(sitemap/색인) 말고 뿌리를 치기로 → **잡화점(100 도구)에서 파이낸스 전문점으로 topical authority 구축.**
+
+**Phase 1 완료 (라이브, 커밋 1d52dfe):**
+- `/finance` 허브 페이지 신규 — 15개 파이낸스 계산기를 4그룹(대출·투자·비즈니스·일상)으로 묶고, ~900단어 오리지널 전문 콘텐츠(APR vs 이자율, 복리 빈도, 명목 vs 실질수익률, 총이자 vs 월납입), FAQ, CollectionPage+ItemList+FAQ+Breadcrumb 스키마
+- `_worker.js`에 `/finance` 라우트, sitemap 등록(priority 0.9), 홈 네비에 Finance, **15개 파이낸스 도구 breadcrumb를 허브로 상향링크**(/#finance→/finance) = 클러스터 형성
+- 라이브 200 확인, 회귀 없음. sitemap 재제출(발견 143), /finance 색인요청 완료
+
+**Phase 2 (다음):**
+- 플래그십 파이낸스 도구 3~5개(/mortgage, /compound-interest, /retirement, /apr, /loan-compare)의 템플릿 FAQ를 **오리지널 전문 콘텐츠로 교체** (구글이 "SEO 채우기"로 보는 부분 제거)
+- 파이낸스 가이드(블로그) 2~3개 추가 — 허브에서 링크
+- 홈 hero에서 파이낸스 클러스터를 1차로 부각 검토
+
+**Phase 3 (트래픽 붙은 뒤):**
+- 비파이낸스 도구 정리/후순위화 또는 2차 클러스터(개발 도구 20개) 구축 판단
+- 디렉토리 등재(아래) + Show HN/Reddit로 파이낸스 도구 1개 유통
+
+---
+
+# toolrip 승인 공략 — 색인·트래픽 액션 플랜 (원본)
+
 목표: **AdSense 승인** (수익 무관, 사용자 명시). 병목은 콘텐츠가 아니라 **색인 페이지 수(32/142) + 검색 트래픽(클릭 1회)**. 관련: [[project_toolrip_adsense_timeline]], [[project_toolrip_accounts]].
 
 ## 2026-06-09 완료한 것
