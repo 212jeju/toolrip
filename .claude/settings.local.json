@@ -12,7 +12,14 @@
       "Bash(py --version)",
       "Bash(where python:*)",
       "Bash(npx --version)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "mcp__Claude_in_Chrome__list_connected_browsers",
+      "mcp__Claude_in_Chrome__select_browser",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "mcp__Claude_in_Chrome__browser_batch",
+      "Bash(ls \"C:/Users/212/Desktop/\" | head -30)",
+      "Bash(mkdir -p \"C:/Users/212/Desktop/youtube-gaebyeok/.claude/context\")",
+      "Bash(mkdir -p \"C:/Users/212/Desktop/youtube-gaebyeok/tracker\")"
     ]
   }
 }

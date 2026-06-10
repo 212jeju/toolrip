@@ -8,6 +8,8 @@
    ============================================ */
 
 const TOOL_MAP = {
+  // Category hubs
+  'finance': 'finance-hub',
   // Finance (15)
   'mortgage': 'mortgage-calculator',
   'compound-interest': 'compound-interest',

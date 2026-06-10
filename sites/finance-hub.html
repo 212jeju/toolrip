@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Finance Calculators — Loans, Investing, Mortgage | Toolrip</title>
+  <meta name="description" content="15 free finance calculators: mortgage, compound interest, loan comparison, APR, retirement, debt payoff, and more. Accurate, private, 100% client-side. No signup.">
+  <link rel="canonical" href="https://toolrip.com/finance">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <meta property="og:title" content="Free Finance Calculators — Toolrip">
+  <meta property="og:description" content="15 free, private finance calculators for loans, investing, mortgages, and everyday money decisions. No signup, 100% client-side.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolrip.com/finance">
+  <meta property="og:site_name" content="Toolrip">
+  <meta property="og:image" content="https://toolrip.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Free Finance Calculators — Toolrip">
+  <meta name="twitter:description" content="15 free, private finance calculators for loans, investing, and everyday money decisions.">
+  <meta name="twitter:image" content="https://toolrip.com/og-image.png">
+  <meta name="robots" content="index, follow">
+  <meta property="og:locale" content="en_US">
+
+  <link rel="preload" href="/shared/style.css" as="style">
+  <link rel="stylesheet" href="/shared/style.css">
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="manifest" href="/manifest.json">
+
+  <style>
+    :root{--accent:var(--finance)}
+    .fin-groups{display:flex;flex-direction:column;gap:2rem;margin:1.5rem 0}
+    .fin-group h2{margin:0 0 .35rem}
+    .fin-group p.lead{margin:0 0 1rem;color:var(--text-muted,#9aa4b2)}
+    .fin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:.85rem}
+    .fin-card{display:block;padding:1rem 1.1rem;border:1px solid var(--border,#2a2f3a);border-radius:12px;
+      background:var(--card,#161a22);text-decoration:none;transition:border-color .15s,transform .15s}
+    .fin-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+    .fin-card b{display:block;color:var(--text,#e8eaed);font-size:1.02rem;margin-bottom:.25rem}
+    .fin-card span{color:var(--text-muted,#9aa4b2);font-size:.88rem;line-height:1.4}
+    .fin-prose{max-width:760px;line-height:1.7}
+    .fin-prose h2{margin:2rem 0 .6rem}
+    .fin-prose h3{margin:1.4rem 0 .4rem}
+    .fin-guides{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.6rem;margin:1rem 0}
+    .fin-guides a{color:var(--accent);text-decoration:none;padding:.5rem .2rem;border-bottom:1px solid var(--border,#2a2f3a)}
+    .fin-guides a:hover{text-decoration:underline}
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Free Finance Calculators",
+    "url": "https://toolrip.com/finance",
+    "description": "A focused collection of 15 free finance calculators for loans, investing, mortgages, and everyday money decisions.",
+    "isPartOf": {"@type": "WebSite", "name": "Toolrip", "url": "https://toolrip.com/"}
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type":"ListItem","position":1,"name":"Home","item":"https://toolrip.com/"},
+      {"@type":"ListItem","position":2,"name":"Finance Calculators","item":"https://toolrip.com/finance"}
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Finance Calculators",
+    "numberOfItems": 15,
+    "itemListElement": [
+      {"@type":"ListItem","position":1,"name":"Mortgage Calculator","url":"https://toolrip.com/mortgage"},
+      {"@type":"ListItem","position":2,"name":"Compound Interest Calculator","url":"https://toolrip.com/compound-interest"},
+      {"@type":"ListItem","position":3,"name":"Loan Comparison Calculator","url":"https://toolrip.com/loan-compare"},
+      {"@type":"ListItem","position":4,"name":"APR Calculator","url":"https://toolrip.com/apr"},
+      {"@type":"ListItem","position":5,"name":"EMI Calculator","url":"https://toolrip.com/emi"},
+      {"@type":"ListItem","position":6,"name":"Debt Payoff Calculator","url":"https://toolrip.com/debt-payoff"},
+      {"@type":"ListItem","position":7,"name":"Compound Interest Calculator","url":"https://toolrip.com/compound-interest"},
+      {"@type":"ListItem","position":8,"name":"Retirement Calculator","url":"https://toolrip.com/retirement"},
+      {"@type":"ListItem","position":9,"name":"ROI Calculator","url":"https://toolrip.com/roi"},
+      {"@type":"ListItem","position":10,"name":"Inflation Calculator","url":"https://toolrip.com/inflation"},
+      {"@type":"ListItem","position":11,"name":"Break-Even Calculator","url":"https://toolrip.com/break-even"},
+      {"@type":"ListItem","position":12,"name":"Profit Margin Calculator","url":"https://toolrip.com/profit-margin"},
+      {"@type":"ListItem","position":13,"name":"Sales Tax Calculator","url":"https://toolrip.com/sales-tax"},
+      {"@type":"ListItem","position":14,"name":"Percentage Calculator","url":"https://toolrip.com/percentage"},
+      {"@type":"ListItem","position":15,"name":"Tip Calculator","url":"https://toolrip.com/tip"}
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {"@type":"Question","name":"Are these finance calculators accurate?","acceptedAnswer":{"@type":"Answer","text":"Yes. Each calculator uses the standard financial formulas — amortization for loans, the compound interest formula for investments, and effective-rate math for APR. Because results depend on your inputs and real-world rates change, treat them as planning estimates, not guarantees from a lender."}},
+      {"@type":"Question","name":"Is my financial data private?","acceptedAnswer":{"@type":"Answer","text":"Every calculation runs entirely in your browser. Nothing you type — salary, loan balance, savings — is sent to a server or stored. You can even use the tools offline once the page has loaded."}},
+      {"@type":"Question","name":"What is the difference between APR and interest rate?","acceptedAnswer":{"@type":"Answer","text":"The interest rate is the cost of borrowing the principal. APR (annual percentage rate) folds in fees and certain closing costs, so it reflects the true yearly cost of a loan. Two loans with the same interest rate can have very different APRs."}},
+      {"@type":"Question","name":"Do I need to sign up or pay?","acceptedAnswer":{"@type":"Answer","text":"No. All 15 finance calculators are free, with no account, email, or payment required."}}
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page" style="display:flex;flex-direction:column;min-height:100vh">
+
+    <header class="header">
+      <a href="/" class="logo">Toolrip</a>
+      <nav>
+        <a href="/finance">Finance</a>
+        <a href="/blog">Blog</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+      </nav>
+    </header>
+
+    <div class="ad-slot ad-top" data-ad-slot="top"></div>
+
+    <main class="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="https://toolrip.com">Home</a>
+        <span>/</span>
+        <span>Finance Calculators</span>
+      </nav>
+
+      <h1>Free Finance Calculators</h1>
+      <p class="fin-prose">Plan a mortgage, project an investment, compare two loan offers, or figure out how long it will take to clear a debt — all in one place. Toolrip's 15 finance calculators run entirely in your browser, so your numbers stay on your device. No signup, no spreadsheets, no ads pretending to be results. Pick a calculator below, or read the short guides further down to understand the math behind the numbers.</p>
+
+      <div class="fin-groups">
+
+        <section class="fin-group">
+          <h2>Loans &amp; Mortgages</h2>
+          <p class="lead">Work out monthly payments, total interest, and the real cost of borrowing before you sign anything.</p>
+          <div class="fin-grid">
+            <a class="fin-card" href="/mortgage"><b>Mortgage Calculator</b><span>Monthly payment, full amortization schedule, and total interest over the life of the loan.</span></a>
+            <a class="fin-card" href="/emi"><b>EMI Calculator</b><span>Equated monthly installments for personal, auto, or home loans.</span></a>
+            <a class="fin-card" href="/apr"><b>APR Calculator</b><span>The true annual cost of a loan once fees are included — not just the headline rate.</span></a>
+            <a class="fin-card" href="/loan-compare"><b>Loan Comparison</b><span>Put two loan offers side by side and see which costs less overall.</span></a>
+            <a class="fin-card" href="/debt-payoff"><b>Debt Payoff</b><span>Snowball vs. avalanche payoff timelines and total interest saved.</span></a>
+          </div>
+        </section>
+
+        <section class="fin-group">
+          <h2>Investing &amp; Retirement</h2>
+          <p class="lead">See how money grows over time, and what it takes to reach a long-term goal.</p>
+          <div class="fin-grid">
+            <a class="fin-card" href="/compound-interest"><b>Compound Interest</b><span>Watch contributions and compounding build a balance year by year.</span></a>
+            <a class="fin-card" href="/retirement"><b>Retirement Calculator</b><span>Project your nest egg and check whether your savings rate is on track.</span></a>
+            <a class="fin-card" href="/roi"><b>ROI Calculator</b><span>Return on investment as a percentage and an annualized figure.</span></a>
+            <a class="fin-card" href="/inflation"><b>Inflation Calculator</b><span>What a sum of money is really worth after years of rising prices.</span></a>
+          </div>
+        </section>
+
+        <section class="fin-group">
+          <h2>Business &amp; Pricing</h2>
+          <p class="lead">The numbers that decide whether a product, price, or venture actually makes money.</p>
+          <div class="fin-grid">
+            <a class="fin-card" href="/break-even"><b>Break-Even Calculator</b><span>How many units you must sell to cover fixed and variable costs.</span></a>
+            <a class="fin-card" href="/profit-margin"><b>Profit Margin</b><span>Gross and net margins from revenue and cost figures.</span></a>
+            <a class="fin-card" href="/sales-tax"><b>Sales Tax Calculator</b><span>Add or strip sales tax at any rate, forward or in reverse.</span></a>
+          </div>
+        </section>
+
+        <section class="fin-group">
+          <h2>Everyday Money</h2>
+          <p class="lead">Quick answers for the small decisions that come up every week.</p>
+          <div class="fin-grid">
+            <a class="fin-card" href="/salary"><b>Salary to Hourly</b><span>Convert annual pay to hourly, weekly, or monthly — and back.</span></a>
+            <a class="fin-card" href="/percentage"><b>Percentage Calculator</b><span>Percent of a number, percent change, and reverse percentages.</span></a>
+            <a class="fin-card" href="/tip"><b>Tip Calculator</b><span>Gratuity and bill-splitting for any group size.</span></a>
+          </div>
+        </section>
+
+      </div>
+
+      <div class="ad-slot ad-in-content" data-ad-slot="in-content"></div>
+
+      <div class="fin-prose">
+        <h2>How to get accurate results</h2>
+        <p>A finance calculator is only as good as the assumptions behind it. A few details make the difference between a number you can plan around and one that misleads you:</p>
+
+        <h3>Match the compounding frequency to your account</h3>
+        <p>Interest that compounds monthly grows faster than the same rate compounding annually. Savings accounts and most loans compound monthly; some bonds and CDs compound semi-annually. Our <a href="/compound-interest">compound interest calculator</a> lets you set the frequency, and the gap over 20–30 years is larger than most people expect.</p>
+
+        <h3>Use APR to compare, the interest rate to budget</h3>
+        <p>When you are shopping for a loan, compare offers by <a href="/apr">APR</a>, because it includes fees and reflects the true yearly cost. When you are estimating a monthly payment, the nominal interest rate is what drives the <a href="/mortgage">amortization schedule</a>. Confusing the two is the most common mistake we see — a low rate with high fees can cost more than a higher rate with none.</p>
+
+        <h3>Separate nominal returns from real returns</h3>
+        <p>An investment that returns 7% a year while inflation runs at 3% is really growing your purchasing power by about 4%. If a long-term plan ignores inflation, it overstates what your money will buy. Pair the <a href="/retirement">retirement calculator</a> with the <a href="/inflation">inflation calculator</a> to see both the headline balance and what it is actually worth.</p>
+
+        <h3>Total interest matters more than the monthly payment</h3>
+        <p>Stretching a loan over more years lowers the monthly payment but usually raises the total interest paid — sometimes dramatically. Before choosing a longer term, check the lifetime cost in the <a href="/loan-compare">loan comparison</a> tool, and see how extra payments shorten the timeline in the <a href="/debt-payoff">debt payoff</a> calculator.</p>
+
+        <h2>Finance guides</h2>
+        <p>Short, plain-English explainers that go deeper than the calculators:</p>
+        <div class="fin-guides">
+          <a href="/blog/how-compound-interest-works">How compound interest actually works</a>
+          <a href="/blog/mortgage-guide-first-time-buyers">A mortgage guide for first-time buyers</a>
+          <a href="/blog/mortgage-myths-i-hear-from-first-time-buyers">Mortgage myths I hear from first-time buyers</a>
+          <a href="/blog/loan-amortization-schedule-guide">Reading a loan amortization schedule</a>
+          <a href="/blog/apr-vs-apy-explained">APR vs. APY, explained</a>
+          <a href="/blog/inflation-and-your-money">Inflation and your money</a>
+          <a href="/blog/best-finance-calculators">Choosing the right finance calculator</a>
+        </div>
+
+        <h2>Frequently asked questions</h2>
+        <details><summary>Are these finance calculators accurate?</summary><p>Yes. Each uses the standard financial formula — amortization for loans, the compound interest formula for investments, effective-rate math for APR. Because results depend on your inputs and on rates that change in the real world, treat them as planning estimates rather than a quote from a lender.</p></details>
+        <details><summary>Is my financial data private?</summary><p>Every calculation runs entirely in your browser. Nothing you type — salary, loan balance, savings — is sent to a server or stored anywhere. Once the page has loaded you can even use the tools offline.</p></details>
+        <details><summary>What is the difference between APR and the interest rate?</summary><p>The interest rate is the cost of borrowing the principal. APR folds in fees and certain closing costs, so it reflects the true yearly cost of the loan. Two loans with the same interest rate can have very different APRs.</p></details>
+        <details><summary>Why does compounding frequency change the result?</summary><p>The more often interest is added to the balance, the sooner it starts earning interest of its own. Monthly compounding therefore beats annual compounding at the same nominal rate, and the difference grows over long periods.</p></details>
+        <details><summary>Do I need to sign up or pay?</summary><p>No. All 15 finance calculators are free, with no account, email, or payment required.</p></details>
+      </div>
+
+      <div class="ad-slot ad-bottom" data-ad-slot="bottom"></div>
+    </main>
+
+    <footer class="footer">
+      <p>
+        <a href="/">Home</a>
+        <a href="/finance">Finance</a>
+        <a href="/blog">Blog</a>
+        <a href="/about">About</a>
+        <a href="/methodology">Methodology</a>
+        <a href="/editorial-policy">Editorial Policy</a>
+        <a href="/faq">FAQ</a>
+        <a href="/changelog">Changelog</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="/contact">Contact</a>
+      </p>
+      <p class="mt-1">&copy; 2026 Toolrip. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <script src="/shared/common.js" defer></script>
+</body>
+</html>
