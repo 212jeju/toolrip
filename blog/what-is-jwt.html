@@ -265,7 +265,7 @@
         <div class="tool-highlight">
           <h3>Explore Hashing Algorithms</h3>
           <p>JWT signatures rely on cryptographic hash functions like SHA-256. Experiment with different hashing algorithms and see how any change to input data produces a completely different hash output.</p>
-          <a href="https://toolrip.com/hash" class="tool-link">Open Hash Generator &rarr;</a>
+          <a href="https://toolrip.com/sha256" class="tool-link">Open Hash Generator &rarr;</a>
         </div>
 
         <h2 id="best-practices">Best Practices for Production</h2>
@@ -293,9 +293,9 @@
         <p>Many production systems use a <strong>hybrid approach</strong>: JWTs for short-lived access tokens that authorize API calls, combined with server-side refresh token storage that allows revocation. This gives you the scalability of JWTs for the high-frequency access pattern while retaining control over long-lived sessions.</p>
 
         <div class="tool-highlight">
-          <h3>Encryption and Data Security</h3>
-          <p>While JWTs are signed (not encrypted), there are situations where you need to encrypt sensitive payloads. Learn about symmetric and asymmetric encryption and how they protect data in transit.</p>
-          <a href="https://toolrip.com/encryption" class="tool-link">Open Encryption Tool &rarr;</a>
+          <h3>Inspect a JWT Yourself</h3>
+          <p>JWTs are signed, not encrypted — which means anyone can read the payload. See it for yourself: paste a token into our JWT decoder to inspect its header, claims, and signature without sending anything to a server.</p>
+          <a href="https://toolrip.com/jwt" class="tool-link">Open JWT Decoder &rarr;</a>
         </div>
 
         <h2 id="debugging">Debugging and Inspecting JWTs</h2>
