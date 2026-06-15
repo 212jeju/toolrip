@@ -30,6 +30,22 @@ type: project
 
 ---
 
+## 2026-06-15 점검 결과 (GSC 직접 확인)
+**GSC 접근법 (중요, 다음 세션용):** 212jeju 계정, 속성은 **URL-프리픽스 `https://toolrip.com/`** (sc-domain 도메인속성 아님 — sc-domain은 접근 불가). 브라우저(212jeju 로그인)로 Claude 대행 가능.
+
+**실측 데이터:**
+- 색인 **43개** (6/9 32개 → 43개 ↑), 총 클릭 **2회** (1→2), 코어웹바이탈 데이터없음
+- 사이트맵 정상: /sitemap.xml, 6/10 읽음, 성공, 발견 143. URL 형식 정확(단축 URL), **결함 아님**
+- 근본 병목 = **크롤 예산/처리 속도** (Google이 143 중 46만 처리, 나머지 ~97 미발견). URL형식·사이트맵 문제 아님 확정
+- 미색인 사유: 404 1개 + "크롤됨-미색인" 2개 + (발견-미색인 0)
+- **재신청 기준 대비: 클릭>0 충족(2), 색인 43/60 (72%)**
+
+**404 정체:** `/errorCorrectionLevel` = QR 라이브러리 JS 식별자가 만든 **유령 URL** (실제 `<a href>` 없음, grep 확인). 404 핸들러 정상 동작 → 재크롤 시 자동 소멸, 코드 수정 불필요.
+
+**오늘 수정 (커밋 dfecc43):** 깨진 내부 링크 15개 일괄 수정 — 도구 슬러그오타 6 + blog 슬러그오타 5 + 없는도구 홍보 CTA 3개 재작성(Encryption/Find&Replace→실제도구) + /authors/about→/about. **아직 push 안 함(사용자 승인 대기)** — push 시 Cloudflare 자동배포.
+
+**색인 생성 요청 제출(파이낸스 클러스터, 우선크롤큐):** /apr /debt-payoff /loan-compare /profit-margin (4개). 나머지 파이낸스(finance,mortgage,roi,break-even,inflation,emi,compound-interest,sales-tax,retirement,bmi,percentage 등)는 **이미 색인됨**. → 플래그십은 다 들어가 있고, 미색인은 롱테일. 일 할당량 ~10이라 다음 배치는 비파이낸스 고검색 롱테일로.
+
 # toolrip 승인 공략 — 색인·트래픽 액션 플랜 (원본)
 
 목표: **AdSense 승인** (수익 무관, 사용자 명시). 병목은 콘텐츠가 아니라 **색인 페이지 수(32/142) + 검색 트래픽(클릭 1회)**. 관련: [[project_toolrip_adsense_timeline]], [[project_toolrip_accounts]].
